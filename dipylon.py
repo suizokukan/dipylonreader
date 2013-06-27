@@ -1,22 +1,22 @@
 #!./python_link
 # -*- coding: utf-8 -*-
 ################################################################################
-#    Grammaticomastix Copyright (C) 2008 Xavier Faure
+#    Dipylon Copyright (C) 2008 Xavier Faure
 #    Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 #
-#    This file is part of Grammaticomastix.
-#    Grammaticomastix is free software: you can redistribute it and/or modify
+#    This file is part of Dipylon.
+#    Dipylon is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
-#    Grammaticomastix is distributed in the hope that it will be useful,
+#    Dipylon is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with Grammaticomastix.  If not, see <http://www.gnu.org/licenses/>.
+#    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 """
         ❏Dipulon❏ qt_application.py
@@ -100,7 +100,7 @@ class MainApplication(QtGui.QMainWindow):
         self.layout_of_the_MainWindow()
 
         QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
-        self.setWindowTitle('Grammaticomastix')
+        self.setWindowTitle('Dipylon')
         self.setWindowIcon(QtGui.QIcon('icon64x64.jpg'))
 
         self.file = QtCore.QFile(input_textfile)
@@ -196,8 +196,8 @@ class MainApplication(QtGui.QMainWindow):
         self.MenuAction__Help.setStatusTip( "&Help" )
         self.MenuAction__Help.triggered.connect(self.event__MenuAction__Help)
 
-        self.MenuAction__About = QtGui.QAction( "&About Grammaticomastix", self)
-        self.MenuAction__About.setStatusTip( "&About Grammaticomastix" )
+        self.MenuAction__About = QtGui.QAction( "&About Dipylon", self)
+        self.MenuAction__About.setStatusTip( "&About Dipylon" )
         self.MenuAction__About.triggered.connect(self.event__MenuAction__About)
 
         icon_file = os.path.abspath(os.path.join(os.path.abspath( os.path.dirname( __file__)),
