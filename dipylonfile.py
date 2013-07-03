@@ -22,6 +22,9 @@
         ❏Dipulon❏ dipylonfile.py
 """
 
+# doc de référence :
+# http://pyqt.sourceforge.net/Docs/PyQt4/classes.html
+
 import cgi
 from gaps import Gaps
 import xml.etree.ElementTree as ElementTree
