@@ -42,8 +42,6 @@ class TextHighlighted(QtGui.QTextEdit):
         """
         QtGui.QTextEdit.__init__(self, parent)
 
-        print( dir(self.selectionChanged) )
-
         self.MainApplication_object = MainApplication_object
 
         # self.action__selectionChanged = QtGui.QAction( "selectionChanged",
@@ -72,7 +70,25 @@ class TextHighlighted(QtGui.QTextEdit):
         """
 
         cursor = self.textCursor()
-        print(cursor.selectedText(), cursor.hasSelection(), cursor.selectionStart(), cursor.selectionEnd())
+        #print(cursor.selectedText(), cursor.hasSelection(), cursor.selectionStart(), cursor.selectionEnd())
+
+        if not cursor.hasSelection():
+            # something has been selected :
+            #self.setTextColor( QtGui.QColor().fromRgb(0xFF0000) )
+            notes = self.MainApplication_object.dipylonfile.get_notes(cursor_position = cursor.position() )
+            for note in notes:
+                for x0, x1 in note.gaps:
+                    cursor.setPosition(x0)
+                    cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.KeepAnchor, x1-x0+1)
+                    print(cursor.anchor(), cursor.position())
+                    selection = self.ExtraSelection()
+                    selection.cursor = cursor
+                    selection.format.setForeground( QtGui.QBrush(QtGui.QColor().fromRgb(0xFF0000) ))
+
+                    selection.format.setUnderlineStyle(QtGui.QTextCharFormat.SingleUnderline)
+                    cursor.setCharFormat(selection.format)
+
+                    #self.setTextColor( QtGui.QColor().fromRgb(0xFF0000) )
 
         QtGui.QTextEdit.mouseReleaseEvent(self, ev)
 
@@ -274,12 +290,12 @@ class MainApplication(QtGui.QMainWindow):
         """
                 MainApplication.load_a_dipylonfile
         """
-        dipylonfile = DipylonFile(filename)
+        self.dipylonfile = DipylonFile(filename)
 
         file = QtCore.QFile(filename)
         if file.open(QtCore.QIODevice.ReadOnly):
             stream = QtCore.QTextStream(file)
-            self.text_highlighted.setHtml(dipylonfile.text)
+            self.text_highlighted.setHtml(self.dipylonfile.text)
         else:
             raise Exception("$$$ pan $$$")
 

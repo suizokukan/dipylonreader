@@ -26,12 +26,56 @@ import cgi
 from gaps import Gaps
 import xml.etree.ElementTree as ElementTree
 
+LISTOFNOTESCATEGORIES = ["grammar",]
+
+################################################################################
+class Note(object):
+    def __init__(self, gaps, corresponding_text, note):
+        self.gaps = gaps
+        self.corresponding_text = corresponding_text
+        self.note = note
+
+    def __repr__(self):
+        return "(Note) gaps={0}; corresponding_text={1}; note={2}".format(self.gaps,
+                                                                          self.corresponding_text,
+                                                                          self.note)
+
 ################################################################################
 class DipylonFile(object):
 
     #///////////////////////////////////////////////////////////////////////////    
     def __init__(self, filename):
         self.init_from_dipylon_file(filename)
+
+    #///////////////////////////////////////////////////////////////////////////
+    def get_notes(self, cursor_position, category = None):
+        """
+                DipylonFile.get_notes
+                
+                Return the notes relative to a <cursor_position> and belonging
+                to a certain <category>. If <category> is equal to None, all
+                categories may be added to the result.
+        """
+        res = []
+        
+        if category is not None:
+            _categories = (category,)
+        else:
+            _categories = LISTOFNOTESCATEGORIES[:]
+
+        for _category in _categories:
+            for _gaps in self.datalanguages['fra']['notes'][_category]:
+                gaps = Gaps().init_from_xmlrepresentation(_gaps)
+
+                if gaps.contain_a_position(cursor_position):
+
+                    note = self.datalanguages['fra']['notes'][_category][gaps.get_xmlrepresentation()]
+                    
+                    res.append( Note( gaps = gaps,
+                                      corresponding_text = note['corresponding_text'],
+                                      note = note['note'] ))
+
+        return res
 
     #///////////////////////////////////////////////////////////////////////////
     def init_from_dipylon_file(self, filename):
@@ -77,16 +121,26 @@ class DipylonFile(object):
                 _title = "./header/language[@name='{0}']/informations/title".format(language_name)
                 _author = "./header/language[@name='{0}']/informations/author".format(language_name)
                 _workreference = "./header/language[@name='{0}']/informations/workreference".format(language_name)
-                _translation = "./translations/language[@name='{0}']/extract".format(language_name)
-
                 self.datalanguages[ language_name ] = { "title" : self.root.find(_title).text,
                                                     "author" : self.root.find(_author).text,
                                                     "workreference" : self.root.find(_workreference).text,
-                                                    "translations" : {}
+                                                    "translations" : {},
+                                                    "notes" : dict( (cat,{}) for cat in LISTOFNOTESCATEGORIES )
                                                     }
 
-                for translation in self.root.findall(_translation):
+                _translations = "./translations/language[@name='{0}']/extract".format(language_name)
+                
+                for translation in self.root.findall(_translations):
                     gaps = Gaps().init_from_xmlrepresentation( translation.attrib["gaps"] )
                     self.datalanguages[ language_name ]["translations"][gaps.get_xmlrepresentation()] = translation.text
+
+                _notes = "./notes/language[@name='{0}']/note".format(language_name)
+                
+                for note in self.root.findall(_notes):
+                    gaps = Gaps().init_from_xmlrepresentation( note.attrib["gaps"] )
+                    corresponding_text = note.attrib["corresponding_text"]
+                    category = note.attrib["category"]
+                    self.datalanguages[ language_name ]["notes"][category][gaps.get_xmlrepresentation()] = {"note" : note.text,
+                                                                                                            "corresponding_text" : corresponding_text}
 
         return self

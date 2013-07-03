@@ -38,6 +38,21 @@ class Gaps(list):
         return "Gaps"+list.__repr__(self)
 
     #///////////////////////////////////////////////////////////////////////////
+    def contain_a_position(self, pos):
+        """
+                Gaps.contain_a_position
+        """
+        res = False
+        
+        for gap in self:
+            if gap[0] <= pos <= gap[1]:
+                res = True
+                break
+            
+        return res
+
+
+    #///////////////////////////////////////////////////////////////////////////
     def get_xmlrepresentation(self):
         """
                 Gaps.get_xmlrepresentation
