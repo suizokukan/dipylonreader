@@ -19,13 +19,15 @@
 #    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 """
-        ❏Dipulon❏ qt_application.py
+        ❏Dipulon❏ dipylon.py
 """
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 import sys
 import os
+
+from dipylonfile import DipylonFile
 
 ################################################################################
 class TextHighlighted(QtGui.QTextEdit):
@@ -81,7 +83,7 @@ class MainApplication(QtGui.QMainWindow):
     """
 
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    def __init__(self, input_textfile):
+    def __init__(self, input_textfile = None):
         """
                 MainApplication.__init__
         """
@@ -103,14 +105,8 @@ class MainApplication(QtGui.QMainWindow):
         self.setWindowTitle('Dipylon')
         self.setWindowIcon(QtGui.QIcon('icon64x64.jpg'))
 
-        self.file = QtCore.QFile(input_textfile)
-        if self.file.open(QtCore.QIODevice.ReadOnly):
-            self.stream = QtCore.QTextStream(self.file)
-            self.text_highlighted.setHtml(self.stream.readAll())
-        else:
-            # pan !
-            raise Exception("!")
-
+        if input_textfile is not None:
+            self.load_a_dipylonfile(filename = input_textfile)
 
         self.show()
 
@@ -120,18 +116,17 @@ class MainApplication(QtGui.QMainWindow):
                 MainApplication.action__open_a_file
         """
 
-        file_name = QtGui.QFileDialog.getOpenFileName(self,
+        filename = QtGui.QFileDialog.getOpenFileName(self,
                                                       'Open file',
                                                       '.',
-                                                      "html (*.htm *.html);; all (*)",
+                                                      "dipylon (*.dipylon);; all (*)",
                                                       QtGui.QFileDialog.ReadOnly,
                                                       )
-
-        if file_name != "":
-            self.file = QtCore.QFile(file_name)
+        if filename != "":
+            self.file = QtCore.QFile(filename)
             if self.file.open(QtCore.QIODevice.ReadOnly):
-                self.stream = QtCore.QTextStream(self.file)
-                self.text_highlighted.setHtml(self.stream.readAll())
+
+                self.load_a_dipylonfile(filename)
             else:
                 # pan !
                 raise Exception("!")
@@ -274,8 +269,22 @@ class MainApplication(QtGui.QMainWindow):
         """
         self.commentary.setText("help ...")
 
+    #///////////////////////////////////////////////////////////////////////////
+    def load_a_dipylonfile(self, filename):
+        """
+                MainApplication.load_a_dipylonfile
+        """
+        dipylonfile = DipylonFile(filename)
+
+        file = QtCore.QFile(filename)
+        if file.open(QtCore.QIODevice.ReadOnly):
+            stream = QtCore.QTextStream(file)
+            self.text_highlighted.setHtml(dipylonfile.text)
+        else:
+            raise Exception("$$$ pan $$$")
+
 #-------------------------------------------------------------------------------
-def create_and_launch_the_Qt_application(input_textfile):
+def create_and_launch_the_Qt_application(input_textfile = None):
     """
         function create_and_launch_the_Qt_application
     """
@@ -291,4 +300,7 @@ def create_and_launch_the_Qt_application(input_textfile):
 
     return app.exec_()
 
-create_and_launch_the_Qt_application(sys.argv[1])
+if len(sys.argv)==2:
+    create_and_launch_the_Qt_application(sys.argv[1])
+else:
+    create_and_launch_the_Qt_application()

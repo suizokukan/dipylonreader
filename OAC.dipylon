@@ -1,0 +1,93 @@
+<b>Οἰδίπους</b>
+                <i>τέκνον</i> τυφλοῦ γέροντος Ἀντιγόνη, τίνας
+                χώρους ἀφίγμεθ᾽ ἢ τίνων ἀνδρῶν πόλιν;
+                τίς τὸν πλανήτην Οἰδίπουν καθ᾽ ἡμέραν
+                τὴν νῦν σπανιστοῖς δέξεται δωρήμασιν;
+*=*=*
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+    CAVEAT : language name : ISO 639-3 ('eng', not 'en')
+////////////////////////////////////////////////////////////////////////////////
+-->
+
+<dipylon_document>
+
+    <dipylon_format_file>0.2</dipylon_format_file>
+
+    <!--
+    ////////////////////////////////////////////////////////////////////////////
+        Informations about the text
+
+        CAVEAT : language name : ISO 639-3 ('eng', not 'en')
+
+    ////////////////////////////////////////////////////////////////////////////
+    -->
+    <source_text>
+        <title>Οἰδίπους ἐπὶ Κολωνῷ</title>
+        <author>Σοφοκλῆς</author>
+        <language>grc</language>
+        <source>http://el.wikisource.org/wiki/%CE%9F%CE%B9%CE%B4%CE%AF%CF%80%CE%BF%CF%85%CF%82_%CE%B5%CF%80%CE%AF_%CE%9A%CE%BF%CE%BB%CF%89%CE%BD%CF%8E</source>
+    </source_text>
+
+    <!--
+    ////////////////////////////////////////////////////////////////////////////
+        Languages available to translate and comment the text.
+
+        CAVEAT : language name : ISO 639-3 ('eng', not 'en')
+
+    ////////////////////////////////////////////////////////////////////////////
+    -->
+    <defined_languages>
+            <language>fra</language>
+            <language>eng</language>
+    </defined_languages>
+   
+    <!--
+    ////////////////////////////////////////////////////////////////////////////
+        Title, author's name [...] of the text
+    ////////////////////////////////////////////////////////////////////////////
+    -->
+    <header>
+
+        <language name="fra">
+            <informations>
+                <title>Oedipe à Colonne</title>
+                <author>Sophocle</author>
+                <workreference>vers 1 à 4</workreference>
+            </informations>
+        </language>
+
+        <language name="eng">
+            <informations>
+                <title>Oedipus at Colonus</title>
+                <author>Sophocles</author>
+                <workreference>verses 1-4</workreference>
+            </informations>
+        </language>
+    </header>
+
+    <!--
+    ////////////////////////////////////////////////////////////////////////////
+        Translations
+    ////////////////////////////////////////////////////////////////////////////
+    -->
+    <translations>
+        <language name="fra">
+            <extract gaps="0...7" text="Οἰδίπους">OEdipe</extract>
+        </language>
+
+        <language name="eng">
+            <extract gaps="0...7" text="Οἰδίπους">Oedipus</extract>
+        </language>
+    </translations>
+
+    <!--
+    ////////////////////////////////////////////////////////////////////////////
+        Notes
+    ////////////////////////////////////////////////////////////////////////////
+    -->
+    <notes>
+    </notes>
+</dipylon_document>
+
