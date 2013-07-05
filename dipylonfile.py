@@ -33,60 +33,6 @@ LISTOFNOTESCATEGORIES = ["word",
                          "words",
                          "extract"]
 
-class ListOfNotes(list):
-    """
-        List of Notes objects
-    """
-
-    #///////////////////////////////////////////////////////////////////////////
-    def __init__(self):
-        list.__init__(self)
-
-    #///////////////////////////////////////////////////////////////////////////
-    def get_color_for_one_index(self):
-        """
-                <self> is a list of notes relative to one character.
-        """
-        return 0x990000
-
-    #///////////////////////////////////////////////////////////////////////////
-    def get_text_segments(self):
-        """
-                return a list of (colored) (text) segments
-        """
-        characters = {} # index : [list of Note objects]
-        for note in notes:
-
-            for index in note.gaps.get_all_indexes_one_by_one():
-                if not index in characters:
-                    characters[index] = ListOfNotes()
-                else:
-                    characters[index].append( note )
-
-        colored_characters = {} # index : color
-        for index in characters:
-            colored_characters[index] = characters[index].get_color_for_one_index()
-        indexes_in_colored_characters = sorted(colored_characters.keys())
-
-        # we bring together the characters with the same color :
-        res = {}
-        current_gap = []
-        for index in indexes_in_colored_characters:
-            if current_gap != []:
-                current_gap.append(index)
-            elif index == min(current_gap)-1:
-                pass
-            elif index == max(current_gap)+1:
-                pass
-            else:
-                current_gap = []
-                res[ current_gap ]
-            
-        
-        
-        return res
-        
-
 ################################################################################
 class Note(object):
     def __init__(self, gaps, corresponding_text, note, category, aspect):
@@ -119,7 +65,7 @@ class DipylonFile(object):
                 to a certain <category>. If <category> is equal to None, all
                 categories may be added to the result.
         """
-        res = ListOfNotes()
+        res = []
         
         if category is not None:
             _categories = (category,)
@@ -173,10 +119,12 @@ class DipylonFile(object):
             _author= "./source_text/author"
             _language = "./source_text/language"
             _source = "./source_text/source"
-            self.source_text = { "title" : self.root.find(_title).text,
-                                 "author" : self.root.find(_author).text,
-                                 "language" : self.root.find(_language).text,
-                                 "source" : self.root.find(_source).text,
+            _font = "./source_text/font"
+            self.source_text = { "title"        : self.root.find(_title).text,
+                                 "author"       : self.root.find(_author).text,
+                                 "language"     : self.root.find(_language).text,
+                                 "source"       : self.root.find(_source).text,
+                                 "font"         : self.root.find(_font).text
                                 }
 
             self.datalanguages = {}

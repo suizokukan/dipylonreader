@@ -6,7 +6,7 @@ CHANGELOG
 0.0.3 [2013_07_00]
 ------------------
 
-  * Dipylon format file 0.4 : added 'aspect' attribute for notes
+  * Dipylon format file 0.4 : added 'aspect' attribute for notes; source_text.font=["default", "fixed-width"]
   * new values for the 'category' attributes, stored in LISTOFNOTESCATEGORIES = ["word", "words, ...]
 
 ------------------

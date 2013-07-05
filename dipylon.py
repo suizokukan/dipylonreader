@@ -29,10 +29,34 @@ import os
 
 from dipylonfile import DipylonFile
 
-COLORNAME_TO_RGBVALUE = {"black"        :       0xFFFFFF,
-                         "blue"         :       0x0000FF,
-                         "red"          :       0xFF0000}
+# (Note) word aspect :
+# for every aspect's name :
+#
+# RGB color
+#
+NOTE_ASPECT__WORD = {
+                        "default" : (0xDD0000),
+                    }
 
+# (Note) words aspect :
+# for every aspect's name :
+#
+# RGB color
+#
+NOTE_ASPECT__WORDS= {
+                        "default" : (0x0000DD),
+                    }
+
+# (Note) extracts' aspect :
+# for every aspect's name :
+#
+# RGB color
+# underline style (http://pyqt.sourceforge.net/Docs/PyQt4/qtextcharformat.html#UnderlineStyle-enum)
+#
+NOTE_ASPECT__EXTRACT = {
+                        "default" : (0x000000,
+                                     QtGui.QTextCharFormat.SingleUnderline),
+                       }
 
 ################################################################################
 class TextHighlighted(QtGui.QTextEdit):
@@ -48,13 +72,6 @@ class TextHighlighted(QtGui.QTextEdit):
         QtGui.QTextEdit.__init__(self, parent)
 
         self.MainApplication_object = MainApplication_object
-
-        # self.action__selectionChanged = QtGui.QAction( "selectionChanged",
-        #                                                self )
-
-        # self.action__selectionChanged.triggered.connect(self.zzz)
-
-        # self.addAction(self.action__selectionChanged)
 
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def mousePressEvent(self, ev):
@@ -83,24 +100,27 @@ class TextHighlighted(QtGui.QTextEdit):
 
             for note in notes:
                 for x0, x1 in note.gaps:
-                    rgb_color = COLORNAME_TO_RGBVALUE[note.aspect]
-
+                    
                     cursor.setPosition(x0)
                     cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.KeepAnchor, x1-x0+1)
                     modified_format = cursor.charFormat()
 
                     if note.category == 'word':
-                        qcolor = QtGui.QColor().fromRgb(rgb_color)
+                        color = NOTE_ASPECT__WORD[note.aspect]
+                        qcolor = QtGui.QColor().fromRgb(color)
                         modified_format.setForeground( QtGui.QBrush(qcolor) )
 
                     elif note.category == 'words':
-                        qcolor = QtGui.QColor().fromRgb(rgb_color)
+                        color = NOTE_ASPECT__WORDS[note.aspect]
+                        qcolor = QtGui.QColor().fromRgb(color)
                         qcolor.setAlpha(50)
                         modified_format.setBackground( QtGui.QBrush(qcolor) )
 
                     elif note.category == 'extract':
-                        modified_format.setUnderlineStyle(QtGui.QTextCharFormat.SingleUnderline)
-                        pass
+                        underline_color, underline_style = NOTE_ASPECT__EXTRACT[note.aspect]
+                        qcolor = QtGui.QColor().fromRgb(underline_color)
+                        modified_format.setUnderlineColor(qcolor)
+                        modified_format.setUnderlineStyle(underline_style)
 
                     else:
                         raise Exception
@@ -156,6 +176,7 @@ class MainApplication(QtGui.QMainWindow):
                                                       "dipylon (*.dipylon);; all (*)",
                                                       QtGui.QFileDialog.ReadOnly,
                                                       )
+
         if filename != "":
             self.file = QtCore.QFile(filename)
             if self.file.open(QtCore.QIODevice.ReadOnly):
@@ -314,6 +335,10 @@ class MainApplication(QtGui.QMainWindow):
         if file.open(QtCore.QIODevice.ReadOnly):
             stream = QtCore.QTextStream(file)
             self.text_highlighted.setHtml(self.dipylonfile.text)
+
+            if self.dipylonfile.source_text['font'] == 'fixed-width':
+                self.setFont( QtGui.QFont('DejaVu LGC Sans Mono') )
+
         else:
             raise Exception("$$$ pan $$$")
 

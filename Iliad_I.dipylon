@@ -48,6 +48,11 @@
         <author>Ὅμηρος</author>
         <language>grc</language>
         <source>http://el.wikisource.org/wiki/%CE%99%CE%BB%CE%B9%CE%AC%CF%82/%CE%91</source>
+
+        <!--    Choose a special font ?
+                values = ["default", "fixed-width"]
+        -->
+        <font>fixed-width</font>
     </source_text>
 
     <!--
@@ -102,11 +107,11 @@
     -->
     <notes>
         <language name="fra">
-            <note category="word" aspect="red" gaps="1250...1252;1260...1265" corresponding_text="ἐπὶ...ἔτελλε">tmèse</note>
+            <note category="word" aspect="default" gaps="1250...1252;1260...1265" corresponding_text="ἐπὶ...ἔτελλε">tmèse</note>
 
-            <note category="words" aspect="blue" gaps="1238...1266" corresponding_text="*">note grammaticale</note>
+            <note category="words" aspect="default" gaps="1238...1266" corresponding_text="*">note grammaticale</note>
 
-            <note category="extract" aspect="black" gaps="1230...1266" corresponding_text="*">note sur le passage</note>
+            <note category="extract" aspect="default" gaps="1230...1266" corresponding_text="*">note sur le passage</note>
         </language>
 
     </notes>
