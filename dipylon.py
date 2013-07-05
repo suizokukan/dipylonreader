@@ -28,6 +28,7 @@ from PyQt4 import QtGui
 from PyQt4 import QtCore
 import sys
 from qtapplication import MainApplication
+from config import init_config_ini
 
 #///////////////////////////////////////////////////////////////////////////////
 def create_and_launch_the_Qt_application(input_textfile = None):
@@ -51,6 +52,8 @@ def create_and_launch_the_Qt_application(input_textfile = None):
 ################################################################################
 # ENTRY POINT
 ################################################################################
+init_config_ini()
+
 if len(sys.argv)==2:
     create_and_launch_the_Qt_application(sys.argv[1])
 else:

@@ -28,6 +28,7 @@ import os
 
 from constants import NOTE_ASPECT__WORD, NOTE_ASPECT__WORDS, NOTE_ASPECT__EXTRACT
 from dipylonfile import DipylonFile
+import config
 
 ################################################################################
 class TextHighlighted(QtGui.QTextEdit):
@@ -174,13 +175,14 @@ class MainApplication(QtGui.QMainWindow):
         main_layout = QtGui.QVBoxLayout(self.mainWidget)
 
         self.text_highlighted = TextHighlighted(self.mainWidget, self)
-        self.text_highlighted.setStyleSheet("background-color:#ABCDEF; color: green")
+
+        self.text_highlighted.setStyleSheet(config.CONFIG_INI["aspect"]["main editor"])
         self.text_highlighted.setFrameShape(QtGui.QFrame.StyledPanel)
         self.text_highlighted.setReadOnly(True)
 
         self.commentary = QtGui.QTextEdit(self.mainWidget)
         self.commentary.setFrameShape(QtGui.QFrame.StyledPanel)
-        self.commentary.setStyleSheet("background-color:#ABCDEF; color: yellow")
+        self.commentary.setStyleSheet(config.CONFIG_INI["aspect"]["notes editor"])
 
         splitter = QtGui.QSplitter(QtCore.Qt.Vertical)
         splitter.addWidget(self.text_highlighted)
