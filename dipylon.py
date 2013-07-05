@@ -336,8 +336,12 @@ class MainApplication(QtGui.QMainWindow):
             stream = QtCore.QTextStream(file)
             self.text_highlighted.setHtml(self.dipylonfile.text)
 
-            if self.dipylonfile.source_text['font'] == 'fixed-width':
+            if self.dipylonfile.source_text['font'] == 'default':
+                pass
+            elif self.dipylonfile.source_text['font'] == 'fixed-width':
                 self.setFont( QtGui.QFont('DejaVu LGC Sans Mono') )
+            else:
+                raise Exception
 
         else:
             raise Exception("$$$ pan $$$")
