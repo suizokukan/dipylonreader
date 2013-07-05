@@ -19,39 +19,40 @@
 #    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 """
-        ❏Dipulon❏ dipylon.py
+        ❏Dipulon❏ constants.py
 
-        entry-point for the Dipylon program.
+        * NOTE_ASPECT__WORD
+        * NOTE_ASPECT__WORDS
+        * NOTE_ASPECT__EXTRACT
 """
 
 from PyQt4 import QtGui
-from PyQt4 import QtCore
-import sys
-from qtapplication import MainApplication
 
-#///////////////////////////////////////////////////////////////////////////////
-def create_and_launch_the_Qt_application(input_textfile = None):
-    """
-        function create_and_launch_the_Qt_application : entry point in the Qt
-        part of the program.
-    """
+# (Note) word aspect :
+# for every aspect's name :
+#
+# * RGB color
+#
+NOTE_ASPECT__WORD = {
+                        "default" : (0xDD0000),
+                    }
 
-    app = QtGui.QApplication(sys.argv)
-    ex = MainApplication(input_textfile)
+# (Note) words aspect :
+# for every aspect's name :
+#
+# * RGB color
+#
+NOTE_ASPECT__WORDS= {
+                        "default" : (0x0000DD),
+                    }
 
-    # i18n :
-    t = QtCore.QTranslator(None)
-    t.load("qt_{0}.qm".format("fra"),
-           QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
-    app.installTranslator(t)
-
-    return app.exec_()
-
-
-################################################################################
-# ENTRY POINT
-################################################################################
-if len(sys.argv)==2:
-    create_and_launch_the_Qt_application(sys.argv[1])
-else:
-    create_and_launch_the_Qt_application()
+# (Note) extracts' aspect :
+# for every aspect's name :
+#
+# * RGB color
+# * underline style (http://pyqt.sourceforge.net/Docs/PyQt4/qtextcharformat.html#UnderlineStyle-enum)
+#
+NOTE_ASPECT__EXTRACT = {
+                        "default" : (0x000000,
+                                     QtGui.QTextCharFormat.SingleUnderline),
+                       }

@@ -22,48 +22,78 @@
         ❏Dipulon❏ dipylonfile.py
 """
 
-# doc de référence :
-# http://pyqt.sourceforge.net/Docs/PyQt4/classes.html
-
 import cgi
 from gaps import Gaps
 import xml.etree.ElementTree as ElementTree
 
-LISTOFNOTESCATEGORIES = ["word",
+LISTOFNOTESCATEGORIES = ("word",
                          "words",
-                         "extract"]
+                         "extract")
 
 ################################################################################
 class Note(object):
+    """
+        class Note
+
+        Use Note objects to store the notes in a .dipylon file .
+    """
+
+    #///////////////////////////////////////////////////////////////////////////
     def __init__(self, gaps, corresponding_text, note, category, aspect):
+        """
+                Note.__init__
+
+                gaps                    : Gaps object
+                corresponding_text      : str
+                note                    : str
+                category                : str (see LISTOFNOTESCATEGORIES)
+                aspect                  : str ('default', ...)
+        """
         self.gaps = gaps
         self.corresponding_text = corresponding_text
         self.note = note
         self.category = category
         self.aspect = aspect
 
+    #///////////////////////////////////////////////////////////////////////////
     def __repr__(self):
         msg = "(Note) gaps={0}; corresponding_text={1}; note={2}; aspect={3}"
         return msg.format(self.gaps,
                           self.corresponding_text,
                           self.note,
-                          self.aspect)                                                                           
+                          self.aspect)
 
 ################################################################################
 class DipylonFile(object):
+    """
+        class DipylonFile
+
+        Use this class to read a .dipylon file.
+    """
 
     #///////////////////////////////////////////////////////////////////////////    
     def __init__(self, filename):
+        """
+                DipylonFile.__init__
+
+                filename        : str
+        """
         self.init_from_dipylon_file(filename)
 
     #///////////////////////////////////////////////////////////////////////////
-    def get_notes(self, cursor_position, category = None):
+    def get_notes(self, cursor_position, language, category = None):
         """
                 DipylonFile.get_notes
                 
                 Return the notes relative to a <cursor_position> and belonging
                 to a certain <category>. If <category> is equal to None, all
                 categories may be added to the result.
+
+                Return a list of Note objects.
+
+                cursor_position :       (int)
+                language        :       (str) (ISO 639-1 string)
+                category        :       None / str
         """
         res = []
         
@@ -73,12 +103,13 @@ class DipylonFile(object):
             _categories = LISTOFNOTESCATEGORIES[:]
 
         for _category in _categories:
-            for _gaps in self.datalanguages['fra']['notes'][_category]:
+            
+            for _gaps in self.datalanguages[language]['notes'][_category]:
                 gaps = Gaps().init_from_xmlrepresentation(_gaps)
 
                 if gaps.contain_a_position(cursor_position):
 
-                    note = self.datalanguages['fra']['notes'][_category][gaps.get_xmlrepresentation()]
+                    note = self.datalanguages[language]['notes'][_category][gaps.get_xmlrepresentation()]
                     
                     res.append( Note( gaps = gaps,
                                       corresponding_text = note['corresponding_text'],
@@ -91,6 +122,33 @@ class DipylonFile(object):
 
     #///////////////////////////////////////////////////////////////////////////
     def init_from_dipylon_file(self, filename):
+        """
+                DipylonFile.init_from_dipylon_file
+
+                filename        :       str
+
+                Initialize <self> from the .dipylon file <filename>.
+
+                Attributes initialized :
+                .text                           : (str)
+                .dipylon_format_file            : (str) version of the file format
+                .source_text = { "title"        : (str)
+                                 "author"       : (str)
+                                 "language"     : (str)
+                                 "source"       : (str)
+                                 "font"         : (str)
+
+                (with xxx as a language's name :)
+                .datalanguages[<xxx>]["title"]          : (str)
+                .datalanguages[<xxx>]["author"]         : (str)
+                .datalanguages[<xxx>]["workreference"]  : (str)
+                .datalanguages[<xxx>]["translations"]   : (str)
+                .datalanguages[<xxx>]["notes"][<category>][gaps.get_xmlrepresentation()] =
+                        { "note"                : str,
+                          "corresponding_text"  : str,
+                          "aspect"              : str,
+                          }
+        """
 
         with open(filename, 'r') as srcfile:
 
@@ -134,19 +192,27 @@ class DipylonFile(object):
 
                 _title = "./header/language[@name='{0}']/informations/title".format(language_name)
                 _author = "./header/language[@name='{0}']/informations/author".format(language_name)
-                _workreference = "./header/language[@name='{0}']/informations/workreference".format(language_name)
-                self.datalanguages[ language_name ] = { "title" : self.root.find(_title).text,
-                                                    "author" : self.root.find(_author).text,
-                                                    "workreference" : self.root.find(_workreference).text,
-                                                    "translations" : {},
-                                                    "notes" : dict( (cat,{}) for cat in LISTOFNOTESCATEGORIES )
-                                                    }
+                _workreference = "./header/language[@name='{0}']" \
+                                 "/informations/workreference".format(language_name)
+
+                # empty_notes[<cat>] = {}
+                empty_notes = dict( (cat,{}) for cat in LISTOFNOTESCATEGORIES )
+                
+                self.datalanguages[ language_name ] = \
+                        { "title" : self.root.find(_title).text,
+                          "author" : self.root.find(_author).text,
+                          "workreference" : self.root.find(_workreference).text,
+                          "translations" : {},
+                          "notes" : empty_notes,
+                          }
 
                 _translations = "./translations/language[@name='{0}']/extract".format(language_name)
                 
                 for translation in self.root.findall(_translations):
                     gaps = Gaps().init_from_xmlrepresentation( translation.attrib["gaps"] )
-                    self.datalanguages[ language_name ]["translations"][gaps.get_xmlrepresentation()] = translation.text
+                    
+                    targeted_translations = self.datalanguages[language_name]["translations"]
+                    targeted_translations[gaps.get_xmlrepresentation()] = translation.text
 
                 _notes = "./notes/language[@name='{0}']/note".format(language_name)
                 
@@ -155,10 +221,12 @@ class DipylonFile(object):
                     corresponding_text = note.attrib["corresponding_text"]
                     category = note.attrib["category"]
                     aspect = note.attrib["aspect"]
-                    
-                    self.datalanguages[ language_name ]["notes"][category][gaps.get_xmlrepresentation()] = {"note" : note.text,
-                                                                                                            "corresponding_text" : corresponding_text,
-                                                                                                            "aspect" : aspect,
-                                                                                                            }
+
+                    targeted_category = self.datalanguages[ language_name ]["notes"][category]
+                    targeted_category[gaps.get_xmlrepresentation()] = \
+                                        {"note" : note.text,
+                                         "corresponding_text" : corresponding_text,
+                                         "aspect" : aspect,
+                                         }
 
         return self
