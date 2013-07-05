@@ -171,7 +171,6 @@ class MainApplication(QtGui.QMainWindow):
         """
                 MainApplication.layout_of_the_MainWindow
         """
-
         main_layout = QtGui.QVBoxLayout(self.mainWidget)
 
         self.text_highlighted = TextHighlighted(self.mainWidget, self)
@@ -314,7 +313,7 @@ class MainApplication(QtGui.QMainWindow):
             if self.dipylonfile.source_text['font'] == 'default':
                 pass
             elif self.dipylonfile.source_text['font'] == 'fixed-width':
-                self.setFont( QtGui.QFont('DejaVu LGC Sans Mono') )
+                self.text_highlighted.setFont( QtGui.QFont('DejaVu LGC Sans Mono') )
             else:
                 raise Exception
 
