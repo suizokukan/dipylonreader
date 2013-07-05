@@ -33,7 +33,7 @@
 
 <dipylon_document>
 
-    <dipylon_format_file>0.3</dipylon_format_file>
+    <dipylon_format_file>0.4</dipylon_format_file>
 
     <!--
     ////////////////////////////////////////////////////////////////////////////
@@ -102,12 +102,13 @@
     -->
     <notes>
         <language name="fra">
-            <note category="grammar" gaps="1250...1252;1260...1265" corresponding_text="ἐπὶ...ἔτελλε">tmèse</note>
+            <note category="word" aspect="red" gaps="1250...1252;1260...1265" corresponding_text="ἐπὶ...ἔτελλε">tmèse</note>
+
+            <note category="words" aspect="blue" gaps="1238...1266" corresponding_text="*">note grammaticale</note>
+
+            <note category="extract" aspect="black" gaps="1230...1266" corresponding_text="*">note sur le passage</note>
         </language>
 
-        <language name="eng">
-            <note category="grammar" gaps="1250...1252;1260...1265" corresponding_text="ἐπὶ...ἔτελλε">tmesis</note>
-        </language>
     </notes>
 
 </dipylon_document>

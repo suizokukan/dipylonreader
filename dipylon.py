@@ -29,6 +29,11 @@ import os
 
 from dipylonfile import DipylonFile
 
+COLORNAME_TO_RGBVALUE = {"black"        :       0xFFFFFF,
+                         "blue"         :       0x0000FF,
+                         "red"          :       0xFF0000}
+
+
 ################################################################################
 class TextHighlighted(QtGui.QTextEdit):
     """
@@ -70,25 +75,38 @@ class TextHighlighted(QtGui.QTextEdit):
         """
 
         cursor = self.textCursor()
-        #print(cursor.selectedText(), cursor.hasSelection(), cursor.selectionStart(), cursor.selectionEnd())
+        print("TextHighlighted.mouseReleaseEvent", cursor.selectedText(), cursor.hasSelection(), cursor.selectionStart(), cursor.selectionEnd())
 
         if not cursor.hasSelection():
             # something has been selected :
-            #self.setTextColor( QtGui.QColor().fromRgb(0xFF0000) )
             notes = self.MainApplication_object.dipylonfile.get_notes(cursor_position = cursor.position() )
+
             for note in notes:
                 for x0, x1 in note.gaps:
+                    rgb_color = COLORNAME_TO_RGBVALUE[note.aspect]
+
                     cursor.setPosition(x0)
                     cursor.movePosition(QtGui.QTextCursor.Right, QtGui.QTextCursor.KeepAnchor, x1-x0+1)
-                    print(cursor.anchor(), cursor.position())
-                    selection = self.ExtraSelection()
-                    selection.cursor = cursor
-                    selection.format.setForeground( QtGui.QBrush(QtGui.QColor().fromRgb(0xFF0000) ))
+                    modified_format = cursor.charFormat()
 
-                    selection.format.setUnderlineStyle(QtGui.QTextCharFormat.SingleUnderline)
-                    cursor.setCharFormat(selection.format)
+                    if note.category == 'word':
+                        qcolor = QtGui.QColor().fromRgb(rgb_color)
+                        modified_format.setForeground( QtGui.QBrush(qcolor) )
 
-                    #self.setTextColor( QtGui.QColor().fromRgb(0xFF0000) )
+                    elif note.category == 'words':
+                        qcolor = QtGui.QColor().fromRgb(rgb_color)
+                        qcolor.setAlpha(50)
+                        modified_format.setBackground( QtGui.QBrush(qcolor) )
+
+                    elif note.category == 'extract':
+                        modified_format.setUnderlineStyle(QtGui.QTextCharFormat.SingleUnderline)
+                        pass
+
+                    else:
+                        raise Exception
+
+                    # we merge the current format with the modified format :
+                    cursor.mergeCharFormat(modified_format)
 
         QtGui.QTextEdit.mouseReleaseEvent(self, ev)
 

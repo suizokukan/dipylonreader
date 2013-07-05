@@ -51,6 +51,22 @@ class Gaps(list):
             
         return res
 
+    #///////////////////////////////////////////////////////////////////////////
+    def get_all_indexes_one_by_one(self):
+        """
+                Gaps.get_all_indexes_one_by_one
+
+                Return a list of the indexes in <self>.
+        """
+        res = []
+        
+        for gap in self:
+            for index in range(gap[0], gap[1]+1):
+                res.append(index)
+
+        return res
+        
+
 
     #///////////////////////////////////////////////////////////////////////////
     def get_xmlrepresentation(self):

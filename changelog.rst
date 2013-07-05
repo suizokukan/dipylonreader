@@ -3,6 +3,13 @@ CHANGELOG
 =========
 
 ------------------
+0.0.3 [2013_07_00]
+------------------
+
+  * Dipylon format file 0.4 : added 'aspect' attribute for notes
+  * new values for the 'category' attributes, stored in LISTOFNOTESCATEGORIES = ["word", "words, ...]
+
+------------------
 0.0.2 [2013_07_03]
 ------------------
 
