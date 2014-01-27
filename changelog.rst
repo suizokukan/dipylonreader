@@ -3,7 +3,14 @@ CHANGELOG
 =========
 
 ------------------
-0.0.3 [2013_07_00]
+0.0.4 [2013_07_XX]
+------------------
+
+  * Dipylon format file 0.5 : the text is divided into 'sentences'
+  * new class ReadingMode
+
+------------------
+0.0.3 [2013_07_07]
 ------------------
 
   * Dipylon format file 0.4 : added 'aspect' attribute for notes; source_text.font=["default", "fixed-width"]

@@ -33,7 +33,7 @@
 
 <dipylon_document>
 
-    <dipylon_format_file>0.4</dipylon_format_file>
+    <dipylon_format_file>0.5</dipylon_format_file>
 
     <!--
     ////////////////////////////////////////////////////////////////////////////
@@ -102,12 +102,33 @@
 
     <!--
     ////////////////////////////////////////////////////////////////////////////
+      Sentences and propositions
+    ////////////////////////////////////////////////////////////////////////////
+    -->
+    <sentences>
+      <language name="fra">
+        <sentence gaps="1171...1267" corresponding_text="ἀλλ' οὐκ Ἀτρεΐδῃ [...] δ’ ἐπὶ μῦθον ἔτελλε·">
+          <proposition gaps="1238...1267" corresponding_text="κρατερὸν δ’ ἐπὶ μῦθον ἔτελλε·">
+          </proposition>
+        </sentence>
+      </language>
+    </sentences>
+
+    <!--
+    ////////////////////////////////////////////////////////////////////////////
         Notes
+
+            < 
     ////////////////////////////////////////////////////////////////////////////
     -->
     <notes>
         <language name="fra">
-            <note category="word" aspect="default" gaps="1250...1252;1260...1265" corresponding_text="ἐπὶ...ἔτελλε">tmèse</note>
+
+            <note category="word" aspect="default" gaps="1250...1252;1260...1265" corresponding_text="ἐπὶ...ἔτελλε">
+              <nature>verb</nature>
+              <morphology>ἐπιτέλλω : A.Ind.imparfait 3S</morphology>
+              tmèse
+            </note>
 
             <note category="words" aspect="default" gaps="1238...1266" corresponding_text="*">note grammaticale</note>
 
