@@ -55,6 +55,7 @@
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from qt.splashscreen import SplashScreen
 import os
 
 import config
@@ -154,7 +155,10 @@ class MainApplication(QtWidgets.QMainWindow):
         """
                 MainApplication.define_known_actions
         """
-        pass
+        # (menu) ? > About
+        self.MenuAction__About = QtWidgets.QAction( "&About DChars-FE", self)
+        self.MenuAction__About.setStatusTip( "Show informations about DChars-FE" )
+        self.MenuAction__About.triggered.connect(self.event__MenuAction__About)
 
     #///////////////////////////////////////////////////////////////////////////
     def define_the_main_toolbar(self):
@@ -206,4 +210,12 @@ class MainApplication(QtWidgets.QMainWindow):
 
         helpMenu = menubar.addMenu( "?" )
         helpMenu.addSeparator()
+        helpMenu.addAction(self.MenuAction__About)
 
+    #///////////////////////////////////////////////////////////////////////////
+    def event__MenuAction__About(self):
+        """
+                MainApplication.event__MenuAction__About
+        """
+        splash = SplashScreen()
+        splash.show()
