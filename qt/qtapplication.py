@@ -19,7 +19,7 @@
 #    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 """
-        ❏Dipulon❏ qtapplication.py
+        ❏Dipylon❏ qtapplication.py
 
         /-----------------------------------------------------------------\
         | File                                          Help

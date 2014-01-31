@@ -28,7 +28,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 import sys
-from qtapplication import MainApplication
+from qt.qtapplication import MainApplication
 from config import init_config_ini
 
 #///////////////////////////////////////////////////////////////////////////////
