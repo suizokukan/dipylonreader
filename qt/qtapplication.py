@@ -51,13 +51,11 @@
         |   . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 """
 
-
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from qt.splashscreen import SplashScreen
 import os
-
 import config
 
 ################################################################################
@@ -114,7 +112,7 @@ class MainApplication(QtWidgets.QMainWindow):
 
         self.mainWidget = QtWidgets.QWidget(self)
         self.setCentralWidget(self.mainWidget)
-        self.layout_of_the_MainWindow()
+        self.mainwindow_layout()
 
         QtWidgets.QApplication.setStyle(QtWidgets.QStyleFactory.create('Cleanlooks'))
         self.setWindowTitle('Dipylon')
@@ -127,9 +125,9 @@ class MainApplication(QtWidgets.QMainWindow):
         self.show()
 
     #///////////////////////////////////////////////////////////////////////////
-    def layout_of_the_MainWindow(self):
+    def mainwindow_layout(self):
         """
-                MainApplication.layout_of_the_MainWindow
+                MainApplication.mainwindow_layout
         """
         main_layout = QtWidgets.QVBoxLayout(self.mainWidget)
 
@@ -156,8 +154,8 @@ class MainApplication(QtWidgets.QMainWindow):
                 MainApplication.define_known_actions
         """
         # (menu) ? > About
-        self.MenuAction__About = QtWidgets.QAction( "&About DChars-FE", self)
-        self.MenuAction__About.setStatusTip( "Show informations about DChars-FE" )
+        self.MenuAction__About = QtWidgets.QAction( "&About Dipylon", self)
+        self.MenuAction__About.setStatusTip( "Show informations about Dipylon" )
         self.MenuAction__About.triggered.connect(self.event__MenuAction__About)
 
     #///////////////////////////////////////////////////////////////////////////
