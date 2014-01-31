@@ -1,8 +1,8 @@
-#!/usr/bin/python3
+#!./python_link
 # -*- coding: utf-8 -*-
 ################################################################################
-#    Dipylon Copyright (C) 2012 Suizokukan
-#    Contact: suizokukan _A.T._ orange dot fr
+#    Dipylon Copyright (C) 2008 Xavier Faure
+#    Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 #
 #    This file is part of Dipylon.
 #    Dipylon is free software: you can redistribute it and/or modify
@@ -19,17 +19,26 @@
 #    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 """
-        ❏Dipylon❏ system/communia.py
-
-        This file defines the name of the program and the version of the
-        program.
+        ❏Dipylon❏ config_ini.py
 """
 
-from system.numversion import VersionOfTheProgram
+import configparser, os, codecs
 
-OPTIONS = { "name_of_the_program" : "Δίπυλον",           #: (type: str)
-            "ascii_name_of_the_program" : "Dipylon",     #: (type: str)
-            "ascii_name_of_the_program_for_directories" : "dipylon",  #: (type: str)
-            #: (type: str, NOT an VersionOfTheProgram object)  :
-            "version_of_the_program" : str(VersionOfTheProgram())
-           }
+CONFIG_INI = None
+
+#///////////////////////////////////////////////////////////////////////////////
+def read_configuration_file():
+    """
+        function read_configuration_file()
+        
+        read the config.ini and return the result.
+    """
+    data = configparser.ConfigParser()
+    config_ini_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "config.ini" )
+    
+    # something's wrong with configparser : instead of simply writing
+    #      DATA.read( open(config_ini_filename, "r", encoding="utf-8") )
+    # we have to use this strange hack :
+    data.readfp( codecs.open(config_ini_filename, "r", "utf-8") )
+            
+    return data
