@@ -25,7 +25,7 @@
         program.
 """
 
-from dchars.system.numversion import VersionOfTheProgram
+from system.numversion import VersionOfTheProgram
 
 OPTIONS = { "name_of_the_program" : "δίπυλον",           #: (type: str)
             "ascii_name_of_the_program" : "Dipylon",     #: (type: str)

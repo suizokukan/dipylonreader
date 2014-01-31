@@ -22,16 +22,20 @@
         ❏Dipylon❏ splashscreen.py
 """
 
-from Qt5 import QtGui
+from PyQt5 import QtWidgets
+from PyQt5 import QtGui
+from PyQt5 import QtCore
 
 from system import numversion as numversion
 import system.communia
 VERSION = numversion.VersionOfTheProgram().numversion
 
+import os
+
 from qt import constants
 
 ################################################################################
-class SplashScreen(QtGui.QtWidgets.QSplashScreen):
+class SplashScreen(QtWidgets.QSplashScreen):
     """
         class SplashScreen
     """
@@ -46,7 +50,9 @@ class SplashScreen(QtGui.QtWidgets.QSplashScreen):
         """
         splash_image = QtGui.QPixmap( os.path.join('images', 'splashscreen.png'))
 
-        QtGui.QSplashScreen.__init__(self, splash_image, QtCore.Qt.WindowStaysOnTopHint)
+        QtWidgets.QSplashScreen.__init__(self,
+                                         splash_image,
+                                         QtCore.Qt.WindowStaysOnTopHint)
 
         self.setWindowTitle(constants.GENERIC_WINDOW_TITLE)
 

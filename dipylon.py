@@ -30,6 +30,10 @@ from PyQt5 import QtCore
 import sys
 from qt.qtapplication import MainApplication
 from config import init_config_ini
+from qt.splashscreen import SplashScreen
+
+import config_ini
+config_ini.CONFIG_INI = config_ini.read_configuration_file()
 
 #///////////////////////////////////////////////////////////////////////////////
 def create_and_launch_the_Qt_application(input_textfile = None):
@@ -46,6 +50,11 @@ def create_and_launch_the_Qt_application(input_textfile = None):
     t.load("qt_{0}.qm".format("fra"),
            QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
     app.installTranslator(t)
+
+    # splash screen :
+    if config_ini.CONFIG_INI["general"]["display splash screen"] == "yes":
+        splash = SplashScreen()
+        splash.show()
 
     return app.exec_()
 
