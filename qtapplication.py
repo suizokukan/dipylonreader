@@ -52,14 +52,15 @@
 """
 
 
-from PyQt4 import QtGui
-from PyQt4 import QtCore
+from PyQt5 import QtGui
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 import os
 
 import config
 
 ################################################################################
-class SourceText(QtGui.QTextEdit):
+class SourceText(QtWidgets.QTextEdit):
     """
         class SourceText
     """
@@ -70,11 +71,11 @@ class SourceText(QtGui.QTextEdit):
                 SourceText.__init__
         """
 
-        QtGui.QTextEdit.__init__(self, parent)
+        QtWidgets.QTextEdit.__init__(self, parent)
         self.MainApplication_object = MainApplication_object
 
 ################################################################################
-class Notes(QtGui.QTextEdit):
+class Notes(QtWidgets.QTextEdit):
     """
         class Notes
     """
@@ -85,11 +86,11 @@ class Notes(QtGui.QTextEdit):
                 Notes.__init__
         """
 
-        QtGui.QTextEdit.__init__(self, parent)
+        QtWidgets.QTextEdit.__init__(self, parent)
         self.MainApplication_object = MainApplication_object
 
 ################################################################################
-class MainApplication(QtGui.QMainWindow):
+class MainApplication(QtWidgets.QMainWindow):
     """
         class MainApplication
     """
@@ -100,7 +101,7 @@ class MainApplication(QtGui.QMainWindow):
                 MainApplication.__init__
         """
 
-        QtGui.QMainWindow.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
 
         self.define_known_actions()
 
@@ -110,11 +111,11 @@ class MainApplication(QtGui.QMainWindow):
 
         self.define_the_main_menubar()
 
-        self.mainWidget=QtGui.QWidget(self)
+        self.mainWidget = QtWidgets.QWidget(self)
         self.setCentralWidget(self.mainWidget)
         self.layout_of_the_MainWindow()
 
-        QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
+        QtWidgets.QApplication.setStyle(QtWidgets.QStyleFactory.create('Cleanlooks'))
         self.setWindowTitle('Dipylon')
 
         icon_file = os.path.abspath(os.path.join(os.path.abspath( os.path.dirname( __file__)),
@@ -129,19 +130,19 @@ class MainApplication(QtGui.QMainWindow):
         """
                 MainApplication.layout_of_the_MainWindow
         """
-        main_layout = QtGui.QVBoxLayout(self.mainWidget)
+        main_layout = QtWidgets.QVBoxLayout(self.mainWidget)
 
         self.sourcetext = SourceText(self.mainWidget, self)
 
         self.sourcetext.setStyleSheet(config.CONFIG_INI["aspect"]["sourcetext"])
-        self.sourcetext.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.sourcetext.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.sourcetext.setReadOnly(True)
 
-        self.notes = QtGui.QTextEdit(self.mainWidget)
-        self.notes.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.notes = QtWidgets.QTextEdit(self.mainWidget)
+        self.notes.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.notes.setStyleSheet(config.CONFIG_INI["aspect"]["notes"])
 
-        splitter = QtGui.QSplitter(QtCore.Qt.Vertical)
+        splitter = QtWidgets.QSplitter(QtCore.Qt.Vertical)
         splitter.addWidget(self.sourcetext)
         splitter.addWidget(self.notes)
         splitter.setSizes( (400,300) )
@@ -162,35 +163,35 @@ class MainApplication(QtGui.QMainWindow):
         """
         self.main_toolbar = self.addToolBar('MyToolBar')
 
-        button_readinglevel = QtGui.QPushButton(self)
-        button_readinglevel.setText(">>>")
-        self.main_toolbar.addWidget( button_readinglevel )
+        ## button_readinglevel = QtWidgets.QPushButton(self)
+        ## button_readinglevel.setText(">>>")
+        ## self.main_toolbar.addWidget( button_readinglevel )
         
-        readinglevel_0 = QtGui.QRadioButton(self)
-        readinglevel_0.setText("text")
-        readinglevel_1 = QtGui.QRadioButton(self)
-        readinglevel_1.setText("sentence")
-        readinglevel_2 = QtGui.QRadioButton(self)
-        readinglevel_2.setText("proposition")
-        readinglevel_3 = QtGui.QRadioButton(self)
-        readinglevel_3.setText("group of words")
-        readinglevel_4 = QtGui.QRadioButton(self)
-        readinglevel_4.setText("word")
-        self.main_toolbar.addWidget( readinglevel_0 )
-        self.main_toolbar.addWidget( readinglevel_1 )
-        self.main_toolbar.addWidget( readinglevel_2 )
-        self.main_toolbar.addWidget( readinglevel_3 )
-        self.main_toolbar.addWidget( readinglevel_4 )
+        ## readinglevel_0 = QtWidgets.QRadioButton(self)
+        ## readinglevel_0.setText("text")
+        ## readinglevel_1 = QtWidgets.QRadioButton(self)
+        ## readinglevel_1.setText("sentence")
+        ## readinglevel_2 = QtWidgets.QRadioButton(self)
+        ## readinglevel_2.setText("proposition")
+        ## readinglevel_3 = QtWidgets.QRadioButton(self)
+        ## readinglevel_3.setText("group of words")
+        ## readinglevel_4 = QtWidgets.QRadioButton(self)
+        ## readinglevel_4.setText("word")
+        ## self.main_toolbar.addWidget( readinglevel_0 )
+        ## self.main_toolbar.addWidget( readinglevel_1 )
+        ## self.main_toolbar.addWidget( readinglevel_2 )
+        ## self.main_toolbar.addWidget( readinglevel_3 )
+        ## self.main_toolbar.addWidget( readinglevel_4 )
 
-        button_action = QtGui.QPushButton(self)
-        button_action.setText(">>>")
-        self.main_toolbar.addWidget( button_action )
+        ## button_action = QtWidgets.QPushButton(self)
+        ## button_action.setText(">>>")
+        ## self.main_toolbar.addWidget( button_action )
 
-        self.toolbar_widget = QtGui.QWidget(self.main_toolbar)
-        self.toolbar_layout = QtGui.QVBoxLayout()
-        self.toolbar_widget.setLayout(self.toolbar_layout)
+        ## self.toolbar_widget = QtWidgets.QWidget(self.main_toolbar)
+        ## self.toolbar_layout = QtWidgets.QVBoxLayout()
+        ## self.toolbar_widget.setLayout(self.toolbar_layout)
 
-        self.toolbar_layout.addWidget(self.main_toolbar)
+        ## self.toolbar_layout.addWidget(self.main_toolbar)
         
     #///////////////////////////////////////////////////////////////////////////
     def define_the_main_menubar(self):

@@ -24,8 +24,9 @@
         entry-point for the Dipylon program.
 """
 
-from PyQt4 import QtGui
-from PyQt4 import QtCore
+from PyQt5 import QtGui
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 import sys
 from qtapplication import MainApplication
 from config import init_config_ini
@@ -37,7 +38,7 @@ def create_and_launch_the_Qt_application(input_textfile = None):
         part of the program.
     """
 
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     ex = MainApplication(input_textfile)
 
     # i18n :
