@@ -22,3 +22,6 @@ http://qt-project.org/doc/qt-4.8/qtextstream.html
 
 DOC à propos de Qt + XML :
 http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
+
+DOC à propos de range :
+http://stackoverflow.com/questions/2202262/map-from-integer-ranges-to-arbitrary-single-integers
