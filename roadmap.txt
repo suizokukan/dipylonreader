@@ -1,0 +1,3 @@
+0.0.6 : structure de base Qt5
+0.0.7 : ajout d'un menu avec affichage d'un message sur console
+0.0.8 : QSplitter avec deux QTextEdit

@@ -1,12 +1,8 @@
-#include <QApplication>
-#include <QQmlApplicationEngine>
+#include <QtWidgets>
 
-int main(int argc, char *argv[])
+int main(int argv, char **args)
 {
-    QApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
+    QApplication app(argv, args);
 
     return app.exec();
 }
