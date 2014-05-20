@@ -4,6 +4,9 @@
 
 QT += widgets
 
+
+# CONFIG += console
+
 TEMPLATE = app
 TARGET = dipylon
 INCLUDEPATH += .
