@@ -10,8 +10,10 @@ INCLUDEPATH += .
 
 # Input
 HEADERS = sourceeditor.h \
-          commentaryeditor.h
+          commentaryeditor.h \
+          mainsplitter.h 
+
 SOURCES += main.cpp \
            sourceeditor.cpp \
-           commentaryeditor.cpp
-
+           commentaryeditor.cpp \
+           mainsplitter.cpp

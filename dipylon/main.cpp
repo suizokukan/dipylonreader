@@ -2,6 +2,7 @@
 
 #include <sourceeditor.h>
 #include <commentaryeditor.h>
+#include <mainsplitter.h>
 
 int main(int argv, char **args)
 {
@@ -9,13 +10,13 @@ int main(int argv, char **args)
 
     QApplication app(argv, args);
 
-    SourceEditor src_editor;
-    src_editor.setWindowTitle(QObject::tr("source editor"));
-    src_editor.show();
+    SourceEditor *src_editor = new SourceEditor;
+    CommentaryEditor *com_editor = new CommentaryEditor;
 
-    CommentaryEditor com_editor;
-    com_editor.setWindowTitle(QObject::tr("commentary editor"));
-    com_editor.show();
+    MainSplitter *main_splitter = new MainSplitter;
+    main_splitter->addWidget(src_editor);
+    main_splitter->addWidget(com_editor);
+    main_splitter->show();
 
     return app.exec();
 }

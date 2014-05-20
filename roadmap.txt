@@ -3,6 +3,7 @@
 0.0.8 : objet QPlainText + message sur console
 0.0.9 : objet QTextEdit + message sur console
 0.1.0 : 2 éditeurs (src,com) + message sur console
+0.1.1 : splitter avec 2 éditeurs (src,com) + message sur console
 
 pour plus tard :
 
