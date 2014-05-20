@@ -4,7 +4,7 @@
 #include <QPlainTextEdit>
 #include <QObject>
 
-class CodeEditor : public QPlainTextEdit
+class CodeEditor : public QTextEdit
 {
     Q_OBJECT
 

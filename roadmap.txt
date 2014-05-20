@@ -1,3 +1,8 @@
 0.0.6 : structure de base Qt5
-0.0.7 : object QPlainTextEdit, seul
-0.0.8 : object QPlainTextEdit + message sur console
+0.0.7 : objet QPlainTextEdit, seul
+0.0.8 : objet QPlainText + message sur console
+0.0.9 : objet QTextEdit + message sur console
+
+pour plus tard :
+
+in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
