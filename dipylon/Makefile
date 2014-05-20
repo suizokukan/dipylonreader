@@ -46,9 +46,9 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		sourceeditor.cpp \
-		commentaryeditor.cpp \
-		mainsplitter.cpp moc_sourceeditor.cpp \
+		qt/sourceeditor.cpp \
+		qt/commentaryeditor.cpp \
+		qt/mainsplitter.cpp moc_sourceeditor.cpp \
 		moc_commentaryeditor.cpp \
 		moc_mainsplitter.cpp
 OBJECTS       = main.o \
@@ -414,7 +414,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents sourceeditor.h commentaryeditor.h mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp sourceeditor.cpp commentaryeditor.cpp mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -563,8 +563,8 @@ moc_sourceeditor.cpp: /usr/include/qt/QtWidgets/QPlainTextEdit \
 		/usr/include/qt/QtGui/qrawfont.h \
 		/usr/include/qt/QtGui/qfontdatabase.h \
 		/usr/include/qt/QtCore/QObject \
-		sourceeditor.h
-	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include sourceeditor.h -o moc_sourceeditor.cpp
+		qt/sourceeditor.h
+	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
 moc_commentaryeditor.cpp: /usr/include/qt/QtWidgets/QPlainTextEdit \
 		/usr/include/qt/QtWidgets/qplaintextedit.h \
@@ -689,8 +689,8 @@ moc_commentaryeditor.cpp: /usr/include/qt/QtWidgets/QPlainTextEdit \
 		/usr/include/qt/QtGui/qrawfont.h \
 		/usr/include/qt/QtGui/qfontdatabase.h \
 		/usr/include/qt/QtCore/QObject \
-		commentaryeditor.h
-	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include commentaryeditor.h -o moc_commentaryeditor.cpp
+		qt/commentaryeditor.h
+	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
 
 moc_mainsplitter.cpp: /usr/include/qt/QtWidgets/QSplitter \
 		/usr/include/qt/QtWidgets/qsplitter.h \
@@ -803,8 +803,8 @@ moc_mainsplitter.cpp: /usr/include/qt/QtWidgets/QSplitter \
 		/usr/include/qt/QtGui/qvector2d.h \
 		/usr/include/qt/QtGui/qtouchdevice.h \
 		/usr/include/qt/QtCore/QObject \
-		mainsplitter.h
-	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include mainsplitter.h -o moc_mainsplitter.cpp
+		qt/mainsplitter.h
+	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include qt/mainsplitter.h -o moc_mainsplitter.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1256,14 +1256,14 @@ main.o: main.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
 		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
-		sourceeditor.h \
+		qt/sourceeditor.h \
 		/usr/include/qt/QtWidgets/QPlainTextEdit \
-		commentaryeditor.h \
-		mainsplitter.h \
+		qt/commentaryeditor.h \
+		qt/mainsplitter.h \
 		/usr/include/qt/QtWidgets/QSplitter
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-sourceeditor.o: sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
+sourceeditor.o: qt/sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/QtWidgetsDepends \
 		/usr/include/qt/QtCore/QtCore \
 		/usr/include/qt/QtCore/QtCoreDepends \
@@ -1699,11 +1699,11 @@ sourceeditor.o: sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
 		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
-		sourceeditor.h \
+		qt/sourceeditor.h \
 		/usr/include/qt/QtWidgets/QPlainTextEdit
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o sourceeditor.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
-commentaryeditor.o: commentaryeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
+commentaryeditor.o: qt/commentaryeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/QtWidgetsDepends \
 		/usr/include/qt/QtCore/QtCore \
 		/usr/include/qt/QtCore/QtCoreDepends \
@@ -2139,11 +2139,11 @@ commentaryeditor.o: commentaryeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
 		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
-		commentaryeditor.h \
+		qt/commentaryeditor.h \
 		/usr/include/qt/QtWidgets/QPlainTextEdit
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o commentaryeditor.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
 
-mainsplitter.o: mainsplitter.cpp /usr/include/qt/QtWidgets/QtWidgets \
+mainsplitter.o: qt/mainsplitter.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/QtWidgetsDepends \
 		/usr/include/qt/QtCore/QtCore \
 		/usr/include/qt/QtCore/QtCoreDepends \
@@ -2579,9 +2579,9 @@ mainsplitter.o: mainsplitter.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
 		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
-		mainsplitter.h \
+		qt/mainsplitter.h \
 		/usr/include/qt/QtWidgets/QSplitter
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainsplitter.o mainsplitter.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainsplitter.o qt/mainsplitter.cpp
 
 moc_sourceeditor.o: moc_sourceeditor.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sourceeditor.o moc_sourceeditor.cpp

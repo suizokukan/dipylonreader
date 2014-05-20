@@ -9,11 +9,11 @@ TARGET = dipylon
 INCLUDEPATH += .
 
 # Input
-HEADERS = sourceeditor.h \
-          commentaryeditor.h \
-          mainsplitter.h 
+HEADERS = qt/sourceeditor.h \
+          qt/commentaryeditor.h \
+          qt/mainsplitter.h 
 
 SOURCES += main.cpp \
-           sourceeditor.cpp \
-           commentaryeditor.cpp \
-           mainsplitter.cpp
+           qt/sourceeditor.cpp \
+           qt/commentaryeditor.cpp \
+           qt/mainsplitter.cpp

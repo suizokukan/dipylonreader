@@ -1,0 +1,28 @@
+<dipylon_document>
+
+    <dipylon_format_file>0.9</dipylon_format_file>
+
+    <translation>
+
+      <!--
+        CAVEAT : language name : ISO 639-3 (e.g. 'eng', not 'en')
+      -->
+      <dest>fra</dest>
+
+      <segment>
+        <gap>8-26</gap>
+        <srctext>Prīmus amor Phoebī</srctext>
+        <transtext>Le premier amour de Phébus</transtext>
+      </segment>
+
+      <segment>
+        <gap>633-649</gap>
+        <srctext>Fīgat tuus omnia</srctext>
+        <transtext>Ton arc peut bien transpercer toutes tes cibles</transtext>
+      </segment>
+
+    </translation>
+
+</dipylon_document>
+
+
