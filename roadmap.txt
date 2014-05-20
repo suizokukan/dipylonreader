@@ -12,3 +12,9 @@ in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peu
 
 DOC à propos de QSplitter :
 http://qt-project.org/doc/qt-5/qsplitter.html#details
+
+DOC à propos de QFile :
+http://qt-project.org/doc/qt-5/qfile.html
+
+DOC à propos de QStream :
+http://qt-project.org/doc/qt-4.8/qtextstream.html

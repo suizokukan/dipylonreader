@@ -27,7 +27,25 @@ int main(int argv, char **args)
     mainsplitter_heights << 500 << 100;
     main_splitter->setSizes( mainsplitter_heights );
 
+    //__________________________________________________________________________
+    QFile src_file("dyptexts/Ovid_M_I_452_567/text");
+    /*
+      à propos du chemin :
+        QFile expects the file separator to be '/' regardless of operating system. 
+        (from http://qt-project.org/doc/qt-5/qfile.html)
+
+      le codec : setCodec
+     */
+    src_file.open( QIODevice::ReadOnly | QIODevice::Text );
+    QTextStream in(&src_file);
+    in.setCodec("UTF-8");
+    QString src = in.readAll();
+    src_editor->setPlainText(src);
+
+    //__________________________________________________________________________
     main_splitter->show();
+
+    //
 
     return app.exec();
 }
