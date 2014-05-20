@@ -10,6 +10,9 @@ class SourceEditor : public QTextEdit
 
 public:
     SourceEditor(QWidget *parent = 0);
+
+protected:
+    void mouseReleaseEvent(QMouseEvent*);
 };
 
 #endif

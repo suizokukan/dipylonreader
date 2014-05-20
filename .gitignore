@@ -4,3 +4,4 @@ __pycache__
 .doctrees
 #*
 *.o
+moc_*.cpp

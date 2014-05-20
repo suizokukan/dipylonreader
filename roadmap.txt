@@ -5,6 +5,14 @@
 0.1.0 : 2 éditeurs (src,com) + message sur console
 0.1.1 : splitter avec 2 éditeurs (src,com) + message sur console
 0.1.2 : réglage de la taille des splitters
+0.1.3 : fichier texte simple chargé dans un éditeur; codec + manière de spécifier le chemin ok.
+0.1.4 : le passage sélectionné est affiché dans la console
+
+0.1.? : réorganiser le code + headers
+
+
+
+
 
 pour plus tard :
 
