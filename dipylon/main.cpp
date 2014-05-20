@@ -1,18 +1,21 @@
 #include <QtWidgets>
 
-#include <codeeditor.h>
+#include <sourceeditor.h>
+#include <commentaryeditor.h>
 
 int main(int argv, char **args)
 {
-    qDebug() << "ENTRY POINT\n";
+    qDebug() << "Dipylon : entry point\n";
 
     QApplication app(argv, args);
 
-    CodeEditor editor;
-    editor.setWindowTitle(QObject::tr("Code Editor Example"));
-    editor.show();
+    SourceEditor src_editor;
+    src_editor.setWindowTitle(QObject::tr("source editor"));
+    src_editor.show();
 
-    qDebug() << "EXIT POINT\n";
+    CommentaryEditor com_editor;
+    com_editor.setWindowTitle(QObject::tr("commentary editor"));
+    com_editor.show();
 
     return app.exec();
 }

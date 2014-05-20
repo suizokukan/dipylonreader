@@ -4,14 +4,14 @@
 
 QT += widgets
 
-
-# CONFIG += console
-
 TEMPLATE = app
 TARGET = dipylon
 INCLUDEPATH += .
 
 # Input
-HEADERS = codeeditor.h
+HEADERS = sourceeditor.h \
+          commentaryeditor.h
 SOURCES += main.cpp \
-           codeeditor.cpp
+           sourceeditor.cpp \
+           commentaryeditor.cpp
+
