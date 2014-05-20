@@ -9,4 +9,6 @@ TARGET = dipylon
 INCLUDEPATH += .
 
 # Input
-SOURCES += main.cpp
+HEADERS = codeeditor.h
+SOURCES += main.cpp \
+           codeeditor.cpp

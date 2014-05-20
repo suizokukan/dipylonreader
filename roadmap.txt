@@ -1,3 +1,5 @@
 0.0.6 : structure de base Qt5
-0.0.7 : ajout d'un menu avec affichage d'un message sur console
-0.0.8 : QSplitter avec deux QTextEdit
+0.0.7 : object QPlainTextEdit, seul
+0.0.8 : object QPlainTextEdit + message sur console
+
+0.0.x : QSplitter avec deux QTextEdit
