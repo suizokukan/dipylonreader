@@ -4,7 +4,11 @@
 0.0.9 : objet QTextEdit + message sur console
 0.1.0 : 2 éditeurs (src,com) + message sur console
 0.1.1 : splitter avec 2 éditeurs (src,com) + message sur console
+0.1.2 : réglage de la taille des splitters
 
 pour plus tard :
 
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
+
+DOC à propos de QSplitter :
+http://qt-project.org/doc/qt-5/qsplitter.html#details
