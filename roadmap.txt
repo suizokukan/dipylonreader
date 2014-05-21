@@ -10,8 +10,7 @@
 0.1.5 : réorganiser le code + doc.
 0.1.6 : Gaps class
 
-gestion des erreurs dans Gaps (sinon, gare au core dumped !); par ex., vérifier que x0<x1; noter que les gaps ne sont pas triés dans GAP_STR
-is_inside
+Gaps : constructeur avec rien
 
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
 

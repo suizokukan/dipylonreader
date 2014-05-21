@@ -21,14 +21,15 @@
 
     ❏Dipylon❏ : gaps.cpp
 
-    Use Gaps objects to store a list of integers.
+      Use Gaps objects to store a list of integers. A Gaps object can be
+    initialized from a QString (see GAPS_STR infra).
+      After beeing initialized, check the (bool)well_initialized attribute.
 
-    After beeing initialized, check the (bool)well_initialized attribute.
-
-    GAPS_STR format : "45-97+123-136+999-1001", no spaces allowed.
+    GAPS_STR format : "45-97", "45-97+123-136+999-1001", ...
+        no spaces allowed.
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
-        at least one gap must be defined
-        x0 must be <= x1
+        at least one gap must be defined (no empty string)
+        x0 must be <= x1 (no "45-22")
 
 *******************************************************************************/
 
@@ -49,12 +50,10 @@ Gaps::Gaps(QString *string)
 
   QStringList splitted_string = string->split(this->MAIN_SEPARATOR);
 
-  QStringList::const_iterator constIterator;
-  for (constIterator = splitted_string.constBegin(); 
-       constIterator != splitted_string.constEnd();
-       ++constIterator)
+  QStringList::const_iterator i;
+  for (i = splitted_string.constBegin(); i != splitted_string.constEnd(); ++i)
     {
-        QStringList x0x1 = constIterator->split(this->SECONDARY_SEPARATOR);
+        QStringList x0x1 = i->split(this->SECONDARY_SEPARATOR);
         int x0 = x0x1[0].toInt();
         int x1 = x0x1[0].toInt();
         this->push_back( std::make_pair(x0,x1) );
@@ -105,8 +104,6 @@ QString Gaps::toStr(void)
   return res;
 }
 
-#include <QtWidgets>
-
 /*______________________________________________________________________________
 
         Gaps::is_inside : return either true if (int)v is inside one gap of the
@@ -120,7 +117,6 @@ bool Gaps::is_inside(int v)
 
   for (i = this->begin(); i != this->end(); ++i)
     {
-      qDebug() << i->first << v << i->second << endl;
       if( (i->first <= v) && (v <= i->second) )
       {
         res = true;
