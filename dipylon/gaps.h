@@ -37,7 +37,9 @@ class Gaps : public std::vector<std::pair<int,int> >
         bool is_inside(int);
 
     private:
-        // see the GAP_STR format in gaps.cpp :
+        bool well_initialized;
+
+        // for more details, see the GAPS_STR format in gaps.cpp :
         const char* MAIN_SEPARATOR = "+";
         const char* SECONDARY_SEPARATOR = "-";
 };

@@ -23,7 +23,8 @@
 
     Use Gaps objects to store a list of integers.
 
-    GAP_STR format : "45-97+123-136+999-1001", no spaces allowed.
+    GAPS_STR format : "45-97+123-136+999-1001", no spaces allowed.
+        MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
 
 *******************************************************************************/
 
@@ -33,10 +34,15 @@
 
 /*______________________________________________________________________________
 
-        Gaps::Gaps (constructor from a QString)
+        Gaps::Gaps (constructor from a QString). 
+
+        Initialize well_initialized (=either true if everything's ok, either 
+        false).
 ______________________________________________________________________________*/
 Gaps::Gaps(QString *string)
 {
+  this->well_initialized = true;
+
   QStringList splitted_string = string->split(this->MAIN_SEPARATOR);
 
   QStringList::const_iterator constIterator;
@@ -45,8 +51,14 @@ Gaps::Gaps(QString *string)
        ++constIterator)
     {
         QStringList x0x1 = constIterator->split(this->SECONDARY_SEPARATOR);
-        this->push_back( std::make_pair(x0x1[0].toInt(),
-                                        x0x1[1].toInt()) );
+        int x0 = x0x1[0].toInt();
+        int x1 = x0x1[0].toInt();
+        this->push_back( std::make_pair(x0,x1) );
+
+        if (x0 > x1)
+        {
+          this->well_initialized = false;
+        }
     }
 }
 
@@ -76,7 +88,7 @@ QString Gaps::toStr(void)
       res += this->SECONDARY_SEPARATOR;
     }
 
-  // removing the last "-" character :
+  // removing the last SECONDARY_SEPARATOR character :
   res.chop(1);
 
   return res;
@@ -86,8 +98,8 @@ QString Gaps::toStr(void)
 
 /*______________________________________________________________________________
 
-        Gaps::is_inside : return either true if (int)v is inside one of the gaps,
-                          either false.
+        Gaps::is_inside : return either true if (int)v is inside one gap of the
+                          object, either false.
 ______________________________________________________________________________*/
 bool Gaps::is_inside(int v)
 {
