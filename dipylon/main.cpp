@@ -34,10 +34,9 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-    //QString str = QString("94-3+97-2+101-5");
-    //Gaps *g = new Gaps(&str);
-    //qDebug() << g->toStr();
-
+    QString str = QString("94-3+97-2+101-5");
+    Gaps *g = new Gaps(&str);
+    qDebug() << g->toStr();
 
     QApplication app(argv, args);
 

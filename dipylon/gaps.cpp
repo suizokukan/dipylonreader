@@ -29,15 +29,14 @@
 
 #include "gaps.h"
 #include <QString>
+#include <QStringList>
 
 /*______________________________________________________________________________
 
         Gaps::Gaps (constructor from a QString)
-        
 ______________________________________________________________________________*/
 Gaps::Gaps(QString *string)
 {
-/*
   QStringList splitted_string = string->split("+");
 
   QStringList::const_iterator constIterator;
@@ -49,26 +48,24 @@ Gaps::Gaps(QString *string)
         this->push_back( std::make_pair(x0x1[0].toInt(),
                                         x0x1[1].toInt()) );
     }
-*/
 }
 
 /*______________________________________________________________________________
 
         Gaps::toStr : return a QString representing the object according to
                       the GAP_STR format (see above)                     
-        
 ______________________________________________________________________________*/
 QString Gaps::toStr(void)
 {
   QString res("");
 
   // empty vector ? nothing to do.
-/*
   if( this->empty() )
   {
     return res;
   }
 
+  // we go through the object with an iterator :
   vector < std::pair<int,int> >::iterator i;
 
   for (i = this->begin(); i != this->end(); ++i)
@@ -79,7 +76,8 @@ QString Gaps::toStr(void)
       res += "-";
     }
 
+  // removing the last "-" character :
   res.chop(1);
-*/
+
   return res;
 }

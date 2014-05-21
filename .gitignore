@@ -1,7 +1,4 @@
 *~
-*.pyc
-__pycache__
-.doctrees
 #*
 *.o
 moc_*.cpp

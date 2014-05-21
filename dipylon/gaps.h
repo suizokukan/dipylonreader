@@ -27,6 +27,7 @@
 #define GAPS_H
 
 #include <QString>
+#include <vector>
 
 class Gaps : public std::vector<std::pair<int,int> >
 {

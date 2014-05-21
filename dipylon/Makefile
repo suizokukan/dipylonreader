@@ -1749,7 +1749,9 @@ sourceeditor.o: qt/sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbar.h \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
-		/usr/include/qt/QtWidgets/qtwidgetsversion.h
+		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
+		qt/sourceeditor.h \
+		/usr/include/qt/QtWidgets/QPlainTextEdit
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
 commentaryeditor.o: qt/commentaryeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
@@ -2187,7 +2189,9 @@ commentaryeditor.o: qt/commentaryeditor.cpp /usr/include/qt/QtWidgets/QtWidgets 
 		/usr/include/qt/QtWidgets/qtoolbar.h \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
-		/usr/include/qt/QtWidgets/qtwidgetsversion.h
+		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
+		qt/commentaryeditor.h \
+		/usr/include/qt/QtWidgets/QPlainTextEdit
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
 
 mainsplitter.o: qt/mainsplitter.cpp /usr/include/qt/QtWidgets/QtWidgets \
@@ -2625,7 +2629,9 @@ mainsplitter.o: qt/mainsplitter.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbar.h \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
-		/usr/include/qt/QtWidgets/qtwidgetsversion.h
+		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
+		qt/mainsplitter.h \
+		/usr/include/qt/QtWidgets/QSplitter
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainsplitter.o qt/mainsplitter.cpp
 
 moc_sourceeditor.o: moc_sourceeditor.cpp 
