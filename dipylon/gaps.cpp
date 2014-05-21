@@ -70,14 +70,40 @@ QString Gaps::toStr(void)
 
   for (i = this->begin(); i != this->end(); ++i)
     {
-      res += QString().number( (*i).first );
+      res += QString().number( i->first );
       res += this->MAIN_SEPARATOR;
-      res += QString().number( (*i).second );
+      res += QString().number( i->second );
       res += this->SECONDARY_SEPARATOR;
     }
 
   // removing the last "-" character :
   res.chop(1);
+
+  return res;
+}
+
+#include <QtWidgets>
+
+/*______________________________________________________________________________
+
+        Gaps::is_inside : return either true if (int)v is inside one of the gaps,
+                          either false.
+______________________________________________________________________________*/
+bool Gaps::is_inside(int v)
+{
+  bool res = false;
+
+  vector < std::pair<int,int> >::iterator i;
+
+  for (i = this->begin(); i != this->end(); ++i)
+    {
+      qDebug() << i->first << v << i->second << endl;
+      if( (i->first <= v) && (v <= i->second) )
+      {
+        res = true;
+        break;
+      }        
+    }
 
   return res;
 }

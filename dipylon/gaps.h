@@ -34,8 +34,10 @@ class Gaps : public std::vector<std::pair<int,int> >
     public:
         Gaps(QString*);
         QString toStr(void);
+        bool is_inside(int);
 
     private:
+        // see the GAP_STR format in gaps.cpp :
         const char* MAIN_SEPARATOR = "+";
         const char* SECONDARY_SEPARATOR = "-";
 };

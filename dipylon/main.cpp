@@ -34,9 +34,12 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-    QString str = QString("94-3+97-2+101-5");
+    QString str = QString("94-95+97-98+101-105");
     Gaps *g = new Gaps(&str);
-    qDebug() << g->toStr();
+    qDebug() << g->toStr() << endl;
+    qDebug() << g->is_inside(100) << endl;
+    qDebug() << g->is_inside(105) << endl;
+    qDebug() << g->is_inside(106) << endl;
 
     QApplication app(argv, args);
 
