@@ -28,18 +28,9 @@
 #include "qt/commentaryeditor.h"
 #include "qt/mainsplitter.h"
 
-#include "gaps.h"
-
 int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
-
-    QString str = QString("94-95+97-98+101-105");
-    Gaps *g = new Gaps(&str);
-    qDebug() << g->toStr() << endl;
-    qDebug() << g->is_inside(100) << endl;
-    qDebug() << g->is_inside(105) << endl;
-    qDebug() << g->is_inside(106) << endl;
 
     QApplication app(argv, args);
 
