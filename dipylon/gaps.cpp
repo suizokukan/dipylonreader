@@ -23,8 +23,12 @@
 
     Use Gaps objects to store a list of integers.
 
+    After beeing initialized, check the (bool)well_initialized attribute.
+
     GAPS_STR format : "45-97+123-136+999-1001", no spaces allowed.
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
+        at least one gap must be defined
+        x0 must be <= x1
 
 *******************************************************************************/
 
@@ -55,11 +59,18 @@ Gaps::Gaps(QString *string)
         int x1 = x0x1[0].toInt();
         this->push_back( std::make_pair(x0,x1) );
 
+        // see GAPS_STR format : x0 must be <= x1
         if (x0 > x1)
         {
           this->well_initialized = false;
         }
     }
+
+  // see GAPS_STR format : at least one gap must be defined.
+  if( this->size() == 0 )
+  {
+    this->well_initialized = false;
+  }
 }
 
 /*______________________________________________________________________________
