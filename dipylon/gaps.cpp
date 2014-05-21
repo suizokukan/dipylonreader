@@ -21,8 +21,10 @@
 
     ❏Dipylon❏ : gaps.cpp
 
-      Use Gaps objects to store a list of integers. A Gaps object can be
-    initialized from a QString (see GAPS_STR infra).
+      Use Gaps objects to store a list of integers. Gaps objects are nothing
+    but vector<pair<int,int>> .
+
+      A Gaps object can be initialized from a QString (see GAPS_STR infra).
       After beeing initialized, check the (bool)well_initialized attribute.
 
     GAPS_STR format : "45-97", "45-97+123-136+999-1001", ...

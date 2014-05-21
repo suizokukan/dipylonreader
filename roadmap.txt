@@ -10,8 +10,6 @@
 0.1.5 : réorganiser le code + doc.
 0.1.6 : Gaps class
 
-Gaps : constructeur avec rien
-
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
 
 DOC à propos de QSplitter :
