@@ -24,13 +24,20 @@
 *******************************************************************************/
 #include <QtWidgets>
 
-#include <qt/sourceeditor.h>
-#include <qt/commentaryeditor.h>
-#include <qt/mainsplitter.h>
+#include "qt/sourceeditor.h"
+#include "qt/commentaryeditor.h"
+#include "qt/mainsplitter.h"
+
+#include "gaps.h"
 
 int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
+
+    //QString str = QString("94-3+97-2+101-5");
+    //Gaps *g = new Gaps(&str);
+    //qDebug() << g->toStr();
+
 
     QApplication app(argv, args);
 

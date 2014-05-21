@@ -46,12 +46,14 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
+		gaps.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
 		qt/mainsplitter.cpp moc_sourceeditor.cpp \
 		moc_commentaryeditor.cpp \
 		moc_mainsplitter.cpp
 OBJECTS       = main.o \
+		gaps.o \
 		sourceeditor.o \
 		commentaryeditor.o \
 		mainsplitter.o \
@@ -414,7 +416,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents gaps.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp gaps.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -1260,8 +1262,57 @@ main.o: main.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/QPlainTextEdit \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h \
-		/usr/include/qt/QtWidgets/QSplitter
+		/usr/include/qt/QtWidgets/QSplitter \
+		gaps.h \
+		/usr/include/qt/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+gaps.o: gaps.cpp gaps.h \
+		/usr/include/qt/QtCore/QString \
+		/usr/include/qt/QtCore/qstring.h \
+		/usr/include/qt/QtCore/qchar.h \
+		/usr/include/qt/QtCore/qglobal.h \
+		/usr/include/qt/QtCore/qconfig.h \
+		/usr/include/qt/QtCore/qfeatures.h \
+		/usr/include/qt/QtCore/qsystemdetection.h \
+		/usr/include/qt/QtCore/qprocessordetection.h \
+		/usr/include/qt/QtCore/qcompilerdetection.h \
+		/usr/include/qt/QtCore/qglobalstatic.h \
+		/usr/include/qt/QtCore/qatomic.h \
+		/usr/include/qt/QtCore/qbasicatomic.h \
+		/usr/include/qt/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt/QtCore/qgenericatomic.h \
+		/usr/include/qt/QtCore/qatomic_msvc.h \
+		/usr/include/qt/QtCore/qatomic_integrity.h \
+		/usr/include/qt/QtCore/qoldbasicatomic.h \
+		/usr/include/qt/QtCore/qatomic_vxworks.h \
+		/usr/include/qt/QtCore/qatomic_power.h \
+		/usr/include/qt/QtCore/qatomic_alpha.h \
+		/usr/include/qt/QtCore/qatomic_armv7.h \
+		/usr/include/qt/QtCore/qatomic_armv6.h \
+		/usr/include/qt/QtCore/qatomic_armv5.h \
+		/usr/include/qt/QtCore/qatomic_bfin.h \
+		/usr/include/qt/QtCore/qatomic_ia64.h \
+		/usr/include/qt/QtCore/qatomic_mips.h \
+		/usr/include/qt/QtCore/qatomic_s390.h \
+		/usr/include/qt/QtCore/qatomic_sh4a.h \
+		/usr/include/qt/QtCore/qatomic_sparc.h \
+		/usr/include/qt/QtCore/qatomic_x86.h \
+		/usr/include/qt/QtCore/qatomic_cxx11.h \
+		/usr/include/qt/QtCore/qatomic_gcc.h \
+		/usr/include/qt/QtCore/qatomic_unix.h \
+		/usr/include/qt/QtCore/qmutex.h \
+		/usr/include/qt/QtCore/qlogging.h \
+		/usr/include/qt/QtCore/qflags.h \
+		/usr/include/qt/QtCore/qtypeinfo.h \
+		/usr/include/qt/QtCore/qtypetraits.h \
+		/usr/include/qt/QtCore/qsysinfo.h \
+		/usr/include/qt/QtCore/qbytearray.h \
+		/usr/include/qt/QtCore/qrefcount.h \
+		/usr/include/qt/QtCore/qnamespace.h \
+		/usr/include/qt/QtCore/qarraydata.h \
+		/usr/include/qt/QtCore/qstringbuilder.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gaps.o gaps.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/QtWidgetsDepends \
@@ -1698,9 +1749,7 @@ sourceeditor.o: qt/sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbar.h \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
-		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
-		qt/sourceeditor.h \
-		/usr/include/qt/QtWidgets/QPlainTextEdit
+		/usr/include/qt/QtWidgets/qtwidgetsversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
 commentaryeditor.o: qt/commentaryeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
@@ -2138,9 +2187,7 @@ commentaryeditor.o: qt/commentaryeditor.cpp /usr/include/qt/QtWidgets/QtWidgets 
 		/usr/include/qt/QtWidgets/qtoolbar.h \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
-		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
-		qt/commentaryeditor.h \
-		/usr/include/qt/QtWidgets/QPlainTextEdit
+		/usr/include/qt/QtWidgets/qtwidgetsversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
 
 mainsplitter.o: qt/mainsplitter.cpp /usr/include/qt/QtWidgets/QtWidgets \
@@ -2578,9 +2625,7 @@ mainsplitter.o: qt/mainsplitter.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/qtoolbar.h \
 		/usr/include/qt/QtWidgets/qtoolbox.h \
 		/usr/include/qt/QtWidgets/qtoolbutton.h \
-		/usr/include/qt/QtWidgets/qtwidgetsversion.h \
-		qt/mainsplitter.h \
-		/usr/include/qt/QtWidgets/QSplitter
+		/usr/include/qt/QtWidgets/qtwidgetsversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainsplitter.o qt/mainsplitter.cpp
 
 moc_sourceeditor.o: moc_sourceeditor.cpp 
