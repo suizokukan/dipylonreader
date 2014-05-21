@@ -37,14 +37,14 @@
 ______________________________________________________________________________*/
 Gaps::Gaps(QString *string)
 {
-  QStringList splitted_string = string->split("+");
+  QStringList splitted_string = string->split(this->MAIN_SEPARATOR);
 
   QStringList::const_iterator constIterator;
   for (constIterator = splitted_string.constBegin(); 
        constIterator != splitted_string.constEnd();
        ++constIterator)
     {
-        QStringList x0x1 = constIterator->split("-");
+        QStringList x0x1 = constIterator->split(this->SECONDARY_SEPARATOR);
         this->push_back( std::make_pair(x0x1[0].toInt(),
                                         x0x1[1].toInt()) );
     }
@@ -71,9 +71,9 @@ QString Gaps::toStr(void)
   for (i = this->begin(); i != this->end(); ++i)
     {
       res += QString().number( (*i).first );
-      res += "+";
+      res += this->MAIN_SEPARATOR;
       res += QString().number( (*i).second );
-      res += "-";
+      res += this->SECONDARY_SEPARATOR;
     }
 
   // removing the last "-" character :

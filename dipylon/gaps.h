@@ -34,6 +34,10 @@ class Gaps : public std::vector<std::pair<int,int> >
     public:
         Gaps(QString*);
         QString toStr(void);
+
+    private:
+        const char* MAIN_SEPARATOR = "+";
+        const char* SECONDARY_SEPARATOR = "-";
 };
 
 #endif

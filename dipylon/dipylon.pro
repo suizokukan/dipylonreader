@@ -19,3 +19,6 @@ SOURCES += main.cpp \
            qt/sourceeditor.cpp \
            qt/commentaryeditor.cpp \
            qt/mainsplitter.cpp
+
+QMAKE_CFLAGS += -std=c++11 -Wpedantic
+QMAKE_CXXFLAGS += -std=c++11 -Wpedantic

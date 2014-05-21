@@ -13,8 +13,8 @@ MAKEFILE      = Makefile
 CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-CXXFLAGS      = -pipe -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
+CFLAGS        = -pipe -std=c++11 -Wpedantic -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
+CXXFLAGS      = -pipe -std=c++11 -Wpedantic -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 INCPATH       = -I/usr/lib/qt/mkspecs/linux-g++ -I. -I. -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I.
 LINK          = g++
 LFLAGS        = -Wl,-O1,--sort-common,--as-needed,-z,relro -Wl,-O1
@@ -1311,7 +1311,27 @@ gaps.o: gaps.cpp gaps.h \
 		/usr/include/qt/QtCore/qrefcount.h \
 		/usr/include/qt/QtCore/qnamespace.h \
 		/usr/include/qt/QtCore/qarraydata.h \
-		/usr/include/qt/QtCore/qstringbuilder.h
+		/usr/include/qt/QtCore/qstringbuilder.h \
+		/usr/include/qt/QtCore/QStringList \
+		/usr/include/qt/QtCore/qstringlist.h \
+		/usr/include/qt/QtCore/qalgorithms.h \
+		/usr/include/qt/QtCore/qdatastream.h \
+		/usr/include/qt/QtCore/qscopedpointer.h \
+		/usr/include/qt/QtCore/qiodevice.h \
+		/usr/include/qt/QtCore/qobject.h \
+		/usr/include/qt/QtCore/qobjectdefs.h \
+		/usr/include/qt/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt/QtCore/qlist.h \
+		/usr/include/qt/QtCore/qiterator.h \
+		/usr/include/qt/QtCore/qcoreevent.h \
+		/usr/include/qt/QtCore/qmetatype.h \
+		/usr/include/qt/QtCore/qvarlengtharray.h \
+		/usr/include/qt/QtCore/qcontainerfwd.h \
+		/usr/include/qt/QtCore/qisenum.h \
+		/usr/include/qt/QtCore/qobject_impl.h \
+		/usr/include/qt/QtCore/qpair.h \
+		/usr/include/qt/QtCore/qregexp.h \
+		/usr/include/qt/QtCore/qstringmatcher.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gaps.o gaps.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
