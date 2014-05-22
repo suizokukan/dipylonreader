@@ -12,13 +12,13 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=\"/home/suizokukan/projets/dipylon/last/dipylon\"
 CFLAGS        = -pipe -std=c++11 -Wpedantic -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -pipe -std=c++11 -Wpedantic -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I/usr/lib/qt/mkspecs/linux-g++ -I. -I. -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I.
+INCPATH       = -I/usr/lib/qt/mkspecs/linux-g++ -I. -I. -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I.
 LINK          = g++
 LFLAGS        = -Wl,-O1,--sort-common,--as-needed,-z,relro -Wl,-O1
-LIBS          = $(SUBLIBS) -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lQt5Widgets -lQt5Test -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/bin/qmake-qt5
@@ -150,12 +150,15 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
 		/usr/lib/qt/mkspecs/features/resolve_config.prf \
 		/usr/lib/qt/mkspecs/features/default_post.prf \
+		/usr/lib/qt/mkspecs/features/resolve_target.prf \
+		/usr/lib/qt/mkspecs/features/testcase.prf \
 		/usr/lib/qt/mkspecs/features/unix/gdb_dwarf_index.prf \
 		/usr/lib/qt/mkspecs/features/warn_on.prf \
 		/usr/lib/qt/mkspecs/features/qt.prf \
 		/usr/lib/qt/mkspecs/features/resources.prf \
 		/usr/lib/qt/mkspecs/features/moc.prf \
 		/usr/lib/qt/mkspecs/features/unix/opengl.prf \
+		/usr/lib/qt/mkspecs/features/testlib_defines.prf \
 		/usr/lib/qt/mkspecs/features/uic.prf \
 		/usr/lib/qt/mkspecs/features/unix/thread.prf \
 		/usr/lib/qt/mkspecs/features/testcase_targets.prf \
@@ -286,12 +289,15 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
 		/usr/lib/qt/mkspecs/features/resolve_config.prf \
 		/usr/lib/qt/mkspecs/features/default_post.prf \
+		/usr/lib/qt/mkspecs/features/resolve_target.prf \
+		/usr/lib/qt/mkspecs/features/testcase.prf \
 		/usr/lib/qt/mkspecs/features/unix/gdb_dwarf_index.prf \
 		/usr/lib/qt/mkspecs/features/warn_on.prf \
 		/usr/lib/qt/mkspecs/features/qt.prf \
 		/usr/lib/qt/mkspecs/features/resources.prf \
 		/usr/lib/qt/mkspecs/features/moc.prf \
 		/usr/lib/qt/mkspecs/features/unix/opengl.prf \
+		/usr/lib/qt/mkspecs/features/testlib_defines.prf \
 		/usr/lib/qt/mkspecs/features/uic.prf \
 		/usr/lib/qt/mkspecs/features/unix/thread.prf \
 		/usr/lib/qt/mkspecs/features/testcase_targets.prf \
@@ -300,6 +306,7 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		dipylon.pro \
 		/lib/libQt5Widgets.prl \
+		/lib/libQt5Test.prl \
 		/lib/libQt5Gui.prl \
 		/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile dipylon.pro
@@ -393,12 +400,15 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 /usr/lib/qt/mkspecs/features/default_pre.prf:
 /usr/lib/qt/mkspecs/features/resolve_config.prf:
 /usr/lib/qt/mkspecs/features/default_post.prf:
+/usr/lib/qt/mkspecs/features/resolve_target.prf:
+/usr/lib/qt/mkspecs/features/testcase.prf:
 /usr/lib/qt/mkspecs/features/unix/gdb_dwarf_index.prf:
 /usr/lib/qt/mkspecs/features/warn_on.prf:
 /usr/lib/qt/mkspecs/features/qt.prf:
 /usr/lib/qt/mkspecs/features/resources.prf:
 /usr/lib/qt/mkspecs/features/moc.prf:
 /usr/lib/qt/mkspecs/features/unix/opengl.prf:
+/usr/lib/qt/mkspecs/features/testlib_defines.prf:
 /usr/lib/qt/mkspecs/features/uic.prf:
 /usr/lib/qt/mkspecs/features/unix/thread.prf:
 /usr/lib/qt/mkspecs/features/testcase_targets.prf:
@@ -407,6 +417,7 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 /usr/lib/qt/mkspecs/features/lex.prf:
 dipylon.pro:
 /lib/libQt5Widgets.prl:
+/lib/libQt5Test.prl:
 /lib/libQt5Gui.prl:
 /lib/libQt5Core.prl:
 qmake: FORCE
@@ -431,11 +442,12 @@ distclean: clean
 	-$(DEL_FILE) Makefile
 
 
+check: first
+	LD_LIBRARY_PATH=/usr/lib$${LD_LIBRARY_PATH:+:$$LD_LIBRARY_PATH} $(TESTRUNNER) ./$(QMAKE_TARGET) $(TESTARGS)
+
 mocclean: compiler_moc_header_clean compiler_moc_source_clean
 
 mocables: compiler_moc_header_make_all compiler_moc_source_make_all
-
-check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
@@ -808,8 +820,263 @@ moc_mainsplitter.cpp: /usr/include/qt/QtWidgets/QSplitter \
 		qt/mainsplitter.h
 	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include qt/mainsplitter.h -o moc_mainsplitter.cpp
 
-compiler_moc_source_make_all:
+compiler_moc_source_make_all: gaps.moc
 compiler_moc_source_clean:
+	-$(DEL_FILE) gaps.moc
+gaps.moc: gaps.h \
+		/usr/include/qt/QtCore/QString \
+		/usr/include/qt/QtCore/qstring.h \
+		/usr/include/qt/QtCore/qchar.h \
+		/usr/include/qt/QtCore/qglobal.h \
+		/usr/include/qt/QtCore/qconfig.h \
+		/usr/include/qt/QtCore/qfeatures.h \
+		/usr/include/qt/QtCore/qsystemdetection.h \
+		/usr/include/qt/QtCore/qprocessordetection.h \
+		/usr/include/qt/QtCore/qcompilerdetection.h \
+		/usr/include/qt/QtCore/qglobalstatic.h \
+		/usr/include/qt/QtCore/qatomic.h \
+		/usr/include/qt/QtCore/qbasicatomic.h \
+		/usr/include/qt/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt/QtCore/qgenericatomic.h \
+		/usr/include/qt/QtCore/qatomic_msvc.h \
+		/usr/include/qt/QtCore/qatomic_integrity.h \
+		/usr/include/qt/QtCore/qoldbasicatomic.h \
+		/usr/include/qt/QtCore/qatomic_vxworks.h \
+		/usr/include/qt/QtCore/qatomic_power.h \
+		/usr/include/qt/QtCore/qatomic_alpha.h \
+		/usr/include/qt/QtCore/qatomic_armv7.h \
+		/usr/include/qt/QtCore/qatomic_armv6.h \
+		/usr/include/qt/QtCore/qatomic_armv5.h \
+		/usr/include/qt/QtCore/qatomic_bfin.h \
+		/usr/include/qt/QtCore/qatomic_ia64.h \
+		/usr/include/qt/QtCore/qatomic_mips.h \
+		/usr/include/qt/QtCore/qatomic_s390.h \
+		/usr/include/qt/QtCore/qatomic_sh4a.h \
+		/usr/include/qt/QtCore/qatomic_sparc.h \
+		/usr/include/qt/QtCore/qatomic_x86.h \
+		/usr/include/qt/QtCore/qatomic_cxx11.h \
+		/usr/include/qt/QtCore/qatomic_gcc.h \
+		/usr/include/qt/QtCore/qatomic_unix.h \
+		/usr/include/qt/QtCore/qmutex.h \
+		/usr/include/qt/QtCore/qlogging.h \
+		/usr/include/qt/QtCore/qflags.h \
+		/usr/include/qt/QtCore/qtypeinfo.h \
+		/usr/include/qt/QtCore/qtypetraits.h \
+		/usr/include/qt/QtCore/qsysinfo.h \
+		/usr/include/qt/QtCore/qbytearray.h \
+		/usr/include/qt/QtCore/qrefcount.h \
+		/usr/include/qt/QtCore/qnamespace.h \
+		/usr/include/qt/QtCore/qarraydata.h \
+		/usr/include/qt/QtCore/qstringbuilder.h \
+		/usr/include/qt/QtCore/QStringList \
+		/usr/include/qt/QtCore/qstringlist.h \
+		/usr/include/qt/QtCore/qalgorithms.h \
+		/usr/include/qt/QtCore/qdatastream.h \
+		/usr/include/qt/QtCore/qscopedpointer.h \
+		/usr/include/qt/QtCore/qiodevice.h \
+		/usr/include/qt/QtCore/qobject.h \
+		/usr/include/qt/QtCore/qobjectdefs.h \
+		/usr/include/qt/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt/QtCore/qlist.h \
+		/usr/include/qt/QtCore/qiterator.h \
+		/usr/include/qt/QtCore/qcoreevent.h \
+		/usr/include/qt/QtCore/qmetatype.h \
+		/usr/include/qt/QtCore/qvarlengtharray.h \
+		/usr/include/qt/QtCore/qcontainerfwd.h \
+		/usr/include/qt/QtCore/qisenum.h \
+		/usr/include/qt/QtCore/qobject_impl.h \
+		/usr/include/qt/QtCore/qpair.h \
+		/usr/include/qt/QtCore/qregexp.h \
+		/usr/include/qt/QtCore/qstringmatcher.h \
+		/usr/include/qt/QtTest/QtTest \
+		/usr/include/qt/QtTest/QtTestDepends \
+		/usr/include/qt/QtCore/QtCore \
+		/usr/include/qt/QtCore/QtCoreDepends \
+		/usr/include/qt/QtCore/qabstractanimation.h \
+		/usr/include/qt/QtCore/qanimationgroup.h \
+		/usr/include/qt/QtCore/qparallelanimationgroup.h \
+		/usr/include/qt/QtCore/qpauseanimation.h \
+		/usr/include/qt/QtCore/qpropertyanimation.h \
+		/usr/include/qt/QtCore/qvariantanimation.h \
+		/usr/include/qt/QtCore/qeasingcurve.h \
+		/usr/include/qt/QtCore/qvector.h \
+		/usr/include/qt/QtCore/qpoint.h \
+		/usr/include/qt/QtCore/qvariant.h \
+		/usr/include/qt/QtCore/qmap.h \
+		/usr/include/qt/QtCore/qdebug.h \
+		/usr/include/qt/QtCore/qhash.h \
+		/usr/include/qt/QtCore/qtextstream.h \
+		/usr/include/qt/QtCore/qlocale.h \
+		/usr/include/qt/QtCore/qshareddata.h \
+		/usr/include/qt/QtCore/qset.h \
+		/usr/include/qt/QtCore/qcontiguouscache.h \
+		/usr/include/qt/QtCore/qsequentialanimationgroup.h \
+		/usr/include/qt/QtCore/qtextcodec.h \
+		/usr/include/qt/QtCore/qendian.h \
+		/usr/include/qt/QtCore/qlibraryinfo.h \
+		/usr/include/qt/QtCore/qdatetime.h \
+		/usr/include/qt/QtCore/qsharedpointer.h \
+		/usr/include/qt/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt/QtCore/qnumeric.h \
+		/usr/include/qt/QtCore/qbuffer.h \
+		/usr/include/qt/QtCore/qdir.h \
+		/usr/include/qt/QtCore/qfileinfo.h \
+		/usr/include/qt/QtCore/qfile.h \
+		/usr/include/qt/QtCore/qfiledevice.h \
+		/usr/include/qt/QtCore/qdiriterator.h \
+		/usr/include/qt/QtCore/qfileselector.h \
+		/usr/include/qt/QtCore/QObject \
+		/usr/include/qt/QtCore/qfilesystemwatcher.h \
+		/usr/include/qt/QtCore/qlockfile.h \
+		/usr/include/qt/QtCore/qloggingcategory.h \
+		/usr/include/qt/QtCore/qprocess.h \
+		/usr/include/qt/QtCore/qresource.h \
+		/usr/include/qt/QtCore/qsavefile.h \
+		/usr/include/qt/QtCore/qsettings.h \
+		/usr/include/qt/QtCore/qstandardpaths.h \
+		/usr/include/qt/QtCore/qtemporarydir.h \
+		/usr/include/qt/QtCore/QScopedPointer \
+		/usr/include/qt/QtCore/qtemporaryfile.h \
+		/usr/include/qt/QtCore/qurl.h \
+		/usr/include/qt/QtCore/qurlquery.h \
+		/usr/include/qt/QtCore/qabstractitemmodel.h \
+		/usr/include/qt/QtCore/qabstractproxymodel.h \
+		/usr/include/qt/QtCore/qidentityproxymodel.h \
+		/usr/include/qt/QtCore/qitemselectionmodel.h \
+		/usr/include/qt/QtCore/qsortfilterproxymodel.h \
+		/usr/include/qt/QtCore/qstringlistmodel.h \
+		/usr/include/qt/QtCore/qjsonarray.h \
+		/usr/include/qt/QtCore/qjsonvalue.h \
+		/usr/include/qt/QtCore/qjsondocument.h \
+		/usr/include/qt/QtCore/qjsonobject.h \
+		/usr/include/qt/QtCore/qabstracteventdispatcher.h \
+		/usr/include/qt/QtCore/qeventloop.h \
+		/usr/include/qt/QtCore/qabstractnativeeventfilter.h \
+		/usr/include/qt/QtCore/qbasictimer.h \
+		/usr/include/qt/QtCore/qcoreapplication.h \
+		/usr/include/qt/QtCore/qmath.h \
+		/usr/include/qt/QtCore/qmetaobject.h \
+		/usr/include/qt/QtCore/qmimedata.h \
+		/usr/include/qt/QtCore/qobjectcleanuphandler.h \
+		/usr/include/qt/QtCore/qpointer.h \
+		/usr/include/qt/QtCore/qsharedmemory.h \
+		/usr/include/qt/QtCore/qsignalmapper.h \
+		/usr/include/qt/QtCore/qsocketnotifier.h \
+		/usr/include/qt/QtCore/qsystemsemaphore.h \
+		/usr/include/qt/QtCore/qtimer.h \
+		/usr/include/qt/QtCore/qtranslator.h \
+		/usr/include/qt/QtCore/qwineventnotifier.h \
+		/usr/include/qt/QtCore/qmimedatabase.h \
+		/usr/include/qt/QtCore/qmimetype.h \
+		/usr/include/qt/QtCore/qfactoryinterface.h \
+		/usr/include/qt/QtCore/qlibrary.h \
+		/usr/include/qt/QtCore/qplugin.h \
+		/usr/include/qt/QtCore/qpluginloader.h \
+		/usr/include/qt/QtCore/quuid.h \
+		/usr/include/qt/QtCore/qabstractstate.h \
+		/usr/include/qt/QtCore/qabstracttransition.h \
+		/usr/include/qt/QtCore/qeventtransition.h \
+		/usr/include/qt/QtCore/qfinalstate.h \
+		/usr/include/qt/QtCore/qhistorystate.h \
+		/usr/include/qt/QtCore/qsignaltransition.h \
+		/usr/include/qt/QtCore/qstate.h \
+		/usr/include/qt/QtCore/qstatemachine.h \
+		/usr/include/qt/QtCore/qexception.h \
+		/usr/include/qt/QtCore/qfuture.h \
+		/usr/include/qt/QtCore/qfutureinterface.h \
+		/usr/include/qt/QtCore/qrunnable.h \
+		/usr/include/qt/QtCore/qresultstore.h \
+		/usr/include/qt/QtCore/qfuturesynchronizer.h \
+		/usr/include/qt/QtCore/qfuturewatcher.h \
+		/usr/include/qt/QtCore/qreadwritelock.h \
+		/usr/include/qt/QtCore/qsemaphore.h \
+		/usr/include/qt/QtCore/qthread.h \
+		/usr/include/qt/QtCore/qthreadpool.h \
+		/usr/include/qt/QtCore/qthreadstorage.h \
+		/usr/include/qt/QtCore/qwaitcondition.h \
+		/usr/include/qt/QtCore/qarraydataops.h \
+		/usr/include/qt/QtCore/qarraydatapointer.h \
+		/usr/include/qt/QtCore/qbitarray.h \
+		/usr/include/qt/QtCore/qbytearraymatcher.h \
+		/usr/include/qt/QtCore/qcache.h \
+		/usr/include/qt/QtCore/qcollator.h \
+		/usr/include/qt/QtCore/qcommandlineoption.h \
+		/usr/include/qt/QtCore/qcommandlineparser.h \
+		/usr/include/qt/QtCore/qcryptographichash.h \
+		/usr/include/qt/QtCore/qelapsedtimer.h \
+		/usr/include/qt/QtCore/qline.h \
+		/usr/include/qt/QtCore/qlinkedlist.h \
+		/usr/include/qt/QtCore/qmargins.h \
+		/usr/include/qt/QtCore/qrect.h \
+		/usr/include/qt/QtCore/qsize.h \
+		/usr/include/qt/QtCore/qmessageauthenticationcode.h \
+		/usr/include/qt/QtCore/qqueue.h \
+		/usr/include/qt/QtCore/qregularexpression.h \
+		/usr/include/qt/QtCore/qscopedvaluerollback.h \
+		/usr/include/qt/QtCore/qstack.h \
+		/usr/include/qt/QtCore/qtextboundaryfinder.h \
+		/usr/include/qt/QtCore/qtimeline.h \
+		/usr/include/qt/QtCore/qtimezone.h \
+		/usr/include/qt/QtCore/qxmlstream.h \
+		/usr/include/qt/QtCore/qtcoreversion.h \
+		/usr/include/qt/QtTest/qbenchmark.h \
+		/usr/include/qt/QtTest/qtest_global.h \
+		/usr/include/qt/QtTest/qbenchmarkmetric.h \
+		/usr/include/qt/QtTest/qsignalspy.h \
+		/usr/include/qt/QtTest/qtesteventloop.h \
+		/usr/include/qt/QtTest/qtest.h \
+		/usr/include/qt/QtTest/qtestcase.h \
+		/usr/include/qt/QtTest/qtestdata.h \
+		/usr/include/qt/QtTest/qtestsystem.h \
+		/usr/include/qt/QtGui/QWindow \
+		/usr/include/qt/QtGui/qwindow.h \
+		/usr/include/qt/QtCore/QEvent \
+		/usr/include/qt/QtCore/QMargins \
+		/usr/include/qt/QtCore/QRect \
+		/usr/include/qt/QtGui/qsurface.h \
+		/usr/include/qt/QtGui/qsurfaceformat.h \
+		/usr/include/qt/QtGui/qwindowdefs.h \
+		/usr/include/qt/QtGui/qwindowdefs_win.h \
+		/usr/include/qt/QtGui/qicon.h \
+		/usr/include/qt/QtGui/qpixmap.h \
+		/usr/include/qt/QtGui/qpaintdevice.h \
+		/usr/include/qt/QtGui/qcolor.h \
+		/usr/include/qt/QtGui/qrgb.h \
+		/usr/include/qt/QtGui/qimage.h \
+		/usr/include/qt/QtGui/qtransform.h \
+		/usr/include/qt/QtGui/qmatrix.h \
+		/usr/include/qt/QtGui/qpolygon.h \
+		/usr/include/qt/QtGui/qregion.h \
+		/usr/include/qt/QtGui/qpainterpath.h \
+		/usr/include/qt/QtGui/qcursor.h \
+		/usr/include/qt/QtWidgets/QWidget \
+		/usr/include/qt/QtWidgets/qwidget.h \
+		/usr/include/qt/QtGui/qpalette.h \
+		/usr/include/qt/QtGui/qbrush.h \
+		/usr/include/qt/QtGui/qfont.h \
+		/usr/include/qt/QtGui/qfontmetrics.h \
+		/usr/include/qt/QtGui/qfontinfo.h \
+		/usr/include/qt/QtWidgets/qsizepolicy.h \
+		/usr/include/qt/QtGui/qkeysequence.h \
+		/usr/include/qt/QtGui/qevent.h \
+		/usr/include/qt/QtGui/qvector2d.h \
+		/usr/include/qt/QtGui/qtouchdevice.h \
+		/usr/include/qt/QtTest/qtest_gui.h \
+		/usr/include/qt/QtTest/qtestassert.h \
+		/usr/include/qt/QtTest/qtestevent.h \
+		/usr/include/qt/QtTest/qtestkeyboard.h \
+		/usr/include/qt/QtTest/qtestspontaneevent.h \
+		/usr/include/qt/QtGui/qguiapplication.h \
+		/usr/include/qt/QtGui/qinputmethod.h \
+		/usr/include/qt/QtWidgets/qapplication.h \
+		/usr/include/qt/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt/QtTest/qtestmouse.h \
+		/usr/include/qt/QtCore/QDebug \
+		/usr/include/qt/QtTest/qtesttouch.h \
+		/usr/include/qt/QtTest/qttestversion.h \
+		gaps.cpp
+	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include gaps.cpp -o gaps.moc
+
 compiler_uic_make_all:
 compiler_uic_clean:
 compiler_yacc_decl_make_all:
@@ -818,7 +1085,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_header_clean 
+compiler_clean: compiler_moc_header_clean compiler_moc_source_clean 
 
 ####### Compile
 
@@ -1331,7 +1598,193 @@ gaps.o: gaps.cpp gaps.h \
 		/usr/include/qt/QtCore/qobject_impl.h \
 		/usr/include/qt/QtCore/qpair.h \
 		/usr/include/qt/QtCore/qregexp.h \
-		/usr/include/qt/QtCore/qstringmatcher.h
+		/usr/include/qt/QtCore/qstringmatcher.h \
+		/usr/include/qt/QtTest/QtTest \
+		/usr/include/qt/QtTest/QtTestDepends \
+		/usr/include/qt/QtCore/QtCore \
+		/usr/include/qt/QtCore/QtCoreDepends \
+		/usr/include/qt/QtCore/qabstractanimation.h \
+		/usr/include/qt/QtCore/qanimationgroup.h \
+		/usr/include/qt/QtCore/qparallelanimationgroup.h \
+		/usr/include/qt/QtCore/qpauseanimation.h \
+		/usr/include/qt/QtCore/qpropertyanimation.h \
+		/usr/include/qt/QtCore/qvariantanimation.h \
+		/usr/include/qt/QtCore/qeasingcurve.h \
+		/usr/include/qt/QtCore/qvector.h \
+		/usr/include/qt/QtCore/qpoint.h \
+		/usr/include/qt/QtCore/qvariant.h \
+		/usr/include/qt/QtCore/qmap.h \
+		/usr/include/qt/QtCore/qdebug.h \
+		/usr/include/qt/QtCore/qhash.h \
+		/usr/include/qt/QtCore/qtextstream.h \
+		/usr/include/qt/QtCore/qlocale.h \
+		/usr/include/qt/QtCore/qshareddata.h \
+		/usr/include/qt/QtCore/qset.h \
+		/usr/include/qt/QtCore/qcontiguouscache.h \
+		/usr/include/qt/QtCore/qsequentialanimationgroup.h \
+		/usr/include/qt/QtCore/qtextcodec.h \
+		/usr/include/qt/QtCore/qendian.h \
+		/usr/include/qt/QtCore/qlibraryinfo.h \
+		/usr/include/qt/QtCore/qdatetime.h \
+		/usr/include/qt/QtCore/qsharedpointer.h \
+		/usr/include/qt/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt/QtCore/qnumeric.h \
+		/usr/include/qt/QtCore/qbuffer.h \
+		/usr/include/qt/QtCore/qdir.h \
+		/usr/include/qt/QtCore/qfileinfo.h \
+		/usr/include/qt/QtCore/qfile.h \
+		/usr/include/qt/QtCore/qfiledevice.h \
+		/usr/include/qt/QtCore/qdiriterator.h \
+		/usr/include/qt/QtCore/qfileselector.h \
+		/usr/include/qt/QtCore/QObject \
+		/usr/include/qt/QtCore/qfilesystemwatcher.h \
+		/usr/include/qt/QtCore/qlockfile.h \
+		/usr/include/qt/QtCore/qloggingcategory.h \
+		/usr/include/qt/QtCore/qprocess.h \
+		/usr/include/qt/QtCore/qresource.h \
+		/usr/include/qt/QtCore/qsavefile.h \
+		/usr/include/qt/QtCore/qsettings.h \
+		/usr/include/qt/QtCore/qstandardpaths.h \
+		/usr/include/qt/QtCore/qtemporarydir.h \
+		/usr/include/qt/QtCore/QScopedPointer \
+		/usr/include/qt/QtCore/qtemporaryfile.h \
+		/usr/include/qt/QtCore/qurl.h \
+		/usr/include/qt/QtCore/qurlquery.h \
+		/usr/include/qt/QtCore/qabstractitemmodel.h \
+		/usr/include/qt/QtCore/qabstractproxymodel.h \
+		/usr/include/qt/QtCore/qidentityproxymodel.h \
+		/usr/include/qt/QtCore/qitemselectionmodel.h \
+		/usr/include/qt/QtCore/qsortfilterproxymodel.h \
+		/usr/include/qt/QtCore/qstringlistmodel.h \
+		/usr/include/qt/QtCore/qjsonarray.h \
+		/usr/include/qt/QtCore/qjsonvalue.h \
+		/usr/include/qt/QtCore/qjsondocument.h \
+		/usr/include/qt/QtCore/qjsonobject.h \
+		/usr/include/qt/QtCore/qabstracteventdispatcher.h \
+		/usr/include/qt/QtCore/qeventloop.h \
+		/usr/include/qt/QtCore/qabstractnativeeventfilter.h \
+		/usr/include/qt/QtCore/qbasictimer.h \
+		/usr/include/qt/QtCore/qcoreapplication.h \
+		/usr/include/qt/QtCore/qmath.h \
+		/usr/include/qt/QtCore/qmetaobject.h \
+		/usr/include/qt/QtCore/qmimedata.h \
+		/usr/include/qt/QtCore/qobjectcleanuphandler.h \
+		/usr/include/qt/QtCore/qpointer.h \
+		/usr/include/qt/QtCore/qsharedmemory.h \
+		/usr/include/qt/QtCore/qsignalmapper.h \
+		/usr/include/qt/QtCore/qsocketnotifier.h \
+		/usr/include/qt/QtCore/qsystemsemaphore.h \
+		/usr/include/qt/QtCore/qtimer.h \
+		/usr/include/qt/QtCore/qtranslator.h \
+		/usr/include/qt/QtCore/qwineventnotifier.h \
+		/usr/include/qt/QtCore/qmimedatabase.h \
+		/usr/include/qt/QtCore/qmimetype.h \
+		/usr/include/qt/QtCore/qfactoryinterface.h \
+		/usr/include/qt/QtCore/qlibrary.h \
+		/usr/include/qt/QtCore/qplugin.h \
+		/usr/include/qt/QtCore/qpluginloader.h \
+		/usr/include/qt/QtCore/quuid.h \
+		/usr/include/qt/QtCore/qabstractstate.h \
+		/usr/include/qt/QtCore/qabstracttransition.h \
+		/usr/include/qt/QtCore/qeventtransition.h \
+		/usr/include/qt/QtCore/qfinalstate.h \
+		/usr/include/qt/QtCore/qhistorystate.h \
+		/usr/include/qt/QtCore/qsignaltransition.h \
+		/usr/include/qt/QtCore/qstate.h \
+		/usr/include/qt/QtCore/qstatemachine.h \
+		/usr/include/qt/QtCore/qexception.h \
+		/usr/include/qt/QtCore/qfuture.h \
+		/usr/include/qt/QtCore/qfutureinterface.h \
+		/usr/include/qt/QtCore/qrunnable.h \
+		/usr/include/qt/QtCore/qresultstore.h \
+		/usr/include/qt/QtCore/qfuturesynchronizer.h \
+		/usr/include/qt/QtCore/qfuturewatcher.h \
+		/usr/include/qt/QtCore/qreadwritelock.h \
+		/usr/include/qt/QtCore/qsemaphore.h \
+		/usr/include/qt/QtCore/qthread.h \
+		/usr/include/qt/QtCore/qthreadpool.h \
+		/usr/include/qt/QtCore/qthreadstorage.h \
+		/usr/include/qt/QtCore/qwaitcondition.h \
+		/usr/include/qt/QtCore/qarraydataops.h \
+		/usr/include/qt/QtCore/qarraydatapointer.h \
+		/usr/include/qt/QtCore/qbitarray.h \
+		/usr/include/qt/QtCore/qbytearraymatcher.h \
+		/usr/include/qt/QtCore/qcache.h \
+		/usr/include/qt/QtCore/qcollator.h \
+		/usr/include/qt/QtCore/qcommandlineoption.h \
+		/usr/include/qt/QtCore/qcommandlineparser.h \
+		/usr/include/qt/QtCore/qcryptographichash.h \
+		/usr/include/qt/QtCore/qelapsedtimer.h \
+		/usr/include/qt/QtCore/qline.h \
+		/usr/include/qt/QtCore/qlinkedlist.h \
+		/usr/include/qt/QtCore/qmargins.h \
+		/usr/include/qt/QtCore/qrect.h \
+		/usr/include/qt/QtCore/qsize.h \
+		/usr/include/qt/QtCore/qmessageauthenticationcode.h \
+		/usr/include/qt/QtCore/qqueue.h \
+		/usr/include/qt/QtCore/qregularexpression.h \
+		/usr/include/qt/QtCore/qscopedvaluerollback.h \
+		/usr/include/qt/QtCore/qstack.h \
+		/usr/include/qt/QtCore/qtextboundaryfinder.h \
+		/usr/include/qt/QtCore/qtimeline.h \
+		/usr/include/qt/QtCore/qtimezone.h \
+		/usr/include/qt/QtCore/qxmlstream.h \
+		/usr/include/qt/QtCore/qtcoreversion.h \
+		/usr/include/qt/QtTest/qbenchmark.h \
+		/usr/include/qt/QtTest/qtest_global.h \
+		/usr/include/qt/QtTest/qbenchmarkmetric.h \
+		/usr/include/qt/QtTest/qsignalspy.h \
+		/usr/include/qt/QtTest/qtesteventloop.h \
+		/usr/include/qt/QtTest/qtest.h \
+		/usr/include/qt/QtTest/qtestcase.h \
+		/usr/include/qt/QtTest/qtestdata.h \
+		/usr/include/qt/QtTest/qtestsystem.h \
+		/usr/include/qt/QtGui/QWindow \
+		/usr/include/qt/QtGui/qwindow.h \
+		/usr/include/qt/QtCore/QEvent \
+		/usr/include/qt/QtCore/QMargins \
+		/usr/include/qt/QtCore/QRect \
+		/usr/include/qt/QtGui/qsurface.h \
+		/usr/include/qt/QtGui/qsurfaceformat.h \
+		/usr/include/qt/QtGui/qwindowdefs.h \
+		/usr/include/qt/QtGui/qwindowdefs_win.h \
+		/usr/include/qt/QtGui/qicon.h \
+		/usr/include/qt/QtGui/qpixmap.h \
+		/usr/include/qt/QtGui/qpaintdevice.h \
+		/usr/include/qt/QtGui/qcolor.h \
+		/usr/include/qt/QtGui/qrgb.h \
+		/usr/include/qt/QtGui/qimage.h \
+		/usr/include/qt/QtGui/qtransform.h \
+		/usr/include/qt/QtGui/qmatrix.h \
+		/usr/include/qt/QtGui/qpolygon.h \
+		/usr/include/qt/QtGui/qregion.h \
+		/usr/include/qt/QtGui/qpainterpath.h \
+		/usr/include/qt/QtGui/qcursor.h \
+		/usr/include/qt/QtWidgets/QWidget \
+		/usr/include/qt/QtWidgets/qwidget.h \
+		/usr/include/qt/QtGui/qpalette.h \
+		/usr/include/qt/QtGui/qbrush.h \
+		/usr/include/qt/QtGui/qfont.h \
+		/usr/include/qt/QtGui/qfontmetrics.h \
+		/usr/include/qt/QtGui/qfontinfo.h \
+		/usr/include/qt/QtWidgets/qsizepolicy.h \
+		/usr/include/qt/QtGui/qkeysequence.h \
+		/usr/include/qt/QtGui/qevent.h \
+		/usr/include/qt/QtGui/qvector2d.h \
+		/usr/include/qt/QtGui/qtouchdevice.h \
+		/usr/include/qt/QtTest/qtest_gui.h \
+		/usr/include/qt/QtTest/qtestassert.h \
+		/usr/include/qt/QtTest/qtestevent.h \
+		/usr/include/qt/QtTest/qtestkeyboard.h \
+		/usr/include/qt/QtTest/qtestspontaneevent.h \
+		/usr/include/qt/QtGui/qguiapplication.h \
+		/usr/include/qt/QtGui/qinputmethod.h \
+		/usr/include/qt/QtWidgets/qapplication.h \
+		/usr/include/qt/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt/QtTest/qtestmouse.h \
+		/usr/include/qt/QtCore/QDebug \
+		/usr/include/qt/QtTest/qtesttouch.h \
+		/usr/include/qt/QtTest/qttestversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gaps.o gaps.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
@@ -2665,9 +3118,19 @@ moc_mainsplitter.o: moc_mainsplitter.cpp
 
 ####### Install
 
-install:   FORCE
+install_target: first FORCE
+	@test -d $(INSTALL_ROOT)/usr/tests/dipylon || mkdir -p $(INSTALL_ROOT)/usr/tests/dipylon
+	-$(INSTALL_PROGRAM) "$(QMAKE_TARGET)" "$(INSTALL_ROOT)/usr/tests/dipylon/$(QMAKE_TARGET)"
+	-$(STRIP) "$(INSTALL_ROOT)/usr/tests/dipylon/$(QMAKE_TARGET)"
 
-uninstall:   FORCE
+uninstall_target: FORCE
+	-$(DEL_FILE) "$(INSTALL_ROOT)/usr/tests/dipylon/$(QMAKE_TARGET)"
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/tests/dipylon/ 
+
+
+install:  install_target  FORCE
+
+uninstall: uninstall_target   FORCE
 
 FORCE:
 

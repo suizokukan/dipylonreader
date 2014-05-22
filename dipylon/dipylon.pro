@@ -22,3 +22,5 @@ SOURCES += main.cpp \
 
 QMAKE_CFLAGS += -std=c++11 -Wpedantic
 QMAKE_CXXFLAGS += -std=c++11 -Wpedantic
+
+QT += testlib

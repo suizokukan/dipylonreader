@@ -42,7 +42,7 @@
 
     QString str = QString("94-95+97-98+101-105");
     Gaps *g = new Gaps(&str);
-    if( g->well_initialized )
+    if( g->well_initialized() )
     {
         qDebug() << g->toStr() << endl;
         qDebug() << g->is_inside(100) << endl;
