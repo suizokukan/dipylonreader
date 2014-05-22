@@ -21,19 +21,24 @@
 
     ❏Dipylon❏ : gaps.h
 
-      Use Gaps objects to store a list of integers. Gaps objects are nothing
+    ⇨ Use Gaps objects to store a list of integers. Gaps objects are nothing
     but vector<pair<int,int>> .
-
       A Gaps object can be initialized from a QString (see GAPS_STR infra).
       After beeing initialized, check the (bool)well_initialized attribute.
 
-    GAPS_STR format : "45-97", "45-97+123-136+999-1001", ...
+    ⇨ about the implementation : std::vector<std::pair<int,int> > has not been
+    derived to get the Gaps class. Deriving std containers isn't a good
+    idea since these classes have no virtual destructor, hence no real
+    polymorphic abilities.
+    E.g. see discussion here : http://stackoverflow.com/questions/4353203
+
+    ⇨ GAPS_STR format : "45-97", "45-97+123-136+999-1001", ...
         no spaces allowed.
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
         at least one gap must be defined (no empty string)
         x0 must be <= x1 (no "45-22")
 
-    HOW TO USE :
+    ⇨ how to use :
     #include "gaps.h"
 
     QString str = QString("94-95+97-98+101-105");
@@ -54,7 +59,7 @@
 #include <QString>
 #include <vector>
 
-class Gaps : public std::vector<std::pair<int,int> >
+class Gaps
 {
     public:
         Gaps(QString*);
@@ -63,6 +68,7 @@ class Gaps : public std::vector<std::pair<int,int> >
 
     private:
         bool well_initialized;
+        std::vector<std::pair<int,int> > vec;
 
         // for more details, see the GAPS_STR format :
         const char* MAIN_SEPARATOR = "+";

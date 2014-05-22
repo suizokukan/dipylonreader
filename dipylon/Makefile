@@ -1262,9 +1262,7 @@ main.o: main.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/QPlainTextEdit \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h \
-		/usr/include/qt/QtWidgets/QSplitter \
-		gaps.h \
-		/usr/include/qt/QtCore/QString
+		/usr/include/qt/QtWidgets/QSplitter
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 gaps.o: gaps.cpp gaps.h \

@@ -26,6 +26,9 @@
 *******************************************************************************/
 
 #include "gaps.h"
+
+#include <vector>
+
 #include <QString>
 #include <QStringList>
 
@@ -38,8 +41,11 @@
 ______________________________________________________________________________*/
 Gaps::Gaps(QString *string)
 {
+  // let's create an empty vector :
+  this->vec = std::vector<std::pair<int,int> >();
   this->well_initialized = true;
 
+  // let's initialize this vector from string :
   QStringList splitted_string = string->split(this->MAIN_SEPARATOR);
 
   QStringList::const_iterator i;
@@ -48,7 +54,7 @@ Gaps::Gaps(QString *string)
         QStringList x0x1 = i->split(this->SECONDARY_SEPARATOR);
         int x0 = x0x1[0].toInt();
         int x1 = x0x1[0].toInt();
-        this->push_back( std::make_pair(x0,x1) );
+        this->vec.push_back( std::make_pair(x0,x1) );
 
         // see GAPS_STR format : x0 must be <= x1
         if (x0 > x1)
@@ -58,7 +64,7 @@ Gaps::Gaps(QString *string)
     }
 
   // see GAPS_STR format : at least one gap must be defined.
-  if( this->size() == 0 )
+  if( this->vec.size() == 0 )
   {
     this->well_initialized = false;
   }
@@ -74,15 +80,15 @@ QString Gaps::toStr(void)
   QString res("");
 
   // empty vector ? nothing to do.
-  if( this->empty() )
+  if( this->vec.empty() )
   {
     return res;
   }
 
   // we go through the object with an iterator :
-  vector < std::pair<int,int> >::iterator i;
+  std::vector < std::pair<int,int> >::iterator i;
 
-  for (i = this->begin(); i != this->end(); ++i)
+  for (i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       res += QString().number( i->first );
       res += this->MAIN_SEPARATOR;
@@ -105,9 +111,9 @@ bool Gaps::is_inside(int v)
 {
   bool res = false;
 
-  vector < std::pair<int,int> >::iterator i;
+  std::vector < std::pair<int,int> >::iterator i;
 
-  for (i = this->begin(); i != this->end(); ++i)
+  for (i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       if( (i->first <= v) && (v <= i->second) )
       {
