@@ -35,7 +35,7 @@
         no spaces allowed.
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
         at least one gap must be defined (no empty string)
-        x0 must be <= x1 (no "45-22")
+        x0 must be < x1 (no "45-22", no "45-45")
 
     ⇨ how to use :
     #include "gaps.h"
@@ -64,10 +64,21 @@ class Gaps
     public:
         Gaps(QString*);
         QString toStr(void);
+        int internal_state(void);
         bool is_inside(int);
+        size_t size(void);
         bool well_initialized(void);
 
+        // constants used to define the internal_state attribute :
+        const int INTERNALSTATE_OK = 0;
+        const int INTERNALSTATE_EMPTYSTR = 1;
+        const int INTERNALSTATE_NOMAINSEP = 2;
+        const int INTERNALSTATE_SECONDSEP = 3;
+        const int INTERNALSTATE_X0X1 = 4;
+        const int INTERNALSTATE_EMPTYVEC = 5;
+
     private:
+        int _internal_state;
         bool _well_initialized;
         std::vector<std::pair<int,int> > vec;
 
