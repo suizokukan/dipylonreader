@@ -21,8 +21,7 @@
 
     ❏Dipylon❏ : gaps.h
 
-    ⇨ Use Gaps objects to store a list of integers. Gaps objects are nothing
-    but vector<pair<int,int>> .
+    ⇨ Use Gaps objects to store a list of integers.
       A Gaps object can be initialized from a QString (see GAPS_STR infra).
       After beeing initialized, check the (bool)well_initialized attribute.
 
@@ -50,6 +49,7 @@
         qDebug() << g->is_inside(105) << endl;
         qDebug() << g->is_inside(106) << endl;
     }
+    delete g;
 
 *******************************************************************************/
 
@@ -65,9 +65,10 @@ class Gaps
         Gaps(QString*);
         QString toStr(void);
         bool is_inside(int);
+        bool well_initialized(void);
 
     private:
-        bool well_initialized;
+        bool _well_initialized;
         std::vector<std::pair<int,int> > vec;
 
         // for more details, see the GAPS_STR format :

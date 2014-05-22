@@ -34,16 +34,16 @@
 
 /*______________________________________________________________________________
 
-        Gaps::Gaps (constructor from a QString). 
+        Gaps::Gaps() (constructor from a QString). 
 
-        Initialize well_initialized (=either true if everything's ok, either 
-        false).
+        Initialize vec and _well_initialized (=either true if everything's ok, 
+        either false).
 ______________________________________________________________________________*/
 Gaps::Gaps(QString *string)
 {
   // let's create an empty vector :
   this->vec = std::vector<std::pair<int,int> >();
-  this->well_initialized = true;
+  this->_well_initialized = true;
 
   // let's initialize this vector from string :
   QStringList splitted_string = string->split(this->MAIN_SEPARATOR);
@@ -53,27 +53,27 @@ Gaps::Gaps(QString *string)
     {
         QStringList x0x1 = i->split(this->SECONDARY_SEPARATOR);
         int x0 = x0x1[0].toInt();
-        int x1 = x0x1[0].toInt();
+        int x1 = x0x1[1].toInt();
         this->vec.push_back( std::make_pair(x0,x1) );
 
         // see GAPS_STR format : x0 must be <= x1
         if (x0 > x1)
         {
-          this->well_initialized = false;
+          this->_well_initialized = false;
         }
     }
 
   // see GAPS_STR format : at least one gap must be defined.
   if( this->vec.size() == 0 )
   {
-    this->well_initialized = false;
+    this->_well_initialized = false;
   }
 }
 
 /*______________________________________________________________________________
 
-        Gaps::toStr : return a QString representing the object according to
-                      the GAP_STR format (see above)                     
+        Gaps::toStr() : return a QString representing the object according to
+                        the GAP_STR format (see above)                     
 ______________________________________________________________________________*/
 QString Gaps::toStr(void)
 {
@@ -104,8 +104,8 @@ QString Gaps::toStr(void)
 
 /*______________________________________________________________________________
 
-        Gaps::is_inside : return either true if (int)v is inside one gap of the
-                          object, either false.
+        Gaps::is_inside() : return either true if (int)v is inside one gap of the
+                            object, either false.
 ______________________________________________________________________________*/
 bool Gaps::is_inside(int v)
 {
@@ -123,4 +123,14 @@ bool Gaps::is_inside(int v)
     }
 
   return res;
+}
+
+/*______________________________________________________________________________
+
+        Gaps::well_initialized() : return the value of the private attribute
+                                   this->_well_initialized.
+______________________________________________________________________________*/
+bool Gaps::well_initialized(void)
+{
+    return this-_well_initialized;
 }

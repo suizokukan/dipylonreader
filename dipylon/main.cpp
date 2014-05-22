@@ -28,6 +28,8 @@
 #include "qt/commentaryeditor.h"
 #include "qt/mainsplitter.h"
 
+#include "gaps.h"
+
 int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
