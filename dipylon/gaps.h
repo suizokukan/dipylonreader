@@ -31,20 +31,23 @@
     polymorphic abilities.
     E.g. see discussion here : http://stackoverflow.com/questions/4353203
 
-    ⇨ GAPS_STR format : "45-97", "45-97+123-136+999-1001", ...
-        no spaces allowed.
+    ⇨ overlapping is forbidden : "0…1+1…2" is ok, not "0…1+0…2", not "46…49+48…52"
+
+    ⇨ GAPS_STR format : "45…97", "45…97+123…136+999…1001", ...
+        no spaces allowed 
+        overlapping is forbidden (vide  supra) 
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
         at least one gap must be defined (no empty string)
-        x0 must be < x1 (no "45-22", no "45-45")
+        x0 must be < x1 (no "45…22", no "45…45")
 
     ⇨ how to use :
     #include "gaps.h"
 
-    QString str = QString("94-95+97-98+101-105");
+    QString str = QString("94…95+97…98+101…105");
     Gaps *g = new Gaps(&str);
     if( g->well_initialized() )
     {
-        qDebug() << g->toStr() << endl;
+        qDebug() << g->to_str() << endl;
         qDebug() << g->is_inside(100) << endl;
         qDebug() << g->is_inside(105) << endl;
         qDebug() << g->is_inside(106) << endl;
@@ -63,11 +66,12 @@ class Gaps
 {
     public:
         Gaps(QString*);
-        QString toStr(void);
+        QString to_str(void);
         int internal_state(void);
         bool is_inside(int);
         size_t size(void);
         bool well_initialized(void);
+        bool check_overlapping(void);
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;
@@ -76,6 +80,7 @@ class Gaps
         const int INTERNALSTATE_SECONDSEP = 3;
         const int INTERNALSTATE_X0X1 = 4;
         const int INTERNALSTATE_EMPTYVEC = 5;
+        const int INTERNALSTATE_OVERLAPPING = 6;
 
     private:
         int _internal_state;
@@ -84,7 +89,7 @@ class Gaps
 
         // for more details, see the GAPS_STR format :
         const char* MAIN_SEPARATOR = "+";
-        const char* SECONDARY_SEPARATOR = "-";
+        const char* SECONDARY_SEPARATOR = "…";
 };
 
 #endif

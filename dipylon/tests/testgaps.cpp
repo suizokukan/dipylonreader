@@ -17,11 +17,23 @@ private slots:
     {}
 
     /*
+        A Gaps object is created from a normal string with two adjacent characters.
+    */
+    void test0()
+    { 
+      QString str = QString("0…1+1…2");
+      Gaps g(&str);
+
+      QVERIFY( g.well_initialized() == true );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
+    }
+
+    /*
         A Gaps object is created from a normal string.
     */
     void test1()
     { 
-      QString str = QString("94-98+99-100+101-105+123-125");
+      QString str = QString("94…98+99…100+101…105+123…125");
       Gaps g(&str);
 
       QVERIFY( g.well_initialized() == true );
@@ -40,7 +52,7 @@ private slots:
     */
     void test2()
     { 
-      QString str = QString("  94- 95 +   97  -  98 +  101 -  105  ");
+      QString str = QString("  94… 95 +   97  …  98 +  101 …  105  ");
       Gaps g(&str);
 
       QVERIFY( g.well_initialized() == true );
@@ -72,7 +84,7 @@ private slots:
     */
     void test4a()
     { 
-      QString str = QString("49-");
+      QString str = QString("49…");
       Gaps g(&str);
 
       QVERIFY( g.well_initialized() == false );
@@ -84,7 +96,7 @@ private slots:
     */
     void test4b()
     { 
-      QString str = QString("49-89+145");
+      QString str = QString("49…89+145");
       Gaps g(&str);
 
       QVERIFY( g.well_initialized() == false );
@@ -96,7 +108,7 @@ private slots:
     */
     void test4c()
     { 
-      QString str = QString("49-89+144-144");
+      QString str = QString("49…89+144…144");
       Gaps g(&str);
 
       QVERIFY( g.well_initialized() == false );
@@ -108,11 +120,35 @@ private slots:
     */
     void test4d()
     { 
-      QString str = QString("49-89+144-143");
+      QString str = QString("49…89+144…143");
       Gaps g(&str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
+    }
+
+    /*
+        A Gaps object is created with overlapping gaps -> error
+    */
+    void test5a()
+    { 
+      QString str = QString("49…89+50…150");
+      Gaps g(&str);
+
+      QVERIFY( g.well_initialized() == false );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
+    }
+
+    /*
+        A Gaps object is created with overlapping gaps -> error
+    */
+    void test5b()
+    { 
+      QString str = QString("49…89+95…150+3…50");
+      Gaps g(&str);
+
+      QVERIFY( g.well_initialized() == false );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
     }
 
     void cleanupTestCase()

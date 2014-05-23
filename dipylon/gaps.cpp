@@ -101,10 +101,54 @@ Gaps::Gaps(QString *src_qstring)
 
   // see GAPS_STR format : at least one gap must be defined.
   if( this->vec.size() == 0 )
-    {
+  {
       this->_well_initialized = false;
       this->_internal_state = this->INTERNALSTATE_EMPTYVEC;
+      return ;
+  }
+
+  // last check : no overlapping ?
+  if ( this->check_overlapping() == true )
+  {
+    this->_well_initialized = false;
+    this->_internal_state = this->INTERNALSTATE_OVERLAPPING;
+  }
+}
+
+/*______________________________________________________________________________
+
+        Gaps::internal_state() : return true if two gaps or more overlap 
+                                 themselves.
+______________________________________________________________________________*/
+bool Gaps::check_overlapping(void)
+{
+  bool res = false;
+
+  std::vector < std::pair<int,int> >::iterator i;
+  std::vector < std::pair<int,int> >::iterator j;
+
+  for (i = this->vec.begin(); i != this->vec.end(); ++i)
+  {
+    for (j = this->vec.begin(); j != this->vec.end(); ++j)
+    {
+      if( i != j )
+      {
+        if( ((i->first < j->first) && (j->first < i->second)) ||
+            ((i->first < j->second) && (j->second < i->second)) )
+        {
+          res = true;
+          break;
+        }
+      }
     }
+
+    if( res == true )
+    {
+      break;
+    }
+  }
+
+  return res;
 }
 
 /*______________________________________________________________________________
@@ -155,10 +199,10 @@ size_t Gaps::size(void)
 
 /*______________________________________________________________________________
 
-        Gaps::toStr() : return a QString representing the object according to
+        Gaps::to_str() : return a QString representing the object according to
                         the GAP_STR format (see above)                     
 ______________________________________________________________________________*/
-QString Gaps::toStr(void)
+QString Gaps::to_str(void)
 {
   QString res("");
 
