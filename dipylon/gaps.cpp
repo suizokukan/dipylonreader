@@ -43,7 +43,7 @@
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-Gaps::Gaps(QString *src_qstring)
+Gaps::Gaps(const QString *src_qstring)
 {
   // we create an empty vector :
   this->vec = std::vector<std::pair<int,int> >();
@@ -218,9 +218,9 @@ QString Gaps::to_str(void)
   for (i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       res += QString().number( i->first );
-      res += this->MAIN_SEPARATOR;
-      res += QString().number( i->second );
       res += this->SECONDARY_SEPARATOR;
+      res += QString().number( i->second );
+      res += this->MAIN_SEPARATOR;
     }
 
   // removing the last SECONDARY_SEPARATOR character :
@@ -237,4 +237,22 @@ ______________________________________________________________________________*/
 bool Gaps::well_initialized(void)
 {
     return this->_well_initialized;
+}
+
+/*______________________________________________________________________________
+
+        Gaps::==() : defines the comparison between two Gaps objects
+______________________________________________________________________________*/
+bool Gaps::operator==(const Gaps& aliud)
+{
+  return (this->_well_initialized == aliud._well_initialized) && (this->vec == aliud.vec);
+}
+
+/*______________________________________________________________________________
+
+        Gaps::!=() : defines the comparison between two Gaps objects
+______________________________________________________________________________*/
+bool Gaps::operator!=(const Gaps& aliud)
+{
+  return !(this->operator==(aliud));
 }

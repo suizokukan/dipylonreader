@@ -65,13 +65,16 @@
 class Gaps
 {
     public:
-        Gaps(QString*);
+        Gaps(const QString*);
         QString to_str(void);
         int internal_state(void);
         bool is_inside(int);
         size_t size(void);
         bool well_initialized(void);
         bool check_overlapping(void);
+
+        bool operator==(const Gaps& aliud);
+        bool operator!=(const Gaps& aliud);
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;

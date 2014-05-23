@@ -13,9 +13,6 @@ class TestGaps: public QObject
 
 private slots:
 
-    void initTestCase()
-    {}
-
     /*
         A Gaps object is created from a normal string with two adjacent characters.
     */
@@ -26,6 +23,7 @@ private slots:
 
       QVERIFY( g.well_initialized() == true );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
+      QCOMPARE( g.to_str(), str );
     }
 
     /*
@@ -39,6 +37,7 @@ private slots:
       QVERIFY( g.well_initialized() == true );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
       QVERIFY( g.size() == 4 );
+      QCOMPARE( g.to_str(), str );
 
       QVERIFY( g.is_inside(0) == false );
       QVERIFY( g.is_inside(97) == true );
@@ -54,6 +53,7 @@ private slots:
     { 
       QString str = QString("  94… 95 +   97  …  98 +  101 …  105  ");
       Gaps g(&str);
+      QCOMPARE( g.to_str(), QString("94…95+97…98+101…105") );
 
       QVERIFY( g.well_initialized() == true );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
@@ -151,8 +151,31 @@ private slots:
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
     }
 
-    void cleanupTestCase()
-    {}
+    /*
+        testing the == operator with two equivalent Gaps objects
+    */
+    void test6a()
+    { 
+      QString str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+      Gaps g1(&str1);
+      QString str2 = QString("94…95+97…98+101…105");
+      Gaps g2(&str2);
+
+      QVERIFY( g1 == g2 );
+    }
+
+    /*
+        testing the != operator with two equivalent Gaps objects
+    */
+    void test6b()
+    { 
+      QString str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+      Gaps g1(&str1);
+      QString str2 = QString("94…95+97…98+101…106");
+      Gaps g2(&str2);
+
+      QVERIFY( g1 != g2 );
+    }
 };
 
 QTEST_MAIN(TestGaps)
