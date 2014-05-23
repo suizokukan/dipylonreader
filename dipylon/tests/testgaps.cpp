@@ -18,8 +18,8 @@ private slots:
     */
     void test0()
     { 
-      QString str = QString("0…1+1…2");
-      Gaps g(&str);
+      const QString& str = QString("0…1+1…2");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == true );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
@@ -31,8 +31,8 @@ private slots:
     */
     void test1()
     { 
-      QString str = QString("94…98+99…100+101…105+123…125");
-      Gaps g(&str);
+      const QString& str = QString("94…98+99…100+101…105+123…125");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == true );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
@@ -51,8 +51,8 @@ private slots:
     */
     void test2()
     { 
-      QString str = QString("  94… 95 +   97  …  98 +  101 …  105  ");
-      Gaps g(&str);
+      const QString& str = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+      Gaps g(str);
       QCOMPARE( g.to_str(), QString("94…95+97…98+101…105") );
 
       QVERIFY( g.well_initialized() == true );
@@ -72,8 +72,8 @@ private slots:
     */
     void test3()
     { 
-      QString str = QString("");
-      Gaps g(&str);
+      const QString& str = QString("");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_EMPTYSTR );
@@ -84,8 +84,8 @@ private slots:
     */
     void test4a()
     { 
-      QString str = QString("49…");
-      Gaps g(&str);
+      const QString& str = QString("49…");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
@@ -96,8 +96,8 @@ private slots:
     */
     void test4b()
     { 
-      QString str = QString("49…89+145");
-      Gaps g(&str);
+      const QString& str = QString("49…89+145");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_SECONDSEP );
@@ -108,8 +108,8 @@ private slots:
     */
     void test4c()
     { 
-      QString str = QString("49…89+144…144");
-      Gaps g(&str);
+      const QString& str = QString("49…89+144…144");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
@@ -120,8 +120,8 @@ private slots:
     */
     void test4d()
     { 
-      QString str = QString("49…89+144…143");
-      Gaps g(&str);
+      const QString& str = QString("49…89+144…143");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
@@ -132,8 +132,8 @@ private slots:
     */
     void test5a()
     { 
-      QString str = QString("49…89+50…150");
-      Gaps g(&str);
+      const QString& str = QString("49…89+50…150");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
@@ -144,8 +144,8 @@ private slots:
     */
     void test5b()
     { 
-      QString str = QString("49…89+95…150+3…50");
-      Gaps g(&str);
+      const QString& str = QString("49…89+95…150+3…50");
+      Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
       QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
@@ -156,10 +156,10 @@ private slots:
     */
     void test6a()
     { 
-      QString str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
-      Gaps g1(&str1);
-      QString str2 = QString("94…95+97…98+101…105");
-      Gaps g2(&str2);
+      const QString& str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+      Gaps g1(str1);
+      const QString& str2 = QString("94…95+97…98+101…105");
+      Gaps g2(str2);
 
       QVERIFY( g1 == g2 );
     }
@@ -169,10 +169,10 @@ private slots:
     */
     void test6b()
     { 
-      QString str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
-      Gaps g1(&str1);
-      QString str2 = QString("94…95+97…98+101…106");
-      Gaps g2(&str2);
+      const QString& str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+      Gaps g1(str1);
+      const QString& str2 = QString("94…95+97…98+101…106");
+      Gaps g2(str2);
 
       QVERIFY( g1 != g2 );
     }

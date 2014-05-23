@@ -43,13 +43,13 @@
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-Gaps::Gaps(const QString *src_qstring)
+Gaps::Gaps(const QString& src_qstring)
 {
   // we create an empty vector :
   this->vec = std::vector<std::pair<int,int> >();
 
   // error : if src_qstring is empty, the initialisation can't be correct :
-  this->_well_initialized = (src_qstring->size() > 0);
+  this->_well_initialized = (src_qstring.size() > 0);
   
   // shall we go further ?
   if( this->_well_initialized == false )
@@ -62,7 +62,7 @@ Gaps::Gaps(const QString *src_qstring)
   this->_internal_state = this->INTERNALSTATE_OK;
 
   // let's initialize this vector from src_qstring :
-  QStringList splitted_strings = src_qstring->split(this->MAIN_SEPARATOR);
+  QStringList splitted_strings = src_qstring.split(this->MAIN_SEPARATOR);
   if( splitted_strings.length() == 0 )
   {
     // error : ill-formed src_qstring (no MAIN_SEPARATOR)

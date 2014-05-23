@@ -76,6 +76,17 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
+    const QString& str = QString("94…95+97…98+101…105");
+    Gaps *g = new Gaps(str);
+    if( g->well_initialized() )
+    {
+        qDebug() << g->to_str() << endl;
+        qDebug() << g->is_inside(100) << endl;
+        qDebug() << g->is_inside(105) << endl;
+        qDebug() << g->is_inside(106) << endl;
+    }
+    delete g;
+
     /*
     Gaps2Str gaps2str = Gaps2Str();
     QString q1("89-91+101-105");

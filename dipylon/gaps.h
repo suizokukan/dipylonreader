@@ -43,8 +43,8 @@
     ⇨ how to use :
     #include "gaps.h"
 
-    QString str = QString("94…95+97…98+101…105");
-    Gaps *g = new Gaps(&str);
+    QString& str = QString("94…95+97…98+101…105");
+    Gaps *g = new Gaps(str);
     if( g->well_initialized() )
     {
         qDebug() << g->to_str() << endl;
@@ -65,7 +65,7 @@
 class Gaps
 {
     public:
-        Gaps(const QString*);
+        Gaps(const QString&);
         QString to_str(void);
         int internal_state(void);
         bool is_inside(int);
