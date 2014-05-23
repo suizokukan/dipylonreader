@@ -26,10 +26,14 @@
       After beeing initialized, check the (bool)well_initialized attribute.
 
     ⇨ about the implementation : std::vector<std::pair<int,int> > has not been
-    derived to get the Gaps class. Deriving std containers isn't a good
-    idea since these classes have no virtual destructor, hence no real
-    polymorphic abilities.
-    E.g. see discussion here : http://stackoverflow.com/questions/4353203
+      derived to get the Gaps class. Deriving std containers isn't a good
+      idea since these classes have no virtual destructor, hence no real
+      polymorphic abilities.
+      E.g. see discussion here : http://stackoverflow.com/questions/4353203
+
+    ⇨ about the implementation : no virtual destructor has been added : Gaps
+      objects can't be safely used to create subclasses.
+      E.g. see discussion here : http://stackoverflow.com/questions/461203
 
     ⇨ overlapping is forbidden : "0…1+1…2" is ok, not "0…1+0…2", not "46…49+48…52"
 
