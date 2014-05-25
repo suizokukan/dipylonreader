@@ -44,7 +44,7 @@
 ______________________________________________________________________________*/
 Gaps::Gaps(const QString& src_qstring)
 {
-  this->vec = new std::vector<std::pair<int,int> >();
+  this->vec = std::vector<std::pair<int,int> >();
   this->_internal_state = this->INTERNALSTATE_OK;
 
   // error : if src_qstring is empty, the initialisation can't be correct :
@@ -84,7 +84,7 @@ Gaps::Gaps(const QString& src_qstring)
       {
         int x0 = x0x1[0].toInt();
         int x1 = x0x1[1].toInt();
-        this->vec->push_back( std::make_pair(x0,x1) );
+        this->vec.push_back( std::make_pair(x0,x1) );
 
         // see GAPS_STR format : x0 must be < x1
         if (x0 >= x1)
@@ -98,7 +98,7 @@ Gaps::Gaps(const QString& src_qstring)
 
   // see GAPS_STR format : at least one gap must be defined.
   if( this->_well_initialized == true && 
-      this->vec->size() == 0 )
+      this->vec.size() == 0 )
   {
       this->_well_initialized = false;
       this->_internal_state = this->INTERNALSTATE_EMPTY;
@@ -124,7 +124,7 @@ Gaps::Gaps(const QString& src_qstring)
 ______________________________________________________________________________*/
 Gaps::Gaps(std::initializer_list< std::pair<int, int> > values)
 {
-  this->vec = new std::vector< std::pair<int, int> >(values);
+  this->vec = std::vector< std::pair<int, int> >(values);
   this->_internal_state = this->INTERNALSTATE_OK;
 
   // error : if values is empty, the initialisation can't be correct :
@@ -139,7 +139,7 @@ Gaps::Gaps(std::initializer_list< std::pair<int, int> > values)
   }
 
   // X0X1 test :
-  for (auto i = this->vec->begin(); i != this->vec->end(); ++i)
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
         if (i->first >= i->second)
           {
@@ -167,9 +167,9 @@ bool Gaps::check_overlapping(void)
   bool res = false;
 
   // i, j are std::vector < std::pair<int,int> >
-  for (auto i = this->vec->begin(); i != this->vec->end(); ++i)
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
   {
-    for (auto j = this->vec->begin(); j != this->vec->end(); ++j)
+    for (auto j = this->vec.begin(); j != this->vec.end(); ++j)
     {
       if( i != j )
       {
@@ -215,7 +215,7 @@ bool Gaps::is_inside(int v)
   bool res = false;
 
   // i is a std::vector < std::pair<int,int> > iterator.
-  for (auto i = this->vec->begin(); i != this->vec->end(); ++i)
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       if( (i->first <= v) && (v <= i->second) )
       {
@@ -233,7 +233,7 @@ bool Gaps::is_inside(int v)
 ______________________________________________________________________________*/
 size_t Gaps::size(void)
 {
-  return this->vec->size();
+  return this->vec.size();
 }
 
 /*______________________________________________________________________________
@@ -246,14 +246,14 @@ QString Gaps::to_str(void)
   QString res("");
 
   // empty vector ? nothing to do.
-  if( this->vec->empty() )
+  if( this->vec.empty() )
   {
     return res;
   }
 
   // we go through the object with an iterator :
   // i is a std::vector < std::pair<int,int> > iterator
-  for (auto i = this->vec->begin(); i != this->vec->end(); ++i)
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       res += QString().number( i->first );
       res += this->SECONDARY_SEPARATOR;
@@ -283,7 +283,7 @@ bool Gaps::well_initialized(void)
 ______________________________________________________________________________*/
 bool Gaps::operator==(const Gaps& aliud)
 {
-  return (this->_well_initialized == aliud._well_initialized) && (*(this->vec) == *(aliud.vec));
+  return (this->_well_initialized == aliud._well_initialized) && (this->vec == aliud.vec);
 }
 
 /*______________________________________________________________________________
@@ -303,7 +303,7 @@ std::size_t GapsHasher::operator()(const Gaps& k) const
 {
   {
     std::string h_string("");
-    for (auto i = k.vec->begin(); i != k.vec->end(); ++i)
+    for (auto i = k.vec.begin(); i != k.vec.end(); ++i)
     {
       h_string.push_back(65+i->first);
       h_string.push_back(32);

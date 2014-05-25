@@ -47,8 +47,12 @@
     ⇨ how to use :
     #include "gaps.h"
  
+    // either...
     const QString& str = QString("94…95+97…98+101…105");
     Gaps *g = new Gaps(str);
+    // ... either :
+    Gaps g( { {94,95} , {97,98}, {101,105} } );
+
     if( g->well_initialized() )
     {
         qDebug() << g->to_str() << endl;
@@ -92,7 +96,7 @@ class Gaps
         const int INTERNALSTATE_OVERLAPPING = 5;
 
     private:
-        std::vector<std::pair<int,int> >* vec;
+        std::vector<std::pair<int,int> > vec;
         int _internal_state;
         bool _well_initialized;
 

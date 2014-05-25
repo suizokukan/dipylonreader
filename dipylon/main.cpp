@@ -31,6 +31,7 @@
 #include <unordered_map>
 
 #include "gaps.h"
+
 /*
 class Gaps2Str
 {
@@ -68,8 +69,8 @@ int Gaps2Str::internal_state(void)
 bool Gaps2Str::well_initialized(void)
 {
   return this->_well_initialized;
-}
-*/
+}*/
+
 int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
@@ -96,19 +97,6 @@ int main(int argv, char **args)
     { {{ {1,2}, {3,5} },}, "example2"},
     };
     */
-
-    #include "gaps.h"
- 
-    const QString& str = QString("94…95+97…98+101…105");
-    Gaps *g = new Gaps(str);
-    if( g->well_initialized() )
-    {
-        qDebug() << g->to_str() << endl;
-        qDebug() << g->is_inside(100) << endl;
-        qDebug() << g->is_inside(105) << endl;
-        qDebug() << g->is_inside(106) << endl;
-    }
-    delete g;
 
     QApplication app(argv, args);
 
