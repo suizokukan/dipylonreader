@@ -32,8 +32,6 @@
 #include <QString>
 #include <QStringList>
 
-#include <QtWidgets>
-
 /*______________________________________________________________________________
 
         Gaps::Gaps() (constructor from a QString). 
@@ -71,8 +69,8 @@ Gaps::Gaps(const QString& src_qstring)
     return;
   }
 
-  QStringList::const_iterator i;
-  for (i = splitted_strings.constBegin(); i != splitted_strings.constEnd(); ++i)
+  // i is a QStringList iterator :
+  for (auto i = splitted_strings.constBegin(); i != splitted_strings.constEnd(); ++i)
     {
       QStringList x0x1 = i->split(this->SECONDARY_SEPARATOR);
 
@@ -100,7 +98,8 @@ Gaps::Gaps(const QString& src_qstring)
     }
 
   // see GAPS_STR format : at least one gap must be defined.
-  if( this->vec.size() == 0 )
+  if( this->_well_initialized == true && 
+      this->vec.size() == 0 )
   {
       this->_well_initialized = false;
       this->_internal_state = this->INTERNALSTATE_EMPTYVEC;
@@ -124,12 +123,10 @@ bool Gaps::check_overlapping(void)
 {
   bool res = false;
 
-  std::vector < std::pair<int,int> >::iterator i;
-  std::vector < std::pair<int,int> >::iterator j;
-
-  for (i = this->vec.begin(); i != this->vec.end(); ++i)
+  // i, j are std::vector < std::pair<int,int> >
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
   {
-    for (j = this->vec.begin(); j != this->vec.end(); ++j)
+    for (auto j = this->vec.begin(); j != this->vec.end(); ++j)
     {
       if( i != j )
       {
@@ -174,9 +171,8 @@ bool Gaps::is_inside(int v)
 {
   bool res = false;
 
-  std::vector < std::pair<int,int> >::iterator i;
-
-  for (i = this->vec.begin(); i != this->vec.end(); ++i)
+  // i is a std::vector < std::pair<int,int> > iterator.
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       if( (i->first <= v) && (v <= i->second) )
       {
@@ -213,9 +209,8 @@ QString Gaps::to_str(void)
   }
 
   // we go through the object with an iterator :
-  std::vector < std::pair<int,int> >::iterator i;
-
-  for (i = this->vec.begin(); i != this->vec.end(); ++i)
+  // i is a std::vector < std::pair<int,int> > iterator
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       res += QString().number( i->first );
       res += this->SECONDARY_SEPARATOR;

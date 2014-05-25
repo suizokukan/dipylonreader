@@ -28,12 +28,14 @@
 #include "qt/commentaryeditor.h"
 #include "qt/mainsplitter.h"
 
+#include <unordered_map>
+
 #include "gaps.h"
 /*
 class Gaps2Str
 {
     public:
-        Gaps2Str(void);
+        Gaps2Str(int length);
         ~Gaps2Str(void);
         int add(const QString&, const QString&);
         int internal_state(void);
@@ -42,25 +44,25 @@ class Gaps2Str
     private:
         int _internal_state;
         bool _well_initialized;
-        std::map<int, QString> data;
+        std::unordered_map<Gaps, QString> data;
 
         const int INTERNALSTATE_OK = 0;
 };
-Gaps2Str::Gaps2Str(void)
+Gaps2Str::Gaps2Str(int length)
 {
-  // empty map :
+  // empty hash map, everything's ok :
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
-  this->data = std::map<int, QString>();
+  this->data = std::unordered_map<Gaps, QString>(length);
 }
 Gaps2Str::~Gaps2Str(void)
 {
 }
 int Gaps2Str::add(const QString& key, const QString& value)
 {
-  Gaps gaps_key = Gaps(&key);
-  qDebug() << "key=" << gaps_key.to_str() << endl;
-  this->data[ 3 ] = value;
+  // Gaps object corresponding the QString key :
+  Gaps gaps_key = Gaps(key);
+  this->data[gaps_key] = value;
   return this->_internal_state;
 }
 int Gaps2Str::internal_state(void)
@@ -76,25 +78,14 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-    const QString& str = QString("94…95+97…98+101…105");
-    Gaps *g = new Gaps(str);
-    if( g->well_initialized() )
-    {
-        qDebug() << g->to_str() << endl;
-        qDebug() << g->is_inside(100) << endl;
-        qDebug() << g->is_inside(105) << endl;
-        qDebug() << g->is_inside(106) << endl;
-    }
-    delete g;
-
-    /*
+/*
     Gaps2Str gaps2str = Gaps2Str();
-    QString q1("89-91+101-105");
+    QString q1("89…91+101…105+1000…1001");
     QString& qq1 = q1;
     QString q2("abc");
     QString& qq2 = q2;
     gaps2str.add( qq1, qq2 );
-    */
+*/
     QApplication app(argv, args);
 
     SourceEditor *src_editor = new SourceEditor;

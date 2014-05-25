@@ -32,3 +32,5 @@ http://qt-project.org/doc/qt-5/qtest-overview.html
 
 DOC operator overloading
 (excellent) http://stackoverflow.com/questions/4421706/operator-overloading/4421715#4421715
+
+pas d'appel à Boost.
