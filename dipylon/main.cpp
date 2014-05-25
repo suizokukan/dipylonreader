@@ -36,7 +36,6 @@ class Gaps2Str
 {
     public:
         Gaps2Str(int length);
-        ~Gaps2Str(void);
         int add(const QString&, const QString&);
         int internal_state(void);
         bool well_initialized(void);
@@ -44,7 +43,7 @@ class Gaps2Str
     private:
         int _internal_state;
         bool _well_initialized;
-        std::unordered_map<Gaps, QString> data;
+        std::unordered_map<Gaps, QString, GapsHasher> data;
 
         const int INTERNALSTATE_OK = 0;
 };
@@ -53,10 +52,7 @@ Gaps2Str::Gaps2Str(int length)
   // empty hash map, everything's ok :
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
-  this->data = std::unordered_map<Gaps, QString>(length);
-}
-Gaps2Str::~Gaps2Str(void)
-{
+  this->data = std::unordered_map<Gaps, QString, GapsHasher>(length);
 }
 int Gaps2Str::add(const QString& key, const QString& value)
 {
@@ -78,14 +74,42 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-/*
-    Gaps2Str gaps2str = Gaps2Str();
+    //std::unordered_map<Gaps, QString, GapsHasher> m;
+    //m.insert[ {{ {1,2}, {3,6} }} ] =  QString("abc");
+    /*
+    std::unordered_map<Gaps, std::string, GapsHasher> m;
+    Gaps gaps("12-13");
+    m[ gaps ] =  "abc";
+    */
+
+    /*Gaps2Str gaps2str = Gaps2Str(1000);
     QString q1("89…91+101…105+1000…1001");
     QString& qq1 = q1;
     QString q2("abc");
     QString& qq2 = q2;
     gaps2str.add( qq1, qq2 );
-*/
+    */
+
+    /*
+    std::unordered_map<Gaps, std::string, GapsHasher> m6 = {
+    { {{ {1,2}, {3,4} },}, "example1"},
+    { {{ {1,2}, {3,5} },}, "example2"},
+    };
+    */
+
+    #include "gaps.h"
+ 
+    const QString& str = QString("94…95+97…98+101…105");
+    Gaps *g = new Gaps(str);
+    if( g->well_initialized() )
+    {
+        qDebug() << g->to_str() << endl;
+        qDebug() << g->is_inside(100) << endl;
+        qDebug() << g->is_inside(105) << endl;
+        qDebug() << g->is_inside(106) << endl;
+    }
+    delete g;
+
     QApplication app(argv, args);
 
     SourceEditor *src_editor = new SourceEditor;

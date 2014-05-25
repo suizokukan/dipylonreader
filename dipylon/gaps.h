@@ -46,8 +46,8 @@
 
     ⇨ how to use :
     #include "gaps.h"
-
-    QString& str = QString("94…95+97…98+101…105");
+ 
+    const QString& str = QString("94…95+97…98+101…105");
     Gaps *g = new Gaps(str);
     if( g->well_initialized() )
     {
@@ -68,8 +68,11 @@
 
 class Gaps
 {
+  friend class GapsHasher;
+
     public:
-        Gaps(const QString&);
+        Gaps(const QString& src_qstring);
+        Gaps(std::initializer_list< std::pair<int, int> >);
         QString to_str(void);
         int internal_state(void);
         bool is_inside(int);
@@ -82,21 +85,25 @@ class Gaps
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;
-        const int INTERNALSTATE_EMPTYSTR = 1;
-        const int INTERNALSTATE_NOMAINSEP = 2;
-        const int INTERNALSTATE_SECONDSEP = 3;
-        const int INTERNALSTATE_X0X1 = 4;
-        const int INTERNALSTATE_EMPTYVEC = 5;
-        const int INTERNALSTATE_OVERLAPPING = 6;
+        const int INTERNALSTATE_NOMAINSEP = 1;
+        const int INTERNALSTATE_SECONDSEP = 2;
+        const int INTERNALSTATE_X0X1 = 3;
+        const int INTERNALSTATE_EMPTY = 4;
+        const int INTERNALSTATE_OVERLAPPING = 5;
 
     private:
+        std::vector<std::pair<int,int> >* vec;
         int _internal_state;
         bool _well_initialized;
-        std::vector<std::pair<int,int> > vec;
 
         // for more details, see the GAPS_STR format :
         const char* MAIN_SEPARATOR = "+";
         const char* SECONDARY_SEPARATOR = "…";
+};
+
+struct GapsHasher
+{
+  std::size_t operator()(const Gaps& k) const;
 };
 
 #endif

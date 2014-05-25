@@ -76,7 +76,7 @@ private slots:
       Gaps g(str);
 
       QVERIFY( g.well_initialized() == false );
-      QVERIFY( g.internal_state() == g.INTERNALSTATE_EMPTYSTR );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_EMPTY );
     }
 
     /*
@@ -175,6 +175,47 @@ private slots:
       Gaps g2(str2);
 
       QVERIFY( g1 != g2 );
+    }
+
+    /*
+        a Gaps object is created from a list of pair of integers, no problem.
+    */
+    void test7a()
+    { 
+      Gaps g( { {1,2}, {4,5}, {10,11}, {99,101} } );
+      QVERIFY( g.well_initialized() == true );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
+      QVERIFY( g.size() == 4 );
+    }
+
+    /*
+        a Gaps object is created from an empty list of pair of integers -> error
+    */
+    void test7b()
+    { 
+      Gaps g( {} );
+      QVERIFY( g.well_initialized() == false );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_EMPTY );
+    }
+
+    /*
+        a Gaps object is created from a wrong list of pair of integers -> error
+    */
+    void test7c()
+    { 
+      Gaps g( { {10,20}, {15,25} } );
+      QVERIFY( g.well_initialized() == false );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
+    }
+
+    /*
+        a Gaps object is created from a wrong list of pair of integers -> error
+    */
+    void test7d()
+    { 
+      Gaps g( { {20,10}, {150,250} } );
+      QVERIFY( g.well_initialized() == false );
+      QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
     }
 };
 
