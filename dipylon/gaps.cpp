@@ -122,9 +122,8 @@ Gaps::Gaps(const QString& src_qstring)
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-Gaps::Gaps(std::initializer_list< std::pair<int, int> > values)
+Gaps::Gaps(std::initializer_list< std::pair<int, int> > values) : vec(values)
 {
-  this->vec = std::vector< std::pair<int, int> >(values);
   this->_internal_state = this->INTERNALSTATE_OK;
 
   // error : if values is empty, the initialisation can't be correct :
