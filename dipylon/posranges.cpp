@@ -19,13 +19,13 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : gaps.cpp
+    ❏Dipylon❏ : posranges.cpp
 
-    see gaps.h for the documentation
+    see posranges.h for the documentation
 
 *******************************************************************************/
 
-#include "gaps.h"
+#include "posranges.h"
 #include "hash.h"
 
 #include <vector>
@@ -36,14 +36,14 @@
 
 /*______________________________________________________________________________
 
-        int Gaps::Gaps : constructor from a QString.
+        int PosRanges::PosRanges : constructor from a QString.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
 
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-Gaps::Gaps(const QString& src_qstring)
+PosRanges::PosRanges(const QString& src_qstring)
 {
   this->vec = std::vector<std::pair<int,int> >();
   this->_well_initialized = true;
@@ -87,7 +87,7 @@ Gaps::Gaps(const QString& src_qstring)
       }
     }
 
-  // see GAPS_STR format : at least one gap must be defined.
+  // see POSRANGES_STR format : at least one gap must be defined.
   if( this->_well_initialized == true && this->vec.size() == 0 )
   {
       this->_well_initialized = false;
@@ -101,14 +101,14 @@ Gaps::Gaps(const QString& src_qstring)
 
 /*______________________________________________________________________________
 
-        int Gaps::Gaps : constructor from a list of pair of integers.
+        int PosRanges::PosRanges : constructor from a list of pair of integers.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
 
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-Gaps::Gaps(std::initializer_list< std::pair<int, int> > values) : vec(values)
+PosRanges::PosRanges(std::initializer_list< std::pair<int, int> > values) : vec(values)
 {
   this->_internal_state = this->INTERNALSTATE_OK;
 
@@ -129,14 +129,14 @@ Gaps::Gaps(std::initializer_list< std::pair<int, int> > values) : vec(values)
 
 /*______________________________________________________________________________
 
-        Gaps::checks() : do some tests and modified _well_initialized and
+        PosRanges::checks() : do some tests and modified _well_initialized and
                          _internal_state if something's wrong.
 
         tests :
         if x0 >= x1 -> error, INTERNALSTATE_X0X1
         if one range overlaps another one, error -> INTERNALSTATE_OVERLAPPING
 ______________________________________________________________________________*/
-void Gaps::checks(void)
+void PosRanges::checks(void)
 {
   /* 
         X0X1 test :
@@ -175,24 +175,24 @@ void Gaps::checks(void)
 
 /*______________________________________________________________________________
 
-        Gaps::internal_state() : return the value of the private attribute
+        PosRanges::internal_state() : return the value of the private attribute
                                  this->_internal_state
 
                                  see INTERNALSTATE_* constants.
 
         NB : this function is debug-intended.
 ______________________________________________________________________________*/
-int Gaps::internal_state(void)
+int PosRanges::internal_state(void)
 {
   return this->_internal_state;
 }
 
 /*______________________________________________________________________________
 
-        Gaps::is_inside() : return either true if (int)v is inside one gap of the
+        PosRanges::is_inside() : return either true if (int)v is inside one gap of the
                             object, either false.
 ______________________________________________________________________________*/
-bool Gaps::is_inside(int v)
+bool PosRanges::is_inside(int v)
 {
   bool res = false;
 
@@ -211,19 +211,19 @@ bool Gaps::is_inside(int v)
 
 /*______________________________________________________________________________
 
-        Gaps::size() : return the size of the (private)vec.
+        PosRanges::size() : return the size of the (private)vec.
 ______________________________________________________________________________*/
-size_t Gaps::size(void)
+size_t PosRanges::size(void)
 {
   return this->vec.size();
 }
 
 /*______________________________________________________________________________
 
-        Gaps::to_str() : return a QString representing the object according to
+        PosRanges::to_str() : return a QString representing the object according to
                         the GAP_STR format (see above)                     
 ______________________________________________________________________________*/
-QString Gaps::to_str(void)
+QString PosRanges::to_str(void)
 {
   QString res("");
 
@@ -251,40 +251,40 @@ QString Gaps::to_str(void)
 
 /*______________________________________________________________________________
 
-        Gaps::well_initialized() : return the value of the private attribute
+        PosRanges::well_initialized() : return the value of the private attribute
                                    this->_well_initialized.
 ______________________________________________________________________________*/
-bool Gaps::well_initialized(void)
+bool PosRanges::well_initialized(void)
 {
     return this->_well_initialized;
 }
 
 /*______________________________________________________________________________
 
-        Gaps::==() : defines the comparison between two Gaps objects
+        PosRanges::==() : defines the comparison between two PosRanges objects
 ______________________________________________________________________________*/
-bool Gaps::operator==(const Gaps& aliud)
+bool PosRanges::operator==(const PosRanges& aliud)
 {
   return (this->_well_initialized == aliud._well_initialized) && (this->vec == aliud.vec);
 }
 
 /*______________________________________________________________________________
 
-        Gaps::!=() : defines the comparison between two Gaps objects
+        PosRanges::!=() : defines the comparison between two PosRanges objects
 ______________________________________________________________________________*/
-bool Gaps::operator!=(const Gaps& aliud)
+bool PosRanges::operator!=(const PosRanges& aliud)
 {
   return !(this->operator==(aliud));
 }
 
 /*______________________________________________________________________________
 
-        GapsHasher::operator()
+        PosRangesHasher::operator()
 
         from a David Schwartz idea (http://stackoverflow.com/questions/23859844)
 
 ______________________________________________________________________________*/
-std::size_t GapsHasher::operator()(const Gaps& k) const
+std::size_t PosRangesHasher::operator()(const PosRanges& k) const
 {
   {
     std::size_t hash = 0;

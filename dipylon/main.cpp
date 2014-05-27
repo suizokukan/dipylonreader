@@ -30,13 +30,13 @@
 
 #include <unordered_map>
 
-#include "gaps.h"
+#include "posranges.h"
 
 /*
-class Gaps2Str
+class PosRanges2Str
 {
     public:
-        Gaps2Str(int length);
+        PosRanges2Str(int length);
         int add(const QString&, const QString&);
         int internal_state(void);
         bool well_initialized(void);
@@ -44,29 +44,29 @@ class Gaps2Str
     private:
         int _internal_state;
         bool _well_initialized;
-        std::unordered_map<Gaps, QString, GapsHasher> data;
+        std::unordered_map<PosRanges, QString, PosRangesHasher> data;
 
         const int INTERNALSTATE_OK = 0;
 };
-Gaps2Str::Gaps2Str(int length)
+PosRanges2Str::PosRanges2Str(int length)
 {
   // empty hash map, everything's ok :
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
-  this->data = std::unordered_map<Gaps, QString, GapsHasher>(length);
+  this->data = std::unordered_map<PosRanges, QString, PosRangesHasher>(length);
 }
-int Gaps2Str::add(const QString& key, const QString& value)
+int PosRanges2Str::add(const QString& key, const QString& value)
 {
-  // Gaps object corresponding the QString key :
-  Gaps gaps_key = Gaps(key);
-  this->data[gaps_key] = value;
+  // PosRanges object corresponding the QString key :
+  PosRanges posranges_key = PosRanges(key);
+  this->data[posranges_key] = value;
   return this->_internal_state;
 }
-int Gaps2Str::internal_state(void)
+int PosRanges2Str::internal_state(void)
 {
   return this->_internal_state;
 }
-bool Gaps2Str::well_initialized(void)
+bool PosRanges2Str::well_initialized(void)
 {
   return this->_well_initialized;
 }*/
@@ -75,24 +75,24 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-    //std::unordered_map<Gaps, QString, GapsHasher> m;
+    //std::unordered_map<PosRanges, QString, PosRangesHasher> m;
     //m.insert[ {{ {1,2}, {3,6} }} ] =  QString("abc");
     /*
-    std::unordered_map<Gaps, std::string, GapsHasher> m;
-    Gaps gaps("12-13");
-    m[ gaps ] =  "abc";
+    std::unordered_map<PosRanges, std::string, PosRangesHasher> m;
+    PosRanges posranges("12-13");
+    m[ posranges ] =  "abc";
     */
 
-    /*Gaps2Str gaps2str = Gaps2Str(1000);
+    /*PosRanges2Str posranges2str = PosRanges2Str(1000);
     QString q1("89…91+101…105+1000…1001");
     QString& qq1 = q1;
     QString q2("abc");
     QString& qq2 = q2;
-    gaps2str.add( qq1, qq2 );
+    posranges2str.add( qq1, qq2 );
     */
 
     /*
-    std::unordered_map<Gaps, std::string, GapsHasher> m6 = {
+    std::unordered_map<PosRanges, std::string, PosRangesHasher> m6 = {
     { {{ {1,2}, {3,4} },}, "example1"},
     { {{ {1,2}, {3,5} },}, "example2"},
     };

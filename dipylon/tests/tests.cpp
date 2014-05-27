@@ -27,13 +27,13 @@
 
 #include <QTest>
 
-#include "testgaps.h"
+#include "testposranges.h"
 #include "testhash.h"
 
 int main(void)
 {
-  TestGaps testgaps;
-  QTest::qExec(&testgaps);
+  TestPosRanges testposranges;
+  QTest::qExec(&testposranges);
 
   TestHash testhash;
   QTest::qExec(&testhash);

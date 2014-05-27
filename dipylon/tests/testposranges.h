@@ -19,22 +19,22 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testgaps.h
+    ❏Dipylon❏ : tests/testposranges.h
 
-    ⇨ tests for Gaps objects.
+    ⇨ tests for PosRanges objects.
 
 *********************************************************************************/
 
-#include "../gaps.h"
+#include "../posranges.h"
 
 #include <QtTest/QtTest>
 
 /*______________________________________________________________________________
 
-        TestGaps class : test of Gaps module.
+        TestPosRanges class : test of PosRanges module.
 
 ______________________________________________________________________________*/
-class TestGaps: public QObject
+class TestPosRanges: public QObject
 {
     Q_OBJECT
 

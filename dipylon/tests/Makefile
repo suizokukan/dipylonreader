@@ -46,16 +46,16 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = tests.cpp \
-		testgaps.cpp \
+		testposranges.cpp \
 		testhash.cpp \
-		../gaps.cpp moc_testhash.cpp \
-		moc_testgaps.cpp
+		../posranges.cpp moc_testhash.cpp \
+		moc_testposranges.cpp
 OBJECTS       = tests.o \
-		testgaps.o \
+		testposranges.o \
 		testhash.o \
-		gaps.o \
+		posranges.o \
 		moc_testhash.o \
-		moc_testgaps.o
+		moc_testposranges.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/shell-unix.conf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
@@ -417,7 +417,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/tests1.0.0 || mkdir -p .tmp/tests1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../gaps.h ../hash.h testhash.h testgaps.h .tmp/tests1.0.0/ && $(COPY_FILE) --parents tests.cpp testgaps.cpp testhash.cpp ../gaps.cpp .tmp/tests1.0.0/ && (cd `dirname .tmp/tests1.0.0` && $(TAR) tests1.0.0.tar tests1.0.0 && $(COMPRESS) tests1.0.0.tar) && $(MOVE) `dirname .tmp/tests1.0.0`/tests1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/tests1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../posranges.h ../hash.h testhash.h testposranges.h .tmp/tests1.0.0/ && $(COPY_FILE) --parents tests.cpp testposranges.cpp testhash.cpp ../posranges.cpp .tmp/tests1.0.0/ && (cd `dirname .tmp/tests1.0.0` && $(TAR) tests1.0.0.tar tests1.0.0 && $(COMPRESS) tests1.0.0.tar) && $(MOVE) `dirname .tmp/tests1.0.0`/tests1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/tests1.0.0
 
 
 clean:compiler_clean 
@@ -440,9 +440,9 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_testhash.cpp moc_testgaps.cpp
+compiler_moc_header_make_all: moc_testhash.cpp moc_testposranges.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_testhash.cpp moc_testgaps.cpp
+	-$(DEL_FILE) moc_testhash.cpp moc_testposranges.cpp
 moc_testhash.cpp: ../hash.h \
 		/usr/include/qt/QtTest/QtTest \
 		/usr/include/qt/QtTest/QtTestDepends \
@@ -696,7 +696,7 @@ moc_testhash.cpp: ../hash.h \
 		testhash.h
 	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include testhash.h -o moc_testhash.cpp
 
-moc_testgaps.cpp: ../gaps.h \
+moc_testposranges.cpp: ../posranges.h \
 		/usr/include/qt/QtCore/QString \
 		/usr/include/qt/QtCore/qstring.h \
 		/usr/include/qt/QtCore/qchar.h \
@@ -947,8 +947,8 @@ moc_testgaps.cpp: ../gaps.h \
 		/usr/include/qt/QtCore/QDebug \
 		/usr/include/qt/QtTest/qtesttouch.h \
 		/usr/include/qt/QtTest/qttestversion.h \
-		testgaps.h
-	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include testgaps.h -o moc_testgaps.cpp
+		testposranges.h
+	/usr/lib/qt/bin/moc $(DEFINES) $(INCPATH) -I/usr/lib/gcc/include/c++/4.8.2 -I/usr/lib/gcc/include/c++/4.8.2/x86_64-unknown-linux-gnu -I/usr/lib/gcc/include/c++/4.8.2/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include-fixed -I/usr/include testposranges.h -o moc_testposranges.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1106,8 +1106,8 @@ tests.o: tests.cpp /usr/include/qt/QtTest/QTest \
 		/usr/include/qt/QtTest/qtestmouse.h \
 		/usr/include/qt/QtCore/QDebug \
 		/usr/include/qt/QtTest/qtesttouch.h \
-		testgaps.h \
-		../gaps.h \
+		testposranges.h \
+		../posranges.h \
 		/usr/include/qt/QtCore/QString \
 		/usr/include/qt/QtTest/QtTest \
 		/usr/include/qt/QtTest/QtTestDepends \
@@ -1221,8 +1221,8 @@ tests.o: tests.cpp /usr/include/qt/QtTest/QTest \
 		../hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tests.o tests.cpp
 
-testgaps.o: testgaps.cpp testgaps.h \
-		../gaps.h \
+testposranges.o: testposranges.cpp testposranges.h \
+		../posranges.h \
 		/usr/include/qt/QtCore/QString \
 		/usr/include/qt/QtCore/qstring.h \
 		/usr/include/qt/QtCore/qchar.h \
@@ -1474,7 +1474,7 @@ testgaps.o: testgaps.cpp testgaps.h \
 		/usr/include/qt/QtTest/qtesttouch.h \
 		/usr/include/qt/QtTest/qttestversion.h \
 		/usr/include/qt/QtTest/QTest
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testgaps.o testgaps.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testposranges.o testposranges.cpp
 
 testhash.o: testhash.cpp testhash.h \
 		../hash.h \
@@ -1730,7 +1730,7 @@ testhash.o: testhash.cpp testhash.h \
 		/usr/include/qt/QtTest/QTest
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testhash.o testhash.cpp
 
-gaps.o: ../gaps.cpp ../gaps.h \
+posranges.o: ../posranges.cpp ../posranges.h \
 		/usr/include/qt/QtCore/QString \
 		/usr/include/qt/QtCore/qstring.h \
 		/usr/include/qt/QtCore/qchar.h \
@@ -1796,13 +1796,13 @@ gaps.o: ../gaps.cpp ../gaps.h \
 		/usr/include/qt/QtCore/qpair.h \
 		/usr/include/qt/QtCore/qregexp.h \
 		/usr/include/qt/QtCore/qstringmatcher.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gaps.o ../gaps.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o ../posranges.cpp
 
 moc_testhash.o: moc_testhash.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testhash.o moc_testhash.cpp
 
-moc_testgaps.o: moc_testgaps.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testgaps.o moc_testgaps.cpp
+moc_testposranges.o: moc_testposranges.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testposranges.o moc_testposranges.cpp
 
 ####### Install
 

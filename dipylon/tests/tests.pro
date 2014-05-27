@@ -11,15 +11,15 @@ TARGET = tests
 INCLUDEPATH += .
 
 # Input
-HEADERS = ../gaps.h \
+HEADERS = ../posranges.h \
           ../hash.h \
           testhash.h \
-          testgaps.h
+          testposranges.h
 
 SOURCES += tests.cpp \
-           testgaps.cpp \
+           testposranges.cpp \
            testhash.cpp \
-           ../gaps.cpp
+           ../posranges.cpp
 
 QMAKE_CFLAGS += -std=c++11 -Wpedantic
 QMAKE_CXXFLAGS += -std=c++11 -Wpedantic

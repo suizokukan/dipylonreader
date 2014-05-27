@@ -46,14 +46,14 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		gaps.cpp \
+		posranges.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
 		qt/mainsplitter.cpp moc_sourceeditor.cpp \
 		moc_commentaryeditor.cpp \
 		moc_mainsplitter.cpp
 OBJECTS       = main.o \
-		gaps.o \
+		posranges.o \
 		sourceeditor.o \
 		commentaryeditor.o \
 		mainsplitter.o \
@@ -421,7 +421,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents gaps.h hash.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp gaps.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents posranges.h hash.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp posranges.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -1268,11 +1268,11 @@ main.o: main.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h \
 		/usr/include/qt/QtWidgets/QSplitter \
-		gaps.h \
+		posranges.h \
 		/usr/include/qt/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-gaps.o: gaps.cpp gaps.h \
+posranges.o: posranges.cpp posranges.h \
 		/usr/include/qt/QtCore/QString \
 		/usr/include/qt/QtCore/qstring.h \
 		/usr/include/qt/QtCore/qchar.h \
@@ -1338,7 +1338,7 @@ gaps.o: gaps.cpp gaps.h \
 		/usr/include/qt/QtCore/qpair.h \
 		/usr/include/qt/QtCore/qregexp.h \
 		/usr/include/qt/QtCore/qstringmatcher.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gaps.o gaps.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o posranges.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp /usr/include/qt/QtWidgets/QtWidgets \
 		/usr/include/qt/QtWidgets/QtWidgetsDepends \

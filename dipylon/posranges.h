@@ -19,25 +19,25 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : gaps.h
+    ❏Dipylon❏ : posranges.h
 
-    ⇨ Use Gaps objects to store a list of integers.
-      A Gaps object can be initialized from a QString (see GAPS_STR infra).
+    ⇨ Use PosRanges objects to store a list of integers.
+      A PosRanges object can be initialized from a QString (see POSRANGES_STR infra).
       After beeing initialized, check the (bool)well_initialized attribute.
 
     ⇨ about the implementation : std::vector<std::pair<int,int> > has not been
-      derived to get the Gaps class. Deriving std containers isn't a good
+      derived to get the PosRanges class. Deriving std containers isn't a good
       idea since these classes have no virtual destructor, hence no real
       polymorphic abilities.
       E.g. see discussion here : http://stackoverflow.com/questions/4353203
 
-    ⇨ about the implementation : no virtual destructor has been added : Gaps
+    ⇨ about the implementation : no virtual destructor has been added : PosRanges
       objects can't be safely used to create subclasses.
       E.g. see discussion here : http://stackoverflow.com/questions/461203
 
     ⇨ overlapping is forbidden : "0…1+1…2" is ok, not "0…1+0…2", not "46…49+48…52"
 
-    ⇨ GAPS_STR format : "45…97", "45…97+123…136+999…1001", ...
+    ⇨ POSRANGES_STR format : "45…97", "45…97+123…136+999…1001", ...
         no spaces allowed 
         overlapping is forbidden (vide  supra) 
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
@@ -45,13 +45,13 @@
         x0 must be < x1 (no "45…22", no "45…45")
 
     ⇨ how to use :
-    #include "gaps.h"
+    #include "posranges.h"
  
     // either...
     const QString& str = QString("94…95+97…98+101…105");
-    Gaps *g = new Gaps(str);
+    PosRanges *g = new PosRanges(str);
     // ... either :
-    Gaps g( { {94,95} , {97,98}, {101,105} } );
+    PosRanges g( { {94,95} , {97,98}, {101,105} } );
 
     if( g->well_initialized() )
     {
@@ -64,19 +64,19 @@
 
 *******************************************************************************/
 
-#ifndef GAPS_H
-#define GAPS_H
+#ifndef POSRANGES_H
+#define POSRANGES_H
 
 #include <QString>
 #include <vector>
 
-class Gaps
+class PosRanges
 {
-  friend class GapsHasher;
+  friend class PosRangesHasher;
 
     public:
-        Gaps(const QString& src_qstring);
-        Gaps(std::initializer_list< std::pair<int, int> >);
+        PosRanges(const QString& src_qstring);
+        PosRanges(std::initializer_list< std::pair<int, int> >);
         QString to_str(void);
         int internal_state(void);
         bool is_inside(int);
@@ -84,8 +84,8 @@ class Gaps
         bool well_initialized(void);
         void checks(void);
 
-        bool operator==(const Gaps& aliud);
-        bool operator!=(const Gaps& aliud);
+        bool operator==(const PosRanges& aliud);
+        bool operator!=(const PosRanges& aliud);
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;
@@ -100,14 +100,14 @@ class Gaps
         int _internal_state;
         bool _well_initialized;
 
-        // for more details, see the GAPS_STR format :
+        // for more details, see the POSRANGES_STR format :
         const char* MAIN_SEPARATOR = "+";
         const char* SECONDARY_SEPARATOR = "…";
 };
 
-struct GapsHasher
+struct PosRangesHasher
 {
-  std::size_t operator()(const Gaps& k) const;
+  std::size_t operator()(const PosRanges& k) const;
 };
 
 #endif

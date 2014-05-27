@@ -9,14 +9,14 @@ TARGET = dipylon
 INCLUDEPATH += .
 
 # Input
-HEADERS = gaps.h \
+HEADERS = posranges.h \
           hash.h \
           qt/sourceeditor.h \
           qt/commentaryeditor.h \
           qt/mainsplitter.h
 
 SOURCES += main.cpp \		
-           gaps.cpp \
+           posranges.cpp \
            qt/sourceeditor.cpp \
            qt/commentaryeditor.cpp \
            qt/mainsplitter.cpp
