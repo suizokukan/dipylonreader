@@ -26,6 +26,7 @@
 *******************************************************************************/
 
 #include "gaps.h"
+#include "hash.h"
 
 #include <vector>
 #include <string>
@@ -297,18 +298,19 @@ bool Gaps::operator!=(const Gaps& aliud)
 /*______________________________________________________________________________
 
         GapsHasher::operator()
+
+        from a David Schwartz idea (http://stackoverflow.com/questions/23859844)
+
 ______________________________________________________________________________*/
 std::size_t GapsHasher::operator()(const Gaps& k) const
 {
   {
-    std::string h_string("");
+    std::size_t hash = 0;
     for (auto i = k.vec.begin(); i != k.vec.end(); ++i)
     {
-      h_string.push_back(65+i->first);
-      h_string.push_back(32);
-      h_string.push_back(65+i->second);
-      h_string.push_back(64);
+      hash_combine( hash, i->first);
+      hash_combine( hash, i->second);
     }
-    return std::hash<std::string>()(h_string);
+    return hash;
   }
 }

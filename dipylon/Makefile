@@ -421,7 +421,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents gaps.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp gaps.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents gaps.h hash.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp gaps.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -1317,6 +1317,7 @@ gaps.o: gaps.cpp gaps.h \
 		/usr/include/qt/QtCore/qnamespace.h \
 		/usr/include/qt/QtCore/qarraydata.h \
 		/usr/include/qt/QtCore/qstringbuilder.h \
+		hash.h \
 		/usr/include/qt/QtCore/QStringList \
 		/usr/include/qt/QtCore/qstringlist.h \
 		/usr/include/qt/QtCore/qalgorithms.h \

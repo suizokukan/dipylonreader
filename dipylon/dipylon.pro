@@ -10,11 +10,12 @@ INCLUDEPATH += .
 
 # Input
 HEADERS = gaps.h \
+          hash.h \
           qt/sourceeditor.h \
           qt/commentaryeditor.h \
-          qt/mainsplitter.h 
+          qt/mainsplitter.h
 
-SOURCES += main.cpp \
+SOURCES += main.cpp \		
            gaps.cpp \
            qt/sourceeditor.cpp \
            qt/commentaryeditor.cpp \
