@@ -56,9 +56,7 @@ size_t Pos2Str::size(void)
 
         Pos2Str::operator[]() : give access to the (private) object "map".
 ______________________________________________________________________________*/
-/*
 QString& Pos2Str::operator[]( std::vector< std::pair<int, int> > key)
 {
   return this->map[key];
 }
-*/
