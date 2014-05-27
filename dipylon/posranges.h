@@ -80,6 +80,7 @@ class PosRanges
         PosRanges(std::vector< std::pair<int, int> >);
 
         QString to_str(void);
+
         int internal_state(void);
         bool is_inside(int);
         size_t size(void);

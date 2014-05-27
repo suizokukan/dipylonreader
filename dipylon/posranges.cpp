@@ -280,6 +280,16 @@ QString PosRanges::to_str(void)
 
 /*______________________________________________________________________________
 
+        PosRanges::well_initialized() : return the value of the private attribute
+                                        this->_well_initialized
+_____________________________________________________________________________*/
+bool PosRanges::well_initialized(void)
+{
+  return this->_well_initialized;
+}
+
+/*______________________________________________________________________________
+
         PosRangesHasher::operator()
 
         from a David Schwartz idea (http://stackoverflow.com/questions/23859844)
