@@ -82,7 +82,7 @@ class Gaps
         bool is_inside(int);
         size_t size(void);
         bool well_initialized(void);
-        bool check_overlapping(void);
+        void checks(void);
 
         bool operator==(const Gaps& aliud);
         bool operator!=(const Gaps& aliud);

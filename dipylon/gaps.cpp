@@ -46,15 +46,13 @@ ______________________________________________________________________________*/
 Gaps::Gaps(const QString& src_qstring)
 {
   this->vec = std::vector<std::pair<int,int> >();
+  this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
-
-  // error : if src_qstring is empty, the initialisation can't be correct :
-  this->_well_initialized = (src_qstring.size() > 0);
   
-  // shall we go further ?
-  if( this->_well_initialized == false )
+  // error : if src_qstring is empty, the initialisation can't be correct :
+  if( src_qstring.size() == 0 )
   {
-    // ... no.
+    this->_well_initialized = false;
     this->_internal_state = this->INTERNALSTATE_EMPTY;
     return;
   }
@@ -86,32 +84,19 @@ Gaps::Gaps(const QString& src_qstring)
         int x0 = x0x1[0].toInt();
         int x1 = x0x1[1].toInt();
         this->vec.push_back( std::make_pair(x0,x1) );
-
-        // see GAPS_STR format : x0 must be < x1
-        if (x0 >= x1)
-          {
-            this->_well_initialized = false;
-            this->_internal_state = this->INTERNALSTATE_X0X1;
-            break;
-          }
       }
     }
 
   // see GAPS_STR format : at least one gap must be defined.
-  if( this->_well_initialized == true && 
-      this->vec.size() == 0 )
+  if( this->_well_initialized == true && this->vec.size() == 0 )
   {
       this->_well_initialized = false;
       this->_internal_state = this->INTERNALSTATE_EMPTY;
       return;
   }
 
-  // last check : no overlapping ?
-  if ( this->check_overlapping() == true )
-  {
-    this->_well_initialized = false;
-    this->_internal_state = this->INTERNALSTATE_OVERLAPPING;
-  }
+  // last checks :
+  this->checks();
 }
 
 /*______________________________________________________________________________
@@ -138,34 +123,37 @@ Gaps::Gaps(std::initializer_list< std::pair<int, int> > values) : vec(values)
     return;
   }
 
-  // X0X1 test :
+  // last checks :
+  this->checks();
+}
+
+/*______________________________________________________________________________
+
+        Gaps::checks() : do some tests and modified _well_initialized and
+                         _internal_state if something's wrong.
+
+        tests :
+        if x0 >= x1 -> error, INTERNALSTATE_X0X1
+        if one range overlaps another one, error -> INTERNALSTATE_OVERLAPPING
+______________________________________________________________________________*/
+void Gaps::checks(void)
+{
+  /* 
+        X0X1 test :
+  */
   for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
         if (i->first >= i->second)
           {
             this->_well_initialized = false;
             this->_internal_state = this->INTERNALSTATE_X0X1;
-            break;
+            return;
           }
     }
 
-  // last check : no overlapping ?
-  if ( this->check_overlapping() == true )
-  {
-    this->_well_initialized = false;
-    this->_internal_state = this->INTERNALSTATE_OVERLAPPING;
-  }
-}
-
-/*______________________________________________________________________________
-
-        Gaps::internal_state() : return true if two gaps or more overlap 
-                                 themselves.
-______________________________________________________________________________*/
-bool Gaps::check_overlapping(void)
-{
-  bool res = false;
-
+  /*
+         overlapping test :
+  */
   // i, j are std::vector < std::pair<int,int> >
   for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
   {
@@ -176,19 +164,13 @@ bool Gaps::check_overlapping(void)
         if( ((i->first < j->first) && (j->first < i->second)) ||
             ((i->first < j->second) && (j->second < i->second)) )
         {
-          res = true;
-          break;
+          this->_well_initialized = false;
+          this->_internal_state = this->INTERNALSTATE_OVERLAPPING;
+          return;
         }
       }
     }
-
-    if( res == true )
-    {
-      break;
-    }
   }
-
-  return res;
 }
 
 /*______________________________________________________________________________

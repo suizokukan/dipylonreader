@@ -39,6 +39,7 @@ void TestGaps::test0(void)
 
   QVERIFY( g.well_initialized() == true );
   QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
+  QVERIFY( g.size() == 2 );
   QCOMPARE( g.to_str(), str );
 }
 
