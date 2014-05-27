@@ -77,6 +77,8 @@ class PosRanges
     public:
         PosRanges(const QString& src_qstring);
         PosRanges(std::initializer_list< std::pair<int, int> >);
+        PosRanges(std::vector< std::pair<int, int> >);
+
         QString to_str(void);
         int internal_state(void);
         bool is_inside(int);
@@ -84,8 +86,14 @@ class PosRanges
         bool well_initialized(void);
         void checks(void);
 
-        bool operator==(const PosRanges& aliud);
-        bool operator!=(const PosRanges& aliud);
+        bool operator==(const PosRanges& other) const
+        {
+          return (this->_well_initialized == other._well_initialized) && (this->vec == other.vec); 
+        }
+        bool operator!=(const PosRanges& other) const
+        {
+          return !(this->operator==(other));
+        }
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;

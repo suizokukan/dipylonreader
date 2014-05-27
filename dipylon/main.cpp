@@ -28,75 +28,24 @@
 #include "qt/commentaryeditor.h"
 #include "qt/mainsplitter.h"
 
-#include <unordered_map>
-
-#include "posranges.h"
-
-/*
-class PosRanges2Str
-{
-    public:
-        PosRanges2Str(int length);
-        int add(const QString&, const QString&);
-        int internal_state(void);
-        bool well_initialized(void);
-
-    private:
-        int _internal_state;
-        bool _well_initialized;
-        std::unordered_map<PosRanges, QString, PosRangesHasher> data;
-
-        const int INTERNALSTATE_OK = 0;
-};
-PosRanges2Str::PosRanges2Str(int length)
-{
-  // empty hash map, everything's ok :
-  this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE_OK;
-  this->data = std::unordered_map<PosRanges, QString, PosRangesHasher>(length);
-}
-int PosRanges2Str::add(const QString& key, const QString& value)
-{
-  // PosRanges object corresponding the QString key :
-  PosRanges posranges_key = PosRanges(key);
-  this->data[posranges_key] = value;
-  return this->_internal_state;
-}
-int PosRanges2Str::internal_state(void)
-{
-  return this->_internal_state;
-}
-bool PosRanges2Str::well_initialized(void)
-{
-  return this->_well_initialized;
-}*/
+#include "pos2str.h"
 
 int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-    //std::unordered_map<PosRanges, QString, PosRangesHasher> m;
-    //m.insert[ {{ {1,2}, {3,6} }} ] =  QString("abc");
-    /*
-    std::unordered_map<PosRanges, std::string, PosRangesHasher> m;
-    PosRanges posranges("12-13");
-    m[ posranges ] =  "abc";
-    */
-
-    /*PosRanges2Str posranges2str = PosRanges2Str(1000);
-    QString q1("89…91+101…105+1000…1001");
-    QString& qq1 = q1;
-    QString q2("abc");
-    QString& qq2 = q2;
-    posranges2str.add( qq1, qq2 );
-    */
-
-    /*
-    std::unordered_map<PosRanges, std::string, PosRangesHasher> m6 = {
-    { {{ {1,2}, {3,4} },}, "example1"},
-    { {{ {1,2}, {3,5} },}, "example2"},
+    Pos2Str m = {
+      { {{ {1,2}, {3,4} },}, "example1"},
+      { {{ {1,2}, {3,5} },}, "example2"},
+      { {{ {1,2}, {3,8} },}, "example3"},
     };
-    */
+    qDebug() << "map.size=" << m.size();
+    qDebug() << m[{{ {1,2}, {3,5} }}];
+    m[{{ {1,2}, {3,9} }}] = "example4";
+    qDebug() << "map.size=" << m.size();
+    qDebug() << m[{{ {1,2}, {3,9} }}];
+
+
 
     QApplication app(argv, args);
 

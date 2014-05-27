@@ -29,7 +29,6 @@
 #include "hash.h"
 
 #include <vector>
-#include <string>
 
 #include <QString>
 #include <QStringList>
@@ -101,7 +100,8 @@ PosRanges::PosRanges(const QString& src_qstring)
 
 /*______________________________________________________________________________
 
-        int PosRanges::PosRanges : constructor from a list of pair of integers.
+        int PosRanges::PosRanges : constructor from a initializer list of pair
+                                   of integers.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
 
@@ -126,6 +126,35 @@ PosRanges::PosRanges(std::initializer_list< std::pair<int, int> > values) : vec(
   // last checks :
   this->checks();
 }
+
+/*______________________________________________________________________________
+
+        int PosRanges::PosRanges : constructor from a vector of pair of integers.
+
+        Initialize vec, (int)_internal_state and (bool)_well_initialized.
+
+        If an error occurs, _well_initialized is set to false and
+        _internal_state explains the error.
+______________________________________________________________________________*/
+PosRanges::PosRanges(std::vector< std::pair<int, int> > values) : vec(values)
+{
+  this->_internal_state = this->INTERNALSTATE_OK;
+
+  // error : if values is empty, the initialisation can't be correct :
+  this->_well_initialized = (values.size() > 0);
+  
+  // shall we go further ?
+  if( this->_well_initialized == false )
+  {
+    // ... no.
+    this->_internal_state = this->INTERNALSTATE_EMPTY;
+    return;
+  }
+
+  // last checks :
+  this->checks();
+}
+
 
 /*______________________________________________________________________________
 
@@ -251,34 +280,6 @@ QString PosRanges::to_str(void)
 
 /*______________________________________________________________________________
 
-        PosRanges::well_initialized() : return the value of the private attribute
-                                   this->_well_initialized.
-______________________________________________________________________________*/
-bool PosRanges::well_initialized(void)
-{
-    return this->_well_initialized;
-}
-
-/*______________________________________________________________________________
-
-        PosRanges::==() : defines the comparison between two PosRanges objects
-______________________________________________________________________________*/
-bool PosRanges::operator==(const PosRanges& aliud)
-{
-  return (this->_well_initialized == aliud._well_initialized) && (this->vec == aliud.vec);
-}
-
-/*______________________________________________________________________________
-
-        PosRanges::!=() : defines the comparison between two PosRanges objects
-______________________________________________________________________________*/
-bool PosRanges::operator!=(const PosRanges& aliud)
-{
-  return !(this->operator==(aliud));
-}
-
-/*______________________________________________________________________________
-
         PosRangesHasher::operator()
 
         from a David Schwartz idea (http://stackoverflow.com/questions/23859844)
@@ -296,3 +297,5 @@ std::size_t PosRangesHasher::operator()(const PosRanges& k) const
     return hash;
   }
 }
+
+
