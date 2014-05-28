@@ -501,8 +501,8 @@ testposranges.o: testposranges.cpp testposranges.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testposranges.o testposranges.cpp
 
 testpos2str.o: testpos2str.cpp testpos2str.h \
-		../pos2str.h \
-		../posranges.h
+		../posranges.h \
+		../pos2str.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testpos2str.o testpos2str.cpp
 
 testhash.o: testhash.cpp testhash.h \

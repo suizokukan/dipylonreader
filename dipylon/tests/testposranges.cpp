@@ -72,6 +72,8 @@ void TestPosRanges::test1(void)
   QCOMPARE( g.is_inside(0) , false );
   QCOMPARE( g.is_inside(97) , true );
   QCOMPARE( g.is_inside(98) , true );
+  QCOMPARE( g.is_inside(122) , false );
+  QCOMPARE( g.is_inside(123) , true );
   QCOMPARE( g.is_inside(125) , true );
   QCOMPARE( g.is_inside(126) , false );
 }

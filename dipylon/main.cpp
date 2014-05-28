@@ -36,26 +36,14 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-    Pos2Str m = {
+    Pos2Str pos2str = {
       { {{ {1,2}, {3,4} },}, QString("example1")},
-        { {{ {1,2}, {3,5} },}, QString("example2")},
-        { {{ {1,2}, {3,8} },}, QString("example3")},
+      { {{ {5,6}, {7,8} },}, QString("example2")},
+      { {{ {10,11}, {12,23} },}, QString("example3")},
     };
-    qDebug() << "map.size=" << m.size();
-    qDebug() << m[{{ {1,2}, {3,5} }}];
-    m[{{ {1,2}, {3,9} }}] = QString("example4");
-    qDebug() << "map.size=" << m.size();
-    qDebug() << m[{{ {1,2}, {3,9} }}];
 
-    if( m[{{ {1,2}, {3,9} }}] == QString("example4") )
-      {
-        qDebug() << "#1 !!!";
-      }
+    qDebug() << pos2str.is_inside(20).to_str();
 
-    if( m[{{ {1,2}, {3,9} }}] == "example4" )
-      {
-        qDebug() << "#1 !!!";
-      }
 
     QApplication app(argv, args);
 

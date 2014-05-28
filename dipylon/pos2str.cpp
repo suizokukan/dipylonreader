@@ -36,9 +36,9 @@
         E.g. :
 
           Pos2Str pos2str = {
-            { {{ {1,2}, {3,4} },}, "example1"},
-            { {{ {1,2}, {3,5} },}, "example2"},
-            { {{ {1,2}, {3,8} },}, "example3"},
+            { {{ {10,11}, {13,14} },}, "example1"},
+            { {{ {17,18}, {19,20} },}, "example2"},
+            { {{ {21,22}, {23,28} },}, "example3"},
           };
 ______________________________________________________________________________*/
 Pos2Str::Pos2Str( std::initializer_list< IntegersAndAString > values)
@@ -112,9 +112,9 @@ PosRanges Pos2Str::is_inside(int p) const
   for(auto i = this->map.begin(); i != this->map.end(); ++i)
   {
     // i->first is a PosRanges object.
-    if( i->first.is_inside(p) == false )
+    if( i->first.is_inside(p) == true )
     {
-      // ok, the expected vector has been found and can be returned :
+      // ok, the searched PosRanges has been found and can be returned :
       return i->first;
     }
   }

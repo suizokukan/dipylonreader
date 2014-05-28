@@ -41,7 +41,8 @@ class TestPos2Str: public QObject
 
 private slots:
   void test0(void);
-  void test1a(void);
+  void test1(void);
+  void test2(void);
 };
 
 #endif
