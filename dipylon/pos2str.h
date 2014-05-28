@@ -38,7 +38,7 @@
 /*
   Structure used to easily initialize Pos2Str objects. E.g. :
 
-      Pos2Str m = {
+      Pos2Str pos2str = {
         { {{ {1,2}, {3,4} },}, "example1"},
         { {{ {1,2}, {3,5} },}, "example2"},
         { {{ {1,2}, {3,8} },}, "example3"},
@@ -52,13 +52,23 @@ struct IntegersAndAString
 
 class Pos2Str
 {
-  private:
-    std::unordered_map<PosRanges, QString, PosRangesHasher> map;
+    public:
+        std::unordered_map<PosRanges, QString, PosRangesHasher> map;
+        bool _well_initialized;
+        int  _internal_state;
 
-  public:
-    Pos2Str(std::initializer_list< IntegersAndAString >);
-    QString& operator[]( std::vector< std::pair<int, int> > key );
-    size_t size(void);
+        void checks(void);
+
+    public:
+        Pos2Str(std::initializer_list< IntegersAndAString >);
+        QString& operator[]( std::vector< std::pair<int, int> > key );
+        size_t  size(void);
+        int     internal_state(void);
+        bool    well_initialized(void);
+
+        // constants used to define the internal_state attribute :
+        const int INTERNALSTATE_OK = 0;
+        const int INTERNALSTATE_WRONGPOSRANGES = 1;
 };
 
 #endif

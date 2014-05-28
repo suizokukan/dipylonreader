@@ -23,6 +23,19 @@
 
     ⇨ tests of the hash function
 
+    | Beware !
+    | http://stackoverflow.com/questions/14198972
+    | The two arguments to the QCOMPARE macro — i.e., the two template arguments to the
+    | qCompare function — must have exactly the same type. You get an error, for example,
+    | if one is an int and the other is a size_t.
+
+    | Beware !
+    | http://stackoverflow.com/questions/23913298
+    | QCOMPARE( (xxx), yyy ) for some objects to avoid the error message :
+    |   "the macro 'QCOMPARE' got x arguments but it takes only 2"
+    |
+    | see http://stackoverflow.com/questions/13842468/comma-in-c-c-macro
+
 *********************************************************************************/
 
 #include "testhash.h"

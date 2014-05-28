@@ -29,10 +29,23 @@
 
 /*______________________________________________________________________________
 
-        Pos2Str:: constructor from a list of integers and strings.
+        Pos2Str:: constructor from an initializer list of integers and strings.
+
+                  initialize _well_initialized and _internal_state .
+
+        E.g. :
+
+          Pos2Str pos2str = {
+            { {{ {1,2}, {3,4} },}, "example1"},
+            { {{ {1,2}, {3,5} },}, "example2"},
+            { {{ {1,2}, {3,8} },}, "example3"},
+          };
 ______________________________________________________________________________*/
 Pos2Str::Pos2Str( std::initializer_list< IntegersAndAString > values)
 {
+  this->_well_initialized = true;
+  this->_internal_state = INTERNALSTATE_OK;
+
   // i : iterator over this->values :
   for(auto i = values.begin(); i != values.end(); ++i)
   {
@@ -40,6 +53,48 @@ Pos2Str::Pos2Str( std::initializer_list< IntegersAndAString > values)
                                                                i->string)
                     );
   }
+
+  // is everything ok ?
+  this->checks();
+}
+
+/*______________________________________________________________________________
+
+        Pos2Str::checks() : do some tests and if something's wrong,
+                            modified _well_initialized and _internal_state .
+
+        tests:
+
+            o are the PosRanges objects well initialized ?
+                if not, INTERNALSTATE_WRONGPOSRANGES
+
+______________________________________________________________________________*/
+void Pos2Str::checks(void)
+{
+  /*
+    are the PosRanges objects ok ?
+  */
+  // i is an iterator over a pair<PosRanges, QString> :
+  for(auto i = this->map.begin(); i != this->map.end(); ++i)
+  {
+    // i->first is PosRanges object.
+    if( i->first._well_initialized == false )
+    {
+      this->_well_initialized = false;
+      this->_internal_state = INTERNALSTATE_WRONGPOSRANGES;
+      return;
+    }
+  }
+}
+
+/*______________________________________________________________________________
+
+        Pos2Str::internal_state : return the value of the private attribute
+                                  this->_internal_state
+_____________________________________________________________________________*/
+int Pos2Str::internal_state(void)
+{
+  return this->_internal_state;
 }
 
 /*______________________________________________________________________________
@@ -51,6 +106,15 @@ size_t Pos2Str::size(void)
   return this->map.size();
 }
 
+/*______________________________________________________________________________
+
+        Pos2Str::well_initialized() : return the value of the private attribute
+                                      this->_well_initialized
+_____________________________________________________________________________*/
+bool Pos2Str::well_initialized(void)
+{
+  return this->_well_initialized;
+}
 
 /*______________________________________________________________________________
 

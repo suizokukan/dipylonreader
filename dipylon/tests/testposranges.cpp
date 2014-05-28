@@ -23,6 +23,19 @@
 
     ⇨ tests for PosRanges objects.
 
+    | Beware !
+    | http://stackoverflow.com/questions/14198972
+    | The two arguments to the QCOMPARE macro — i.e., the two template arguments to the
+    | qCompare function — must have exactly the same type. You get an error, for example,
+    | if one is an int and the other is a size_t.
+
+    | Beware !
+    | http://stackoverflow.com/questions/23913298
+    | QCOMPARE( (xxx), yyy ) for some objects to avoid the error message :
+    |   "the macro 'QCOMPARE' got x arguments but it takes only 2"
+    |
+    | see http://stackoverflow.com/questions/13842468/comma-in-c-c-macro
+
 *********************************************************************************/
 
 #include "testposranges.h"
@@ -37,9 +50,9 @@ void TestPosRanges::test0(void)
   const QString& str = QString("0…1+1…2");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == true );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
-  QVERIFY( g.size() == 2 );
+  QCOMPARE( g.well_initialized() , true );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.size() , (std::size_t)2 );
   QCOMPARE( g.to_str(), str );
 }
 
@@ -51,16 +64,16 @@ void TestPosRanges::test1(void)
   const QString& str = QString("94…98+99…100+101…105+123…125");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == true );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
-  QVERIFY( g.size() == 4 );
+  QCOMPARE( g.well_initialized() ,true );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.size() , (std::size_t)4 );
   QCOMPARE( g.to_str(), str );
 
-  QVERIFY( g.is_inside(0) == false );
-  QVERIFY( g.is_inside(97) == true );
-  QVERIFY( g.is_inside(98) == true );
-  QVERIFY( g.is_inside(125) == true );
-  QVERIFY( g.is_inside(126) == false );
+  QCOMPARE( g.is_inside(0) , false );
+  QCOMPARE( g.is_inside(97) , true );
+  QCOMPARE( g.is_inside(98) , true );
+  QCOMPARE( g.is_inside(125) , true );
+  QCOMPARE( g.is_inside(126) , false );
 }
 
 /*
@@ -72,16 +85,16 @@ void TestPosRanges::test2(void)
   PosRanges g(str);
   QCOMPARE( g.to_str(), QString("94…95+97…98+101…105") );
 
-  QVERIFY( g.well_initialized() == true );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
-  QVERIFY( g.size() == 3 );
+  QCOMPARE( g.well_initialized() , true );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.size() , (std::size_t)3 );
 
-  QVERIFY( g.is_inside(0) == false );
-  QVERIFY( g.is_inside(94) == true );
-  QVERIFY( g.is_inside(95) == true );
-  QVERIFY( g.is_inside(96) == false );
-  QVERIFY( g.is_inside(105) == true );
-  QVERIFY( g.is_inside(106) == false );
+  QCOMPARE( g.is_inside(0) , false );
+  QCOMPARE( g.is_inside(94) , true );
+  QCOMPARE( g.is_inside(95) , true );
+  QCOMPARE( g.is_inside(96) , false );
+  QCOMPARE( g.is_inside(105) , true );
+  QCOMPARE( g.is_inside(106) , false );
 }
 
 /*
@@ -92,8 +105,8 @@ void TestPosRanges::test3(void)
   const QString& str = QString("");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_EMPTY );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_EMPTY );
 }
 
 /*
@@ -104,8 +117,8 @@ void TestPosRanges::test4a(void)
   const QString& str = QString("49…");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 
 /*
@@ -116,20 +129,20 @@ void TestPosRanges::test4b(void)
   const QString& str = QString("49…89+145");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_SECONDSEP );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_SECONDSEP );
 }
 
 /*
-  A PosRanges object is created from a ill-formed string (x0==x1) -> error
+  A PosRanges object is created from a ill-formed string (x0,x1) -> error
 */
 void TestPosRanges::test4c(void)
 { 
   const QString& str = QString("49…89+144…144");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 
 /*
@@ -140,8 +153,8 @@ void TestPosRanges::test4d(void)
   const QString& str = QString("49…89+144…143");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 
 /*
@@ -152,8 +165,8 @@ void TestPosRanges::test5a(void)
   const QString& str = QString("49…89+50…150");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
 }
 
 /*
@@ -164,12 +177,12 @@ void TestPosRanges::test5b(void)
   const QString& str = QString("49…89+95…150+3…50");
   PosRanges g(str);
 
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
 }
 
 /*
-  testing the == operator with two equivalent PosRanges objects
+  testing the , operator with two equivalent PosRanges objects
 */
 void TestPosRanges::test6a(void)
 { 
@@ -178,7 +191,7 @@ void TestPosRanges::test6a(void)
   const QString& str2 = QString("94…95+97…98+101…105");
   PosRanges g2(str2);
 
-  QVERIFY( g1 == g2 );
+  QCOMPARE( g1 , g2 );
 }
 
 /*
@@ -200,9 +213,9 @@ void TestPosRanges::test6b(void)
 void TestPosRanges::test7a(void)
 { 
   PosRanges g( { {1,2}, {4,5}, {10,11}, {99,101} } );
-  QVERIFY( g.well_initialized() == true );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_OK );
-  QVERIFY( g.size() == 4 );
+  QCOMPARE( g.well_initialized() , true );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.size() , (std::size_t)4 );
 }
 
 /*
@@ -211,8 +224,8 @@ void TestPosRanges::test7a(void)
 void TestPosRanges::test7b(void)
 { 
   PosRanges g( {} );
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_EMPTY );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_EMPTY );
 }
 
 /*
@@ -221,8 +234,8 @@ void TestPosRanges::test7b(void)
 void TestPosRanges::test7c(void)
 { 
   PosRanges g( { {10,20}, {15,25} } );
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_OVERLAPPING );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
 }
 
 /*
@@ -231,7 +244,7 @@ void TestPosRanges::test7c(void)
 void TestPosRanges::test7d(void)
 { 
   PosRanges g( { {20,10}, {150,250} } );
-  QVERIFY( g.well_initialized() == false );
-  QVERIFY( g.internal_state() == g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 

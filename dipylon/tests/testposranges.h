@@ -25,6 +25,9 @@
 
 *********************************************************************************/
 
+#ifndef TESTPOSRANGES_H
+#define TESTPOSRANGES_H
+
 #include "../posranges.h"
 
 #include <QtTest/QtTest>
@@ -57,3 +60,5 @@ private slots:
   void test7c(void);
   void test7d(void);
 };
+
+#endif

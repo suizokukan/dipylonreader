@@ -29,6 +29,9 @@
 
 *********************************************************************************/
 
+#ifndef TESTHASH_H
+#define TESTHASH_H
+
 #include "../hash.h"
 
 #include <QtTest/QtTest>
@@ -47,3 +50,5 @@ private slots:
    void test1a();
    void test1b();
 };
+
+#endif

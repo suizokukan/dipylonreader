@@ -73,25 +73,24 @@
 class PosRanges
 {
   friend class PosRangesHasher;
+  friend class Pos2Str;
 
     public:
         PosRanges(const QString& src_qstring);
         PosRanges(std::initializer_list< std::pair<int, int> >);
         PosRanges(std::vector< std::pair<int, int> >);
 
+        int     internal_state(void);
+        bool    is_inside(int);
+        size_t  size(void);
         QString to_str(void);
+        bool    well_initialized(void);
 
-        int internal_state(void);
-        bool is_inside(int);
-        size_t size(void);
-        bool well_initialized(void);
-        void checks(void);
-
-        bool operator==(const PosRanges& other) const
+        bool    operator==(const PosRanges& other) const
         {
           return (this->_well_initialized == other._well_initialized) && (this->vec == other.vec); 
         }
-        bool operator!=(const PosRanges& other) const
+        bool    operator!=(const PosRanges& other) const
         {
           return !(this->operator==(other));
         }
@@ -105,13 +104,15 @@ class PosRanges
         const int INTERNALSTATE_OVERLAPPING = 5;
 
     private:
+        // for more details, see the POSRANGES_STR format :
+        const char* MAIN_SEPARATOR = "+";
+        const char* SECONDARY_SEPARATOR = "…";
+
         std::vector<std::pair<int,int> > vec;
         int _internal_state;
         bool _well_initialized;
 
-        // for more details, see the POSRANGES_STR format :
-        const char* MAIN_SEPARATOR = "+";
-        const char* SECONDARY_SEPARATOR = "…";
+        void    checks(void);
 };
 
 struct PosRangesHasher

@@ -27,16 +27,20 @@
 
 #include <QTest>
 
-#include "testposranges.h"
 #include "testhash.h"
+#include "testposranges.h"
+#include "testpos2str.h"
 
 int main(void)
 {
+  TestHash testhash;
+  QTest::qExec(&testhash);
+
   TestPosRanges testposranges;
   QTest::qExec(&testposranges);
 
-  TestHash testhash;
-  QTest::qExec(&testhash);
+  TestPos2Str testpos2str;
+  QTest::qExec(&testpos2str);
 
   return 0;
 }

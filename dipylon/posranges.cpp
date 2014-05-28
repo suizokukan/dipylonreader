@@ -162,8 +162,8 @@ PosRanges::PosRanges(std::vector< std::pair<int, int> > values) : vec(values)
                          _internal_state if something's wrong.
 
         tests :
-        if x0 >= x1 -> error, INTERNALSTATE_X0X1
-        if one range overlaps another one, error -> INTERNALSTATE_OVERLAPPING
+            o if x0 >= x1 -> error, INTERNALSTATE_X0X1
+            o if one range overlaps another one, error -> INTERNALSTATE_OVERLAPPING
 ______________________________________________________________________________*/
 void PosRanges::checks(void)
 {
