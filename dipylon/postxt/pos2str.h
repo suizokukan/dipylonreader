@@ -52,7 +52,7 @@ struct IntegersAndAString
 
 class Pos2Str
 {
-    public:
+    private:
         std::unordered_map<PosRanges, QString, PosRangesHasher> map;
         bool _well_initialized;
         int  _internal_state;
