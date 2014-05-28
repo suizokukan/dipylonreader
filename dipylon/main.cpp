@@ -28,9 +28,7 @@
 #include "qt/commentaryeditor.h"
 #include "qt/mainsplitter.h"
 
-#include "pos2str.h"
-
-#include <typeinfo>  //for 'typeid'
+#include "postxt/pos2str.h"
 
 int main(int argv, char **args)
 {

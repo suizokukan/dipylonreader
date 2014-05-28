@@ -9,16 +9,16 @@ TARGET = dipylon
 INCLUDEPATH += .
 
 # Input
-HEADERS = posranges.h \
+HEADERS = postxt/posranges.h \
+          postxt/pos2str.h \
           hash.h \
-          pos2str.h \
           qt/sourceeditor.h \
           qt/commentaryeditor.h \
           qt/mainsplitter.h
 
 SOURCES += main.cpp \		
-           posranges.cpp \
-           pos2str.cpp \
+           postxt/posranges.cpp \
+           postxt/pos2str.cpp \
            qt/sourceeditor.cpp \
            qt/commentaryeditor.cpp \
            qt/mainsplitter.cpp

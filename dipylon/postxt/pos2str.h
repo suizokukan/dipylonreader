@@ -19,7 +19,7 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : pos2str.h
+    ❏Dipylon❏ : postxt/pos2str.h
 
     Pos2Str links PosRanges objects to a QString.
 
@@ -28,7 +28,7 @@
 #ifndef POS2STR_H
 #define POS2STR_H
 
-#include "posranges.h"
+#include "postxt/posranges.h"
 
 #include <unordered_map>
 #include <vector>

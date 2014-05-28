@@ -28,8 +28,8 @@
 #ifndef TESTPOS2STR_H
 #define TESTPOS2STR_H
 
-#include "../posranges.h"
-#include "../pos2str.h"
+#include "../postxt/posranges.h"
+#include "../postxt/pos2str.h"
 
 #include <QTest>
 

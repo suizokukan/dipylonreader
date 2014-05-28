@@ -46,8 +46,8 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		posranges.cpp \
-		pos2str.cpp \
+		postxt/posranges.cpp \
+		postxt/pos2str.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
 		qt/mainsplitter.cpp moc_sourceeditor.cpp \
@@ -167,8 +167,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		dipylon.pro main.cpp \
-		posranges.cpp \
-		pos2str.cpp \
+		postxt/posranges.cpp \
+		postxt/pos2str.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
 		qt/mainsplitter.cpp
@@ -430,7 +430,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents posranges.h hash.h pos2str.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp posranges.cpp pos2str.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents postxt/posranges.h postxt/pos2str.h hash.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp postxt/posranges.cpp postxt/pos2str.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -482,19 +482,19 @@ compiler_clean: compiler_moc_header_clean
 main.o: main.cpp qt/sourceeditor.h \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h \
-		pos2str.h \
-		posranges.h \
+		postxt/pos2str.h \
+		postxt/posranges.h \
 		hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-posranges.o: posranges.cpp posranges.h \
+posranges.o: postxt/posranges.cpp postxt/posranges.h \
 		hash.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o posranges.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o postxt/posranges.cpp
 
-pos2str.o: pos2str.cpp pos2str.h \
-		posranges.h \
+pos2str.o: postxt/pos2str.cpp postxt/pos2str.h \
+		postxt/posranges.h \
 		hash.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o pos2str.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o postxt/pos2str.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp

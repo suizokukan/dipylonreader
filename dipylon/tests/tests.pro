@@ -8,18 +8,18 @@ QT += widgets
 
 TEMPLATE = app
 TARGET = tests
-INCLUDEPATH += .
+INCLUDEPATH += ..
 
 # Input
-HEADERS = ../posranges.h \
-          ../pos2str.h \
+HEADERS = ../postxt/posranges.h \
+          ../postxt/pos2str.h \
 	  ../hash.h \
           testhash.h \
           testposranges.h \
           testpos2str.h
 
-SOURCES += ../posranges.cpp \
-           ../pos2str.cpp \
+SOURCES += ../postxt/posranges.cpp \
+           ../postxt/pos2str.cpp \
            tests.cpp \
            testposranges.cpp \
            testpos2str.cpp \

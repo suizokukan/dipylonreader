@@ -28,7 +28,7 @@
 #ifndef TESTPOSRANGES_H
 #define TESTPOSRANGES_H
 
-#include "../posranges.h"
+#include "../postxt/posranges.h"
 
 #include <QTest>
 

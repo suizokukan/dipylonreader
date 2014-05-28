@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=\"/home/suizokukan/projets/dipylon/last/dipylon/tests\"
 CFLAGS        = -pipe -std=c++11 -Wpedantic -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -pipe -std=c++11 -Wpedantic -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I/usr/lib/qt/mkspecs/linux-g++ -I. -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtTest -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I.
+INCPATH       = -I/usr/lib/qt/mkspecs/linux-g++ -I. -I.. -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtTest -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I.
 LINK          = g++
 LFLAGS        = -Wl,-O1,--sort-common,--as-needed,-z,relro -Wl,-O1
 LIBS          = $(SUBLIBS) -lQt5Widgets -lQt5Test -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -45,8 +45,8 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../posranges.cpp \
-		../pos2str.cpp \
+SOURCES       = ../postxt/posranges.cpp \
+		../postxt/pos2str.cpp \
 		tests.cpp \
 		testposranges.cpp \
 		testpos2str.cpp \
@@ -166,8 +166,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		tests.pro ../posranges.cpp \
-		../pos2str.cpp \
+		tests.pro ../postxt/posranges.cpp \
+		../postxt/pos2str.cpp \
 		tests.cpp \
 		testposranges.cpp \
 		testpos2str.cpp \
@@ -430,7 +430,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/tests1.0.0 || mkdir -p .tmp/tests1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../posranges.h ../pos2str.h ../hash.h testhash.h testposranges.h testpos2str.h .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../posranges.cpp ../pos2str.cpp tests.cpp testposranges.cpp testpos2str.cpp testhash.cpp .tmp/tests1.0.0/ && (cd `dirname .tmp/tests1.0.0` && $(TAR) tests1.0.0.tar tests1.0.0 && $(COMPRESS) tests1.0.0.tar) && $(MOVE) `dirname .tmp/tests1.0.0`/tests1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/tests1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../postxt/posranges.h ../postxt/pos2str.h ../hash.h testhash.h testposranges.h testpos2str.h .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../postxt/posranges.cpp ../postxt/pos2str.cpp tests.cpp testposranges.cpp testpos2str.cpp testhash.cpp .tmp/tests1.0.0/ && (cd `dirname .tmp/tests1.0.0` && $(TAR) tests1.0.0.tar tests1.0.0 && $(COMPRESS) tests1.0.0.tar) && $(MOVE) `dirname .tmp/tests1.0.0`/tests1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/tests1.0.0
 
 
 clean:compiler_clean 
@@ -458,18 +458,18 @@ compiler_moc_header_clean:
 	-$(DEL_FILE) moc_testhash.cpp moc_testposranges.cpp moc_testpos2str.cpp
 moc_testhash.cpp: ../hash.h \
 		testhash.h
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testhash.h -o moc_testhash.cpp
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testhash.h -o moc_testhash.cpp
 
-moc_testposranges.cpp: ../posranges.h \
+moc_testposranges.cpp: ../postxt/posranges.h \
 		../hash.h \
 		testposranges.h
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testposranges.h -o moc_testposranges.cpp
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testposranges.h -o moc_testposranges.cpp
 
-moc_testpos2str.cpp: ../posranges.h \
+moc_testpos2str.cpp: ../postxt/posranges.h \
 		../hash.h \
-		../pos2str.h \
+		../postxt/pos2str.h \
 		testpos2str.h
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testpos2str.h -o moc_testpos2str.cpp
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testpos2str.h -o moc_testpos2str.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -485,32 +485,32 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
-posranges.o: ../posranges.cpp ../posranges.h \
+posranges.o: ../postxt/posranges.cpp ../postxt/posranges.h \
 		../hash.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o ../posranges.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o ../postxt/posranges.cpp
 
-pos2str.o: ../pos2str.cpp ../pos2str.h \
-		../posranges.h \
+pos2str.o: ../postxt/pos2str.cpp ../postxt/pos2str.h \
+		../postxt/posranges.h \
 		../hash.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o ../pos2str.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o ../postxt/pos2str.cpp
 
 tests.o: tests.cpp testhash.h \
 		../hash.h \
 		testposranges.h \
-		../posranges.h \
+		../postxt/posranges.h \
 		testpos2str.h \
-		../pos2str.h
+		../postxt/pos2str.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tests.o tests.cpp
 
 testposranges.o: testposranges.cpp testposranges.h \
-		../posranges.h \
+		../postxt/posranges.h \
 		../hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testposranges.o testposranges.cpp
 
 testpos2str.o: testpos2str.cpp testpos2str.h \
-		../posranges.h \
+		../postxt/posranges.h \
 		../hash.h \
-		../pos2str.h
+		../postxt/pos2str.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testpos2str.o testpos2str.cpp
 
 testhash.o: testhash.cpp testhash.h \
