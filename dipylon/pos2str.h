@@ -57,14 +57,17 @@ class Pos2Str
         bool _well_initialized;
         int  _internal_state;
 
-        void checks(void);
+        void            checks(void);
 
     public:
         Pos2Str(std::initializer_list< IntegersAndAString >);
+
+        size_t          size(void) const;
+        int             internal_state(void) const;
+        PosRanges       is_inside(int p) const;
+        bool            well_initialized(void) const;
+
         QString& operator[]( std::vector< std::pair<int, int> > key );
-        size_t  size(void);
-        int     internal_state(void);
-        bool    well_initialized(void);
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;

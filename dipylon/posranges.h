@@ -76,15 +76,16 @@ class PosRanges
   friend class Pos2Str;
 
     public:
+        PosRanges(void);
         PosRanges(const QString& src_qstring);
         PosRanges(std::initializer_list< std::pair<int, int> >);
         PosRanges(std::vector< std::pair<int, int> >);
 
-        int     internal_state(void);
-        bool    is_inside(int);
-        size_t  size(void);
-        QString to_str(void);
-        bool    well_initialized(void);
+        int     internal_state(void) const;
+        bool    is_inside(int) const;
+        size_t  size(void) const;
+        QString to_str(void) const;
+        bool    well_initialized(void) const;
 
         bool    operator==(const PosRanges& other) const
         {

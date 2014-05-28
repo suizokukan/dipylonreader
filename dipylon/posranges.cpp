@@ -35,6 +35,20 @@
 
 /*______________________________________________________________________________
 
+        int PosRanges::PosRanges : minimal constructor.
+
+        Since PosRanges objects should not be empty, well_initialized is set
+        to false.
+______________________________________________________________________________*/
+PosRanges::PosRanges(void)
+{
+  this->vec = std::vector<std::pair<int,int> >();
+  this->_well_initialized = false;
+  this->_internal_state = this->INTERNALSTATE_EMPTY;
+}
+
+/*______________________________________________________________________________
+
         int PosRanges::PosRanges : constructor from a QString.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
@@ -159,7 +173,7 @@ PosRanges::PosRanges(std::vector< std::pair<int, int> > values) : vec(values)
 /*______________________________________________________________________________
 
         PosRanges::checks() : do some tests and modified _well_initialized and
-                         _internal_state if something's wrong.
+                              _internal_state if something's wrong.
 
         tests :
             o if x0 >= x1 -> error, INTERNALSTATE_X0X1
@@ -211,7 +225,7 @@ void PosRanges::checks(void)
 
         NB : this function is debug-intended.
 ______________________________________________________________________________*/
-int PosRanges::internal_state(void)
+int PosRanges::internal_state(void) const
 {
   return this->_internal_state;
 }
@@ -221,7 +235,7 @@ int PosRanges::internal_state(void)
         PosRanges::is_inside() : return either true if (int)v is inside one gap of the
                             object, either false.
 ______________________________________________________________________________*/
-bool PosRanges::is_inside(int v)
+bool PosRanges::is_inside(int v) const
 {
   bool res = false;
 
@@ -242,7 +256,7 @@ bool PosRanges::is_inside(int v)
 
         PosRanges::size() : return the size of the (private)vec.
 ______________________________________________________________________________*/
-size_t PosRanges::size(void)
+size_t PosRanges::size(void) const
 {
   return this->vec.size();
 }
@@ -252,7 +266,7 @@ size_t PosRanges::size(void)
         PosRanges::to_str() : return a QString representing the object according to
                         the GAP_STR format (see above)                     
 ______________________________________________________________________________*/
-QString PosRanges::to_str(void)
+QString PosRanges::to_str(void) const
 {
   QString res("");
 
@@ -283,7 +297,7 @@ QString PosRanges::to_str(void)
         PosRanges::well_initialized() : return the value of the private attribute
                                         this->_well_initialized
 _____________________________________________________________________________*/
-bool PosRanges::well_initialized(void)
+bool PosRanges::well_initialized(void) const
 {
   return this->_well_initialized;
 }

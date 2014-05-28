@@ -77,7 +77,7 @@ void Pos2Str::checks(void)
   // i is an iterator over a pair<PosRanges, QString> :
   for(auto i = this->map.begin(); i != this->map.end(); ++i)
   {
-    // i->first is PosRanges object.
+    // i->first is a PosRanges object.
     if( i->first._well_initialized == false )
     {
       this->_well_initialized = false;
@@ -92,16 +92,42 @@ void Pos2Str::checks(void)
         Pos2Str::internal_state : return the value of the private attribute
                                   this->_internal_state
 _____________________________________________________________________________*/
-int Pos2Str::internal_state(void)
+int Pos2Str::internal_state(void) const
 {
   return this->_internal_state;
 }
 
 /*______________________________________________________________________________
 
+        Pos2Str::is_inside(int p) : search the first (PosRanges)key in this
+                                    that matches this->key.is_inside(p)
+
+       This function returns a PosRanges. The result is an
+       empty PosRanges if indexes in "this" do not contain "p".
+
+_____________________________________________________________________________*/
+PosRanges Pos2Str::is_inside(int p) const
+{
+  // i is an iterator over a pair<PosRanges, QString> :
+  for(auto i = this->map.begin(); i != this->map.end(); ++i)
+  {
+    // i->first is a PosRanges object.
+    if( i->first.is_inside(p) == false )
+    {
+      // ok, the expected vector has been found and can be returned :
+      return i->first;
+    }
+  }
+ 
+  // no result : the function returns an empty vector.
+  return PosRanges();
+}
+
+/*______________________________________________________________________________
+
         Pos2Str::size() : return the size of the (private) object "map".
 ______________________________________________________________________________*/
-size_t Pos2Str::size(void)
+size_t Pos2Str::size(void) const
 {
   return this->map.size();
 }
@@ -111,7 +137,7 @@ size_t Pos2Str::size(void)
         Pos2Str::well_initialized() : return the value of the private attribute
                                       this->_well_initialized
 _____________________________________________________________________________*/
-bool Pos2Str::well_initialized(void)
+bool Pos2Str::well_initialized(void) const
 {
   return this->_well_initialized;
 }
