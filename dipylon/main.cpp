@@ -36,15 +36,6 @@ int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";
 
-    Pos2Str pos2str = {
-      { {{ {1,2}, {3,4} },}, QString("example1")},
-      { {{ {5,6}, {7,8} },}, QString("example2")},
-      { {{ {10,11}, {12,23} },}, QString("example3")},
-    };
-
-    qDebug() << pos2str.is_inside(20).to_str();
-
-
     QApplication app(argv, args);
 
     SourceEditor *src_editor = new SourceEditor;

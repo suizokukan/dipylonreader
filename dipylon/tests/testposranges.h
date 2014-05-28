@@ -30,7 +30,7 @@
 
 #include "../posranges.h"
 
-#include <QtTest/QtTest>
+#include <QTest>
 
 /*______________________________________________________________________________
 

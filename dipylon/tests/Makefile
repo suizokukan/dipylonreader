@@ -461,10 +461,14 @@ moc_testhash.cpp: ../hash.h \
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testhash.h -o moc_testhash.cpp
 
 moc_testposranges.cpp: ../posranges.h \
+		../hash.h \
 		testposranges.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testposranges.h -o moc_testposranges.cpp
 
-moc_testpos2str.cpp: testpos2str.h
+moc_testpos2str.cpp: ../posranges.h \
+		../hash.h \
+		../pos2str.h \
+		testpos2str.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testpos2str.h -o moc_testpos2str.cpp
 
 compiler_moc_source_make_all:
@@ -486,22 +490,26 @@ posranges.o: ../posranges.cpp ../posranges.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o ../posranges.cpp
 
 pos2str.o: ../pos2str.cpp ../pos2str.h \
-		../posranges.h
+		../posranges.h \
+		../hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o ../pos2str.cpp
 
 tests.o: tests.cpp testhash.h \
 		../hash.h \
 		testposranges.h \
 		../posranges.h \
-		testpos2str.h
+		testpos2str.h \
+		../pos2str.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tests.o tests.cpp
 
 testposranges.o: testposranges.cpp testposranges.h \
-		../posranges.h
+		../posranges.h \
+		../hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testposranges.o testposranges.cpp
 
 testpos2str.o: testpos2str.cpp testpos2str.h \
 		../posranges.h \
+		../hash.h \
 		../pos2str.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testpos2str.o testpos2str.cpp
 

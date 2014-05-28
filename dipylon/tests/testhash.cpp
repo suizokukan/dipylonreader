@@ -40,8 +40,6 @@
 
 #include "testhash.h"
 
-#include <QTest>
-
 /*
   creating two (hopefully) different hashes from two different pairs of integers.
 */

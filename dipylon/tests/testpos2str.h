@@ -28,7 +28,10 @@
 #ifndef TESTPOS2STR_H
 #define TESTPOS2STR_H
 
-#include <QtTest/QtTest>
+#include "../posranges.h"
+#include "../pos2str.h"
+
+#include <QTest>
 
 /*______________________________________________________________________________
 

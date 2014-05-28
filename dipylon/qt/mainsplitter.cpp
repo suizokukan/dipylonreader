@@ -23,8 +23,6 @@
 
 *******************************************************************************/
 
-#include <QtWidgets>
-
 #include "mainsplitter.h"
 
 MainSplitter::MainSplitter(QWidget *parent) : QSplitter(parent)

@@ -40,8 +40,6 @@
 
 #include "testposranges.h"
 
-#include <QTest>
-
 /*
   A PosRanges object is created from a normal string with two adjacent characters.
 */

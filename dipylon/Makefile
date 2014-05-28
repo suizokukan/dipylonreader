@@ -483,7 +483,8 @@ main.o: main.cpp qt/sourceeditor.h \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h \
 		pos2str.h \
-		posranges.h
+		posranges.h \
+		hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 posranges.o: posranges.cpp posranges.h \
@@ -491,7 +492,8 @@ posranges.o: posranges.cpp posranges.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o posranges.cpp
 
 pos2str.o: pos2str.cpp pos2str.h \
-		posranges.h
+		posranges.h \
+		hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o pos2str.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h

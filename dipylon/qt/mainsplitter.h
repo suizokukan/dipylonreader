@@ -26,6 +26,7 @@
 #ifndef MAINSPLITTER_H
 #define MAINSPLITTER_H
 
+#include <QtWidgets>
 #include <QSplitter>
 #include <QObject>
 

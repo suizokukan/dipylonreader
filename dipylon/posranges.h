@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : posranges.h
 
-    ⇨ Use PosRanges objects to store a list of integers.
+    ⇨ Use PosRanges objects to store a list of (TextPos)integers.
       A PosRanges object can be initialized from a QString (see POSRANGES_STR infra).
       After beeing initialized, check the (bool)well_initialized attribute.
 
@@ -67,8 +67,13 @@
 #ifndef POSRANGES_H
 #define POSRANGES_H
 
-#include <QString>
 #include <vector>
+
+#include "hash.h"
+
+#include <QString>
+#include <QStringList>
+
 
 typedef int TextPos;
 

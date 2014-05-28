@@ -39,10 +39,6 @@
 *********************************************************************************/
 
 #include "testpos2str.h"
-#include "../posranges.h"
-#include "../pos2str.h"
-
-#include <QTest>
 
 /*
   A Pos2Str object is created without any error.

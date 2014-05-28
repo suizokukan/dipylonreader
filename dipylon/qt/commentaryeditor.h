@@ -26,6 +26,7 @@
 #ifndef COMMENTARYEDITOR_H
 #define COMMENTARYEDITOR_H
 
+#include <QtWidgets>
 #include <QPlainTextEdit>
 #include <QObject>
 
