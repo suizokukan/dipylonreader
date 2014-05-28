@@ -35,21 +35,21 @@
 
 /*______________________________________________________________________________
 
-        int PosRanges::PosRanges : minimal constructor.
+        PosRanges::PosRanges : minimal constructor.
 
         Since PosRanges objects should not be empty, well_initialized is set
         to false.
 ______________________________________________________________________________*/
 PosRanges::PosRanges(void)
 {
-  this->vec = std::vector<std::pair<int,int> >();
+  this->vec = std::vector<std::pair<unsigned int, unsigned int> >();
   this->_well_initialized = false;
   this->_internal_state = this->INTERNALSTATE_EMPTY;
 }
 
 /*______________________________________________________________________________
 
-        int PosRanges::PosRanges : constructor from a QString.
+        PosRanges::PosRanges : constructor from a QString.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
 
@@ -58,7 +58,7 @@ PosRanges::PosRanges(void)
 ______________________________________________________________________________*/
 PosRanges::PosRanges(const QString& src_qstring)
 {
-  this->vec = std::vector<std::pair<int,int> >();
+  this->vec = std::vector<std::pair<unsigned int, unsigned int> >();
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
   
@@ -94,8 +94,8 @@ PosRanges::PosRanges(const QString& src_qstring)
       }
       else
       {
-        int x0 = x0x1[0].toInt();
-        int x1 = x0x1[1].toInt();
+        unsigned int x0 = x0x1[0].toInt();
+        unsigned int x1 = x0x1[1].toInt();
         this->vec.push_back( std::make_pair(x0,x1) );
       }
     }
@@ -114,15 +114,15 @@ PosRanges::PosRanges(const QString& src_qstring)
 
 /*______________________________________________________________________________
 
-        int PosRanges::PosRanges : constructor from a initializer list of pair
-                                   of integers.
+        PosRanges::PosRanges : constructor from a initializer list of pair
+                               of integers.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
 
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-PosRanges::PosRanges(std::initializer_list< std::pair<int, int> > values) : vec(values)
+PosRanges::PosRanges(std::initializer_list< std::pair<unsigned int, unsigned int> > values) : vec(values)
 {
   this->_internal_state = this->INTERNALSTATE_OK;
 
@@ -143,14 +143,14 @@ PosRanges::PosRanges(std::initializer_list< std::pair<int, int> > values) : vec(
 
 /*______________________________________________________________________________
 
-        int PosRanges::PosRanges : constructor from a vector of pair of integers.
+        PosRanges::PosRanges : constructor from a vector of pair of integers.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
 
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-PosRanges::PosRanges(std::vector< std::pair<int, int> > values) : vec(values)
+PosRanges::PosRanges(std::vector< std::pair<unsigned int, unsigned int> > values) : vec(values)
 {
   this->_internal_state = this->INTERNALSTATE_OK;
 
@@ -197,7 +197,7 @@ void PosRanges::checks(void)
   /*
          overlapping test :
   */
-  // i, j are std::vector < std::pair<int,int> >
+  // i, j are std::vector < std::pair<unsigned int, unsigned int> >
   for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
   {
     for (auto j = this->vec.begin(); j != this->vec.end(); ++j)
@@ -219,7 +219,7 @@ void PosRanges::checks(void)
 /*______________________________________________________________________________
 
         PosRanges::internal_state() : return the value of the private attribute
-                                 this->_internal_state
+                                      this->_internal_state
 
                                  see INTERNALSTATE_* constants.
 
@@ -232,14 +232,14 @@ int PosRanges::internal_state(void) const
 
 /*______________________________________________________________________________
 
-        PosRanges::is_inside() : return either true if (int)v is inside one gap of the
+        PosRanges::is_inside() : return either true if (unsigned int)v is inside one gap of the
                             object, either false.
 ______________________________________________________________________________*/
-bool PosRanges::is_inside(int v) const
+bool PosRanges::is_inside(unsigned int v) const
 {
   bool res = false;
 
-  // i is a std::vector < std::pair<int,int> > iterator.
+  // i is a std::vector < std::pair<unsigned int, unsigned int> > iterator.
   for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       if( (i->first <= v) && (v <= i->second) )
@@ -277,7 +277,7 @@ QString PosRanges::to_str(void) const
   }
 
   // we go through the object with an iterator :
-  // i is a std::vector < std::pair<int,int> > iterator
+  // i is a std::vector < std::pair<unsigned int, unsigned int> > iterator
   for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
       res += QString().number( i->first );

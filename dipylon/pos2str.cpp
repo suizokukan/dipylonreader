@@ -99,14 +99,14 @@ int Pos2Str::internal_state(void) const
 
 /*______________________________________________________________________________
 
-        Pos2Str::is_inside(int p) : search the first (PosRanges)key in this
-                                    that matches this->key.is_inside(p)
+        Pos2Str::is_inside(unsigned int p) : search the first (PosRanges)key in this
+                                             that matches this->key.is_inside(p)
 
        This function returns a PosRanges. The result is an
        empty PosRanges if indexes in "this" do not contain "p".
 
 _____________________________________________________________________________*/
-PosRanges Pos2Str::is_inside(int p) const
+PosRanges Pos2Str::is_inside(unsigned int p) const
 {
   // i is an iterator over a pair<PosRanges, QString> :
   for(auto i = this->map.begin(); i != this->map.end(); ++i)
@@ -146,7 +146,7 @@ bool Pos2Str::well_initialized(void) const
 
         Pos2Str::operator[]() : give access to the (private) object "map".
 ______________________________________________________________________________*/
-QString& Pos2Str::operator[]( std::vector< std::pair<int, int> > key)
+QString& Pos2Str::operator[]( std::vector< std::pair<unsigned int, unsigned int> > key)
 {
   return this->map[key];
 }

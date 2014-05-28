@@ -78,11 +78,11 @@ class PosRanges
     public:
         PosRanges(void);
         PosRanges(const QString& src_qstring);
-        PosRanges(std::initializer_list< std::pair<int, int> >);
-        PosRanges(std::vector< std::pair<int, int> >);
+        PosRanges(std::initializer_list< std::pair<unsigned int, unsigned int> >);
+        PosRanges(std::vector< std::pair<unsigned int, unsigned int> >);
 
         int     internal_state(void) const;
-        bool    is_inside(int) const;
+        bool    is_inside(unsigned int) const;
         size_t  size(void) const;
         QString to_str(void) const;
         bool    well_initialized(void) const;
@@ -109,7 +109,7 @@ class PosRanges
         const char* MAIN_SEPARATOR = "+";
         const char* SECONDARY_SEPARATOR = "…";
 
-        std::vector<std::pair<int,int> > vec;
+        std::vector<std::pair<unsigned int, unsigned int> > vec;
         int _internal_state;
         bool _well_initialized;
 

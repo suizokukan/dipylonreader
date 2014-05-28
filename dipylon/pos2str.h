@@ -46,7 +46,7 @@
 */
 struct IntegersAndAString
 {
-  std::vector< std::pair<int, int> > integers;
+  std::vector< std::pair<unsigned int, unsigned int> > integers;
   QString string;
 };
 
@@ -64,10 +64,10 @@ class Pos2Str
 
         size_t          size(void) const;
         int             internal_state(void) const;
-        PosRanges       is_inside(int p) const;
+        PosRanges       is_inside(unsigned int p) const;
         bool            well_initialized(void) const;
 
-        QString& operator[]( std::vector< std::pair<int, int> > key );
+        QString& operator[]( std::vector< std::pair<unsigned int, unsigned int> > key );
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;
