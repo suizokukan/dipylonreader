@@ -19,18 +19,30 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : main.cpp
+    ❏Dipylon❏ : qt/dipylonui.h
+
+    Central class for the User Interface.
 
 *******************************************************************************/
-#include <QtWidgets>
 
-#include "qt/dipylonui.h"
+#include "qt/sourceeditor.h"
+#include "qt/commentaryeditor.h"
+#include "qt/mainsplitter.h"
 
-int main(int argv, char **args)
+#include "dipydoc/dipydoc.h"
+
+class DipylonUI : QApplication
 {
-    qDebug() << "Dipylon : entry point\n";
+    public:
+        DipylonUI(int, char **);
+        DipyDoc* current_dipydoc = 0;
 
-    DipylonUI app(argv, args);
+        int exec(void);
 
-    return app.exec();
-}
+    private:
+        SourceEditor* source_editor = 0;
+        CommentaryEditor *commentary_editor = 0;
+        MainSplitter *main_splitter = 0;
+
+        void set_the_ui(void);
+};

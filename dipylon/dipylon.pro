@@ -12,6 +12,7 @@ INCLUDEPATH += .
 HEADERS = postxt/posranges.h \
           postxt/pos2str.h \
           hash.h \
+          qt/dipylonui.h \
           qt/sourceeditor.h \
           qt/commentaryeditor.h \
           qt/mainsplitter.h \
@@ -20,6 +21,7 @@ HEADERS = postxt/posranges.h \
 SOURCES += main.cpp \
            postxt/posranges.cpp \
            postxt/pos2str.cpp \
+           qt/dipylonui.cpp \
            qt/sourceeditor.cpp \
            qt/commentaryeditor.cpp \
            qt/mainsplitter.cpp \

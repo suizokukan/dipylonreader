@@ -19,18 +19,47 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : main.cpp
+    ❏Dipylon❏ : qt/dipylonui.cpp
+
+    More documentation in dipylonui.h .
 
 *******************************************************************************/
-#include <QtWidgets>
 
 #include "qt/dipylonui.h"
 
-int main(int argv, char **args)
+DipylonUI::DipylonUI(int argv, char ** args) : QApplication(argv, args)
 {
-    qDebug() << "Dipylon : entry point\n";
+  this->set_the_ui();
+}
 
-    DipylonUI app(argv, args);
+int DipylonUI::exec(void)
+{
+  return this->QApplication::exec();
+}
 
-    return app.exec();
+void DipylonUI::set_the_ui(void)
+{
+  delete this->source_editor;
+  this->source_editor = new SourceEditor(this->current_dipydoc);
+
+  delete this->commentary_editor;
+  this->commentary_editor = new CommentaryEditor;
+
+  delete this->main_splitter;
+  this->main_splitter = new MainSplitter;
+
+  this->main_splitter->addWidget(source_editor);
+  this->main_splitter->addWidget(commentary_editor);
+
+    /* ne pas régler la taille dans le constructeur : d'abord ajouter les widgets puis
+       régler la taille : 
+
+       Avec (500, 100) comme valeurs, il existe un rapport de 5 à 1 en taille.
+       Deux nombres doivent être donnés (et pas un seul)
+    */
+  //QList<int> main_splitter_heights;
+  //main_splitter_heights << 500 << 100;
+  this->main_splitter->setSizes( {{500,100}} );
+
+  this->main_splitter->show();
 }
