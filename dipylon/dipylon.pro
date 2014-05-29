@@ -11,19 +11,19 @@ INCLUDEPATH += .
 # Input
 HEADERS = postxt/posranges.h \
           postxt/pos2str.h \
-          postxt/translations.h \
           hash.h \
           qt/sourceeditor.h \
           qt/commentaryeditor.h \
-          qt/mainsplitter.h
+          qt/mainsplitter.h \
+          dipydoc/dipydoc.h
 
-SOURCES += main.cpp \		
+SOURCES += main.cpp \
            postxt/posranges.cpp \
            postxt/pos2str.cpp \
-           postxt/translations.cpp \
            qt/sourceeditor.cpp \
            qt/commentaryeditor.cpp \
-           qt/mainsplitter.cpp
+           qt/mainsplitter.cpp \
+           dipydoc/dipydoc.cpp
 
 QMAKE_CFLAGS += -std=c++11 -Wpedantic
 QMAKE_CXXFLAGS += -std=c++11 -Wpedantic

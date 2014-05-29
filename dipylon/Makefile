@@ -48,19 +48,19 @@ OBJECTS_DIR   = ./
 SOURCES       = main.cpp \
 		postxt/posranges.cpp \
 		postxt/pos2str.cpp \
-		postxt/translations.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
-		qt/mainsplitter.cpp moc_sourceeditor.cpp \
+		qt/mainsplitter.cpp \
+		dipydoc/dipydoc.cpp moc_sourceeditor.cpp \
 		moc_commentaryeditor.cpp \
 		moc_mainsplitter.cpp
 OBJECTS       = main.o \
 		posranges.o \
 		pos2str.o \
-		translations.o \
 		sourceeditor.o \
 		commentaryeditor.o \
 		mainsplitter.o \
+		dipydoc.o \
 		moc_sourceeditor.o \
 		moc_commentaryeditor.o \
 		moc_mainsplitter.o
@@ -171,10 +171,10 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		dipylon.pro main.cpp \
 		postxt/posranges.cpp \
 		postxt/pos2str.cpp \
-		postxt/translations.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
-		qt/mainsplitter.cpp
+		qt/mainsplitter.cpp \
+		dipydoc/dipydoc.cpp
 QMAKE_TARGET  = dipylon
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = dipylon
@@ -433,7 +433,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents postxt/posranges.h postxt/pos2str.h postxt/translations.h hash.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp postxt/posranges.cpp postxt/pos2str.cpp postxt/translations.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents postxt/posranges.h postxt/pos2str.h hash.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h dipydoc/dipydoc.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp postxt/posranges.cpp postxt/pos2str.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp dipydoc/dipydoc.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -484,7 +484,11 @@ compiler_clean: compiler_moc_header_clean
 
 main.o: main.cpp qt/sourceeditor.h \
 		qt/commentaryeditor.h \
-		qt/mainsplitter.h
+		qt/mainsplitter.h \
+		dipydoc/dipydoc.h \
+		postxt/pos2str.h \
+		postxt/posranges.h \
+		hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 posranges.o: postxt/posranges.cpp postxt/posranges.h \
@@ -496,12 +500,6 @@ pos2str.o: postxt/pos2str.cpp postxt/pos2str.h \
 		hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o postxt/pos2str.cpp
 
-translations.o: postxt/translations.cpp postxt/translations.h \
-		postxt/pos2str.h \
-		postxt/posranges.h \
-		hash.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o translations.o postxt/translations.cpp
-
 sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
@@ -510,6 +508,12 @@ commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h
 
 mainsplitter.o: qt/mainsplitter.cpp qt/mainsplitter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainsplitter.o qt/mainsplitter.cpp
+
+dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \
+		postxt/pos2str.h \
+		postxt/posranges.h \
+		hash.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipydoc.o dipydoc/dipydoc.cpp
 
 moc_sourceeditor.o: moc_sourceeditor.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sourceeditor.o moc_sourceeditor.cpp
