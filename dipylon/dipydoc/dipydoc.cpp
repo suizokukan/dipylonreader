@@ -53,6 +53,12 @@ DipyDoc::DipyDoc(QString path)
   QTextStream src_file_stream(&src_file);
   src_file_stream.setCodec("UTF-8");
   this->text = src_file_stream.readAll();
+
+  // let's initialize the translations :
+  this->translations[ { {8,26}, } ] = \
+                "Le premier amour de Phébus";
+  this->translations[ { {633, 649}, } ] = \
+                "Ton arc peut bien transpercer toutes tes cibles";
 }
 
 /*______________________________________________________________________________

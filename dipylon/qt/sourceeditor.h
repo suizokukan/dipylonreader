@@ -35,7 +35,8 @@ class SourceEditor : public QTextEdit
     Q_OBJECT
 
 public:
-    SourceEditor(QWidget *parent = 0);
+    SourceEditor(int* current_dipydoc = 0, QWidget *parent = 0);
+    int* current_dipydoc;
 
 protected:
     void mouseReleaseEvent(QMouseEvent*);

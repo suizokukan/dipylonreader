@@ -25,10 +25,20 @@
 
 #include "sourceeditor.h"
 
-SourceEditor::SourceEditor(QWidget *parent) : QTextEdit(parent)
+/*______________________________________________________________________________
+
+        SourceEditor::SourceEditor(int*, QWidget) : constructor
+_____________________________________________________________________________*/
+SourceEditor::SourceEditor(int* current_dipydoc, QWidget *parent) :  \
+QTextEdit(parent), current_dipydoc(current_dipydoc)
 {
+  this->setReadOnly(true);
 }
 
+/*______________________________________________________________________________
+
+        SourceEditor::mouseReleaseEvent
+_____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 {
     // mouse_event isn't used :

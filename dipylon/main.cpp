@@ -30,24 +30,35 @@
 
 #include "dipydoc/dipydoc.h"
 
-int main(int argv, char **args)
+struct DipylonUI : QApplication
 {
-    qDebug() << "Dipylon : entry point\n";
+    public:
+        DipylonUI(int, char **);
+        int* current_dipydoc = 0;
 
-    DipyDoc d("../texts/Ovid_M_I_452_567/");
-    if ( d.well_initialized() == false )
-    {
-      qDebug() << d.internal_state() << "!!!";
-    }
+        SourceEditor* source_editor = 0;
+        CommentaryEditor *commentary_editor = 0;
+        MainSplitter *main_splitter = 0;
 
-    QApplication app(argv, args);
+        void set_the_ui(void);
+};
+DipylonUI::DipylonUI(int argv, char ** args) : QApplication(argv, args)
+{
+  this->set_the_ui();
+}
+void DipylonUI::set_the_ui(void)
+{
+  delete this->source_editor;
+  this->source_editor = new SourceEditor(this->current_dipydoc);
 
-    SourceEditor *src_editor = new SourceEditor;
-    CommentaryEditor *com_editor = new CommentaryEditor;
+  delete this->commentary_editor;
+  this->commentary_editor = new CommentaryEditor;
 
-    MainSplitter *main_splitter = new MainSplitter;
-    main_splitter->addWidget(src_editor);
-    main_splitter->addWidget(com_editor);
+  delete this->main_splitter;
+  this->main_splitter = new MainSplitter;
+
+  this->main_splitter->addWidget(source_editor);
+  this->main_splitter->addWidget(commentary_editor);
 
     /* ne pas régler la taille dans le constructeur : d'abord ajouter les widgets puis
        régler la taille : 
@@ -55,14 +66,25 @@ int main(int argv, char **args)
        Avec (500, 100) comme valeurs, il existe un rapport de 5 à 1 en taille.
        Deux nombres doivent être donnés (et pas un seul)
     */
-    QList<int> mainsplitter_heights;
-    mainsplitter_heights << 500 << 100;
-    main_splitter->setSizes( mainsplitter_heights );
+  //QList<int> main_splitter_heights;
+  //main_splitter_heights << 500 << 100;
+  this->main_splitter->setSizes( {{500,100}} );
 
-    src_editor->setPlainText(d.text);
+  this->main_splitter->show();
+}
 
-    //__________________________________________________________________________
-    main_splitter->show();
+int main(int argv, char **args)
+{
+    qDebug() << "Dipylon : entry point\n";
+
+    DipylonUI app(argv, args);
+
+    DipyDoc d("../texts/Ovid_M_I_452_567/");
+    if ( d.well_initialized() == false )
+    {
+      qDebug() << d.internal_state() << "!!!";
+    }
+    app.source_editor->setPlainText(d.text);
 
     return app.exec();
 }
