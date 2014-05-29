@@ -52,7 +52,7 @@ int main(int argv, char **args)
     main_splitter->setSizes( mainsplitter_heights );
 
     //__________________________________________________________________________
-    QFile src_file("dyptexts/Ovid_M_I_452_567/text");
+    QFile src_file("../texts/Ovid_M_I_452_567/text");
     /*
       à propos du chemin :
         QFile expects the file separator to be '/' regardless of operating system. 
