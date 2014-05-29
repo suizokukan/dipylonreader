@@ -71,7 +71,7 @@ class Pos2Str
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;
-        const int INTERNALSTATE_WRONGPOSRANGES = 1;
+        const int INTERNALSTATE_BADPOSRANGES = 1;
 };
 
 #endif

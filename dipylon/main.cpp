@@ -28,8 +28,6 @@
 #include "qt/commentaryeditor.h"
 #include "qt/mainsplitter.h"
 
-#include "postxt/pos2str.h"
-
 int main(int argv, char **args)
 {
     qDebug() << "Dipylon : entry point\n";

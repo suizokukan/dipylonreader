@@ -66,7 +66,7 @@ Pos2Str::Pos2Str( std::initializer_list< IntegersAndAString > values)
         tests:
 
             o are the PosRanges objects well initialized ?
-                if not, INTERNALSTATE_WRONGPOSRANGES
+                if not, INTERNALSTATE_BADPOSRANGES
 
 ______________________________________________________________________________*/
 void Pos2Str::checks(void)
@@ -81,7 +81,7 @@ void Pos2Str::checks(void)
     if( i->first._well_initialized == false )
     {
       this->_well_initialized = false;
-      this->_internal_state = INTERNALSTATE_WRONGPOSRANGES;
+      this->_internal_state = INTERNALSTATE_BADPOSRANGES;
       return;
     }
   }

@@ -73,7 +73,7 @@ void TestPos2Str::test1(void)
   };
 
   QCOMPARE( pos2str.well_initialized() , false );
-  QCOMPARE( pos2str.internal_state() , pos2str.INTERNALSTATE_WRONGPOSRANGES );
+  QCOMPARE( pos2str.internal_state() , pos2str.INTERNALSTATE_BADPOSRANGES );
 }
 
 /*
