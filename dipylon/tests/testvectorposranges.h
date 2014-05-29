@@ -19,25 +19,27 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testposranges.h
+    ❏Dipylon❏ : tests/testvectorposranges.h
 
-    ⇨ tests for PosRanges objects.
+    ⇨ tests for VectorPosRanges objects.
 
 *********************************************************************************/
 
-#ifndef TESTPOSRANGES_H
-#define TESTPOSRANGES_H
+#ifndef TESTVECTORPOSRANGES_H
+#define TESTVECTORPOSRANGES_H
 
+#include "../postxt/vectorposranges.h"
 #include "../postxt/posranges.h"
 
+#include <vector>
 #include <QTest>
 
 /*______________________________________________________________________________
 
-        TestPosRanges class : test of PosRanges module.
+        TestVectorPosRanges class : test of VectorPosRanges module.
 
 ______________________________________________________________________________*/
-class TestPosRanges: public QObject
+class TestVectorPosRanges: public QObject
 {
     Q_OBJECT
 
@@ -45,22 +47,8 @@ private slots:
 
   void test0(void);
   void test1(void);
-  void test2(void);
-  void test3(void);
-  void test4a(void);
-  void test4b(void);
-  void test4c(void);
-  void test4d(void);
-  void test5a(void);
-  void test5b(void);
-  void test6a(void);
-  void test6b(void);
-  void test7a(void);
-  void test7b(void);
-  void test7c(void);
-  void test7d(void);
-  void test8a(void);
-  void test8b(void);
 };
 
 #endif
+
+

@@ -19,48 +19,24 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testposranges.h
+    ❏Dipylon❏ : postxt/vectorposranges.h
 
-    ⇨ tests for PosRanges objects.
+    Simple wrapper around vector<PosRanges>.
 
-*********************************************************************************/
+*******************************************************************************/
 
-#ifndef TESTPOSRANGES_H
-#define TESTPOSRANGES_H
+#ifndef VECTORPOSRANGES_H
+#define VECTORPOSRANGES_H
 
-#include "../postxt/posranges.h"
+#include <QString>
+#include "posranges.h"
 
-#include <QTest>
-
-/*______________________________________________________________________________
-
-        TestPosRanges class : test of PosRanges module.
-
-______________________________________________________________________________*/
-class TestPosRanges: public QObject
+struct VectorPosRanges : std::vector<PosRanges>
 {
-    Q_OBJECT
+                VectorPosRanges(std::vector<PosRanges>);
+        QString to_str(void);
 
-private slots:
-
-  void test0(void);
-  void test1(void);
-  void test2(void);
-  void test3(void);
-  void test4a(void);
-  void test4b(void);
-  void test4c(void);
-  void test4d(void);
-  void test5a(void);
-  void test5b(void);
-  void test6a(void);
-  void test6b(void);
-  void test7a(void);
-  void test7b(void);
-  void test7c(void);
-  void test7d(void);
-  void test8a(void);
-  void test8b(void);
+        const char* MAIN_SEPARATOR = "/";
 };
 
 #endif

@@ -19,48 +19,41 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testposranges.h
+    ❏Dipylon❏ : postxt/vectorposranges.cpp
 
-    ⇨ tests for PosRanges objects.
+    see vectorposranges.h for the documentation
 
-*********************************************************************************/
+*******************************************************************************/
 
-#ifndef TESTPOSRANGES_H
-#define TESTPOSRANGES_H
-
-#include "../postxt/posranges.h"
-
-#include <QTest>
+#include "postxt/vectorposranges.h"
 
 /*______________________________________________________________________________
 
-        TestPosRanges class : test of PosRanges module.
-
+        PosRanges::PosRanges : constructor from a vector<PosRanges>
 ______________________________________________________________________________*/
-class TestPosRanges: public QObject
+VectorPosRanges::VectorPosRanges(std::vector<PosRanges> v) : std::vector<PosRanges>(v)
 {
-    Q_OBJECT
+}
 
-private slots:
+/*______________________________________________________________________________
 
-  void test0(void);
-  void test1(void);
-  void test2(void);
-  void test3(void);
-  void test4a(void);
-  void test4b(void);
-  void test4c(void);
-  void test4d(void);
-  void test5a(void);
-  void test5b(void);
-  void test6a(void);
-  void test6b(void);
-  void test7a(void);
-  void test7b(void);
-  void test7c(void);
-  void test7d(void);
-  void test8a(void);
-  void test8b(void);
-};
+        PosRanges::to_str : return a QString representation of this.
 
-#endif
+        NB : this function is debug-intended.
+______________________________________________________________________________*/
+QString VectorPosRanges::to_str(void)
+{
+  QString res = QString("");
+
+  // i is an iterator over PosRanges objects :
+  for(auto i = this->begin(); i!=this->end(); ++i)
+  {
+    res += i->to_str();
+    res += this->MAIN_SEPARATOR;
+  }
+
+  // removing the last MAIN_SEPARATOR character :
+  res.chop(1);
+
+  return res;
+}

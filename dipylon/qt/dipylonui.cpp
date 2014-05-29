@@ -27,16 +27,28 @@
 
 #include "qt/dipylonui.h"
 
+/*______________________________________________________________________________
+
+        DipylonUI::DipylonUI : normal constructor
+______________________________________________________________________________*/
 DipylonUI::DipylonUI(int argv, char ** args) : QApplication(argv, args)
 {
   this->set_the_ui();
 }
 
+/*______________________________________________________________________________
+
+        DipylonUI::exec : public access to QApplication.exec()
+______________________________________________________________________________*/
 int DipylonUI::exec(void)
 {
   return this->QApplication::exec();
 }
 
+/*______________________________________________________________________________
+
+        DipylonUI::set_the_ui() : User Interface implementation.
+______________________________________________________________________________*/
 void DipylonUI::set_the_ui(void)
 {
   delete this->source_editor;
@@ -62,4 +74,12 @@ void DipylonUI::set_the_ui(void)
   this->main_splitter->setSizes( {{500,100}} );
 
   this->main_splitter->show();
+
+  //============================================================================
+  // $$$ fake initialization $$$
+  //============================================================================
+  delete current_dipydoc;
+  current_dipydoc = new DipyDoc("../texts/Ovid_M_I_452_567/");
+  this->source_editor->setPlainText(current_dipydoc->text);
+
 }

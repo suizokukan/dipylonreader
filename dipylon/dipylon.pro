@@ -10,6 +10,7 @@ INCLUDEPATH += .
 
 # Input
 HEADERS = postxt/posranges.h \
+          postxt/vectorposranges.h \
           postxt/pos2str.h \
           hash.h \
           qt/dipylonui.h \
@@ -20,6 +21,7 @@ HEADERS = postxt/posranges.h \
 
 SOURCES += main.cpp \
            postxt/posranges.cpp \
+           postxt/vectorposranges.cpp \
            postxt/pos2str.cpp \
            qt/dipylonui.cpp \
            qt/sourceeditor.cpp \

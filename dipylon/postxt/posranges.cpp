@@ -226,17 +226,43 @@ int PosRanges::internal_state(void) const
 
 /*______________________________________________________________________________
 
-        PosRanges::is_inside() : return either true if (TextPos)v is inside one gap of the
-                            object, either false.
+        PosRanges::is_inside() : return either true if (TextPos)x0 is inside 
+                                 one gap of the object, either false.
 ______________________________________________________________________________*/
-bool PosRanges::is_inside(TextPos v) const
+bool PosRanges::is_inside(TextPos x0) const
 {
   bool res = false;
 
   // i is a std::vector < std::pair<TextPos, TextPos> > iterator.
   for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
     {
-      if( (i->first <= v) && (v <= i->second) )
+      if( (i->first <= x0) && (x0 <= i->second) )
+      {
+        res = true;
+        break;
+      }        
+    }
+
+  return res;
+}
+
+/*______________________________________________________________________________
+
+        PosRanges::is_inside() : return either true if at least one index between
+                                 (TextPos)x0 and (TextPos)x1 is inside one gap
+                                 of the object, either false.
+______________________________________________________________________________*/
+bool PosRanges::is_inside(TextPos x0, TextPos x1) const
+{
+  bool res = false;
+
+  // i is a std::vector < std::pair<TextPos, TextPos> > iterator.
+  for (auto i = this->vec.begin(); i != this->vec.end(); ++i)
+    {
+      if( ((i->first <= x0) && (x0 <= i->second)) ||
+          ((i->first <= x1) && (x1 <= i->second)) ||
+          ((i->first > x0) && (x1 > i->second))
+          )
       {
         res = true;
         break;

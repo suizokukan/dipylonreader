@@ -248,3 +248,35 @@ void TestPosRanges::test7d(void)
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 
+/*
+  test of is_inside() functions : is_inside(x0)
+*/
+void TestPosRanges::test8a(void)
+{ 
+  const QString& str = QString("94…98+99…100+101…105+123…125");
+  PosRanges g(str);
+
+  QCOMPARE( g.is_inside(93) , false );
+  QCOMPARE( g.is_inside(94) , true );
+  QCOMPARE( g.is_inside(98) , true );
+  QCOMPARE( g.is_inside(99) , true );
+  QCOMPARE( g.is_inside(125) , true );
+  QCOMPARE( g.is_inside(126) , false );
+}
+
+/*
+  test of is_inside() functions : is_inside(x0, x1)
+*/
+void TestPosRanges::test8b(void)
+{ 
+  const QString& str = QString("94…98+99…100+101…105+123…125");
+  PosRanges g(str);
+
+  QCOMPARE( g.is_inside(122, 130) , true );
+  QCOMPARE( g.is_inside(123, 125) , true );
+  QCOMPARE( g.is_inside(110, 125) , true );
+  QCOMPARE( g.is_inside(123, 130) , true );
+  QCOMPARE( g.is_inside(126, 131) , false );
+  QCOMPARE( g.is_inside(104, 106) , true );
+}
+

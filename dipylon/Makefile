@@ -47,6 +47,7 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		postxt/posranges.cpp \
+		postxt/vectorposranges.cpp \
 		postxt/pos2str.cpp \
 		qt/dipylonui.cpp \
 		qt/sourceeditor.cpp \
@@ -57,6 +58,7 @@ SOURCES       = main.cpp \
 		moc_mainsplitter.cpp
 OBJECTS       = main.o \
 		posranges.o \
+		vectorposranges.o \
 		pos2str.o \
 		dipylonui.o \
 		sourceeditor.o \
@@ -172,6 +174,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		dipylon.pro main.cpp \
 		postxt/posranges.cpp \
+		postxt/vectorposranges.cpp \
 		postxt/pos2str.cpp \
 		qt/dipylonui.cpp \
 		qt/sourceeditor.cpp \
@@ -436,7 +439,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents postxt/posranges.h postxt/pos2str.h hash.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h dipydoc/dipydoc.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp postxt/posranges.cpp postxt/pos2str.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp dipydoc/dipydoc.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents postxt/posranges.h postxt/vectorposranges.h postxt/pos2str.h hash.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h dipydoc/dipydoc.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp postxt/posranges.cpp postxt/vectorposranges.cpp postxt/pos2str.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp dipydoc/dipydoc.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -502,6 +505,11 @@ main.o: main.cpp qt/dipylonui.h \
 posranges.o: postxt/posranges.cpp postxt/posranges.h \
 		hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o postxt/posranges.cpp
+
+vectorposranges.o: postxt/vectorposranges.cpp postxt/vectorposranges.h \
+		postxt/posranges.h \
+		hash.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vectorposranges.o postxt/vectorposranges.cpp
 
 pos2str.o: postxt/pos2str.cpp postxt/pos2str.h \
 		postxt/posranges.h \

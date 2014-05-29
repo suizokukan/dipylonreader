@@ -33,10 +33,6 @@ SourceEditor::SourceEditor(DipyDoc* current_dipydoc, QWidget *parent) :  \
 QTextEdit(parent), current_dipydoc(current_dipydoc)
 {
   this->setReadOnly(true);
-
-  delete current_dipydoc;
-  current_dipydoc = new DipyDoc("../texts/Ovid_M_I_452_567/");
-  this->setPlainText(current_dipydoc->text);
 }
 
 /*______________________________________________________________________________
@@ -54,7 +50,8 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
     {
       // some text has been selected :
       QString selected_txt = cursor.selectedText();
-      qDebug() << selected_txt \
-               << cursor.position() - selected_txt.length() << "," << cursor.position();
+      unsigned int x0 = cursor.position() - selected_txt.length();
+      unsigned int x1 = cursor.position();
+      qDebug() << selected_txt << x0 << "," << x1;
     }
 }

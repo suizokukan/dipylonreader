@@ -111,20 +111,20 @@ int Pos2Str::internal_state(void) const
 
 /*______________________________________________________________________________
 
-        Pos2Str::is_inside(TextPos p) : search the first (PosRanges)key in this
-                                        that matches this->key.is_inside(p)
+        Pos2Str::is_inside(TextPos x0) : search the first (PosRanges)key in this
+                                         that matches this->key.is_inside(x0)
 
        This function returns a PosRanges. The result is an
-       empty PosRanges if indexes in "this" do not contain "p".
+       empty PosRanges if indexes in "this" do not contain "x0".
 
 _____________________________________________________________________________*/
-PosRanges Pos2Str::is_inside(TextPos p) const
+PosRanges Pos2Str::is_inside(TextPos x0) const
 {
   // i is an iterator over a pair<PosRanges, QString> :
   for(auto i = this->map.begin(); i != this->map.end(); ++i)
   {
     // i->first is a PosRanges object.
-    if( i->first.is_inside(p) == true )
+    if( i->first.is_inside(x0) == true )
     {
       // ok, the searched PosRanges has been found and can be returned :
       return i->first;
@@ -133,6 +133,33 @@ PosRanges Pos2Str::is_inside(TextPos p) const
  
   // no result : the function returns an empty vector.
   return PosRanges();
+}
+
+/*______________________________________________________________________________
+
+        Pos2Str::is_inside(TextPos x0, x1) : search the first (PosRanges)key in this
+                                             that matches this->key.is_inside(x0, x1)
+
+       This function returns a vector of PosRanges. The result is an empty
+       vector if this do not contain "x0...x1"
+
+_____________________________________________________________________________*/
+std::vector<PosRanges> Pos2Str::is_inside(TextPos x0, TextPos x1) const
+{
+  std::vector<PosRanges> res;
+
+  // i is an iterator over a pair<PosRanges, QString> :
+  for(auto i = this->map.begin(); i != this->map.end(); ++i)
+  {
+    // i->first is a PosRanges object.
+    if( i->first.is_inside(x0, x1) == true )
+    {
+      // ok, the searched PosRanges has been found :
+      res.push_back( i->first );
+    }
+  }
+
+  return res;
 }
 
 /*______________________________________________________________________________

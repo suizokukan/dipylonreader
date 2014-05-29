@@ -77,9 +77,9 @@ void TestPos2Str::test1(void)
 }
 
 /*
-  test of Pos2Str::is_inside(int).
+  test of Pos2Str::is_inside(x0).
 */
-void TestPos2Str::test2(void)
+void TestPos2Str::test2a(void)
 { 
   Pos2Str pos2str = {
       { {{ {1,2}, {3,4} },}, QString("example1")},
@@ -91,4 +91,37 @@ void TestPos2Str::test2(void)
   QCOMPARE( pos2str.is_inside(20), PosRanges( { {10,11}, {12,23}} ) );
 
   QCOMPARE( pos2str.is_inside(100), PosRanges() );
+}
+
+/*
+  test of Pos2Str::is_inside(x0, x1).
+*/
+void TestPos2Str::test2b(void)
+{ 
+  Pos2Str pos2str = {
+      { {{ {1,2}, {3,4} },}, QString("example1")},
+      { {{ {5,6}, {7,8} },}, QString("example2")},
+      { {{ {10,11}, {12,23} },}, QString("example3")},
+  };
+
+  QCOMPARE( pos2str.is_inside(24, 25), {} );
+
+  QCOMPARE( pos2str.is_inside(9, 12), 
+            { PosRanges( { {10,11}, {12,23}} ) } );
+
+  QCOMPARE( pos2str.is_inside(11, 12), 
+            { PosRanges( { {10,11}, {12,23}} ) } );
+
+  QCOMPARE( pos2str.is_inside(10, 23), 
+            { PosRanges( { {10,11}, {12,23}} ) } );
+
+  QCOMPARE( pos2str.is_inside(10, 25), 
+            { PosRanges( { {10,11}, {12,23}} ) } );
+
+  std::vector<PosRanges> res1 = pos2str.is_inside(5, 25);
+  QCOMPARE( res1.size(), (std::size_t)2 );
+
+  std::vector<PosRanges> res2 = pos2str.is_inside(4, 25);
+  QCOMPARE( res2.size(), (std::size_t)3 );
+
 }

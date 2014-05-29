@@ -90,6 +90,7 @@ class PosRanges
 
         int     internal_state(void) const;
         bool    is_inside(TextPos) const;
+        bool    is_inside(TextPos, TextPos) const;
         size_t  size(void) const;
         QString to_str(void) const;
         bool    well_initialized(void) const;

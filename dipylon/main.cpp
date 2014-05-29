@@ -22,9 +22,10 @@
     ❏Dipylon❏ : main.cpp
 
 *******************************************************************************/
-#include <QtWidgets>
 
 #include "qt/dipylonui.h"
+
+#include "postxt/pos2str.h"
 
 int main(int argv, char **args)
 {

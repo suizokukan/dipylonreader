@@ -46,21 +46,27 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../postxt/posranges.cpp \
+		../postxt/vectorposranges.cpp \
 		../postxt/pos2str.cpp \
 		tests.cpp \
 		testposranges.cpp \
+		testvectorposranges.cpp \
 		testpos2str.cpp \
 		testhash.cpp moc_testhash.cpp \
 		moc_testposranges.cpp \
+		moc_testvectorposranges.cpp \
 		moc_testpos2str.cpp
 OBJECTS       = posranges.o \
+		vectorposranges.o \
 		pos2str.o \
 		tests.o \
 		testposranges.o \
+		testvectorposranges.o \
 		testpos2str.o \
 		testhash.o \
 		moc_testhash.o \
 		moc_testposranges.o \
+		moc_testvectorposranges.o \
 		moc_testpos2str.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/shell-unix.conf \
@@ -167,9 +173,11 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		tests.pro ../postxt/posranges.cpp \
+		../postxt/vectorposranges.cpp \
 		../postxt/pos2str.cpp \
 		tests.cpp \
 		testposranges.cpp \
+		testvectorposranges.cpp \
 		testpos2str.cpp \
 		testhash.cpp
 QMAKE_TARGET  = tests
@@ -430,7 +438,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/tests1.0.0 || mkdir -p .tmp/tests1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../postxt/posranges.h ../postxt/pos2str.h ../hash.h testhash.h testposranges.h testpos2str.h .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../postxt/posranges.cpp ../postxt/pos2str.cpp tests.cpp testposranges.cpp testpos2str.cpp testhash.cpp .tmp/tests1.0.0/ && (cd `dirname .tmp/tests1.0.0` && $(TAR) tests1.0.0.tar tests1.0.0 && $(COMPRESS) tests1.0.0.tar) && $(MOVE) `dirname .tmp/tests1.0.0`/tests1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/tests1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../postxt/posranges.h ../postxt/vectorposranges.h ../postxt/pos2str.h ../hash.h testhash.h testposranges.h testvectorposranges.h testpos2str.h .tmp/tests1.0.0/ && $(COPY_FILE) --parents ../postxt/posranges.cpp ../postxt/vectorposranges.cpp ../postxt/pos2str.cpp tests.cpp testposranges.cpp testvectorposranges.cpp testpos2str.cpp testhash.cpp .tmp/tests1.0.0/ && (cd `dirname .tmp/tests1.0.0` && $(TAR) tests1.0.0.tar tests1.0.0 && $(COMPRESS) tests1.0.0.tar) && $(MOVE) `dirname .tmp/tests1.0.0`/tests1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/tests1.0.0
 
 
 clean:compiler_clean 
@@ -453,9 +461,9 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_testhash.cpp moc_testposranges.cpp moc_testpos2str.cpp
+compiler_moc_header_make_all: moc_testhash.cpp moc_testposranges.cpp moc_testvectorposranges.cpp moc_testpos2str.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_testhash.cpp moc_testposranges.cpp moc_testpos2str.cpp
+	-$(DEL_FILE) moc_testhash.cpp moc_testposranges.cpp moc_testvectorposranges.cpp moc_testpos2str.cpp
 moc_testhash.cpp: ../hash.h \
 		testhash.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testhash.h -o moc_testhash.cpp
@@ -464,6 +472,12 @@ moc_testposranges.cpp: ../postxt/posranges.h \
 		../hash.h \
 		testposranges.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testposranges.h -o moc_testposranges.cpp
+
+moc_testvectorposranges.cpp: ../postxt/vectorposranges.h \
+		../postxt/posranges.h \
+		../hash.h \
+		testvectorposranges.h
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testvectorposranges.h -o moc_testvectorposranges.cpp
 
 moc_testpos2str.cpp: ../postxt/posranges.h \
 		../hash.h \
@@ -489,6 +503,11 @@ posranges.o: ../postxt/posranges.cpp ../postxt/posranges.h \
 		../hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o ../postxt/posranges.cpp
 
+vectorposranges.o: ../postxt/vectorposranges.cpp ../postxt/vectorposranges.h \
+		../postxt/posranges.h \
+		../hash.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vectorposranges.o ../postxt/vectorposranges.cpp
+
 pos2str.o: ../postxt/pos2str.cpp ../postxt/pos2str.h \
 		../postxt/posranges.h \
 		../hash.h
@@ -498,6 +517,8 @@ tests.o: tests.cpp testhash.h \
 		../hash.h \
 		testposranges.h \
 		../postxt/posranges.h \
+		testvectorposranges.h \
+		../postxt/vectorposranges.h \
 		testpos2str.h \
 		../postxt/pos2str.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tests.o tests.cpp
@@ -506,6 +527,12 @@ testposranges.o: testposranges.cpp testposranges.h \
 		../postxt/posranges.h \
 		../hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testposranges.o testposranges.cpp
+
+testvectorposranges.o: testvectorposranges.cpp testvectorposranges.h \
+		../postxt/vectorposranges.h \
+		../postxt/posranges.h \
+		../hash.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testvectorposranges.o testvectorposranges.cpp
 
 testpos2str.o: testpos2str.cpp testpos2str.h \
 		../postxt/posranges.h \
@@ -522,6 +549,9 @@ moc_testhash.o: moc_testhash.cpp
 
 moc_testposranges.o: moc_testposranges.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testposranges.o moc_testposranges.cpp
+
+moc_testvectorposranges.o: moc_testvectorposranges.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testvectorposranges.o moc_testvectorposranges.cpp
 
 moc_testpos2str.o: moc_testpos2str.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_testpos2str.o moc_testpos2str.cpp

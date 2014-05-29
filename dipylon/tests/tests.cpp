@@ -29,6 +29,7 @@
 
 #include "testhash.h"
 #include "testposranges.h"
+#include "testvectorposranges.h"
 #include "testpos2str.h"
 
 int main(void)
@@ -38,6 +39,9 @@ int main(void)
 
   TestPosRanges testposranges;
   QTest::qExec(&testposranges);
+
+  TestVectorPosRanges testvectorposranges;
+  QTest::qExec(&testvectorposranges);
 
   TestPos2Str testpos2str;
   QTest::qExec(&testpos2str);

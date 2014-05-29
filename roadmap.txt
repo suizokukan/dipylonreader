@@ -12,9 +12,10 @@
 0.1.7 : PosRange class
 
 0.1.8 :
-pas plus d'un include dans un .cpp, non ?
-virer les private store et les QOBJECT dans les classes de tests, non ?
-CONST????? in QString& PosRanges2Str::operator[]( std::vector< std::pair<int, int> > key) 
+(a) std::vector<PosRanges> -> VectorPosRanges avec une méthode to_str()
+(b) réécrire après (a) la méthode pos2str.is_inside(5, 25) et les tests correspondants.
+(c) hiérarchie des répertoires à documenter
+(d) CONST????? in QString& PosRanges2Str::operator[]( std::vector< std::pair<int, int> > key) 
 
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
 
