@@ -30,12 +30,15 @@
 
 #include "dipydoc/dipydoc.h"
 
-struct DipylonUI : QApplication
+class DipylonUI : QApplication
 {
     public:
         DipylonUI(int, char **);
-        int* current_dipydoc = 0;
+        DipyDoc* current_dipydoc = 0;
 
+        int exec(void);
+
+    private:
         SourceEditor* source_editor = 0;
         CommentaryEditor *commentary_editor = 0;
         MainSplitter *main_splitter = 0;
@@ -46,6 +49,12 @@ DipylonUI::DipylonUI(int argv, char ** args) : QApplication(argv, args)
 {
   this->set_the_ui();
 }
+
+int DipylonUI::exec(void)
+{
+  return this->QApplication::exec();
+}
+
 void DipylonUI::set_the_ui(void)
 {
   delete this->source_editor;
@@ -78,13 +87,6 @@ int main(int argv, char **args)
     qDebug() << "Dipylon : entry point\n";
 
     DipylonUI app(argv, args);
-
-    DipyDoc d("../texts/Ovid_M_I_452_567/");
-    if ( d.well_initialized() == false )
-    {
-      qDebug() << d.internal_state() << "!!!";
-    }
-    app.source_editor->setPlainText(d.text);
 
     return app.exec();
 }

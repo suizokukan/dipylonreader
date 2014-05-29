@@ -30,13 +30,15 @@
 #include <QPlainTextEdit>
 #include <QObject>
 
+#include "../dipydoc/dipydoc.h"
+
 class SourceEditor : public QTextEdit
 {
     Q_OBJECT
 
 public:
-    SourceEditor(int* current_dipydoc = 0, QWidget *parent = 0);
-    int* current_dipydoc;
+    SourceEditor(DipyDoc* current_dipydoc = 0, QWidget *parent = 0);
+    DipyDoc* current_dipydoc;
 
 protected:
     void mouseReleaseEvent(QMouseEvent*);
