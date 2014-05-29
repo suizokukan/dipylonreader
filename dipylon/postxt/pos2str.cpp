@@ -29,6 +29,18 @@
 
 /*______________________________________________________________________________
 
+        Pos2Str:: empty constructor.
+
+                  initialize _well_initialized and _internal_state .
+______________________________________________________________________________*/
+Pos2Str::Pos2Str( void )
+{
+  this->_well_initialized = true;
+  this->_internal_state = INTERNALSTATE_OK;
+}
+
+/*______________________________________________________________________________
+
         Pos2Str:: constructor from an initializer list of integers and strings.
 
                   initialize _well_initialized and _internal_state .

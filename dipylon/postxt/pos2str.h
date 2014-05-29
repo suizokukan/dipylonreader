@@ -60,7 +60,8 @@ class Pos2Str
         void            checks(void);
 
     public:
-        Pos2Str(std::initializer_list< IntegersAndAString >);
+                        Pos2Str(void);
+                        Pos2Str(std::initializer_list< IntegersAndAString >);
 
         size_t          size(void) const;
         int             internal_state(void) const;

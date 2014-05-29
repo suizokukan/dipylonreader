@@ -57,6 +57,7 @@ class DipyDoc
         bool    well_initialized(void) const;
 
         QString text;
+        Pos2Str translations;
 };
 
 #endif
