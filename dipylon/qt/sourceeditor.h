@@ -26,7 +26,7 @@
 #ifndef SOURCEEDITOR_H
 #define SOURCEEDITOR_H
 
-#include <QtWidgets>
+#include <QDebug>
 #include <QPlainTextEdit>
 #include <QObject>
 

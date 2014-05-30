@@ -4,6 +4,9 @@ dipylon/                                C++/Qt5 code
        /dipylon.sh                      compiler, launcher
        /hash.[h|cpp]                    generic hash function
 
+dipylon/dipydoc/                        DipylonDocument
+               /dipydoc.[h|cpp]         DipyDoc class
+
 dipylon/qt/                             Qt5 / UI code
           /dipylonui.[h|cpp]            UI definition
           /commentaryeditor.[h|cpp]     commentary zone
