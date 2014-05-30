@@ -106,6 +106,7 @@ void TestPos2Str::test2b(void)
       { {{ {1,2}, {3,4} },}, QString("example5")},
   };
 
+  // only one PosRanges expected : no need to sort.
   QCOMPARE( pos2str.is_inside(24, 25).to_str(), 
             QString("") );
   QCOMPARE( pos2str.is_inside(9, 12).to_str(), 
