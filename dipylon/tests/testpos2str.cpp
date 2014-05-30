@@ -118,8 +118,8 @@ void TestPos2Str::test2b(void)
             QString("10-11+12-23") );
 
   /* the function sorts the results since the order of the PosRanges elements
-     in the vector aren't fixed. In order to compare the result, it's more
-     easy to sort (->and the order is fixed) and then to compare.
+     in the vector isn't fixed. So, in order to compare the result, it's more
+     easy to sort (=to fix the order) and then to compare.
   */
   VectorPosRanges res;
   res = pos2str.is_inside(1, 25);
