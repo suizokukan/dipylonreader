@@ -25,11 +25,19 @@
 
 #include "qt/dipylonui.h"
 
+// $$$ à supprimer
 #include "postxt/pos2str.h"
 
 int main(int argv, char **args)
 {
-    qDebug() << "Dipylon : entry point\n";
+  qDebug() << "Dipylon : entry point\n";
+
+  Pos2Str pos2str = {
+      { {{ {10,20}, {30,40} },}, QString("example1")},
+      { {{ {25,36}, {45,55} },}, QString("example2")},
+      { {{ {59,61}, {62,63} },}, QString("example3")},
+  };
+  qDebug() << pos2str.internal_state();
 
     DipylonUI app(argv, args);
 

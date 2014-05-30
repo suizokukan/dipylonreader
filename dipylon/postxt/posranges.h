@@ -35,20 +35,20 @@
       objects can't be safely used to create subclasses.
       E.g. see discussion here : http://stackoverflow.com/questions/461203
 
-    ⇨ overlapping is forbidden : "0…1+1…2" is ok, not "0…1+0…2", not "46…49+48…52"
+    ⇨ overlapping is forbidden : "0-1+1-2" is ok, not "0-1+0-2", not "46-49+48-52"
 
-    ⇨ POSRANGES_STR format : "45…97", "45…97+123…136+999…1001", ...
+    ⇨ POSRANGES_STR format : "45-97", "45-97+123-136+999-1001", ...
         no spaces allowed 
         overlapping is forbidden (vide  supra) 
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
         at least one gap must be defined (no empty string)
-        x0 must be < x1 (no "45…22", no "45…45")
+        x0 must be < x1 (no "45-22", no "45-45")
 
     ⇨ how to use :
     #include "posranges.h"
  
     // either...
-    const QString& str = QString("94…95+97…98+101…105");
+    const QString& str = QString("94-95+97-98+101-105");
     PosRanges *g = new PosRanges(str);
     // ... either :
     PosRanges g( { {94,95} , {97,98}, {101,105} } );
@@ -77,6 +77,9 @@
 
 typedef int TextPos;
 
+/*
+  Wrapper around "vec", std::vector<std::pair<TextPos, TextPos> >.
+*/
 class PosRanges
 {
   friend class PosRangesHasher;
@@ -84,16 +87,42 @@ class PosRanges
 
     public:
         PosRanges(void);
+        PosRanges(const PosRanges& other)  // $$$ à réécrire dans le fichier .cpp.
+        {
+          this->_well_initialized = other._well_initialized;
+          this->_internal_state = other._internal_state;
+
+          this->vec.clear();
+          for(auto i = other.vec.begin(); i != other.vec.end(); ++i)
+          {
+            this->vec.push_back( std::make_pair( i->first, i->second ) );
+          }
+        }
         PosRanges(const QString& src_qstring);
         PosRanges(std::initializer_list< std::pair<TextPos, TextPos> >);
         PosRanges(std::vector< std::pair<TextPos, TextPos> >);
 
+        std::vector<std::pair<TextPos, TextPos> >::const_iterator    begin(void) const;
+        std::vector<std::pair<TextPos, TextPos> >::const_iterator    end(void) const;
         int     internal_state(void) const;
         bool    is_inside(TextPos) const;
         bool    is_inside(TextPos, TextPos) const;
         size_t  size(void) const;
         QString to_str(void) const;
         bool    well_initialized(void) const;
+
+        PosRanges& operator=(PosRanges&& other)
+        { 
+          // $$$ à réécrire dans *.cpp
+          // see http://en.cppreference.com/w/cpp/language/move_operator
+          this->vec = std::move(other.vec);
+          return *this; 
+        }
+        // http://en.cppreference.com/w/cpp/language/move_operator
+        PosRanges& operator=(const PosRanges&) { return *this; }
+
+        // semble inutile ??? $$$
+        // PosRanges& operator=(const PosRanges& other) = default;
 
         bool    operator==(const PosRanges& other) const
         {
@@ -115,7 +144,7 @@ class PosRanges
     private:
         // for more details, see the POSRANGES_STR format :
         const char* MAIN_SEPARATOR = "+";
-        const char* SECONDARY_SEPARATOR = "…";
+        const char* SECONDARY_SEPARATOR = "-";
 
         std::vector<std::pair<TextPos, TextPos> > vec;
         int _internal_state;

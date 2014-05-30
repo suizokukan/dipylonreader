@@ -39,6 +39,7 @@
 *********************************************************************************/
 
 #include "testpos2str.h"
+#include <algorithm>    // $$$std::sort$$$
 
 /*
   A Pos2Str object is created without any error.
@@ -99,29 +100,28 @@ void TestPos2Str::test2a(void)
 void TestPos2Str::test2b(void)
 { 
   Pos2Str pos2str = {
-      { {{ {1,2}, {3,4} },}, QString("example1")},
-      { {{ {5,6}, {7,8} },}, QString("example2")},
-      { {{ {10,11}, {12,23} },}, QString("example3")},
+      { {{ {5,6}, {7,8} },}, QString("example1")},
+      { {{ {90,91}, {93,99} },}, QString("example2")},
+      { {{ {80,81}, {83,89} },}, QString("example3")},
+      { {{ {10,11}, {12,23} },}, QString("example4")},
+      { {{ {1,2}, {3,4} },}, QString("example5")},
   };
 
-  QCOMPARE( pos2str.is_inside(24, 25), {} );
+  QCOMPARE( pos2str.is_inside(24, 25).to_str(), 
+            QString("") );
+  QCOMPARE( pos2str.is_inside(9, 12).to_str(), 
+            QString("10-11+12-23") );
+  QCOMPARE( pos2str.is_inside(11, 12).to_str(), 
+            QString("10-11+12-23") );
+  QCOMPARE( pos2str.is_inside(10, 23).to_str(), 
+            QString("10-11+12-23") );
+  QCOMPARE( pos2str.is_inside(10, 25).to_str(), 
+            QString("10-11+12-23") );
 
-  QCOMPARE( pos2str.is_inside(9, 12), 
-            { PosRanges( { {10,11}, {12,23}} ) } );
-
-  QCOMPARE( pos2str.is_inside(11, 12), 
-            { PosRanges( { {10,11}, {12,23}} ) } );
-
-  QCOMPARE( pos2str.is_inside(10, 23), 
-            { PosRanges( { {10,11}, {12,23}} ) } );
-
-  QCOMPARE( pos2str.is_inside(10, 25), 
-            { PosRanges( { {10,11}, {12,23}} ) } );
-
-  std::vector<PosRanges> res1 = pos2str.is_inside(5, 25);
-  QCOMPARE( res1.size(), (std::size_t)2 );
-
-  std::vector<PosRanges> res2 = pos2str.is_inside(4, 25);
-  QCOMPARE( res2.size(), (std::size_t)3 );
-
+  /*
+  VectorPosRanges res = pos2str.is_inside(1, 25);
+  res.sort();
+  QCOMPARE( res.to_str(), 
+            QString("1-2+3-4/5-6+7-8/10-11+12-23") );
+  */
 }

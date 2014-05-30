@@ -144,7 +144,7 @@ PosRanges Pos2Str::is_inside(TextPos x0) const
        vector if this do not contain "x0...x1"
 
 _____________________________________________________________________________*/
-std::vector<PosRanges> Pos2Str::is_inside(TextPos x0, TextPos x1) const
+VectorPosRanges Pos2Str::is_inside(TextPos x0, TextPos x1) const
 {
   std::vector<PosRanges> res;
 

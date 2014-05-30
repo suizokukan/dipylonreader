@@ -45,7 +45,7 @@
 */
 void TestPosRanges::test0(void)
 { 
-  const QString& str = QString("0…1+1…2");
+  const QString& str = QString("0-1+1-2");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() , true );
@@ -59,7 +59,7 @@ void TestPosRanges::test0(void)
 */
 void TestPosRanges::test1(void)
 { 
-  const QString& str = QString("94…98+99…100+101…105+123…125");
+  const QString& str = QString("94-98+99-100+101-105+123-125");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() ,true );
@@ -81,9 +81,9 @@ void TestPosRanges::test1(void)
 */
 void TestPosRanges::test2(void)
 { 
-  const QString& str = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+  const QString& str = QString("  94- 95 +   97  -  98 +  101 -  105  ");
   PosRanges g(str);
-  QCOMPARE( g.to_str(), QString("94…95+97…98+101…105") );
+  QCOMPARE( g.to_str(), QString("94-95+97-98+101-105") );
 
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
@@ -114,7 +114,7 @@ void TestPosRanges::test3(void)
 */
 void TestPosRanges::test4a(void)
 { 
-  const QString& str = QString("49…");
+  const QString& str = QString("49-");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
@@ -126,7 +126,7 @@ void TestPosRanges::test4a(void)
 */
 void TestPosRanges::test4b(void)
 { 
-  const QString& str = QString("49…89+145");
+  const QString& str = QString("49-89+145");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
@@ -138,7 +138,7 @@ void TestPosRanges::test4b(void)
 */
 void TestPosRanges::test4c(void)
 { 
-  const QString& str = QString("49…89+144…144");
+  const QString& str = QString("49-89+144-144");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
@@ -150,7 +150,7 @@ void TestPosRanges::test4c(void)
 */
 void TestPosRanges::test4d(void)
 { 
-  const QString& str = QString("49…89+144…143");
+  const QString& str = QString("49-89+144-143");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
@@ -162,7 +162,7 @@ void TestPosRanges::test4d(void)
 */
 void TestPosRanges::test5a(void)
 { 
-  const QString& str = QString("49…89+50…150");
+  const QString& str = QString("49-89+50-150");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
@@ -174,7 +174,7 @@ void TestPosRanges::test5a(void)
 */
 void TestPosRanges::test5b(void)
 { 
-  const QString& str = QString("49…89+95…150+3…50");
+  const QString& str = QString("49-89+95-150+3-50");
   PosRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
@@ -186,9 +186,9 @@ void TestPosRanges::test5b(void)
 */
 void TestPosRanges::test6a(void)
 { 
-  const QString& str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+  const QString& str1 = QString("  94- 95 +   97  -  98 +  101 -  105  ");
   PosRanges g1(str1);
-  const QString& str2 = QString("94…95+97…98+101…105");
+  const QString& str2 = QString("94-95+97-98+101-105");
   PosRanges g2(str2);
 
   QCOMPARE( g1 , g2 );
@@ -199,9 +199,9 @@ void TestPosRanges::test6a(void)
 */
 void TestPosRanges::test6b(void)
 { 
-  const QString& str1 = QString("  94… 95 +   97  …  98 +  101 …  105  ");
+  const QString& str1 = QString("  94- 95 +   97  -  98 +  101 -  105  ");
   PosRanges g1(str1);
-  const QString& str2 = QString("94…95+97…98+101…106");
+  const QString& str2 = QString("94-95+97-98+101-106");
   PosRanges g2(str2);
 
   QVERIFY( g1 != g2 );
@@ -253,7 +253,7 @@ void TestPosRanges::test7d(void)
 */
 void TestPosRanges::test8a(void)
 { 
-  const QString& str = QString("94…98+99…100+101…105+123…125");
+  const QString& str = QString("94-98+99-100+101-105+123-125");
   PosRanges g(str);
 
   QCOMPARE( g.is_inside(93) , false );
@@ -269,7 +269,7 @@ void TestPosRanges::test8a(void)
 */
 void TestPosRanges::test8b(void)
 { 
-  const QString& str = QString("94…98+99…100+101…105+123…125");
+  const QString& str = QString("94-98+99-100+101-105+123-125");
   PosRanges g(str);
 
   QCOMPARE( g.is_inside(122, 130) , true );

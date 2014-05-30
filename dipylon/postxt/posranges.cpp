@@ -163,6 +163,15 @@ PosRanges::PosRanges(std::vector< std::pair<TextPos, TextPos> > values) : vec(va
   this->checks();
 }
 
+/*______________________________________________________________________________
+
+        PosRanges::begin() : return this->vec->begin().
+
+______________________________________________________________________________*/
+std::vector<std::pair<TextPos, TextPos> >::const_iterator PosRanges::begin(void) const
+{
+  return this->vec.begin();
+}
 
 /*______________________________________________________________________________
 
@@ -208,6 +217,16 @@ void PosRanges::checks(void)
       }
     }
   }
+}
+
+/*______________________________________________________________________________
+
+        PosRanges::end() : return this->vec->end().
+
+______________________________________________________________________________*/
+std::vector<std::pair<TextPos, TextPos> >::const_iterator PosRanges::end(void) const
+{
+  return this->vec.end();
 }
 
 /*______________________________________________________________________________

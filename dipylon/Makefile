@@ -469,6 +469,7 @@ moc_sourceeditor.cpp: dipydoc/dipydoc.h \
 		postxt/pos2str.h \
 		postxt/posranges.h \
 		hash.h \
+		postxt/vectorposranges.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
@@ -498,6 +499,7 @@ main.o: main.cpp qt/dipylonui.h \
 		postxt/pos2str.h \
 		postxt/posranges.h \
 		hash.h \
+		postxt/vectorposranges.h \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -513,7 +515,8 @@ vectorposranges.o: postxt/vectorposranges.cpp postxt/vectorposranges.h \
 
 pos2str.o: postxt/pos2str.cpp postxt/pos2str.h \
 		postxt/posranges.h \
-		hash.h
+		hash.h \
+		postxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o postxt/pos2str.cpp
 
 dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
@@ -522,6 +525,7 @@ dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
 		postxt/pos2str.h \
 		postxt/posranges.h \
 		hash.h \
+		postxt/vectorposranges.h \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
@@ -530,7 +534,8 @@ sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
 		postxt/pos2str.h \
 		postxt/posranges.h \
-		hash.h
+		hash.h \
+		postxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
 commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h
@@ -542,7 +547,8 @@ mainsplitter.o: qt/mainsplitter.cpp qt/mainsplitter.h
 dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \
 		postxt/pos2str.h \
 		postxt/posranges.h \
-		hash.h
+		hash.h \
+		postxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipydoc.o dipydoc/dipydoc.cpp
 
 moc_sourceeditor.o: moc_sourceeditor.cpp 

@@ -31,22 +31,40 @@
 
         PosRanges::PosRanges : constructor from a vector<PosRanges>
 ______________________________________________________________________________*/
-VectorPosRanges::VectorPosRanges(std::vector<PosRanges> v) : std::vector<PosRanges>(v)
+VectorPosRanges::VectorPosRanges(std::vector<PosRanges> v) : vposranges(v)
 {
 }
 
 /*______________________________________________________________________________
 
-        PosRanges::to_str : return a QString representation of this.
-
-        NB : this function is debug-intended.
+        PosRanges::size() : return the size of vposranges
 ______________________________________________________________________________*/
-QString VectorPosRanges::to_str(void)
+std::size_t VectorPosRanges::size(void) const
+{
+  return this->vposranges.size();
+}
+
+/*______________________________________________________________________________
+
+        PosRanges::sort()
+______________________________________________________________________________*/
+void VectorPosRanges::sort(void)
+{
+  std::sort( this->vposranges.begin(),
+             this->vposranges.end(),
+             VectorPosRangesCMP(this) );
+}
+
+/*______________________________________________________________________________
+
+        PosRanges::to_str : return a QString representation of this.
+______________________________________________________________________________*/
+QString VectorPosRanges::to_str(void) const
 {
   QString res = QString("");
 
   // i is an iterator over PosRanges objects :
-  for(auto i = this->begin(); i!=this->end(); ++i)
+  for(auto i = this->vposranges.begin(); i!=this->vposranges.end(); ++i)
   {
     res += i->to_str();
     res += this->MAIN_SEPARATOR;

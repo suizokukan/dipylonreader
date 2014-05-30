@@ -12,9 +12,12 @@
 0.1.7 : PosRange class
 
 0.1.8 :
-(a) std::vector<PosRanges> -> VectorPosRanges avec une méthode to_str()
-(b) réécrire après (a) la méthode pos2str.is_inside(5, 25) et les tests correspondants.
+(a) tester sort()
+(b) après (a), testpos2str()
+(a) réécrire la méthode pos2str.is_inside(5, 25) et les tests correspondants.
+(b) virer les $$$
 (c) hiérarchie des répertoires à documenter
+(x) est-ce que toutes les méthodes size() renvoient un size_t et non, un int ?
 (d) CONST????? in QString& PosRanges2Str::operator[]( std::vector< std::pair<int, int> > key) 
 
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument

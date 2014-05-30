@@ -482,6 +482,7 @@ moc_testvectorposranges.cpp: ../postxt/vectorposranges.h \
 moc_testpos2str.cpp: ../postxt/posranges.h \
 		../hash.h \
 		../postxt/pos2str.h \
+		../postxt/vectorposranges.h \
 		testpos2str.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/tests -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include testpos2str.h -o moc_testpos2str.cpp
 
@@ -510,7 +511,8 @@ vectorposranges.o: ../postxt/vectorposranges.cpp ../postxt/vectorposranges.h \
 
 pos2str.o: ../postxt/pos2str.cpp ../postxt/pos2str.h \
 		../postxt/posranges.h \
-		../hash.h
+		../hash.h \
+		../postxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o ../postxt/pos2str.cpp
 
 tests.o: tests.cpp testhash.h \
@@ -537,7 +539,8 @@ testvectorposranges.o: testvectorposranges.cpp testvectorposranges.h \
 testpos2str.o: testpos2str.cpp testpos2str.h \
 		../postxt/posranges.h \
 		../hash.h \
-		../postxt/pos2str.h
+		../postxt/pos2str.h \
+		../postxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testpos2str.o testpos2str.cpp
 
 testhash.o: testhash.cpp testhash.h \

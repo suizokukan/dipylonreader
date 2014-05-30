@@ -29,11 +29,15 @@
 #define POS2STR_H
 
 #include "postxt/posranges.h"
+#include "postxt/vectorposranges.h"
 
 #include <unordered_map>
 #include <vector>
 
 #include <QString>
+
+// $$$
+#include <QDebug>
 
 /*
   Structure used to easily initialize Pos2Str objects. E.g. :
@@ -66,7 +70,7 @@ class Pos2Str
         size_t                 size(void) const;
         int                    internal_state(void) const;
         PosRanges              is_inside(TextPos) const;
-        std::vector<PosRanges> is_inside(TextPos, TextPos) const;
+        VectorPosRanges        is_inside(TextPos, TextPos) const;
         bool                   well_initialized(void) const;
 
         QString&               operator[]( std::vector< std::pair<TextPos, TextPos> > key );

@@ -28,15 +28,50 @@
 #ifndef VECTORPOSRANGES_H
 #define VECTORPOSRANGES_H
 
-#include <QString>
 #include "posranges.h"
+#include <QString>
 
-struct VectorPosRanges : std::vector<PosRanges>
+struct VectorPosRanges
 {
-                VectorPosRanges(std::vector<PosRanges>);
-        QString to_str(void);
+        std::vector<PosRanges> vposranges;
+
+                    VectorPosRanges(std::vector<PosRanges>);
+        std::size_t size(void) const;
+        void        sort(void);
+        QString     to_str(void) const;
 
         const char* MAIN_SEPARATOR = "/";
-};
 
+        /* 
+                Functor used to sort VectorPosRanges.
+        */
+	struct VectorPosRangesCMP
+	{
+		VectorPosRanges* m;
+		VectorPosRangesCMP(VectorPosRanges* p) : m(p) {};
+ 
+                bool operator() ( PosRanges ii, PosRanges jj )
+		{
+                  auto i = ii.begin();
+                  auto j = jj.begin();
+                  while(i != ii.end() && j != jj.end())
+                  {
+                    if( i->first < j->first )
+                    {
+   		      return true;
+                    }
+                    if( i->first > j->first )
+                    {
+   		      return false;
+                    }
+
+                    // if i->first == j->first, the function goes further :
+                    ++i;
+                    ++j;
+                  }
+
+                  return false;
+		}
+	};
+};
 #endif
