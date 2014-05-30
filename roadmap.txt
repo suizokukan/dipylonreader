@@ -12,7 +12,6 @@
 0.1.7 : PosRange class
 0.1.8 : Pos2Str class
 
-0.1.8 :
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
 
 DOC à propos de QSplitter :
