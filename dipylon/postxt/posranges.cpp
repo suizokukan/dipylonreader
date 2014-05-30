@@ -36,9 +36,25 @@
 ______________________________________________________________________________*/
 PosRanges::PosRanges(void)
 {
-  this->vec = std::vector<std::pair<TextPos, TextPos> >();
+  this->vec = VectorPairTextPos();
   this->_well_initialized = false;
   this->_internal_state = this->INTERNALSTATE_EMPTY;
+}
+
+/*______________________________________________________________________________
+
+        PosRanges::PosRanges : constructor from another PosRanges object.
+______________________________________________________________________________*/
+PosRanges::PosRanges(const PosRanges& other)
+{
+  this->_well_initialized = other._well_initialized;
+  this->_internal_state = other._internal_state;
+
+  this->vec.clear();
+  for(auto i = other.vec.begin(); i != other.vec.end(); ++i)
+  {
+    this->vec.push_back( std::make_pair( i->first, i->second ) );
+  }
 }
 
 /*______________________________________________________________________________
@@ -52,7 +68,7 @@ PosRanges::PosRanges(void)
 ______________________________________________________________________________*/
 PosRanges::PosRanges(const QString& src_qstring)
 {
-  this->vec = std::vector<std::pair<TextPos, TextPos> >();
+  this->vec = VectorPairTextPos();
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
   
@@ -166,9 +182,8 @@ PosRanges::PosRanges(std::vector< std::pair<TextPos, TextPos> > values) : vec(va
 /*______________________________________________________________________________
 
         PosRanges::begin() : return this->vec->begin().
-
 ______________________________________________________________________________*/
-std::vector<std::pair<TextPos, TextPos> >::const_iterator PosRanges::begin(void) const
+VectorPairTextPosCI PosRanges::begin(void) const
 {
   return this->vec.begin();
 }
@@ -224,7 +239,7 @@ void PosRanges::checks(void)
         PosRanges::end() : return this->vec->end().
 
 ______________________________________________________________________________*/
-std::vector<std::pair<TextPos, TextPos> >::const_iterator PosRanges::end(void) const
+VectorPairTextPosCI PosRanges::end(void) const
 {
   return this->vec.end();
 }
@@ -343,6 +358,43 @@ bool PosRanges::well_initialized(void) const
 
 /*______________________________________________________________________________
 
+        PosRanges::operator=
+
+        see http://en.cppreference.com/w/cpp/language/move_operator
+______________________________________________________________________________*/
+PosRanges& PosRanges::operator=(PosRanges&& other)
+{ 
+  this->vec = std::move(other.vec);
+  return *this; 
+}
+
+PosRanges& PosRanges::operator=(const PosRanges&) 
+{ 
+  return *this; 
+}
+
+/*______________________________________________________________________________
+
+        PosRanges::operator==, operator!=
+______________________________________________________________________________*/
+bool PosRanges::operator==(const PosRanges& other) const
+{
+  return (this->_well_initialized == other._well_initialized) && (this->vec == other.vec); 
+}
+
+bool PosRanges::operator!=(const PosRanges& other) const
+{
+  return !(this->operator==(other));
+}
+
+/*##############################################################################
+  
+        PosRangesHasher
+  
+ ##############################################################################*/
+
+/*______________________________________________________________________________
+
         PosRangesHasher::operator()
 
         from a David Schwartz idea (http://stackoverflow.com/questions/23859844)
@@ -360,5 +412,4 @@ std::size_t PosRangesHasher::operator()(const PosRanges& k) const
     return hash;
   }
 }
-
 

@@ -31,10 +31,14 @@
 #include "posranges.h"
 #include <QString>
 
+/*
+  wrapper around a std::vector<PosRanges> object named "vposranges".
+*/
 struct VectorPosRanges
 {
         std::vector<PosRanges> vposranges;
 
+                    VectorPosRanges(void);
                     VectorPosRanges(std::vector<PosRanges>);
         std::size_t size(void) const;
         void        sort(void);
@@ -49,7 +53,8 @@ struct VectorPosRanges
 	{
 		VectorPosRanges* m;
 		VectorPosRangesCMP(VectorPosRanges* p) : m(p) {};
- 
+
+                // is (PosRanges)ii < (PosRanges)jj ?
                 bool operator() ( PosRanges ii, PosRanges jj )
 		{
                   auto i = ii.begin();

@@ -183,9 +183,9 @@ bool Pos2Str::well_initialized(void) const
 
 /*______________________________________________________________________________
 
-        Pos2Str::operator[]() : give access to the (private) object "map".
+        Pos2Str::operator[] : give access to the (private) object "map".
 ______________________________________________________________________________*/
-QString& Pos2Str::operator[]( std::vector< std::pair<TextPos, TextPos> > key)
+QString& Pos2Str::operator[]( VectorPairTextPos key)
 {
   return this->map[key];
 }

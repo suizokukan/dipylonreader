@@ -75,10 +75,14 @@
 #include <QStringList>
 
 
-typedef int TextPos;
+// A TextPos (=text position) is an integer greater or equal to 0 :
+typedef unsigned int TextPos;
+// a list of pairs of TextPos and its iterator :
+typedef std::vector<std::pair<TextPos, TextPos> > VectorPairTextPos;
+typedef std::vector<std::pair<TextPos, TextPos> >::const_iterator VectorPairTextPosCI;
 
 /*
-  Wrapper around "vec", std::vector<std::pair<TextPos, TextPos> >.
+  Wrapper around "vec", a VectorPairTextPos.
 */
 class PosRanges
 {
@@ -87,51 +91,25 @@ class PosRanges
 
     public:
         PosRanges(void);
-        PosRanges(const PosRanges& other)  // $$$ à réécrire dans le fichier .cpp.
-        {
-          this->_well_initialized = other._well_initialized;
-          this->_internal_state = other._internal_state;
-
-          this->vec.clear();
-          for(auto i = other.vec.begin(); i != other.vec.end(); ++i)
-          {
-            this->vec.push_back( std::make_pair( i->first, i->second ) );
-          }
-        }
+        PosRanges(const PosRanges&);
         PosRanges(const QString& src_qstring);
         PosRanges(std::initializer_list< std::pair<TextPos, TextPos> >);
         PosRanges(std::vector< std::pair<TextPos, TextPos> >);
 
-        std::vector<std::pair<TextPos, TextPos> >::const_iterator    begin(void) const;
-        std::vector<std::pair<TextPos, TextPos> >::const_iterator    end(void) const;
-        int     internal_state(void) const;
-        bool    is_inside(TextPos) const;
-        bool    is_inside(TextPos, TextPos) const;
-        size_t  size(void) const;
-        QString to_str(void) const;
-        bool    well_initialized(void) const;
+        PosRanges&             operator=(PosRanges&&);
+        PosRanges&             operator=(const PosRanges&);
+        bool                   operator==(const PosRanges& other) const;
+        bool                   operator!=(const PosRanges& other) const;
 
-        PosRanges& operator=(PosRanges&& other)
-        { 
-          // $$$ à réécrire dans *.cpp
-          // see http://en.cppreference.com/w/cpp/language/move_operator
-          this->vec = std::move(other.vec);
-          return *this; 
-        }
-        // http://en.cppreference.com/w/cpp/language/move_operator
-        PosRanges& operator=(const PosRanges&) { return *this; }
-
-        // semble inutile ??? $$$
-        // PosRanges& operator=(const PosRanges& other) = default;
-
-        bool    operator==(const PosRanges& other) const
-        {
-          return (this->_well_initialized == other._well_initialized) && (this->vec == other.vec); 
-        }
-        bool    operator!=(const PosRanges& other) const
-        {
-          return !(this->operator==(other));
-        }
+        VectorPairTextPosCI    begin(void) const;
+        void                   checks(void);
+        VectorPairTextPosCI    end(void) const;
+        int                    internal_state(void) const;
+        bool                   is_inside(TextPos) const;
+        bool                   is_inside(TextPos, TextPos) const;
+        size_t                 size(void) const;
+        QString                to_str(void) const;
+        bool                   well_initialized(void) const;
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;
@@ -146,11 +124,9 @@ class PosRanges
         const char* MAIN_SEPARATOR = "+";
         const char* SECONDARY_SEPARATOR = "-";
 
-        std::vector<std::pair<TextPos, TextPos> > vec;
+        VectorPairTextPos vec;
         int _internal_state;
         bool _well_initialized;
-
-        void    checks(void);
 };
 
 struct PosRangesHasher

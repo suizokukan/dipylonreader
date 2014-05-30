@@ -12,13 +12,8 @@
 0.1.7 : PosRange class
 
 0.1.8 :
-(a) tester sort()
-(b) après (a), testpos2str()
-(a) réécrire la méthode pos2str.is_inside(5, 25) et les tests correspondants.
-(b) virer les $$$
-(c) hiérarchie des répertoires à documenter
-(x) est-ce que toutes les méthodes size() renvoient un size_t et non, un int ?
-(d) CONST????? in QString& PosRanges2Str::operator[]( std::vector< std::pair<int, int> > key) 
+(a) hiérarchie des répertoires à documenter
+(b) CONST????? in QString& PosRanges2Str::operator[]( std::vector< std::pair<int, int> > key) 
 
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
 
@@ -44,3 +39,6 @@ DOC operator overloading
 (excellent) http://stackoverflow.com/questions/4421706/operator-overloading/4421715#4421715
 
 pas d'appel à Boost.
+
+DOC sur move :
+http://stackoverflow.com/questions/3106110/what-is-move-semantics

@@ -29,6 +29,15 @@
 
 /*______________________________________________________________________________
 
+        PosRanges::PosRanges : empty constructor
+______________________________________________________________________________*/
+VectorPosRanges::VectorPosRanges(void)
+{
+  this->vposranges.clear();
+}
+
+/*______________________________________________________________________________
+
         PosRanges::PosRanges : constructor from a vector<PosRanges>
 ______________________________________________________________________________*/
 VectorPosRanges::VectorPosRanges(std::vector<PosRanges> v) : vposranges(v)

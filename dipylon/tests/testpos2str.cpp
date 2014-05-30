@@ -39,7 +39,6 @@
 *********************************************************************************/
 
 #include "testpos2str.h"
-#include <algorithm>    // $$$std::sort$$$
 
 /*
   A Pos2Str object is created without any error.
@@ -118,10 +117,18 @@ void TestPos2Str::test2b(void)
   QCOMPARE( pos2str.is_inside(10, 25).to_str(), 
             QString("10-11+12-23") );
 
-  /*
-  VectorPosRanges res = pos2str.is_inside(1, 25);
+  /* the function sorts the results since the order of the PosRanges elements
+     in the vector aren't fixed. In order to compare the result, it's more
+     easy to sort (->and the order is fixed) and then to compare.
+  */
+  VectorPosRanges res;
+  res = pos2str.is_inside(1, 25);
   res.sort();
   QCOMPARE( res.to_str(), 
             QString("1-2+3-4/5-6+7-8/10-11+12-23") );
-  */
+
+  res = pos2str.is_inside(1, 99);
+  res.sort();
+  QCOMPARE( res.to_str(), 
+            QString("1-2+3-4/5-6+7-8/10-11+12-23/80-81+83-89/90-91+93-99") );
 }

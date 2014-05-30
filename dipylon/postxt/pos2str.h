@@ -36,9 +36,6 @@
 
 #include <QString>
 
-// $$$
-#include <QDebug>
-
 /*
   Structure used to easily initialize Pos2Str objects. E.g. :
 
@@ -50,7 +47,7 @@
 */
 struct IntegersAndAString
 {
-  std::vector< std::pair<TextPos, TextPos> > integers;
+  VectorPairTextPos integers;
   QString string;
 };
 
@@ -67,13 +64,13 @@ class Pos2Str
                                Pos2Str(void);
                                Pos2Str(std::initializer_list< IntegersAndAString >);
 
+        QString&               operator[]( VectorPairTextPos key );
+
         size_t                 size(void) const;
         int                    internal_state(void) const;
         PosRanges              is_inside(TextPos) const;
         VectorPosRanges        is_inside(TextPos, TextPos) const;
         bool                   well_initialized(void) const;
-
-        QString&               operator[]( std::vector< std::pair<TextPos, TextPos> > key );
 
         // constants used to define the internal_state attribute :
         const int INTERNALSTATE_OK = 0;
