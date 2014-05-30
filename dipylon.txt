@@ -1,0 +1,18 @@
+directories, files :
+
+dipylon/                                C++/Qt5 code
+       /dipylon.sh                      compiler, launcher
+       /hash.[h|cpp]                    generic hash function
+
+dipylon/qt/                             Qt5 / UI code
+          /dipylonui.[h|cpp]            UI definition
+          /commentaryeditor.[h|cpp]     commentary zone
+          /sourceeditor.[h|cpp]         source zone
+          /mainsplitter.[h|cpp]         splitter between commentary and source zone
+
+dipylon/postxt/
+              /posranges.[h|cpp]        PosRanges class
+              /vectorposranges.[h|cpp]  VectorPosRanges class
+              /pos2str.[h|cpp]          Pos2Str class
+
+old_py_dipylon          old Python code
