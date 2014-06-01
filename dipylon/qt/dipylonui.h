@@ -31,12 +31,15 @@
 
 #include "dipydoc/dipydoc.h"
 
+// $$$
+#include <QDebug>
+
 class DipylonUI : QApplication
 {
     public:
-        DipylonUI(int, char **);
-        DipyDoc* current_dipydoc = 0;
+        DipyDoc current_dipydoc;
 
+            DipylonUI(int, char **);
         int exec(void);
 
     private:

@@ -52,9 +52,12 @@ class DipyDoc
         // name of the files in a dipydoc directory :
         const QString TEXTFILE_NAME = "text";
 
-                DipyDoc(QString);
-        int     internal_state(void) const;
-        bool    well_initialized(void) const;
+                 DipyDoc(void);
+                 DipyDoc(QString);
+
+        DipyDoc& operator=(DipyDoc&&);
+        int      internal_state(void) const;
+        bool     well_initialized(void) const;
 
         QString text;
         Pos2Str translations;

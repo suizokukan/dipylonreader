@@ -29,10 +29,30 @@
 
         SourceEditor::SourceEditor(int*, QWidget) : constructor
 _____________________________________________________________________________*/
-SourceEditor::SourceEditor(DipyDoc* current_dipydoc, QWidget *parent) :  \
+SourceEditor::SourceEditor(QWidget *parent, DipyDoc* current_dipydoc) :          \
 QTextEdit(parent), current_dipydoc(current_dipydoc)
 {
+  qDebug() << "SourceEditor::SourceEditor";
   this->setReadOnly(true);
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::mousePressEvent
+______________________________________________________________________________*/
+void SourceEditor::mousePressEvent(QMouseEvent* mouse_event)
+{
+    qDebug() << "SourceEditor::mousePressEvent";
+
+    // mouse_event isn't used :
+    Q_UNUSED(mouse_event);
+
+    QTextCursor cursor = this->textCursor();
+    TextPos x0 = cursor.position();
+    qDebug() << "x0=" << x0;
+    qDebug() << this->current_dipydoc->translations.is_inside(x0).to_str();
+
+    QTextEdit::mousePressEvent(mouse_event);
 }
 
 /*______________________________________________________________________________
@@ -50,8 +70,11 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
     {
       // some text has been selected :
       QString selected_txt = cursor.selectedText();
-      unsigned int x0 = cursor.position() - selected_txt.length();
-      unsigned int x1 = cursor.position();
-      qDebug() << selected_txt << x0 << "," << x1;
+      TextPos x0 = cursor.position() - selected_txt.length();
+      TextPos x1 = cursor.position();
+      qDebug() << "SourceEditor::mouseReleaseEvent" << selected_txt << x0 << "," << x1;
+      qDebug() << this->current_dipydoc->translations.is_inside(x0, x1).to_str();
     }
+
+    QTextEdit::mouseReleaseEvent(mouse_event);
 }

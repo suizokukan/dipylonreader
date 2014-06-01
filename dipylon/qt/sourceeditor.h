@@ -30,6 +30,7 @@
 #include <QPlainTextEdit>
 #include <QObject>
 
+#include "../postxt/posranges.h"
 #include "../dipydoc/dipydoc.h"
 
 class SourceEditor : public QTextEdit
@@ -37,11 +38,12 @@ class SourceEditor : public QTextEdit
     Q_OBJECT
 
 public:
-    SourceEditor(DipyDoc* current_dipydoc = 0, QWidget *parent = 0);
+    SourceEditor(QWidget*, DipyDoc*);
     DipyDoc* current_dipydoc;
 
 protected:
     void mouseReleaseEvent(QMouseEvent*);
+    void mousePressEvent(QMouseEvent*);
 };
 
 #endif

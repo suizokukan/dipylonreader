@@ -7,6 +7,7 @@ QT += widgets
 TEMPLATE = app
 TARGET = dipylon
 INCLUDEPATH += .
+RESOURCES = ressources.qrc
 
 # Input
 HEADERS = postxt/posranges.h \

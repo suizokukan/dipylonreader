@@ -72,6 +72,29 @@ Pos2Str::Pos2Str( std::initializer_list< IntegersAndAString > values)
 
 /*______________________________________________________________________________
 
+        Pos2Str::operator[] : give access to the (private) object "map".
+______________________________________________________________________________*/
+QString& Pos2Str::operator[]( VectorPairTextPos key)
+{
+  return this->map[key];
+}
+
+/*______________________________________________________________________________
+
+        Pos2Str::operator= : give access to the (private) object "map".
+
+        see http://en.cppreference.com/w/cpp/language/move_operator
+______________________________________________________________________________*/
+Pos2Str& Pos2Str::operator=( Pos2Str&& other)
+{
+  this->_internal_state = other._internal_state;
+  this->_well_initialized = other._well_initialized;
+  this->map = std::move(other.map);
+  return *this; 
+}
+
+/*______________________________________________________________________________
+
         Pos2Str::checks() : do some tests and if something's wrong,
                             modified _well_initialized and _internal_state .
 
@@ -181,11 +204,4 @@ bool Pos2Str::well_initialized(void) const
   return this->_well_initialized;
 }
 
-/*______________________________________________________________________________
 
-        Pos2Str::operator[] : give access to the (private) object "map".
-______________________________________________________________________________*/
-QString& Pos2Str::operator[]( VectorPairTextPos key)
-{
-  return this->map[key];
-}

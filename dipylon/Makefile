@@ -53,7 +53,8 @@ SOURCES       = main.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
 		qt/mainsplitter.cpp \
-		dipydoc/dipydoc.cpp moc_sourceeditor.cpp \
+		dipydoc/dipydoc.cpp qrc_ressources.cpp \
+		moc_sourceeditor.cpp \
 		moc_commentaryeditor.cpp \
 		moc_mainsplitter.cpp
 OBJECTS       = main.o \
@@ -65,6 +66,7 @@ OBJECTS       = main.o \
 		commentaryeditor.o \
 		mainsplitter.o \
 		dipydoc.o \
+		qrc_ressources.o \
 		moc_sourceeditor.o \
 		moc_commentaryeditor.o \
 		moc_mainsplitter.o
@@ -318,6 +320,7 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		dipylon.pro \
+		ressources.qrc \
 		/usr/lib/libQt5Widgets.prl \
 		/usr/lib/libQt5Test.prl \
 		/usr/lib/libQt5Gui.prl \
@@ -428,6 +431,7 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 /usr/lib/qt/mkspecs/features/yacc.prf:
 /usr/lib/qt/mkspecs/features/lex.prf:
 dipylon.pro:
+ressources.qrc:
 /usr/lib/libQt5Widgets.prl:
 /usr/lib/libQt5Test.prl:
 /usr/lib/libQt5Gui.prl:
@@ -439,7 +443,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents postxt/posranges.h postxt/vectorposranges.h postxt/pos2str.h hash.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h dipydoc/dipydoc.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp postxt/posranges.cpp postxt/vectorposranges.cpp postxt/pos2str.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp dipydoc/dipydoc.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents ressources.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents postxt/posranges.h postxt/vectorposranges.h postxt/pos2str.h hash.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/mainsplitter.h dipydoc/dipydoc.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp postxt/posranges.cpp postxt/vectorposranges.cpp postxt/pos2str.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/mainsplitter.cpp dipydoc/dipydoc.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -460,15 +464,20 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_ressources.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_ressources.cpp
+qrc_ressources.cpp: ressources.qrc \
+		ressources/images/cursors/cursor.png
+	/usr/lib/qt/bin/rcc -name ressources ressources.qrc -o qrc_ressources.cpp
+
 compiler_moc_header_make_all: moc_sourceeditor.cpp moc_commentaryeditor.cpp moc_mainsplitter.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_sourceeditor.cpp moc_commentaryeditor.cpp moc_mainsplitter.cpp
-moc_sourceeditor.cpp: dipydoc/dipydoc.h \
-		postxt/pos2str.h \
-		postxt/posranges.h \
+moc_sourceeditor.cpp: postxt/posranges.h \
 		hash.h \
+		dipydoc/dipydoc.h \
+		postxt/pos2str.h \
 		postxt/vectorposranges.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
@@ -489,16 +498,16 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_header_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean 
 
 ####### Compile
 
 main.o: main.cpp qt/dipylonui.h \
 		qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		postxt/pos2str.h \
 		postxt/posranges.h \
 		hash.h \
+		dipydoc/dipydoc.h \
+		postxt/pos2str.h \
 		postxt/vectorposranges.h \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h
@@ -521,20 +530,20 @@ pos2str.o: postxt/pos2str.cpp postxt/pos2str.h \
 
 dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
 		qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		postxt/pos2str.h \
 		postxt/posranges.h \
 		hash.h \
+		dipydoc/dipydoc.h \
+		postxt/pos2str.h \
 		postxt/vectorposranges.h \
 		qt/commentaryeditor.h \
 		qt/mainsplitter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		postxt/pos2str.h \
 		postxt/posranges.h \
 		hash.h \
+		dipydoc/dipydoc.h \
+		postxt/pos2str.h \
 		postxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
@@ -550,6 +559,9 @@ dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \
 		hash.h \
 		postxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipydoc.o dipydoc/dipydoc.cpp
+
+qrc_ressources.o: qrc_ressources.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_ressources.o qrc_ressources.cpp
 
 moc_sourceeditor.o: moc_sourceeditor.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sourceeditor.o moc_sourceeditor.cpp

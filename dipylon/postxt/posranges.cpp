@@ -364,6 +364,8 @@ bool PosRanges::well_initialized(void) const
 ______________________________________________________________________________*/
 PosRanges& PosRanges::operator=(PosRanges&& other)
 { 
+  this->_well_initialized = other._well_initialized;
+  this->_internal_state = other._internal_state;
   this->vec = std::move(other.vec);
   return *this; 
 }

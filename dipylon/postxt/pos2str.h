@@ -65,6 +65,7 @@ class Pos2Str
                                Pos2Str(std::initializer_list< IntegersAndAString >);
 
         QString&               operator[]( VectorPairTextPos key );
+        Pos2Str&               operator=( Pos2Str&& other);
 
         size_t                 size(void) const;
         int                    internal_state(void) const;

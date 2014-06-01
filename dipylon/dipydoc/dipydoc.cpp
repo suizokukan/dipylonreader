@@ -29,7 +29,19 @@
 
 /*______________________________________________________________________________
 
-        DipyDoc::DipyDoc(QString) : initialize the object from the files present
+        DipyDoc::DipyDoc(void) : empty constructor
+
+______________________________________________________________________________*/
+DipyDoc::DipyDoc(void)
+{
+  this->_well_initialized = true;
+  this->_internal_state = this->INTERNALSTATE_OK;
+  this->text = QString("");
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::DipyDoc(QString) : constructor from the files present
                                     in "path", set the value of _well_initialized
                                     and of _internal_state;
 
@@ -54,11 +66,27 @@ DipyDoc::DipyDoc(QString path)
   src_file_stream.setCodec("UTF-8");
   this->text = src_file_stream.readAll();
 
+  // $$$ fake initialization $$$ :
   // let's initialize the translations :
   this->translations[ { {8,26}, } ] = \
                 "Le premier amour de Phébus";
   this->translations[ { {633, 649}, } ] = \
                 "Ton arc peut bien transpercer toutes tes cibles";
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::operator=
+
+        see http://en.cppreference.com/w/cpp/language/move_operator
+______________________________________________________________________________*/
+DipyDoc& DipyDoc::operator=(DipyDoc&& other)
+{
+  this->_internal_state = other._internal_state;
+  this->_well_initialized = other._well_initialized;
+  this->text = std::move(other.text);
+  this->translations = std::move(other.translations);
+  return *this; 
 }
 
 /*______________________________________________________________________________

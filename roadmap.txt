@@ -12,7 +12,14 @@
 0.1.7 : PosRange class
 0.1.8 : Pos2Str class
 
+(a) le problème du operator=
+(b) inline des fonctions les plus importantes ?
+
+
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
+
+QTextDocument :
+http://qt-project.org/doc/qt-5/QTextDocument.html
 
 DOC à propos de QSplitter :
 http://qt-project.org/doc/qt-5/qsplitter.html#details

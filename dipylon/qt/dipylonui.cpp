@@ -51,8 +51,13 @@ int DipylonUI::exec(void)
 ______________________________________________________________________________*/
 void DipylonUI::set_the_ui(void)
 {
+  qDebug() << "DipylonUI::set_the_ui";
+
+  // the desktop widget (also called the root window) :
+  QDesktopWidget* desktop_widget = this->desktop();
+
   delete this->source_editor;
-  this->source_editor = new SourceEditor(this->current_dipydoc);
+  this->source_editor = new SourceEditor(desktop_widget, &(this->current_dipydoc));
 
   delete this->commentary_editor;
   this->commentary_editor = new CommentaryEditor;
@@ -78,8 +83,12 @@ void DipylonUI::set_the_ui(void)
   //============================================================================
   // $$$ fake initialization $$$
   //============================================================================
-  delete current_dipydoc;
-  current_dipydoc = new DipyDoc("../texts/Ovid_M_I_452_567/");
-  this->source_editor->setPlainText(current_dipydoc->text);
+  this->current_dipydoc = DipyDoc("../texts/Ovid_M_I_452_567/");
+  this->source_editor->setPlainText(this->current_dipydoc.text);
 
+  // $$$ pas la bonne manière de le faire : cette fonction ne sert qu'à indiquer que
+  // le programme n'est pas dans son état normal.
+  // MAIS la manière normale (xxx->setCursor(yyy)) ne fonctionne pas...
+  // $$$ this->setOverrideCursor(QCursor(QPixmap("cursor.png")));
+  this->setOverrideCursor(QCursor(QPixmap(":/ressources/images/cursors/cursor.png")));
 }
