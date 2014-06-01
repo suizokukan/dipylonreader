@@ -34,6 +34,12 @@ QTextEdit(parent), current_dipydoc(current_dipydoc)
 {
   qDebug() << "SourceEditor::SourceEditor";
   this->setReadOnly(true);
+
+  this->setStyleSheet("color: black;"
+                      "background-color: #9ABCDE;"
+                      "selection-color: yellow;"
+                      "selection-background-color: blue;");
+
 }
 
 /*______________________________________________________________________________
@@ -70,10 +76,12 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
     {
       // some text has been selected :
       QString selected_txt = cursor.selectedText();
-      TextPos x0 = cursor.position() - selected_txt.length();
-      TextPos x1 = cursor.position();
+      TextPos x0 = cursor.selectionStart();
+      TextPos x1 = cursor.selectionEnd();
       qDebug() << "SourceEditor::mouseReleaseEvent" << selected_txt << x0 << "," << x1;
       qDebug() << this->current_dipydoc->translations.is_inside(x0, x1).to_str();
+      cursor.removeSelectedText();
+      cursor.insertHtml( QString("<b>aaa</b>") );
     }
 
     QTextEdit::mouseReleaseEvent(mouse_event);

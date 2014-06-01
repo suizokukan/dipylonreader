@@ -27,4 +27,12 @@
 
 CommentaryEditor::CommentaryEditor(QWidget *parent) : QTextEdit(parent)
 {
+  qDebug() << "CommentaryEditor::CommentaryEditor";
+  this->setReadOnly(true);
+
+  this->setStyleSheet("color: blue;"
+                      "background-color: red;"
+                      "selection-color: yellow;"
+                      "selection-background-color: blue;");
+
 }

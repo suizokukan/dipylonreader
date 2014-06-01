@@ -12,8 +12,21 @@
 0.1.7 : PosRange class
 0.1.8 : Pos2Str class
 
+0.1.9 : essayer d'afficher le texte avec .insertBlock, puis modifier brutalement le texte avec d'autres insertBlock : la lecture est-elle fluide ?
+http://qt-project.org/doc/qt-5/richtext-structure.html
+
+utilisation des curseurs : http://qt-project.org/doc/qt-5/richtext-cursor.html
+
+================================================================================
+à faire :
+créer un curseur
 (a) le problème du operator=
 (b) inline des fonctions les plus importantes ?
+
+================================================================================
+doc :
+
+
 
 
 in http://qt-project.org/doc/qt-4.8/richtext.html, le contenu d'un QTextEdit peut être stocké dans QTextDocument
@@ -46,3 +59,4 @@ pas d'appel à Boost.
 
 DOC sur move :
 http://stackoverflow.com/questions/3106110/what-is-move-semantics
+http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom

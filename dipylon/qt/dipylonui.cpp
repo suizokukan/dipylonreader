@@ -84,7 +84,15 @@ void DipylonUI::set_the_ui(void)
   // $$$ fake initialization $$$
   //============================================================================
   this->current_dipydoc = DipyDoc("../texts/Ovid_M_I_452_567/");
-  this->source_editor->setPlainText(this->current_dipydoc.text);
+  //this->source_editor->setPlainText(this->current_dipydoc.text);
+
+  QTextDocument* doc = this->source_editor->document();
+  doc->setPlainText(this->current_dipydoc.text);
+  QTextCursor cur = this->source_editor->textCursor();
+  cur.insertText("aaa\nbbb");
+  //cur.insertHtml("<b>CCC</b>");
+  qDebug() << "nbr block=" << doc->blockCount();
+  //this->source_editor->setDocument(&doc);
 
   // $$$ pas la bonne manière de le faire : cette fonction ne sert qu'à indiquer que
   // le programme n'est pas dans son état normal.
