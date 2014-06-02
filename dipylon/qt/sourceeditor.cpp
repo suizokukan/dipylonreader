@@ -39,7 +39,15 @@ QTextEdit(parent), current_dipydoc(current_dipydoc)
                       "background-color: #9ABCDE;"
                       "selection-color: yellow;"
                       "selection-background-color: blue;");
+}
 
+/*______________________________________________________________________________
+
+        SourceEditor::~SourceEditor destructor
+_____________________________________________________________________________*/
+SourceEditor::~SourceEditor(void)
+{
+  delete this->current_dipydoc;
 }
 
 /*______________________________________________________________________________
@@ -48,13 +56,12 @@ QTextEdit(parent), current_dipydoc(current_dipydoc)
 ______________________________________________________________________________*/
 void SourceEditor::mousePressEvent(QMouseEvent* mouse_event)
 {
-    qDebug() << "SourceEditor::mousePressEvent";
-
-    // mouse_event isn't used :
-    Q_UNUSED(mouse_event);
-
     QTextCursor cursor = this->textCursor();
-    TextPos x0 = cursor.position();
+
+    qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cursor.position();
+
+    //this->cursor.select(QTextCursor::WordUnderCursor);
+    TextPos x0 =  cursor.position();
     qDebug() << "x0=" << x0;
     qDebug() << this->current_dipydoc->translations.is_inside(x0).to_str();
 
@@ -67,10 +74,9 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event)
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 {
-    // mouse_event isn't used :
-    Q_UNUSED(mouse_event);
-
     QTextCursor cursor = this->textCursor();
+
+    qDebug() << "SourceEditor::mouseReleaseEvent" << "pos=" << cursor.position();
 
     if ( cursor.hasSelection() )
     {
@@ -80,8 +86,21 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
       TextPos x1 = cursor.selectionEnd();
       qDebug() << "SourceEditor::mouseReleaseEvent" << selected_txt << x0 << "," << x1;
       qDebug() << this->current_dipydoc->translations.is_inside(x0, x1).to_str();
-      cursor.removeSelectedText();
-      cursor.insertHtml( QString("<b>aaa</b>") );
+      //cursor.removeSelectedText();
+      //cursor.insertHtml( QString("<b>aaa</b>") );
+
+      QTextCharFormat fmt;
+      fmt.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+
+      QList<QTextEdit::ExtraSelection> selections;
+      QTextEdit::ExtraSelection sel = { cursor, fmt };
+      selections.append(sel);
+      this->setExtraSelections(selections);
+
+      cursor.clearSelection();
+      this->setTextCursor(cursor);
+
+      this->show();
     }
 
     QTextEdit::mouseReleaseEvent(mouse_event);

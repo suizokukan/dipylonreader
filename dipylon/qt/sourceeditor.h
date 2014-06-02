@@ -39,6 +39,7 @@ class SourceEditor : public QTextEdit
 
 public:
     SourceEditor(QWidget*, DipyDoc*);
+    ~SourceEditor(void);
     DipyDoc* current_dipydoc;
 
 protected:

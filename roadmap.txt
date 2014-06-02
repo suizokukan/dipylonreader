@@ -17,13 +17,24 @@ http://qt-project.org/doc/qt-5/richtext-structure.html
 
 utilisation des curseurs : http://qt-project.org/doc/qt-5/richtext-cursor.html
 
+pour sélectionner : http://stackoverflow.com/questions/10446213/qt-create-custom-qtextcursor-select
+cursor.setPosition(5);
+cursor.setPosition(9, QTextCursor::KeepAnchor);
+
+
 ================================================================================
 à faire :
-créer un curseur
+créer un curseur pour chaque QTextEditor.
+is_inside => contains
+ajouter un destructeur à source_editor qui delete le dipydoc.
 (a) le problème du operator=
 (b) inline des fonctions les plus importantes ?
 
 ================================================================================
+forum Qt
+http://www.qtcentre.org/
+================================================================================
+
 doc :
 
 
@@ -60,3 +71,40 @@ pas d'appel à Boost.
 DOC sur move :
 http://stackoverflow.com/questions/3106110/what-is-move-semantics
 http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
+
+
+
+
+
+
+
+surligner le texte entre parenthèses
+
+#include <QtGui>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+
+    // create QTextEdit, with lot of text in it
+    QTextEdit w("Alice and Bob (and Eve). ");
+    for(int i=0;i<10;++i) w.setText(w.toPlainText() + w.toPlainText());
+
+    // prepare variables for highlights
+    QTextCharFormat fmt;
+    fmt.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+    fmt.setUnderlineColor(QColor(200,200,200));
+    fmt.setBackground(QBrush(QColor(230,230,230)));
+
+    // highlight all text in parenthesis
+    QTextCursor cursor = w.textCursor();
+    while( !(cursor = w.document()->find(QRegExp("\\([^)]*\\)"), cursor)).isNull()) {
+        QTextEdit::ExtraSelection sel = { cursor, fmt };
+        selections.append(sel);
+    }
+
+    // set, show, go!
+    w.setExtraSelections(selections);
+    w.show();
+    return a.exec();
+}
