@@ -182,7 +182,7 @@ void TestPosRanges::test5b(void)
 }
 
 /*
-  testing the , operator with two equivalent PosRanges objects
+  testing the == operator with two equivalent PosRanges objects
 */
 void TestPosRanges::test6a(void)
 { 

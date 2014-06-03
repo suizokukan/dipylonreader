@@ -65,8 +65,11 @@ int DipylonUI::go(void) {
     // current DipyDoc :
     this->current_dipydoc = new DipyDoc();
 
+    // main window creation :
     MainWindow mainWin(current_dipydoc);
     mainWin.show();
+
+    // main loop :
     return app.exec();
 }
 

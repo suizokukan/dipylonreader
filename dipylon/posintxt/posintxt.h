@@ -19,40 +19,20 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : main.cpp
+    ❏Dipylon❏ : posintxt/posintxt.h
+
+    A TextInPos (=text position) is an integer greater or equal to 0.
 
 *******************************************************************************/
 
-#include "qt/dipylonui.h"
+#ifndef POSINTXT_H
+#define POSINTXT_H
 
-#include <QApplication>
+#include <vector>
 
-//$$$
-#include "posintxt/posranges.h"
-#include <QDebug>
+// base type :
+typedef unsigned int PosInText;
 
-/*______________________________________________________________________________
+typedef std::vector<std::pair<PosInText, PosInText> > VPairOfPosInText;
 
-  Main entry point.
-
-  See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about "argc"
-  and "argv".
-______________________________________________________________________________*/
-int main(int argc, char **argv)
-{
-    Q_INIT_RESOURCE(dipylon);
-
-    // $$$
-    PosRanges p1 = PosRanges();
-    PosRanges p2 = PosRanges("94-107+98-109");
-    qDebug() << p2.to_str();
-    qDebug() << p2.contains(95);
-    qDebug() << p2.contains(95,109);
-    qDebug() << p2.size();
-    PosRanges p3 = PosRanges("94-107+97-109");
-    qDebug() << (p2 == p3);
-    qDebug() << (p2 != p3);
-
-    DipylonUI myapp(argc, argv);
-    return myapp.go();
-}
+#endif

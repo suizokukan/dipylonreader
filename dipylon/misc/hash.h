@@ -19,40 +19,25 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : main.cpp
+    ❏Dipylon❏ : misc/hash.h
 
-*******************************************************************************/
+    ⇨ generic hash function stealed from the Boost library.
 
-#include "qt/dipylonui.h"
+      see www.boost.org/doc/libs/1_40_0/boost/functional/hash/hash.hpp  
 
-#include <QApplication>
+*********************************************************************************/
 
-//$$$
-#include "posintxt/posranges.h"
-#include <QDebug>
+#ifndef HASH_H
+#define HASH_H
 
-/*______________________________________________________________________________
+#include <cstddef>
+#include <functional>
 
-  Main entry point.
-
-  See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about "argc"
-  and "argv".
-______________________________________________________________________________*/
-int main(int argc, char **argv)
+template <class T>
+void hash_combine(std::size_t& seed, const T& v)
 {
-    Q_INIT_RESOURCE(dipylon);
-
-    // $$$
-    PosRanges p1 = PosRanges();
-    PosRanges p2 = PosRanges("94-107+98-109");
-    qDebug() << p2.to_str();
-    qDebug() << p2.contains(95);
-    qDebug() << p2.contains(95,109);
-    qDebug() << p2.size();
-    PosRanges p3 = PosRanges("94-107+97-109");
-    qDebug() << (p2 == p3);
-    qDebug() << (p2 != p3);
-
-    DipylonUI myapp(argc, argv);
-    return myapp.go();
+  std::hash<T> hasher;
+  seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
 }
+
+#endif
