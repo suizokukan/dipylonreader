@@ -33,6 +33,7 @@
 #include <QString>
 #include <QFileInfo>
 #include <QTextStream>
+#include <QDebug>
 
 class DipyDoc
 {

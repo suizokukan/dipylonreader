@@ -147,6 +147,7 @@ class TextHighlighted(QtGui.QTextEdit):
                         qcolor = QtGui.QColor().fromRgb(underline_color)
                         modified_format.setUnderlineColor(qcolor)
                         modified_format.setUnderlineStyle(underline_style)
+                        modified_format.setFontItalic(True)
 
                     else:
                         raise Exception

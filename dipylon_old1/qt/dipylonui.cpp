@@ -33,7 +33,22 @@
 ______________________________________________________________________________*/
 DipylonUI::DipylonUI(int argv, char ** args) : QApplication(argv, args)
 {
+  qDebug() << "DipylonUI::DipylonUI : enter";
   this->set_the_ui();
+  qDebug() << "DipylonUI::DipylonUI : exit";
+}
+
+/*______________________________________________________________________________
+
+        DipylonUI::~DipylonUI : destructor
+______________________________________________________________________________*/
+DipylonUI::~DipylonUI(void)
+{
+  qDebug() << "DipylonUI::~DipylonUI : enter";
+  delete source_editor;
+  delete commentary_editor;
+  delete main_splitter;
+  qDebug() << "DipylonUI::~DipylonUI : exit";
 }
 
 /*______________________________________________________________________________
@@ -42,6 +57,7 @@ DipylonUI::DipylonUI(int argv, char ** args) : QApplication(argv, args)
 ______________________________________________________________________________*/
 int DipylonUI::exec(void)
 {
+  qDebug() << "DipylonUI::exec : enter";
   return this->QApplication::exec();
 }
 
@@ -51,41 +67,45 @@ int DipylonUI::exec(void)
 ______________________________________________________________________________*/
 void DipylonUI::set_the_ui(void)
 {
-  qDebug() << "DipylonUI::set_the_ui";
+  qDebug() << "DipylonUI::set_the_ui : enter";
 
   // the desktop widget (also called the root window) :
   QDesktopWidget* desktop_widget = this->desktop();
 
+  qDebug() << "DipylonUI::set_the_ui : #1";
   delete this->source_editor;
   this->source_editor = new SourceEditor(desktop_widget, &(this->current_dipydoc));
-
+  qDebug() << "DipylonUI::set_the_ui : #2";
   delete this->commentary_editor;
   this->commentary_editor = new CommentaryEditor;
-
+  qDebug() << "DipylonUI::set_the_ui : #3";
   delete this->main_splitter;
   this->main_splitter = new MainSplitter;
-
+  qDebug() << "DipylonUI::set_the_ui : #4";
   this->main_splitter->addWidget(source_editor);
   this->main_splitter->addWidget(commentary_editor);
-
+  qDebug() << "DipylonUI::set_the_ui : #5";
     /* ne pas régler la taille dans le constructeur : d'abord ajouter les widgets puis
        régler la taille : 
 
        Avec (500, 100) comme valeurs, il existe un rapport de 5 à 1 en taille.
        Deux nombres doivent être donnés (et pas un seul)
     */
-  //QList<int> main_splitter_heights;
-  //main_splitter_heights << 500 << 100;
-  this->main_splitter->setSizes( {{500,100}} );
-
+  QList<int> main_splitter_heights;
+  main_splitter_heights << 500 << 100;
+  //this->main_splitter->setSizes( {{500,100}} );
+  qDebug() << "DipylonUI::set_the_ui : #6";
   this->main_splitter->show();
+  qDebug() << "DipylonUI::set_the_ui : #7";
 
+  
   //============================================================================
   // $$$ fake initialization $$$
   //============================================================================
+  /* CORE DUMPED
   this->current_dipydoc = DipyDoc("../texts/Ovid_M_I_452_567/");
   //this->source_editor->setPlainText(this->current_dipydoc.text);
-
+  qDebug() << "DipylonUI::set_the_ui : #8";
   QTextDocument* doc = this->source_editor->document();
   doc->setPlainText(this->current_dipydoc.text);
   QTextCursor cur = this->source_editor->textCursor();
@@ -93,10 +113,12 @@ void DipylonUI::set_the_ui(void)
   //cur.insertHtml("<b>CCC</b>");
   qDebug() << "nbr block=" << doc->blockCount();
   //this->source_editor->setDocument(&doc);
-
+  qDebug() << "DipylonUI::set_the_ui : #9";
   // $$$ pas la bonne manière de le faire : cette fonction ne sert qu'à indiquer que
   // le programme n'est pas dans son état normal.
   // MAIS la manière normale (xxx->setCursor(yyy)) ne fonctionne pas...
   // $$$ this->setOverrideCursor(QCursor(QPixmap("cursor.png")));
   this->setOverrideCursor(QCursor(QPixmap(":/ressources/images/cursors/cursor.png")));
+  */
+  qDebug() << "DipylonUI::set_the_ui : exit";
 }

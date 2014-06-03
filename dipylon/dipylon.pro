@@ -2,35 +2,21 @@
 # Dipylon project
 ######################################################################
 
-QT += widgets
-
 TEMPLATE = app
 TARGET = dipylon
 INCLUDEPATH += .
-RESOURCES = ressources.qrc
+RESOURCES        =  dipylon.qrc
+
+QT += widgets
+QT += testlib
 
 # Input
-HEADERS = postxt/posranges.h \
-          postxt/vectorposranges.h \
-          postxt/pos2str.h \
-          hash.h \
-          qt/dipylonui.h \
-          qt/sourceeditor.h \
-          qt/commentaryeditor.h \
-          qt/mainsplitter.h \
-          dipydoc/dipydoc.h
+HEADERS         +=  qt/mainwindow.h
+SOURCES         +=  main.cpp \
+                    qt/mainwindow.cpp
 
-SOURCES += main.cpp \
-           postxt/posranges.cpp \
-           postxt/vectorposranges.cpp \
-           postxt/pos2str.cpp \
-           qt/dipylonui.cpp \
-           qt/sourceeditor.cpp \
-           qt/commentaryeditor.cpp \
-           qt/mainsplitter.cpp \
-           dipydoc/dipydoc.cpp
+QMAKE_CFLAGS     += -std=c++11 -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
+QMAKE_CXXFLAGS   += -std=c++11 -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
 
-QMAKE_CFLAGS += -std=c++11 -Wpedantic
-QMAKE_CXXFLAGS += -std=c++11 -Wpedantic
-
-QT += testlib
+#target.path = $$[QT_INSTALL_EXAMPLES]/widgets/mainwindows/application
+#INSTALLS += target

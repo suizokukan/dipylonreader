@@ -1,35 +1,17 @@
-/*******************************************************************************
+// http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
 
-    Dipylon Copyright (C) 2008 Xavier Faure
-    Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
+#include <QApplication>
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+#include "qt/mainwindow.h"
 
-    Dipylon is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
-
-    ____________________________________________________________________________
-
-    ❏Dipylon❏ : main.cpp
-
-*******************************************************************************/
-
-#include "qt/dipylonui.h"
-
-int main(int argv, char **args)
+int main(int argc, char *argv[])
 {
-  qDebug() << "Dipylon : entry point\n";
+    Q_INIT_RESOURCE(dipylon);
 
-  DipylonUI app(argv, args);
-
-  return app.exec();
+    QApplication app(argc, argv);
+    app.setOrganizationName("QtProject");
+    app.setApplicationName("Application Example");
+    MainWindow mainWin;
+    mainWin.show();
+    return app.exec();
 }

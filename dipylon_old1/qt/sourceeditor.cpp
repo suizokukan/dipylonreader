@@ -32,13 +32,22 @@ _____________________________________________________________________________*/
 SourceEditor::SourceEditor(QWidget *parent, DipyDoc* current_dipydoc) :          \
 QTextEdit(parent), current_dipydoc(current_dipydoc)
 {
-  qDebug() << "SourceEditor::SourceEditor";
+  qDebug() << "SourceEditor::SourceEditor : enter";
+  /*CORE DUMPED
   this->setReadOnly(true);
 
   this->setStyleSheet("color: black;"
                       "background-color: #9ABCDE;"
                       "selection-color: yellow;"
                       "selection-background-color: blue;");
+
+  QFont font; //"DejaVu LGC Sans Mono");
+  //font.setStyleHint(QFont::Monospace);
+  font.setStyleHint(QFont::TypeWriter);
+  font.setStyle(QFont::StyleItalic);
+  this->setFont(font);
+  */
+  qDebug() << "SourceEditor::SourceEditor : exit";
 }
 
 /*______________________________________________________________________________
@@ -47,7 +56,9 @@ QTextEdit(parent), current_dipydoc(current_dipydoc)
 _____________________________________________________________________________*/
 SourceEditor::~SourceEditor(void)
 {
+  qDebug() << "SourceEditor::~SourceEditor : enter";
   delete this->current_dipydoc;
+  qDebug() << "SourceEditor::~SourceEditor : exit";
 }
 
 /*______________________________________________________________________________
@@ -56,6 +67,8 @@ SourceEditor::~SourceEditor(void)
 ______________________________________________________________________________*/
 void SourceEditor::mousePressEvent(QMouseEvent* mouse_event)
 {
+    qDebug() << "SourceEditor::mousePressEvent : enter";
+    /*CORE DUMPED
     QTextCursor cursor = this->textCursor();
 
     qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cursor.position();
@@ -66,6 +79,8 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event)
     qDebug() << this->current_dipydoc->translations.is_inside(x0).to_str();
 
     QTextEdit::mousePressEvent(mouse_event);
+    */
+    qDebug() << "SourceEditor::mousePressEvent : exit";
 }
 
 /*______________________________________________________________________________
@@ -77,7 +92,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
     QTextCursor cursor = this->textCursor();
 
     qDebug() << "SourceEditor::mouseReleaseEvent" << "pos=" << cursor.position();
-
+    /*CORE DUMPED
     if ( cursor.hasSelection() )
     {
       // some text has been selected :
@@ -89,19 +104,49 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
       //cursor.removeSelectedText();
       //cursor.insertHtml( QString("<b>aaa</b>") );
 
-      QTextCharFormat fmt;
-      fmt.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+      // formatter : http://qt-project.org/doc/qt-5/qtextcharformat.html
+      QTextCharFormat fmt1;
+      fmt1.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+      fmt1.setBackground(QBrush(QColor(240,230,220)));
 
+      QTextCharFormat fmt2;
+      fmt2.setUnderlineStyle(QTextCharFormat::WaveUnderline);
+      fmt2.setFontWeight(QFont::Weight(QFont::Bold)); // http://qt-project.org/doc/qt-5/qfont.html#Weight-enum
+      fmt2.setForeground(QColor(255,0,10));
+      fmt2.setFontItalic(true);
+      QTextCharFormat fmt3;
+      fmt3.setUnderlineStyle(QTextCharFormat::DashUnderline);
+      fmt3.setUnderlineColor(QColor(200,100,50));
+      fmt3.setFontStrikeOut(true);
+      fmt3.setToolTip( "111111111111111111111111111" );
+
+      // 1ère sélection = le mot souligné
       QList<QTextEdit::ExtraSelection> selections;
-      QTextEdit::ExtraSelection sel = { cursor, fmt };
+      QTextEdit::ExtraSelection sel = { cursor, fmt1 };
       selections.append(sel);
+      // 2e sélection : 10 caractères + loin, sélectionner les 15 caractères qui suivent
+      // moveoperation : http://qt-project.org/doc/qt-5/qtextcursor.html#MoveOperation-enum
+      // movemode : http://qt-project.org/doc/qt-5/qtextcursor.html#MoveMode-enum
+      cursor.clearSelection();
+      cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, 20);
+      cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::QTextCursor::KeepAnchor, 15);
+      sel = { cursor, fmt2 };
+      selections.append(sel);
+      // 3ème sélection : sélectionner le texte en [2,30] :
+      cursor.clearSelection();
+      cursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+      cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, 2);
+      cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 20);
+      sel = { cursor, fmt3 };
+      selections.append(sel);
+      // appliquer la sélection :
       this->setExtraSelections(selections);
-
+      // faire disparaître la sélection :
       cursor.clearSelection();
       this->setTextCursor(cursor);
 
       this->show();
     }
-
+    */
     QTextEdit::mouseReleaseEvent(mouse_event);
 }

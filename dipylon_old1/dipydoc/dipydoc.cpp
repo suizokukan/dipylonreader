@@ -34,9 +34,13 @@
 ______________________________________________________________________________*/
 DipyDoc::DipyDoc(void)
 {
+  qDebug() << "DipyDoc::DipyDoc() : enter";
+
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
   this->text = QString("");
+
+  qDebug() << "DipyDoc::DipyDoc() : exit";
 }
 
 /*______________________________________________________________________________
@@ -82,10 +86,14 @@ DipyDoc::DipyDoc(QString path)
 ______________________________________________________________________________*/
 DipyDoc& DipyDoc::operator=(DipyDoc&& other)
 {
+  qDebug() << "DipyDoc::operator= : enter";
+
   this->_internal_state = other._internal_state;
   this->_well_initialized = other._well_initialized;
   this->text = std::move(other.text);
   this->translations = std::move(other.translations);
+
+  qDebug() << "DipyDoc::operator= : exit";
   return *this; 
 }
 

@@ -24,9 +24,10 @@ cursor.setPosition(9, QTextCursor::KeepAnchor);
 
 ================================================================================
 à faire :
-créer un curseur pour chaque QTextEditor.
+plantage : virer les pointeurs et les &&.
+pas moyen de mettre le bout de sélection en italique/en gras
 is_inside => contains
-ajouter un destructeur à source_editor qui delete le dipydoc.
+tooltip : http://qt-project.org/doc/qt-4.8/widgets-tooltips.html
 (a) le problème du operator=
 (b) inline des fonctions les plus importantes ?
 
@@ -36,7 +37,7 @@ http://www.qtcentre.org/
 ================================================================================
 
 doc :
-
+c++11 ==>  http://www.parashift.com/c++-faq-lite/index.html 
 
 
 

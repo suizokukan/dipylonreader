@@ -19,33 +19,49 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : qt/dipylonui.h
+    ❏Dipylon❏ : dipydoc/dipydoc.h
 
-    Central class for the User Interface.
+    Define the DipyDoc class, dealing with DIPYDOC documents.
 
 *******************************************************************************/
 
-#include "qt/sourceeditor.h"
-#include "qt/commentaryeditor.h"
-#include "qt/mainsplitter.h"
+#ifndef DIPYDOC_H
+#define DIPYDOC_H
 
-#include "dipydoc/dipydoc.h"
+#include "../postxt/pos2str.h"
 
-// $$$
+#include <QString>
+#include <QFileInfo>
+#include <QTextStream>
 #include <QDebug>
 
-class DipylonUI : QApplication
+class DipyDoc
 {
-    public:
-        DipyDoc current_dipydoc;
-
-            DipylonUI(int, char **);
-        int exec(void);
-
     private:
-        SourceEditor* source_editor = 0;
-        CommentaryEditor *commentary_editor = 0;
-        MainSplitter *main_splitter = 0;
+        bool    _well_initialized;
+        int     _internal_state;
 
-        void set_the_ui(void);
+        void    check_path(QString path);
+
+    public:
+        // constants used to define the internal_state attribute :
+        const int INTERNALSTATE_OK = 0;
+        const int INTERNALSTATE_UNKNOWNPATH = 1;
+        const int INTERNALSTATE_PATHISAFILE = 2;
+        const int INTERNALSTATE_MISSINGTEXT = 3;
+
+        // name of the files in a dipydoc directory :
+        const QString TEXTFILE_NAME = "text";
+
+                 DipyDoc(void);
+                 DipyDoc(QString);
+
+        DipyDoc& operator=(DipyDoc&&);
+        int      internal_state(void) const;
+        bool     well_initialized(void) const;
+
+        QString text;
+        Pos2Str translations;
 };
+
+#endif
