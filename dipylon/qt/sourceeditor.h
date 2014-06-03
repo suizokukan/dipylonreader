@@ -1,8 +1,10 @@
 #ifndef SOURCEEDITOR_H
 #define SOURCEEDITOR_H
 
-#include <QTextEdit>
+#include "qt/parameters.h"
 #include "dipydoc/dipydoc.h"
+
+#include <QTextEdit>
 
 class SourceEditor : public QTextEdit
 {

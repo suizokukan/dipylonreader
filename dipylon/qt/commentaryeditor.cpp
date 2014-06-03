@@ -1,10 +1,8 @@
 #include "qt/commentaryeditor.h"
+#include "qt/parameters.h"
 
 CommentaryEditor::CommentaryEditor(void) {
   this->setReadOnly(true);
 
-  this->setStyleSheet("color: white;"
-                      "background-color: #DE8ABC;"
-                      "selection-color: yellow;"
-                      "selection-background-color: blue;");
+  this->setStyleSheet(ui_parameters.commentary_editor_stylesheet);
 }

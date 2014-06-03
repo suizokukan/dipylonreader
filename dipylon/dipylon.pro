@@ -15,6 +15,7 @@ HEADERS         +=  qt/mainwindow.h \
                     qt/dipylonui.h \	
                     qt/sourceeditor.h \
                     qt/commentaryeditor.h \
+                    qt/parameters.h \
                     dipydoc/dipydoc.h
 SOURCES         +=  main.cpp \
                     qt/mainwindow.cpp \

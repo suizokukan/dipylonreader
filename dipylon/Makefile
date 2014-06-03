@@ -431,7 +431,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h dipydoc/dipydoc.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/parameters.h dipydoc/dipydoc.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -460,20 +460,22 @@ qrc_dipylon.cpp: dipylon.qrc \
 		ressources/images/icons/open.png \
 		ressources/images/icons/new.png \
 		ressources/images/icons/paste.png \
-		ressources/images/icons/copy.png \
-		ressources/images/icons/cut.png
+		ressources/images/icons/cut.png \
+		ressources/images/icons/copy.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
 moc_mainwindow.cpp: qt/sourceeditor.h \
+		qt/parameters.h \
 		dipydoc/dipydoc.h \
 		qt/commentaryeditor.h \
 		qt/mainwindow.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/mainwindow.h -o moc_mainwindow.cpp
 
-moc_sourceeditor.cpp: dipydoc/dipydoc.h \
+moc_sourceeditor.cpp: qt/parameters.h \
+		dipydoc/dipydoc.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
@@ -500,6 +502,7 @@ main.o: main.cpp qt/dipylonui.h \
 
 mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
 		qt/sourceeditor.h \
+		qt/parameters.h \
 		dipydoc/dipydoc.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o qt/mainwindow.cpp
@@ -508,14 +511,17 @@ dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
 		dipydoc/dipydoc.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
+		qt/parameters.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
+		qt/parameters.h \
 		dipydoc/dipydoc.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
-commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h
+commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
+		qt/parameters.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
 
 qrc_dipylon.o: qrc_dipylon.cpp 

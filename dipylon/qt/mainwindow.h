@@ -3,6 +3,7 @@
 
 #include "qt/sourceeditor.h"
 #include "qt/commentaryeditor.h"
+#include "qt/parameters.h"
 #include "dipydoc/dipydoc.h"
 
 #include <QMainWindow>

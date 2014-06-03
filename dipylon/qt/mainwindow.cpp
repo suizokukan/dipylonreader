@@ -12,6 +12,8 @@ MainWindow::MainWindow(DipyDoc* dipydoc)
     commentary_zone = new CommentaryEditor();
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
+
+    this->main_splitter->setSizes( ui_parameters.editors_size_in_main_splitter );
     
     createActions();
     createMenus();
