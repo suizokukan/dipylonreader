@@ -1,3 +1,5 @@
+[0] travail en cours
+
 [1] options de compilation
     [1.1] options choisies pour le projet
     [1.2] article à propos des options de compilation
@@ -7,6 +9,11 @@
     [2.1] range-based for loop
     [2.2] nullptr
     [2.3] tuple type
+
+[0] travail en cours
+
+0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
+        construire l'interface graphique de base
 
 ################################################################################
 [1] options de compilation
