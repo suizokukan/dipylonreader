@@ -8,9 +8,9 @@ MainWindow::MainWindow()
     main_splitter->setOrientation( Qt::Vertical );
     setCentralWidget(main_splitter);
 
-    textEdit = new QPlainTextEdit;
+    source_editor = new SourceEditor;
     commentary_zone = new QPlainTextEdit;
-    main_splitter->addWidget(textEdit);
+    main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
     
     createActions();
@@ -20,7 +20,7 @@ MainWindow::MainWindow()
 
     readSettings();
 
-    connect(textEdit->document(), SIGNAL(contentsChanged()),
+    connect(source_editor->document(), SIGNAL(contentsChanged()),
             this, SLOT(documentWasModified()));
 
     setCurrentFile("");
@@ -40,7 +40,7 @@ void MainWindow::closeEvent(QCloseEvent *arg_event)
 void MainWindow::newFile()
 {
     if (maybeSave()) {
-        textEdit->clear();
+        source_editor->clear();
         setCurrentFile("");
     }
 }
@@ -87,7 +87,7 @@ void MainWindow::about()
 
 void MainWindow::documentWasModified()
 {
-    setWindowModified(textEdit->document()->isModified());
+    setWindowModified(source_editor->document()->isModified());
 }
 
 void MainWindow::createActions()
@@ -121,19 +121,19 @@ void MainWindow::createActions()
     cutAct->setShortcuts(QKeySequence::Cut);
     cutAct->setStatusTip(tr("Cut the current selection's contents to the "
                             "clipboard"));
-    connect(cutAct, SIGNAL(triggered()), textEdit, SLOT(cut()));
+    connect(cutAct, SIGNAL(triggered()), source_editor, SLOT(cut()));
 
     copyAct = new QAction(QIcon(":ressources/images/icons/copy.png"), tr("&Copy"), this);
     copyAct->setShortcuts(QKeySequence::Copy);
     copyAct->setStatusTip(tr("Copy the current selection's contents to the "
                              "clipboard"));
-    connect(copyAct, SIGNAL(triggered()), textEdit, SLOT(copy()));
+    connect(copyAct, SIGNAL(triggered()), source_editor, SLOT(copy()));
 
     pasteAct = new QAction(QIcon(":ressources/images/icons/paste.png"), tr("&Paste"), this);
     pasteAct->setShortcuts(QKeySequence::Paste);
     pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
                               "selection"));
-    connect(pasteAct, SIGNAL(triggered()), textEdit, SLOT(paste()));
+    connect(pasteAct, SIGNAL(triggered()), source_editor, SLOT(paste()));
 
     aboutAct = new QAction(tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the application's About box"));
@@ -145,9 +145,9 @@ void MainWindow::createActions()
 
     cutAct->setEnabled(false);
     copyAct->setEnabled(false);
-    connect(textEdit, SIGNAL(copyAvailable(bool)),
+    connect(source_editor, SIGNAL(copyAvailable(bool)),
             cutAct, SLOT(setEnabled(bool)));
-    connect(textEdit, SIGNAL(copyAvailable(bool)),
+    connect(source_editor, SIGNAL(copyAvailable(bool)),
             copyAct, SLOT(setEnabled(bool)));
 }
 
@@ -209,7 +209,7 @@ void MainWindow::writeSettings()
 
 bool MainWindow::maybeSave()
 {
-    if (textEdit->document()->isModified()) {
+    if (source_editor->document()->isModified()) {
         QMessageBox::StandardButton ret;
         ret = QMessageBox::warning(this, tr("Application"),
                      tr("The document has been modified.\n"
@@ -238,7 +238,7 @@ void MainWindow::loadFile(const QString &fileName)
 #ifndef QT_NO_CURSOR
     QApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-    textEdit->setPlainText(in.readAll());
+    source_editor->setPlainText(in.readAll());
 #ifndef QT_NO_CURSOR
     QApplication::restoreOverrideCursor();
 #endif
@@ -262,7 +262,7 @@ bool MainWindow::saveFile(const QString &fileName)
 #ifndef QT_NO_CURSOR
     QApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-    out << textEdit->toPlainText();
+    out << source_editor->toPlainText();
 #ifndef QT_NO_CURSOR
     QApplication::restoreOverrideCursor();
 #endif
@@ -275,7 +275,7 @@ bool MainWindow::saveFile(const QString &fileName)
 void MainWindow::setCurrentFile(const QString &fileName)
 {
     curFile = fileName;
-    textEdit->document()->setModified(false);
+    source_editor->document()->setModified(false);
     setWindowModified(false);
 
     QString shownName = curFile;

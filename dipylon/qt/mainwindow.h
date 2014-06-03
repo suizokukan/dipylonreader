@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qt/sourceeditor.h"
+
 #include <QMainWindow>
 
 class QAction;
@@ -39,7 +41,7 @@ private:
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
 
-    QPlainTextEdit *textEdit;
+    SourceEditor *source_editor;
     QPlainTextEdit *commentary_zone;
     QSplitter *main_splitter;
     QString curFile;

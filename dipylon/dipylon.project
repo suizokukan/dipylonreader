@@ -96,7 +96,8 @@ Warnings that are absent:
 
 [2.0] conventions
 * les pointeurs doivent être déclarés initialiés à null_ptr
-
+* si un fichier (.cpp ou .h) a besoin d'include, il les définit au début du fichier : chaque fichier a ainsi les fichiers include dont il a besoin.
+* pour les includes : d'abord les miens, ceux de la STD, ensuite ceux de Qt.
 
 ################################################################################
 [2.1] range-based for loop
