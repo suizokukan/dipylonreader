@@ -456,12 +456,12 @@ compiler_rcc_make_all: qrc_dipylon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_dipylon.cpp
 qrc_dipylon.cpp: dipylon.qrc \
-		ressources/images/icons/save.png \
 		ressources/images/icons/open.png \
-		ressources/images/icons/new.png \
+		ressources/images/icons/save.png \
 		ressources/images/icons/paste.png \
-		ressources/images/icons/cut.png \
-		ressources/images/icons/copy.png
+		ressources/images/icons/new.png \
+		ressources/images/icons/copy.png \
+		ressources/images/icons/cut.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
@@ -479,7 +479,8 @@ moc_sourceeditor.cpp: qt/parameters.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
-moc_commentaryeditor.cpp: qt/commentaryeditor.h
+moc_commentaryeditor.cpp: qt/parameters.h \
+		qt/commentaryeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtTest -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
 
 compiler_moc_source_make_all:
@@ -497,7 +498,11 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean
 ####### Compile
 
 main.o: main.cpp qt/dipylonui.h \
-		dipydoc/dipydoc.h
+		qt/mainwindow.h \
+		qt/sourceeditor.h \
+		qt/parameters.h \
+		dipydoc/dipydoc.h \
+		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
@@ -508,10 +513,10 @@ mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o qt/mainwindow.cpp
 
 dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
-		dipydoc/dipydoc.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
 		qt/parameters.h \
+		dipydoc/dipydoc.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
 

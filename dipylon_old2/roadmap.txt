@@ -24,7 +24,6 @@ cursor.setPosition(9, QTextCursor::KeepAnchor);
 
 ================================================================================
 à faire :
-plantage : virer les pointeurs et les &&.
 pas moyen de mettre le bout de sélection en italique/en gras
 is_inside => contains
 tooltip : http://qt-project.org/doc/qt-4.8/widgets-tooltips.html
