@@ -2,13 +2,13 @@
 #define MAINWINDOW_H
 
 #include "qt/sourceeditor.h"
+#include "qt/commentaryeditor.h"
 #include "dipydoc/dipydoc.h"
 
 #include <QMainWindow>
 
 class QAction;
 class QMenu;
-class QPlainTextEdit;
 class QSplitter;
 
 class MainWindow : public QMainWindow
@@ -43,7 +43,7 @@ private:
     QString strippedName(const QString &fullFileName);
 
     SourceEditor *source_editor;
-    QPlainTextEdit *commentary_zone;
+    CommentaryEditor *commentary_zone;
     QSplitter *main_splitter;
     QString curFile;
 

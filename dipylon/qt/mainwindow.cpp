@@ -1,7 +1,6 @@
 #include <QtWidgets>
 
 #include "qt/mainwindow.h"
-#include "dipydoc/dipydoc.h"
 
 MainWindow::MainWindow(DipyDoc* dipydoc)
 {
@@ -10,7 +9,7 @@ MainWindow::MainWindow(DipyDoc* dipydoc)
     setCentralWidget(main_splitter);
 
     source_editor = new SourceEditor(dipydoc);
-    commentary_zone = new QPlainTextEdit;
+    commentary_zone = new CommentaryEditor();
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
     
