@@ -4,9 +4,15 @@
 
 MainWindow::MainWindow()
 {
-    textEdit = new QPlainTextEdit;
-    setCentralWidget(textEdit);
+    main_splitter = new QSplitter;
+    main_splitter->setOrientation( Qt::Vertical );
+    setCentralWidget(main_splitter);
 
+    textEdit = new QPlainTextEdit;
+    commentary_zone = new QPlainTextEdit;
+    main_splitter->addWidget(textEdit);
+    main_splitter->addWidget(commentary_zone);
+    
     createActions();
     createMenus();
     createToolBars();

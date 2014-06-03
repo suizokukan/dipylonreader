@@ -6,6 +6,7 @@
 class QAction;
 class QMenu;
 class QPlainTextEdit;
+class QSplitter;
 
 class MainWindow : public QMainWindow
 {
@@ -39,6 +40,8 @@ private:
     QString strippedName(const QString &fullFileName);
 
     QPlainTextEdit *textEdit;
+    QPlainTextEdit *commentary_zone;
+    QSplitter *main_splitter;
     QString curFile;
 
     QMenu *fileMenu;
