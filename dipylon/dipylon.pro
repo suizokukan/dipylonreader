@@ -13,7 +13,8 @@ QT += testlib
 # Input
 HEADERS         +=  qt/mainwindow.h \
                     qt/dipylonui.h \	
-                    qt/sourceeditor.h
+                    qt/sourceeditor.h \
+                    dipydoc/dipydoc.h
 SOURCES         +=  main.cpp \
                     qt/mainwindow.cpp \
                     qt/dipylonui.cpp \

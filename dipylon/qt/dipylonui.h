@@ -1,6 +1,8 @@
 #ifndef DIPYLONUI_H
 #define DIPYLONUI_H
 
+#include "dipydoc/dipydoc.h"
+
 #include <QString>
 
 class DipylonUI {
@@ -11,7 +13,7 @@ private:
   char** cmdline_argv = nullptr;
 
   // current document displayed in the source zone :
-  int* current_dipydoc = nullptr;
+  DipyDoc* current_dipydoc = nullptr;
 
   /* 
         data used to initialize the QApplication object.

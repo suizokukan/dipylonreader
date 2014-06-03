@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "qt/sourceeditor.h"
+#include "dipydoc/dipydoc.h"
 
 #include <QMainWindow>
 
@@ -15,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow();
+    MainWindow(DipyDoc*);
 
 protected:
     void closeEvent(QCloseEvent *event);

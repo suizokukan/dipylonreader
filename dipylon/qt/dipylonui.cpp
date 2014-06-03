@@ -1,5 +1,6 @@
 #include "qt/dipylonui.h"
 #include "qt/mainwindow.h"
+#include "dipydoc/dipydoc.h"
 
 #include <QApplication>
 
@@ -15,7 +16,9 @@ int DipylonUI::go(void) {
     app.setApplicationName(this->application_name );
     app.setApplicationVersion( this->application_version );
 
-    MainWindow mainWin;
+    this->current_dipydoc = new DipyDoc();
+
+    MainWindow mainWin(current_dipydoc);
     mainWin.show();
     return app.exec();
 }

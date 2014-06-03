@@ -1,14 +1,15 @@
 #include <QtWidgets>
 
 #include "qt/mainwindow.h"
+#include "dipydoc/dipydoc.h"
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(DipyDoc* dipydoc)
 {
     main_splitter = new QSplitter;
     main_splitter->setOrientation( Qt::Vertical );
     setCentralWidget(main_splitter);
 
-    source_editor = new SourceEditor;
+    source_editor = new SourceEditor(dipydoc);
     commentary_zone = new QPlainTextEdit;
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
