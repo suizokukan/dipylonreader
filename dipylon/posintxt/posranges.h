@@ -84,8 +84,10 @@ class PosRanges {
   bool               contains(PosInText) const;
   bool               contains(PosInText, PosInText) const;
   VPairOfPosInTextCI end(void);
+  int                internal_state(void) const;
   size_t             size(void) const;
   QString            to_str(void) const;
+  bool               well_initialized(void) const;
 
   // constants used to define the internal_state attribute :
   const int        INTERNALSTATE_OK = 0;
@@ -186,6 +188,14 @@ inline VPairOfPosInTextCI PosRanges::begin(void) {
 
 inline VPairOfPosInTextCI PosRanges::end(void) {
   return this->vec.end();
+}
+
+inline int PosRanges::internal_state(void) const {
+  return this->_internal_state;
+}
+
+inline bool PosRanges::well_initialized(void) const {
+  return this->_well_initialized;
 }
 
 /*______________________________________________________________________________
