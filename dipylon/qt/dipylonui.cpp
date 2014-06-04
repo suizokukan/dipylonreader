@@ -45,32 +45,42 @@ DipylonUI::DipylonUI(int argc, char **argv) {
 ______________________________________________________________________________*/
 int DipylonUI::go(void) {
 
-    // general settings :
-    QApplication app(this->cmdline_argc, this->cmdline_argv);
-    app.setOrganizationName( this->organization_name );
-    app.setOrganizationDomain( this->organization_domain );
-    app.setApplicationName(this->application_name );
-    app.setApplicationVersion( this->application_version );
+  /*
+    We want to use the system's standard settings.
 
-    // i18n :
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(),
-            QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app.installTranslator(&qtTranslator);
+    see http://qt-project.org/doc/qt-5/qguiapplication.html#setDesktopSettingsAware
+  */
+  QApplication::setDesktopSettingsAware(true);
 
-    QTranslator myappTranslator;
-    myappTranslator.load("myapp_" + QLocale::system().name());
-    app.installTranslator(&myappTranslator);
+  // general settings :
+  QApplication app(this->cmdline_argc, this->cmdline_argv);
+  app.setOrganizationName( this->organization_name );
+  app.setOrganizationDomain( this->organization_domain );
+  app.setApplicationName(this->application_name );
+  app.setApplicationVersion( this->application_version );
 
-    // current DipyDoc :
-    this->current_dipydoc = new DipyDoc();
+  // application's look :
+  app.setStyle( this->application_style );
 
-    // main window creation :
-    MainWindow mainWin(current_dipydoc);
-    mainWin.show();
+  // i18n :
+  QTranslator qtTranslator;
+  qtTranslator.load("qt_" + QLocale::system().name(),
+          QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+  app.installTranslator(&qtTranslator);
 
-    // main loop :
-    return app.exec();
+  QTranslator myappTranslator;
+  myappTranslator.load("myapp_" + QLocale::system().name());
+  app.installTranslator(&myappTranslator);
+
+  // current DipyDoc :
+  this->current_dipydoc = new DipyDoc();
+
+  // main window creation :
+  MainWindow mainWin(current_dipydoc);
+  mainWin.show();
+
+  // main loop :
+  return app.exec();
 }
 
 /*______________________________________________________________________________

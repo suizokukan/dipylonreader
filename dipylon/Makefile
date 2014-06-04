@@ -460,12 +460,12 @@ compiler_rcc_make_all: qrc_dipylon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_dipylon.cpp
 qrc_dipylon.cpp: dipylon.qrc \
-		ressources/images/icons/cut.png \
-		ressources/images/icons/save.png \
 		ressources/images/icons/open.png \
-		ressources/images/icons/paste.png \
 		ressources/images/icons/new.png \
-		ressources/images/icons/copy.png
+		ressources/images/icons/paste.png \
+		ressources/images/icons/copy.png \
+		ressources/images/icons/cut.png \
+		ressources/images/icons/save.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
