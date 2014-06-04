@@ -29,6 +29,7 @@
 
 //$$$
 #include "posintxt/posranges.h"
+#include "posintxt/vectorposranges.h"
 #include <QDebug>
 
 /*______________________________________________________________________________
@@ -52,6 +53,18 @@ int main(int argc, char **argv)
     PosRanges p3 = PosRanges("94-107+97-109");
     qDebug() << (p2 == p3);
     qDebug() << (p2 != p3);
+
+    VectorPosRanges v1 = \
+    VectorPosRanges(  { PosRanges( { {10,20}, {150,250} } ),
+                                               PosRanges( { {0,5}, {11, 20} } ),
+                                               PosRanges( { {8, 9}, {91,92} } ),
+                                               PosRanges( { {1, 2}, {190,191} } ),
+                                               PosRanges( { {0,5}, {10, 20} } ),
+          });
+    qDebug() << v1.to_str();
+    v1.sort();
+    qDebug() << v1.to_str();
+
 
     DipylonUI myapp(argc, argv);
     return myapp.go();

@@ -50,7 +50,9 @@ SOURCES       = main.cpp \
 		qt/dipylonui.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
-		posintxt/posranges.cpp qrc_dipylon.cpp \
+		posintxt/posranges.cpp \
+		posintxt/vectorposranges.cpp \
+		posintxt/pos2str.cpp qrc_dipylon.cpp \
 		moc_mainwindow.cpp \
 		moc_sourceeditor.cpp \
 		moc_commentaryeditor.cpp
@@ -60,6 +62,8 @@ OBJECTS       = main.o \
 		sourceeditor.o \
 		commentaryeditor.o \
 		posranges.o \
+		vectorposranges.o \
+		pos2str.o \
 		qrc_dipylon.o \
 		moc_mainwindow.o \
 		moc_sourceeditor.o \
@@ -173,7 +177,9 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		qt/dipylonui.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
-		posintxt/posranges.cpp
+		posintxt/posranges.cpp \
+		posintxt/vectorposranges.cpp \
+		posintxt/pos2str.cpp
 QMAKE_TARGET  = dipylon
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = dipylon
@@ -434,7 +440,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/parameters.h dipydoc/dipydoc.h posintxt/posintxt.h posintxt/posranges.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp posintxt/posranges.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/parameters.h dipydoc/dipydoc.h posintxt/posintxt.h posintxt/posranges.h posintxt/vectorposranges.h posintxt/pos2str.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp posintxt/posranges.cpp posintxt/vectorposranges.cpp posintxt/pos2str.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -459,12 +465,12 @@ compiler_rcc_make_all: qrc_dipylon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_dipylon.cpp
 qrc_dipylon.cpp: dipylon.qrc \
-		ressources/images/icons/copy.png \
 		ressources/images/icons/cut.png \
-		ressources/images/icons/save.png \
-		ressources/images/icons/open.png \
 		ressources/images/icons/paste.png \
-		ressources/images/icons/new.png
+		ressources/images/icons/copy.png \
+		ressources/images/icons/new.png \
+		ressources/images/icons/save.png \
+		ressources/images/icons/open.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
@@ -508,7 +514,8 @@ main.o: main.cpp qt/dipylonui.h \
 		qt/commentaryeditor.h \
 		posintxt/posranges.h \
 		posintxt/posintxt.h \
-		misc/hash.h
+		misc/hash.h \
+		posintxt/vectorposranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
@@ -539,6 +546,19 @@ posranges.o: posintxt/posranges.cpp posintxt/posranges.h \
 		posintxt/posintxt.h \
 		misc/hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o posintxt/posranges.cpp
+
+vectorposranges.o: posintxt/vectorposranges.cpp posintxt/vectorposranges.h \
+		posintxt/posranges.h \
+		posintxt/posintxt.h \
+		misc/hash.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vectorposranges.o posintxt/vectorposranges.cpp
+
+pos2str.o: posintxt/pos2str.cpp posintxt/pos2str.h \
+		posintxt/posintxt.h \
+		posintxt/posranges.h \
+		misc/hash.h \
+		posintxt/vectorposranges.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o posintxt/pos2str.cpp
 
 qrc_dipylon.o: qrc_dipylon.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_dipylon.o qrc_dipylon.cpp

@@ -19,22 +19,41 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : posintxt/posintxt.h
+    ❏Dipylon❏ : posintxt/vectorposranges.cpp
 
-    A PosInText (=text position) is an integer greater or equal to 0.
+    See vectorposranges.h for the documentation
 
 *******************************************************************************/
 
-#ifndef POSINTXT_H
-#define POSINTXT_H
+#include "posintxt/vectorposranges.h"
 
-#include <vector>
+/*______________________________________________________________________________
 
-// base type :
-typedef unsigned int PosInText;
+        PosRanges::sort()
+______________________________________________________________________________*/
+void VectorPosRanges::sort(void) {
 
-typedef std::vector<std::pair<PosInText, PosInText> > VPairOfPosInText;
+  std::sort( this->vposranges.begin(),
+             this->vposranges.end(),
+             VectorPosRangesCMP(this) );
+}
 
-typedef std::vector<std::pair<PosInText, PosInText> >::const_iterator VPairOfPosInTextCI;
+/*______________________________________________________________________________
 
-#endif
+        PosRanges::to_str : return a QString representation of this.
+______________________________________________________________________________*/
+QString VectorPosRanges::to_str(void) const {
+
+  QString res = QString("");
+
+  // i is an iterator over PosRanges objects :
+  for(auto &i : this->vposranges) {
+    res += i.to_str();
+    res += this->MAIN_SEPARATOR;
+  }
+
+  // removing the last MAIN_SEPARATOR character :
+  res.chop(1);
+
+  return res;
+}

@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : posintxt/posranges.h
 
-    ⇨ Use PosRanges objects to store a list of (TextPos)integers.
+    ⇨ Use PosRanges objects to store a list of (PosInText)integers.
       A PosRanges object can be initialized from a QString (see POSRANGES_STR infra).
       After beeing initialized, check the (bool)well_initialized attribute.
 
@@ -52,6 +52,8 @@
 #include "posintxt/posintxt.h"
 #include "misc/hash.h"
 
+#include <vector>
+
 #include <QString>
 #include <QStringList>
 
@@ -64,21 +66,26 @@ ________________________________________________________________________________
 class PosRanges {
 
  friend class PosRangesHasher;
+ friend class Pos2Str;
 
  public:
 
-          PosRanges(void);
-          PosRanges(const PosRanges&);
-          PosRanges(const QString&);
-          ~PosRanges(void);
-          PosRanges& operator=(const PosRanges&);
-  bool    operator==(const PosRanges& other) const;
-  bool    operator!=(const PosRanges& other) const;
-
-  bool    contains(PosInText) const;
-  bool    contains(PosInText, PosInText) const;
-  size_t  size(void) const;
-  QString to_str(void) const;
+                     PosRanges(void);
+                     PosRanges(const PosRanges&);
+                     PosRanges(const QString&);
+                     PosRanges(std::initializer_list< std::pair<PosInText, PosInText> >);
+                     PosRanges(std::vector< std::pair<PosInText, PosInText> >);
+                     ~PosRanges(void);
+                     PosRanges& operator=(const PosRanges&);
+  bool               operator==(const PosRanges& other) const;
+  bool               operator!=(const PosRanges& other) const;
+  
+  VPairOfPosInTextCI begin(void);
+  bool               contains(PosInText) const;
+  bool               contains(PosInText, PosInText) const;
+  VPairOfPosInTextCI end(void);
+  size_t             size(void) const;
+  QString            to_str(void) const;
 
   // constants used to define the internal_state attribute :
   const int        INTERNALSTATE_OK = 0;
@@ -113,6 +120,44 @@ inline PosRanges::PosRanges( const PosRanges& other )  : \
                   _well_initialized(other._well_initialized)
 {}
 
+inline PosRanges::PosRanges(std::initializer_list<std::pair<PosInText, PosInText> > values) : \
+vec(values) {
+
+  this->_internal_state = this->INTERNALSTATE_OK;
+
+  // error : if "values" is empty, the initialisation can't be correct :
+  this->_well_initialized = (values.size() > 0);
+  
+  // shall we go further ?
+  if( this->_well_initialized == false ) {
+    // ... no.
+    this->_internal_state = this->INTERNALSTATE_EMPTY;
+    return;
+  }
+
+  // last checks :
+  this->checks();
+}
+
+inline PosRanges::PosRanges(std::vector< std::pair<PosInText, PosInText> > values) : \
+vec(values) {
+
+  this->_internal_state = this->INTERNALSTATE_OK;
+
+  // error : if values is empty, the initialisation can't be correct :
+  this->_well_initialized = (values.size() > 0);
+  
+  // shall we go further ?
+  if( this->_well_initialized == false ) {
+    // ... no.
+    this->_internal_state = this->INTERNALSTATE_EMPTY;
+    return;
+  }
+
+  // last checks :
+  this->checks();
+}
+
 inline PosRanges::~PosRanges(void) {}
 
 inline PosRanges& PosRanges::operator=(const PosRanges& other) {
@@ -133,6 +178,14 @@ inline bool PosRanges::operator==(const PosRanges& other) const {
 
 inline bool PosRanges::operator!=(const PosRanges& other) const {
   return !(this->operator==(other));
+}
+
+inline VPairOfPosInTextCI PosRanges::begin(void) {
+  return this->vec.begin();
+}
+
+inline VPairOfPosInTextCI PosRanges::end(void) {
+  return this->vec.end();
 }
 
 /*______________________________________________________________________________
