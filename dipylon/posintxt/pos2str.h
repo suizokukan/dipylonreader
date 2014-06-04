@@ -129,7 +129,7 @@ inline Pos2Str& Pos2Str::operator=(const Pos2Str& other) {
   return *this;
 }
 
-QString& Pos2Str::operator[]( VPairOfPosInText key) {
+inline QString& Pos2Str::operator[]( VPairOfPosInText key) {
   return this->map[key];
 }
 
@@ -137,14 +137,12 @@ inline int Pos2Str::internal_state(void) const {
   return this->_internal_state;
 }
 
-size_t Pos2Str::size(void) const {
+inline size_t Pos2Str::size(void) const {
   return this->map.size();
 }
 
-bool Pos2Str::well_initialized(void) const {
+inline bool Pos2Str::well_initialized(void) const {
   return this->_well_initialized;
 }
-
-
 
 #endif

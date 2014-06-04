@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : tests/testpos2str.h
 
-    ⇨ tests for Pos2Str objects.
+    ⇨ tests of the Pos2Str module.
 
 *********************************************************************************/
 
@@ -35,7 +35,7 @@
 
 /*______________________________________________________________________________
 
-        TestPos2Str class : test of Pos2Str module.
+        TestPos2Str class : test of the Pos2Str module.
 
 ______________________________________________________________________________*/
 class TestPos2Str: public QObject

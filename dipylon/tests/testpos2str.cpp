@@ -53,7 +53,7 @@ void TestPos2Str::test0(void)
 
   QCOMPARE( pos2str.well_initialized() , true );
   QCOMPARE( pos2str.internal_state() , pos2str.INTERNALSTATE_OK );
-  QCOMPARE( pos2str.size() , static_cast<int>(3) );
+  QCOMPARE( pos2str.size() == 3 , true );
   QCOMPARE( (pos2str[{{ {59,61}, {62,63} }}]) , QString("example3") );
 
   pos2str[ {{ {90,91}, {92,93} }} ] = QString("example4");

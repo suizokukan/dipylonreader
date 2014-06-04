@@ -50,7 +50,7 @@ void TestPosRanges::test0(void)
 
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
-  QCOMPARE( g.size() , static_cast<int>(2) );
+  QCOMPARE( g.size() == 2 , true );
   QCOMPARE( g.to_str(), str );
 }
 
@@ -64,7 +64,7 @@ void TestPosRanges::test1(void)
 
   QCOMPARE( g.well_initialized() ,true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
-  QCOMPARE( g.size() , static_cast<int>(4) );
+  QCOMPARE( g.size() == 4 , true );
   QCOMPARE( g.to_str(), str );
 
   QCOMPARE( g.contains(0) , false );
@@ -87,7 +87,7 @@ void TestPosRanges::test2(void)
 
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
-  QCOMPARE( g.size() , static_cast<int>(3) );
+  QCOMPARE( g.size() == 3 , true );
 
   QCOMPARE( g.contains(0) , false );
   QCOMPARE( g.contains(94) , true );
@@ -215,7 +215,7 @@ void TestPosRanges::test7a(void)
   PosRanges g( { {1,2}, {4,5}, {10,11}, {99,101} } );
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
-  QCOMPARE( g.size() , static_cast<int>(4) );
+  QCOMPARE( g.size() == 4 , true );
 }
 
 /*

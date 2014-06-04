@@ -50,8 +50,8 @@ void TestVectorPosRanges::test0(void)
                                                PosRanges( { {50,70}, {190,191} } ),
                                              }));
 
-  QCOMPARE(vposranges.size(), static_cast<int>(2) );
-  QCOMPARE(vposranges.to_str(), QString("10-20+150-250/50-70+190-191"));
+  QCOMPARE( vposranges.size() == 2 , true );
+  QCOMPARE( vposranges.to_str(), QString("10-20+150-250/50-70+190-191"));
 }
 
 /*
@@ -61,8 +61,8 @@ void TestVectorPosRanges::test1(void)
 { 
   VectorPosRanges vposranges = VectorPosRanges( std::vector<PosRanges>() );
 
-  QCOMPARE(vposranges.size(), static_cast<int>(0) );
-  QCOMPARE(vposranges.to_str(), QString(""));
+  QCOMPARE( vposranges.size() == 0 , true );
+  QCOMPARE( vposranges.to_str(), QString(""));
 }
 
 /*
@@ -79,6 +79,6 @@ void TestVectorPosRanges::test2(void)
                                              }));
   vposranges.sort();
 
-  QCOMPARE(vposranges.size(), static_cast<int>(5) );
-  QCOMPARE(vposranges.to_str(), QString("0-5+10-20/0-5+11-20/1-2+190-191/8-9+91-92/10-20+150-250"));
+  QCOMPARE( vposranges.size() == 5 , true );
+  QCOMPARE( vposranges.to_str(), QString("0-5+10-20/0-5+11-20/1-2+190-191/8-9+91-92/10-20+150-250"));
 }

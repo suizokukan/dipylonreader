@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = dipylon
+TARGET = tests
 INCLUDEPATH      += ..
 
 QT += testlib
