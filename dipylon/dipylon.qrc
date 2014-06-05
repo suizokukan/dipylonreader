@@ -6,5 +6,7 @@
     <file>ressources/images/icons/open.png</file>
     <file>ressources/images/icons/paste.png</file>
     <file>ressources/images/icons/save.png</file>
+
+    <file>ressources/images/icons/audio_play.png</file>
 </qresource>
 </RCC>

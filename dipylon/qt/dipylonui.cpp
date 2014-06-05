@@ -53,14 +53,14 @@ int DipylonUI::go(void) {
   QApplication::setDesktopSettingsAware(true);
 
   // general settings :
-  QApplication app(this->cmdline_argc, this->cmdline_argv);
-  app.setOrganizationName( this->organization_name );
-  app.setOrganizationDomain( this->organization_domain );
-  app.setApplicationName(this->application_name );
-  app.setApplicationVersion( this->application_version );
+  QApplication app( this->cmdline_argc, this->cmdline_argv);
+  app.setOrganizationName( parameters.organization_name );
+  app.setOrganizationDomain( parameters.organization_domain );
+  app.setApplicationName(parameters.application_name );
+  app.setApplicationVersion( parameters.application_version );
 
   // application's look :
-  app.setStyle( this->application_style );
+  app.setStyle( parameters.application_style );
 
   // i18n :
   QTranslator qtTranslator;
@@ -78,6 +78,9 @@ int DipylonUI::go(void) {
   // main window creation :
   MainWindow mainWin(current_dipydoc);
   mainWin.show();
+
+  // $$$ fake initialization :
+  mainWin.open("../texts/Ovid_M_I_452_567/text");
 
   // main loop :
   return app.exec();

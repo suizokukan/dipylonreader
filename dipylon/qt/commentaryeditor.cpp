@@ -34,5 +34,5 @@
 ______________________________________________________________________________*/
 CommentaryEditor::CommentaryEditor(void) {
   this->setReadOnly(true);
-  this->setStyleSheet(ui_parameters.commentary_editor_stylesheet);
+  this->setStyleSheet(parameters.commentary_editor_stylesheet);
 }

@@ -28,13 +28,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "parameters.h"
 #include "qt/sourceeditor.h"
 #include "qt/commentaryeditor.h"
-#include "qt/parameters.h"
 #include "dipydoc/dipydoc.h"
 
 #include <QMainWindow>
+#include <QMediaPlayer> // [XAV]audio
 #include <QtWidgets>
+#include <QFile>  // [XAV]QFile
 
 class QAction;
 class QMenu;
@@ -46,6 +48,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(DipyDoc*);
+    void open(QString); // [XAV]
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -57,6 +60,9 @@ private slots:
     bool saveAs();
     void about();
     void documentWasModified();
+
+    void audiocontrols_play(void); // XAV
+    void audio_position_changed(qint64); // XAV
 
 private:
     void createActions();
@@ -91,6 +97,12 @@ private:
     QAction *pasteAct;
     QAction *aboutAct;
     QAction *aboutQtAct;
+
+    QAction* audiocontrols_playAct;     // XAV
+    QToolBar* audiocontrolsToolBar;     // XAV
+
+    QMediaPlayer* audio_player; // XAV
+
 };
 
 #endif

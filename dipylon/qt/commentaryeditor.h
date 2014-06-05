@@ -28,7 +28,7 @@
 #ifndef COMMENTARYEDITOR_H
 #define COMMENTARYEDITOR_H
 
-#include "qt/parameters.h"
+#include "parameters.h"
 
 #include <QTextEdit>
 

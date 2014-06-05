@@ -38,7 +38,7 @@ MainWindow::MainWindow(DipyDoc* dipydoc)
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
 
-    this->main_splitter->setSizes( ui_parameters.editors_size_in_main_splitter );
+    this->main_splitter->setSizes( parameters.editors_size_in_main_splitter );
     
     createActions();
     createMenus();
@@ -72,12 +72,19 @@ void MainWindow::newFile()
     }
 }
 
-void MainWindow::open()
-{
+void MainWindow::open(void) {
+
     if (maybeSave()) {
         QString fileName = QFileDialog::getOpenFileName(this);
         if (!fileName.isEmpty())
             loadFile(fileName);
+    }
+}
+
+void MainWindow::open(QString file_name) {
+
+    if (maybeSave()) {
+        loadFile(file_name);
     }
 }
 
@@ -176,6 +183,12 @@ void MainWindow::createActions()
             cutAct, SLOT(setEnabled(bool)));
     connect(source_editor, SIGNAL(copyAvailable(bool)),
             copyAct, SLOT(setEnabled(bool)));
+
+    // XAV :
+    audiocontrols_playAct = new QAction(QIcon("ressources/images/icons/audio_play.png"), \
+                                    tr("play"), this);
+    audiocontrols_playAct->setStatusTip(tr("play..."));
+    connect(audiocontrols_playAct, SIGNAL(triggered()), this, SLOT(audiocontrols_play()));
 }
 
 void MainWindow::createMenus()
@@ -211,6 +224,10 @@ void MainWindow::createToolBars()
     editToolBar->addAction(cutAct);
     editToolBar->addAction(copyAct);
     editToolBar->addAction(pasteAct);
+
+    // XAV :
+    audiocontrolsToolBar = addToolBar(tr("AudioControls"));
+    audiocontrolsToolBar->addAction(audiocontrols_playAct);
 }
 
 void MainWindow::createStatusBar()
@@ -234,6 +251,12 @@ void MainWindow::writeSettings()
     settings.setValue("size", size());
 }
 
+/* http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
+
+The maybeSave() function is called to save pending changes. If there are pending changes, it pops up a QMessageBox giving the user to save the document. The options are QMessageBox::Yes, QMessageBox::No, and QMessageBox::Cancel. The Yes button is made the default button (the button that is invoked when the user presses Return) using the QMessageBox::Default flag; the Cancel button is made the escape button (the button that is invoked when the user presses Esc) using the QMessageBox::Escape flag.
+
+The maybeSave() function returns true in all cases, except when the user clicks Cancel. The caller must check the return value and stop whatever it was doing if the return value is false.
+*/
 bool MainWindow::maybeSave()
 {
     if (source_editor->document()->isModified()) {
@@ -314,4 +337,20 @@ void MainWindow::setCurrentFile(const QString &fileName)
 QString MainWindow::strippedName(const QString &fullFileName)
 {
     return QFileInfo(fullFileName).fileName();
+}
+
+// XAV
+void MainWindow::audiocontrols_play(void)
+{
+  // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
+  audio_player = new QMediaPlayer;
+  connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
+  audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/texts/Ovid_M_I_452_567/record.ogg"));
+  audio_player->setNotifyInterval(parameters.audio_notify_interval); 
+  audio_player->setVolume(50);
+  audio_player->play();
+}
+
+void MainWindow::audio_position_changed(qint64 arg_pos) {
+  qDebug() << "audio_position_changed=" << arg_pos;
 }

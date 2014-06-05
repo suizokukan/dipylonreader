@@ -28,7 +28,7 @@
 #ifndef SOURCEEDITOR_H
 #define SOURCEEDITOR_H
 
-#include "qt/parameters.h"
+#include "parameters.h"
 #include "dipydoc/dipydoc.h"
 
 #include <QTextEdit>
