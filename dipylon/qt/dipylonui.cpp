@@ -73,14 +73,17 @@ int DipylonUI::go(void) {
   app.installTranslator(&myappTranslator);
 
   // current DipyDoc :
-  this->current_dipydoc = new DipyDoc();
+  //this->current_dipydoc = new DipyDoc();
+  // $$$ fake initialization :
+  this->current_dipydoc = new DipyDoc("../texts/Ovid_M_I_452_567/");
 
   // main window creation :
   MainWindow mainWin(current_dipydoc);
   mainWin.show();
 
   // $$$ fake initialization :
-  mainWin.open("../texts/Ovid_M_I_452_567/text");
+  const QString& source_text = this->current_dipydoc->source_text;
+  mainWin.load_text(source_text);
 
   // main loop :
   return app.exec();

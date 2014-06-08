@@ -54,7 +54,7 @@ struct IntegersAndAString
 
 /*______________________________________________________________________________
 
-  Pos2Str class
+  Pos2Str class : basically, a map PosRanges -> QString .
 
 ________________________________________________________________________________*/
 class Pos2Str {

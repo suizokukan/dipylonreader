@@ -8,5 +8,7 @@
     <file>ressources/images/icons/save.png</file>
 
     <file>ressources/images/icons/audio_play.png</file>
+
+    <file>ressources/sounds/test.ogg</file>
 </qresource>
 </RCC>

@@ -27,6 +27,7 @@ SOURCES         +=  main.cpp \
                     qt/dipylonui.cpp \
                     qt/sourceeditor.cpp \
                     qt/commentaryeditor.cpp \
+                    dipydoc/dipydoc.cpp \
                     posintxt/posranges.cpp \
                     posintxt/vectorposranges.cpp \
                     posintxt/pos2str.cpp

@@ -345,12 +345,19 @@ void MainWindow::audiocontrols_play(void)
   // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
   audio_player = new QMediaPlayer;
   connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
-  audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/texts/Ovid_M_I_452_567/record.ogg"));
+  //  audio_player->setMedia(QUrl::fromLocalFile("home/suizokukan/projets/dipylon/last/texts/Ovid_M_I_452_567/record.ogg"));
+  audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
   audio_player->setNotifyInterval(parameters.audio_notify_interval); 
   audio_player->setVolume(50);
   audio_player->play();
 }
 
+// [XAV]
 void MainWindow::audio_position_changed(qint64 arg_pos) {
   qDebug() << "audio_position_changed=" << arg_pos;
+}
+
+// [XAV]
+void MainWindow::load_text(const QString& source_text)  {
+  this->source_editor->setPlainText(source_text);
 }

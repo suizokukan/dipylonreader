@@ -50,6 +50,8 @@ public:
     MainWindow(DipyDoc*);
     void open(QString); // [XAV]
 
+    void load_text(const QString& source_text); // XAV
+
 protected:
     void closeEvent(QCloseEvent *event);
 

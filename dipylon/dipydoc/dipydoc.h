@@ -28,12 +28,60 @@
 #ifndef DIPYDOC_H
 #define DIPYDOC_H
 
+#include "../posintxt/pos2str.h"
+
+#include <QString>
+#include <QFile>
+#include <QFileInfo>
+#include <QIODevice>
+#include <QTextStream>
+
 /*______________________________________________________________________________
 
   DipyDoc class
 
 ______________________________________________________________________________*/
 class DipyDoc {
+
+friend class DipylonUI;
+
+private:
+
+  bool    _well_initialized;
+  int     _internal_state;
+  Pos2Str translation;
+  QString source_text;
+
+  void    check_path(QString path);
+
+public:
+          DipyDoc(void);
+          DipyDoc(QString);
+  int     internal_state(void) const;
+  bool    well_initialized(void) const;
+
+  // constants used to define the internal_state attribute :
+  const int INTERNALSTATE_OK = 0;
+  const int INTERNALSTATE_UNKNOWNPATH = 1;
+  const int INTERNALSTATE_PATHISAFILE = 2;
+  const int INTERNALSTATE_MISSINGTEXT = 3;
+  // name of the files in a dipydoc directory :
+  const QString TEXTFILE_NAME = "text";
 };
+
+inline DipyDoc::DipyDoc(void) {
+  this->_well_initialized = true;
+  this->_internal_state = this->INTERNALSTATE_OK;
+  this->source_text = QString("");
+  this->translation = Pos2Str();
+}
+
+inline int DipyDoc::internal_state(void) const {
+  return this->_internal_state;
+}
+
+inline bool DipyDoc::well_initialized(void) const {
+  return this->_well_initialized;
+}
 
 #endif
