@@ -25,6 +25,10 @@ SOMMAIRE
 0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
         construire l'interface graphique de base
 
+0.2.0 : XML 
+http://qt-project.org/doc/qt-5/qtxml-xmlstreamlint-example.html
+http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
+
 ################################################################################
 [1] options de compilation
 ################################################################################
