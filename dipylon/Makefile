@@ -94,6 +94,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designer.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designer_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designercomponents_private.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_enginio.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_enginio_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_gui.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_gui_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_help.pri \
@@ -146,6 +148,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/modules/qt_lib_webkit_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_webkitwidgets.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_webkitwidgets_private.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_websockets.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_websockets_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_widgets.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_widgets_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_x11extras.pri \
@@ -238,6 +242,8 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 		/usr/lib/qt/mkspecs/modules/qt_lib_designer.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designer_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designercomponents_private.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_enginio.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_enginio_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_gui.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_gui_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_help.pri \
@@ -290,6 +296,8 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 		/usr/lib/qt/mkspecs/modules/qt_lib_webkit_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_webkitwidgets.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_webkitwidgets_private.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_websockets.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_websockets_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_widgets.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_widgets_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_x11extras.pri \
@@ -349,6 +357,8 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 /usr/lib/qt/mkspecs/modules/qt_lib_designer.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_designer_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_designercomponents_private.pri:
+/usr/lib/qt/mkspecs/modules/qt_lib_enginio.pri:
+/usr/lib/qt/mkspecs/modules/qt_lib_enginio_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_gui.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_gui_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_help.pri:
@@ -401,6 +411,8 @@ Makefile: dipylon.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspe
 /usr/lib/qt/mkspecs/modules/qt_lib_webkit_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_webkitwidgets.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_webkitwidgets_private.pri:
+/usr/lib/qt/mkspecs/modules/qt_lib_websockets.pri:
+/usr/lib/qt/mkspecs/modules/qt_lib_websockets_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_widgets.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_widgets_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_x11extras.pri:
@@ -467,13 +479,13 @@ compiler_rcc_make_all: qrc_dipylon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_dipylon.cpp
 qrc_dipylon.cpp: dipylon.qrc \
-		ressources/images/icons/open.png \
+		ressources/images/icons/paste.png \
+		ressources/images/icons/new.png \
 		ressources/images/icons/save.png \
 		ressources/images/icons/audio_play.png \
-		ressources/images/icons/new.png \
-		ressources/images/icons/paste.png \
-		ressources/images/icons/copy.png \
+		ressources/images/icons/open.png \
 		ressources/images/icons/cut.png \
+		ressources/images/icons/copy.png \
 		ressources/sounds/test.ogg
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
@@ -490,7 +502,7 @@ moc_mainwindow.cpp: parameters.h \
 		posintxt/vectorposranges.h \
 		qt/commentaryeditor.h \
 		qt/mainwindow.h
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/mainwindow.h -o moc_mainwindow.cpp
 
 moc_sourceeditor.cpp: parameters.h \
 		dipydoc/dipydoc.h \
@@ -500,11 +512,11 @@ moc_sourceeditor.cpp: parameters.h \
 		misc/hash.h \
 		posintxt/vectorposranges.h \
 		qt/sourceeditor.h
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
 moc_commentaryeditor.cpp: parameters.h \
 		qt/commentaryeditor.h
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:

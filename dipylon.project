@@ -18,6 +18,8 @@ SOMMAIRE
     [3.1] le casting
     [3.2] où se trouve l'include pour...
 
+[4] comment lire un fichier multimédia
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -177,3 +179,9 @@ reinterpret_cast is the most dangerous cast, and should be used very sparingly. 
 
 std::pair               : #include <utility>
 std::initializer_list   : #include <initializer_list>
+
+################################################################################
+[4] comment lire un fichier multimédia
+################################################################################
+
+sous Linux, Qt5 utilise gstreamer0.10 (PAS une version plus récente); pour un ogg, gstreamer-ffmeg est nécessaire.
