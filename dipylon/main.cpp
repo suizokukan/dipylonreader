@@ -66,7 +66,7 @@ int main(int argc, char **argv)
     qDebug() << v1.to_str();
     qDebug() << v1.size(); 
 
-
     DipylonUI myapp(argc, argv);
+    
     return myapp.go();
 }

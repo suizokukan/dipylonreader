@@ -18,7 +18,8 @@ SOMMAIRE
     [3.1] le casting
     [3.2] où se trouve l'include pour...
 
-[4] comment lire un fichier multimédia
+[4] particularités de Qt(5)
+[4.1] comment lire un fichier multimédia
 
 ################################################################################
 [0] travail en cours
@@ -180,8 +181,19 @@ reinterpret_cast is the most dangerous cast, and should be used very sparingly. 
 std::pair               : #include <utility>
 std::initializer_list   : #include <initializer_list>
 
+[4] particularités de Qt(5)
+
 ################################################################################
-[4] comment lire un fichier multimédia
+[4.1] comment lire un fichier multimédia
 ################################################################################
 
 sous Linux, Qt5 utilise gstreamer0.10 (PAS une version plus récente); pour un ogg, gstreamer-ffmeg est nécessaire.
+
+################################################################################
+[4.2] Qt et les destructors
+################################################################################
+http://stackoverflow.com/questions/1436904/destructors-in-qt4/1439219#1439219
+
+Qt uses what they call object trees and it's a bit different from the typical RAII approach.
+
+The QObject class constructor takes a pointer to a parent QObject. When that parent QObject is destructed, its children will be destroyed as well. This is a pretty prevalent pattern throughout Qt's classes and you'll notice a lot of constructors accept a *parent parameter.

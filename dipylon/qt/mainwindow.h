@@ -64,7 +64,10 @@ private slots:
     void documentWasModified();
 
     void audiocontrols_play(void); // XAV
+    void audiocontrols_stop(void); // XAV
     void audio_position_changed(qint64); // XAV
+
+    void closing(void);	// XAV
 
 private:
     void createActions();
@@ -79,32 +82,32 @@ private:
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
 
-    SourceEditor *source_editor;
-    CommentaryEditor *commentary_zone;
-    QSplitter *main_splitter;
+    SourceEditor *source_editor = nullptr;
+    CommentaryEditor *commentary_zone = nullptr;
+    QSplitter *main_splitter = nullptr;
     QString curFile;
 
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *helpMenu;
-    QToolBar *fileToolBar;
-    QToolBar *editToolBar;
-    QAction *newAct;
-    QAction *openAct;
-    QAction *saveAct;
-    QAction *saveAsAct;
-    QAction *exitAct;
-    QAction *cutAct;
-    QAction *copyAct;
-    QAction *pasteAct;
-    QAction *aboutAct;
-    QAction *aboutQtAct;
+    QMenu *fileMenu = nullptr;
+    QMenu *editMenu = nullptr;
+    QMenu *helpMenu = nullptr;
+    QToolBar *fileToolBar = nullptr;
+    QToolBar *editToolBar = nullptr;
+    QAction *newAct = nullptr;
+    QAction *openAct = nullptr;
+    QAction *saveAct = nullptr;
+    QAction *saveAsAct = nullptr;
+    QAction *exitAct = nullptr;
+    QAction *cutAct = nullptr;
+    QAction *copyAct = nullptr;
+    QAction *pasteAct = nullptr;
+    QAction *aboutAct = nullptr;
+    QAction *aboutQtAct = nullptr;
 
-    QAction* audiocontrols_playAct;     // XAV
-    QToolBar* audiocontrolsToolBar;     // XAV
+    QAction* audiocontrols_playAct = nullptr;     // XAV
+    QAction* audiocontrols_stopAct = nullptr;     // XAV
+    QToolBar* audiocontrolsToolBar = nullptr;     // XAV
 
-    QMediaPlayer* audio_player; // XAV
-
+    QMediaPlayer* audio_player = nullptr; // XAV
 };
 
 #endif

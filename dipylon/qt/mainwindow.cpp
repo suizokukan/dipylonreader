@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : qt/mainwindow.cpp
 
-    see mainwindow.h for the documentation
+    see mainwindow.h for the dcumentation
 
 *******************************************************************************/
 
@@ -189,6 +189,11 @@ void MainWindow::createActions()
                                     tr("play"), this);
     audiocontrols_playAct->setStatusTip(tr("play..."));
     connect(audiocontrols_playAct, SIGNAL(triggered()), this, SLOT(audiocontrols_play()));
+
+    audiocontrols_stopAct = new QAction(QIcon("ressources/images/icons/audio_stop.png"), \
+                                    tr("stop"), this);
+    audiocontrols_stopAct->setStatusTip(tr("stop..."));
+    connect(audiocontrols_stopAct, SIGNAL(triggered()), this, SLOT(audiocontrols_stop()));
 }
 
 void MainWindow::createMenus()
@@ -228,6 +233,7 @@ void MainWindow::createToolBars()
     // XAV :
     audiocontrolsToolBar = addToolBar(tr("AudioControls"));
     audiocontrolsToolBar->addAction(audiocontrols_playAct);
+    audiocontrolsToolBar->addAction(audiocontrols_stopAct);
 }
 
 void MainWindow::createStatusBar()
@@ -342,14 +348,24 @@ QString MainWindow::strippedName(const QString &fullFileName)
 // XAV
 void MainWindow::audiocontrols_play(void)
 {
+  qDebug() << "MainWindow::audiocontrols_play";
   // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
-  audio_player = new QMediaPlayer;
+  audio_player = new QMediaPlayer(this);
   connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
   //  audio_player->setMedia(QUrl::fromLocalFile("home/suizokukan/projets/dipylon/last/texts/Ovid_M_I_452_567/record.ogg"));
   audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
   audio_player->setNotifyInterval(parameters.audio_notify_interval); 
   audio_player->setVolume(50);
   audio_player->play();
+}
+
+// XAV
+void MainWindow::audiocontrols_stop(void) {
+  qDebug() << "MainWindow::audiocontrols_stop";
+
+  if ( this->audio_player != nullptr ) {
+    audio_player->stop();
+  }
 }
 
 // [XAV]
@@ -360,4 +376,17 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
 // [XAV]
 void MainWindow::load_text(const QString& source_text)  {
   this->source_editor->setPlainText(source_text);
+}
+
+// XAV
+// app::SIGNAL(aboutToQuit()) -> mainWin::SLOT(closing())
+/*
+  from the doc of QCoreApplication::exec:
+
+    We recommend that you connect clean-up code to the aboutToQuit() signal, instead of putting it in your application's main() function because on some platforms the QCoreApplication::exec() call may not return. For example, on Windows when the user logs off, the system terminates the process after Qt closes all top-level windows. Hence, there is no guarantee that the application will have time to exit its event loop and execute code at the end of the main() function after the QCoreApplication::exec() call.
+
+    see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
+*/
+void MainWindow::closing(void) { 
+  qDebug() << "MainWindow::closing";
 }
