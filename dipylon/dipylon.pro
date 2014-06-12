@@ -20,7 +20,8 @@ HEADERS         +=  parameters.h \
                     posintxt/posintxt.h \
                     posintxt/posranges.h \
                     posintxt/vectorposranges.h \
-                    posintxt/pos2str.h
+                    posintxt/pos2str.h \
+                    posinaudio/posinaudio.h
 
 SOURCES         +=  main.cpp \
                     qt/mainwindow.cpp \

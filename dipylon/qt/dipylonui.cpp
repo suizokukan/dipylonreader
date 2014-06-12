@@ -75,7 +75,7 @@ int DipylonUI::go(void) {
   // current DipyDoc :
   //this->current_dipydoc = new DipyDoc();
   // $$$ fake initialization :
-  this->current_dipydoc = new DipyDoc("../texts/Ovid_M_I_452_567/");
+  this->current_dipydoc = new DipyDoc("../texts/Ovid_M_I_452_465/");
 
   // main window creation :
   MainWindow mainWin(current_dipydoc);
