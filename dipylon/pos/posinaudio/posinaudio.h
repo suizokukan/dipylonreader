@@ -19,7 +19,7 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : posinaudio/posinaudio.h
+    ❏Dipylon❏ : pos/posinaudio/posinaudio.h
 
     A PosInAudio (=audio position) is an integer.
 
@@ -33,6 +33,6 @@
 // base type :
 typedef qint64 PosInAudio;
 
-typedef std::vector<std::pair<PosInAudio, PosInAudio> > VPairOfPosInAudio;
+typedef std::pair<PosInAudio, PosInAudio> PairOfPosInAudio;
 
 #endif

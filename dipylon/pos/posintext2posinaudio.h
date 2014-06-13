@@ -19,63 +19,59 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : pos/posintext/posintext2str.h
+    ❏Dipylon❏ : pos/posintext2posinaudio.h
 
-    A PosInText2Str object is a map linking (key)PosInTextRanges to (value)QString.
+    PosInText2PosInAudio class.
 
 *******************************************************************************/
 
-#ifndef POSINTEXT2STR_H
-#define POSINTEXT2STR_H
+#ifndef POSINTEXT2POSINAUDIO_H
+#define POSINTEXT2POSINAUDIO_H
 
-#include "pos/posintext/posintext.h"
 #include "pos/posintext/posintextranges.h"
 #include "pos/posintext/vectorposintextranges.h"
+#include "pos/posinaudio/posinaudio.h"
 
 #include <unordered_map>
 
-#include <QString>
-
 /*______________________________________________________________________________
 
-  Structure used to easily initialize PosInText2Str objects. E.g. :
+  Structure used to easily initialize PosInText2PosInAudio objects. E.g. :
 
-      PosInText2Str posintext2str = {
-        { {{ {1,2}, {3,4} },}, "example1"},
-        { {{ {1,2}, {3,5} },}, "example2"},
-        { {{ {1,2}, {3,8} },}, "example3"},
+      PosInText2PosInAudio text2audio = {
+        { {{ {1,2}, {3,4} },},  {1500, 1598} },
       };
 ________________________________________________________________________________*/
-struct IntegersAndAString
+struct PosInTextAndAudio
 {
-  VPairOfPosInText integers;
-  QString string;
+  VPairOfPosInText integers_text;
+  PairOfPosInAudio integers_audio;
 };
 
 /*______________________________________________________________________________
 
-  PosInText2Str class : basically, a map PosInTextRanges -> QString .
+  PosInText2PosInAudio class : basically, a map PosInTextRanges -> PairOfPosInAudio
 
 ________________________________________________________________________________*/
-class PosInText2Str {
+class PosInText2PosInAudio {
 
  private:
 
-  std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher> map;
-  int  _internal_state;
-  bool _well_initialized;
+  std::unordered_map<PosInTextRanges, PairOfPosInAudio, PosInTextRangesHasher> map;
+  int                   _internal_state;
+  bool                  _well_initialized;
 
-  void            checks(void);
+  void                  checks(void);
 
  public:
 
-                         PosInText2Str(void);
-                         PosInText2Str(const PosInText2Str&);
-                         PosInText2Str(std::initializer_list< IntegersAndAString >);
-                        ~PosInText2Str(void);
+                        PosInText2PosInAudio(void);
+                        PosInText2PosInAudio(const PosInText2PosInAudio&);
+                        PosInText2PosInAudio(std::initializer_list< PosInTextAndAudio >);
+                        ~PosInText2PosInAudio(void);
 
-  QString&              operator[]( VPairOfPosInText key );
-  PosInText2Str&        operator=(const PosInText2Str&);
+  PairOfPosInAudio&     operator[]( VPairOfPosInText key );
+  PosInText2PosInAudio& operator=(const PosInText2PosInAudio&);
 
   size_t                size(void) const;
   int                   internal_state(void) const;
@@ -84,22 +80,22 @@ class PosInText2Str {
   bool                  well_initialized(void) const;
 
   // constants used to define the internal_state attribute :
-  const int INTERNALSTATE_OK = 0;
-  const int INTERNALSTATE_BADPOSINTEXTRANGES = 1;
+  const int             INTERNALSTATE_OK = 0;
+  const int             INTERNALSTATE_BADPOSINTEXTRANGES = 1;
 };
 
-inline PosInText2Str::PosInText2Str( void ) {
+inline PosInText2PosInAudio::PosInText2PosInAudio( void ) {
   this->_well_initialized = true;
   this->_internal_state = INTERNALSTATE_OK;
 }
 
-inline PosInText2Str::PosInText2Str( const PosInText2Str& other )  : \
+inline PosInText2PosInAudio::PosInText2PosInAudio( const PosInText2PosInAudio& other )  : \
                   map(other.map), \
                   _internal_state(other._internal_state), \
                   _well_initialized(other._well_initialized)
 {}
 
-inline PosInText2Str::PosInText2Str( std::initializer_list< IntegersAndAString > values)
+inline PosInText2PosInAudio::PosInText2PosInAudio( std::initializer_list< PosInTextAndAudio > values)
 {
   this->_well_initialized = true;
   this->_internal_state = INTERNALSTATE_OK;
@@ -107,8 +103,8 @@ inline PosInText2Str::PosInText2Str( std::initializer_list< IntegersAndAString >
   // i : iterator over this->values :
   for(auto &i : values) {
 
-    this->map.insert( std::pair<PosInTextRanges, QString>( PosInTextRanges(i.integers),
-                                                                           i.string)
+    this->map.insert( std::pair<PosInTextRanges, PairOfPosInAudio>( PosInTextRanges(i.integers_text),
+                                                                                    i.integers_audio)
                     );
   }
 
@@ -116,10 +112,10 @@ inline PosInText2Str::PosInText2Str( std::initializer_list< IntegersAndAString >
   this->checks();
 }
 
-inline PosInText2Str::~PosInText2Str( void )
+inline PosInText2PosInAudio::~PosInText2PosInAudio( void )
 {}
 
-inline PosInText2Str& PosInText2Str::operator=(const PosInText2Str& other) {
+inline PosInText2PosInAudio& PosInText2PosInAudio::operator=(const PosInText2PosInAudio& other) {
 
   if( this != &other) {
     this->map = other.map;
@@ -129,19 +125,19 @@ inline PosInText2Str& PosInText2Str::operator=(const PosInText2Str& other) {
   return *this;
 }
 
-inline QString&       PosInText2Str::operator[]( VPairOfPosInText key) {
+inline PairOfPosInAudio& PosInText2PosInAudio::operator[]( VPairOfPosInText key) {
   return this->map[key];
 }
 
-inline int PosInText2Str::internal_state(void) const {
+inline int PosInText2PosInAudio::internal_state(void) const {
   return this->_internal_state;
 }
 
-inline size_t PosInText2Str::size(void) const {
+inline size_t PosInText2PosInAudio::size(void) const {
   return this->map.size();
 }
 
-inline bool PosInText2Str::well_initialized(void) const {
+inline bool PosInText2PosInAudio::well_initialized(void) const {
   return this->_well_initialized;
 }
 

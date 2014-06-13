@@ -15,6 +15,7 @@ SOMMAIRE
     [2.3] tuple type
 
 [3] particularités du c++11
+    [3.0] doc
     [3.1] le casting
     [3.2] où se trouve l'include pour...
 
@@ -29,10 +30,14 @@ SOMMAIRE
 [0] travail en cours
 ################################################################################
 
-[] x2
-
 0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
         construire l'interface graphique de base
+
+tester PosInText2PosInAudio
+      PosInText2PosInAudio text2audio = {
+        { {{ {1,2}, {3,4} },},  {1500, 1598} },
+      };
+inverser PosInText2PosInAudio en PosInAudio2PosInText (le calculer automatiquement depuis PosInText2PosInAudio)
 
 0.2.0 : XML 
 http://qt-project.org/doc/qt-5/qtxml-xmlstreamlint-example.html
@@ -159,6 +164,11 @@ std::get<3>(proof) = " Beautiful!";  // Modify the tuple’s fourth element.
 ################################################################################
 [3] particularités du c++11
 ################################################################################
+
+################################################################################
+[3.0] doc
+################################################################################
+FAQ C++ : http://www.parashift.com/c++-faq-lite/index.html
 
 ################################################################################
 [3.1] le casting

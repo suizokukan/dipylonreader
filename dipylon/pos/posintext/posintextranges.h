@@ -38,8 +38,8 @@
     ⇨ overlapping is forbidden : "0-1+1-2" is ok, not "0-1+0-2", not "46-49+48-52"
 
     ⇨ POSINTEXTRANGES_STR format : "45-97", "45-97+123-136+999-1001", ...
-        no spaces allowed 
-        overlapping is forbidden (vide  supra) 
+        no spaces allowed
+        overlapping is forbidden (vide  supra)
         MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
         at least one gap must be defined (no empty string)
         x0 must be < x1 (no "45-22", no "45-45")
@@ -67,6 +67,7 @@ class PosInTextRanges {
 
  friend class PosInTextRangesHasher;
  friend class PosInText2Str;
+ friend class PosInText2PosInAudio;
 
  public:
 
@@ -79,7 +80,7 @@ class PosInTextRanges {
                      PosInTextRanges& operator=(const PosInTextRanges&);
   bool               operator==(const PosInTextRanges& other) const;
   bool               operator!=(const PosInTextRanges& other) const;
-  
+
   VPairOfPosInTextCI begin(void);
   bool               contains(PosInText) const;
   bool               contains(PosInText, PosInText) const;
@@ -129,7 +130,7 @@ vec(values) {
 
   // error : if "values" is empty, the initialisation can't be correct :
   this->_well_initialized = (values.size() > 0);
-  
+
   // shall we go further ?
   if( this->_well_initialized == false ) {
     // ... no.
@@ -148,7 +149,7 @@ vec(values) {
 
   // error : if values is empty, the initialisation can't be correct :
   this->_well_initialized = (values.size() > 0);
-  
+
   // shall we go further ?
   if( this->_well_initialized == false ) {
     // ... no.
@@ -175,7 +176,7 @@ inline PosInTextRanges& PosInTextRanges::operator=(const PosInTextRanges& other)
 inline size_t PosInTextRanges::size(void) const { return this->vec.size(); }
 
 inline bool PosInTextRanges::operator==(const PosInTextRanges& other) const {
-  return (this->_well_initialized == other._well_initialized) && (this->vec == other.vec); 
+  return (this->_well_initialized == other._well_initialized) && (this->vec == other.vec);
 }
 
 inline bool PosInTextRanges::operator!=(const PosInTextRanges& other) const {

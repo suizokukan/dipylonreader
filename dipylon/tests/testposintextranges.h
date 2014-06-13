@@ -25,8 +25,8 @@
 
 *********************************************************************************/
 
-#ifndef TESTPOSRANGES_H
-#define TESTPOSRANGES_H
+#ifndef TESTPOSINTEXTRANGES_H
+#define TESTPOSINTEXTRANGES_H
 
 #include "../pos/posintext/posintextranges.h"
 

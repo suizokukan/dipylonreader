@@ -30,6 +30,7 @@
 //$$$
 #include "pos/posintext/posintextranges.h"
 #include "pos/posintext/vectorposintextranges.h"
+#include "pos/posintext2posinaudio.h"
 #include <QDebug>
 
 /*______________________________________________________________________________
@@ -64,9 +65,14 @@ int main(int argc, char **argv)
     qDebug() << v1.to_str();
     v1.sort();
     qDebug() << v1.to_str();
-    qDebug() << v1.size(); 
+    qDebug() << v1.size();
+
+    PosInText2PosInAudio text2audio = {
+        { {{ {1,2}, {3,4} },},  {1500, 1598} },
+        { {{ {5,6}, {9,12} },},  {1750, 1790} },
+      };
 
     DipylonUI myapp(argc, argv);
-    
+
     return myapp.go();
 }

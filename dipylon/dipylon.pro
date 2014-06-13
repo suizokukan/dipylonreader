@@ -17,6 +17,8 @@ HEADERS         +=  parameters.h \
                     qt/sourceeditor.h \
                     qt/commentaryeditor.h \
                     dipydoc/dipydoc.h \
+                    pos/posintext2posinaudio.h \
+                    pos/posinaudio/posinaudio.h \
                     pos/posintext/posintext.h \
                     pos/posintext/posintextranges.h \
                     pos/posintext/vectorposintextranges.h \
@@ -28,6 +30,7 @@ SOURCES         +=  main.cpp \
                     qt/sourceeditor.cpp \
                     qt/commentaryeditor.cpp \
                     dipydoc/dipydoc.cpp \
+                    pos/posintext2posinaudio.cpp \
                     pos/posintext/posintextranges.cpp \
                     pos/posintext/vectorposintextranges.cpp \
                     pos/posintext/posintext2str.cpp

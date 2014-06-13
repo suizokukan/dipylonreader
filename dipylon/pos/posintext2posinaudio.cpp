@@ -19,18 +19,18 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : pos/posintext/posintext2str.h
+    ❏Dipylon❏ : pos/posintext2posinaudio.cpp
 
-    See posintext2str.h for the documentation
+    See posintext2posinaudio.h for the documentation
 
 *******************************************************************************/
 
-#include "pos/posintext/posintext2str.h"
+#include "pos/posintext2posinaudio.h"
 
 /*______________________________________________________________________________
 
-        PosInText2Str::checks() : do some tests and if something's wrong,
-                            modify _well_initialized and _internal_state .
+        PosInText2PosInAudio::checks() : do some tests and if something's wrong,
+                                         modify _well_initialized and _internal_state .
 
         tests:
 
@@ -38,11 +38,10 @@
                 if not, INTERNALSTATE_BADPOSINTEXTRANGES
 
 ______________________________________________________________________________*/
-void PosInText2Str::checks(void) {
+void PosInText2PosInAudio::checks(void) {
   /*
     are the PosInTextRanges objects ok ?
   */
-  // i is an iterator over a pair<PosInTextRanges, QString> :
   for(auto &i : this->map)
   {
     // i.irst is a PosInTextRanges object.
@@ -56,16 +55,16 @@ void PosInText2Str::checks(void) {
 
 /*______________________________________________________________________________
 
-        PosInText2Str::is_inside(PosInText x0) : search the first (PosInTextRanges)key in this
-                                         that matches this->key.is_inside(x0)
+        PosInText2PosInAudio::is_inside(PosInText x0)
+
+       search the first (PosInTextRanges)key in "this" that matches this->key.is_inside(x0)
 
        This function returns a PosInTextRanges. The result is an
        empty PosInTextRanges if indexes in "this" do not contain "x0".
 
 _____________________________________________________________________________*/
-PosInTextRanges PosInText2Str::contains(PosInText x0) const
+PosInTextRanges PosInText2PosInAudio::contains(PosInText x0) const
 {
-  // i is an iterator over a pair<PosInTextRanges, QString> :
   for(auto &i : this->map) {
 
     // i->first is a PosInTextRanges object.
@@ -81,18 +80,19 @@ PosInTextRanges PosInText2Str::contains(PosInText x0) const
 
 /*______________________________________________________________________________
 
-        PosInText2Str::contains(PosInText x0, x1) : search the first (PosInTextRanges)key in this
-                                             that matches this->key.contains(x0, x1)
+        PosInText2PosInAudio::contains(PosInText x0, x1)
+
+       search the first (PosInTextRanges)key in "this" that matches
+       this->key.contains(x0, x1)
 
        This function returns a vector of PosInTextRanges. The result is an empty
        vector if this do not contain "x0...x1"
 
 _____________________________________________________________________________*/
-VectorPosInTextRanges PosInText2Str::contains(PosInText x0, PosInText x1) const
+VectorPosInTextRanges PosInText2PosInAudio::contains(PosInText x0, PosInText x1) const
 {
   std::vector<PosInTextRanges> res;
 
-  // i is an iterator over a pair<PosInTextRanges, QString> :
   for(auto &i : this->map) {
     // i->first is a PosInTextRanges object.
     if( i.first.contains(x0, x1) == true ) {
