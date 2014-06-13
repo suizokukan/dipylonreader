@@ -216,24 +216,32 @@ lire le texte rapidement sans temps mort entre les segments.
 [6] files and directory
 ################################################################################
 
-dipylon/                                   C++/Qt5 code
-       /dipylon.sh                         compiler, launcher
+dipylon/                                            C++/Qt5 code
+       /dipylon.sh                                  compiler, launcher
 
-dipylon/dipydoc/                           DipylonDocument
-               /dipydoc.[h|cpp]            DipyDoc class
+dipylon/dipydoc/                                    DipylonDocument
+               /dipydoc.[h|cpp]                     DipyDoc class
 
 dipylon/misc/
-	    /hash.[h|cpp]                  generic hash function
+	    /hash.[h|cpp]                           generic hash function
 
 dipylon/pos/
-           /posintextranges.[h|cpp]        PosInTextRanges class
-           /vectorposintextranges.[h|cpp]  VectorPosInTextRanges class
-           /posintext2str.[h|cpp]          PosInText2Str class
+	   /posintext/
+                     /posintext.h                   PosInText declaration
+                     /posintext2str.[h|cpp]         PosInText2Str class
+                     /posintextranges.[h|cpp]       PosInTextRanges class
+                     /vectorposintextranges.[h|cpp] VectorPosInTextRanges class
 
+dipylon/qt/                                         Qt5 / UI code
+          /dipylonui.[h|cpp]                        UI definition
+          /commentaryeditor.[h|cpp]                 commentary zone
+          /mainsplitter.[h|cpp]                     splitter between commentary and source zone
+	  /mainwindow.[h|cpp]                       MainWindow class
+          /sourceeditor.[h|cpp]                     source zone
 
-dipylon/qt/                                Qt5 / UI code
-          /dipylonui.[h|cpp]               UI definition
-          /commentaryeditor.[h|cpp]        commentary zone
-          /mainsplitter.[h|cpp]            splitter between commentary and source zone
-	  /mainwindow.[h|cpp]              MainWindow class
-          /sourceeditor.[h|cpp]            source zone
+dipylon/tests/
+	     /testhash..[h|cpp]		            test of the hash function defined misc/hash.h
+	     /testposintext2str.[h|cpp]		    test of the PosInText2Str class
+	     /testposintextranges.[h|cpp]	    test of the PosInTextRanges class
+	     /testvectorposintextranges.[h|cpp]	    test of the VectorPosInTextRanges class
+	     /tests.cpp				    entry point for the tests
