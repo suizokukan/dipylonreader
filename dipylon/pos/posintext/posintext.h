@@ -19,48 +19,22 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testposranges.h
+    ❏Dipylon❏ : pos/posintext/posintext.h
 
-    ⇨ tests for PosRanges objects.
+    A PosInText (=text position) is an integer greater or equal to 0.
 
-*********************************************************************************/
+*******************************************************************************/
 
-#ifndef TESTPOSRANGES_H
-#define TESTPOSRANGES_H
+#ifndef POSINTEXT_H
+#define POSINTEXT_H
 
-#include "../posintxt/posranges.h"
+#include <vector>
 
-#include <QTest>
+// base type :
+typedef unsigned int PosInText;
 
-/*______________________________________________________________________________
+typedef std::vector<std::pair<PosInText, PosInText> > VPairOfPosInText;
 
-        TestPosRanges class : test of PosRanges module.
-
-______________________________________________________________________________*/
-class TestPosRanges: public QObject
-{
-    Q_OBJECT
-
-private slots:
-
-  void test0(void);
-  void test1(void);
-  void test2(void);
-  void test3(void);
-  void test4a(void);
-  void test4b(void);
-  void test4c(void);
-  void test4d(void);
-  void test5a(void);
-  void test5b(void);
-  void test6a(void);
-  void test6b(void);
-  void test7a(void);
-  void test7b(void);
-  void test7c(void);
-  void test7d(void);
-  void test8a(void);
-  void test8b(void);
-};
+typedef std::vector<std::pair<PosInText, PosInText> >::const_iterator VPairOfPosInTextCI;
 
 #endif

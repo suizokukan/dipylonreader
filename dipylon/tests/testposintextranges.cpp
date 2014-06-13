@@ -19,9 +19,9 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testposranges.cpp
+    ❏Dipylon❏ : tests/testposintextranges.cpp
 
-    ⇨ tests for PosRanges objects.
+    ⇨ tests for PosInTextRanges objects.
 
     | Beware !
     | http://stackoverflow.com/questions/14198972
@@ -38,15 +38,15 @@
 
 *********************************************************************************/
 
-#include "testposranges.h"
+#include "testposintextranges.h"
 
 /*
-  A PosRanges object is created from a normal string with two adjacent characters.
+  A PosInTextRanges object is created from a normal string with two adjacent characters.
 */
-void TestPosRanges::test0(void)
-{ 
+void TestPosInTextRanges::test0(void)
+{
   const QString& str = QString("0-1+1-2");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
@@ -55,12 +55,12 @@ void TestPosRanges::test0(void)
 }
 
 /*
-  A PosRanges object is created from a normal string.
+  A PosInTextRanges object is created from a normal string.
 */
-void TestPosRanges::test1(void)
-{ 
+void TestPosInTextRanges::test1(void)
+{
   const QString& str = QString("94-98+99-100+101-105+123-125");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() ,true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
@@ -77,12 +77,12 @@ void TestPosRanges::test1(void)
 }
 
 /*
-  A PosRanges object is created from a normal string with spaces
+  A PosInTextRanges object is created from a normal string with spaces
 */
-void TestPosRanges::test2(void)
-{ 
+void TestPosInTextRanges::test2(void)
+{
   const QString& str = QString("  94- 95 +   97  -  98 +  101 -  105  ");
-  PosRanges g(str);
+  PosInTextRanges g(str);
   QCOMPARE( g.to_str(), QString("94-95+97-98+101-105") );
 
   QCOMPARE( g.well_initialized() , true );
@@ -98,152 +98,152 @@ void TestPosRanges::test2(void)
 }
 
 /*
-  A PosRanges object is created from an empty string -> error.
+  A PosInTextRanges object is created from an empty string -> error.
 */
-void TestPosRanges::test3(void)
-{ 
+void TestPosInTextRanges::test3(void)
+{
   const QString& str = QString("");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_EMPTY );
 }
 
 /*
-  A PosRanges object is created from a ill-formed string -> error
+  A PosInTextRanges object is created from a ill-formed string -> error
 */
-void TestPosRanges::test4a(void)
-{ 
+void TestPosInTextRanges::test4a(void)
+{
   const QString& str = QString("49-");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 
 /*
-  A PosRanges object is created from a ill-formed string -> error
+  A PosInTextRanges object is created from a ill-formed string -> error
 */
-void TestPosRanges::test4b(void)
-{ 
+void TestPosInTextRanges::test4b(void)
+{
   const QString& str = QString("49-89+145");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_SECONDSEP );
 }
 
 /*
-  A PosRanges object is created from a ill-formed string (x0,x1) -> error
+  A PosInTextRanges object is created from a ill-formed string (x0,x1) -> error
 */
-void TestPosRanges::test4c(void)
-{ 
+void TestPosInTextRanges::test4c(void)
+{
   const QString& str = QString("49-89+144-144");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 
 /*
-  A PosRanges object is created from a ill-formed string (x0>x1) -> error
+  A PosInTextRanges object is created from a ill-formed string (x0>x1) -> error
 */
-void TestPosRanges::test4d(void)
-{ 
+void TestPosInTextRanges::test4d(void)
+{
   const QString& str = QString("49-89+144-143");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
 
 /*
-  A PosRanges object is created with overlapping posranges -> error
+  A PosInTextRanges object is created with overlapping posintextranges -> error
 */
-void TestPosRanges::test5a(void)
-{ 
+void TestPosInTextRanges::test5a(void)
+{
   const QString& str = QString("49-89+50-150");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
 }
 
 /*
-  A PosRanges object is created with overlapping posranges -> error
+  A PosInTextRanges object is created with overlapping posintextranges -> error
 */
-void TestPosRanges::test5b(void)
-{ 
+void TestPosInTextRanges::test5b(void)
+{
   const QString& str = QString("49-89+95-150+3-50");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
 }
 
 /*
-  testing the == operator with two equivalent PosRanges objects
+  testing the == operator with two equivalent PosInTextRanges objects
 */
-void TestPosRanges::test6a(void)
-{ 
+void TestPosInTextRanges::test6a(void)
+{
   const QString& str1 = QString("  94- 95 +   97  -  98 +  101 -  105  ");
-  PosRanges g1(str1);
+  PosInTextRanges g1(str1);
   const QString& str2 = QString("94-95+97-98+101-105");
-  PosRanges g2(str2);
+  PosInTextRanges g2(str2);
 
   QCOMPARE( g1 , g2 );
 }
 
 /*
-  testing the != operator with two equivalent PosRanges objects
+  testing the != operator with two equivalent PosInTextRanges objects
 */
-void TestPosRanges::test6b(void)
-{ 
+void TestPosInTextRanges::test6b(void)
+{
   const QString& str1 = QString("  94- 95 +   97  -  98 +  101 -  105  ");
-  PosRanges g1(str1);
+  PosInTextRanges g1(str1);
   const QString& str2 = QString("94-95+97-98+101-106");
-  PosRanges g2(str2);
+  PosInTextRanges g2(str2);
 
   QVERIFY( g1 != g2 );
 }
 
 /*
-  a PosRanges object is created from a list of pair of integers, no problem.
+  a PosInTextRanges object is created from a list of pair of integers, no problem.
 */
-void TestPosRanges::test7a(void)
-{ 
-  PosRanges g( { {1,2}, {4,5}, {10,11}, {99,101} } );
+void TestPosInTextRanges::test7a(void)
+{
+  PosInTextRanges g( { {1,2}, {4,5}, {10,11}, {99,101} } );
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
   QCOMPARE( g.size() == 4 , true );
 }
 
 /*
-  a PosRanges object is created from an empty list of pair of integers -> error
+  a PosInTextRanges object is created from an empty list of pair of integers -> error
 */
-void TestPosRanges::test7b(void)
-{ 
-  PosRanges g( {} );
+void TestPosInTextRanges::test7b(void)
+{
+  PosInTextRanges g( {} );
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_EMPTY );
 }
 
 /*
-  a PosRanges object is created from a wrong list of pair of integers -> error
+  a PosInTextRanges object is created from a wrong list of pair of integers -> error
 */
-void TestPosRanges::test7c(void)
-{ 
-  PosRanges g( { {10,20}, {15,25} } );
+void TestPosInTextRanges::test7c(void)
+{
+  PosInTextRanges g( { {10,20}, {15,25} } );
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
 }
 
 /*
-  a PosRanges object is created from a wrong list of pair of integers -> error
+  a PosInTextRanges object is created from a wrong list of pair of integers -> error
 */
-void TestPosRanges::test7d(void)
-{ 
-  PosRanges g( { {20,10}, {150,250} } );
+void TestPosInTextRanges::test7d(void)
+{
+  PosInTextRanges g( { {20,10}, {150,250} } );
   QCOMPARE( g.well_initialized() , false );
   QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
 }
@@ -251,10 +251,10 @@ void TestPosRanges::test7d(void)
 /*
   test of contains() functions : contains(x0)
 */
-void TestPosRanges::test8a(void)
-{ 
+void TestPosInTextRanges::test8a(void)
+{
   const QString& str = QString("94-98+99-100+101-105+123-125");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.contains(93) , false );
   QCOMPARE( g.contains(94) , true );
@@ -267,10 +267,10 @@ void TestPosRanges::test8a(void)
 /*
   test of contains() functions : contains(x0, x1)
 */
-void TestPosRanges::test8b(void)
-{ 
+void TestPosInTextRanges::test8b(void)
+{
   const QString& str = QString("94-98+99-100+101-105+123-125");
-  PosRanges g(str);
+  PosInTextRanges g(str);
 
   QCOMPARE( g.contains(122, 130) , true );
   QCOMPARE( g.contains(123, 125) , true );
@@ -279,4 +279,3 @@ void TestPosRanges::test8b(void)
   QCOMPARE( g.contains(126, 131) , false );
   QCOMPARE( g.contains(104, 106) , true );
 }
-

@@ -19,24 +19,24 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : posintxt/posranges.cpp
+    ❏Dipylon❏ : pos/posintext/posintextranges.cpp
 
-    See posranges.h for the documentation.
+    See posintextranges.h for the documentation.
 
 *******************************************************************************/
 
-#include "posintxt/posranges.h"
+#include "pos/posintext/posintextranges.h"
 
 /*______________________________________________________________________________
 
-        PosRanges::PosRanges : constructor from a QString.
+        PosInTextRanges::PosInTextRanges : constructor from a QString.
 
         Initialize vec, (int)_internal_state and (bool)_well_initialized.
 
         If an error occurs, _well_initialized is set to false and
         _internal_state explains the error.
 ______________________________________________________________________________*/
-PosRanges::PosRanges(const QString& src_qstring) {
+PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
   this->vec = VPairOfPosInText();
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE_OK;
@@ -74,7 +74,7 @@ PosRanges::PosRanges(const QString& src_qstring) {
     }
   }
 
-  // see POSRANGES_STR format : at least one gap must be defined.
+  // see POSINTEXTRANGES_STR format : at least one gap must be defined.
   if( this->_well_initialized == true && this->vec.size() == 0 ) {
       this->_well_initialized = false;
       this->_internal_state = this->INTERNALSTATE_EMPTY;
@@ -87,14 +87,14 @@ PosRanges::PosRanges(const QString& src_qstring) {
 
 /*______________________________________________________________________________
 
-        PosRanges::checks() : do some tests and modified _well_initialized and
+        PosInTextRanges::checks() : do some tests and modified _well_initialized and
                               _internal_state if something's wrong.
 
         tests :
             o if x0 >= x1 -> error, INTERNALSTATE_X0X1
             o if one range overlaps another one, error -> INTERNALSTATE_OVERLAPPING
 ______________________________________________________________________________*/
-void PosRanges::checks(void) {
+void PosInTextRanges::checks(void) {
   /* 
         X0X1 test :
   */
@@ -127,10 +127,10 @@ void PosRanges::checks(void) {
 
 /*______________________________________________________________________________
 
-        PosRanges::contains() : return either true if (PosInText)x0 is inside 
+        PosInTextRanges::contains() : return either true if (PosInText)x0 is inside 
                                 one gap of the object, either false.
 ______________________________________________________________________________*/
-bool PosRanges::contains(PosInText x0) const
+bool PosInTextRanges::contains(PosInText x0) const
 {
   bool res = false;
 
@@ -147,11 +147,11 @@ bool PosRanges::contains(PosInText x0) const
 
 /*______________________________________________________________________________
 
-        PosRanges::contains() : return either true if at least one index between
+        PosInTextRanges::contains() : return either true if at least one index between
                                  (PosInText)x0 and (PosInText)x1 is inside one gap
                                  of the object, either false.
 ______________________________________________________________________________*/
-bool PosRanges::contains(PosInText x0, PosInText x1) const
+bool PosInTextRanges::contains(PosInText x0, PosInText x1) const
 {
   bool res = false;
 
@@ -171,10 +171,10 @@ bool PosRanges::contains(PosInText x0, PosInText x1) const
 
 /*______________________________________________________________________________
 
-        PosRanges::to_str() : return a QString representing the object according to
+        PosInTextRanges::to_str() : return a QString representing the object according to
                               the GAP_STR format (see above)
 ______________________________________________________________________________*/
-QString PosRanges::to_str(void) const {
+QString PosInTextRanges::to_str(void) const {
   QString res("");
 
   // empty vector ? nothing to do.
@@ -199,18 +199,18 @@ QString PosRanges::to_str(void) const {
 
 /*##############################################################################
   
-        PosRangesHasher
+        PosInTextRangesHasher
   
  ##############################################################################*/
 
 /*______________________________________________________________________________
 
-        PosRangesHasher::operator()
+        PosInTextRangesHasher::operator()
 
         from a David Schwartz idea (http://stackoverflow.com/questions/23859844)
 
 ______________________________________________________________________________*/
-std::size_t PosRangesHasher::operator()(const PosRanges& k) const {
+std::size_t PosInTextRangesHasher::operator()(const PosInTextRanges& k) const {
 
   std::size_t hash = 0;
 

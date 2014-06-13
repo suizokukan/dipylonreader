@@ -19,33 +19,33 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : posintxt/pos2str.h
+    ❏Dipylon❏ : pos/posintext/posintext2str.h
 
-    See pos2str.h for the documentation
+    See posintext2str.h for the documentation
 
 *******************************************************************************/
 
-#include "posintxt/pos2str.h"
+#include "pos/posintext/posintext2str.h"
 
 /*______________________________________________________________________________
 
-        Pos2Str::checks() : do some tests and if something's wrong,
+        PosInText2Str::checks() : do some tests and if something's wrong,
                             modified _well_initialized and _internal_state .
 
         tests:
 
-            o are the PosRanges objects well initialized ?
+            o are the PosInTextRanges objects well initialized ?
                 if not, INTERNALSTATE_BADPOSRANGES
 
 ______________________________________________________________________________*/
-void Pos2Str::checks(void) {
+void PosInText2Str::checks(void) {
   /*
-    are the PosRanges objects ok ?
+    are the PosInTextRanges objects ok ?
   */
-  // i is an iterator over a pair<PosRanges, QString> :
+  // i is an iterator over a pair<PosInTextRanges, QString> :
   for(auto &i : this->map)
   {
-    // i.irst is a PosRanges object.
+    // i.irst is a PosInTextRanges object.
     if( i.first._well_initialized == false ) {
       this->_well_initialized = false;
       this->_internal_state = INTERNALSTATE_BADPOSRANGES;
@@ -56,47 +56,47 @@ void Pos2Str::checks(void) {
 
 /*______________________________________________________________________________
 
-        Pos2Str::is_inside(PosInText x0) : search the first (PosRanges)key in this
+        PosInText2Str::is_inside(PosInText x0) : search the first (PosInTextRanges)key in this
                                          that matches this->key.is_inside(x0)
 
-       This function returns a PosRanges. The result is an
-       empty PosRanges if indexes in "this" do not contain "x0".
+       This function returns a PosInTextRanges. The result is an
+       empty PosInTextRanges if indexes in "this" do not contain "x0".
 
 _____________________________________________________________________________*/
-PosRanges Pos2Str::contains(PosInText x0) const
+PosInTextRanges PosInText2Str::contains(PosInText x0) const
 {
-  // i is an iterator over a pair<PosRanges, QString> :
+  // i is an iterator over a pair<PosInTextRanges, QString> :
   for(auto &i : this->map) {
 
-    // i->first is a PosRanges object.
+    // i->first is a PosInTextRanges object.
     if( i.first.contains(x0) == true ) {
-      // ok, the searched PosRanges has been found and can be returned :
+      // ok, the searched PosInTextRanges has been found and can be returned :
       return i.first;
     }
   }
  
   // no result : the function returns an empty vector.
-  return PosRanges();
+  return PosInTextRanges();
 }
 
 /*______________________________________________________________________________
 
-        Pos2Str::contains(PosInText x0, x1) : search the first (PosRanges)key in this
+        PosInText2Str::contains(PosInText x0, x1) : search the first (PosInTextRanges)key in this
                                              that matches this->key.contains(x0, x1)
 
-       This function returns a vector of PosRanges. The result is an empty
+       This function returns a vector of PosInTextRanges. The result is an empty
        vector if this do not contain "x0...x1"
 
 _____________________________________________________________________________*/
-VectorPosRanges Pos2Str::contains(PosInText x0, PosInText x1) const
+VectorPosInTextRanges PosInText2Str::contains(PosInText x0, PosInText x1) const
 {
-  std::vector<PosRanges> res;
+  std::vector<PosInTextRanges> res;
 
-  // i is an iterator over a pair<PosRanges, QString> :
+  // i is an iterator over a pair<PosInTextRanges, QString> :
   for(auto &i : this->map) {
-    // i->first is a PosRanges object.
+    // i->first is a PosInTextRanges object.
     if( i.first.contains(x0, x1) == true ) {
-      // ok, the searched PosRanges has been found :
+      // ok, the searched PosInTextRanges has been found :
       res.push_back( i.first );
     }
   }

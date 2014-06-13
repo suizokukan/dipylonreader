@@ -19,32 +19,48 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/tests.cpp
+    ❏Dipylon❏ : tests/testposintextranges.h
 
-    ⇨ entry point for all the tests.
+    ⇨ tests for PosInTextRanges objects.
 
 *********************************************************************************/
 
+#ifndef TESTPOSRANGES_H
+#define TESTPOSRANGES_H
+
+#include "../pos/posintext/posintextranges.h"
+
 #include <QTest>
 
-#include "testhash.h"
-#include "testposintextranges.h"
-#include "testvectorposintextranges.h"
-#include "testposintext2str.h"
+/*______________________________________________________________________________
 
-int main(void)
+        TestPosInTextRanges class : test of PosInTextRanges module.
+
+______________________________________________________________________________*/
+class TestPosInTextRanges: public QObject
 {
-  TestHash testhash;
-  QTest::qExec(&testhash);
+    Q_OBJECT
 
-  TestPosInTextRanges testposintextranges;
-  QTest::qExec(&testposintextranges);
+private slots:
 
-  TestVectorPosInTextRanges testvectorposintextranges;
-  QTest::qExec(&testvectorposintextranges);
+  void test0(void);
+  void test1(void);
+  void test2(void);
+  void test3(void);
+  void test4a(void);
+  void test4b(void);
+  void test4c(void);
+  void test4d(void);
+  void test5a(void);
+  void test5b(void);
+  void test6a(void);
+  void test6b(void);
+  void test7a(void);
+  void test7b(void);
+  void test7c(void);
+  void test7d(void);
+  void test8a(void);
+  void test8b(void);
+};
 
-  TestPosInText2Str testposintext2str;
-  QTest::qExec(&testposintext2str);
-
-  return 0;
-}
+#endif

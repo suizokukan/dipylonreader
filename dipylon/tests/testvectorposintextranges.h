@@ -19,41 +19,34 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : posintxt/vectorposranges.cpp
+    ❏Dipylon❏ : tests/testvectorposintextranges.h
 
-    See vectorposranges.h for the documentation
+    ⇨ tests for VectorPosInTextRanges objects.
 
-*******************************************************************************/
+*********************************************************************************/
 
-#include "posintxt/vectorposranges.h"
+#ifndef TESTVECTORPOSINTEXTRANGES_H
+#define TESTVECTORPOSINTEXTRANGES_H
 
-/*______________________________________________________________________________
+#include "../pos/posintext/vectorposintextranges.h"
+#include "../pos/posintext/posintextranges.h"
 
-        PosRanges::sort()
-______________________________________________________________________________*/
-void VectorPosRanges::sort(void) {
-
-  std::sort( this->vposranges.begin(),
-             this->vposranges.end(),
-             VectorPosRangesCMP(this) );
-}
+#include <QTest>
 
 /*______________________________________________________________________________
 
-        PosRanges::to_str : return a QString representation of this.
+        TestVectorPosInTextRanges class : test of VectorPosInTextRanges module.
+
 ______________________________________________________________________________*/
-QString VectorPosRanges::to_str(void) const {
+class TestVectorPosInTextRanges: public QObject
+{
+    Q_OBJECT
 
-  QString res = QString("");
+private slots:
 
-  // i is an iterator over PosRanges objects :
-  for(auto &i : this->vposranges) {
-    res += i.to_str();
-    res += this->MAIN_SEPARATOR;
-  }
+  void test0(void);
+  void test1(void);
+  void test2(void);
+};
 
-  // removing the last MAIN_SEPARATOR character :
-  res.chop(1);
-
-  return res;
-}
+#endif

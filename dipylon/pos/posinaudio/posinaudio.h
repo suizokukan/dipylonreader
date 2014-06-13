@@ -19,22 +19,20 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : posintxt/posintxt.h
+    ❏Dipylon❏ : posinaudio/posinaudio.h
 
-    A PosInText (=text position) is an integer greater or equal to 0.
+    A PosInAudio (=audio position) is an integer.
 
 *******************************************************************************/
 
-#ifndef POSINTXT_H
-#define POSINTXT_H
+#ifndef POSINAUDIO_H
+#define POSINAUDIO_H
 
 #include <vector>
 
 // base type :
-typedef unsigned int PosInText;
+typedef qint64 PosInAudio;
 
-typedef std::vector<std::pair<PosInText, PosInText> > VPairOfPosInText;
-
-typedef std::vector<std::pair<PosInText, PosInText> >::const_iterator VPairOfPosInTextCI;
+typedef std::vector<std::pair<PosInAudio, PosInAudio> > VPairOfPosInAudio;
 
 #endif

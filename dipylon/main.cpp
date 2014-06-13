@@ -28,8 +28,8 @@
 #include <QApplication>
 
 //$$$
-#include "posintxt/posranges.h"
-#include "posintxt/vectorposranges.h"
+#include "pos/posintext/posintextranges.h"
+#include "pos/posintext/vectorposintextranges.h"
 #include <QDebug>
 
 /*______________________________________________________________________________
@@ -44,22 +44,22 @@ int main(int argc, char **argv)
     Q_INIT_RESOURCE(dipylon);
 
     // $$$
-    PosRanges p1 = PosRanges();
-    PosRanges p2 = PosRanges("94-107+98-109");
+    PosInTextRanges p1 = PosInTextRanges();
+    PosInTextRanges p2 = PosInTextRanges("94-107+98-109");
     qDebug() << p2.to_str();
     qDebug() << p2.contains(95);
     qDebug() << p2.contains(95,109);
     qDebug() << p2.size();
-    PosRanges p3 = PosRanges("94-107+97-109");
+    PosInTextRanges p3 = PosInTextRanges("94-107+97-109");
     qDebug() << (p2 == p3);
     qDebug() << (p2 != p3);
 
-    VectorPosRanges v1 = \
-    VectorPosRanges(  { PosRanges( { {10,20}, {150,250} } ),
-                                               PosRanges( { {0,5}, {11, 20} } ),
-                                               PosRanges( { {8, 9}, {91,92} } ),
-                                               PosRanges( { {1, 2}, {190,191} } ),
-                                               PosRanges( { {0,5}, {10, 20} } ),
+    VectorPosInTextRanges v1 = \
+    VectorPosInTextRanges(  { PosInTextRanges( { {10,20}, {150,250} } ),
+                              PosInTextRanges( { {0,5}, {11, 20} } ),
+                              PosInTextRanges( { {8, 9}, {91,92} } ),
+                              PosInTextRanges( { {1, 2}, {190,191} } ),
+                              PosInTextRanges( { {0,5}, {10, 20} } ),
           });
     qDebug() << v1.to_str();
     v1.sort();

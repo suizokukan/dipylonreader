@@ -27,11 +27,13 @@ SOMMAIRE
 [0] travail en cours
 ################################################################################
 
+vérifier à coup de grep le posranges > posintextranges, le txt > text, etc.
+tests
+mettre à jour dipylon.text -> dipylon.project
+[] x2
+
 0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
         construire l'interface graphique de base
-
-[] x2
-PosRanges > PosInTextRanges
 
 0.2.0 : XML 
 http://qt-project.org/doc/qt-5/qtxml-xmlstreamlint-example.html

@@ -51,9 +51,9 @@ SOURCES       = main.cpp \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
 		dipydoc/dipydoc.cpp \
-		posintxt/posranges.cpp \
-		posintxt/vectorposranges.cpp \
-		posintxt/pos2str.cpp qrc_dipylon.cpp \
+		pos/posintext/posintextranges.cpp \
+		pos/posintext/vectorposintextranges.cpp \
+		pos/posintext/posintext2str.cpp qrc_dipylon.cpp \
 		moc_mainwindow.cpp \
 		moc_sourceeditor.cpp \
 		moc_commentaryeditor.cpp
@@ -63,9 +63,9 @@ OBJECTS       = main.o \
 		sourceeditor.o \
 		commentaryeditor.o \
 		dipydoc.o \
-		posranges.o \
-		vectorposranges.o \
-		pos2str.o \
+		posintextranges.o \
+		vectorposintextranges.o \
+		posintext2str.o \
 		qrc_dipylon.o \
 		moc_mainwindow.o \
 		moc_sourceeditor.o \
@@ -183,9 +183,9 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		qt/sourceeditor.cpp \
 		qt/commentaryeditor.cpp \
 		dipydoc/dipydoc.cpp \
-		posintxt/posranges.cpp \
-		posintxt/vectorposranges.cpp \
-		posintxt/pos2str.cpp
+		pos/posintext/posintextranges.cpp \
+		pos/posintext/vectorposintextranges.cpp \
+		pos/posintext/posintext2str.cpp
 QMAKE_TARGET  = dipylon
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = dipylon
@@ -454,7 +454,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents parameters.h qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h dipydoc/dipydoc.h posintxt/posintxt.h posintxt/posranges.h posintxt/vectorposranges.h posintxt/pos2str.h posinaudio/posinaudio.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp dipydoc/dipydoc.cpp posintxt/posranges.cpp posintxt/vectorposranges.cpp posintxt/pos2str.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents parameters.h qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h dipydoc/dipydoc.h pos/posintext/posintext.h pos/posintext/posintextranges.h pos/posintext/vectorposintextranges.h pos/posintext/posintext2str.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp dipydoc/dipydoc.cpp pos/posintext/posintextranges.cpp pos/posintext/vectorposintextranges.cpp pos/posintext/posintext2str.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -479,13 +479,13 @@ compiler_rcc_make_all: qrc_dipylon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_dipylon.cpp
 qrc_dipylon.cpp: dipylon.qrc \
-		ressources/images/icons/new.png \
+		ressources/images/icons/open.png \
+		ressources/images/icons/paste.png \
+		ressources/images/icons/save.png \
+		ressources/images/icons/cut.png \
 		ressources/images/icons/audio_play.png \
 		ressources/images/icons/copy.png \
-		ressources/images/icons/cut.png \
-		ressources/images/icons/paste.png \
-		ressources/images/icons/open.png \
-		ressources/images/icons/save.png
+		ressources/images/icons/new.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
@@ -494,22 +494,22 @@ compiler_moc_header_clean:
 moc_mainwindow.cpp: parameters.h \
 		qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
-		posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h \
+		pos/posintext/vectorposintextranges.h \
 		qt/commentaryeditor.h \
 		qt/mainwindow.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/mainwindow.h -o moc_mainwindow.cpp
 
 moc_sourceeditor.cpp: parameters.h \
 		dipydoc/dipydoc.h \
-		posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h \
+		pos/posintext/vectorposintextranges.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/home/suizokukan/projets/dipylon/last/dipylon/dipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
@@ -536,11 +536,11 @@ main.o: main.cpp qt/dipylonui.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
-		posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h \
+		pos/posintext/vectorposintextranges.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
@@ -548,11 +548,11 @@ mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
 		parameters.h \
 		qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
-		posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h \
+		pos/posintext/vectorposintextranges.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o qt/mainwindow.cpp
 
@@ -561,22 +561,22 @@ dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
-		posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h \
+		pos/posintext/vectorposintextranges.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
 		parameters.h \
 		dipydoc/dipydoc.h \
-		posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h
+		pos/posintext/vectorposintextranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
 commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
@@ -584,30 +584,30 @@ commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
 
 dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \
-		posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h
+		pos/posintext/vectorposintextranges.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipydoc.o dipydoc/dipydoc.cpp
 
-posranges.o: posintxt/posranges.cpp posintxt/posranges.h \
-		posintxt/posintxt.h \
+posintextranges.o: pos/posintext/posintextranges.cpp pos/posintext/posintextranges.h \
+		pos/posintext/posintext.h \
 		misc/hash.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posranges.o posintxt/posranges.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posintextranges.o pos/posintext/posintextranges.cpp
 
-vectorposranges.o: posintxt/vectorposranges.cpp posintxt/vectorposranges.h \
-		posintxt/posranges.h \
-		posintxt/posintxt.h \
+vectorposintextranges.o: pos/posintext/vectorposintextranges.cpp pos/posintext/vectorposintextranges.h \
+		pos/posintext/posintextranges.h \
+		pos/posintext/posintext.h \
 		misc/hash.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vectorposranges.o posintxt/vectorposranges.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vectorposintextranges.o pos/posintext/vectorposintextranges.cpp
 
-pos2str.o: posintxt/pos2str.cpp posintxt/pos2str.h \
-		posintxt/posintxt.h \
-		posintxt/posranges.h \
+posintext2str.o: pos/posintext/posintext2str.cpp pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		posintxt/vectorposranges.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pos2str.o posintxt/pos2str.cpp
+		pos/posintext/vectorposintextranges.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posintext2str.o pos/posintext/posintext2str.cpp
 
 qrc_dipylon.o: qrc_dipylon.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_dipylon.o qrc_dipylon.cpp

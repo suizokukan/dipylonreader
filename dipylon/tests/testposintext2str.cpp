@@ -19,9 +19,9 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testpos2str.cpp
+    ❏Dipylon❏ : tests/testposintext2str.cpp
 
-    ⇨ tests for Pos2Str objects.
+    ⇨ tests for PosInText2Str objects.
 
     | Beware !
     | http://stackoverflow.com/questions/14198972
@@ -38,67 +38,67 @@
 
 *********************************************************************************/
 
-#include "testpos2str.h"
+#include "testposintext2str.h"
 
 /*
-  A Pos2Str object is created without any error.
+  A PosInText2Str object is created without any error.
 */
-void TestPos2Str::test0(void)
-{ 
-  Pos2Str pos2str = {
+void TestPosInText2Str::test0(void)
+{
+  PosInText2Str posintext2str = {
       { {{ {10,20}, {30,40} },}, QString("example1")},
       { {{ {25,36}, {45,55} },}, QString("example2")},
       { {{ {59,61}, {62,63} },}, QString("example3")},
   };
 
-  QCOMPARE( pos2str.well_initialized() , true );
-  QCOMPARE( pos2str.internal_state() , pos2str.INTERNALSTATE_OK );
-  QCOMPARE( pos2str.size() == 3 , true );
-  QCOMPARE( (pos2str[{{ {59,61}, {62,63} }}]) , QString("example3") );
+  QCOMPARE( posintext2str.well_initialized() , true );
+  QCOMPARE( posintext2str.internal_state() , posintext2str.INTERNALSTATE_OK );
+  QCOMPARE( posintext2str.size() == 3 , true );
+  QCOMPARE( (posintext2str[{{ {59,61}, {62,63} }}]) , QString("example3") );
 
-  pos2str[ {{ {90,91}, {92,93} }} ] = QString("example4");
+  posintext2str[ {{ {90,91}, {92,93} }} ] = QString("example4");
 
-  QCOMPARE( (pos2str[{{ {90,91}, {92,93} }}]) , QString("example4") );
+  QCOMPARE( (posintext2str[{{ {90,91}, {92,93} }}]) , QString("example4") );
 }
 
 /*
-  A Pos2Str object is created with an error in a PosRanges object.
+  A PosInText2Str object is created with an error in a PosInTextRanges object.
 */
-void TestPos2Str::test1(void)
-{ 
-  Pos2Str pos2str = {
+void TestPosInText2Str::test1(void)
+{
+  PosInText2Str posintext2str = {
       { {{ {10,20}, {30,40} },}, QString("example1")},
       { {{ {25,36}, {45,55} },}, QString("example2")},
       { {{ {59,61}, {63,62} },}, QString("example3")},
   };
 
-  QCOMPARE( pos2str.well_initialized() , false );
-  QCOMPARE( pos2str.internal_state() , pos2str.INTERNALSTATE_BADPOSRANGES );
+  QCOMPARE( posintext2str.well_initialized() , false );
+  QCOMPARE( posintext2str.internal_state() , posintext2str.INTERNALSTATE_BADPOSRANGES );
 }
 
 /*
-  test of Pos2Str::contains(x0).
+  test of PosInText2Str::contains(x0).
 */
-void TestPos2Str::test2a(void)
-{ 
-  Pos2Str pos2str = {
+void TestPosInText2Str::test2a(void)
+{
+  PosInText2Str posintext2str = {
       { {{ {1,2}, {3,4} },}, QString("example1")},
       { {{ {5,6}, {7,8} },}, QString("example2")},
       { {{ {10,11}, {12,23} },}, QString("example3")},
   };
 
-  QCOMPARE( pos2str.contains(1), PosRanges( { {1,2}, {3,4}} ) );
-  QCOMPARE( pos2str.contains(20), PosRanges( { {10,11}, {12,23}} ) );
+  QCOMPARE( posintext2str.contains(1), PosInTextRanges( { {1,2}, {3,4}} ) );
+  QCOMPARE( posintext2str.contains(20), PosInTextRanges( { {10,11}, {12,23}} ) );
 
-  QCOMPARE( pos2str.contains(100), PosRanges() );
+  QCOMPARE( posintext2str.contains(100), PosInTextRanges() );
 }
 
 /*
-  test of Pos2Str::contains(x0, x1).
+  test of PosInText2Str::contains(x0, x1).
 */
-void TestPos2Str::test2b(void)
-{ 
-  Pos2Str pos2str = {
+void TestPosInText2Str::test2b(void)
+{
+  PosInText2Str posintext2str = {
       { {{ {5,6}, {7,8} },}, QString("example1")},
       { {{ {90,91}, {93,99} },}, QString("example2")},
       { {{ {80,81}, {83,89} },}, QString("example3")},
@@ -106,30 +106,30 @@ void TestPos2Str::test2b(void)
       { {{ {1,2}, {3,4} },}, QString("example5")},
   };
 
-  // only one PosRanges expected : no need to sort.
-  QCOMPARE( pos2str.contains(24, 25).to_str(), 
+  // only one PosInTextRanges expected : no need to sort.
+  QCOMPARE( posintext2str.contains(24, 25).to_str(),
             QString("") );
-  QCOMPARE( pos2str.contains(9, 12).to_str(), 
+  QCOMPARE( posintext2str.contains(9, 12).to_str(),
             QString("10-11+12-23") );
-  QCOMPARE( pos2str.contains(11, 12).to_str(), 
+  QCOMPARE( posintext2str.contains(11, 12).to_str(),
             QString("10-11+12-23") );
-  QCOMPARE( pos2str.contains(10, 23).to_str(), 
+  QCOMPARE( posintext2str.contains(10, 23).to_str(),
             QString("10-11+12-23") );
-  QCOMPARE( pos2str.contains(10, 25).to_str(), 
+  QCOMPARE( posintext2str.contains(10, 25).to_str(),
             QString("10-11+12-23") );
 
-  /* the function sorts the results since the order of the PosRanges elements
+  /* the function sorts the results since the order of the PosInTextRanges elements
      in the vector isn't fixed. So, in order to compare the result, it's more
      easy to sort (=to fix the order) and then to compare.
   */
-  VectorPosRanges res;
-  res = pos2str.contains(1, 25);
+  VectorPosInTextRanges res;
+  res = posintext2str.contains(1, 25);
   res.sort();
-  QCOMPARE( res.to_str(), 
+  QCOMPARE( res.to_str(),
             QString("1-2+3-4/5-6+7-8/10-11+12-23") );
 
-  res = pos2str.contains(1, 99);
+  res = posintext2str.contains(1, 99);
   res.sort();
-  QCOMPARE( res.to_str(), 
+  QCOMPARE( res.to_str(),
             QString("1-2+3-4/5-6+7-8/10-11+12-23/80-81+83-89/90-91+93-99") );
 }

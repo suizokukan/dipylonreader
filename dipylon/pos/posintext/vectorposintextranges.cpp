@@ -19,34 +19,41 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testpos2str.h
+    ❏Dipylon❏ : pos/posintext/vectorposintextranges.cpp
 
-    ⇨ tests of the Pos2Str module.
+    See vectorposintextranges.h for the documentation
 
-*********************************************************************************/
+*******************************************************************************/
 
-#ifndef TESTPOS2STR_H
-#define TESTPOS2STR_H
-
-#include "../posintxt/posranges.h"
-#include "../posintxt/pos2str.h"
-
-#include <QTest>
+#include "pos/posintext/vectorposintextranges.h"
 
 /*______________________________________________________________________________
 
-        TestPos2Str class : test of the Pos2Str module.
-
+        PosInTextRanges::sort()
 ______________________________________________________________________________*/
-class TestPos2Str: public QObject
-{
-    Q_OBJECT
+void VectorPosInTextRanges::sort(void) {
 
-private slots:
-  void test0(void);
-  void test1(void);
-  void test2a(void);
-  void test2b(void);
-};
+  std::sort( this->vposintextranges.begin(),
+             this->vposintextranges.end(),
+             VectorPosInTextRangesCMP(this) );
+}
 
-#endif
+/*______________________________________________________________________________
+
+        PosInTextRanges::to_str : return a QString representation of this.
+______________________________________________________________________________*/
+QString VectorPosInTextRanges::to_str(void) const {
+
+  QString res = QString("");
+
+  // i is an iterator over PosInTextRanges objects :
+  for(auto &i : this->vposintextranges) {
+    res += i.to_str();
+    res += this->MAIN_SEPARATOR;
+  }
+
+  // removing the last MAIN_SEPARATOR character :
+  res.chop(1);
+
+  return res;
+}

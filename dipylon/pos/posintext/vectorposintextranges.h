@@ -19,30 +19,30 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : posintxt/vectorposranges.h
+    ❏Dipylon❏ : pos/posintext/vectorposintextranges.h
 
-    Simple wrapper around vector<PosRanges>.
+    Simple wrapper around vector<PosInTextRanges>.
     ____________________________________________________________________________
 
     HOW TO USE :
 
-    VectorPosRanges v1 = \
-    VectorPosRanges(  { PosRanges( { {10,20}, {150,250} } ),
-                        PosRanges( { {0,5}, {11, 20} } ),
-                        PosRanges( { {8, 9}, {91,92} } ),
-                        PosRanges( { {1, 2}, {190,191} } ),
-                        PosRanges( { {0,5}, {10, 20} } ),
-                   });
+    VectorPosInTextRanges v1 = \
+    VectorPosInTextRanges(  { PosInTextRanges( { {10,20}, {150,250} } ),
+                              PosInTextRanges( { {0,5}, {11, 20} } ),
+                              PosInTextRanges( { {8, 9}, {91,92} } ),
+                              PosInTextRanges( { {1, 2}, {190,191} } ),
+                              PosInTextRanges( { {0,5}, {10, 20} } ),
+                         });
     qDebug() << v1.to_str();
     v1.sort();
     qDebug() << v1.to_str();
 
 *******************************************************************************/
 
-#ifndef VECTORPOSRANGES_H
-#define VECTORPOSRANGES_H
+#ifndef VECTORPOSINTEXTRANGES_H
+#define VECTORPOSINTEXTRANGES_H
 
-#include "posranges.h"
+#include "posintextranges.h"
 
 #include <vector>
 
@@ -51,19 +51,19 @@
 /*______________________________________________________________________________
 
 
-  VectorPosRanges class
+  VectorPosInTextRanges class
 
-  wrapper around a std::vector<PosRanges> object named "vposranges".
+  wrapper around a std::vector<PosInTextRanges> object named "vposintextranges".
 
 ______________________________________________________________________________*/
-struct VectorPosRanges
+struct VectorPosInTextRanges
 {
-        std::vector<PosRanges> vposranges;
+        std::vector<PosInTextRanges> vposintextranges;
 
-                         VectorPosRanges(void);
-                         VectorPosRanges(const VectorPosRanges&);
-                         VectorPosRanges(std::vector<PosRanges>);
-        VectorPosRanges& operator=(const VectorPosRanges&);
+                         VectorPosInTextRanges(void);
+                         VectorPosInTextRanges(const VectorPosInTextRanges&);
+                         VectorPosInTextRanges(std::vector<PosInTextRanges>);
+        VectorPosInTextRanges& operator=(const VectorPosInTextRanges&);
         std::size_t size(void) const;
         void        sort(void);
         QString     to_str(void) const;
@@ -71,16 +71,16 @@ struct VectorPosRanges
         const char* MAIN_SEPARATOR = "/";
 
         /* 
-                Functor used to sort VectorPosRanges.
+                Functor used to sort VectorPosInTextRanges.
         */
-	struct VectorPosRangesCMP {
+	struct VectorPosInTextRangesCMP {
 
-		VectorPosRanges* m;
+		VectorPosInTextRanges* m;
 
-		VectorPosRangesCMP(VectorPosRanges* p) : m(p) {};
+		VectorPosInTextRangesCMP(VectorPosInTextRanges* p) : m(p) {};
 
-                // is (PosRanges)ii < (PosRanges)jj ?
-                bool operator() ( PosRanges ii, PosRanges jj ) {
+                // is (PosInTextRanges)ii < (PosInTextRanges)jj ?
+                bool operator() ( PosInTextRanges ii, PosInTextRanges jj ) {
                   auto i = ii.begin();
                   auto j = jj.begin();
 
@@ -103,26 +103,26 @@ struct VectorPosRanges
 	};
 };
 
-inline VectorPosRanges::VectorPosRanges(void)
+inline VectorPosInTextRanges::VectorPosInTextRanges(void)
 {}
 
-inline VectorPosRanges::VectorPosRanges(std::vector<PosRanges> v) : vposranges(v)
+inline VectorPosInTextRanges::VectorPosInTextRanges(std::vector<PosInTextRanges> v) : vposintextranges(v)
 {}
 
-inline VectorPosRanges::VectorPosRanges( const VectorPosRanges& other )  : \
-                       vposranges(other.vposranges)
+inline VectorPosInTextRanges::VectorPosInTextRanges( const VectorPosInTextRanges& other )  : \
+                       vposintextranges(other.vposintextranges)
 {}
 
-inline VectorPosRanges& VectorPosRanges::operator=(const VectorPosRanges& other) {
+inline VectorPosInTextRanges& VectorPosInTextRanges::operator=(const VectorPosInTextRanges& other) {
 
   if( this != &other) {
-    this->vposranges = other.vposranges;
+    this->vposintextranges = other.vposintextranges;
   }
   return *this;
 }
 
-inline std::size_t VectorPosRanges::size(void) const {
-  return this->vposranges.size();
+inline std::size_t VectorPosInTextRanges::size(void) const {
+  return this->vposintextranges.size();
 }
 
 #endif

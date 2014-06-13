@@ -19,34 +19,34 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testvectorposranges.h
+    ❏Dipylon❏ : tests/testposintext2str.h
 
-    ⇨ tests for VectorPosRanges objects.
+    ⇨ tests of the PosInText2Str module.
 
 *********************************************************************************/
 
-#ifndef TESTVECTORPOSRANGES_H
-#define TESTVECTORPOSRANGES_H
+#ifndef TESTPOS2STR_H
+#define TESTPOS2STR_H
 
-#include "../posintxt/vectorposranges.h"
-#include "../posintxt/posranges.h"
+#include "../pos/posintext/posintextranges.h"
+#include "../pos/posintext/posintext2str.h"
 
 #include <QTest>
 
 /*______________________________________________________________________________
 
-        TestVectorPosRanges class : test of VectorPosRanges module.
+        TestPosInText2Str class : test of the PosInText2Str module.
 
 ______________________________________________________________________________*/
-class TestVectorPosRanges: public QObject
+class TestPosInText2Str: public QObject
 {
     Q_OBJECT
 
 private slots:
-
   void test0(void);
   void test1(void);
-  void test2(void);
+  void test2a(void);
+  void test2b(void);
 };
 
 #endif

@@ -9,22 +9,22 @@ INCLUDEPATH      += ..
 QT += testlib
 
 # Input
-HEADERS          += ../posintxt/posintxt.h \
-                    ../posintxt/posranges.h \
-                    ../posintxt/vectorposranges.h \
-                    ../posintxt/pos2str.h
+HEADERS          += ../pos/posintext/posintext.h \
+                    ../pos/posintext/posintextranges.h \
+                    ../pos/posintext/vectorposintextranges.h \
+                    ../pos/posintext/posintext2str.h
 HEADERS          += testhash.h \
-                    testposranges.h \
-                    testvectorposranges.h \
-                    testpos2str.h
+                    testposintextranges.h \
+                    testvectorposintextranges.h \
+                    testposintext2str.h
 
-SOURCES          += ../posintxt/posranges.cpp \
-                    ../posintxt/vectorposranges.cpp \
-                    ../posintxt/pos2str.cpp
+SOURCES          += ../pos/posintext/posintextranges.cpp \
+                    ../pos/posintext/vectorposintextranges.cpp \
+                    ../pos/posintext/posintext2str.cpp
 SOURCES          += tests.cpp \
-                    testposranges.cpp \
-                    testvectorposranges.cpp \
-                    testpos2str.cpp \
+                    testposintextranges.cpp \
+                    testvectorposintextranges.cpp \
+                    testposintext2str.cpp \
                     testhash.cpp
 
 QMAKE_CFLAGS     += -std=c++11 -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
