@@ -23,13 +23,12 @@ SOMMAIRE
 
 [5] découpage audio
 
+[6] files and directory
+
 ################################################################################
 [0] travail en cours
 ################################################################################
 
-vérifier à coup de grep le posranges > posintextranges, le txt > text, etc.
-tests
-mettre à jour dipylon.text -> dipylon.project
 [] x2
 
 0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
@@ -212,3 +211,29 @@ The QObject class constructor takes a pointer to a parent QObject. When that par
 utiliser le format .ogg
 Audacity
 lire le texte rapidement sans temps mort entre les segments.
+
+################################################################################
+[6] files and directory
+################################################################################
+
+dipylon/                                   C++/Qt5 code
+       /dipylon.sh                         compiler, launcher
+
+dipylon/dipydoc/                           DipylonDocument
+               /dipydoc.[h|cpp]            DipyDoc class
+
+dipylon/misc/
+	    /hash.[h|cpp]                  generic hash function
+
+dipylon/pos/
+           /posintextranges.[h|cpp]        PosInTextRanges class
+           /vectorposintextranges.[h|cpp]  VectorPosInTextRanges class
+           /posintext2str.[h|cpp]          PosInText2Str class
+
+
+dipylon/qt/                                Qt5 / UI code
+          /dipylonui.[h|cpp]               UI definition
+          /commentaryeditor.[h|cpp]        commentary zone
+          /mainsplitter.[h|cpp]            splitter between commentary and source zone
+	  /mainwindow.[h|cpp]              MainWindow class
+          /sourceeditor.[h|cpp]            source zone
