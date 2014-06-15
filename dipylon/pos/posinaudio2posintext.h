@@ -29,6 +29,7 @@
 #define POSINAUDIO2POSINTEXT_H
 
 #include "pos/posinaudio/posinaudio.h"
+#include "pos/posintext2posinaudio.h"
 
 #include <unordered_map>
 
@@ -52,7 +53,7 @@ class PosInAudio2PosInText {
                         PosInAudio2PosInText(const PosInText2PosInAudio&);
                         ~PosInAudio2PosInText(void);
 
-  PairOfPosInAudio&     operator[]( VPairOfPosInText key );
+  PosInTextRanges&      operator[]( PairOfPosInAudio key );
   PosInAudio2PosInText& operator=(const PosInAudio2PosInText&);
 
   size_t                size(void) const;
@@ -89,7 +90,7 @@ inline PosInAudio2PosInText& PosInAudio2PosInText::operator=(const PosInAudio2Po
   return *this;
 }
 
-inline PairOfPosInAudio& PosInAudio2PosInText::operator[]( VPairOfPosInText key) {
+inline PosInTextRanges& PosInAudio2PosInText::operator[]( PairOfPosInAudio key) {
   return this->map[key];
 }
 

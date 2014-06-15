@@ -23,6 +23,15 @@
 
     PosInText2PosInAudio class.
 
+    HOW TO USE :
+
+    PosInText2PosInAudio text2audio = {
+        { {{ {1,2}, {3,4} },},  {1500, 1598} },
+        { {{ {5,6}, {9,12} },},  {1750, 1790} },
+      };
+    qDebug() << text2audio[{{ {1,2}, {3,4} },}].first << text2audio[{{ {1,2}, {3,4} },}].second;
+    qDebug() << text2audio.contains(6).to_str();
+
 *******************************************************************************/
 
 #ifndef POSINTEXT2POSINAUDIO_H
@@ -54,6 +63,8 @@ struct PosInTextAndAudio
 
 ________________________________________________________________________________*/
 class PosInText2PosInAudio {
+
+  friend class PosInAudio2PosInText;
 
  private:
 

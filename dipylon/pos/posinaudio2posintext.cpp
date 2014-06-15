@@ -25,7 +25,7 @@
 
 *******************************************************************************/
 
-#include "pos/posinaudio2posintex.h"
+#include "pos/posinaudio2posintext.h"
 
 /*______________________________________________________________________________
 
@@ -41,11 +41,11 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
   this->_well_initialized = true;
   this->_internal_state = INTERNALSTATE_OK;
 
-  for(auto &src_i : src->map) {
+  for(auto &src_i : src.map) {
     this->map[ src[src_i] ] = src_i;
   }
 
-  if( src->_well_initialized == false ) {
+  if( src._well_initialized == false ) {
     this->_well_initialized = false;
     this->_internal_state = this->INTERNALSTATE_WRONGINITIALIZATION;
   }

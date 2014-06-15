@@ -29,10 +29,25 @@
 #define POSINAUDIO_H
 
 #include <vector>
+#include <QtGlobal>
 
 // base type :
+
+/*
+  qint64 : Typedef for long long int (__int64 on Windows). This type is guaranteed to be 64-bit on all platforms supported by Qt.
+
+ from http://qt-project.org/doc/qt-5/qtglobal.html#qint64-typedef
+*/
 typedef qint64 PosInAudio;
 
 typedef std::pair<PosInAudio, PosInAudio> PairOfPosInAudio;
+
+/*______________________________________________________________________________
+
+  PairOfPosInAudioHasher
+________________________________________________________________________________*/
+struct PairOfPosInAudioHasher {
+  std::size_t operator()(const PairOfPosInAudio& k) const;
+};
 
 #endif

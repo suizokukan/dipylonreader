@@ -74,7 +74,7 @@ class PosInText2Str {
                          PosInText2Str(std::initializer_list< IntegersAndAString >);
                         ~PosInText2Str(void);
 
-  QString&              operator[]( VPairOfPosInText key );
+  QString&              operator[]( PosInTextRanges key );
   PosInText2Str&        operator=(const PosInText2Str&);
 
   size_t                size(void) const;
@@ -129,7 +129,7 @@ inline PosInText2Str& PosInText2Str::operator=(const PosInText2Str& other) {
   return *this;
 }
 
-inline QString&       PosInText2Str::operator[]( VPairOfPosInText key) {
+inline QString& PosInText2Str::operator[]( PosInTextRanges key) {
   return this->map[key];
 }
 
