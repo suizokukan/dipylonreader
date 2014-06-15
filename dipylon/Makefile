@@ -52,6 +52,7 @@ SOURCES       = main.cpp \
 		qt/commentaryeditor.cpp \
 		dipydoc/dipydoc.cpp \
 		pos/posintext2posinaudio.cpp \
+		pos/posinaudio2posintext.cpp \
 		pos/posintext/posintextranges.cpp \
 		pos/posintext/vectorposintextranges.cpp \
 		pos/posintext/posintext2str.cpp qrc_dipylon.cpp \
@@ -65,6 +66,7 @@ OBJECTS       = main.o \
 		commentaryeditor.o \
 		dipydoc.o \
 		posintext2posinaudio.o \
+		posinaudio2posintext.o \
 		posintextranges.o \
 		vectorposintextranges.o \
 		posintext2str.o \
@@ -186,6 +188,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		qt/commentaryeditor.cpp \
 		dipydoc/dipydoc.cpp \
 		pos/posintext2posinaudio.cpp \
+		pos/posinaudio2posintext.cpp \
 		pos/posintext/posintextranges.cpp \
 		pos/posintext/vectorposintextranges.cpp \
 		pos/posintext/posintext2str.cpp
@@ -457,7 +460,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents parameters.h qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h dipydoc/dipydoc.h pos/posintext2posinaudio.h pos/posinaudio/posinaudio.h pos/posintext/posintext.h pos/posintext/posintextranges.h pos/posintext/vectorposintextranges.h pos/posintext/posintext2str.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp dipydoc/dipydoc.cpp pos/posintext2posinaudio.cpp pos/posintext/posintextranges.cpp pos/posintext/vectorposintextranges.cpp pos/posintext/posintext2str.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents parameters.h qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h dipydoc/dipydoc.h pos/posintext2posinaudio.h pos/posinaudio2posintext.h pos/posinaudio/posinaudio.h pos/posintext/posintext.h pos/posintext/posintextranges.h pos/posintext/vectorposintextranges.h pos/posintext/posintext2str.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp dipydoc/dipydoc.cpp pos/posintext2posinaudio.cpp pos/posinaudio2posintext.cpp pos/posintext/posintextranges.cpp pos/posintext/vectorposintextranges.cpp pos/posintext/posintext2str.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -482,13 +485,13 @@ compiler_rcc_make_all: qrc_dipylon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_dipylon.cpp
 qrc_dipylon.cpp: dipylon.qrc \
-		ressources/images/icons/cut.png \
 		ressources/images/icons/paste.png \
-		ressources/images/icons/audio_play.png \
-		ressources/images/icons/copy.png \
-		ressources/images/icons/new.png \
+		ressources/images/icons/cut.png \
 		ressources/images/icons/save.png \
-		ressources/images/icons/open.png
+		ressources/images/icons/open.png \
+		ressources/images/icons/new.png \
+		ressources/images/icons/audio_play.png \
+		ressources/images/icons/copy.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
@@ -545,8 +548,9 @@ main.o: main.cpp qt/dipylonui.h \
 		misc/hash.h \
 		pos/posintext/vectorposintextranges.h \
 		qt/commentaryeditor.h \
-		pos/posintext2posinaudio.h \
-		pos/posinaudio/posinaudio.h
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posintext2posinaudio.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
@@ -603,6 +607,9 @@ posintext2posinaudio.o: pos/posintext2posinaudio.cpp pos/posintext2posinaudio.h 
 		pos/posintext/vectorposintextranges.h \
 		pos/posinaudio/posinaudio.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posintext2posinaudio.o pos/posintext2posinaudio.cpp
+
+posinaudio2posintext.o: pos/posinaudio2posintext.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posinaudio2posintext.o pos/posinaudio2posintext.cpp
 
 posintextranges.o: pos/posintext/posintextranges.cpp pos/posintext/posintextranges.h \
 		pos/posintext/posintext.h \
