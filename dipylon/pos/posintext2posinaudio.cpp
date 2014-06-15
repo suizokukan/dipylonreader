@@ -55,9 +55,9 @@ void PosInText2PosInAudio::checks(void) {
 
 /*______________________________________________________________________________
 
-        PosInText2PosInAudio::is_inside(PosInText x0)
+        PosInText2PosInAudio::contains(PosInText x0)
 
-       search the first (PosInTextRanges)key in "this" that matches this->key.is_inside(x0)
+       search the first (PosInTextRanges)key in "this" that matches this->key.contains(x0)
 
        This function returns a PosInTextRanges. The result is an
        empty PosInTextRanges if indexes in "this" do not contain "x0".
