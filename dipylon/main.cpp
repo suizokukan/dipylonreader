@@ -82,10 +82,9 @@ int main(int argc, char **argv)
     qDebug() << text2audio[{{ {1,2}, {3,4} },}].first << text2audio[{{ {1,2}, {3,4} },}].second;
     qDebug() << text2audio.contains(6).to_str();
 
-/*
+
     PosInText2PosInAudio& text2audio_ref = text2audio;
     PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio_ref);
-*/
 
     DipylonUI myapp(argc, argv);
 

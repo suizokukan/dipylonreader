@@ -81,8 +81,9 @@ class PosInText2PosInAudio {
                         PosInText2PosInAudio(std::initializer_list< PosInTextAndAudio >);
                         ~PosInText2PosInAudio(void);
 
-  PairOfPosInAudio&     operator[]( VPairOfPosInText key );
-  PosInText2PosInAudio& operator=(const PosInText2PosInAudio&);
+  PairOfPosInAudio&       operator[]( PosInTextRanges key );
+  const PairOfPosInAudio& operator[]( const PosInTextRanges key ) const;
+  PosInText2PosInAudio&   operator=(const PosInText2PosInAudio&);
 
   size_t                size(void) const;
   int                   internal_state(void) const;
@@ -136,8 +137,11 @@ inline PosInText2PosInAudio& PosInText2PosInAudio::operator=(const PosInText2Pos
   return *this;
 }
 
-inline PairOfPosInAudio& PosInText2PosInAudio::operator[]( VPairOfPosInText key) {
+inline PairOfPosInAudio& PosInText2PosInAudio::operator[]( PosInTextRanges key) {
   return this->map[key];
+}
+inline const PairOfPosInAudio& PosInText2PosInAudio::operator[]( const PosInTextRanges key ) const {
+  return this->map.at(key);
 }
 
 inline int PosInText2PosInAudio::internal_state(void) const {

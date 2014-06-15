@@ -75,6 +75,7 @@ class PosInText2Str {
                         ~PosInText2Str(void);
 
   QString&              operator[]( PosInTextRanges key );
+  const QString &       operator[]( const PosInTextRanges key ) const;
   PosInText2Str&        operator=(const PosInText2Str&);
 
   size_t                size(void) const;
@@ -131,6 +132,9 @@ inline PosInText2Str& PosInText2Str::operator=(const PosInText2Str& other) {
 
 inline QString& PosInText2Str::operator[]( PosInTextRanges key) {
   return this->map[key];
+}
+inline const QString& PosInText2Str::operator[]( const PosInTextRanges key ) const {
+  return this->map.at(key);
 }
 
 inline int PosInText2Str::internal_state(void) const {

@@ -53,8 +53,9 @@ class PosInAudio2PosInText {
                         PosInAudio2PosInText(const PosInText2PosInAudio&);
                         ~PosInAudio2PosInText(void);
 
-  PosInTextRanges&      operator[]( PairOfPosInAudio key );
-  PosInAudio2PosInText& operator=(const PosInAudio2PosInText&);
+  PosInTextRanges&       operator[]( PairOfPosInAudio key );
+  const PosInTextRanges& operator[]( const PairOfPosInAudio key ) const;
+  PosInAudio2PosInText&  operator=(const PosInAudio2PosInText&);
 
   size_t                size(void) const;
   int                   internal_state(void) const;
@@ -92,6 +93,9 @@ inline PosInAudio2PosInText& PosInAudio2PosInText::operator=(const PosInAudio2Po
 
 inline PosInTextRanges& PosInAudio2PosInText::operator[]( PairOfPosInAudio key) {
   return this->map[key];
+}
+inline const PosInTextRanges& PosInAudio2PosInText::operator[]( const PairOfPosInAudio key ) const {
+  return this->map.at(key);
 }
 
 inline int PosInAudio2PosInText::internal_state(void) const {

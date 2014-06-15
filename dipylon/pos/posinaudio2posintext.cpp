@@ -27,6 +27,9 @@
 
 #include "pos/posinaudio2posintext.h"
 
+// $$$
+#include <QDebug>
+
 /*______________________________________________________________________________
 
         PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio)
@@ -41,8 +44,23 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
   this->_well_initialized = true;
   this->_internal_state = INTERNALSTATE_OK;
 
+  /*
+    src_i : iterator over
+        src_i.first : PosInTextRanges
+        src_i.second : (qint64, qint64)
+
+      qDebug() << typeid(src_i).name();
+      qDebug() << src_i.first.to_str()  << src_i.second.first << "-" << src_i.second.second;
+  */
   for(auto &src_i : src.map) {
-    this->map[ src[src_i] ] = src_i;
+    // $$$$ non terminé $$$
+    //auto zzz = src[src_i.first];
+    //qDebug() << typeid(zzz).name();
+    //qDebug() << zzz.first << "-" << zzz.second;
+    //PairOfPosInAudio zzz2 = zzz;
+    //this->map[ zzz2 ] = src_i.first;
+
+    this->map[ src_i.second ] = src_i.first;
   }
 
   if( src._well_initialized == false ) {
@@ -63,6 +81,7 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
 _____________________________________________________________________________*/
 PosInTextRanges PosInAudio2PosInText::contains(PosInAudio pos) const
 {
+  /*
   for(auto &i : this->map) {
 
     if( i.first.contains(pos) == true ) {
@@ -70,7 +89,8 @@ PosInTextRanges PosInAudio2PosInText::contains(PosInAudio pos) const
       return i.first;
     }
   }
-
+  */
   // no result : the function returns an empty vector.
   return PosInTextRanges();
+
 }
