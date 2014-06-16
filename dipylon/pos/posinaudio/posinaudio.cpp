@@ -30,6 +30,8 @@
 /*______________________________________________________________________________
 
         PairOfPosInAudioHasher::operator()
+
+        hashing two integers ? see by example http://szudzik.com/ElegantPairing.pdf
 ______________________________________________________________________________*/
 std::size_t PairOfPosInAudioHasher::operator()(const PairOfPosInAudio& k) const {
 
