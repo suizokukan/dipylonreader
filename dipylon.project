@@ -34,7 +34,8 @@ SOMMAIRE
 0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
         construire l'interface graphique de base
 
-tester PosInAudio2PosInText
+[EN COURS] tester PosInAudio2PosInText
+mode 1 : karaoke
 
 0.2.0 : XML 
 http://qt-project.org/doc/qt-5/qtxml-xmlstreamlint-example.html

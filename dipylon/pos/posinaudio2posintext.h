@@ -23,6 +23,20 @@
 
     PosInAudio2PostInText class.
 
+    HOW TO USE :
+
+    PosInText2PosInAudio text2audio = {
+        { {{ {1,2}, {3,4} },},  {1500, 1598} },
+        { {{ {5,6}, {9,12} },},  {1750, 1790} },
+      };
+
+    PosInText2PosInAudio& text2audio_ref = text2audio;
+    PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio_ref);
+
+    qDebug() << audio2text.size();
+    qDebug() << audio2text[{1500, 1598}].to_str();
+
+
 *******************************************************************************/
 
 #ifndef POSINAUDIO2POSINTEXT_H
@@ -36,6 +50,9 @@
 /*______________________________________________________________________________
 
   PosInAudio2PosInText class : basically, a map PairOfPosInAudio -> PosInTextRanges
+
+  A PosInAudio2PosInText object can be initialized from a PosInText2PosInAudio
+  object by reversing the keys and the values.
 
 ________________________________________________________________________________*/
 class PosInAudio2PosInText {
