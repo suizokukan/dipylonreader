@@ -19,40 +19,31 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/tests.cpp
+    ❏Dipylon❏ : tests/testposinaudio2posintext.h
 
-    ⇨ entry point for all the tests.
+    ⇨ tests of the PosInAudio2PosInText module.
 
 *********************************************************************************/
 
+#ifndef TESTPOSINAUDIO2POSINTEXT_H
+#define TESTPOSINAUDIO2POSINTEXT_H
+
+#include "../pos/posinaudio2posintext.h"
+#include "../pos/posintext2posinaudio.h"
+
 #include <QTest>
 
-#include "testhash.h"
-#include "testposintextranges.h"
-#include "testvectorposintextranges.h"
-#include "testposintext2str.h"
-#include "testposintext2posinaudio.h"
-#include "testposinaudio2posintext.h"
+/*______________________________________________________________________________
 
-int main(void)
+        TestPosInAudio2PosInText class : test of the PosInAudio2PosInText module.
+
+______________________________________________________________________________*/
+class TestPosInAudio2PosInText : public QObject
 {
-  TestHash testhash;
-  QTest::qExec(&testhash);
+    Q_OBJECT
 
-  TestPosInTextRanges testposintextranges;
-  QTest::qExec(&testposintextranges);
+private slots:
+  void test0(void);
+};
 
-  TestVectorPosInTextRanges testvectorposintextranges;
-  QTest::qExec(&testvectorposintextranges);
-
-  TestPosInText2Str testposintext2str;
-  QTest::qExec(&testposintext2str);
-
-  TestPosInText2PosInAudio testtext2audio;
-  QTest::qExec(&testtext2audio);
-
-  TestPosInAudio2PosInText testaudio2text;
-  QTest::qExec(&testaudio2text);
-
-  return 0;
-}
+#endif
