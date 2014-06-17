@@ -52,6 +52,11 @@ DipyDoc::DipyDoc(QString path) {
                 "Le premier amour de Phébus";
   this->translation[ { {633, 649}, } ] = \
                 "Ton arc peut bien transpercer toutes tes cibles";
+
+  // $$$ fake initialization of the karaoke data :
+  this->text2audio = {
+        { {{ {1,2}, },},  {0, 2399} },
+      };
 }
 
 /*______________________________________________________________________________

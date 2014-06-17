@@ -29,6 +29,8 @@
 #define DIPYDOC_H
 
 #include "pos/posintext/posintext2str.h"
+#include "pos/posintext2posinaudio.h"
+#include "pos/posinaudio2posintext.h"
 
 #include <QString>
 #include <QFile>
@@ -51,6 +53,8 @@ private:
   int           _internal_state;
   PosInText2Str translation;
   QString       source_text;
+  PosInText2PosInAudio text2audio;
+  PosInAudio2PosInText audio2text;
 
   void          check_path(QString path);
 

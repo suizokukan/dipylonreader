@@ -30,8 +30,12 @@
 
 #include "parameters.h"
 #include "dipydoc/dipydoc.h"
+#include "pos/posintext/posintext.h"
 
 #include <QTextEdit>
+
+// $$$
+#include <QDebug>
 
 /*______________________________________________________________________________
 
@@ -43,6 +47,10 @@ class SourceEditor : public QTextEdit
 
 public:
     SourceEditor(DipyDoc*);
+
+protected:
+    void mouseReleaseEvent(QMouseEvent*);
+    void mousePressEvent(QMouseEvent*);
 
 private:
     // DipyDoc object linked to the editor :

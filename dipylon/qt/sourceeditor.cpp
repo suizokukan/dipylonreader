@@ -35,3 +35,41 @@ SourceEditor::SourceEditor(DipyDoc* dipydoc) : current_dipydoc(dipydoc) {
   this->setReadOnly(true);
   this->setStyleSheet(parameters.source_editor_stylesheet);
 }
+
+
+/*______________________________________________________________________________
+
+        SourceEditor::mousePressEvent
+______________________________________________________________________________*/
+void SourceEditor::mousePressEvent(QMouseEvent* mouse_event)
+{
+    QTextCursor cur = this->textCursor();
+
+    qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cur.position();
+
+    //this->cursor.select(QTextCursor::WordUnderCursor);
+    PosInText x0 =  static_cast<PosInText>(cur.position());
+    qDebug() << "x0=" << x0;
+
+    QTextEdit::mousePressEvent(mouse_event);
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::mouseReleaseEvent
+_____________________________________________________________________________*/
+void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
+{
+    QTextCursor cur = this->textCursor();
+
+    qDebug() << "SourceEditor::mouseReleaseEvent" << "pos=" << cur.position();
+
+    if ( cur.hasSelection() ) {
+      QString selected_txt = cur.selectedText();
+      PosInText x0 = static_cast<PosInText>( cur.selectionStart() );
+      PosInText x1 = static_cast<PosInText>( cur.selectionEnd() );
+      qDebug() << "SourceEditor::mouseReleaseEvent" << x0 << "-" << x1;
+    }
+
+    QTextEdit::mouseReleaseEvent(mouse_event);
+}

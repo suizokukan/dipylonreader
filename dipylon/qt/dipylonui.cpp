@@ -32,7 +32,7 @@
   DipylonUI constructor
 
   See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about
-  "argc" and "argv".  
+  "argc" and "argv".
 ______________________________________________________________________________*/
 DipylonUI::DipylonUI(int argc, char **argv) {
   this->cmdline_argc = argc;
