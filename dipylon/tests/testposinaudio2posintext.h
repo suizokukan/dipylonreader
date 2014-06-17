@@ -44,6 +44,8 @@ class TestPosInAudio2PosInText : public QObject
 
 private slots:
   void test0(void);
+  void test1(void);
+  void test2(void);
 };
 
 #endif

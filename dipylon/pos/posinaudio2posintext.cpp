@@ -73,7 +73,8 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
 
         PosInAudio2PosInText::contains(PairOfPosInAudio pos)
 
-       search the first (PosInAudio)key in "this" that matches this->key.contains(pos)
+       search the first PairOfPosInAudio in "this" so that
+       pair.first <= pos <= pair.second
 
        This function returns a PosInTextRanges. The result is an
        empty PosInTextRanges if indexes in "this" do not contain "pos".
@@ -81,16 +82,16 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
 _____________________________________________________________________________*/
 PosInTextRanges PosInAudio2PosInText::contains(PosInAudio pos) const
 {
-  /*
+  PosInTextRanges res = PosInTextRanges();
+
   for(auto &i : this->map) {
 
-    if( i.first.contains(pos) == true ) {
-      // ok, the searched PairOfPosInAudio has been found and can be returned :
-      return i.first;
+    if( (i.first.first <= pos) && (pos <= i.first.second) ) {
+      // ok, the searched PosInTextRanges has been found and can be returned :
+      return i.second;
     }
   }
-  */
+
   // no result : the function returns an empty vector.
   return PosInTextRanges();
-
 }

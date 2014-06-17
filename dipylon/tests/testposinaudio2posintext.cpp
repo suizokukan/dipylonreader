@@ -38,7 +38,7 @@
 
 *********************************************************************************/
 
-#include "testposinpos2posintext.h"
+#include "testposinaudio2posintext.h"
 
 /*
   A PosInAudio2PosInText object is created without any error.
@@ -56,4 +56,38 @@ void TestPosInAudio2PosInText::test0(void) {
    QCOMPARE( audio2text.well_initialized() , true );
    QCOMPARE( audio2text.internal_state() , text2audio.INTERNALSTATE_OK );
    QCOMPARE( audio2text.size() == 3, true );
+}
+
+/*
+  test of [] access
+*/
+void TestPosInAudio2PosInText::test1(void) {
+
+   PosInText2PosInAudio text2audio = {
+        { {{ {1,2}, {3,4} },},  {1500, 1598} },
+        { {{ {5,6}, {9,12} },},  {1750, 1790} },
+        { {{ {15,16}, {19,112} },},  {1950, 1999} },
+     };
+   PosInText2PosInAudio& text2audio_ref = text2audio;
+   PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio_ref);
+
+   QCOMPARE( ((audio2text[ {1500, 1598} ].to_str())), QString("1-2+3-4") );
+   QCOMPARE( ((audio2text[ {1501, 1598} ].to_str())), QString("") );
+}
+
+/*
+  test of the contains() method.
+*/
+void TestPosInAudio2PosInText::test2(void) {
+
+   PosInText2PosInAudio text2audio = {
+        { {{ {1,2}, {3,4} },},  {1500, 1598} },
+        { {{ {5,6}, {9,12} },},  {1750, 1790} },
+        { {{ {15,16}, {19,112} },},  {1950, 1999} },
+     };
+   PosInText2PosInAudio& text2audio_ref = text2audio;
+   PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio_ref);
+
+   QCOMPARE( audio2text.contains(1500).to_str(), QString("1-2+3-4") );
+   QCOMPARE( audio2text.contains(1400).to_str(), QString("") );
 }
