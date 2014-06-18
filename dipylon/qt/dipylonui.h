@@ -28,7 +28,7 @@
 #ifndef DIPYLONUI_H
 #define DIPYLONUI_H
 
-#include "parameters.h"
+#include "fixedparameters.h"
 #include "qt/mainwindow.h"
 #include "dipydoc/dipydoc.h"
 

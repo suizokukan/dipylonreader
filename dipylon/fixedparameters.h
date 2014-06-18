@@ -19,19 +19,19 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : parameters.h
+    ❏Dipylon❏ : fixedparameters.h
 
     Fixed parameters used throughout the program.
 
 *******************************************************************************/
 
-#ifndef PARAMETERS_H
-#define PARAMETERS_H
+#ifndef FIXEDPARAMETERS_H
+#define FIXEDPARAMETERS_H
 
 #include <QList>
 #include <QString>
 
-namespace parameters {
+namespace fixedparameters {
 
 /*
   data used to initialize the QApplication object.

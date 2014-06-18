@@ -54,13 +54,13 @@ int DipylonUI::go(void) {
 
   // general settings :
   QApplication app( this->cmdline_argc, this->cmdline_argv);
-  app.setOrganizationName( parameters::organization_name );
-  app.setOrganizationDomain( parameters::organization_domain );
-  app.setApplicationName(parameters::application_name );
-  app.setApplicationVersion( parameters::application_version );
+  app.setOrganizationName( fixedparameters::organization_name );
+  app.setOrganizationDomain( fixedparameters::organization_domain );
+  app.setApplicationName(fixedparameters::application_name );
+  app.setApplicationVersion( fixedparameters::application_version );
 
   // application's look :
-  app.setStyle( parameters::application_style );
+  app.setStyle( fixedparameters::application_style );
 
   // i18n :
   QTranslator qtTranslator;

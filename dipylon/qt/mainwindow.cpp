@@ -38,7 +38,7 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
 
-    this->main_splitter->setSizes( parameters::editors_size_in_main_splitter );
+    this->main_splitter->setSizes( fixedparameters::editors_size_in_main_splitter );
 
     createActions();
     createMenus();
@@ -356,7 +356,7 @@ void MainWindow::audiocontrols_play(void)
   connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
   audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
   // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
-  audio_player->setNotifyInterval(parameters::audio_notify_interval);
+  audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
   audio_player->setVolume(50);
   audio_player->play();
 }

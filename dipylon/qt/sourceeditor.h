@@ -28,7 +28,7 @@
 #ifndef SOURCEEDITOR_H
 #define SOURCEEDITOR_H
 
-#include "parameters.h"
+#include "fixedparameters.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/dipylonui.h"
 #include "pos/posintext/posintext.h"

@@ -30,7 +30,7 @@
 
 class SourceEditor;
 
-#include "parameters.h"
+#include "fixedparameters.h"
 #include "qt/sourceeditor.h"
 #include "qt/commentaryeditor.h"
 #include "dipydoc/dipydoc.h"

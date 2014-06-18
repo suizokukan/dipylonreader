@@ -11,7 +11,7 @@ QT += widgets
 QT += multimedia
 
 # Input
-HEADERS         +=  parameters.h \
+HEADERS         +=  fixedparameters.h \
                     qt/mainwindow.h \
                     qt/dipylonui.h \	
                     qt/sourceeditor.h \
