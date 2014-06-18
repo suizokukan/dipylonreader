@@ -33,9 +33,22 @@
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
-  this->setStyleSheet(parameters::source_editor_stylesheet);
 
+  this->set_the_appearance();
   this->set_the_text_format();
+}
+
+/*______________________________________________________________________________
+
+  SourceEditor::set_the_appearance
+______________________________________________________________________________*/
+void SourceEditor::set_the_appearance(void) {
+
+  const QString default_stylesheet = "color: white;"
+                                     "background-color: #9ABCDE;"
+                                     "selection-color: yellow;"
+                                     "selection-background-color: blue;";
+  this->setStyleSheet(default_stylesheet);
 }
 
 /*______________________________________________________________________________
@@ -45,7 +58,10 @@ ______________________________________________________________________________*/
 void SourceEditor::set_the_text_format(void) {
 
   // karaoke style format :
-  this->format_text_karaoke.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+  //this->format_text_karaoke.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+  auto brush = QBrush(Qt::red);
+  this->format_text_karaoke.setFontWeight(QFont::Bold);
+  this->format_text_karaoke.setForeground(brush);
 }
 
 /*______________________________________________________________________________

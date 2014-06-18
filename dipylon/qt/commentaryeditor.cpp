@@ -34,5 +34,20 @@
 ______________________________________________________________________________*/
 CommentaryEditor::CommentaryEditor(void) {
   this->setReadOnly(true);
-  this->setStyleSheet(parameters::commentary_editor_stylesheet);
+
+  this->set_the_appearance();
+}
+
+/*______________________________________________________________________________
+
+  CommentaryEditor::set_the_appearance
+______________________________________________________________________________*/
+void CommentaryEditor::set_the_appearance(void) {
+
+  const QString default_stylesheet = "color: white;"
+                                     "background-color: #DE8ABC;"
+                                     "selection-color: yellow;"
+                                     "selection-background-color: blue;";
+
+  this->setStyleSheet(default_stylesheet);
 }

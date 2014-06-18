@@ -43,6 +43,8 @@ class CommentaryEditor : public QTextEdit
 
 public:
     CommentaryEditor(void);
+
+    void set_the_appearance(void);
 };
 
 #endif

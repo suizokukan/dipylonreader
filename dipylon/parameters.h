@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : parameters.h
 
-    Parameters used throughout the program.
+    Fixed parameters used throughout the program.
 
 *******************************************************************************/
 
@@ -48,16 +48,6 @@ static const QString application_style   = "CleanLooks";
   editors_size_in_main_splitter = sourceeditor / commentaryeditor size.
 */
 static const QList<int> editors_size_in_main_splitter = {{500,100}};
-
-static const QString commentary_editor_stylesheet = "color: white;"
-  "background-color: #DE8ABC;"
-  "selection-color: yellow;"
-  "selection-background-color: blue;";
-
-static const QString source_editor_stylesheet = "color: white;"
-  "background-color: #9ABCDE;"
-  "selection-color: yellow;"
-  "selection-background-color: blue;";
 
 /*
   static constant used by QMediaPlayer object.

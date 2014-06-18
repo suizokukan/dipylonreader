@@ -36,6 +36,7 @@ SOMMAIRE
 
 0.2.0 mode 1 : karaoke
 
+      parameters -> fixedparameters
       format du mode karaoke -> constante
       conserver la position des caractères surlignés
       
