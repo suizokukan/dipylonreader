@@ -376,10 +376,9 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
 
   // where are the characters linked to "arg_pos" ?
   auto text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
-  auto& text_ranges_ref = text_ranges;
 
   // the function modifies the appearence of such characters :
-  this->source_editor->modify_the_text_format(6123, text_ranges_ref);
+  this->source_editor->modify_the_text_format(6123, text_ranges);
 }
 
 // [XAV]

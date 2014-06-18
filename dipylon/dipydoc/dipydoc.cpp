@@ -62,8 +62,7 @@ DipyDoc::DipyDoc(QString path) {
         { {{ {113, 130}, },},  {10668, 13182} },
         { {{ {133, 156}, },},  {13183, 16061} },
       };
-  PosInText2PosInAudio& text2audio_ref = this->text2audio;
-  this->audio2text = PosInAudio2PosInText( text2audio_ref );
+  this->audio2text = PosInAudio2PosInText( this->text2audio );
 }
 
 /*______________________________________________________________________________

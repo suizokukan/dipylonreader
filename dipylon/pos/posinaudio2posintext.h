@@ -30,8 +30,7 @@
         { {{ {5,6}, {9,12} },},  {1750, 1790} },
       };
 
-    PosInText2PosInAudio& text2audio_ref = text2audio;
-    PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio_ref);
+    PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio);
 
     qDebug() << audio2text.size();
     qDebug() << audio2text[{1500, 1598}].to_str();
