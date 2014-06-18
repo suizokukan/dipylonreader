@@ -47,7 +47,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(DipyDoc*);
+    MainWindow(DipyDoc&);
     void open(QString); // [XAV]
 
     void load_text(const QString& source_text); // XAV
@@ -70,6 +70,8 @@ private slots:
     void closing(void);	// XAV
 
 private:
+    const DipyDoc& dipydoc;
+
     void createActions();
     void createMenus();
     void createToolBars();

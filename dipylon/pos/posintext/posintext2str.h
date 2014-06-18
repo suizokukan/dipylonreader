@@ -85,8 +85,8 @@ class PosInText2Str {
   bool                  well_initialized(void) const;
 
   // constants used to define the internal_state attribute :
-  const int INTERNALSTATE_OK = 0;
-  const int INTERNALSTATE_BADPOSINTEXTRANGES = 1;
+  static const int INTERNALSTATE_OK = 0;
+  static const int INTERNALSTATE_BADPOSINTEXTRANGES = 1;
 };
 
 inline PosInText2Str::PosInText2Str( void ) {

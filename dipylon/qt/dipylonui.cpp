@@ -54,13 +54,13 @@ int DipylonUI::go(void) {
 
   // general settings :
   QApplication app( this->cmdline_argc, this->cmdline_argv);
-  app.setOrganizationName( parameters.organization_name );
-  app.setOrganizationDomain( parameters.organization_domain );
-  app.setApplicationName(parameters.application_name );
-  app.setApplicationVersion( parameters.application_version );
+  app.setOrganizationName( parameters::organization_name );
+  app.setOrganizationDomain( parameters::organization_domain );
+  app.setApplicationName(parameters::application_name );
+  app.setApplicationVersion( parameters::application_version );
 
   // application's look :
-  app.setStyle( parameters.application_style );
+  app.setStyle( parameters::application_style );
 
   // i18n :
   QTranslator qtTranslator;
@@ -73,16 +73,17 @@ int DipylonUI::go(void) {
   app.installTranslator(&myappTranslator);
 
   // current DipyDoc :
-  //this->current_dipydoc = new DipyDoc();
   // $$$ fake initialization :
-  this->current_dipydoc = new DipyDoc("../texts/Ovid_M_I_452_465/");
+  this->current_dipydoc = DipyDoc("../texts/Ovid_M_I_452_465/");
+
+  DipyDoc& current_dipydoc_ref = this->current_dipydoc;
 
   // main window creation :
-  MainWindow mainWin(current_dipydoc);
+  MainWindow mainWin(current_dipydoc_ref);
   mainWin.show();
 
   // $$$ fake initialization :
-  const QString& source_text = this->current_dipydoc->source_text;
+  const QString& source_text = this->current_dipydoc.source_text;
   mainWin.load_text(source_text);
 
   /*
@@ -104,5 +105,4 @@ int DipylonUI::go(void) {
   DipylonUI destructor
 ______________________________________________________________________________*/
 DipylonUI::~DipylonUI(void) {
-  delete current_dipydoc;
 }

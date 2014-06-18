@@ -47,7 +47,7 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
   /*
     src_i : iterator over
         src_i.first : PosInTextRanges
-        src_i.second : (qint64, qint64)
+        src_i.second : (PosInAudio, PosInAudio)
 
       qDebug() << typeid(src_i).name();
       qDebug() << src_i.first.to_str()  << src_i.second.first << "-" << src_i.second.second;

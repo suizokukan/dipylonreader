@@ -91,12 +91,12 @@ class PosInTextRanges {
   bool               well_initialized(void) const;
 
   // constants used to define the internal_state attribute :
-  const int        INTERNALSTATE_OK = 0;
-  const int        INTERNALSTATE_NOMAINSEP = 1;
-  const int        INTERNALSTATE_SECONDSEP = 2;
-  const int        INTERNALSTATE_X0X1 = 3;
-  const int        INTERNALSTATE_EMPTY = 4;
-  const int        INTERNALSTATE_OVERLAPPING = 5;
+  static const int   INTERNALSTATE_OK = 0;
+  static const int   INTERNALSTATE_NOMAINSEP = 1;
+  static const int   INTERNALSTATE_SECONDSEP = 2;
+  static const int   INTERNALSTATE_X0X1 = 3;
+  static const int   INTERNALSTATE_EMPTY = 4;
+  static const int   INTERNALSTATE_OVERLAPPING = 5;
 
  private:
 

@@ -27,19 +27,19 @@
 
 #include "qt/mainwindow.h"
 
-MainWindow::MainWindow(DipyDoc* dipydoc)
+MainWindow::MainWindow(DipyDoc& dipydoc_arg) : dipydoc(dipydoc_arg)
 {
     main_splitter = new QSplitter;
     main_splitter->setOrientation( Qt::Vertical );
     setCentralWidget(main_splitter);
 
-    source_editor = new SourceEditor(dipydoc);
+    source_editor = new SourceEditor(dipydoc_arg);
     commentary_zone = new CommentaryEditor();
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
 
-    this->main_splitter->setSizes( parameters.editors_size_in_main_splitter );
-    
+    this->main_splitter->setSizes( parameters::editors_size_in_main_splitter );
+
     createActions();
     createMenus();
     createToolBars();
@@ -351,10 +351,12 @@ void MainWindow::audiocontrols_play(void)
   qDebug() << "MainWindow::audiocontrols_play";
   // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
   audio_player = new QMediaPlayer(this);
+
+  // can't change qint64 to PosInAudio here...
   connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
   audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
   // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
-  audio_player->setNotifyInterval(parameters.audio_notify_interval); 
+  audio_player->setNotifyInterval(parameters::audio_notify_interval);
   audio_player->setVolume(50);
   audio_player->play();
 }
@@ -369,8 +371,10 @@ void MainWindow::audiocontrols_stop(void) {
 }
 
 // [XAV]
+// "qint64" and not PosInAudio
 void MainWindow::audio_position_changed(qint64 arg_pos) {
   qDebug() << "audio_position_changed=" << arg_pos;
+  qDebug() << this->dipydoc.audio2text_contains( arg_pos ).to_str();
 }
 
 // [XAV]
@@ -387,6 +391,6 @@ void MainWindow::load_text(const QString& source_text)  {
 
     see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 */
-void MainWindow::closing(void) { 
+void MainWindow::closing(void) {
   qDebug() << "MainWindow::closing";
 }

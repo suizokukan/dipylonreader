@@ -34,8 +34,9 @@ SOMMAIRE
 0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
         construire l'interface graphique de base
 
+current_dipydoc : obj, pas un pointeur.
 0.2.0 mode 1 : karaoke
-
+      
 0.2.0 : XML 
 http://qt-project.org/doc/qt-5/qtxml-xmlstreamlint-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details

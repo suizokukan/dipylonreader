@@ -46,7 +46,7 @@ class SourceEditor : public QTextEdit
     Q_OBJECT
 
 public:
-    SourceEditor(DipyDoc*);
+    SourceEditor(DipyDoc&);
 
 protected:
     void mouseReleaseEvent(QMouseEvent*);
@@ -54,7 +54,7 @@ protected:
 
 private:
     // DipyDoc object linked to the editor :
-    DipyDoc* current_dipydoc;
+    DipyDoc& current_dipydoc;
 };
 
 #endif

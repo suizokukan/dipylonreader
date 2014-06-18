@@ -31,9 +31,9 @@
 
   SourceEditor constructor
 ______________________________________________________________________________*/
-SourceEditor::SourceEditor(DipyDoc* dipydoc) : current_dipydoc(dipydoc) {
+SourceEditor::SourceEditor(DipyDoc& dipydoc) : current_dipydoc(dipydoc) {
   this->setReadOnly(true);
-  this->setStyleSheet(parameters.source_editor_stylesheet);
+  this->setStyleSheet(parameters::source_editor_stylesheet);
 }
 
 

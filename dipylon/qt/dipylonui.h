@@ -44,16 +44,16 @@ class DipylonUI {
 
 private:
   // attributes used to initialize the QApplication constructor :
-  int cmdline_argc = 0;
-  char** cmdline_argv = nullptr;
+  int     cmdline_argc = 0;
+  char**  cmdline_argv = nullptr;
 
   // current document displayed in the source zone :
-  DipyDoc* current_dipydoc = nullptr;
+  DipyDoc current_dipydoc = DipyDoc();
 
 public:
-      DipylonUI(int argc, char **argv);
-      ~DipylonUI(void);
-  int go(void);
+          DipylonUI(int argc, char **argv);
+          ~DipylonUI(void);
+  int     go(void);
 };
 
 #endif

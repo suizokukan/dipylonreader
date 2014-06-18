@@ -64,13 +64,16 @@ public:
   int           internal_state(void) const;
   bool          well_initialized(void) const;
 
+  // public access to audio2text.contains() :
+  PosInTextRanges audio2text_contains(PosInAudio) const;
+
   // constants used to define the internal_state attribute :
-  const int     INTERNALSTATE_OK = 0;
-  const int     INTERNALSTATE_UNKNOWNPATH = 1;
-  const int     INTERNALSTATE_PATHISAFILE = 2;
-  const int     INTERNALSTATE_MISSINGTEXT = 3;
+  static const int     INTERNALSTATE_OK = 0;
+  static const int     INTERNALSTATE_UNKNOWNPATH = 1;
+  static const int     INTERNALSTATE_PATHISAFILE = 2;
+  static const int     INTERNALSTATE_MISSINGTEXT = 3;
   // name of the files in a dipydoc directory :
-  const QString TEXTFILE_NAME = "text";
+  constexpr static const char*   TEXTFILE_NAME = "text";
 };
 
 inline DipyDoc::DipyDoc(void) {
@@ -86,6 +89,10 @@ inline int DipyDoc::internal_state(void) const {
 
 inline bool DipyDoc::well_initialized(void) const {
   return this->_well_initialized;
+}
+
+inline PosInTextRanges DipyDoc::audio2text_contains(PosInAudio pos) const {
+  return this->audio2text.contains(pos);
 }
 
 #endif
