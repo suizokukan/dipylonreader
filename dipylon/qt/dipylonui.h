@@ -36,6 +36,15 @@
 #include <QString>
 #include <QTranslator>
 
+/*
+  reading modes
+*/
+typedef unsigned int ReadingMode;
+enum ReadingModes : ReadingMode {
+  undefined = 0,
+  karaoke = 1,
+};
+
 /*______________________________________________________________________________
 
   DipylonUI class : a wrapper around the QApplication object.
@@ -47,6 +56,8 @@ private:
   int     cmdline_argc = 0;
   char**  cmdline_argv = nullptr;
 
+  ReadingMode _reading_mode = ReadingModes::undefined;
+
   // current document displayed in the source zone :
   DipyDoc current_dipydoc = DipyDoc();
 
@@ -54,6 +65,12 @@ public:
           DipylonUI(int argc, char **argv);
           ~DipylonUI(void);
   int     go(void);
+  ReadingMode reading_mode(void);
+
 };
+
+inline ReadingMode DipylonUI::reading_mode(void) {
+  return this->_reading_mode;
+}
 
 #endif
