@@ -373,8 +373,13 @@ void MainWindow::audiocontrols_stop(void) {
 // [XAV]
 // "qint64" and not PosInAudio
 void MainWindow::audio_position_changed(qint64 arg_pos) {
-  qDebug() << "audio_position_changed=" << arg_pos;
-  qDebug() << this->dipydoc.audio2text_contains( arg_pos ).to_str();
+
+  // where are the characters linked to "arg_pos" ?
+  auto text_ranges = this->dipydoc.audio2text_contains( arg_pos );
+  auto& text_ranges_ref = text_ranges;
+
+  // the function modifies the appearence of such characters :
+  this->source_editor->modify_the_text_format(6123, text_ranges_ref);
 }
 
 // [XAV]

@@ -53,7 +53,7 @@ DipyDoc::DipyDoc(QString path) {
   this->translation[ { {633, 649}, } ] = \
                 "Ton arc peut bien transpercer toutes tes cibles";
 
-  // $$$ fake initialization of the karaoke data :
+  // $$$ fake initialization of the karaoke data (this->text2audio & this->audio2text)
   this->text2audio = {
         { {{ {8, 26}, },},  {0, 2399} },
         { {{ {29, 51}, },},  {3000, 5147} },
@@ -62,6 +62,8 @@ DipyDoc::DipyDoc(QString path) {
         { {{ {113, 130}, },},  {10668, 13182} },
         { {{ {133, 156}, },},  {13183, 16061} },
       };
+  PosInText2PosInAudio& text2audio_ref = this->text2audio;
+  this->audio2text = PosInAudio2PosInText( text2audio_ref );
 }
 
 /*______________________________________________________________________________

@@ -33,6 +33,8 @@
 #include "pos/posintext/posintext.h"
 
 #include <QTextEdit>
+#include <QTextCharFormat>
+#include <QList>
 
 // $$$
 #include <QDebug>
@@ -47,6 +49,7 @@ class SourceEditor : public QTextEdit
 
 public:
     SourceEditor(DipyDoc&);
+    void modify_the_text_format(int, PosInTextRanges&);
 
 protected:
     void mouseReleaseEvent(QMouseEvent*);

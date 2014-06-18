@@ -73,3 +73,31 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 
     QTextEdit::mouseReleaseEvent(mouse_event);
 }
+
+void SourceEditor::modify_the_text_format(int dipylonui_mode, PosInTextRanges& positions) {
+
+ QTextCharFormat fmt;
+ fmt.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+
+ if( dipylonui_mode == 6123) {
+
+   QTextCursor cur = this->textCursor();
+
+   QList<QTextEdit::ExtraSelection> selections;
+
+    for(auto &x0x1 : positions ) {
+      qDebug() << "audio_position_changed=" << x0x1.first << "-" << x0x1.second;
+
+      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
+      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
+      QTextEdit::ExtraSelection sel = { cur, fmt };
+      selections.append(sel);
+    }
+
+ this->setExtraSelections(selections);
+ cur.clearSelection();
+ }
+
+
+}
