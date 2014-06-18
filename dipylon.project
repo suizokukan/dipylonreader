@@ -37,7 +37,9 @@ SOMMAIRE
 0.2.0 mode 1 : karaoke
 
       parameters -> fixedparameters
+      tests
       format du mode karaoke -> constante
+      améliorer le mode karaoke : garder en mémoire les caractères modifiés.
       conserver la position des caractères surlignés
       
 0.2.0 : XML 
