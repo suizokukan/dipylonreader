@@ -76,10 +76,8 @@ int DipylonUI::go(void) {
   // $$$ fake initialization :
   this->current_dipydoc = DipyDoc("../texts/Ovid_M_I_452_465/");
 
-  DipyDoc& current_dipydoc_ref = this->current_dipydoc;
-
   // main window creation :
-  MainWindow mainWin(current_dipydoc_ref);
+  MainWindow mainWin(*this);
   mainWin.show();
 
   // $$$ fake initialization :

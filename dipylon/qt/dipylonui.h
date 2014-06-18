@@ -51,20 +51,22 @@ enum ReadingModes : ReadingMode {
 ________________________________________________________________________________*/
 class DipylonUI {
 
+friend class MainWindow;
+
 private:
   // attributes used to initialize the QApplication constructor :
-  int     cmdline_argc = 0;
-  char**  cmdline_argv = nullptr;
+  int         cmdline_argc = 0;
+  char**      cmdline_argv = nullptr;
 
   ReadingMode _reading_mode = ReadingModes::undefined;
 
   // current document displayed in the source zone :
-  DipyDoc current_dipydoc = DipyDoc();
+  DipyDoc     current_dipydoc = DipyDoc();
 
 public:
-          DipylonUI(int argc, char **argv);
-          ~DipylonUI(void);
-  int     go(void);
+              DipylonUI(int argc, char **argv);
+              ~DipylonUI(void);
+  int         go(void);
   ReadingMode reading_mode(void);
 
 };

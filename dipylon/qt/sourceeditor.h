@@ -30,6 +30,7 @@
 
 #include "parameters.h"
 #include "dipydoc/dipydoc.h"
+#include "qt/dipylonui.h"
 #include "pos/posintext/posintext.h"
 
 #include <QTextEdit>
@@ -38,6 +39,8 @@
 
 // $$$
 #include <QDebug>
+
+class DipylonUI;
 
 /*______________________________________________________________________________
 
@@ -48,7 +51,7 @@ class SourceEditor : public QTextEdit
     Q_OBJECT
 
 public:
-    SourceEditor(DipyDoc&);
+    SourceEditor(DipylonUI&);
     void modify_the_text_format(int, PosInTextRanges&);
 
 protected:
@@ -56,8 +59,8 @@ protected:
     void mousePressEvent(QMouseEvent*);
 
 private:
-    // DipyDoc object linked to the editor :
-    DipyDoc& current_dipydoc;
+    // DipylonUI object linked to the editor :
+    DipylonUI& current_dipylonui;
 };
 
 #endif

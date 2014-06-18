@@ -28,10 +28,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+class SourceEditor;
+
 #include "parameters.h"
 #include "qt/sourceeditor.h"
 #include "qt/commentaryeditor.h"
 #include "dipydoc/dipydoc.h"
+#include "qt/dipylonui.h"
 
 #include <QMainWindow>
 #include <QMediaPlayer> // [XAV]audio
@@ -41,13 +44,14 @@
 class QAction;
 class QMenu;
 class QSplitter;
+class DipylonUI;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(DipyDoc&);
+    MainWindow(DipylonUI&);
     void open(QString); // [XAV]
 
     void load_text(const QString& source_text); // XAV
@@ -70,7 +74,7 @@ private slots:
     void closing(void);	// XAV
 
 private:
-    const DipyDoc& dipydoc;
+    DipylonUI& current_dipylonui;
 
     void createActions();
     void createMenus();

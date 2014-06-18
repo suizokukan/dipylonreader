@@ -35,7 +35,8 @@ SOMMAIRE
         construire l'interface graphique de base
 
 0.2.0 mode 1 : karaoke
-      6123 -> constante
+
+      _ref > non, directement
       format du mode karaoke -> constante
       conserver la position des caractères surlignés
       

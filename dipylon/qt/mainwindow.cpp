@@ -27,13 +27,13 @@
 
 #include "qt/mainwindow.h"
 
-MainWindow::MainWindow(DipyDoc& dipydoc_arg) : dipydoc(dipydoc_arg)
+MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
 {
-    main_splitter = new QSplitter;
+    main_splitter = new QSplitter(this);
     main_splitter->setOrientation( Qt::Vertical );
     setCentralWidget(main_splitter);
 
-    source_editor = new SourceEditor(dipydoc_arg);
+    source_editor = new SourceEditor(this->current_dipylonui);
     commentary_zone = new CommentaryEditor();
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_zone);
@@ -375,7 +375,7 @@ void MainWindow::audiocontrols_stop(void) {
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
   // where are the characters linked to "arg_pos" ?
-  auto text_ranges = this->dipydoc.audio2text_contains( arg_pos );
+  auto text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
   auto& text_ranges_ref = text_ranges;
 
   // the function modifies the appearence of such characters :

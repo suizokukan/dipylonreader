@@ -31,11 +31,10 @@
 
   SourceEditor constructor
 ______________________________________________________________________________*/
-SourceEditor::SourceEditor(DipyDoc& dipydoc) : current_dipydoc(dipydoc) {
+SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
   this->setStyleSheet(parameters::source_editor_stylesheet);
 }
-
 
 /*______________________________________________________________________________
 
@@ -74,6 +73,10 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
     QTextEdit::mouseReleaseEvent(mouse_event);
 }
 
+/*______________________________________________________________________________
+
+        SourceEditor::modify_the_text_format
+_____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(int dipylonui_mode, PosInTextRanges& positions) {
 
  QTextCharFormat fmt;
