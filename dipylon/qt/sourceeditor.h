@@ -51,8 +51,9 @@ class SourceEditor : public QTextEdit
     Q_OBJECT
 
 public:
-    SourceEditor(DipylonUI&);
+         SourceEditor(DipylonUI&);
     void modify_the_text_format(int, PosInTextRanges&);
+    void set_the_text_format(void);
 
 protected:
     void mouseReleaseEvent(QMouseEvent*);
@@ -61,6 +62,8 @@ protected:
 private:
     // DipylonUI object linked to the editor :
     DipylonUI& current_dipylonui;
+
+    QTextCharFormat format_text_karaoke = QTextCharFormat();
 };
 
 #endif

@@ -34,6 +34,18 @@ ______________________________________________________________________________*/
 SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
   this->setStyleSheet(parameters::source_editor_stylesheet);
+
+  this->set_the_text_format();
+}
+
+/*______________________________________________________________________________
+
+  SourceEditor::set_the_text_format
+______________________________________________________________________________*/
+void SourceEditor::set_the_text_format(void) {
+
+  // karaoke style format :
+  this->format_text_karaoke.setUnderlineStyle(QTextCharFormat::SingleUnderline);
 }
 
 /*______________________________________________________________________________
@@ -79,9 +91,6 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(int dipylonui_mode, PosInTextRanges& positions) {
 
- QTextCharFormat fmt;
- fmt.setUnderlineStyle(QTextCharFormat::SingleUnderline);
-
  if( dipylonui_mode == 6123) {
 
    QTextCursor cur = this->textCursor();
@@ -94,7 +103,7 @@ void SourceEditor::modify_the_text_format(int dipylonui_mode, PosInTextRanges& p
       cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
-      QTextEdit::ExtraSelection sel = { cur, fmt };
+      QTextEdit::ExtraSelection sel = { cur, this->format_text_karaoke };
       selections.append(sel);
     }
 
