@@ -131,11 +131,15 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
     selections.clear();
 
     for(auto &x0x1 : positions ) {
-      qDebug() << "SourceEditor::modify_the_text_format=" << x0x1.first << "-" << x0x1.second;
+      qDebug() << "SourceEditor::modify_the_text_format=" << static_cast<int>(x0x1.first) << "-" << static_cast<int>(x0x1.second);
 
       cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
-      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
-      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
+      cur.movePosition(QTextCursor::NextCharacter,
+                       QTextCursor::MoveAnchor,
+                       static_cast<int>(x0x1.first));
+      cur.movePosition(QTextCursor::NextCharacter,
+                       QTextCursor::KeepAnchor,
+                       static_cast<int>(x0x1.second - x0x1.first));
       QTextEdit::ExtraSelection sel = { cur, this->format_text_karaoke };
       selections.append(sel);
     }
