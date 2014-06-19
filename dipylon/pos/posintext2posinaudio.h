@@ -92,14 +92,16 @@ class PosInText2PosInAudio {
   bool                  well_initialized(void) const;
 
   // constants used to define the internal_state attribute :
-  static const int      INTERNALSTATE_OK = 0;
-  static const int      INTERNALSTATE_BADPOSINTEXTRANGES = 1;
-  static const int      INTERNALSTATE_BADPOSINAUDIOX0X1 = 2;
+  enum INTERNALSTATE : int {
+    OK = 0,
+    BADPOSINTEXTRANGES = 1,
+    BADPOSINAUDIOX0X1 = 2,
+  };
 };
 
 inline PosInText2PosInAudio::PosInText2PosInAudio( void ) {
   this->_well_initialized = true;
-  this->_internal_state = INTERNALSTATE_OK;
+  this->_internal_state = this->INTERNALSTATE::OK;
 }
 
 inline PosInText2PosInAudio::PosInText2PosInAudio( const PosInText2PosInAudio& other )  : \
@@ -111,7 +113,7 @@ inline PosInText2PosInAudio::PosInText2PosInAudio( const PosInText2PosInAudio& o
 inline PosInText2PosInAudio::PosInText2PosInAudio( std::initializer_list< PosInTextAndAudio > values)
 {
   this->_well_initialized = true;
-  this->_internal_state = INTERNALSTATE_OK;
+  this->_internal_state = this->INTERNALSTATE::OK;
 
   // i : iterator over this->values :
   for(auto &i : values) {

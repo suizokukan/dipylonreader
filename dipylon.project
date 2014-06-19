@@ -13,6 +13,7 @@ SOMMAIRE
     [2.1] range-based for loop
     [2.2] nullptr
     [2.3] tuple type
+    [2.4] enum
 
 [3] particularités du c++11
     [3.0] doc
@@ -36,7 +37,7 @@ SOMMAIRE
 
 0.2.0 mode 1 : karaoke
 
-      parameters -> fixedparameters
+      remplacer les const par des enum
       tests
       format du mode karaoke -> constante
       améliorer le mode karaoke : garder en mémoire les caractères modifiés.
@@ -163,6 +164,24 @@ test_tuple proof (18, 6.5, lengthy, "Ciao!");
  
 lengthy = std::get<0>(proof);  // Assign to 'lengthy' the value 18.
 std::get<3>(proof) = " Beautiful!";  // Modify the tuple’s fourth element.
+
+################################################################################
+[2.4] enum
+################################################################################
+
+class FOO {
+
+  enum INTERNALSTATE : int {
+    OK = 0,
+    NOMAINSEP = 1,
+    SECONDSEP = 2,
+    X0X1 = 3,
+    EMPTY = 4,
+    OVERLAPPING = 5,
+  };
+};
+
+FOO::INTERNALSTATE::OK
 
 ################################################################################
 [3] particularités du c++11

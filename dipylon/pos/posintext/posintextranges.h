@@ -91,29 +91,31 @@ class PosInTextRanges {
   bool               well_initialized(void) const;
 
   // constants used to define the internal_state attribute :
-  static const int   INTERNALSTATE_OK = 0;
-  static const int   INTERNALSTATE_NOMAINSEP = 1;
-  static const int   INTERNALSTATE_SECONDSEP = 2;
-  static const int   INTERNALSTATE_X0X1 = 3;
-  static const int   INTERNALSTATE_EMPTY = 4;
-  static const int   INTERNALSTATE_OVERLAPPING = 5;
+  enum INTERNALSTATE : int {
+    OK = 0,
+    NOMAINSEP = 1,
+    SECONDSEP = 2,
+    X0X1 = 3,
+    EMPTY = 4,
+    OVERLAPPING = 5,
+  };
 
  private:
 
   // for more details, see the POSINTEXTRANGES_STR format :
-  const QString    MAIN_SEPARATOR = "+";
-  const QString    SECONDARY_SEPARATOR = "-";
+  constexpr static const char* MAIN_SEPARATOR = "+";
+  constexpr static const char* SECONDARY_SEPARATOR = "-";
 
-  VPairOfPosInText vec;
-  int              _internal_state;
-  bool             _well_initialized;
+  VPairOfPosInText   vec;
+  int                _internal_state;
+  bool               _well_initialized;
 
-  void             checks(void);
+  void               checks(void);
 };
 
 inline PosInTextRanges::PosInTextRanges(void) : \
                   vec(VPairOfPosInText()), \
-                  _internal_state(this->INTERNALSTATE_EMPTY), \
+                  _internal_state(this->INTERNALSTATE::EMPTY),     \
                   _well_initialized(false)
 {}
 
@@ -126,7 +128,7 @@ inline PosInTextRanges::PosInTextRanges( const PosInTextRanges& other )  : \
 inline PosInTextRanges::PosInTextRanges(std::initializer_list<std::pair<PosInText, PosInText> > values) : \
 vec(values) {
 
-  this->_internal_state = this->INTERNALSTATE_OK;
+  this->_internal_state = this->INTERNALSTATE::OK;
 
   // error : if "values" is empty, the initialisation can't be correct :
   this->_well_initialized = (values.size() > 0);
@@ -134,7 +136,7 @@ vec(values) {
   // shall we go further ?
   if( this->_well_initialized == false ) {
     // ... no.
-    this->_internal_state = this->INTERNALSTATE_EMPTY;
+    this->_internal_state = this->INTERNALSTATE::EMPTY;
     return;
   }
 
@@ -145,7 +147,7 @@ vec(values) {
 inline PosInTextRanges::PosInTextRanges(std::vector< std::pair<PosInText, PosInText> > values) : \
 vec(values) {
 
-  this->_internal_state = this->INTERNALSTATE_OK;
+  this->_internal_state = this->INTERNALSTATE::OK;
 
   // error : if values is empty, the initialisation can't be correct :
   this->_well_initialized = (values.size() > 0);
@@ -153,7 +155,7 @@ vec(values) {
   // shall we go further ?
   if( this->_well_initialized == false ) {
     // ... no.
-    this->_internal_state = this->INTERNALSTATE_EMPTY;
+    this->_internal_state = this->INTERNALSTATE::EMPTY;
     return;
   }
 

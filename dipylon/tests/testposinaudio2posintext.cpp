@@ -53,7 +53,7 @@ void TestPosInAudio2PosInText::test0(void) {
    PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio);
 
    QCOMPARE( audio2text.well_initialized() , true );
-   QCOMPARE( audio2text.internal_state() , text2audio.INTERNALSTATE_OK );
+   QCOMPARE( audio2text.internal_state() , static_cast<int>(PosInText2PosInAudio::INTERNALSTATE::OK) );
    QCOMPARE( audio2text.size() == 3, true );
 }
 

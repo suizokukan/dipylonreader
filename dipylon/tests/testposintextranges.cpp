@@ -49,7 +49,7 @@ void TestPosInTextRanges::test0(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , true );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OK) );
   QCOMPARE( g.size() == 2 , true );
   QCOMPARE( g.to_str(), str );
 }
@@ -63,7 +63,7 @@ void TestPosInTextRanges::test1(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() ,true );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OK) );
   QCOMPARE( g.size() == 4 , true );
   QCOMPARE( g.to_str(), str );
 
@@ -86,7 +86,7 @@ void TestPosInTextRanges::test2(void)
   QCOMPARE( g.to_str(), QString("94-95+97-98+101-105") );
 
   QCOMPARE( g.well_initialized() , true );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OK) );
   QCOMPARE( g.size() == 3 , true );
 
   QCOMPARE( g.contains(0) , false );
@@ -106,7 +106,7 @@ void TestPosInTextRanges::test3(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_EMPTY );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTY) );
 }
 
 /*
@@ -118,7 +118,7 @@ void TestPosInTextRanges::test4a(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::X0X1) );
 }
 
 /*
@@ -130,7 +130,7 @@ void TestPosInTextRanges::test4b(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_SECONDSEP );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::SECONDSEP) );
 }
 
 /*
@@ -142,7 +142,7 @@ void TestPosInTextRanges::test4c(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::X0X1) );
 }
 
 /*
@@ -154,7 +154,7 @@ void TestPosInTextRanges::test4d(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::X0X1) );
 }
 
 /*
@@ -166,7 +166,7 @@ void TestPosInTextRanges::test5a(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OVERLAPPING) );
 }
 
 /*
@@ -178,7 +178,7 @@ void TestPosInTextRanges::test5b(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OVERLAPPING) );
 }
 
 /*
@@ -214,7 +214,7 @@ void TestPosInTextRanges::test7a(void)
 {
   PosInTextRanges g( { {1,2}, {4,5}, {10,11}, {99,101} } );
   QCOMPARE( g.well_initialized() , true );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OK );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OK) );
   QCOMPARE( g.size() == 4 , true );
 }
 
@@ -225,7 +225,7 @@ void TestPosInTextRanges::test7b(void)
 {
   PosInTextRanges g( {} );
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_EMPTY );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTY) );
 }
 
 /*
@@ -235,7 +235,7 @@ void TestPosInTextRanges::test7c(void)
 {
   PosInTextRanges g( { {10,20}, {15,25} } );
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_OVERLAPPING );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OVERLAPPING) );
 }
 
 /*
@@ -245,7 +245,7 @@ void TestPosInTextRanges::test7d(void)
 {
   PosInTextRanges g( { {20,10}, {150,250} } );
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , g.INTERNALSTATE_X0X1 );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::X0X1) );
 }
 
 /*

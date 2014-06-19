@@ -39,12 +39,12 @@ ______________________________________________________________________________*/
 PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
   this->vec = VPairOfPosInText();
   this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE_OK;
-  
+  this->_internal_state = PosInTextRanges::INTERNALSTATE::OK;
+
   // error : if src_qstring is empty, the initialisation can't be correct :
   if( src_qstring.size() == 0 ) {
     this->_well_initialized = false;
-    this->_internal_state = this->INTERNALSTATE_EMPTY;
+    this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTY;
     return;
   }
 
@@ -53,7 +53,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
   if( splitted_strings.length() == 0 ) {
     // error : ill-formed src_qstring (no MAIN_SEPARATOR)
     this->_well_initialized = false;
-    this->_internal_state = this->INTERNALSTATE_NOMAINSEP;
+    this->_internal_state = PosInTextRanges::INTERNALSTATE::NOMAINSEP;
     return;
   }
 
@@ -63,7 +63,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
     if( x0x1.length() != 2 ) {
        // error : ill-formed src_qstring :
        this->_well_initialized = false;
-       this->_internal_state = this->INTERNALSTATE_SECONDSEP;
+       this->_internal_state = PosInTextRanges::INTERNALSTATE::SECONDSEP;
        break;
     }
     else {
@@ -77,7 +77,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
   // see POSINTEXTRANGES_STR format : at least one gap must be defined.
   if( this->_well_initialized == true && this->vec.size() == 0 ) {
       this->_well_initialized = false;
-      this->_internal_state = this->INTERNALSTATE_EMPTY;
+      this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTY;
       return;
   }
 
@@ -91,18 +91,18 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
                               _internal_state if something's wrong.
 
         tests :
-            o if x0 >= x1 -> error, INTERNALSTATE_X0X1
-            o if one range overlaps another one, error -> INTERNALSTATE_OVERLAPPING
+            o if x0 >= x1 -> error, INTERNALSTATE::X0X1
+            o if one range overlaps another one, error -> INTERNALSTATE::OVERLAPPING
 ______________________________________________________________________________*/
 void PosInTextRanges::checks(void) {
-  /* 
+  /*
         X0X1 test :
   */
   // i is a std::vector < std::pair<PosInText, PosInText> >
   for( auto &i : vec ) {
      if (i.first >= i.second) {
        this->_well_initialized = false;
-       this->_internal_state = this->INTERNALSTATE_X0X1;
+       this->_internal_state = PosInTextRanges::INTERNALSTATE::X0X1;
        return;
      }
   }
@@ -117,7 +117,7 @@ void PosInTextRanges::checks(void) {
         if( ((i.first < j.first) && (j.first < i.second)) ||
             ((i.first < j.second) && (j.second < i.second)) ) {
           this->_well_initialized = false;
-          this->_internal_state = this->INTERNALSTATE_OVERLAPPING;
+          this->_internal_state = PosInTextRanges::INTERNALSTATE::OVERLAPPING;
           return;
         }
       }
@@ -127,7 +127,7 @@ void PosInTextRanges::checks(void) {
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::contains() : return either true if (PosInText)x0 is inside 
+        PosInTextRanges::contains() : return either true if (PosInText)x0 is inside
                                 one gap of the object, either false.
 ______________________________________________________________________________*/
 bool PosInTextRanges::contains(PosInText x0) const
@@ -163,7 +163,7 @@ bool PosInTextRanges::contains(PosInText x0, PosInText x1) const
         ) {
       res = true;
       break;
-    }   
+    }
   }
 
   return res;
@@ -198,9 +198,9 @@ QString PosInTextRanges::to_str(void) const {
 }
 
 /*##############################################################################
-  
+
         PosInTextRangesHasher
-  
+
  ##############################################################################*/
 
 /*______________________________________________________________________________

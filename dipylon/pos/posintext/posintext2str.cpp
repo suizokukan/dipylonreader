@@ -35,7 +35,7 @@
         tests:
 
             o are the PosInTextRanges objects well initialized ?
-                if not, INTERNALSTATE_BADPOSINTEXTRANGES
+                if not, INTERNALSTATE::BADPOSINTEXTRANGES
 
 ______________________________________________________________________________*/
 void PosInText2Str::checks(void) {
@@ -48,7 +48,7 @@ void PosInText2Str::checks(void) {
     // i.irst is a PosInTextRanges object.
     if( i.first._well_initialized == false ) {
       this->_well_initialized = false;
-      this->_internal_state = INTERNALSTATE_BADPOSINTEXTRANGES;
+      this->_internal_state = PosInText2Str::INTERNALSTATE::BADPOSINTEXTRANGES;
       return;
     }
   }

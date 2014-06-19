@@ -52,7 +52,7 @@ void TestPosInText2Str::test0(void)
   };
 
   QCOMPARE( posintext2str.well_initialized() , true );
-  QCOMPARE( posintext2str.internal_state() , posintext2str.INTERNALSTATE_OK );
+  QCOMPARE( posintext2str.internal_state() == PosInText2Str::INTERNALSTATE::OK, true );
   QCOMPARE( posintext2str.size() == 3 , true );
   QCOMPARE( (posintext2str[{{ {59,61}, {62,63} }}]) , QString("example3") );
 
@@ -73,7 +73,7 @@ void TestPosInText2Str::test1(void)
   };
 
   QCOMPARE( posintext2str.well_initialized() , false );
-  QCOMPARE( posintext2str.internal_state() , posintext2str.INTERNALSTATE_BADPOSINTEXTRANGES );
+  QCOMPARE( posintext2str.internal_state() , static_cast<int>(PosInText2Str::INTERNALSTATE::BADPOSINTEXTRANGES) );
 }
 
 /*
@@ -132,4 +132,5 @@ void TestPosInText2Str::test2b(void)
   res.sort();
   QCOMPARE( res.to_str(),
             QString("1-2+3-4/5-6+7-8/10-11+12-23/80-81+83-89/90-91+93-99") );
+
 }

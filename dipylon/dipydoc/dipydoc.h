@@ -68,17 +68,20 @@ public:
   PosInTextRanges audio2text_contains(PosInAudio) const;
 
   // constants used to define the internal_state attribute :
-  static const int     INTERNALSTATE_OK = 0;
-  static const int     INTERNALSTATE_UNKNOWNPATH = 1;
-  static const int     INTERNALSTATE_PATHISAFILE = 2;
-  static const int     INTERNALSTATE_MISSINGTEXT = 3;
+  enum INTERNALSTATE : int {
+    OK = 0,
+    UNKNOWNPATH = 1,
+    PATHISAFILE = 2,
+    MISSINGTEXT = 3,
+  };
+
   // name of the files in a dipydoc directory :
   constexpr static const char*   TEXTFILE_NAME = "text";
 };
 
 inline DipyDoc::DipyDoc(void) {
   this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE_OK;
+  this->_internal_state = this->INTERNALSTATE::OK;
   this->source_text = QString("");
   this->translation = PosInText2Str();
 }

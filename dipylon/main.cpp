@@ -45,6 +45,8 @@ int main(int argc, char **argv)
 {
     Q_INIT_RESOURCE(dipylon);
 
+    qDebug() << static_cast<int>(PosInTextRanges::INTERNALSTATE::OK);
+
     DipylonUI myapp(argc, argv);
 
     return myapp.go();

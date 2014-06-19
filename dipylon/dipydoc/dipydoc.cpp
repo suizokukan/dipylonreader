@@ -30,7 +30,7 @@
 DipyDoc::DipyDoc(QString path) {
 
   this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE_OK;
+  this->_internal_state = DipyDoc::INTERNALSTATE::OK;
   this->source_text = QString("");
 
   // does the path leads to the expected files ?
@@ -84,14 +84,14 @@ void DipyDoc::check_path(QString path)
   QFileInfo path_info = QFileInfo(path);
   if( path_info.exists() == false ) {
     this->_well_initialized = false;
-    this->_internal_state = this->INTERNALSTATE_UNKNOWNPATH;
+    this->_internal_state = DipyDoc::INTERNALSTATE::UNKNOWNPATH;
     return;
   }
 
   // is "path" a directory ?
   if( path_info.isFile() == true ) {
     this->_well_initialized = false;
-    this->_internal_state = this->INTERNALSTATE_PATHISAFILE;
+    this->_internal_state = DipyDoc::INTERNALSTATE::PATHISAFILE;
     return;
   }
 
@@ -99,7 +99,7 @@ void DipyDoc::check_path(QString path)
   QFileInfo text_info = QFileInfo(path + "/" + this->TEXTFILE_NAME);
   if( text_info.exists() == false ) {
     this->_well_initialized = false;
-    this->_internal_state = this->INTERNALSTATE_MISSINGTEXT;
+    this->_internal_state = DipyDoc::INTERNALSTATE::MISSINGTEXT;
     return;
   }
 

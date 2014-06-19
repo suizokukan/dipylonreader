@@ -85,13 +85,15 @@ class PosInText2Str {
   bool                  well_initialized(void) const;
 
   // constants used to define the internal_state attribute :
-  static const int INTERNALSTATE_OK = 0;
-  static const int INTERNALSTATE_BADPOSINTEXTRANGES = 1;
+  enum INTERNALSTATE : int {
+    OK = 0,
+    BADPOSINTEXTRANGES = 1,
+  };
 };
 
 inline PosInText2Str::PosInText2Str( void ) {
   this->_well_initialized = true;
-  this->_internal_state = INTERNALSTATE_OK;
+  this->_internal_state = this->INTERNALSTATE::OK;
 }
 
 inline PosInText2Str::PosInText2Str( const PosInText2Str& other )  : \
@@ -103,7 +105,7 @@ inline PosInText2Str::PosInText2Str( const PosInText2Str& other )  : \
 inline PosInText2Str::PosInText2Str( std::initializer_list< IntegersAndAString > values)
 {
   this->_well_initialized = true;
-  this->_internal_state = INTERNALSTATE_OK;
+  this->_internal_state = this->INTERNALSTATE::OK;
 
   // i : iterator over this->values :
   for(auto &i : values) {
