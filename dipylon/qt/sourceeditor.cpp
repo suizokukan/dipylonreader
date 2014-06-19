@@ -35,7 +35,7 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
   this->setReadOnly(true);
 
   this->set_the_appearance();
-  this->set_the_text_format();
+  this->set_the_text_formats();
 }
 
 /*______________________________________________________________________________
@@ -53,15 +53,16 @@ void SourceEditor::set_the_appearance(void) {
 
 /*______________________________________________________________________________
 
-  SourceEditor::set_the_text_format
+  SourceEditor::set_the_text_formats()
+
+  Initialize this->format_text_*
 ______________________________________________________________________________*/
-void SourceEditor::set_the_text_format(void) {
+void SourceEditor::set_the_text_formats(void) {
 
   // karaoke style format :
-  //this->format_text_karaoke.setUnderlineStyle(QTextCharFormat::SingleUnderline);
   auto brush = QBrush(Qt::red);
   this->format_text_karaoke.setFontWeight(QFont::Bold);
-  this->format_text_karaoke.setForeground(brush);
+  this->format_text_karaoke.setForeground(karaoke_brush);
 }
 
 /*______________________________________________________________________________

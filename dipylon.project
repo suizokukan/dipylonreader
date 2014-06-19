@@ -37,9 +37,6 @@ SOMMAIRE
 
 0.2.0 mode 1 : karaoke
 
-      remplacer les const par des enum
-      tests
-      format du mode karaoke -> constante
       améliorer le mode karaoke : garder en mémoire les caractères modifiés.
       conserver la position des caractères surlignés
       
