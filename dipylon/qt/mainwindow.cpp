@@ -381,10 +381,20 @@ void MainWindow::audiocontrols_stop(void) {
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
   // where are the characters linked to "arg_pos" ?
-  auto text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
+  PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
+  std::size_t text_ranges_hash = text_ranges.get_hash();
 
-  // the function modifies the appearence of such characters :
-  this->source_editor->modify_the_text_format(text_ranges);
+  qDebug() << text_ranges.to_str();
+
+  if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
+
+    // the function modifies the appearence of such characters :
+    this->source_editor->modify_the_text_format(text_ranges);
+
+    // hash update :
+    this->source_editor->modified_chars_hash = text_ranges_hash;
+  }
+
 }
 
 // [XAV]

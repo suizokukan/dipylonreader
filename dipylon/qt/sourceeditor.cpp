@@ -59,6 +59,8 @@ void SourceEditor::set_the_appearance(void) {
 ______________________________________________________________________________*/
 void SourceEditor::set_the_text_formats(void) {
 
+  // null style format :
+
   // karaoke style format :
   auto karaoke_brush = QBrush(Qt::red);
   this->format_text_karaoke.setFontWeight(QFont::Bold);
@@ -105,6 +107,9 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 /*______________________________________________________________________________
 
         SourceEditor::modify_the_text_format
+
+        This function modify the appearence of the text BUT DOES NOT UPDATE
+        the .modified_chars_hash attribute.
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
@@ -114,8 +119,19 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
    QList<QTextEdit::ExtraSelection> selections;
 
+    for(auto &x0x1 : this->modified_chars ) {
+      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
+      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
+      QTextEdit::ExtraSelection sel = { cur, this->format_text_null };
+      selections.append(sel);
+    }
+    this->setExtraSelections(selections);
+
+    selections.clear();
+
     for(auto &x0x1 : positions ) {
-      qDebug() << "audio_position_changed=" << x0x1.first << "-" << x0x1.second;
+      qDebug() << "SourceEditor::modify_the_text_format=" << x0x1.first << "-" << x0x1.second;
 
       cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
@@ -123,10 +139,11 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
       QTextEdit::ExtraSelection sel = { cur, this->format_text_karaoke };
       selections.append(sel);
     }
+    this->setExtraSelections(selections);
 
- this->setExtraSelections(selections);
- cur.clearSelection();
+    this->modified_chars = positions;
+
+    cur.clearSelection();
  }
-
 
 }

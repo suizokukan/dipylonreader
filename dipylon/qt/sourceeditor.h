@@ -36,6 +36,7 @@
 #include <QTextEdit>
 #include <QTextCharFormat>
 #include <QList>
+#include <vector>
 
 // $$$
 #include <QDebug>
@@ -48,6 +49,8 @@ class DipylonUI;
 ______________________________________________________________________________*/
 class SourceEditor : public QTextEdit
 {
+  friend class MainWindow;
+
     Q_OBJECT
 
 public:
@@ -64,7 +67,12 @@ private:
     // DipylonUI object linked to the editor :
     DipylonUI& current_dipylonui;
 
+    QTextCharFormat format_text_null = QTextCharFormat();
     QTextCharFormat format_text_karaoke = QTextCharFormat();
+
+    PosInTextRanges modified_chars = PosInTextRanges();
+    // random value :
+    std::size_t modified_chars_hash = 0x123456789;
 };
 
 #endif

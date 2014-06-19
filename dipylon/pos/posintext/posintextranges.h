@@ -85,6 +85,7 @@ class PosInTextRanges {
   bool               contains(PosInText) const;
   bool               contains(PosInText, PosInText) const;
   VPairOfPosInTextCI end(void);
+  std::size_t        get_hash(void);
   int                internal_state(void) const;
   size_t             size(void) const;
   QString            to_str(void) const;
@@ -175,8 +176,6 @@ inline PosInTextRanges& PosInTextRanges::operator=(const PosInTextRanges& other)
   return *this;
 }
 
-inline size_t PosInTextRanges::size(void) const { return this->vec.size(); }
-
 inline bool PosInTextRanges::operator==(const PosInTextRanges& other) const {
   return (this->_well_initialized == other._well_initialized) && (this->vec == other.vec);
 }
@@ -193,9 +192,20 @@ inline VPairOfPosInTextCI PosInTextRanges::end(void) {
   return this->vec.end();
 }
 
+inline std::size_t PosInTextRanges::get_hash(void) {
+  std::size_t hash = 0;
+  for(auto &i : vec ) {
+    hash_combine(hash, i.first);
+    hash_combine(hash, i.second);
+  }
+  return hash;
+}
+
 inline int PosInTextRanges::internal_state(void) const {
   return this->_internal_state;
 }
+
+inline size_t PosInTextRanges::size(void) const { return this->vec.size(); }
 
 inline bool PosInTextRanges::well_initialized(void) const {
   return this->_well_initialized;

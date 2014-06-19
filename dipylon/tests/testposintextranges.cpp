@@ -279,3 +279,39 @@ void TestPosInTextRanges::test8b(void)
   QCOMPARE( g.contains(126, 131) , false );
   QCOMPARE( g.contains(104, 106) , true );
 }
+
+/*
+  test of get_hash() : same objects, same hash
+*/
+void TestPosInTextRanges::test9a(void)
+{
+  PosInTextRanges g1a(QString("94-98+99-100+101-105+123-125"));
+  PosInTextRanges g1b(QString("94-98+99-100+101-105+123-125"));
+  QCOMPARE( g1a.get_hash() , g1b.get_hash() );
+
+  PosInTextRanges g2a(QString(""));
+  PosInTextRanges g2b(QString(""));
+  QCOMPARE( g2a.get_hash() , g2b.get_hash() );
+
+  PosInTextRanges g3a(QString("1-2"));
+  PosInTextRanges g3b(QString("1-2"));
+  QCOMPARE( g3a.get_hash() , g3b.get_hash() );
+}
+
+/*
+  test of get_hash() : different objects, different hash
+*/
+void TestPosInTextRanges::test9b(void)
+{
+  PosInTextRanges g1a(QString("94-98+99-100+101-105+123-125"));
+  PosInTextRanges g1b(QString("94-98+99-100+101-104+123-125"));
+  QVERIFY( g1a.get_hash() != g1b.get_hash() );
+
+  PosInTextRanges g2a(QString(""));
+  PosInTextRanges g2b(QString("1-2"));
+  QVERIFY( g2a.get_hash() != g2b.get_hash() );
+
+  PosInTextRanges g3a(QString("1-2"));
+  PosInTextRanges g3b(QString("1-3"));
+  QVERIFY( g3a.get_hash() != g3b.get_hash() );
+}

@@ -61,6 +61,8 @@ private slots:
   void test7d(void);
   void test8a(void);
   void test8b(void);
+  void test9a(void);
+  void test9b(void);
 };
 
 #endif
