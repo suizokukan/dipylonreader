@@ -32,10 +32,12 @@
   SourceEditor constructor
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
+
   this->setReadOnly(true);
 
-  this->set_the_appearance();
   this->set_the_text_formats();
+
+  this->set_the_appearance();
 }
 
 /*______________________________________________________________________________
@@ -44,11 +46,14 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
 
-  const QString default_stylesheet = "color: white;"
-                                     "background-color: #9ABCDE;"
+  // everything but the text :
+  const QString default_stylesheet = "background-color: #9ABCDE;"
                                      "selection-color: yellow;"
                                      "selection-background-color: blue;";
   this->setStyleSheet(default_stylesheet);
+
+  // the text (default format) :
+  this->setCurrentCharFormat(this->format_text_default);
 }
 
 /*______________________________________________________________________________
@@ -60,6 +65,8 @@ ______________________________________________________________________________*/
 void SourceEditor::set_the_text_formats(void) {
 
   // null style format :
+  auto default_brush = QBrush(Qt::white);
+  this->format_text_default.setForeground(default_brush);
 
   // karaoke style format :
   auto karaoke_brush = QBrush(Qt::red);
@@ -117,19 +124,21 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
    QTextCursor cur = this->textCursor();
 
+   // first we set the ancient modified text's appearance to "default" :
    QList<QTextEdit::ExtraSelection> selections;
 
     for(auto &x0x1 : this->modified_chars ) {
       cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
-      QTextEdit::ExtraSelection sel = { cur, this->format_text_null };
+      QTextEdit::ExtraSelection sel = { cur, this->format_text_default };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
 
     selections.clear();
 
+   // ... and then we modify the new text's appearance :
     for(auto &x0x1 : positions ) {
       qDebug() << "SourceEditor::modify_the_text_format=" << static_cast<int>(x0x1.first) << "-" << static_cast<int>(x0x1.second);
 
