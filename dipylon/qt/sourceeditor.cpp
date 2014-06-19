@@ -60,7 +60,7 @@ ______________________________________________________________________________*/
 void SourceEditor::set_the_text_formats(void) {
 
   // karaoke style format :
-  auto brush = QBrush(Qt::red);
+  auto karaoke_brush = QBrush(Qt::red);
   this->format_text_karaoke.setFontWeight(QFont::Bold);
   this->format_text_karaoke.setForeground(karaoke_brush);
 }
@@ -106,9 +106,9 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 
         SourceEditor::modify_the_text_format
 _____________________________________________________________________________*/
-void SourceEditor::modify_the_text_format(int dipylonui_mode, PosInTextRanges& positions) {
+void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
- if( dipylonui_mode == 6123) {
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODES::KARAOKE) {
 
    QTextCursor cur = this->textCursor();
 

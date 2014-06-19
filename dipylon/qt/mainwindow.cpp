@@ -348,17 +348,23 @@ QString MainWindow::strippedName(const QString &fullFileName)
 // XAV
 void MainWindow::audiocontrols_play(void)
 {
-  qDebug() << "MainWindow::audiocontrols_play";
-  // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
-  audio_player = new QMediaPlayer(this);
 
-  // can't change qint64 to PosInAudio here...
-  connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
-  audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
-  // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
-  audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
-  audio_player->setVolume(50);
-  audio_player->play();
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODES::UNDEFINED ) {
+
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODES::KARAOKE;
+
+      qDebug() << "MainWindow::audiocontrols_play";
+      // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
+      audio_player = new QMediaPlayer(this);
+
+      // can't change qint64 to PosInAudio here...
+      connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
+      audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
+      // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
+      audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
+      audio_player->setVolume(50);
+      audio_player->play();
+  }
 }
 
 // XAV
@@ -378,7 +384,7 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
   auto text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
 
   // the function modifies the appearence of such characters :
-  this->source_editor->modify_the_text_format(6123, text_ranges);
+  this->source_editor->modify_the_text_format(text_ranges);
 }
 
 // [XAV]

@@ -489,10 +489,10 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_dipylon.cpp
 qrc_dipylon.cpp: dipylon.qrc \
 		ressources/images/icons/cut.png \
-		ressources/images/icons/audio_play.png \
+		ressources/images/icons/paste.png \
 		ressources/images/icons/copy.png \
 		ressources/images/icons/new.png \
-		ressources/images/icons/paste.png \
+		ressources/images/icons/audio_play.png \
 		ressources/images/icons/save.png \
 		ressources/images/icons/open.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp

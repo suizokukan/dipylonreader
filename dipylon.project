@@ -37,6 +37,7 @@ SOMMAIRE
 
 0.2.0 mode 1 : karaoke
 
+      mode de lecture > const
       améliorer le mode karaoke : garder en mémoire les caractères modifiés.
       conserver la position des caractères surlignés
       
