@@ -448,6 +448,13 @@ ________________________________________________________________________________
 void MainWindow::audiocontrols_stop(void) {
   qDebug() << "MainWindow::audiocontrols_stop";
 
+  // KARAOKE + ON PAUSE ? we set the icon from "pause" to "play".
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
+      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE ) {
+
+    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+  }
+
   this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
   this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
 

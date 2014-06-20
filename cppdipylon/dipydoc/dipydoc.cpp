@@ -104,3 +104,14 @@ void DipyDoc::check_path(QString path)
   }
 
 }
+
+
+/*______________________________________________________________________________
+
+        DipyDoc::init_from_xml
+
+        Initialize the DipyDoc data from the files stored in "path".
+
+______________________________________________________________________________*/
+void DipyDoc::init_from_xml(QString& path) {
+}

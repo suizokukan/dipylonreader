@@ -36,8 +36,10 @@ SOMMAIRE
 0.2.0 : karaoke mode
 
 0.2.1 : XML 
+bug icône
 http://qt-project.org/doc/qt-5/qtxml-xmlstreamlint-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
+http://qt-project.org/doc/qt-5/examples-xml.html
 
 ################################################################################
 [1] options de compilation

@@ -37,6 +37,7 @@
 #include <QFileInfo>
 #include <QIODevice>
 #include <QTextStream>
+#include <QXmlStreamReader>
 
 /*______________________________________________________________________________
 
@@ -57,6 +58,9 @@ private:
   PosInAudio2PosInText audio2text;
 
   void          check_path(QString path);
+  void          init_from_xml(QString& path);
+
+//QXmlStreamReader xmlreader;
 
 public:
                 DipyDoc(void);
