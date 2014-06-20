@@ -57,14 +57,12 @@ private:
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
 
-  void          check_path(QString path);
-  void          init_from_xml(QString& path);
-
-//QXmlStreamReader xmlreader;
+  void          check_path(QString&);
+  void          init_from_xml(QString&);
 
 public:
                 DipyDoc(void);
-                DipyDoc(QString);
+                DipyDoc(QString&);
   int           internal_state(void) const;
   bool          well_initialized(void) const;
 

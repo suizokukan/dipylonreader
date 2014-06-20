@@ -27,7 +27,7 @@
 
 #include "dipydoc.h"
 
-DipyDoc::DipyDoc(QString path) {
+DipyDoc::DipyDoc(QString& path) {
 
   this->_well_initialized = true;
   this->_internal_state = DipyDoc::INTERNALSTATE::OK;
@@ -77,7 +77,7 @@ DipyDoc::DipyDoc(QString path) {
         o is "path" a directory ?
         o does the file "path/text" exists ?
 ______________________________________________________________________________*/
-void DipyDoc::check_path(QString path)
+void DipyDoc::check_path(QString& path)
 {
 
   // does "path" exists ?
@@ -114,4 +114,7 @@ void DipyDoc::check_path(QString path)
 
 ______________________________________________________________________________*/
 void DipyDoc::init_from_xml(QString& path) {
+
+  QXmlStreamReader xmlreader;
+
 }

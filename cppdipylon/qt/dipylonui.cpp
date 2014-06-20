@@ -85,7 +85,8 @@ int DipylonUI::go(void) {
 
   // current DipyDoc :
   // $$$ fake initialization :
-  this->current_dipydoc = DipyDoc("../texts/Ovid_M_I_452_465/");
+  QString path = QString("../texts/Ovid_M_I_452_465/");
+  this->current_dipydoc = DipyDoc( path );
 
   // main window creation :
   MainWindow mainWin(*this);
