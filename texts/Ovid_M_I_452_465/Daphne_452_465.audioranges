@@ -28,3 +28,21 @@ quantōqu〈e〉 animālia cēdunt 66.501 - 68.951
 465     cūncta deō | 68.952 - 70.656
  tantō minor est | 70.657 - 72.830
  tua glōria nostrā. » 72.831 - 75.409
+
+  this->text2audio = {
+                { {{ {8, 26}, },},  {0, 2399} },
+                { {{ {29, 51}, },},  {3000, 5147} },
+                { {{ {60, 77}, },},  {5148, 7449} },
+                { {{ {80, 104}, },},  {7450, 10667} },
+                { {{ {113, 130}, },},  {10668, 13182} },
+                { {{ {133, 156}, },},  {13183, 16061} },
+      };
+
+</dipylon_document type="karaoke" version=10>
+
+    <format_file_type>karaoke</format_file_type>
+    <format_file_version>0.9</format_file_version>
+
+    <segment textrange="8-26" audiorange="0-2399"/>
+
+</dipylon_document>

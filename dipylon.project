@@ -32,15 +32,10 @@ SOMMAIRE
 [0] travail en cours
 ################################################################################
 
-0.1.9 : à partir de http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
-        construire l'interface graphique de base
+0.1.9 : basic UI
+0.2.0 : karaoke mode
 
-0.2.0 mode 1 : karaoke
-
-      créer les QIcon à part.
-      conserver la position des caractères surlignés
-      
-0.2.0 : XML 
+0.2.1 : XML 
 http://qt-project.org/doc/qt-5/qtxml-xmlstreamlint-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
 
