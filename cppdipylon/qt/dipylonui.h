@@ -32,6 +32,7 @@
 #include "qt/mainwindow.h"
 #include "dipydoc/dipydoc.h"
 
+#include <QMediaPlayer>
 #include <QApplication>
 #include <QString>
 #include <QTranslator>
@@ -56,6 +57,8 @@ private:
 
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
+
+  QMediaPlayer* audio_player = nullptr;
 
 public:
 

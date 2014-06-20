@@ -37,8 +37,7 @@ SOMMAIRE
 
 0.2.0 mode 1 : karaoke
 
-      fmt défaut pour texte de base aussi
-      améliorer le mode karaoke : garder en mémoire les caractères modifiés.
+      objet MediaPlayer à part.
       conserver la position des caractères surlignés
       
 0.2.0 : XML 

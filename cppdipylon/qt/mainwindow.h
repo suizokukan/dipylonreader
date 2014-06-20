@@ -36,8 +36,8 @@ class SourceEditor;
 #include "dipydoc/dipydoc.h"
 #include "qt/dipylonui.h"
 
+#include <QMediaPlayer>
 #include <QMainWindow>
-#include <QMediaPlayer> // [XAV]audio
 #include <QtWidgets>
 #include <QFile>  // [XAV]QFile
 
@@ -113,7 +113,7 @@ private:
     QAction* audiocontrols_stopAct = nullptr;     // XAV
     QToolBar* audiocontrolsToolBar = nullptr;     // XAV
 
-    QMediaPlayer* audio_player = nullptr; // XAV
+    QMediaPlayer* audio_player = nullptr;
 };
 
 #endif

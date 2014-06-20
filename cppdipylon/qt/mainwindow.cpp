@@ -50,6 +50,21 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     connect(source_editor->document(), SIGNAL(contentsChanged()),
             this, SLOT(documentWasModified()));
 
+    /*
+      audio_player initialization
+    */
+    // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
+    this->audio_player = new QMediaPlayer(this);
+
+    // can't change qint64 to PosInAudio here...
+    connect(this->audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
+    this->audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
+    // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
+    this->audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
+    this->audio_player->setVolume(50);
+
+
+
     setCurrentFile("");
     setUnifiedTitleAndToolBarOnMac(true);
 }
@@ -354,16 +369,8 @@ void MainWindow::audiocontrols_play(void)
       this->current_dipylonui.reading_mode = DipylonUI::READINGMODES::KARAOKE;
 
       qDebug() << "MainWindow::audiocontrols_play";
-      // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
-      audio_player = new QMediaPlayer(this);
 
-      // can't change qint64 to PosInAudio here...
-      connect(audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
-      audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
-      // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
-      audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
-      audio_player->setVolume(50);
-      audio_player->play();
+      this->audio_player->play();
   }
 }
 
