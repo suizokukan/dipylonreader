@@ -120,7 +120,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODES::KARAOKE) {
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
 
    QTextCursor cur = this->textCursor();
 

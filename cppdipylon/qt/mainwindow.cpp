@@ -362,14 +362,45 @@ QString MainWindow::strippedName(const QString &fullFileName)
 void MainWindow::audiocontrols_play(void)
 {
 
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODES::UNDEFINED ) {
+  switch( this->current_dipylonui.reading_mode ) {
 
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODES::KARAOKE;
+    case DipylonUI::READINGMODE_KARAOKE: {
 
-      qDebug() << "MainWindow::audiocontrols_play";
+      switch( this->current_dipylonui.reading_mode_details ) {
 
-      this->audio_player->play();
+        // KARAOKE + READING :
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+          this->audio_player->stop();
+          break;
+        }
+
+        // KARAOKE + IN PAUSE :
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+          this->audio_player->play();
+          break;
+        }
+
+        // ???
+        default : {
+          break;
+        }
+      }
+
+      break;
+    }
+
+    // UNDEFINED :
+    default: {
+        this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
+        this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+        this->audio_player->play();
+        break;
+    }
+
   }
+
 }
 
 // XAV
@@ -378,14 +409,18 @@ void MainWindow::audiocontrols_stop(void) {
 
   audio_player->stop();
 
-  this->current_dipylonui.reading_mode = DipylonUI::READINGMODES::UNDEFINED;
+  this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
+  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
 }
 
 // [XAV]
 // "qint64" and not PosInAudio
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODES::KARAOKE ) {
+  /* KARAOKE + PLAYING :
+   */
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
+      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING ) {
 
       qDebug() << "MainWindow::audio_position_changed" << arg_pos;
 
@@ -406,8 +441,16 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
       else {
         qDebug() << "...";
       }
+
+      return;
   }
 
+  /*
+    this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
+    this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE
+
+    -> nothing to do.
+  */
 }
 
 // [XAV]

@@ -32,7 +32,6 @@
 #include "qt/mainwindow.h"
 #include "dipydoc/dipydoc.h"
 
-#include <QMediaPlayer>
 #include <QApplication>
 #include <QString>
 #include <QTranslator>
@@ -41,6 +40,7 @@
   reading mode type
 */
 typedef unsigned int ReadingMode;
+typedef unsigned int ReadingModeDetails;
 
 /*______________________________________________________________________________
 
@@ -58,20 +58,27 @@ private:
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
-  QMediaPlayer* audio_player = nullptr;
 
 public:
 
-  enum READINGMODES : ReadingMode {
-      UNDEFINED = 0,
-      KARAOKE = 1,
+  enum READINGMODE : ReadingMode {
+      READINGMODE_UNDEFINED = 0,
+      READINGMODE_KARAOKE = 1,
   };
 
-  ReadingMode reading_mode = DipylonUI::READINGMODES::UNDEFINED;
+  enum READINGMODEDETAILS : ReadingModeDetails {
+      READINGMODEDETAIL_UNDEFINED = 0,
+      READINGMODEDETAIL_KARAOKE_PLAYING = 0x1000,
+      READINGMODEDETAIL_KARAOKE_ONPAUSE = 0x1001,
+  };
 
-              DipylonUI(int argc, char **argv);
-              ~DipylonUI(void);
-  int         go(void);
+
+  ReadingMode        reading_mode = DipylonUI::READINGMODE_UNDEFINED;
+  ReadingModeDetails reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
+
+                     DipylonUI(int argc, char **argv);
+                     ~DipylonUI(void);
+  int                go(void);
 };
 
 #endif

@@ -179,6 +179,19 @@ class FOO {
 };
 
 FOO::INTERNALSTATE::OK
+ou 
+FOO::OK
+
+-> chaque nom d'enum dans le même scope doit être différent; on aura donc intérêt à écrire :
+
+  enum INTERNALSTATE : int {
+    INTERNALSTATE_OK = 0,
+    INTERNALSTATE_NOMAINSEP = 1,
+    INTERNALSTATE_SECONDSEP = 2,
+    INTERNALSTATE_X0X1 = 3,
+    INTERNALSTATE_EMPTY = 4,
+    INTERNALSTATE_OVERLAPPING = 5,
+  };
 
 ################################################################################
 [3] particularités du c++11
