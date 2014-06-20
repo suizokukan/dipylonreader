@@ -64,7 +64,7 @@ void SourceEditor::set_the_appearance(void) {
 ______________________________________________________________________________*/
 void SourceEditor::set_the_text_formats(void) {
 
-  // null style format :
+  // default style format :
   auto default_brush = QBrush(Qt::white);
   this->format_text_default.setForeground(default_brush);
 
