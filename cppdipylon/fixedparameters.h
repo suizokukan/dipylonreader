@@ -51,9 +51,11 @@ static const QList<int> editors_size_in_main_splitter = {{500,100}};
 
 /*
   static constant used by QMediaPlayer object.
-  see http://qt-project.org/doc/qt-5/qmediaobject.html#notifyInterval-prop
 */
+// http://qt-project.org/doc/qt-5/qmediaobject.html#notifyInterval-prop
 static const int audio_notify_interval = 500;
+// http://qt-project.org/doc/qt-5/qmediaplayer.html#volume-prop
+static const int audio_player_volume = 50;
 
 }
 #endif

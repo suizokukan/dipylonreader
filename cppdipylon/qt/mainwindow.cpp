@@ -61,9 +61,7 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     this->audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
     // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
     this->audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
-    this->audio_player->setVolume(50);
-
-
+    this->audio_player->setVolume(fixedparameters::audio_player_volume);
 
     setCurrentFile("");
     setUnifiedTitleAndToolBarOnMac(true);
