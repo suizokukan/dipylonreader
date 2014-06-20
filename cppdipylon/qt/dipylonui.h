@@ -58,6 +58,15 @@ private:
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
+  QIcon*      icon_new = nullptr;
+  QIcon*      icon_open = nullptr;
+  QIcon*      icon_save = nullptr;
+  QIcon*      icon_cut = nullptr;
+  QIcon*      icon_copy = nullptr;
+  QIcon*      icon_paste = nullptr;
+  QIcon*      icon_audio_pause = nullptr;
+  QIcon*      icon_audio_play = nullptr;
+  QIcon*      icon_audio_stop = nullptr;
 
 public:
 

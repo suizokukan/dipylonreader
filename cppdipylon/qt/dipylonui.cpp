@@ -72,6 +72,17 @@ int DipylonUI::go(void) {
   myappTranslator.load("myapp_" + QLocale::system().name());
   app.installTranslator(&myappTranslator);
 
+  // creating the icons :
+  this->icon_new  = new QIcon(":ressources/images/icons/new.png");
+  this->icon_open = new QIcon(":ressources/images/icons/open.png");
+  this->icon_save = new QIcon(":ressources/images/icons/save.png");
+  this->icon_cut  = new QIcon(":ressources/images/icons/cut.png");
+  this->icon_copy = new QIcon(":ressources/images/icons/copy.png");
+  this->icon_paste = new QIcon(":ressources/images/icons/paste.png");
+  this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
+  this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
+  this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
+
   // current DipyDoc :
   // $$$ fake initialization :
   this->current_dipydoc = DipyDoc("../texts/Ovid_M_I_452_465/");
@@ -103,4 +114,14 @@ int DipylonUI::go(void) {
   DipylonUI destructor
 ______________________________________________________________________________*/
 DipylonUI::~DipylonUI(void) {
+
+  delete icon_new;
+  delete icon_open;
+  delete icon_save;
+  delete icon_cut;
+  delete icon_copy;
+  delete icon_paste;
+  delete icon_audio_pause;
+  delete icon_audio_play;
+  delete icon_audio_stop;
 }

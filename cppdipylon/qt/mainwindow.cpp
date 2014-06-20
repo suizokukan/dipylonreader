@@ -139,17 +139,23 @@ void MainWindow::documentWasModified()
 
 void MainWindow::createActions()
 {
-    newAct = new QAction(QIcon(":ressources/images/icons/new.png"), tr("&New"), this);
+    newAct = new QAction( *(this->current_dipylonui.icon_new),
+                          tr("&New"),
+                          this);
     newAct->setShortcuts(QKeySequence::New);
     newAct->setStatusTip(tr("Create a new file"));
     connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
 
-    openAct = new QAction(QIcon(":ressources/images/icons/open.png"), tr("&Open..."), this);
+    openAct = new QAction( *(this->current_dipylonui.icon_open),
+                           tr("&Open..."),
+                           this);
     openAct->setShortcuts(QKeySequence::Open);
     openAct->setStatusTip(tr("Open an existing file"));
     connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
 
-    saveAct = new QAction(QIcon(":ressources/images/icons/save.png"), tr("&Save"), this);
+    saveAct = new QAction( *(this->current_dipylonui.icon_save),
+                           tr("&Save"),
+                           this);
     saveAct->setShortcuts(QKeySequence::Save);
     saveAct->setStatusTip(tr("Save the document to disk"));
     connect(saveAct, SIGNAL(triggered()), this, SLOT(save()));
@@ -164,19 +170,25 @@ void MainWindow::createActions()
     exitAct->setStatusTip(tr("Exit the application"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    cutAct = new QAction(QIcon(":ressources/images/icons/cut.png"), tr("Cu&t"), this);
+    cutAct = new QAction( *(this->current_dipylonui.icon_cut),
+                          tr("Cu&t"),
+                          this);
     cutAct->setShortcuts(QKeySequence::Cut);
     cutAct->setStatusTip(tr("Cut the current selection's contents to the "
                             "clipboard"));
     connect(cutAct, SIGNAL(triggered()), source_editor, SLOT(cut()));
 
-    copyAct = new QAction(QIcon(":ressources/images/icons/copy.png"), tr("&Copy"), this);
+    copyAct = new QAction( *(this->current_dipylonui.icon_copy),
+                           tr("&Copy"),
+                           this);
     copyAct->setShortcuts(QKeySequence::Copy);
     copyAct->setStatusTip(tr("Copy the current selection's contents to the "
                              "clipboard"));
     connect(copyAct, SIGNAL(triggered()), source_editor, SLOT(copy()));
 
-    pasteAct = new QAction(QIcon(":ressources/images/icons/paste.png"), tr("&Paste"), this);
+    pasteAct = new QAction( *(this->current_dipylonui.icon_paste),
+                            tr("&Paste"),
+                            this);
     pasteAct->setShortcuts(QKeySequence::Paste);
     pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
                               "selection"));
@@ -198,13 +210,15 @@ void MainWindow::createActions()
             copyAct, SLOT(setEnabled(bool)));
 
     // XAV :
-    audiocontrols_playAct = new QAction(QIcon("ressources/images/icons/audio_play.png"), \
-                                    tr("play"), this);
+    audiocontrols_playAct = new QAction( *(this->current_dipylonui.icon_audio_play),
+                                         tr("play"),
+                                         this);
     audiocontrols_playAct->setStatusTip(tr("play..."));
     connect(audiocontrols_playAct, SIGNAL(triggered()), this, SLOT(audiocontrols_play()));
 
-    audiocontrols_stopAct = new QAction(QIcon("ressources/images/icons/audio_stop.png"), \
-                                    tr("stop"), this);
+    audiocontrols_stopAct = new QAction( *(this->current_dipylonui.icon_audio_stop),
+                                         tr("stop"),
+                                         this);
     audiocontrols_stopAct->setStatusTip(tr("stop..."));
     connect(audiocontrols_stopAct, SIGNAL(triggered()), this, SLOT(audiocontrols_stop()));
 }
@@ -385,7 +399,7 @@ void MainWindow::audiocontrols_play(void)
         // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
         case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
           this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
-          this->audiocontrols_playAct->setIcon(QIcon("ressources/images/icons/audio_pause.png"));
+          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
           this->audio_player->pause();
           break;
         }
@@ -394,7 +408,7 @@ void MainWindow::audiocontrols_play(void)
         // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
         case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
           this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-          this->audiocontrols_playAct->setIcon(QIcon("ressources/images/icons/audio_play.png"));
+          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
           this->audio_player->play();
           break;
         }
