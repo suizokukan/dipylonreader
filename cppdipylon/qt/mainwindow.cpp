@@ -434,14 +434,26 @@ void MainWindow::audiocontrols_play(void)
   }
 }
 
-// XAV
+/*______________________________________________________________________________
+
+  MainWindow::audiocontrols_stop()
+
+  Function connected to audiocontrols_stopAct::triggered()
+
+  o set the reading mode to UNDEFINED.
+  o stop the sound
+  o set the source editor's text format to "default".
+
+________________________________________________________________________________*/
 void MainWindow::audiocontrols_stop(void) {
   qDebug() << "MainWindow::audiocontrols_stop";
 
-  audio_player->stop();
-
   this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
   this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
+
+  audio_player->stop();
+
+  this->source_editor->reset_all_text_format_to_default();
 }
 
 // [XAV]

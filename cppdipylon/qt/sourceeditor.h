@@ -58,6 +58,7 @@ public:
     void modify_the_text_format(PosInTextRanges&);
     void set_the_text_formats(void);
     void set_the_appearance(void);
+    void reset_all_text_format_to_default(void);
 
 protected:
     void mouseReleaseEvent(QMouseEvent*);

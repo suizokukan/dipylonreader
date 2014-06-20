@@ -160,3 +160,24 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
  }
 
 }
+
+/*______________________________________________________________________________
+
+        SourceEditor::reset_all_text_format_to_default
+
+        This function resets the appearance of all the text.
+_____________________________________________________________________________*/
+void SourceEditor::reset_all_text_format_to_default(void) {
+
+  QTextCursor cur = this->textCursor();
+
+  QList<QTextEdit::ExtraSelection> selections;
+  this->setExtraSelections(selections);
+
+  cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+  cur.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+  QTextEdit::ExtraSelection sel = { cur, this->format_text_default };
+  selections.append(sel);
+
+  cur.clearSelection();
+}
