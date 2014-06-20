@@ -358,7 +358,20 @@ QString MainWindow::strippedName(const QString &fullFileName)
     return QFileInfo(fullFileName).fileName();
 }
 
-// XAV
+/*______________________________________________________________________________
+
+  MainWindow::audiocontrols_play()
+
+  Function connected to audiocontrols_playAct::triggered()
+
+  known cases :
+
+  o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
+  o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
+  o [1.3] KARAOKE + UNDEFINED : nothing to do.
+  o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
+
+________________________________________________________________________________*/
 void MainWindow::audiocontrols_play(void)
 {
 
@@ -368,21 +381,25 @@ void MainWindow::audiocontrols_play(void)
 
       switch( this->current_dipylonui.reading_mode_details ) {
 
-        // KARAOKE + READING :
+        //......................................................................
+        // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
         case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
           this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
-          this->audio_player->stop();
+          this->audiocontrols_playAct->setIcon(QIcon("ressources/images/icons/audio_pause.png"));
+          this->audio_player->pause();
           break;
         }
 
-        // KARAOKE + IN PAUSE :
+        //......................................................................
+        // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
         case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
           this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+          this->audiocontrols_playAct->setIcon(QIcon("ressources/images/icons/audio_play.png"));
           this->audio_player->play();
           break;
         }
 
-        // ???
+        // [1.3] KARAOKE + UNDEFINED : nothing to do.
         default : {
           break;
         }
@@ -391,7 +408,8 @@ void MainWindow::audiocontrols_play(void)
       break;
     }
 
-    // UNDEFINED :
+    //..........................................................................
+    //[2] UNDEFINED reading mode -> KARAOKE + PLAYING
     default: {
         this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
         this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
@@ -400,7 +418,6 @@ void MainWindow::audiocontrols_play(void)
     }
 
   }
-
 }
 
 // XAV
