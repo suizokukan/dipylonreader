@@ -376,28 +376,36 @@ void MainWindow::audiocontrols_play(void)
 void MainWindow::audiocontrols_stop(void) {
   qDebug() << "MainWindow::audiocontrols_stop";
 
-  if ( this->audio_player != nullptr ) {
-    audio_player->stop();
-  }
+  audio_player->stop();
+
+  this->current_dipylonui.reading_mode = DipylonUI::READINGMODES::UNDEFINED;
 }
 
 // [XAV]
 // "qint64" and not PosInAudio
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
-  // where are the characters linked to "arg_pos" ?
-  PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
-  std::size_t text_ranges_hash = text_ranges.get_hash();
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODES::KARAOKE ) {
 
-  qDebug() << text_ranges.to_str();
+      qDebug() << "MainWindow::audio_position_changed" << arg_pos;
 
-  if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
+      // where are the characters linked to "arg_pos" ?
+      PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
+      std::size_t text_ranges_hash = text_ranges.get_hash();
 
-    // the function modifies the appearence of such characters :
-    this->source_editor->modify_the_text_format(text_ranges);
+      qDebug() << text_ranges.to_str();
 
-    // hash update :
-    this->source_editor->modified_chars_hash = text_ranges_hash;
+      if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
+
+        // the function modifies the appearence of such characters :
+        this->source_editor->modify_the_text_format(text_ranges);
+
+        // hash update :
+        this->source_editor->modified_chars_hash = text_ranges_hash;
+      }
+      else {
+        qDebug() << "...";
+      }
   }
 
 }
