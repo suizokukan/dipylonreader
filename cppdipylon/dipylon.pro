@@ -12,6 +12,7 @@ QT += multimedia
 
 # Input
 HEADERS         +=  fixedparameters.h \
+                    misc/languagefromto.h \
                     qt/mainwindow.h \
                     qt/dipylonui.h \	
                     qt/sourceeditor.h \
@@ -26,6 +27,7 @@ HEADERS         +=  fixedparameters.h \
                     pos/posintext/posintext2str.h
 
 SOURCES         +=  main.cpp \
+                    misc/languagefromto.cpp \
                     qt/mainwindow.cpp \
                     qt/dipylonui.cpp \
                     qt/sourceeditor.cpp \

@@ -53,6 +53,8 @@ DipyDoc::DipyDoc(QString& path) {
   this->translation[ { {633, 649}, } ] = \
                 "Ton arc peut bien transpercer toutes tes cibles";
 
+  this->init_from_xml(path);
+
   // $$$ fake initialization of the karaoke data (this->text2audio & this->audio2text)
   this->text2audio = {
                 { {{ {8, 26}, },},  {0, 2399} },
@@ -105,7 +107,6 @@ void DipyDoc::check_path(QString& path)
 
 }
 
-
 /*______________________________________________________________________________
 
         DipyDoc::init_from_xml
@@ -115,6 +116,47 @@ void DipyDoc::check_path(QString& path)
 ______________________________________________________________________________*/
 void DipyDoc::init_from_xml(QString& path) {
 
+  qDebug() << "DipyDoc::init_from_xml";
+
   QXmlStreamReader xmlreader;
 
+  QFile dipydoc_xml(path + "/" + "main.xml");
+  if ( !dipydoc_xml.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
+    // http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
+    qDebug() << "??? ERROR";
+    return;
+  }
+
+  xmlreader.setDevice(&dipydoc_xml);
+
+  while(!xmlreader.atEnd() && !xmlreader.hasError()) {
+
+    QXmlStreamReader::TokenType token = xmlreader.readNext();
+
+    // token=StartElement ?
+    if(token == QXmlStreamReader::StartElement) {
+
+      QString name = xmlreader.name().toString();
+
+      if( name == "dipydoc" ) {
+
+        qDebug() << "dipydoc:version=" << xmlreader.attributes().value("version") << "dipydoc:languages=" << xmlreader.attributes().value("languages");
+        continue;
+      }
+
+      if( name == "audiorecord" ) {
+
+        qDebug() << "audiorecord:name=" << xmlreader.attributes().value("name");
+        continue;
+      }
+
+      if( name == "segment" ) {
+
+        qDebug() << "segment" << xmlreader.readElementText();
+        continue;
+      }
+    }
+  }
+
+  qDebug() << "xmlreader.error=" << static_cast<int>(xmlreader.error());
 }

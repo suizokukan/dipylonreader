@@ -32,6 +32,7 @@
 #include "pos/posintext/posintextranges.h"
 #include "pos/posintext/vectorposintextranges.h"
 #include "pos/posintext2posinaudio.h"
+#include "misc/languagefromto.h"
 #include <QDebug>
 
 /*______________________________________________________________________________
@@ -44,6 +45,13 @@ ______________________________________________________________________________*/
 int main(int argc, char **argv)
 {
     Q_INIT_RESOURCE(dipylon);
+
+    //--------------------------------------------------------------------
+    LanguageFromTo ll("fra->lat");
+    QString from = ll.from();
+    qDebug() << from;
+    qDebug() << ll.to();
+    //--------------------------------------------------------------------
 
     qDebug() << static_cast<int>(PosInTextRanges::INTERNALSTATE::OK);
 

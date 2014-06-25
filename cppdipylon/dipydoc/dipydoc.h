@@ -32,6 +32,9 @@
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
 
+// $$$
+#include <QDebug>
+
 #include <QString>
 #include <QFile>
 #include <QFileInfo>
@@ -56,6 +59,9 @@ private:
   QString       source_text;
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
+
+  QString       language_from = "";
+  QString       language_to = "";
 
   void          check_path(QString&);
   void          init_from_xml(QString&);
