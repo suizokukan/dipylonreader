@@ -223,6 +223,7 @@ reinterpret_cast is the most dangerous cast, and should be used very sparingly. 
 [3.2] où se trouve l'include pour...
 ################################################################################
 
+std::map                : #include <map>
 std::pair               : #include <utility>
 std::initializer_list   : #include <initializer_list>
 

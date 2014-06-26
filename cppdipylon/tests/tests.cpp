@@ -33,6 +33,7 @@
 #include "testposintext2str.h"
 #include "testposintext2posinaudio.h"
 #include "testposinaudio2posintext.h"
+#include "testlanguagefromto.h"
 
 int main(void)
 {
@@ -53,6 +54,9 @@ int main(void)
 
   TestPosInAudio2PosInText testaudio2text;
   QTest::qExec(&testaudio2text);
+
+  TestLanguageFromTo testlanguagefromto;
+  QTest::qExec(&testlanguagefromto);
 
   return 0;
 }

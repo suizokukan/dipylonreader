@@ -12,6 +12,7 @@ QT += multimedia
 
 # Input
 HEADERS         +=  fixedparameters.h \
+                    languages/languages.h \
                     misc/languagefromto.h \
                     qt/mainwindow.h \
                     qt/dipylonui.h \	
