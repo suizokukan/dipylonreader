@@ -8,6 +8,9 @@ INCLUDEPATH += .
 RESOURCES        =  dipylon.qrc
 TRANSLATIONS = dipylon_French.ts
 
+# to get rid of the qDebug() messages, uncomment this line :
+#DEFINES += QT_NO_DEBUG_OUTPUT
+
 QT += widgets
 QT += multimedia
 
