@@ -87,7 +87,7 @@ class PosInText2Str {
   // constants used to define the internal_state attribute :
   enum INTERNALSTATE : int {
     OK = 0,
-    BADPOSINTEXTRANGES = 1,
+    BADPOSINTEXTRANGES = -1,
   };
 };
 

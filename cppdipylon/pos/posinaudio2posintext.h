@@ -82,7 +82,7 @@ class PosInAudio2PosInText {
   // constants used to define the internal_state attribute :
   enum INTERNALSTATE : int {
     OK = 0,
-    WRONGINITIALIZATION = 1,
+    WRONGINITIALIZATION = -1,
   };
 };
 

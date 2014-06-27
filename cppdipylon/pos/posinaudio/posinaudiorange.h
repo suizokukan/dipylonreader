@@ -73,9 +73,9 @@ class PosInAudioRange {
   // see PosInAudioRange::checks() for the documentation.
   enum INTERNALSTATE : int {
     OK = 0,
-    ILLFORMEDSRCSTRING = 1,
-    X0X1 = 2,
-    EMPTY = 3,
+    ILLFORMEDSRCSTRING = -1,
+    X0X1 = -2,
+    EMPTY = -3,
   };
 
  private:

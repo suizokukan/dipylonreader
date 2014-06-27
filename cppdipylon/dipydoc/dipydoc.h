@@ -86,9 +86,9 @@ public:
   // constants used to define the internal_state attribute :
   enum INTERNALSTATE : int {
     OK = 0,
-    UNKNOWNPATH = 1,
-    PATHISAFILE = 2,
-    MISSINGTEXT = 3,
+    UNKNOWNPATH = -1,
+    PATHISAFILE = -2,
+    MISSINGTEXT = -3,
   };
 
   // name of the files in a dipydoc directory :

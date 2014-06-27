@@ -71,10 +71,10 @@ public:
   // constants used to define the internal_state attribute :
   enum INTERNALSTATE : int {
     OK = 0,
-    NOT_YET_DEFINED = 1,
-    ILLFORMED_SOURCE_STRING = 2,
-    UNDEFINED_FROMLANGUAGE = 3,
-    UNDEFINED_TOLANGUAGE = 4,
+    NOT_YET_DEFINED = -1,
+    ILLFORMED_SOURCE_STRING = -2,
+    UNDEFINED_FROMLANGUAGE = -3,
+    UNDEFINED_TOLANGUAGE = -4,
   };
 
 private:

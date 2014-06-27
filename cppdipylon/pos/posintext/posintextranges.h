@@ -94,11 +94,11 @@ class PosInTextRanges {
   // constants used to define the internal_state attribute :
   enum INTERNALSTATE : int {
     OK = 0,
-    NOMAINSEP = 1,
-    SECONDSEP = 2,
-    X0X1 = 3,
-    EMPTY = 4,
-    OVERLAPPING = 5,
+    NOMAINSEP = -1,
+    SECONDSEP = -2,
+    X0X1 = -3,
+    EMPTY = -4,
+    OVERLAPPING = -5,
   };
 
  private:
