@@ -129,6 +129,8 @@ void DipyDoc::init_from_xml(QString& path) {
 
   xmlreader.setDevice(&dipydoc_xml);
 
+  DipyDocDiv current_division = DIPYDOCDIV_UNDEFINED;
+
   while(!xmlreader.atEnd() && !xmlreader.hasError()) {
 
     QXmlStreamReader::TokenType token = xmlreader.readNext();
@@ -139,22 +141,31 @@ void DipyDoc::init_from_xml(QString& path) {
       QString name = xmlreader.name().toString();
 
       if( name == "dipydoc" ) {
-
-        qDebug() << "dipydoc:version=" << xmlreader.attributes().value("version") << "dipydoc:languages=" << xmlreader.attributes().value("languages");
+        current_division = DIPYDOCDIV_UNDEFINED;
+        this->dipydoc_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
+        this->languagefromto = LanguageFromTo( xmlreader.attributes().value("languages").toString() );
         continue;
       }
 
       if( name == "audiorecord" ) {
+        current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
+        continue;
+      }
 
-        qDebug() << "audiorecord:name=" << xmlreader.attributes().value("name");
+      if( name == "translation" ) {
+        current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
+        //qDebug() << "translation::text" << xmlreader.readElementText(); }
         continue;
       }
 
       if( name == "segment" ) {
-
-        qDebug() << "segment" << xmlreader.readElementText();
-        continue;
+        if( current_division == DIPYDOCDIV_INSIDE_AUDIORECORD) {
+          PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
+          // PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
+          continue;
       }
+
+      current_division = DIPYDOCDIV_UNDEFINED;
     }
   }
 

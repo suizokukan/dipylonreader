@@ -12,7 +12,7 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_NO_DEBUG_OUTPUT -DQT_NO_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_NO_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -std=c++11 -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -pipe -std=c++11 -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 INCPATH       = -I/usr/lib/qt/mkspecs/linux-g++ -I. -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtMultimedia -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtNetwork -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I.
@@ -516,6 +516,8 @@ moc_mainwindow.cpp: fixedparameters.h \
 		pos/posintext2posinaudio.h \
 		pos/posinaudio/posinaudio.h \
 		pos/posinaudio2posintext.h \
+		languages/languagefromto.h \
+		languages/languages.h \
 		qt/dipylonui.h \
 		qt/mainwindow.h \
 		qt/commentaryeditor.h \
@@ -532,6 +534,8 @@ moc_sourceeditor.cpp: fixedparameters.h \
 		pos/posintext2posinaudio.h \
 		pos/posinaudio/posinaudio.h \
 		pos/posinaudio2posintext.h \
+		languages/languagefromto.h \
+		languages/languages.h \
 		qt/dipylonui.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
@@ -570,9 +574,9 @@ main.o: main.cpp qt/dipylonui.h \
 		pos/posintext2posinaudio.h \
 		pos/posinaudio/posinaudio.h \
 		pos/posinaudio2posintext.h \
-		qt/commentaryeditor.h \
 		languages/languagefromto.h \
-		languages/languages.h
+		languages/languages.h \
+		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 languagefromto.o: languages/languagefromto.cpp languages/languagefromto.h \
@@ -591,6 +595,8 @@ mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
 		pos/posintext2posinaudio.h \
 		pos/posinaudio/posinaudio.h \
 		pos/posinaudio2posintext.h \
+		languages/languagefromto.h \
+		languages/languages.h \
 		qt/dipylonui.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o qt/mainwindow.cpp
@@ -608,6 +614,8 @@ dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
 		pos/posintext2posinaudio.h \
 		pos/posinaudio/posinaudio.h \
 		pos/posinaudio2posintext.h \
+		languages/languagefromto.h \
+		languages/languages.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
 
@@ -622,6 +630,8 @@ sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
 		pos/posintext2posinaudio.h \
 		pos/posinaudio/posinaudio.h \
 		pos/posinaudio2posintext.h \
+		languages/languagefromto.h \
+		languages/languages.h \
 		qt/dipylonui.h \
 		qt/mainwindow.h \
 		qt/commentaryeditor.h
@@ -639,7 +649,9 @@ dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \
 		pos/posintext/vectorposintextranges.h \
 		pos/posintext2posinaudio.h \
 		pos/posinaudio/posinaudio.h \
-		pos/posinaudio2posintext.h
+		pos/posinaudio2posintext.h \
+		languages/languagefromto.h \
+		languages/languages.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipydoc.o dipydoc/dipydoc.cpp
 
 posintext2posinaudio.o: pos/posintext2posinaudio.cpp pos/posintext2posinaudio.h \

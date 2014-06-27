@@ -31,6 +31,7 @@
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
+#include "languages/languagefromto.h"
 
 // $$$
 #include <QDebug>
@@ -41,6 +42,13 @@
 #include <QIODevice>
 #include <QTextStream>
 #include <QXmlStreamReader>
+
+// divisions inside a DipyDoc file :
+enum DipyDocDiv : int {
+    DIPYDOCDIV_UNDEFINED = 0,
+    DIPYDOCDIV_INSIDE_AUDIORECORD = 1,
+    DIPYDOCDIV_INSIDE_TRANSLATION = 2,
+};
 
 /*______________________________________________________________________________
 
@@ -60,8 +68,8 @@ private:
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
 
-  QString       language_from = "";
-  QString       language_to = "";
+  int            dipydoc_version;
+  LanguageFromTo languagefromto;
 
   void          check_path(QString&);
   void          init_from_xml(QString&);

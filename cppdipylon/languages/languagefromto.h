@@ -25,6 +25,14 @@
 
     ____________________________________________________________________________
 
+    HOW TO USE :
+    LanguageFromTo ll("fra->lat");
+    QString from = ll.from();
+    qDebug() << from;
+    QString from_longname = ll.from_longname();
+    qDebug() << from_longname;
+    ____________________________________________________________________________
+
     LANGUAGEFROMTO_FORMAT :
 
         o XXX + SEPARATOR + YYY, e.g. "fra->lat"

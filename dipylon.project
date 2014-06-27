@@ -39,6 +39,8 @@ SOMMAIRE
 0.2.0 : karaoke mode
 
 0.2.1 : XML :
+PairOfPosInAudio > PosInAudioRange avec un constructeur depuis QString("99-101") + tests
+
 http://developer.nokia.com/community/wiki/QXmlStreamReader_to_parse_XML_in_Qt
 http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
@@ -320,6 +322,7 @@ dipylon/tests/
 ################################################################################
 [7] i18n
 ################################################################################
+http://qt-project.org/doc/qt-4.8/linguist-hellotr.html
 
 .ts (XML, human-readable)   ------> .qm (binary)
 

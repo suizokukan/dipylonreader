@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<dipydoc version="10" languages="lat->fra">
+<dipydoc dipydoc_version="10" languages="lat->fra">
 
   <audiorecord name="enregistrement audio">
     <segment textrange="8-26" audiorange="0-2399" srctext="aaa"/>

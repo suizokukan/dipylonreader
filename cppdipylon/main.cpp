@@ -50,13 +50,5 @@ int main(int argc, char **argv)
 
     DipylonUI myapp(argc, argv);
 
-    //--------------------------------------------------------------------
-    LanguageFromTo ll("fra->lat");
-    QString from = ll.from();
-    qDebug() << from;
-    QString from_longname = ll.from_longname();
-    qDebug() << from_longname;
-    //--------------------------------------------------------------------
-
     return myapp.go();
 }
