@@ -68,8 +68,18 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
     }
     else {
       // int(egers) become PosInText objects :
-      PosInText x0 = static_cast<PosInText>( x0x1[0].toInt() );
-      PosInText x1 = static_cast<PosInText>( x0x1[1].toInt() );
+
+      QString x0_str = x0x1[0];
+      QString x1_str = x0x1[1];
+
+      if( (x0_str.length() == 0) || (x1_str.length() == 0) ) {
+        this->_well_initialized = false;
+        this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTYSTRINGFORNUMBER;
+        break;
+      }
+
+      PosInText x0 = static_cast<PosInText>( x0_str.toInt() );
+      PosInText x1 = static_cast<PosInText>( x1_str.toInt() );
       this->vec.push_back( std::make_pair(x0,x1) );
     }
   }

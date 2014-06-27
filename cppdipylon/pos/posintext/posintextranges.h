@@ -91,14 +91,18 @@ class PosInTextRanges {
   QString            to_str(void) const;
   bool               well_initialized(void) const;
 
-  // constants used to define the internal_state attribute :
+  /* constants used to define the internal_state attribute :
+
+     see PosInTextRanges::checks() for the documentation.
+  */
   enum INTERNALSTATE : int {
     OK = 0,
-    NOMAINSEP = -1,
-    SECONDSEP = -2,
-    X0X1 = -3,
-    EMPTY = -4,
-    OVERLAPPING = -5,
+    EMPTYSTRINGFORNUMBER = -1,
+    NOMAINSEP = -2,
+    SECONDSEP = -3,
+    X0X1 = -4,
+    EMPTY = -5,
+    OVERLAPPING = -6,
   };
 
  private:

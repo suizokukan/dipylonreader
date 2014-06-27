@@ -51,6 +51,7 @@ private slots:
   void test4b(void);
   void test4c(void);
   void test4d(void);
+  void test4e(void);
   void test5a(void);
   void test5b(void);
   void test6a(void);

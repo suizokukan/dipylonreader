@@ -118,13 +118,25 @@ void TestPosInTextRanges::test4a(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::X0X1) );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTYSTRINGFORNUMBER) );
 }
 
 /*
   A PosInTextRanges object is created from a ill-formed string -> error
 */
 void TestPosInTextRanges::test4b(void)
+{
+  const QString& str = QString("-49");
+  PosInTextRanges g(str);
+
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTYSTRINGFORNUMBER) );
+}
+
+/*
+  A PosInTextRanges object is created from a ill-formed string -> error
+*/
+void TestPosInTextRanges::test4c(void)
 {
   const QString& str = QString("49-89+145");
   PosInTextRanges g(str);
@@ -136,7 +148,7 @@ void TestPosInTextRanges::test4b(void)
 /*
   A PosInTextRanges object is created from a ill-formed string (x0==x1) -> error
 */
-void TestPosInTextRanges::test4c(void)
+void TestPosInTextRanges::test4d(void)
 {
   const QString& str = QString("49-89+144-144");
   PosInTextRanges g(str);
@@ -148,7 +160,7 @@ void TestPosInTextRanges::test4c(void)
 /*
   A PosInTextRanges object is created from a ill-formed string (x0>x1) -> error
 */
-void TestPosInTextRanges::test4d(void)
+void TestPosInTextRanges::test4e(void)
 {
   const QString& str = QString("49-89+144-143");
   PosInTextRanges g(str);
