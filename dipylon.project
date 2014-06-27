@@ -44,8 +44,6 @@ http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
 http://qt-project.org/doc/qt-5/examples-xml.html
 
-        * ajouter le tr()
-        * les tests
         * compléter la liste des fichiers
         * encadrer les qDebug() par des #IF + compilation avec symbole
 
@@ -293,6 +291,10 @@ dipylon/                                            C++/Qt5 code
 
 dipylon/dipydoc/                                    DipylonDocument
                /dipydoc.[h|cpp]                     DipyDoc class
+
+dipylon/languages/
+                  languages.h                       "know_languages" map
+                  languagefromto.[h|cpp]            LanguageFromTo class
 
 dipylon/misc/
 	    /hash.[h|cpp]                           generic hash function
