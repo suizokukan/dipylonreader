@@ -153,6 +153,7 @@ inline PosInAudio PosInAudioRange::first(void) const {
   o solutions like (a << 16) + b do not work since a size_t can be 16 bits
   o Cantor pairing function seems too slow : (a + b) * (a + b + 1) / 2 + a; where a, b >= 0
   o the following solution (Szudzik's function, http://szudzik.com/ElegantPairing.pdf) seems very good.
+    see by example http://stackoverflow.com/questions/919612
 */
 inline std::size_t PosInAudioRange::get_hash(void) const {
   std::size_t a = static_cast<std::size_t>(this->pair.first);
