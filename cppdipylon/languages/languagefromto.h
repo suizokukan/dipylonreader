@@ -19,7 +19,7 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : misc/languagefromto.h
+    ❏Dipylon❏ : languages/languagefromto.h
 
     LanguageFromTo class, simple wrapper aroung strings like "fra->lat".
 
@@ -31,6 +31,7 @@
         o the source string can't be empty
         o the two languages must be defined : no language can be an empty string
         o the languages follow the ISO 639-3 format (e.g. "eng", NOT "en")
+        o the two languages must be defined by "known_languages" (see languages.h)
 
 *******************************************************************************/
 
@@ -40,6 +41,8 @@
 #include <QString>
 #include <QStringList>
 
+#include "languages.h"
+
 /*______________________________________________________________________________
 
   LanguageFromTo class : simple wrapper around "from" and "to" QStrings.
@@ -48,13 +51,24 @@ ______________________________________________________________________________*/
 class LanguageFromTo {
 
 public:
+  int       internal_state(void) const;
   bool      well_initialized(void) const;
             LanguageFromTo(void);
             LanguageFromTo(const QString&);
   const QString&  from(void) const;
   const QString&  to(void) const;
 
+  // constants used to define the internal_state attribute :
+  enum INTERNALSTATE : int {
+    OK = 0,
+    NOT_YET_DEFINED = 1,
+    ILLFORMED_SOURCE_STRING = 2,
+    UNDEFINED_FROMLANGUAGE = 3,
+    UNDEFINED_TOLANGUAGE = 4,
+  };
+
 private:
+  int     _internal_state;
   bool    _well_initialized;
   QString _from;
   QString _to;
@@ -64,10 +78,15 @@ private:
 };
 
 inline LanguageFromTo::LanguageFromTo(void) : \
+                  _internal_state(NOT_YET_DEFINED), \
                   _well_initialized(false), \
                   _from(""), \
                   _to("")
 {}
+
+inline int LanguageFromTo::internal_state(void) const {
+  return this->_internal_state;
+}
 
 inline bool LanguageFromTo::well_initialized(void) const {
   return this->_well_initialized;

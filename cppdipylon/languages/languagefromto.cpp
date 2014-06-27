@@ -19,7 +19,7 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : misc/languagefromto.cpp
+    ❏Dipylon❏ : languages/languagefromto.cpp
 
     See languagefromto.h for the documentation
 
@@ -36,12 +36,14 @@ ________________________________________________________________________________
 LanguageFromTo::LanguageFromTo(const QString& src) {
 
   this->_well_initialized = true;
+  this->_internal_state = OK;
 
   QStringList splitted_strings = src.split(this->SEPARATOR);
 
-  if( splitted_strings.length() == 0 ) {
-    // error : ill-formed src (no SEPARATOR)
+  if( splitted_strings.length() != 2 ) {
+    // error : ill-formed src (no SEPARATOR or more than one SEPARATOR)
     this->_well_initialized = false;
+    this->_internal_state = ILLFORMED_SOURCE_STRING;
     return;
   }
 
@@ -50,13 +52,21 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
   this->_to = splitted_strings[1];
 
   /*............................................................................
-    tests
+
+    tests :
+
+    o _from, _to must be defined in "known_languages" (see languages.h)
+
   ............................................................................*/
-  if( this->_from.length() == 0 ) {
+  auto known_languages_end = known_languages.end();
+
+  if( known_languages.find(this->_from) == known_languages_end ) {
     this->_well_initialized = false;
+    this->_internal_state = UNDEFINED_FROMLANGUAGE;
   }
 
-  if( this->_to.length() == 0 ) {
+  if( known_languages.find(this->_to) == known_languages_end ) {
     this->_well_initialized = false;
+    this->_internal_state = UNDEFINED_TOLANGUAGE;
   }
 }

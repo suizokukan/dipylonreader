@@ -30,6 +30,7 @@
 
 #include <map>
 #include <QString>
+#include <QObject>
 
 /*______________________________________________________________________________
 
@@ -37,8 +38,12 @@
                     their short names (ISO 639-3) and their long names.
 
 ______________________________________________________________________________*/
-std::map<QString, QString> known_languages = { {QString("lat"), QString(tr("Latin"))},
-                                               {QString("fra"), QString(tr("French"))},
-                                             };
+namespace {
+  std::map<QString, QString> known_languages = \
+    {
+      { QString("lat"), QString(QObject::tr("TR_Latin")) },
+      { QString("fra"), QString(QObject::tr("TR_French")) },
+    };
+}
 
 #endif

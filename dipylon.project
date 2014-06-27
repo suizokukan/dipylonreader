@@ -14,6 +14,7 @@ SOMMAIRE
     [2.2] nullptr
     [2.3] tuple type
     [2.4] enum
+    [2.5] global static -> unnamed namespace 
 
 [3] particularités du c++11
     [3.0] doc
@@ -35,11 +36,15 @@ SOMMAIRE
 0.1.9 : basic UI
 0.2.0 : karaoke mode
 
-0.2.1 : XML 
+0.2.1 : XML :
 http://developer.nokia.com/community/wiki/QXmlStreamReader_to_parse_XML_in_Qt
 http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
 http://qt-project.org/doc/qt-5/examples-xml.html
+
+        * ajouter le tr()
+        * les tests
+        * compléter la liste des fichiers
 
 ################################################################################
 [1] options de compilation
@@ -189,6 +194,19 @@ FOO::OK
     INTERNALSTATE_EMPTY = 4,
     INTERNALSTATE_OVERLAPPING = 5,
   };
+
+################################################################################
+[2.5] global static -> unnamed namespace 
+################################################################################
+http://stackoverflow.com/questions/7837190/c-c-global-vs-static-global/7837369
+
+NOT :
+static int a_static_variable;
+
+BUT :
+namespace { 
+    int not_a_static_variable;
+}
 
 ################################################################################
 [3] particularités du c++11

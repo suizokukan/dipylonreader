@@ -32,7 +32,7 @@
 #include "pos/posintext/posintextranges.h"
 #include "pos/posintext/vectorposintextranges.h"
 #include "pos/posintext2posinaudio.h"
-#include "misc/languagefromto.h"
+#include "languages/languagefromto.h"
 #include <QDebug>
 
 /*______________________________________________________________________________

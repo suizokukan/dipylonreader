@@ -46,7 +46,7 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		misc/languagefromto.cpp \
+		languages/languagefromto.cpp \
 		qt/mainwindow.cpp \
 		qt/dipylonui.cpp \
 		qt/sourceeditor.cpp \
@@ -186,7 +186,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		dipylon.pro main.cpp \
-		misc/languagefromto.cpp \
+		languages/languagefromto.cpp \
 		qt/mainwindow.cpp \
 		qt/dipylonui.cpp \
 		qt/sourceeditor.cpp \
@@ -466,7 +466,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents fixedparameters.h languages/languages.h misc/languagefromto.h qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h dipydoc/dipydoc.h pos/posintext2posinaudio.h pos/posinaudio2posintext.h pos/posinaudio/posinaudio.h pos/posintext/posintext.h pos/posintext/posintextranges.h pos/posintext/vectorposintextranges.h pos/posintext/posintext2str.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp misc/languagefromto.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp dipydoc/dipydoc.cpp pos/posintext2posinaudio.cpp pos/posinaudio2posintext.cpp pos/posinaudio/posinaudio.cpp pos/posintext/posintextranges.cpp pos/posintext/vectorposintextranges.cpp pos/posintext/posintext2str.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents fixedparameters.h languages/languages.h languages/languagefromto.h qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h dipydoc/dipydoc.h pos/posintext2posinaudio.h pos/posinaudio2posintext.h pos/posinaudio/posinaudio.h pos/posintext/posintext.h pos/posintext/posintextranges.h pos/posintext/vectorposintextranges.h pos/posintext/posintext2str.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp languages/languagefromto.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp dipydoc/dipydoc.cpp pos/posintext2posinaudio.cpp pos/posinaudio2posintext.cpp pos/posinaudio/posinaudio.cpp pos/posintext/posintextranges.cpp pos/posintext/vectorposintextranges.cpp pos/posintext/posintext2str.cpp .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -571,11 +571,13 @@ main.o: main.cpp qt/dipylonui.h \
 		pos/posinaudio/posinaudio.h \
 		pos/posinaudio2posintext.h \
 		qt/commentaryeditor.h \
-		misc/languagefromto.h
+		languages/languagefromto.h \
+		languages/languages.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-languagefromto.o: misc/languagefromto.cpp misc/languagefromto.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o languagefromto.o misc/languagefromto.cpp
+languagefromto.o: languages/languagefromto.cpp languages/languagefromto.h \
+		languages/languages.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o languagefromto.o languages/languagefromto.cpp
 
 mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
 		fixedparameters.h \
