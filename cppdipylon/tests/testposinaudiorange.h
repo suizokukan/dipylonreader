@@ -19,38 +19,45 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : main.cpp
+    ❏Dipylon❏ : tests/testposinaudioranges.h
 
-*******************************************************************************/
+    ⇨ tests for PosInAudioRange objects.
 
-#include "qt/dipylonui.h"
+*********************************************************************************/
 
-#include <QApplication>
+#ifndef TESTPOSINAUDIORANGE_H
+#define TESTPOSINAUDIORANGE_H
 
-//$$$
-#include "pos/posinaudio2posintext.h"
-#include "pos/posintext/posintextranges.h"
-#include "pos/posintext/vectorposintextranges.h"
-#include "pos/posintext2posinaudio.h"
-#include "languages/languagefromto.h"
-#include <QDebug>
+#include "../pos/posinaudio/posinaudiorange.h"
+
+#include <QTest>
+#include <QString>
 
 /*______________________________________________________________________________
 
-  Main entry point.
+        TestPosInAudioRange class : test of PosInAudioRange module.
 
-  See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about "argc"
-  and "argv".
 ______________________________________________________________________________*/
-int main(int argc, char **argv)
+class TestPosInAudioRange: public QObject
 {
-    Q_INIT_RESOURCE(dipylon);
+    Q_OBJECT
 
-    qDebug() << static_cast<int>(PosInTextRanges::INTERNALSTATE::OK);
+private slots:
 
-    PosInAudioRange r("3-5");
+  void test0(void);
+  void test1(void);
+  void test2(void);
+  void test3a(void);
+  void test3b(void);
+  void test3c(void);
+  void test3d(void);
+  void test3e(void);
+  void test4a(void);
+  void test4b(void);
+  void test5a(void);
+  void test5b(void);
+  void test5c(void);
+  void test5d(void);
+};
 
-    DipylonUI myapp(argc, argv);
-
-    return myapp.go();
-}
+#endif
