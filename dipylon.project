@@ -44,9 +44,6 @@ http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
 http://qt-project.org/doc/qt-5/examples-xml.html
 
-        * compléter la liste des fichiers
-        * encadrer les qDebug() par des #IF + compilation avec symbole
-
 ################################################################################
 [1] options de compilation
 ################################################################################
