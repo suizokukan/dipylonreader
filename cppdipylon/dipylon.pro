@@ -6,6 +6,7 @@ TEMPLATE = app
 TARGET = dipylon
 INCLUDEPATH += .
 RESOURCES        =  dipylon.qrc
+TRANSLATIONS = dipylon_French.ts
 
 QT += widgets
 QT += multimedia

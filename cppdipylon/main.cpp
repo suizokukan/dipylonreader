@@ -46,6 +46,10 @@ int main(int argc, char **argv)
 {
     Q_INIT_RESOURCE(dipylon);
 
+    qDebug() << static_cast<int>(PosInTextRanges::INTERNALSTATE::OK);
+
+    DipylonUI myapp(argc, argv);
+
     //--------------------------------------------------------------------
     LanguageFromTo ll("fra->lat");
     QString from = ll.from();
@@ -53,10 +57,6 @@ int main(int argc, char **argv)
     QString from_longname = ll.from_longname();
     qDebug() << from_longname;
     //--------------------------------------------------------------------
-
-    qDebug() << static_cast<int>(PosInTextRanges::INTERNALSTATE::OK);
-
-    DipylonUI myapp(argc, argv);
 
     return myapp.go();
 }

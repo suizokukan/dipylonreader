@@ -29,6 +29,8 @@ SOMMAIRE
 
 [6] files and directory
 
+[7] i18n
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -45,6 +47,7 @@ http://qt-project.org/doc/qt-5/examples-xml.html
         * ajouter le tr()
         * les tests
         * compléter la liste des fichiers
+        * encadrer les qDebug() par des #IF + compilation avec symbole
 
 ################################################################################
 [1] options de compilation
@@ -314,3 +317,21 @@ dipylon/tests/
 	     /testposintextranges.[h|cpp]	    test of the PosInTextRanges class
 	     /testvectorposintextranges.[h|cpp]	    test of the VectorPosInTextRanges class
 	     /tests.cpp				    entry point for the tests
+
+################################################################################
+[7] i18n
+################################################################################
+
+.ts (XML, human-readable)   ------> .qm (binary)
+
+to create .ts files :
+lupdate -verbose dipylon.pro
+
+to modify .ts files :
+linguist dipylon_French.ts
+
+to create .qm file :
+(in "linguist" application File > Release)
+
+
+!!! in tr("string"), use English as default language.

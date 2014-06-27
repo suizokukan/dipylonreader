@@ -41,8 +41,8 @@ ______________________________________________________________________________*/
 namespace {
   std::map<QString, QString> known_languages = \
     {
-      { QString("lat"), QString(QObject::tr("TR_Latin")) },
-      { QString("fra"), QString(QObject::tr("TR_French")) },
+      { QString("lat"), QString(QObject::tr("Latin")) },
+      { QString("fra"), QString(QObject::tr("French")) },
     };
 }
 

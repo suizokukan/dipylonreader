@@ -62,15 +62,28 @@ int DipylonUI::go(void) {
   // application's look :
   app.setStyle( fixedparameters::application_style );
 
-  // i18n :
+  /* i18n :
+
+     o Qt translations stored in system files
+     o Dipylon translation stored in dipylon_XXX files.
+  */
+  QLocale local_system = QLocale::system();
+  qDebug() << "i18n : local_system.name()=" << local_system.name();  // language_COUNTRY
+  qDebug() << "i18n : local_system.language()=" << QLocale::languageToString(local_system.language());
+
   QTranslator qtTranslator;
-  qtTranslator.load("qt_" + QLocale::system().name(),
-          QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+  QString system_translations_filename( "qt_" + local_system.name() );
+  QString system_translations_path( QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
+  bool system_translations_res = qtTranslator.load(system_translations_filename,
+                                                   system_translations_path);
+  qDebug() << "i18n : loading " << system_translations_filename << "from" << system_translations_path << "success=" << system_translations_res;
   app.installTranslator(&qtTranslator);
 
-  QTranslator myappTranslator;
-  myappTranslator.load("myapp_" + QLocale::system().name());
-  app.installTranslator(&myappTranslator);
+  QTranslator dipylonTranslator;
+  QString dipylon_translations_filename("dipylon_" + QLocale::languageToString(local_system.language()));
+  bool dipylon_translations_res = dipylonTranslator.load("dipylon_" + QLocale::languageToString(local_system.language()));
+  qDebug() << "i18n : loading " << dipylon_translations_filename << "success=" << dipylon_translations_res;
+  app.installTranslator(&dipylonTranslator);
 
   // creating the icons :
   this->icon_new  = new QIcon(":ressources/images/icons/new.png");
