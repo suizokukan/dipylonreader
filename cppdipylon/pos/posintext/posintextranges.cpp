@@ -74,7 +74,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
     }
   }
 
-  // see POSINTEXTRANGES_STR format : at least one gap must be defined.
+  // see POSINTEXTRANGES_STR format : at least one range must be defined.
   if( this->_well_initialized == true && this->vec.size() == 0 ) {
       this->_well_initialized = false;
       this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTY;
@@ -128,7 +128,7 @@ void PosInTextRanges::checks(void) {
 /*______________________________________________________________________________
 
         PosInTextRanges::contains() : return either true if (PosInText)x0 is inside
-                                one gap of the object, either false.
+                                      a range of the object, either false.
 ______________________________________________________________________________*/
 bool PosInTextRanges::contains(PosInText x0) const
 {
@@ -148,7 +148,7 @@ bool PosInTextRanges::contains(PosInText x0) const
 /*______________________________________________________________________________
 
         PosInTextRanges::contains() : return either true if at least one index between
-                                 (PosInText)x0 and (PosInText)x1 is inside one gap
+                                 (PosInText)x0 and (PosInText)x1 is inside one range
                                  of the object, either false.
 ______________________________________________________________________________*/
 bool PosInTextRanges::contains(PosInText x0, PosInText x1) const
@@ -171,8 +171,9 @@ bool PosInTextRanges::contains(PosInText x0, PosInText x1) const
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::to_str() : return a QString representing the object according to
-                              the GAP_STR format (see above)
+        PosInTextRanges::to_str() : return a QString representing the object
+                                    according to the POSINTEXTRANGES_STR format
+                                    (see posintextranges.h)
 ______________________________________________________________________________*/
 QString PosInTextRanges::to_str(void) const {
   QString res("");

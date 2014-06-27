@@ -39,10 +39,8 @@ SOMMAIRE
 0.2.0 : karaoke mode
 
 0.2.1 : XML :
+      (a) virer les références à GAP dans les commentaires (il en reste dans .cpp)
       (b) inline std::size_t PosInAudioRange::get_hash(void) const à  réécrire SIZE_T POUVANT ÊTRE SUR 16 BITS !
-      (c) -1, -2 pour les ENUMS d'erreur.
-      (d) virer les références à GAP dans les commentaires (il en reste dans .cpp)
-
 
 http://developer.nokia.com/community/wiki/QXmlStreamReader_to_parse_XML_in_Qt
 http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html

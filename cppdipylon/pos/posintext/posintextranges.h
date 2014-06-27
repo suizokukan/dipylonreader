@@ -38,11 +38,11 @@
     ⇨ overlapping is forbidden : "0-1+1-2" is ok, not "0-1+0-2", not "46-49+48-52"
 
     ⇨ POSINTEXTRANGES_STR format : "45-97", "45-97+123-136+999-1001", ...
-        no spaces allowed
-        overlapping is forbidden (vide  supra)
-        MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
-        at least one gap must be defined (no empty string)
-        x0 must be < x1 (no "45-22", no "45-45")
+        o no spaces allowed
+        o overlapping is forbidden (vide  supra)
+        o MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
+        o at least one range must be defined (no empty string)
+        o x0 must be < x1 (no "45-22", no "45-45")
 
 *******************************************************************************/
 
