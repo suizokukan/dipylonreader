@@ -39,7 +39,13 @@ SOMMAIRE
 0.2.0 : karaoke mode
 
 0.2.1 : XML :
-PairOfPosInAudio > PosInAudioRange avec un constructeur depuis QString("99-101") + tests
+      (a) failed test: TestPosInAudioRange::test3b
+      (b) PairOfPosInAudio > PosInAudioRange avec un constructeur depuis QString("99-101") + tests
+      (c) PairOfPosInAudio::constructor depuis une std::pair<int,int> semble inutile. Le retirerer ?
+      (d) inline std::size_t PosInAudioRange::get_hash(void) const à  réécrire SIZE_T POUVANT ÊTRE SUR 16 BITS !
+      (e) -1, -2 pour les ENUMS d'erreur.
+      (f) virer les références à GAP dans les commentaires (il en reste dans .cpp)
+
 
 http://developer.nokia.com/community/wiki/QXmlStreamReader_to_parse_XML_in_Qt
 http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html

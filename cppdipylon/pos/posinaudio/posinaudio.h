@@ -28,7 +28,7 @@
 #ifndef POSINAUDIO_H
 #define POSINAUDIO_H
 
-#include <vector>
+#include <utility>
 #include <QtGlobal>
 
 // base type :
@@ -41,13 +41,5 @@
 typedef qint64 PosInAudio;
 
 typedef std::pair<PosInAudio, PosInAudio> PairOfPosInAudio;
-
-/*______________________________________________________________________________
-
-  PairOfPosInAudioHasher
-________________________________________________________________________________*/
-struct PairOfPosInAudioHasher {
-  std::size_t operator()(const PairOfPosInAudio& k) const;
-};
 
 #endif

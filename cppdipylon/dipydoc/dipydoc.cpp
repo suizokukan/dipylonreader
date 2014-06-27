@@ -161,8 +161,9 @@ void DipyDoc::init_from_xml(QString& path) {
       if( name == "segment" ) {
         if( current_division == DIPYDOCDIV_INSIDE_AUDIORECORD) {
           PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
-          // PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
+          PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
           continue;
+        }
       }
 
       current_division = DIPYDOCDIV_UNDEFINED;

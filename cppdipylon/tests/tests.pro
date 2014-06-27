@@ -14,12 +14,14 @@ HEADERS          += ../pos/posintext/posintext.h \
                     ../pos/posintext/vectorposintextranges.h \
                     ../pos/posintext/posintext2str.h \
                     ../pos/posinaudio/posinaudio.h \
+                    ../pos/posinaudio/posinaudiorange.h \
                     ../pos/posintext2posinaudio.h \
                     ../pos/posinaudio2posintext.h \
                     ../languages/languagefromto.h
 HEADERS          += testhash.h \
                     testposintextranges.h \
                     testvectorposintextranges.h \
+                    testposinaudiorange.h \
                     testposintext2str.h \
                     testposintext2posinaudio.h \
                     testposinaudio2posintext.h \
@@ -28,13 +30,14 @@ HEADERS          += testhash.h \
 SOURCES          += ../pos/posintext/posintextranges.cpp \
                     ../pos/posintext/vectorposintextranges.cpp \
                     ../pos/posintext/posintext2str.cpp \
-                    ../pos/posinaudio/posinaudio.cpp \
+                    ../pos/posinaudio/posinaudiorange.cpp \
                     ../pos/posintext2posinaudio.cpp \
                     ../pos/posinaudio2posintext.cpp \
                     ../languages/languagefromto.cpp
 SOURCES          += tests.cpp \
                     testposintextranges.cpp \
                     testvectorposintextranges.cpp \
+                    testposinaudiorange.cpp \
                     testposintext2str.cpp \
                     testposintext2posinaudio.cpp \
                     testposinaudio2posintext.cpp \

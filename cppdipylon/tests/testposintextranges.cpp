@@ -134,7 +134,7 @@ void TestPosInTextRanges::test4b(void)
 }
 
 /*
-  A PosInTextRanges object is created from a ill-formed string (x0,x1) -> error
+  A PosInTextRanges object is created from a ill-formed string (x0==x1) -> error
 */
 void TestPosInTextRanges::test4c(void)
 {
@@ -195,7 +195,7 @@ void TestPosInTextRanges::test6a(void)
 }
 
 /*
-  testing the != operator with two equivalent PosInTextRanges objects
+  testing the != operator with two different PosInTextRanges objects
 */
 void TestPosInTextRanges::test6b(void)
 {

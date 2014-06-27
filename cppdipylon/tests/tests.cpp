@@ -29,6 +29,7 @@
 
 #include "testhash.h"
 #include "testposintextranges.h"
+#include "testposinaudiorange.h"
 #include "testvectorposintextranges.h"
 #include "testposintext2str.h"
 #include "testposintext2posinaudio.h"
@@ -45,6 +46,9 @@ int main(void)
 
   TestVectorPosInTextRanges testvectorposintextranges;
   QTest::qExec(&testvectorposintextranges);
+
+  TestPosInAudioRange testposinaudiorange;
+  QTest::qExec(&testposinaudiorange);
 
   TestPosInText2Str testposintext2str;
   QTest::qExec(&testposintext2str);

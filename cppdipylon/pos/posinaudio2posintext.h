@@ -42,13 +42,14 @@
 #define POSINAUDIO2POSINTEXT_H
 
 #include "pos/posinaudio/posinaudio.h"
+#include "pos/posinaudio/posinaudiorange.h"
 #include "pos/posintext2posinaudio.h"
 
 #include <unordered_map>
 
 /*______________________________________________________________________________
 
-  PosInAudio2PosInText class : basically, a map PairOfPosInAudio -> PosInTextRanges
+  PosInAudio2PosInText class : basically, a map PosInAudioRange -> PosInTextRanges
 
   A PosInAudio2PosInText object can be initialized from a PosInText2PosInAudio
   object by reversing the keys and the values.
@@ -58,7 +59,7 @@ class PosInAudio2PosInText {
 
  private:
 
-  std::unordered_map<PairOfPosInAudio, PosInTextRanges, PairOfPosInAudioHasher> map;
+  std::unordered_map<PosInAudioRange, PosInTextRanges, PosInAudioRangeHasher> map;
   int                   _internal_state;
   bool                  _well_initialized;
 
@@ -66,11 +67,11 @@ class PosInAudio2PosInText {
 
                         PosInAudio2PosInText(void);
                         PosInAudio2PosInText(const PosInAudio2PosInText&);
-                        PosInAudio2PosInText(const PosInText2PosInAudio&);
+                        PosInAudio2PosInText(const PosInText2PosInAudio&);      // "inverse" constructor
                         ~PosInAudio2PosInText(void);
 
-  PosInTextRanges&       operator[]( PairOfPosInAudio key );
-  const PosInTextRanges& operator[]( const PairOfPosInAudio key ) const;
+  PosInTextRanges&       operator[]( PosInAudioRange key );
+  const PosInTextRanges& operator[]( const PosInAudioRange key ) const;
   PosInAudio2PosInText&  operator=(const PosInAudio2PosInText&);
 
   size_t                size(void) const;
@@ -109,10 +110,11 @@ inline PosInAudio2PosInText& PosInAudio2PosInText::operator=(const PosInAudio2Po
   return *this;
 }
 
-inline PosInTextRanges& PosInAudio2PosInText::operator[]( PairOfPosInAudio key) {
-  return this->map[key];
+inline PosInTextRanges& PosInAudio2PosInText::operator[]( PosInAudioRange key) {
+  return this->map[key.pair];
 }
-inline const PosInTextRanges& PosInAudio2PosInText::operator[]( const PairOfPosInAudio key ) const {
+
+inline const PosInTextRanges& PosInAudio2PosInText::operator[]( const PosInAudioRange key ) const {
   return this->map.at(key);
 }
 
