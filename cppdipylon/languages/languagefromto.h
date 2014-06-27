@@ -51,12 +51,14 @@ ______________________________________________________________________________*/
 class LanguageFromTo {
 
 public:
-  int       internal_state(void) const;
-  bool      well_initialized(void) const;
-            LanguageFromTo(void);
-            LanguageFromTo(const QString&);
+  int             internal_state(void) const;
+  bool            well_initialized(void) const;
+                  LanguageFromTo(void);
+                  LanguageFromTo(const QString&);
   const QString&  from(void) const;
+  const QString&  from_longname(void) const;
   const QString&  to(void) const;
+  const QString&  to_longname(void) const;
 
   // constants used to define the internal_state attribute :
   enum INTERNALSTATE : int {
@@ -72,7 +74,6 @@ private:
   bool    _well_initialized;
   QString _from;
   QString _to;
-
 
   constexpr static const char* SEPARATOR = "->";
 };
@@ -93,11 +94,19 @@ inline bool LanguageFromTo::well_initialized(void) const {
 }
 
 inline const QString& LanguageFromTo::from(void) const {
-  return this->_from;
+    return this->_from;
+}
+
+inline const QString& LanguageFromTo::from_longname(void) const {
+  return known_languages.at(this->_from);
 }
 
 inline const QString& LanguageFromTo::to(void) const {
   return this->_to;
+}
+
+inline const QString& LanguageFromTo::to_longname(void) const {
+  return known_languages.at(this->_to);
 }
 
 #endif

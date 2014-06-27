@@ -50,7 +50,8 @@ int main(int argc, char **argv)
     LanguageFromTo ll("fra->lat");
     QString from = ll.from();
     qDebug() << from;
-    qDebug() << ll.to();
+    QString from_longname = ll.from_longname();
+    qDebug() << from_longname;
     //--------------------------------------------------------------------
 
     qDebug() << static_cast<int>(PosInTextRanges::INTERNALSTATE::OK);
