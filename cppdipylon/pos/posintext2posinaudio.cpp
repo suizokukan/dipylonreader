@@ -81,8 +81,8 @@ void PosInText2PosInAudio::checks(void) {
 
 _____________________________________________________________________________*/
 void PosInText2PosInAudio::clear(void) {
-  this->_well_initialized = false;
-  this->_internal_state = NOT_YET_INITIALIZED;
+  this->_well_initialized = true;
+  this->_internal_state = OK;
   this->map.clear();
 }
 

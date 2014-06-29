@@ -77,7 +77,7 @@ private:
   int                  dipydoc_version;
   LanguageFromTo       languagefromto;
 
-  void                 check_path(QString&);
+  bool                 check_path(QString&);
   void                 init_from_xml(QString&);
 
   QStringList          errors;
@@ -102,27 +102,33 @@ public:
      o OK
      o NOT_YET_INITIALIZED : the object has not been initialized and is in an
                              undefined state.
+     o BAD_INITIALIZATION : a problem occurs during the initialization.
      o UNKNOWN_PATH : the source string "path" doesn't exist.
      o PATH_IS_A_FILE : the source string "path" is a file (a directory is expected)
+     o MISSING_MAIN_FILE : the main file doesn't exist in "path".
      o MISSING_TEXT_FILE : the text file doesn't exist in "path".
   */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_INITIALIZED = -1,
-    UNKNOWN_PATH = -2,
-    PATH_IS_A_FILE = -3,
-    MISSING_TEXT_FILE = -4,
+    BAD_INITIALIZATION = -2,
+    UNKNOWN_PATH = -3,
+    PATH_IS_A_FILE = -4,
+    MISSING_MAIN_FILE = -5,
+    MISSING_TEXT_FILE = -6,
   };
 
   // name of the files in a dipydoc directory :
-  constexpr static const char*   TEXTFILE_NAME = "text";
+  constexpr static const char*   MAIN_FILENAME = "main.xml";
+  constexpr static const char*   TEXT_FILENAME = "text";
 };
 
 inline DipyDoc::DipyDoc(void) {
-  this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE::OK;
+  this->_well_initialized = false;
+  this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
   this->source_text = QString("");
   this->translation = PosInText2Str();
+  this->dipydoc_version = -1;
 }
 
 inline int DipyDoc::internal_state(void) const {

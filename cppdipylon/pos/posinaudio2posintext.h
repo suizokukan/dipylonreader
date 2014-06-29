@@ -86,20 +86,18 @@ class PosInAudio2PosInText {
      constants used to define the internal_state attribute.
 
      o OK
-     o NOT_YET_INITIALIZED : the object has not yet been initialized.
      o WRONG_INITIALIZATION : a source object used to initialize "this" wasn't
                               correctly initialized.
   */
   enum INTERNALSTATE : int {
     OK = 0,
-    NOT_YET_INITIALIZED = -1,
     WRONG_INITIALIZATION = -2,
   };
 };
 
 inline PosInAudio2PosInText::PosInAudio2PosInText( void ) {
   this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
+  this->_internal_state = this->INTERNALSTATE::OK;
 }
 
 inline PosInAudio2PosInText::PosInAudio2PosInText( const PosInAudio2PosInText& other )  : \

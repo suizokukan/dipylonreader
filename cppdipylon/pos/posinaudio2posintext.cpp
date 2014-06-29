@@ -71,8 +71,8 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
 
 _____________________________________________________________________________*/
 void PosInAudio2PosInText::clear(void) {
-  this->_well_initialized = false;
-  this->_internal_state = INTERNALSTATE::NOT_YET_INITIALIZED;
+  this->_well_initialized = true;
+  this->_internal_state = INTERNALSTATE::OK;
   this->map.clear();
 }
 
