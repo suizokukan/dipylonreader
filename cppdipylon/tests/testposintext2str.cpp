@@ -73,7 +73,7 @@ void TestPosInText2Str::test1(void)
   };
 
   QCOMPARE( posintext2str.well_initialized() , false );
-  QCOMPARE( posintext2str.internal_state() , static_cast<int>(PosInText2Str::INTERNALSTATE::BADPOSINTEXTRANGES) );
+  QCOMPARE( posintext2str.internal_state() , static_cast<int>(PosInText2Str::INTERNALSTATE::BAD_POS_IN_TEXTRANGES) );
 }
 
 /*

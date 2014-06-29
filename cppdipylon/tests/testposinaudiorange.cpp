@@ -92,7 +92,7 @@ void TestPosInAudioRange::test3a(void)
   PosInAudioRange g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::ILLFORMEDSRCSTRING) );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::ILL_FORMED_SRC_STRING) );
 }
 
 /*
@@ -104,7 +104,7 @@ void TestPosInAudioRange::test3b(void)
   PosInAudioRange g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::ILLFORMEDSRCSTRING) );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::ILL_FORMED_SRC_STRING) );
 }
 
 /*
@@ -116,7 +116,7 @@ void TestPosInAudioRange::test3c(void)
   PosInAudioRange g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::ILLFORMEDSRCSTRING) );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::ILL_FORMED_SRC_STRING) );
 }
 
 /*

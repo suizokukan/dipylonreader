@@ -168,6 +168,8 @@ std::get<3>(proof) = " Beautiful!";  // Modify the tuple’s fourth element.
 [2.4] enum
 ################################################################################
 
+tous les enum doivent être précédés d'un récapitulatif expliquant leur emploi.
+
 class FOO {
 
   enum INTERNALSTATE : int {

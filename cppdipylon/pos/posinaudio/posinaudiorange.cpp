@@ -53,7 +53,7 @@ PosInAudioRange::PosInAudioRange(const QString& src_qstring) {
   if( splitted_strings.length() != 2 ) {
     // error : ill-formed src_qstring (ill formed source string)
     this->_well_initialized = false;
-    this->_internal_state = PosInAudioRange::INTERNALSTATE::ILLFORMEDSRCSTRING;
+    this->_internal_state = PosInAudioRange::INTERNALSTATE::ILL_FORMED_SRC_STRING;
     return;
   }
 
@@ -63,7 +63,7 @@ PosInAudioRange::PosInAudioRange(const QString& src_qstring) {
   // error : no empty number.
   if( (x0.length() == 0) || (x1.length() == 0) ) {
     this->_well_initialized = false;
-    this->_internal_state = PosInAudioRange::INTERNALSTATE::ILLFORMEDSRCSTRING;
+    this->_internal_state = PosInAudioRange::INTERNALSTATE::ILL_FORMED_SRC_STRING;
     return;
   }
 

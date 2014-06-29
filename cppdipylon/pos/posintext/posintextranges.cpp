@@ -53,7 +53,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
   if( splitted_strings.length() == 0 ) {
     // error : ill-formed src_qstring (no MAIN_SEPARATOR)
     this->_well_initialized = false;
-    this->_internal_state = PosInTextRanges::INTERNALSTATE::NOMAINSEP;
+    this->_internal_state = PosInTextRanges::INTERNALSTATE::NO_MAIN_SEPARATOR;
     return;
   }
 
@@ -63,7 +63,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
     if( x0x1.length() != 2 ) {
        // error : ill-formed src_qstring :
        this->_well_initialized = false;
-       this->_internal_state = PosInTextRanges::INTERNALSTATE::SECONDSEP;
+       this->_internal_state = PosInTextRanges::INTERNALSTATE::PROBLEM_WITH_SECOND_SEPARATOR;
        break;
     }
     else {
@@ -74,7 +74,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
 
       if( (x0_str.length() == 0) || (x1_str.length() == 0) ) {
         this->_well_initialized = false;
-        this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTYSTRINGFORNUMBER;
+        this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTY_STRING_FOR_NUMBER;
         break;
       }
 

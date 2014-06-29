@@ -91,15 +91,26 @@ class PosInTextRanges {
   QString            to_str(void) const;
   bool               well_initialized(void) const;
 
-  /* constants used to define the internal_state attribute :
+  /*
+     INTERNALSTATE
 
-     see PosInTextRanges::checks() for the documentation.
+     constants used to define the internal_state attribute.
+
+     o OK
+     o EMPTY_STRING_FOR_NUMBER : a string with a number was expected but the
+                                 string is empty. ("" instead of "12")
+     o NO_MAIN_SEPARATOR : missing main separator in a string. (e.g. "9-3 11-12" instead of "9-3+11-12")
+     o PROBLEM_WITH_SECOND_SEPARATOR : missing secondary separator in a string. (e.g. "11 12"
+                                       instead of "11-12") or more than one secondary separator.
+     o X0X1 : x0 > x1
+     o EMPTY : empty string given to initialize the object.
+     o OVERLAPPING : e.g. "100-150+125-175"
   */
   enum INTERNALSTATE : int {
     OK = 0,
-    EMPTYSTRINGFORNUMBER = -1,
-    NOMAINSEP = -2,
-    SECONDSEP = -3,
+    EMPTY_STRING_FOR_NUMBER = -1,
+    NO_MAIN_SEPARATOR = -2,
+    PROBLEM_WITH_SECOND_SEPARATOR = -3,
     X0X1 = -4,
     EMPTY = -5,
     OVERLAPPING = -6,

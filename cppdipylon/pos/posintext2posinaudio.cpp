@@ -35,10 +35,10 @@
         tests:
 
             o are the PosInTextRanges objects well initialized ?
-                if not, INTERNALSTATE::BADPOSINTEXTRANGES
+                if not, INTERNALSTATE::BAD_POS_IN_TEXTRANGES
 
             o are the <PosInAudio, PosInAudio> well ordered ?
-                if not, INTERNALSTATE::BADPOSINAUDIOX0X1
+                if not, INTERNALSTATE::BAD_POS_IN_AUDIO_X0X1
 
 ______________________________________________________________________________*/
 void PosInText2PosInAudio::checks(void) {
@@ -51,7 +51,7 @@ void PosInText2PosInAudio::checks(void) {
     // i.first is a PosInTextRanges object.
     if( i.first._well_initialized == false ) {
       this->_well_initialized = false;
-      this->_internal_state = INTERNALSTATE::BADPOSINTEXTRANGES;
+      this->_internal_state = INTERNALSTATE::BAD_POS_IN_TEXTRANGES;
       return;
     }
   }
@@ -64,7 +64,7 @@ void PosInText2PosInAudio::checks(void) {
     // i.second is a pair of PosInAudio object.
     if( i.second.first > i.second.second ) {
       this->_well_initialized = false;
-      this->_internal_state = INTERNALSTATE::BADPOSINAUDIOX0X1;
+      this->_internal_state = INTERNALSTATE::BAD_POS_IN_AUDIO_X0X1;
       return;
     }
   }

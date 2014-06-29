@@ -121,7 +121,7 @@ void TestPosInText2PosInAudio::test4a(void) {
       };
 
    QCOMPARE( text2audio.well_initialized() , false );
-   QCOMPARE( text2audio.internal_state() , static_cast<int>(PosInText2PosInAudio::INTERNALSTATE::BADPOSINTEXTRANGES) );
+   QCOMPARE( text2audio.internal_state() , static_cast<int>(PosInText2PosInAudio::INTERNALSTATE::BAD_POS_IN_TEXTRANGES) );
 }
 
 /*
@@ -136,5 +136,5 @@ void TestPosInText2PosInAudio::test4b(void) {
       };
 
    QCOMPARE( text2audio.well_initialized() , false );
-   QCOMPARE( text2audio.internal_state() , static_cast<int>(PosInText2PosInAudio::INTERNALSTATE::BADPOSINAUDIOX0X1) );
+   QCOMPARE( text2audio.internal_state() , static_cast<int>(PosInText2PosInAudio::INTERNALSTATE::BAD_POS_IN_AUDIO_X0X1) );
 }

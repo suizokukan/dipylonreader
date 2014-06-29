@@ -84,10 +84,17 @@ class PosInText2Str {
   VectorPosInTextRanges contains(PosInText, PosInText) const;
   bool                  well_initialized(void) const;
 
-  // constants used to define the internal_state attribute :
+  /*
+     INTERNALSTATE
+
+     constants used to define the internal_state attribute.
+
+     o OK
+     o BAD_POS_IN_TEXTRANGES : a PosInTextRanges object isn't correctly initialized.
+  */
   enum INTERNALSTATE : int {
     OK = 0,
-    BADPOSINTEXTRANGES = -1,
+    BAD_POS_IN_TEXTRANGES = -1,
   };
 };
 

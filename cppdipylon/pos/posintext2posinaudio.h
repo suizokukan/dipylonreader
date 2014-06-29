@@ -91,11 +91,19 @@ class PosInText2PosInAudio {
   VectorPosInTextRanges contains(PosInText, PosInText) const;
   bool                  well_initialized(void) const;
 
-  // constants used to define the internal_state attribute :
+  /*
+     INTERNALSTATE
+
+     constants used to define the internal_state attribute.
+
+     o OK
+     o BAD_POS_IN_TEXTRANGES : a PosInTextRanges object isn't correctly initialized.
+     o BAD_POS_IN_AUDIO_X0X1 : a pair of PosInAudio <x0, x1> has x0 > x1.
+  */
   enum INTERNALSTATE : int {
     OK = 0,
-    BADPOSINTEXTRANGES = -1,
-    BADPOSINAUDIOX0X1 = -2,
+    BAD_POS_IN_TEXTRANGES = -1,
+    BAD_POS_IN_AUDIO_X0X1 = -2,
   };
 };
 

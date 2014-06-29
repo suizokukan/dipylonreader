@@ -68,7 +68,19 @@ public:
   const QString&  to(void) const;
   const QString&  to_longname(void) const;
 
-  // constants used to define the internal_state attribute :
+  /*
+     INTERNALSTATE
+
+     constants used to define the internal_state attribute.
+
+     o OK
+     o NOT_YET_DEFINED : the object has not been initialized and is in an
+                         undefined state.
+     o ILLFORMED_SOURCE_STRING : the source string doesn't match the
+                                 LANGUAGEFROMTO_FORMAT defined above.
+     o UNDEFINED_FROMLANGUAGE : the "from" language is not known by "known_languages".
+     o UNDEFINED_TOLANGUAGE : the "to" language is not known by "known_languages".
+  */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_DEFINED = -1,

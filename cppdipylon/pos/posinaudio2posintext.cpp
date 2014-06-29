@@ -40,6 +40,11 @@
 _____________________________________________________________________________*/
 PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
 
+  if( src._well_initialized == false ) {
+    this->_well_initialized = false;
+    this->_internal_state = PosInAudio2PosInText::INTERNALSTATE::WRONG_INITIALIZATION;
+  }
+
   this->map.clear();
   this->_well_initialized = true;
   this->_internal_state = PosInAudio2PosInText::INTERNALSTATE::OK;
@@ -56,10 +61,6 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
     this->map[ src_i.second ] = src_i.first;
   }
 
-  if( src._well_initialized == false ) {
-    this->_well_initialized = false;
-    this->_internal_state = PosInAudio2PosInText::INTERNALSTATE::WRONGINITIALIZATION;
-  }
 }
 
 /*______________________________________________________________________________

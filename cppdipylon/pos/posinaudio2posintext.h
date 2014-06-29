@@ -79,10 +79,18 @@ class PosInAudio2PosInText {
   PosInTextRanges       contains(PosInAudio) const;
   bool                  well_initialized(void) const;
 
-  // constants used to define the internal_state attribute :
+  /*
+     INTERNALSTATE
+
+     constants used to define the internal_state attribute.
+
+     o OK
+     o WRONG_INITIALIZATION : a source object used to initialize "this" wasn't
+                              correctly initialized.
+  */
   enum INTERNALSTATE : int {
     OK = 0,
-    WRONGINITIALIZATION = -1,
+    WRONG_INITIALIZATION = -1,
   };
 };
 

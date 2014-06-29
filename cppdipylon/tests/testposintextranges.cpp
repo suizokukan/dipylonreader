@@ -118,7 +118,7 @@ void TestPosInTextRanges::test4a(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTYSTRINGFORNUMBER) );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTY_STRING_FOR_NUMBER) );
 }
 
 /*
@@ -130,7 +130,7 @@ void TestPosInTextRanges::test4b(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTYSTRINGFORNUMBER) );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::EMPTY_STRING_FOR_NUMBER) );
 }
 
 /*
@@ -142,7 +142,7 @@ void TestPosInTextRanges::test4c(void)
   PosInTextRanges g(str);
 
   QCOMPARE( g.well_initialized() , false );
-  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::SECONDSEP) );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::PROBLEM_WITH_SECOND_SEPARATOR) );
 }
 
 /*

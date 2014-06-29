@@ -69,11 +69,20 @@ class PosInAudioRange {
   QString            to_str(void) const;
   bool               well_initialized(void) const;
 
-  // constants used to define the internal_state attribute :
-  // see PosInAudioRange::checks() for the documentation.
+  /*
+     INTERNALSTATE
+
+     constants used to define the internal_state attribute.
+
+     o OK
+     o ILL_FORMED_SRC_STRING : problem with the number of MAIN_SEPARATOR.
+                               see the POSINAUDIORANGE_STR defined above.
+     o X0X1 : x0 > x1
+     o EMPTY : empty string given to initialize the object.
+  */
   enum INTERNALSTATE : int {
     OK = 0,
-    ILLFORMEDSRCSTRING = -1,
+    ILL_FORMED_SRC_STRING = -1,
     X0X1 = -2,
     EMPTY = -3,
   };

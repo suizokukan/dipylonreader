@@ -35,7 +35,7 @@
 ______________________________________________________________________________*/
 DipyDoc::DipyDoc(QString& path) {
 
-  this->set_to_uninitialized();
+  this->clear();
 
   // does the path leads to the expected files ?
   this->check_path(path);
@@ -72,14 +72,14 @@ void DipyDoc::check_path(QString& path)
   QFileInfo path_info = QFileInfo(path);
   if( path_info.exists() == false ) {
     this->_well_initialized = false;
-    this->_internal_state = DipyDoc::INTERNALSTATE::UNKNOWNPATH;
+    this->_internal_state = DipyDoc::INTERNALSTATE::UNKNOWN_PATH;
     return;
   }
 
   // is "path" a directory ?
   if( path_info.isFile() == true ) {
     this->_well_initialized = false;
-    this->_internal_state = DipyDoc::INTERNALSTATE::PATHISAFILE;
+    this->_internal_state = DipyDoc::INTERNALSTATE::PATH_IS_A_FILE;
     return;
   }
 
@@ -87,7 +87,7 @@ void DipyDoc::check_path(QString& path)
   QFileInfo text_info = QFileInfo(path + "/" + this->TEXTFILE_NAME);
   if( text_info.exists() == false ) {
     this->_well_initialized = false;
-    this->_internal_state = DipyDoc::INTERNALSTATE::MISSINGTEXT;
+    this->_internal_state = DipyDoc::INTERNALSTATE::MISSING_TEXT_FILE;
     return;
   }
 
@@ -105,7 +105,7 @@ void DipyDoc::check_path(QString& path)
 ______________________________________________________________________________*/
 void DipyDoc::init_from_xml(QString& path) {
 
-  this->set_to_uninitialized();
+  this->clear();
 
   qDebug() << "DipyDoc::init_from_xml" << "path=" << path;
 
@@ -197,16 +197,16 @@ void DipyDoc::init_from_xml(QString& path) {
 
 /*______________________________________________________________________________
 
-        DipyDoc::set_to_uninitialized()
+        DipyDoc::clear()
 
 ______________________________________________________________________________*/
-void DipyDoc::set_to_uninitialized(void) {
+void DipyDoc::clear(void) {
   this->_well_initialized = false;
-  this->_internal_state = DipyDoc::INTERNALSTATE::NOTYETINITIALIZED;
+  this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
 
-  this->errors.clear();
-  this->text2audio.clear();
-  this->audio2text.clear();
-  this->dipydoc_version.clear();
-  this->languagefromto.clear();
+  //this->errors.clear();
+  //this->text2audio.clear();
+  //this->audio2text.clear();
+  //this->dipydoc_version.clear();
+  //this->languagefromto.clear();
 }

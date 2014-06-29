@@ -43,7 +43,13 @@
 #include <QTextStream>
 #include <QXmlStreamReader>
 
-// divisions inside a DipyDoc file :
+/*
+  divisions inside a DipyDoc file :
+
+  o DIPYDOCDIV_UNDEFINED : everything but the other constants.
+  o DIPYDOCDIV_INSIDE_AUDIORECORD : inside <audiorecord></audiorecord>
+  o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation></translation>
+*/
 enum DipyDocDiv : int {
     DIPYDOCDIV_UNDEFINED = 0,
     DIPYDOCDIV_INSIDE_AUDIORECORD = 1,
@@ -79,8 +85,8 @@ private:
 public:
                        DipyDoc(void);
                        DipyDoc(QString&);
+  void                 clear(void);
   int                  internal_state(void) const;
-  void                 set_to_uninitialized(void);
   bool                 well_initialized(void) const;
 
   static const int     minimal_dipydoc_version = 10;
@@ -88,13 +94,24 @@ public:
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
 
-  // constants used to define the internal_state attribute :
+  /*
+     INTERNALSTATE
+
+     constants used to define the internal_state attribute.
+
+     o OK
+     o NOT_YET_INITIALIZED : the object has not been initialized and is in an
+                             undefined state.
+     o UNKNOWN_PATH : the source string "path" doesn't exist.
+     o PATH_IS_A_FILE : the source string "path" is a file (a directory is expected)
+     o MISSING_TEXT_FILE : the text file doesn't exist in "path".
+  */
   enum INTERNALSTATE : int {
     OK = 0,
-    NOTYETINITIALIZED = -1,
-    UNKNOWNPATH = -2,
-    PATHISAFILE = -3,
-    MISSINGTEXT = -4,
+    NOT_YET_INITIALIZED = -1,
+    UNKNOWN_PATH = -2,
+    PATH_IS_A_FILE = -3,
+    MISSING_TEXT_FILE = -4,
   };
 
   // name of the files in a dipydoc directory :
