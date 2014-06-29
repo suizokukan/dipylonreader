@@ -27,11 +27,15 @@
 
 #include "dipydoc.h"
 
+/*______________________________________________________________________________
+
+        DipyDoc::constructor from a "path" : initialize "this" from the files
+                                             stored in "path"
+
+______________________________________________________________________________*/
 DipyDoc::DipyDoc(QString& path) {
 
-  this->_well_initialized = true;
-  this->_internal_state = DipyDoc::INTERNALSTATE::OK;
-  this->source_text = QString("");
+  this->set_to_uninitialized();
 
   // does the path leads to the expected files ?
   this->check_path(path);
@@ -46,25 +50,7 @@ DipyDoc::DipyDoc(QString& path) {
   src_file_stream.setCodec("UTF-8");
   this->source_text = src_file_stream.readAll();
 
-  // $$$ fake initialization $$$ :
-  // let's initialize the translations :
-  this->translation[ { {8,26}, } ] = \
-                "Le premier amour de Phébus";
-  this->translation[ { {633, 649}, } ] = \
-                "Ton arc peut bien transpercer toutes tes cibles";
-
   this->init_from_xml(path);
-
-  // $$$ fake initialization of the karaoke data (this->text2audio & this->audio2text)
-  this->text2audio = {
-                { {{ {8, 26}, },},  {0, 2399} },
-                { {{ {29, 51}, },},  {3000, 5147} },
-                { {{ {60, 77}, },},  {5148, 7449} },
-                { {{ {80, 104}, },},  {7450, 10667} },
-                { {{ {113, 130}, },},  {10668, 13182} },
-                { {{ {133, 156}, },},  {13183, 16061} },
-      };
-  this->audio2text = PosInAudio2PosInText( this->text2audio );
 }
 
 /*______________________________________________________________________________
@@ -111,12 +97,17 @@ void DipyDoc::check_path(QString& path)
 
         DipyDoc::init_from_xml
 
-        Initialize the DipyDoc data from the files stored in "path".
+        o clear "this"
+        o initialize the DipyDoc data from the files stored in "path".
+          This method doesn't check if "path" is valid : see the ::check_path()
+          method for this.
 
 ______________________________________________________________________________*/
 void DipyDoc::init_from_xml(QString& path) {
 
-  qDebug() << "DipyDoc::init_from_xml";
+  this->set_to_uninitialized();
+
+  qDebug() << "DipyDoc::init_from_xml" << "path=" << path;
 
   QXmlStreamReader xmlreader;
 
@@ -162,6 +153,8 @@ void DipyDoc::init_from_xml(QString& path) {
         if( current_division == DIPYDOCDIV_INSIDE_AUDIORECORD) {
           PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
           PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
+
+          qDebug() << "xml:audiorecord:segment" << "text=" << textranges.to_str() << "audio=" << audiorange.to_str();
           continue;
         }
       }
@@ -170,5 +163,50 @@ void DipyDoc::init_from_xml(QString& path) {
     }
   }
 
+  // $$$ fake initialization $$$ :
+  // let's initialize the translations :
+  this->translation[ { {8,26}, } ] = \
+                "Le premier amour de Phébus";
+  this->translation[ { {633, 649}, } ] = \
+                "Ton arc peut bien transpercer toutes tes cibles";
+
+  // $$$ fake initialization of the karaoke data (this->text2audio & this->audio2text)
+  this->text2audio = {
+                { {{ {8, 26}, },},  {0, 2399} },
+                { {{ {29, 51}, },},  {3000, 5147} },
+                { {{ {60, 77}, },},  {5148, 7449} },
+                { {{ {80, 104}, },},  {7450, 10667} },
+                { {{ {113, 130}, },},  {10668, 13182} },
+                { {{ {133, 156}, },},  {13183, 16061} },
+      };
+  this->audio2text = PosInAudio2PosInText( this->text2audio );
+
+
+  /*
+    Is everything in order ?
+  */
+  //+ problème de version ? (minimal version)
+  //+ message d'erreur ?
+  //+ pour chque textranges/audiorange, vérifier le _well_initialized.
+  //this->_well_initialized = xmlinit_is_ok and
+      //                          this->languagefromto.well_initialized();
+
+
   qDebug() << "xmlreader.error=" << static_cast<int>(xmlreader.error());
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::set_to_uninitialized()
+
+______________________________________________________________________________*/
+void DipyDoc::set_to_uninitialized(void) {
+  this->_well_initialized = false;
+  this->_internal_state = DipyDoc::INTERNALSTATE::NOTYETINITIALIZED;
+
+  this->errors.clear();
+  this->text2audio.clear();
+  this->audio2text.clear();
+  this->dipydoc_version.clear();
+  this->languagefromto.clear();
 }

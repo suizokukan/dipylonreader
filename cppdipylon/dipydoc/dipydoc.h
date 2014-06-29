@@ -61,34 +61,40 @@ friend class DipylonUI;
 
 private:
 
-  bool          _well_initialized;
-  int           _internal_state;
-  PosInText2Str translation;
-  QString       source_text;
+  bool                 _well_initialized;
+  int                  _internal_state;
+  PosInText2Str        translation;
+  QString              source_text;
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
 
-  int            dipydoc_version;
-  LanguageFromTo languagefromto;
+  int                  dipydoc_version;
+  LanguageFromTo       languagefromto;
 
-  void          check_path(QString&);
-  void          init_from_xml(QString&);
+  void                 check_path(QString&);
+  void                 init_from_xml(QString&);
+
+  QStringList          errors;
 
 public:
-                DipyDoc(void);
-                DipyDoc(QString&);
-  int           internal_state(void) const;
-  bool          well_initialized(void) const;
+                       DipyDoc(void);
+                       DipyDoc(QString&);
+  int                  internal_state(void) const;
+  void                 set_to_uninitialized(void);
+  bool                 well_initialized(void) const;
+
+  static const int     minimal_dipydoc_version = 10;
 
   // public access to audio2text.contains() :
-  PosInTextRanges audio2text_contains(PosInAudio) const;
+  PosInTextRanges      audio2text_contains(PosInAudio) const;
 
   // constants used to define the internal_state attribute :
   enum INTERNALSTATE : int {
     OK = 0,
-    UNKNOWNPATH = -1,
-    PATHISAFILE = -2,
-    MISSINGTEXT = -3,
+    NOTYETINITIALIZED = -1,
+    UNKNOWNPATH = -2,
+    PATHISAFILE = -3,
+    MISSINGTEXT = -4,
   };
 
   // name of the files in a dipydoc directory :
