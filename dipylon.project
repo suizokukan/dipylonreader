@@ -39,8 +39,11 @@ SOMMAIRE
 0.2.0 : karaoke mode
 
 0.2.1 : XML :
-      (2) .set_to_uni > .clear()  
-      (1) expliquer le sens des constantes d'erreur.
+      (1) terminer l'init des traductions : translation.clear()
+      (2) créer automatiquement un brouillon d'xml
+      (3) et si plusieurs traductions/audioranges, comment les distinguer en lisant le XML
+      (4) dans le XML : textrange->textranges
+
 http://developer.nokia.com/community/wiki/QXmlStreamReader_to_parse_XML_in_Qt
 http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
 http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details

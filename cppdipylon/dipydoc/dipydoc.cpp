@@ -24,11 +24,12 @@
     See dipydoc.h for the documentation
 
     ____________________________________________________________________________
-    EXPECTED FILES :
+
+    expected files :
 
     o text file : a bunch of pure UTF-8/unicode text
 
-    o main file : (version 10)
+    o main file : (version 10), something like :
 
         <?xml version="1.0" encoding="UTF-8" ?>
 
@@ -161,7 +162,6 @@ bool DipyDoc::check_path(QString& path)
   }
 
   return true;
-
 }
 
 /*______________________________________________________________________________
@@ -250,14 +250,35 @@ void DipyDoc::init_from_xml(QString& path) {
       }
 
       if( name == "segment" ) {
-        if( current_division == DIPYDOCDIV_INSIDE_AUDIORECORD) {
-          PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
-          PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
-          this->text2audio[ textranges ] = PairOfPosInAudio( audiorange.first(), audiorange.second() );
 
-          qDebug() << "DipyDoc::init_from_xml : audiorecord:segment" << "text=" << textranges.to_str() << "audio=" << audiorange.to_str();
+        switch( current_division ) {
 
-          continue;
+          case DIPYDOCDIV_INSIDE_AUDIORECORD : {
+            PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
+            PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
+            this->text2audio[ textranges ] = PairOfPosInAudio( audiorange.first(), audiorange.second() );
+
+            qDebug() << "DipyDoc::init_from_xml : audiorecord:segment" << \
+                        "textranges=" << textranges.to_str() << \
+                        "audiorange=" << audiorange.to_str();
+            break;
+          }
+
+          case DIPYDOCDIV_INSIDE_TRANSLATION : {
+            PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
+            QString text(xmlreader.readElementText());
+
+            qDebug() << "DipyDoc::init_from_xml : translation:segment" << \
+                        "textranges=" << textranges.to_str() << \
+                        "text=" << text;
+            break;
+          }
+
+          default : {
+            break;
+          }
+
+        continue;
         }
       }
 
@@ -343,28 +364,6 @@ void DipyDoc::init_from_xml(QString& path) {
 
     qDebug() << msg_error;
   }
-
-  // $$$ fake initialization $$$ :
-  // let's initialize the translations :
-  /*
-  this->translation[ { {8,26}, } ] = \
-                "Le premier amour de Phébus";
-  this->translation[ { {633, 649}, } ] = \
-                "Ton arc peut bien transpercer toutes tes cibles";
-  */
-
-  // $$$ fake initialization of the karaoke data (this->text2audio & this->audio2text)
-  /*
-  this->text2audio = {
-                { {{ {8, 26}, },},  {0, 2399} },
-                { {{ {29, 51}, },},  {3000, 5147} },
-                { {{ {60, 77}, },},  {5148, 7449} },
-                { {{ {80, 104}, },},  {7450, 10667} },
-                { {{ {113, 130}, },},  {10668, 13182} },
-                { {{ {133, 156}, },},  {13183, 16061} },
-      };
-  this->audio2text = PosInAudio2PosInText( this->text2audio );
-  */
 
   /*............................................................................
     (6) initializaton of _well_initialized, _internal_state
