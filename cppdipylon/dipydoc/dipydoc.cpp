@@ -177,12 +177,15 @@ bool DipyDoc::check_path(QString& path)
         (1) clear "this"
         (2) main file opening
         (3) xml reading
+            (3.1) main file reading
+            (3.2) was the xml reading of the main file ok ?
         (4) initialize "audio2text"
         (5) checks
             (5.1) is the version of the Dipy doc correct ?
             (5.2) is the object languagefromto correctly initialized ?
             (5.3) is text2audio correctly initialized ?
             (5.4) is audio2text correctly initialized ?
+            (5.5) is translation correctly initialized ?
         (6) initializaton of _well_initialized, _internal_state
 
 ______________________________________________________________________________*/
@@ -202,8 +205,8 @@ void DipyDoc::init_from_xml(QString& path) {
   ............................................................................*/
   QString main_filename = path + "/" + this->MAIN_FILENAME;
 
-  QFile dipydoc_xml(main_filename);
-  if ( !dipydoc_xml.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
+  QFile dipydoc_main_xml(main_filename);
+  if ( !dipydoc_main_xml.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
 
     qDebug() << "DipyDoc::init_from_xml" << "can't open the main file in " << path;
 
@@ -218,9 +221,11 @@ void DipyDoc::init_from_xml(QString& path) {
     (3) xml reading
   ............................................................................*/
   QXmlStreamReader xmlreader;
+  xmlreader.setDevice(&dipydoc_main_xml);
 
-  xmlreader.setDevice(&dipydoc_xml);
-
+  /*............................................................................
+    (3.1) main file reading
+  ............................................................................*/
   DipyDocDiv current_division = DIPYDOCDIV_UNDEFINED;
 
   while(!xmlreader.atEnd() && !xmlreader.hasError()) {
@@ -278,14 +283,19 @@ void DipyDoc::init_from_xml(QString& path) {
             break;
           }
 
-        continue;
         }
+        continue;
+
       }
 
       current_division = DIPYDOCDIV_UNDEFINED;
     }
   }
   bool xml_reading_is_ok = !xmlreader.hasError();
+
+  /*............................................................................
+    (3.2) was the xml reading of the main file ok ?
+  ............................................................................*/
 
   if( xml_reading_is_ok == false ) {
     msg_error = "An error occurs while reading the main file : ";
@@ -366,13 +376,28 @@ void DipyDoc::init_from_xml(QString& path) {
   }
 
   /*............................................................................
+    (5.5) is translation correctly initialized ?
+  ............................................................................*/
+  if( translation.well_initialized() == false ) {
+    msg_error = "An error occurs while reading the main file; ";
+    msg_error += "translation isn't correctly initialized";
+    msg_error += "message error due to the PosInText2Str object =" + QString().setNum(this->translation.internal_state());
+    msg_error += "filename=" + main_filename;
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append( msg_error );
+
+    qDebug() << msg_error;
+  }
+
+  /*............................................................................
     (6) initializaton of _well_initialized, _internal_state
   ............................................................................*/
   this->_well_initialized = xml_reading_is_ok and \
                             dipydoc_version_ok and \
                             this->languagefromto.well_initialized() and \
                             this->text2audio.well_initialized() and \
-                            this->audio2text.well_initialized();
+                            this->audio2text.well_initialized() and \
+                            this->translation.well_initialized();
 
   if( this->_well_initialized == true ) {
     this->_internal_state = OK;
@@ -398,4 +423,5 @@ void DipyDoc::clear(void) {
   this->audio2text.clear();
   this->dipydoc_version = -1;
   this->languagefromto.clear();
+  this->translation.clear();
 }

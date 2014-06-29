@@ -56,6 +56,17 @@ void PosInText2Str::checks(void) {
 
 /*______________________________________________________________________________
 
+        PosInText2Str::clear
+
+ ______________________________________________________________________________*/
+void PosInText2Str::clear(void) {
+  this->_well_initialized = true;
+  this->_internal_state = OK;
+  this->map.clear();
+}
+
+/*______________________________________________________________________________
+
         PosInText2Str::contains(PosInText x0)
 
        search the first (PosInTextRanges)key in" this" that matches this->key.contains(x0)
