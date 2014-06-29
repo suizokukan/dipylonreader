@@ -60,24 +60,25 @@ class PosInAudio2PosInText {
  private:
 
   std::unordered_map<PosInAudioRange, PosInTextRanges, PosInAudioRangeHasher> map;
-  int                   _internal_state;
-  bool                  _well_initialized;
+  int                     _internal_state;
+  bool                    _well_initialized;
 
  public:
 
-                        PosInAudio2PosInText(void);
-                        PosInAudio2PosInText(const PosInAudio2PosInText&);
-                        PosInAudio2PosInText(const PosInText2PosInAudio&);      // "inverse" constructor
-                        ~PosInAudio2PosInText(void);
+                          PosInAudio2PosInText(void);
+                          PosInAudio2PosInText(const PosInAudio2PosInText&);
+                          PosInAudio2PosInText(const PosInText2PosInAudio&);      // "inverse" constructor
+                          ~PosInAudio2PosInText(void);
 
-  PosInTextRanges&       operator[]( PosInAudioRange key );
-  const PosInTextRanges& operator[]( const PosInAudioRange key ) const;
-  PosInAudio2PosInText&  operator=(const PosInAudio2PosInText&);
+  PosInTextRanges&        operator[]( PosInAudioRange key );
+  const PosInTextRanges&  operator[]( const PosInAudioRange key ) const;
+  PosInAudio2PosInText&   operator=(const PosInAudio2PosInText&);
 
-  size_t                size(void) const;
-  int                   internal_state(void) const;
-  PosInTextRanges       contains(PosInAudio) const;
-  bool                  well_initialized(void) const;
+  void                    clear(void);
+  PosInTextRanges         contains(PosInAudio) const;
+  int                     internal_state(void) const;
+  size_t                  size(void) const;
+  bool                    well_initialized(void) const;
 
   /*
      INTERNALSTATE
@@ -85,18 +86,20 @@ class PosInAudio2PosInText {
      constants used to define the internal_state attribute.
 
      o OK
+     o NOT_YET_INITIALIZED : the object has not yet been initialized.
      o WRONG_INITIALIZATION : a source object used to initialize "this" wasn't
                               correctly initialized.
   */
   enum INTERNALSTATE : int {
     OK = 0,
-    WRONG_INITIALIZATION = -1,
+    NOT_YET_INITIALIZED = -1,
+    WRONG_INITIALIZATION = -2,
   };
 };
 
 inline PosInAudio2PosInText::PosInAudio2PosInText( void ) {
   this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE::OK;
+  this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
 }
 
 inline PosInAudio2PosInText::PosInAudio2PosInText( const PosInAudio2PosInText& other )  : \

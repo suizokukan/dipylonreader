@@ -80,6 +80,22 @@ void PosInText2PosInAudio::checks(void) {
        empty PosInTextRanges if indexes in "this" do not contain "x0".
 
 _____________________________________________________________________________*/
+void PosInText2PosInAudio::clear(void) {
+  this->_well_initialized = false;
+  this->_internal_state = NOT_YET_INITIALIZED;
+  this->map.clear();
+}
+
+/*______________________________________________________________________________
+
+        PosInText2PosInAudio::contains(PosInText x0)
+
+       search the first (PosInTextRanges)key in "this" that matches this->key.contains(x0)
+
+       This function returns a PosInTextRanges. The result is an
+       empty PosInTextRanges if indexes in "this" do not contain "x0".
+
+_____________________________________________________________________________*/
 PosInTextRanges PosInText2PosInAudio::contains(PosInText x0) const
 {
   for(auto &i : this->map) {

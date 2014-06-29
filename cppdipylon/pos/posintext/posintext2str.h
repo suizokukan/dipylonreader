@@ -90,17 +90,19 @@ class PosInText2Str {
      constants used to define the internal_state attribute.
 
      o OK
+     o NOT_YET_INITIALIZED : the object has not yet been initialized.
      o BAD_POS_IN_TEXTRANGES : a PosInTextRanges object isn't correctly initialized.
   */
   enum INTERNALSTATE : int {
     OK = 0,
-    BAD_POS_IN_TEXTRANGES = -1,
+    NOT_YET_INITIALIZED = -1,
+    BAD_POS_IN_TEXTRANGES = -2,
   };
 };
 
 inline PosInText2Str::PosInText2Str( void ) {
-  this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE::OK;
+  this->_well_initialized = false;
+  this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
 }
 
 inline PosInText2Str::PosInText2Str( const PosInText2Str& other )  : \

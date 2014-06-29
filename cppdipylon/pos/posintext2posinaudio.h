@@ -69,27 +69,28 @@ class PosInText2PosInAudio {
  private:
 
   std::unordered_map<PosInTextRanges, PairOfPosInAudio, PosInTextRangesHasher> map;
-  int                   _internal_state;
-  bool                  _well_initialized;
+  int                     _internal_state;
+  bool                    _well_initialized;
 
-  void                  checks(void);
+  void                    checks(void);
 
  public:
 
-                        PosInText2PosInAudio(void);
-                        PosInText2PosInAudio(const PosInText2PosInAudio&);
-                        PosInText2PosInAudio(std::initializer_list< PosInTextAndAudio >);
-                        ~PosInText2PosInAudio(void);
+                          PosInText2PosInAudio(void);
+                          PosInText2PosInAudio(const PosInText2PosInAudio&);
+                          PosInText2PosInAudio(std::initializer_list< PosInTextAndAudio >);
+                          ~PosInText2PosInAudio(void);
 
   PairOfPosInAudio&       operator[]( PosInTextRanges key );
   const PairOfPosInAudio& operator[]( const PosInTextRanges key ) const;
   PosInText2PosInAudio&   operator=(const PosInText2PosInAudio&);
 
-  size_t                size(void) const;
-  int                   internal_state(void) const;
-  PosInTextRanges       contains(PosInText) const;
-  VectorPosInTextRanges contains(PosInText, PosInText) const;
-  bool                  well_initialized(void) const;
+  PosInTextRanges         contains(PosInText) const;
+  VectorPosInTextRanges   contains(PosInText, PosInText) const;
+  void                    clear(void);
+  int                     internal_state(void) const;
+  size_t                  size(void) const;
+  bool                    well_initialized(void) const;
 
   /*
      INTERNALSTATE
@@ -97,19 +98,21 @@ class PosInText2PosInAudio {
      constants used to define the internal_state attribute.
 
      o OK
+     o NOT_YET_INITIALIZED : the object has not yet been initialized.
      o BAD_POS_IN_TEXTRANGES : a PosInTextRanges object isn't correctly initialized.
      o BAD_POS_IN_AUDIO_X0X1 : a pair of PosInAudio <x0, x1> has x0 > x1.
   */
   enum INTERNALSTATE : int {
     OK = 0,
-    BAD_POS_IN_TEXTRANGES = -1,
-    BAD_POS_IN_AUDIO_X0X1 = -2,
-  };
+    NOT_YET_INITIALIZED = -1,
+    BAD_POS_IN_TEXTRANGES = -2,
+    BAD_POS_IN_AUDIO_X0X1 = -3,
+    };
 };
 
 inline PosInText2PosInAudio::PosInText2PosInAudio( void ) {
-  this->_well_initialized = true;
-  this->_internal_state = this->INTERNALSTATE::OK;
+  this->_well_initialized = false;
+  this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
 }
 
 inline PosInText2PosInAudio::PosInText2PosInAudio( const PosInText2PosInAudio& other )  : \

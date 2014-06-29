@@ -204,9 +204,9 @@ void DipyDoc::clear(void) {
   this->_well_initialized = false;
   this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
 
-  //this->errors.clear();
-  //this->text2audio.clear();
-  //this->audio2text.clear();
-  //this->dipydoc_version.clear();
-  //this->languagefromto.clear();
+  this->errors.clear();
+  this->text2audio.clear();
+  this->audio2text.clear();
+  this->dipydoc_version = -1;
+  this->languagefromto.clear();
 }

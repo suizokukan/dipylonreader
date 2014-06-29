@@ -70,3 +70,14 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
     this->_internal_state = UNDEFINED_TOLANGUAGE;
   }
 }
+
+/*______________________________________________________________________________
+
+  LanguangeFromTo::clear()
+________________________________________________________________________________*/
+void LanguageFromTo::clear(void) {
+  this->_well_initialized = false;
+  this->_internal_state = NOT_YET_INITIALIZED;
+  this->_from = QString("");
+  this->_to = QString("");
+}

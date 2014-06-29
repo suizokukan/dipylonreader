@@ -27,7 +27,6 @@
 
 #include "pos/posinaudio2posintext.h"
 
-// $$$
 #include <QDebug>
 
 /*______________________________________________________________________________
@@ -62,6 +61,21 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
   }
 
 }
+
+/*______________________________________________________________________________
+
+        PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio)
+
+        Fill "this" from a PosInText2PosInAudio object : "this" will be the
+        reversed source.
+
+_____________________________________________________________________________*/
+void PosInAudio2PosInText::clear(void) {
+  this->_well_initialized = false;
+  this->_internal_state = INTERNALSTATE::NOT_YET_INITIALIZED;
+  this->map.clear();
+}
+
 
 /*______________________________________________________________________________
 

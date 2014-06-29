@@ -61,8 +61,10 @@ class LanguageFromTo {
 public:
   int             internal_state(void) const;
   bool            well_initialized(void) const;
+
                   LanguageFromTo(void);
                   LanguageFromTo(const QString&);
+  void            clear(void);
   const QString&  from(void) const;
   const QString&  from_longname(void) const;
   const QString&  to(void) const;
@@ -74,8 +76,8 @@ public:
      constants used to define the internal_state attribute.
 
      o OK
-     o NOT_YET_DEFINED : the object has not been initialized and is in an
-                         undefined state.
+     o NOT_YET_INITIALIZED : the object has not been initialized and is in an
+                             undefined state.
      o ILLFORMED_SOURCE_STRING : the source string doesn't match the
                                  LANGUAGEFROMTO_FORMAT defined above.
      o UNDEFINED_FROMLANGUAGE : the "from" language is not known by "known_languages".
@@ -83,7 +85,7 @@ public:
   */
   enum INTERNALSTATE : int {
     OK = 0,
-    NOT_YET_DEFINED = -1,
+    NOT_YET_INITIALIZED = -1,
     ILLFORMED_SOURCE_STRING = -2,
     UNDEFINED_FROMLANGUAGE = -3,
     UNDEFINED_TOLANGUAGE = -4,
@@ -99,7 +101,7 @@ private:
 };
 
 inline LanguageFromTo::LanguageFromTo(void) : \
-                  _internal_state(NOT_YET_DEFINED), \
+                  _internal_state(NOT_YET_INITIALIZED), \
                   _well_initialized(false), \
                   _from(""), \
                   _to("")
