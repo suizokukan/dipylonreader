@@ -166,6 +166,56 @@ bool DipyDoc::check_path(QString& path)
 
 /*______________________________________________________________________________
 
+        DipyDoc::clear()
+
+______________________________________________________________________________*/
+void DipyDoc::clear(void) {
+  this->_well_initialized = false;
+  this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
+
+  this->errors.clear();
+  this->text2audio.clear();
+  this->audio2text.clear();
+  this->dipydoc_version = -1;
+  this->languagefromto.clear();
+  this->translation.clear();
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::create_xml_draft_from_xml
+
+______________________________________________________________________________*/
+void DipyDoc::create_xml_draft(void) const {
+
+  QString res;
+
+  res += "DipyDoc::create_xml_draft ======================\n";
+
+  res += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+
+  res += "<dipydoc";
+  res += " dipydoc_version=\"";
+  res += QString().setNum(this->dipydoc_version);
+  res += "\"";
+  res += " languages=\"";
+  res += this->languagefromto.to_str();
+  res += "\">\n";
+
+  // begin(), end() ???
+  for(auto &i : this->text2audio) {
+    qDebug() << i.first.to_str();
+  }
+
+  res += "</dipydoc>\n";
+
+  res += "======================\n";
+
+  qDebug() << res;
+}
+
+/*______________________________________________________________________________
+
         DipyDoc::init_from_xml()
 
         Initialize "this" from the file(s) stored in "path" and return a (bool)success.
@@ -272,6 +322,7 @@ void DipyDoc::init_from_xml(QString& path) {
           case DIPYDOCDIV_INSIDE_TRANSLATION : {
             PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
             QString text(xmlreader.readElementText());
+            this->translation[ textranges ] = text;
 
             qDebug() << "DipyDoc::init_from_xml : translation:segment" << \
                         "textranges=" << textranges.to_str() << \
@@ -407,21 +458,7 @@ void DipyDoc::init_from_xml(QString& path) {
   }
 
   qDebug() << "DipyDoc::init_from_xml" << "xml:this->_well_initialized" << this->_well_initialized;
-}
 
-/*______________________________________________________________________________
-
-        DipyDoc::clear()
-
-______________________________________________________________________________*/
-void DipyDoc::clear(void) {
-  this->_well_initialized = false;
-  this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
-
-  this->errors.clear();
-  this->text2audio.clear();
-  this->audio2text.clear();
-  this->dipydoc_version = -1;
-  this->languagefromto.clear();
-  this->translation.clear();
+  // $$$
+  this->create_xml_draft();
 }

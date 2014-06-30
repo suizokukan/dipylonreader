@@ -86,6 +86,7 @@ public:
                        DipyDoc(void);
                        DipyDoc(QString&);
   void                 clear(void);
+  void                 create_xml_draft(void) const;
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 

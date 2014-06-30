@@ -43,6 +43,13 @@
 
 #include <unordered_map>
 
+/* type of the unordered_map used by the PosInText2PosInAudio class :
+
+   PosInTextRanges -> PairOfPosInAudio
+*/
+typedef std::unordered_map<PosInTextRanges, PairOfPosInAudio, PosInTextRangesHasher> UMAP_Text2Audio;
+typedef UMAP_Text2Audio::const_iterator UMAP_Text2AudioCI;
+
 /*______________________________________________________________________________
 
   Structure used to easily initialize PosInText2PosInAudio objects. E.g. :
@@ -68,7 +75,7 @@ class PosInText2PosInAudio {
 
  private:
 
-  std::unordered_map<PosInTextRanges, PairOfPosInAudio, PosInTextRangesHasher> map;
+  UMAP_Text2Audio map;
   int                     _internal_state;
   bool                    _well_initialized;
 
@@ -85,9 +92,11 @@ class PosInText2PosInAudio {
   const PairOfPosInAudio& operator[]( const PosInTextRanges key ) const;
   PosInText2PosInAudio&   operator=(const PosInText2PosInAudio&);
 
+  UMAP_Text2AudioCI       begin(void) const;
   PosInTextRanges         contains(PosInText) const;
   VectorPosInTextRanges   contains(PosInText, PosInText) const;
   void                    clear(void);
+  UMAP_Text2AudioCI       end(void) const;
   int                     internal_state(void) const;
   size_t                  size(void) const;
   bool                    well_initialized(void) const;
@@ -154,6 +163,14 @@ inline PairOfPosInAudio& PosInText2PosInAudio::operator[]( PosInTextRanges key) 
 }
 inline const PairOfPosInAudio& PosInText2PosInAudio::operator[]( const PosInTextRanges key ) const {
   return this->map.at(key);
+}
+
+inline UMAP_Text2AudioCI PosInText2PosInAudio::begin(void) const {
+  return this->map.begin();
+}
+
+inline UMAP_Text2AudioCI PosInText2PosInAudio::end(void) const {
+  return this->map.end();
 }
 
 inline int PosInText2PosInAudio::internal_state(void) const {

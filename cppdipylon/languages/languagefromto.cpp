@@ -81,3 +81,20 @@ void LanguageFromTo::clear(void) {
   this->_from = QString("");
   this->_to = QString("");
 }
+
+/*______________________________________________________________________________
+
+  LanguangeFromTo::to_str()
+
+  Return a QString representation of this.
+________________________________________________________________________________*/
+const QString LanguageFromTo::to_str(void) const {
+
+  QString res("");
+
+  res += this->from();
+  res += this->SEPARATOR;
+  res += this->to();
+
+  return res;
+}
