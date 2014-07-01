@@ -124,6 +124,43 @@ bool MainWindow::saveAs()
     return saveFile(files.at(0));
 }
 
+bool MainWindow::improvexmlandsaveAs()
+{
+    QFileDialog dialog(this);
+    dialog.setWindowModality(Qt::WindowModal);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.exec();
+    QStringList files = dialog.selectedFiles();
+
+    if (files.isEmpty()) {
+      return false;
+    }
+
+    QString fileName = files.at(0);
+
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Application"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return false;
+    }
+
+    QTextStream out(&file);
+#ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+#endif
+    out << this->current_dipylonui.current_dipydoc.get_improved_xml_representation();
+#ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+#endif
+
+    setCurrentFile(fileName);
+    statusBar()->showMessage(tr("File saved"), 2000);
+    return true;
+}
+
 void MainWindow::about()
 {
    QMessageBox::about(this, tr("About Application"),
@@ -164,6 +201,10 @@ void MainWindow::createActions()
     saveAsAct->setShortcuts(QKeySequence::SaveAs);
     saveAsAct->setStatusTip(tr("Save the document under a new name"));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
+
+    improvexmlandsaveAsAct = new QAction(tr("Improve XML and save as..."), this);
+    improvexmlandsaveAsAct->setStatusTip(tr("Improve and save the document under a new name"));
+    connect(improvexmlandsaveAsAct, SIGNAL(triggered()), this, SLOT(improvexmlandsaveAs()));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
@@ -230,6 +271,7 @@ void MainWindow::createMenus()
     fileMenu->addAction(openAct);
     fileMenu->addAction(saveAct);
     fileMenu->addAction(saveAsAct);
+    fileMenu->addAction(improvexmlandsaveAsAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 

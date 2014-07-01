@@ -92,7 +92,7 @@ public:
                        DipyDoc(void);
                        DipyDoc(QString&);
   void                 clear(void);
-  void                 create_xml_draft(void) const;
+  QString              get_improved_xml_representation(void) const;
   QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
