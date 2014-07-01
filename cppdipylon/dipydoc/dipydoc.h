@@ -119,6 +119,7 @@ public:
      o PATH_IS_A_FILE : the source string "path" is a file (a directory is expected)
      o MISSING_MAIN_FILE : the main file doesn't exist in "path".
      o MISSING_TEXT_FILE : the text file doesn't exist in "path".
+     o MISSING_AUDIO_FILE : the expected audio file is missing.
 
      please update DipyDoc::diagnosis() if you modify this constants.
   */
@@ -130,6 +131,7 @@ public:
     PATH_IS_A_FILE = -4,
     MISSING_MAIN_FILE = -5,
     MISSING_TEXT_FILE = -6,
+    MISSING_AUDIO_FILE = -7,
   };
 
   // name of the files in a dipydoc directory :

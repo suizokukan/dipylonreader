@@ -47,7 +47,7 @@ SOMMAIRE
 0.2.1 : XML read/write
 0.2.2 : open DipyDoc
 
-      (2) DipyDoc open : checkpath à appeler quelque part.
+      (2) détecter l'absence du fichier audio.
       (1) option lors de la compilation : mode EXPERT (afficheles pos dans le texte)
 
 ################################################################################

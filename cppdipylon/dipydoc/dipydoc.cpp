@@ -210,6 +210,12 @@ QString DipyDoc::diagnosis(void) const {
       return msg;
     }
 
+    case DipyDoc::INTERNALSTATE::MISSING_AUDIO_FILE : {
+      QString msg = QObject::tr("The given path doesn't contain the expected audio file, '$FILENAME$'.");
+      msg.replace( "$FILENAME$", this->audiorecord_filename );
+      return msg;
+    }
+
     default : {
       return QObject::tr("anomaly : unknown internal state.");
     }
@@ -351,7 +357,8 @@ QString DipyDoc::get_xml_repr(void) const {
             (5.3) is text2audio correctly initialized ?
             (5.4) is audio2text correctly initialized ?
             (5.5) is translation correctly initialized ?
-        (6) initializaton of _well_initialized, _internal_state
+            (5.6) does the audio file exist ?
+        (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
 void DipyDoc::init_from_xml(const QString& path) {
@@ -559,21 +566,34 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
-    (6) initializaton of _well_initialized, _internal_state
+    (5.6) does the audio file exist ?
+  ............................................................................*/
+  bool audiofile_ok = true;
+
+  QFile audiofile( this->audiorecord_filename );
+  if (!audiofile.open(QFile::ReadOnly) ) {
+    audiofile_ok = false;
+
+    msg_error = "An error occurs while opening the audio file; ";
+    msg_error += "filename=" + this->audiorecord_filename;
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append( msg_error );
+
+    this->_internal_state = MISSING_AUDIO_FILE;
+
+    qDebug() << msg_error;
+    }
+
+  /*............................................................................
+    (6) initializaton of _well_initialized
   ............................................................................*/
   this->_well_initialized = xml_reading_is_ok and \
                             dipydoc_version_ok and \
                             this->languagefromto.well_initialized() and \
                             this->text2audio.well_initialized() and \
                             this->audio2text.well_initialized() and \
-                            this->translation.well_initialized();
-
-  if( this->_well_initialized == true ) {
-    this->_internal_state = OK;
-  }
-  else {
-    this->_internal_state = BAD_INITIALIZATION;
-  }
+                            this->translation.well_initialized() and \
+                            audiofile_ok;
 
   qDebug() << "DipyDoc::init_from_xml" << "xml:this->_well_initialized" << this->_well_initialized;
 }
