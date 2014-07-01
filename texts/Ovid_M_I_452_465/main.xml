@@ -11,11 +11,8 @@
     <segment textrange="133-156" audiorange="13183-16061" srctext="aaa"/>
   </audiorecord>>
 
-  <translation name="aaa">
-    <segment textrange="8-26" srctext="aaa">
-      Le premier amour...
-      ligne2
-    </segment>
+  <translation name="traduction française">
+    <segment textrange="8-26" srctext="aaa">Le premier amour de Phébus</segment>
   </translation>
 
 </dipydoc>

@@ -42,9 +42,8 @@ SOMMAIRE
 0.2.0 : karaoke mode
 
 0.2.1 : XML :
-      (1) créer automatiquement un brouillon d'xml
-      (2) dans LanguageFromTo, pourquoi certaines fonctions renvoient-elles un QString& au lieu d'un QString ?
-      (2) et si plusieurs traductions/audioranges, comment les distinguer en lisant le XML
+      (1) créer automatiquement un brouillon d'xml à partir du menu File > ...
+      (2) option lors de la compilation : mode EXPERT
       (3) dans le XML : textrange->textranges
 
 http://developer.nokia.com/community/wiki/QXmlStreamReader_to_parse_XML_in_Qt

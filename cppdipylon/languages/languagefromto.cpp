@@ -90,7 +90,7 @@ void LanguageFromTo::clear(void) {
 ________________________________________________________________________________*/
 const QString LanguageFromTo::to_str(void) const {
 
-  QString res("");
+  QString res;
 
   res += this->from();
   res += this->SEPARATOR;

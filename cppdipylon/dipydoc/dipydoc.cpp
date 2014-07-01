@@ -189,29 +189,89 @@ ______________________________________________________________________________*/
 void DipyDoc::create_xml_draft(void) const {
 
   QString res;
+  VectorPosInTextRanges list_of_posintextranges;
 
   res += "DipyDoc::create_xml_draft ======================\n";
 
   res += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+  res += "<dipydoc dipydoc_version=\"$DIPYDOCVERSION$\" languages=\"$LANGUAGEFROMTO$\">\n";
 
-  res += "<dipydoc";
-  res += " dipydoc_version=\"";
-  res += QString().setNum(this->dipydoc_version);
-  res += "\"";
-  res += " languages=\"";
-  res += this->languagefromto.to_str();
-  res += "\">\n";
-
-  // begin(), end() ???
-  for(auto &i : this->text2audio) {
-    qDebug() << i.first.to_str();
+  // audiorecord : the functions reads through this->text2audio with sorted keys.
+  list_of_posintextranges.clear();
+  res += "  <audiorecord name=\"$AUDIORECORDNAME$\">\n";
+  for(auto &textrange : this->text2audio) {
+    list_of_posintextranges.vposintextranges.push_back( textrange.first );
   }
+  list_of_posintextranges.sort();
+  for(auto &textrange : list_of_posintextranges.vposintextranges) {
+    QString new_line("    <segment textrange=\"$TEXTRANGE$\" audiorange=\"$AUDIORANGE$\" srctext=\"$TEXT$\" />\n");
+    new_line.replace( "$TEXTRANGE$", textrange.to_str() );
+    PosInAudioRange posinaudiorange( this->text2audio[textrange] );
+    new_line.replace( "$AUDIORANGE$", posinaudiorange.to_str() );
+    new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textrange, 30) );
+    res += new_line;
+  }
+
+  // translation : the functions reads through this->translation with sorted keys.
+  list_of_posintextranges.clear();
+  res += "  <translation name=\"$AUDIORECORDNAME$\">\n";
+  for(auto &textrange : this->translation) {
+    list_of_posintextranges.vposintextranges.push_back( textrange.first );
+  }
+  list_of_posintextranges.sort();
+  for(auto &textrange : list_of_posintextranges.vposintextranges) {
+    QString new_line("    <segment textrange=\"$TEXTRANGE$\" srctext=\"$TEXT$\">");
+    new_line.replace( "$TEXTRANGE$", textrange.to_str() );
+    new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textrange, 30) );
+    res += new_line;
+    res += this->translation[ textrange ];
+    res += "</segment>\n";
+  }
+  res += "  </translation\">\n";
 
   res += "</dipydoc>\n";
 
   res += "======================\n";
 
+  res.replace( "$DIPYDOCVERSION$", QString().setNum(this->dipydoc_version) );
+  res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
+  res.replace( "$AUDIORECORDNAME$", this->audiorecord_name );
+  res.replace( "$TRANSLATIONNAME$", this->translation_name );
+
   qDebug() << res;
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::get_condensed_extracts_from_the_source_text
+
+        Return from this->source_text the extracts whose position is given
+        in "positions".
+
+        o "maxlength" is the maximal length of each segment, not of the whole
+          string returned.
+______________________________________________________________________________*/
+QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges positions, int maxlength) const {
+
+  QString res;
+
+  for( auto &textrange : positions ) {
+    QString substring = this->source_text.mid( static_cast<int>(textrange.first),
+                                               static_cast<int>(textrange.second - textrange.first ));
+
+    if( substring.length() > maxlength ) {
+      int left_length = (maxlength / 2)-3;
+      int right_length = maxlength - left_length;
+      substring = substring.left(left_length) + "[…]" + substring.right(right_length);
+    }
+    res += substring;
+    res += "//";
+  }
+
+  // removing the last '//' :
+  res.chop(2);
+
+  return res;
 }
 
 /*______________________________________________________________________________
@@ -296,11 +356,13 @@ void DipyDoc::init_from_xml(QString& path) {
 
       if( name == "audiorecord" ) {
         current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
+        this->audiorecord_name = xmlreader.attributes().value("name").toString();
         continue;
       }
 
       if( name == "translation" ) {
         current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
+        this->translation_name = xmlreader.attributes().value("name").toString();
         continue;
       }
 

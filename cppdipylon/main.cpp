@@ -34,6 +34,7 @@
 #include "pos/posintext2posinaudio.h"
 #include "languages/languagefromto.h"
 #include <QDebug>
+#include <vector>
 
 /*______________________________________________________________________________
 
@@ -45,10 +46,6 @@ ______________________________________________________________________________*/
 int main(int argc, char **argv)
 {
     Q_INIT_RESOURCE(dipylon);
-
-    qDebug() << static_cast<int>(PosInTextRanges::INTERNALSTATE::OK);
-
-    PosInAudioRange r("3-5");
 
     DipylonUI myapp(argc, argv);
 

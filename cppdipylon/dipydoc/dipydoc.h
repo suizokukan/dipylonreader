@@ -69,13 +69,19 @@ private:
 
   bool                 _well_initialized;
   int                  _internal_state;
-  PosInText2Str        translation;
-  QString              source_text;
-  PosInText2PosInAudio text2audio;
-  PosInAudio2PosInText audio2text;
 
+  // general informations :
   int                  dipydoc_version;
   LanguageFromTo       languagefromto;
+  // source text :
+  QString              source_text;
+  // audiorecord data :
+  QString              audiorecord_name;
+  PosInText2PosInAudio text2audio;
+  PosInAudio2PosInText audio2text;
+  // translation data :
+  QString              translation_name;
+  PosInText2Str        translation;
 
   bool                 check_path(QString&);
   void                 init_from_xml(QString&);
@@ -87,6 +93,7 @@ public:
                        DipyDoc(QString&);
   void                 clear(void);
   void                 create_xml_draft(void) const;
+  QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 

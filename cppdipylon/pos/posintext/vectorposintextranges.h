@@ -64,13 +64,14 @@ struct VectorPosInTextRanges
                          VectorPosInTextRanges(const VectorPosInTextRanges&);
                          VectorPosInTextRanges(std::vector<PosInTextRanges>);
         VectorPosInTextRanges& operator=(const VectorPosInTextRanges&);
+        void        clear(void);
         std::size_t size(void) const;
         void        sort(void);
         QString     to_str(void) const;
 
         const char* MAIN_SEPARATOR = "/";
 
-        /* 
+        /*
                 Functor used to sort VectorPosInTextRanges.
         */
 	struct VectorPosInTextRangesCMP {
@@ -126,5 +127,3 @@ inline std::size_t VectorPosInTextRanges::size(void) const {
 }
 
 #endif
-
-

@@ -78,9 +78,11 @@ class PosInText2Str {
   const QString &       operator[]( const PosInTextRanges key ) const;
   PosInText2Str&        operator=(const PosInText2Str&);
 
+  std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator begin(void) const;
   void                  clear(void);
   PosInTextRanges       contains(PosInText) const;
   VectorPosInTextRanges contains(PosInText, PosInText) const;
+  std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator end(void) const;
   int                   internal_state(void) const;
   size_t                size(void) const;
   bool                  well_initialized(void) const;
@@ -147,6 +149,14 @@ inline QString& PosInText2Str::operator[]( PosInTextRanges key) {
 }
 inline const QString& PosInText2Str::operator[]( const PosInTextRanges key ) const {
   return this->map.at(key);
+}
+
+inline std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator PosInText2Str::begin(void) const {
+  return this->map.begin();
+}
+
+inline std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator PosInText2Str::end(void) const {
+  return this->map.end();
 }
 
 inline int PosInText2Str::internal_state(void) const {
