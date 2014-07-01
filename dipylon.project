@@ -44,7 +44,8 @@ SOMMAIRE
 0.2.0 : karaoke mode
 0.2.1 : XML read/write
 
-      (1) option lors de la compilation : mode EXPERT
+      (2) terminer open, lier le .xml avec le fichier audio
+      (1) option lors de la compilation : mode EXPERT (afficheles pos dans le texte)
 
 ################################################################################
 [1] options de compilation
@@ -358,10 +359,15 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
-main.xml, version 10 :
+version 11
+  added audiorecord::filename token
+version 10
+  first format's version
+
+main.xml, version 11 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
-<dipydoc dipydoc_version="10" languages="lat->fra">
+<dipydoc dipydoc_version="10" languages="lat->fra" filename="record.ogg">
   <audiorecord name="enregistrement audio">
     <segment textranges="8-26" audiorange="0-2399" srctext="Prīmus amor Phoebī" />
   </audiorecord>

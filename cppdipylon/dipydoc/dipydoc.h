@@ -77,6 +77,7 @@ private:
   QString              source_text;
   // audiorecord data :
   QString              audiorecord_name;
+  QString              audiorecord_filename;
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
   // translation data :
@@ -97,7 +98,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 10;
+  static const int     minimal_dipydoc_version = 11;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

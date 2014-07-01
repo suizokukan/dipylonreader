@@ -232,7 +232,7 @@ QString DipyDoc::get_xml_repr(void) const {
 
   // audiorecord : the functions reads through this->text2audio with sorted keys.
   list_of_posintextranges.clear();
-  res += "  <audiorecord name=\"$AUDIORECORDNAME$\">\n";
+  res += "  <audiorecord name=\"$AUDIORECORDNAME$\" filename=\"$AUDIORECORDFILENAME$\">\n";
   for(auto &textrange : this->text2audio) {
     list_of_posintextranges.vposintextranges.push_back( textrange.first );
   }
@@ -272,6 +272,7 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace( "$DIPYDOCVERSION$", QString().setNum(this->dipydoc_version) );
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
   res.replace( "$AUDIORECORDNAME$", this->audiorecord_name );
+  res.replace( "$AUDIORECORDFILENAME$", this->audiorecord_filename );
   res.replace( "$TRANSLATIONNAME$", this->translation_name );
 
   return res;
@@ -360,6 +361,7 @@ void DipyDoc::init_from_xml(QString& path) {
       if( name == "audiorecord" ) {
         current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
         this->audiorecord_name = xmlreader.attributes().value("name").toString();
+        this->audiorecord_filename = xmlreader.attributes().value("filename").toString();
         continue;
       }
 

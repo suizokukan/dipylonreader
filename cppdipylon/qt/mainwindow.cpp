@@ -56,7 +56,7 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
     this->audio_player = new QMediaPlayer(this);
 
-    // can't change qint64 to PosInAudio here...
+    // $$$can't change qint64 to PosInAudio here...
     connect(this->audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
     this->audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
     // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
