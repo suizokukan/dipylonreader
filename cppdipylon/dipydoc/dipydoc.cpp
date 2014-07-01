@@ -29,7 +29,7 @@
 
     o text file : a bunch of pure UTF-8/unicode text
 
-    o main file : (version 10), see DipyDoc::get_xml_repr()
+    o main file : see DIPYDOC_XMLFORMAT in the documentation
 
     ____________________________________________________________________________
 

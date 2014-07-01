@@ -34,21 +34,17 @@ SOMMAIRE
 
 [8] debugging
 
+[9] DipyDoc files
+
 ################################################################################
 [0] travail en cours
 ################################################################################
 
 0.1.9 : basic UI
 0.2.0 : karaoke mode
+0.2.1 : XML read/write
 
-0.2.1 : XML :
-      (1) dans le XML : textrange->textranges
-      (2) option lors de la compilation : mode EXPERT
-
-http://developer.nokia.com/community/wiki/QXmlStreamReader_to_parse_XML_in_Qt
-http://qt-project.org/doc/qt-5/qtxml-streambookmarks-example.html
-http://qt-project.org/doc/qt-5/qxmlstreamreader.html#details
-http://qt-project.org/doc/qt-5/examples-xml.html
+      (1) option lors de la compilation : mode EXPERT
 
 ################################################################################
 [1] options de compilation
@@ -355,7 +351,22 @@ to create .qm file :
 [8] debugging
 ################################################################################
 
-
-
 attraper les qDebug() dans un fichier :
 sous Linux : ./dipylon > output 2>&1
+
+################################################################################
+[9] DipyDoc files
+################################################################################
+
+main.xml, version 10 :
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<dipydoc dipydoc_version="10" languages="lat->fra">
+  <audiorecord name="enregistrement audio">
+    <segment textranges="8-26" audiorange="0-2399" srctext="Prīmus amor Phoebī" />
+  </audiorecord>
+  <translation name="enregistrement audio">
+    <segment textranges="8-26" srctext="Prīmus amor Phoebī">Le premier amour de Phébus</segment>
+  </translation>
+</dipydoc>
+
