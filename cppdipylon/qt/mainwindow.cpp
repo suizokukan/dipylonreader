@@ -124,7 +124,7 @@ bool MainWindow::saveAs()
     return saveFile(files.at(0));
 }
 
-bool MainWindow::improvexmlandsaveAs()
+bool MainWindow::saveDipyDocAs()
 {
     QFileDialog dialog(this);
     dialog.setWindowModality(Qt::WindowModal);
@@ -151,7 +151,7 @@ bool MainWindow::improvexmlandsaveAs()
 #ifndef QT_NO_CURSOR
     QApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-    out << this->current_dipylonui.current_dipydoc.get_improved_xml_representation();
+    out << this->current_dipylonui.current_dipydoc.get_xml_repr();
 #ifndef QT_NO_CURSOR
     QApplication::restoreOverrideCursor();
 #endif
@@ -202,9 +202,9 @@ void MainWindow::createActions()
     saveAsAct->setStatusTip(tr("Save the document under a new name"));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
-    improvexmlandsaveAsAct = new QAction(tr("Improve XML and save as..."), this);
-    improvexmlandsaveAsAct->setStatusTip(tr("Improve and save the document under a new name"));
-    connect(improvexmlandsaveAsAct, SIGNAL(triggered()), this, SLOT(improvexmlandsaveAs()));
+    saveDipyDocAsAct = new QAction(tr("Save DipyDoc as..."), this);
+    saveDipyDocAsAct->setStatusTip(tr("Save DipyDoc as"));
+    connect(saveDipyDocAsAct, SIGNAL(triggered()), this, SLOT(saveDipyDocAs()));
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
@@ -271,7 +271,7 @@ void MainWindow::createMenus()
     fileMenu->addAction(openAct);
     fileMenu->addAction(saveAct);
     fileMenu->addAction(saveAsAct);
-    fileMenu->addAction(improvexmlandsaveAsAct);
+    fileMenu->addAction(saveDipyDocAsAct);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
