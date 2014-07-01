@@ -348,6 +348,8 @@ bool MainWindow::maybeSave()
 
   MainWindow::loadDipyDoc() : load a DipyDoc from "directoryName".
 
+  Display an informative message if something's wrong happened.
+
 ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName)
 {
@@ -358,16 +360,31 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
   #endif
 
   this->current_dipylonui.current_dipydoc = DipyDoc(directoryName);
-  this->load_text(this->current_dipylonui.current_dipydoc.source_text);
-  qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord_filename;
-  this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord_filename));
+
+  if( this->current_dipylonui.current_dipydoc.well_initialized() == false ) {
+    QMessageBox msgBox;
+    msgBox.setText( tr("Unable to load a DipyDoc from <b>") + directoryName + "</b> ." +\
+                    "<br/><br/>" + this->current_dipylonui.current_dipydoc.diagnosis() + \
+                    "<br/><br/>" + tr("See more details below.") );
+    this->current_dipylonui.current_dipydoc.errors.prepend( "internal state = " + \
+                                                            QString().setNum(this->current_dipylonui.current_dipydoc.internal_state()) );
+    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.errors.join("\n\n") );
+    msgBox.exec();
+  }
+  else {
+    this->load_text(this->current_dipylonui.current_dipydoc.source_text);
+    qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord_filename;
+    this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord_filename));
+  }
 
   #ifndef QT_NO_CURSOR
   QApplication::restoreOverrideCursor();
   #endif
 
-  setCurrentDipyDoc(directoryName);
-  statusBar()->showMessage(tr("DipyDoc files loaded"), 2000);
+  if( this->current_dipylonui.current_dipydoc.well_initialized() == true ) {
+    setCurrentDipyDoc(directoryName);
+    statusBar()->showMessage(tr("DipyDoc loaded"), 2000);
+  }
 }
 
 bool MainWindow::saveFile(const QString &fileName)

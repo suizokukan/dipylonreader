@@ -42,6 +42,7 @@
 #include <QIODevice>
 #include <QTextStream>
 #include <QXmlStreamReader>
+#include <QObject>
 
 /*
   divisions inside a DipyDoc file :
@@ -94,6 +95,7 @@ public:
                        DipyDoc(void);
                        DipyDoc(const QString&);
   void                 clear(void);
+  QString              diagnosis(void) const;
   QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   QString              get_xml_repr(void) const;
   int                  internal_state(void) const;
@@ -117,6 +119,8 @@ public:
      o PATH_IS_A_FILE : the source string "path" is a file (a directory is expected)
      o MISSING_MAIN_FILE : the main file doesn't exist in "path".
      o MISSING_TEXT_FILE : the text file doesn't exist in "path".
+
+     please update DipyDoc::diagnosis() if you modify this constants.
   */
   enum INTERNALSTATE : int {
     OK = 0,

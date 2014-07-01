@@ -98,7 +98,7 @@ bool DipyDoc::check_path(const QString& path)
 
     msg_error = "an error occured : 'path' doesn't exist";
     msg_error += "path = " + path + "; ";
-    msg_error += "[in function DipyDoc::check_path";
+    msg_error += "[in function DipyDoc::check_path]";
     this->errors.append( msg_error );
 
     qDebug() << "DipyDoc::check_path; error : " << msg_error;
@@ -112,7 +112,7 @@ bool DipyDoc::check_path(const QString& path)
 
     msg_error = "an error occured : 'path' is a file, not a directory";
     msg_error += "path = " + path + "; ";
-    msg_error += "[in function DipyDoc::check_path";
+    msg_error += "[in function DipyDoc::check_path]";
     this->errors.append( msg_error );
 
     qDebug() << "DipyDoc::check_path; error : " << msg_error;
@@ -127,7 +127,7 @@ bool DipyDoc::check_path(const QString& path)
 
     msg_error = "an error occured : missing main file in path.";
     msg_error += "path = " + path + "; ";
-    msg_error += "[in function DipyDoc::check_path";
+    msg_error += "[in function DipyDoc::check_path]";
     this->errors.append( msg_error );
 
     qDebug() << "DipyDoc::check_path; error : " << msg_error;
@@ -142,7 +142,7 @@ bool DipyDoc::check_path(const QString& path)
 
     msg_error = "an error occured : missing text file in path.";
     msg_error += "path = " + path + "; ";
-    msg_error += "[in function DipyDoc::check_path";
+    msg_error += "[in function DipyDoc::check_path]";
     this->errors.append( msg_error );
 
     qDebug() << "DipyDoc::check_path; error : " << msg_error;
@@ -167,6 +167,57 @@ void DipyDoc::clear(void) {
   this->dipydoc_version = -1;
   this->languagefromto.clear();
   this->translation.clear();
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::diagnosis()
+
+        Return a QString explaining the internal state of the program.
+
+______________________________________________________________________________*/
+QString DipyDoc::diagnosis(void) const {
+
+  switch( this->_internal_state) {
+
+    case DipyDoc::INTERNALSTATE::OK : {
+      return QObject::tr("No problem has been detected.");
+    }
+
+    case DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED : {
+      return QObject::tr("The DipyDoc has not been initialized and it stays in an undefined state.");
+    }
+
+    case DipyDoc::INTERNALSTATE::BAD_INITIALIZATION : {
+      return QObject::tr("The DipyDoc has not been correctly initialized but no further information can be given.");
+    }
+
+    case DipyDoc::INTERNALSTATE::UNKNOWN_PATH : {
+      return QObject::tr("The given path doesn't exist.");
+    }
+
+    case DipyDoc::INTERNALSTATE::PATH_IS_A_FILE : {
+      return QObject::tr("The given path is a file.");
+    }
+
+    case DipyDoc::INTERNALSTATE::MISSING_MAIN_FILE : {
+      QString msg = QObject::tr("The given path doesn't contain the expected main file, '$FILENAME$'.");
+      msg.replace( "$FILENAME$", this->MAIN_FILENAME );
+      return msg;
+    }
+
+    case DipyDoc::INTERNALSTATE::MISSING_TEXT_FILE : {
+      QString msg = QObject::tr("The given path doesn't contain the expected text file, '$FILENAME$'.");
+      msg.replace( "$FILENAME$", this->TEXT_FILENAME );
+      return msg;
+    }
+
+    default : {
+      return QObject::tr("anomaly : unknown internal state.");
+    }
+
+  }
+
 }
 
 /*______________________________________________________________________________
