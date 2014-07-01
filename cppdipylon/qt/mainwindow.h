@@ -83,9 +83,9 @@ private:
     void readSettings();
     void writeSettings();
     bool maybeSave();
-    void loadFile(const QString &fileName);
+    void loadDipyDoc(const QString&);
     bool saveFile(const QString &fileName);
-    void setCurrentFile(const QString &fileName);
+    void setCurrentDipyDoc(const QString&);
     QString strippedName(const QString &fullFileName);
 
     SourceEditor *source_editor = nullptr;

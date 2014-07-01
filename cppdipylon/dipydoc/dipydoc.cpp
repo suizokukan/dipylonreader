@@ -47,7 +47,7 @@
         Fill "errors" with human-readable messages.
 
 ______________________________________________________________________________*/
-DipyDoc::DipyDoc(QString& path) {
+DipyDoc::DipyDoc(const QString& path) {
 
   qDebug() << "DipyDoc::DipyDoc from " << path;
 
@@ -59,14 +59,15 @@ DipyDoc::DipyDoc(QString& path) {
     return;
   }
 
+  // let's open the main file :
+  this->init_from_xml(path);
+
   // let's open the text file :
   QFile src_file(path + "/" + this->TEXT_FILENAME);
   src_file.open( QIODevice::ReadOnly | QIODevice::Text );
   QTextStream src_file_stream(&src_file);
   src_file_stream.setCodec("UTF-8");
   this->source_text = src_file_stream.readAll();
-
-  this->init_from_xml(path);
 }
 
 /*______________________________________________________________________________
@@ -83,8 +84,9 @@ DipyDoc::DipyDoc(QString& path) {
         o does "path" exists ?
         o is "path" a directory ?
         o does the file "path/text" exists ?
+        o does the file "path/main.xml" exists ?
 ______________________________________________________________________________*/
-bool DipyDoc::check_path(QString& path)
+bool DipyDoc::check_path(const QString& path)
 {
   QString msg_error;
 
@@ -303,7 +305,7 @@ QString DipyDoc::get_xml_repr(void) const {
         (6) initializaton of _well_initialized, _internal_state
 
 ______________________________________________________________________________*/
-void DipyDoc::init_from_xml(QString& path) {
+void DipyDoc::init_from_xml(const QString& path) {
 
   QString msg_error;
 
@@ -361,7 +363,7 @@ void DipyDoc::init_from_xml(QString& path) {
       if( name == "audiorecord" ) {
         current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
         this->audiorecord_name = xmlreader.attributes().value("name").toString();
-        this->audiorecord_filename = xmlreader.attributes().value("filename").toString();
+        this->audiorecord_filename = path + "/" + xmlreader.attributes().value("filename").toString();
         continue;
       }
 
@@ -418,7 +420,7 @@ void DipyDoc::init_from_xml(QString& path) {
   if( xml_reading_is_ok == false ) {
     msg_error = "An error occurs while reading the main file : ";
     msg_error += xmlreader.errorString() + "; ";
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + path + "/" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append( msg_error );
 

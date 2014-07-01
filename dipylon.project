@@ -36,6 +36,8 @@ SOMMAIRE
 
 [9] DipyDoc files
 
+[10] pour chaque version du projet...
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -43,8 +45,9 @@ SOMMAIRE
 0.1.9 : basic UI
 0.2.0 : karaoke mode
 0.2.1 : XML read/write
+0.2.2 : open DipyDoc
 
-      (2) terminer open, lier le .xml avec le fichier audio
+      (2) DipyDoc open : checkpath à appeler quelque part.
       (1) option lors de la compilation : mode EXPERT (afficheles pos dans le texte)
 
 ################################################################################
@@ -376,3 +379,10 @@ main.xml, version 11 :
   </translation>
 </dipydoc>
 
+################################################################################
+[10] pour chaque version du projet...
+################################################################################
+
+* activer/désactiver QT_NO_CURSOR
+* activer/désactiver QT_NO_DEBUG_OUTPUT
+* (i18n) mettre à jour *.ts

@@ -64,6 +64,7 @@ ______________________________________________________________________________*/
 class DipyDoc {
 
 friend class DipylonUI;
+friend class MainWindow;
 
 private:
 
@@ -77,21 +78,21 @@ private:
   QString              source_text;
   // audiorecord data :
   QString              audiorecord_name;
-  QString              audiorecord_filename;
+  QString              audiorecord_filename;    // with full path
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
   // translation data :
   QString              translation_name;
   PosInText2Str        translation;
 
-  bool                 check_path(QString&);
-  void                 init_from_xml(QString&);
+  bool                 check_path(const QString&);
+  void                 init_from_xml(const QString&);
 
   QStringList          errors;
 
 public:
                        DipyDoc(void);
-                       DipyDoc(QString&);
+                       DipyDoc(const QString&);
   void                 clear(void);
   QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   QString              get_xml_repr(void) const;

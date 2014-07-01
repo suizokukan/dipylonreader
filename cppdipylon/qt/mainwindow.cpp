@@ -58,12 +58,10 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
 
     // $$$can't change qint64 to PosInAudio here...
     connect(this->audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
-    this->audio_player->setMedia(QUrl::fromLocalFile("/home/suizokukan/projets/dipylon/last/dipylon/texts/Ovid_M_I_452_465/record.ogg"));
-    // audio_player->setMedia(QUrl("qrc:/ressources/sounds/test.ogg"));
     this->audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
     this->audio_player->setVolume(fixedparameters::audio_player_volume);
 
-    setCurrentFile("");
+    setCurrentDipyDoc("");
     setUnifiedTitleAndToolBarOnMac(true);
 }
 
@@ -81,17 +79,22 @@ void MainWindow::newFile()
 {
     if (maybeSave()) {
         source_editor->clear();
-        setCurrentFile("");
+        setCurrentDipyDoc("");
     }
 }
 
 void MainWindow::open(void) {
 
-    if (maybeSave()) {
-        QString fileName = QFileDialog::getOpenFileName(this);
-        if (!fileName.isEmpty())
-            loadFile(fileName);
+  if (maybeSave()) {
+      QString directoryName = QFileDialog::getExistingDirectory(this,
+                                                                QObject::tr("Open a DipyDoc directory"),
+                                                                ".",
+                                                                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (!directoryName.isEmpty()) {
+           loadDipyDoc(directoryName);
     }
+  }
 }
 
 bool MainWindow::save()
@@ -149,7 +152,7 @@ bool MainWindow::saveDipyDocAs()
     QApplication::restoreOverrideCursor();
 #endif
 
-    setCurrentFile(fileName);
+    setCurrentDipyDoc(fileName);
     statusBar()->showMessage(tr("File saved"), 2000);
     return true;
 }
@@ -177,10 +180,10 @@ void MainWindow::createActions()
     connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
 
     openAct = new QAction( *(this->current_dipylonui.icon_open),
-                           tr("&Open..."),
+                           tr("&Open"),
                            this);
     openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing file"));
+    openAct->setStatusTip(tr("Open an existing DipyDoc"));
     connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
 
     saveAct = new QAction( *(this->current_dipylonui.icon_save),
@@ -341,28 +344,30 @@ bool MainWindow::maybeSave()
     return true;
 }
 
-void MainWindow::loadFile(const QString &fileName)
+/*______________________________________________________________________________
+
+  MainWindow::loadDipyDoc() : load a DipyDoc from "directoryName".
+
+______________________________________________________________________________*/
+void MainWindow::loadDipyDoc(const QString &directoryName)
 {
-    QFile file(fileName);
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot read file %1:\n%2.")
-                             .arg(fileName)
-                             .arg(file.errorString()));
-        return;
-    }
+  qDebug() << "MainWindow::loadDipyDoc" << directoryName;
 
-    QTextStream in(&file);
-#ifndef QT_NO_CURSOR
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-#endif
-    source_editor->setPlainText(in.readAll());
-#ifndef QT_NO_CURSOR
-    QApplication::restoreOverrideCursor();
-#endif
+  #ifndef QT_NO_CURSOR
+  QApplication::setOverrideCursor(Qt::WaitCursor);
+  #endif
 
-    setCurrentFile(fileName);
-    statusBar()->showMessage(tr("File loaded"), 2000);
+  this->current_dipylonui.current_dipydoc = DipyDoc(directoryName);
+  this->load_text(this->current_dipylonui.current_dipydoc.source_text);
+  qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord_filename;
+  this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord_filename));
+
+  #ifndef QT_NO_CURSOR
+  QApplication::restoreOverrideCursor();
+  #endif
+
+  setCurrentDipyDoc(directoryName);
+  statusBar()->showMessage(tr("DipyDoc files loaded"), 2000);
 }
 
 bool MainWindow::saveFile(const QString &fileName)
@@ -385,14 +390,14 @@ bool MainWindow::saveFile(const QString &fileName)
     QApplication::restoreOverrideCursor();
 #endif
 
-    setCurrentFile(fileName);
+    setCurrentDipyDoc(fileName);
     statusBar()->showMessage(tr("File saved"), 2000);
     return true;
 }
 
-void MainWindow::setCurrentFile(const QString &fileName)
+void MainWindow::setCurrentDipyDoc(const QString &directoryName)
 {
-    curFile = fileName;
+    curFile = directoryName;
     source_editor->document()->setModified(false);
     setWindowModified(false);
 

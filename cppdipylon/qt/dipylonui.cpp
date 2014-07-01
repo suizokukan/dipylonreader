@@ -96,18 +96,9 @@ int DipylonUI::go(void) {
   this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
 
-  // current DipyDoc :
-  // $$$ fake initialization :
-  QString path = QString("../texts/Ovid_M_I_452_465/");
-  this->current_dipydoc = DipyDoc( path );
-
   // main window creation :
   MainWindow mainWin(*this);
   mainWin.show();
-
-  // $$$ fake initialization :
-  const QString& source_text = this->current_dipydoc.source_text;
-  mainWin.load_text(source_text);
 
   /*
   from the doc of QCoreApplication::exec:
