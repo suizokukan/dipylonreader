@@ -52,7 +52,6 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(DipylonUI&);
-    void open(QString); // [XAV]
 
     void load_text(const QString& source_text); // XAV
 

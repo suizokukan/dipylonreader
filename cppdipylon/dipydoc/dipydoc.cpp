@@ -393,7 +393,7 @@ void DipyDoc::init_from_xml(QString& path) {
 
             qDebug() << "DipyDoc::init_from_xml : translation:segment" << \
                         "textranges=" << textranges.to_str() << \
-                        "text=" << text;
+                        "srctext=" << text;
             break;
           }
 

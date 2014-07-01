@@ -94,13 +94,6 @@ void MainWindow::open(void) {
     }
 }
 
-void MainWindow::open(QString file_name) {
-
-    if (maybeSave()) {
-        loadFile(file_name);
-    }
-}
-
 bool MainWindow::save()
 {
     if (curFile.isEmpty()) {
