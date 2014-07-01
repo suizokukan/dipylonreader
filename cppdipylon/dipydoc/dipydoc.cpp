@@ -237,12 +237,12 @@ QString DipyDoc::get_xml_repr(void) const {
     list_of_posintextranges.vposintextranges.push_back( textrange.first );
   }
   list_of_posintextranges.sort();
-  for(auto &textrange : list_of_posintextranges.vposintextranges) {
-    QString new_line("    <segment textrange=\"$TEXTRANGE$\" audiorange=\"$AUDIORANGE$\" srctext=\"$TEXT$\" />\n");
-    new_line.replace( "$TEXTRANGE$", textrange.to_str() );
-    PosInAudioRange posinaudiorange( this->text2audio[textrange] );
+  for(auto &textranges : list_of_posintextranges.vposintextranges) {
+    QString new_line("    <segment textranges=\"$TEXTRANGE$\" audiorange=\"$AUDIORANGE$\" srctext=\"$TEXT$\" />\n");
+    new_line.replace( "$TEXTRANGE$", textranges.to_str() );
+    PosInAudioRange posinaudiorange( this->text2audio[textranges] );
     new_line.replace( "$AUDIORANGE$", posinaudiorange.to_str() );
-    new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textrange, 30) );
+    new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30) );
     res += new_line;
   }
   res += "  </audiorecord>\n";
@@ -255,12 +255,12 @@ QString DipyDoc::get_xml_repr(void) const {
     list_of_posintextranges.vposintextranges.push_back( textrange.first );
   }
   list_of_posintextranges.sort();
-  for(auto &textrange : list_of_posintextranges.vposintextranges) {
-    QString new_line("    <segment textrange=\"$TEXTRANGE$\" srctext=\"$TEXT$\">");
-    new_line.replace( "$TEXTRANGE$", textrange.to_str() );
-    new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textrange, 30) );
+  for(auto &textranges : list_of_posintextranges.vposintextranges) {
+    QString new_line("    <segment textranges=\"$TEXTRANGE$\" srctext=\"$TEXT$\">");
+    new_line.replace( "$TEXTRANGE$", textranges.to_str() );
+    new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30) );
     res += new_line;
-    res += this->translation[ textrange ];
+    res += this->translation[ textranges ];
     res += "</segment>\n";
   }
   res += "  </translation>\n";
@@ -374,7 +374,7 @@ void DipyDoc::init_from_xml(QString& path) {
         switch( current_division ) {
 
           case DIPYDOCDIV_INSIDE_AUDIORECORD : {
-            PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
+            PosInTextRanges textranges( xmlreader.attributes().value("textranges").toString() );
             PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
             this->text2audio[ textranges ] = PairOfPosInAudio( audiorange.first(), audiorange.second() );
 
@@ -385,7 +385,7 @@ void DipyDoc::init_from_xml(QString& path) {
           }
 
           case DIPYDOCDIV_INSIDE_TRANSLATION : {
-            PosInTextRanges textranges( xmlreader.attributes().value("textrange").toString() );
+            PosInTextRanges textranges( xmlreader.attributes().value("textranges").toString() );
             QString text(xmlreader.readElementText());
             this->translation[ textranges ] = text;
 
