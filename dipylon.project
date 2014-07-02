@@ -47,8 +47,7 @@ SOMMAIRE
 0.2.1 : XML read/write
 0.2.2 : open DipyDoc
 
-      (2) détecter l'absence du fichier audio.
-      (1) option lors de la compilation : mode EXPERT (afficheles pos dans le texte)
+      (1) option lors de la compilation : mode READONLY/READANDWRITE (afficheles pos dans le texte)
 
 ################################################################################
 [1] options de compilation
@@ -385,4 +384,6 @@ main.xml, version 11 :
 
 * activer/désactiver QT_NO_CURSOR
 * activer/désactiver QT_NO_DEBUG_OUTPUT
+* activer/désactiver READANDWRITE (si activé, autoriser l'enregistrement des DipyDoc)
 * (i18n) mettre à jour *.ts
+

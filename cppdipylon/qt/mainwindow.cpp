@@ -198,9 +198,11 @@ void MainWindow::createActions()
     saveAsAct->setStatusTip(tr("Save the document under a new name"));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
+    #ifdef READANDWRITE
     saveDipyDocAsAct = new QAction(tr("Save DipyDoc as..."), this);
     saveDipyDocAsAct->setStatusTip(tr("Save DipyDoc as"));
     connect(saveDipyDocAsAct, SIGNAL(triggered()), this, SLOT(saveDipyDocAs()));
+    #endif
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
@@ -267,7 +269,9 @@ void MainWindow::createMenus()
     fileMenu->addAction(openAct);
     fileMenu->addAction(saveAct);
     fileMenu->addAction(saveAsAct);
+    #ifdef READANDWRITE
     fileMenu->addAction(saveDipyDocAsAct);
+    #endif
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
 
