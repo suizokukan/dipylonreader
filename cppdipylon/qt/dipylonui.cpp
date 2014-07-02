@@ -37,6 +37,26 @@ ______________________________________________________________________________*/
 DipylonUI::DipylonUI(int argc, char **argv) {
   this->cmdline_argc = argc;
   this->cmdline_argv = argv;
+
+  /* initialization of this->path_info :
+
+     if it's possible, this attribute takes the value stored in fixedparameters::default_path_to_dipydocs :
+
+  */
+  QFileInfo path_info = QFileInfo(fixedparameters::default_path_to_dipydocs);
+  if( path_info.exists() == false || path_info.isFile() ) {
+    qDebug() << "DipylonUI::DipylonUI" \
+             << "problem with the default path stored in fixedparameters.h, using the current directory." \
+             << " (path_info.exists()=" << path_info.exists() \
+             << "path_info.isFile()=" << path_info.isFile() \
+             << ")";
+    // problem with the default value, the program has to use the current directory :
+    this->path_to_dipydocs = ".";
+  }
+  else {
+    this->path_to_dipydocs = fixedparameters::default_path_to_dipydocs;
+  }
+
 }
 
 /*______________________________________________________________________________

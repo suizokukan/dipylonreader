@@ -329,8 +329,9 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace( "$DIPYDOCVERSION$", QString().setNum(this->dipydoc_version) );
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
   res.replace( "$AUDIORECORDNAME$", this->audiorecord_name );
-  res.replace( "$AUDIORECORDFILENAME$", this->audiorecord_filename );
   res.replace( "$TRANSLATIONNAME$", this->translation_name );
+  // just the filename, not the path :
+  res.replace( "$AUDIORECORDFILENAME$", QFileInfo(this->audiorecord_filename).fileName() );
 
   return res;
 }

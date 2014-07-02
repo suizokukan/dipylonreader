@@ -47,6 +47,9 @@ SOMMAIRE
 0.2.1 : XML read/write
 0.2.2 : open DipyDoc
 
+      supprimer numversion, le remplacer par fixedparameters::static const QString application_version = "...";
+      on enregistre le fichier principal d'un DipyDoc, pas un DipyDoc complet !
+
 ################################################################################
 [1] options de compilation
 ################################################################################
