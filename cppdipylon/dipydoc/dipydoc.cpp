@@ -307,7 +307,7 @@ QString DipyDoc::get_xml_repr(void) const {
   // translation : the functions reads through this->translation with sorted keys.
   res += "\n";
   list_of_posintextranges.clear();
-  res += "  <translation name=\"$AUDIORECORDNAME$\">\n";
+  res += "  <translation name=\"$TRANSLATIONNAME$\">\n";
   for(auto &textrange : this->translation) {
     list_of_posintextranges.vposintextranges.push_back( textrange.first );
   }
