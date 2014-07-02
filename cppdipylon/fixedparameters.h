@@ -57,5 +57,6 @@ static const int audio_notify_interval = 500;
 // http://qt-project.org/doc/qt-5/qmediaplayer.html#volume-prop
 static const int audio_player_volume = 50;
 
+static const QString default_path_to_dipydocs  = ".";
 }
 #endif

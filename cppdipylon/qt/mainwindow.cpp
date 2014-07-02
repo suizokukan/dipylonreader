@@ -88,11 +88,12 @@ void MainWindow::open(void) {
   if (maybeSave()) {
       QString directoryName = QFileDialog::getExistingDirectory(this,
                                                                 QObject::tr("Open a DipyDoc directory"),
-                                                                ".",
+                                                                this->current_dipylonui.path_to_dipydocs,
                                                                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (!directoryName.isEmpty()) {
            loadDipyDoc(directoryName);
+           this->current_dipylonui.path_to_dipydocs = directoryName;
     }
   }
 }

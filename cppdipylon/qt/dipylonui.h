@@ -68,6 +68,8 @@ private:
   QIcon*      icon_audio_play = nullptr;
   QIcon*      icon_audio_stop = nullptr;
 
+  QString     path_to_dipydocs = fixedparameters::default_path_to_dipydocs;
+
 public:
 
   /*
