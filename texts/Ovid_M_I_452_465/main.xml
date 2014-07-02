@@ -13,6 +13,11 @@
 
   <translation name="enregistrement audio">
     <segment textranges="8-26" srctext="Prīmus amor Phoebī">Le premier amour de Phébus</segment>
+    <segment textranges="29-42" srctext="Daphnē Pēnēia">fut Daphné, fille de Pénée,</segment>
+    <segment textranges="43-51+60-77" srctext="quem nōn...fors īgnāra dedit">sentiment inspiré non par un hasard inexplicable</segment>
+    <segment textranges="80-104" srctext="sed saeua Cupīdinis īra.">mais par la colère cruelle de Cupidon.</segment>
+    <segment textranges="113-130" srctext="Dēlius hunc nūper">Le Délien, peu de temps avant</segment>
+    <segment textranges="133-156" srctext="uictō Serpente superbus">fier de sa victoire sur le Serpent,</segment>
   </translation>
 
 </dipydoc>
