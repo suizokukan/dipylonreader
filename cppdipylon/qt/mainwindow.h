@@ -63,7 +63,7 @@ private slots:
     void open();
     bool save();
     bool saveAs();
-    bool saveDipyDocAs();
+    bool saveMainFileOfADipyDocAs();
     void about();
     void documentWasModified();
 
@@ -102,7 +102,7 @@ private:
     QAction *openAct = nullptr;
     QAction *saveAct = nullptr;
     QAction *saveAsAct = nullptr;
-    QAction *saveDipyDocAsAct = nullptr;
+    QAction *saveMainFileOfADipyDocAsAct = nullptr;
     QAction *exitAct = nullptr;
     QAction *cutAct = nullptr;
     QAction *copyAct = nullptr;

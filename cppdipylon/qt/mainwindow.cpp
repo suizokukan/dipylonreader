@@ -121,7 +121,7 @@ bool MainWindow::saveAs()
     return saveFile(files.at(0));
 }
 
-bool MainWindow::saveDipyDocAs()
+bool MainWindow::saveMainFileOfADipyDocAs()
 {
     QFileDialog dialog(this);
     dialog.setWindowModality(Qt::WindowModal);
@@ -200,9 +200,9 @@ void MainWindow::createActions()
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
     #ifdef READANDWRITE
-    saveDipyDocAsAct = new QAction(tr("Save DipyDoc as..."), this);
-    saveDipyDocAsAct->setStatusTip(tr("Save DipyDoc as"));
-    connect(saveDipyDocAsAct, SIGNAL(triggered()), this, SLOT(saveDipyDocAs()));
+    saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
+    saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
+    connect(saveMainFileOfADipyDocAsAct, SIGNAL(triggered()), this, SLOT(saveMainFileOfADipyDocAs()));
     #endif
 
     exitAct = new QAction(tr("E&xit"), this);
@@ -271,7 +271,7 @@ void MainWindow::createMenus()
     fileMenu->addAction(saveAct);
     fileMenu->addAction(saveAsAct);
     #ifdef READANDWRITE
-    fileMenu->addAction(saveDipyDocAsAct);
+    fileMenu->addAction(saveMainFileOfADipyDocAsAct);
     #endif
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
