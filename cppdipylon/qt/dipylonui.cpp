@@ -117,8 +117,8 @@ int DipylonUI::go(void) {
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
 
   // main window creation :
-  MainWindow mainWin(*this);
-  mainWin.show();
+  this->mainWin = new MainWindow(*this);
+  this->mainWin->show();
 
   /*
   from the doc of QCoreApplication::exec:
@@ -128,7 +128,7 @@ int DipylonUI::go(void) {
     see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 
   */
-  QObject::connect(&app, SIGNAL(aboutToQuit()), &mainWin, SLOT(closing()));
+  QObject::connect(&app, SIGNAL(aboutToQuit()), mainWin, SLOT(closing()));
 
   // main loop :
   return app.exec();
@@ -149,4 +149,5 @@ DipylonUI::~DipylonUI(void) {
   delete icon_audio_pause;
   delete icon_audio_play;
   delete icon_audio_stop;
+  delete mainWin;
 }

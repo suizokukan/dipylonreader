@@ -36,6 +36,8 @@
 #include <QString>
 #include <QTranslator>
 
+class MainWindow;
+
 /*
   reading mode type
 */
@@ -70,6 +72,8 @@ private:
 
   // path to the DipyDocs : the initial value is initialized by DipylonUI's constructor.
   QString     path_to_dipydocs;
+
+  MainWindow* mainWin;
 
 public:
 
