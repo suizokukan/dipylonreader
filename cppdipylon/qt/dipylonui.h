@@ -50,7 +50,8 @@ typedef unsigned int ReadingModeDetails;
 ________________________________________________________________________________*/
 class DipylonUI {
 
-friend class MainWindow;
+  friend class MainWindow;
+  friend class SourceEditor;
 
 private:
   // attributes used to initialize the QApplication constructor :

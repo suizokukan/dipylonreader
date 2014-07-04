@@ -49,6 +49,7 @@ class DipylonUI;
 ______________________________________________________________________________*/
 class SourceEditor : public QTextEdit
 {
+  friend class DipylonUI;
   friend class MainWindow;
 
     Q_OBJECT
@@ -61,6 +62,7 @@ public:
     void reset_all_text_format_to_default(void);
 
 protected:
+    void keyReleaseEvent(QKeyEvent*);
     void mouseReleaseEvent(QMouseEvent*);
     void mousePressEvent(QMouseEvent*);
 

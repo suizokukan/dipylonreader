@@ -49,6 +49,9 @@ class CommentaryEditor;
 
 class MainWindow : public QMainWindow
 {
+friend class DipylonUI;
+friend class SourceEditor;
+
     Q_OBJECT
 
 public:

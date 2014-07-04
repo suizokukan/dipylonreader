@@ -42,13 +42,7 @@ CommentaryEditor::CommentaryEditor(DipylonUI& dipylonui) : current_dipylonui(dip
   CommentaryEditor::set_the_appearance
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_appearance(void) {
-
-  const QString default_stylesheet = "color: white;"
-                                     "background-color: #DE8ABC;"
-                                     "selection-color: yellow;"
-                                     "selection-background-color: blue;";
-
-  this->setStyleSheet(default_stylesheet);
+  this->setStyleSheet(fixedparameters::commentaryeditor_default_stylesheet);
 }
 
 /*______________________________________________________________________________

@@ -251,7 +251,6 @@ void MainWindow::createActions()
     connect(source_editor, SIGNAL(copyAvailable(bool)),
             copyAct, SLOT(setEnabled(bool)));
 
-    // XAV :
     audiocontrols_playAct = new QAction( *(this->current_dipylonui.icon_audio_play),
                                          tr("play"),
                                          this);
@@ -302,7 +301,6 @@ void MainWindow::createToolBars()
     editToolBar->addAction(copyAct);
     editToolBar->addAction(pasteAct);
 
-    // XAV :
     audiocontrolsToolBar = addToolBar(tr("AudioControls"));
     audiocontrolsToolBar->addAction(audiocontrols_playAct);
     audiocontrolsToolBar->addAction(audiocontrols_stopAct);
@@ -491,6 +489,7 @@ void MainWindow::audiocontrols_play(void)
     default: {
         this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
         this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+        this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
         this->audio_player->play();
         break;
     }
@@ -527,7 +526,6 @@ void MainWindow::audiocontrols_stop(void) {
   this->source_editor->reset_all_text_format_to_default();
 }
 
-// [XAV]
 // "qint64" and not PosInAudio
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
@@ -569,12 +567,10 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
   */
 }
 
-// [XAV]
 void MainWindow::load_text(const QString& source_text)  {
   this->source_editor->setPlainText(source_text);
 }
 
-// XAV
 // app::SIGNAL(aboutToQuit()) -> mainWin::SLOT(closing())
 /*
   from the doc of QCoreApplication::exec:

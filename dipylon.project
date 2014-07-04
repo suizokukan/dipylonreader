@@ -49,10 +49,9 @@ SOMMAIRE
 0.2.0 : karaoke mode
 0.2.1 : XML read/write
 0.2.2 : open DipyDoc / save DipyDoc main file
-
-(0.2.3) : karaoke mode with the translation)
-- le const QString default_stylesheet devait être défini dans fixedparameters
+0.2.3 : karaoke mode with the translations displayed in the commentary zone
 - espace pour pause/reprendre la lecture.
+- segfault avec ALT+F4
 
 (0.2.4 : click : new start)
 

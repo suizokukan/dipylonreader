@@ -42,6 +42,9 @@ ______________________________________________________________________________*/
 
 class CommentaryEditor : public QTextEdit
 {
+friend class DipylonUI;
+friend class MainWindow;
+
     Q_OBJECT
 
 public:
