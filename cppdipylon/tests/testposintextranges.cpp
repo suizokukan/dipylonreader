@@ -327,3 +327,19 @@ void TestPosInTextRanges::test9b(void)
   PosInTextRanges g3b(QString("1-3"));
   QVERIFY( g3a.get_hash() != g3b.get_hash() );
 }
+
+/*
+  test of PosInTextRanges::min(), PosInTextRanges::max()
+*/
+void TestPosInTextRanges::test10_minmax(void)
+{
+  const QString& str1 = QString("99-101+49-89+144-145");
+  PosInTextRanges g1(str1);
+  QCOMPARE( g1.min() , static_cast<unsigned int>(49) );
+  QCOMPARE( g1.max() , static_cast<unsigned int>(145) );
+
+  const QString& str2 = QString("");
+  PosInTextRanges g2(str2);
+  QCOMPARE( g2.min() , static_cast<unsigned int>( MAXIMAL_POSINTEXT ) );
+  QCOMPARE( g2.max() , static_cast<unsigned int>( MINIMAL_POSINTEXT ) );
+}

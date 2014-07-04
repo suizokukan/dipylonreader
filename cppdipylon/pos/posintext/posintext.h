@@ -32,6 +32,8 @@
 
 // base type :
 typedef unsigned int PosInText;
+const PosInText MINIMAL_POSINTEXT = 0;
+const PosInText MAXIMAL_POSINTEXT = 0xFFFFFFFF;
 
 typedef std::vector<std::pair<PosInText, PosInText> > VPairOfPosInText;
 
