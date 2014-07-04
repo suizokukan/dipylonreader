@@ -53,6 +53,9 @@ public:
     void update_content__translation_expected(PosInTextRanges&);
     void set_the_appearance(void);
 
+protected:
+    void keyReleaseEvent(QKeyEvent*);
+
 private:
     // DipylonUI object linked to the editor :
     DipylonUI& current_dipylonui;

@@ -59,3 +59,83 @@ void CommentaryEditor::update_content__translation_expected(PosInTextRanges& pos
 
   this->setPlainText(matching_translations);
 }
+
+/*______________________________________________________________________________
+
+        CommentaryEditor::keyReleaseEvent
+
+        See http://qt-project.org/doc/qt-5/qt.html#Key-enum for the list of
+        constants like "Qt::Key_Space".
+
+  known cases :
+
+  o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
+  o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
+  o [1.3] KARAOKE + UNDEFINED : nothing to do.
+  o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
+______________________________________________________________________________*/
+void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
+{
+  qDebug() << "CommentaryEditor::keyReleaseEvent" << keyboard_event->key();
+
+  switch( keyboard_event->key() ) {
+
+    case Qt::Key_Space : {
+
+      switch( this->current_dipylonui.reading_mode ) {
+
+        case DipylonUI::READINGMODE_KARAOKE: {
+
+          switch( this->current_dipylonui.reading_mode_details ) {
+
+            //......................................................................
+            // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
+            case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
+              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
+              this->current_dipylonui.mainWin->audio_player->pause();
+              break;
+            }
+
+            //......................................................................
+            // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
+            case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
+              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+              this->current_dipylonui.mainWin->audio_player->play();
+              break;
+            }
+
+            // [1.3] KARAOKE + UNDEFINED : nothing to do.
+            default : {
+              break;
+            }
+          }
+
+          break;
+        }
+
+        //..........................................................................
+        //[2] UNDEFINED reading mode -> KARAOKE + PLAYING
+        default: {
+            this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
+            this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+            this->current_dipylonui.mainWin->audio_player->play();
+            break;
+        }
+
+      }
+
+      break;
+    }
+
+    // other keys :
+    default : {
+      break;
+    }
+
+  }
+
+  QTextEdit::keyReleaseEvent(keyboard_event);
+}

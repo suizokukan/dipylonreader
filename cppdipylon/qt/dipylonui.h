@@ -52,6 +52,7 @@ class DipylonUI {
 
   friend class MainWindow;
   friend class SourceEditor;
+  friend class CommentaryEditor;
 
 private:
   // attributes used to initialize the QApplication constructor :
