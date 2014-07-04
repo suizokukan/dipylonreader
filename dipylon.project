@@ -51,7 +51,6 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 
-- quand SPACE dans commentary_zone, même action que si on était dans editor_zone
 - segfault avec ALT+F4
 
 (0.2.4 : click : new start)
