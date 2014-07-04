@@ -63,6 +63,5 @@ void CommentaryEditor::update_content__translation_expected(PosInTextRanges& pos
 
   QString matching_translations = this->current_dipylonui.get_translations_for(x0, x1);
 
-  qDebug() << "***" << posintext.to_str() <<x0 << x1 << matching_translations;
   this->setPlainText(matching_translations);
 }

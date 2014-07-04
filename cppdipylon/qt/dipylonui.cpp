@@ -95,7 +95,7 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
     strlist_of_translations.append( this->current_dipydoc.translation[posintextranges] );
   }
 
-  return strlist_of_translations.join(" + ");
+  return strlist_of_translations.join(" ");
 }
 
 /*______________________________________________________________________________

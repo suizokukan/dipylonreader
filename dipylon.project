@@ -51,8 +51,8 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 
 (0.2.3) : karaoke mode with the translation)
-- tester PosInTextRanges::max()/min()
 - le const QString default_stylesheet devait être défini dans fixedparameters
+- espace pour pause/reprendre la lecture.
 
 (0.2.4 : click : new start)
 
