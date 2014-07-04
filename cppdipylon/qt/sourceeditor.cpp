@@ -155,17 +155,43 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
 
         SourceEditor::mousePressEvent
 ______________________________________________________________________________*/
-void SourceEditor::mousePressEvent(QMouseEvent* mouse_event)
-{
+void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
+
     QTextCursor cur = this->textCursor();
 
     qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cur.position();
 
-    //this->cursor.select(QTextCursor::WordUnderCursor);
-    PosInText x0 =  static_cast<PosInText>(cur.position());
-    qDebug() << "x0=" << x0;
+    //    //this->cursor.select(QTextCursor::WordUnderCursor);
+    //    PosInText x0 =  static_cast<PosInText>(cur.position());
+    //    qDebug() << "x0=" << x0;
+    /*
+  switch( this->current_dipylonui.reading_mode ) {
 
-    QTextEdit::mousePressEvent(mouse_event);
+    case DipylonUI::READINGMODE_KARAOKE: {
+
+      cur.position()
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        (1) récupérer la position <p> dans le texte => cur.position()
+        (2) récupérer le segment audio <segA> correspondant à <p>.
+        (3) récupérer le segment dans le texte <segT> correspondant audit segment audio.
+        (4) modifier le format du texte de manière à ce que segA apparaisse en surbrillance.
+        (5) indiquer que l'on reprend la lecture en pause
+
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+      this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+      this->current_dipylonui.mainWin->audio_player->play();
+      break;
+    }
+
+    // other reading mode
+    default: {
+      break;
+    }
+  }
+    */
+
+  QTextEdit::mousePressEvent(mouse_event);
 }
 
 /*______________________________________________________________________________

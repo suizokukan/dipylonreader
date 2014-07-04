@@ -63,7 +63,7 @@ static const int audio_player_volume = 50;
 static const QString default_path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
 
 /*
-  UI : style sheets :
+  editors' default style sheets :
 */
 const QString sourceeditor_default_stylesheet = "background-color: #4169E1;"
                                                 "selection-color: white;"

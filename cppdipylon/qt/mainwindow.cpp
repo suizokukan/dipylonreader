@@ -534,13 +534,9 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
   if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
       this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING ) {
 
-      qDebug() << "MainWindow::audio_position_changed" << arg_pos;
-
       // where are the characters linked to "arg_pos" ?
       PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
       std::size_t text_ranges_hash = text_ranges.get_hash();
-
-      qDebug() << text_ranges.to_str();
 
       if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
 
@@ -551,9 +547,6 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
         this->source_editor->modified_chars_hash = text_ranges_hash;
 
         this->current_dipylonui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
-      }
-      else {
-        qDebug() << "...";
       }
 
       return;
