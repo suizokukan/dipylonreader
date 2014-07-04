@@ -73,7 +73,7 @@ private:
   // path to the DipyDocs : the initial value is initialized by DipylonUI's constructor.
   QString     path_to_dipydocs;
 
-  MainWindow* mainWin;
+  MainWindow* mainWin = nullptr;
 
 public:
 
@@ -103,7 +103,10 @@ public:
 
                      DipylonUI(int argc, char **argv);
                      ~DipylonUI(void);
+  QString            get_translations_for(PosInText, PosInText) const;
   int                go(void);
+  void               set_content_of_the_commentary_editor(QString text);
+  void               update_commentary_editor__translation_expected(PosInTextRanges&);
 };
 
 #endif

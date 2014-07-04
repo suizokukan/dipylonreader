@@ -546,6 +546,22 @@ moc_sourceeditor.cpp: fixedparameters.h \
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
 moc_commentaryeditor.cpp: fixedparameters.h \
+		qt/dipylonui.h \
+		qt/mainwindow.h \
+		qt/sourceeditor.h \
+		dipydoc/dipydoc.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
+		misc/hash.h \
+		pos/posintext/vectorposintextranges.h \
+		pos/posintext2posinaudio.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudiorange.h \
+		languages/languagefromto.h \
+		languages/languages.h \
+		qt/commentaryeditor.h \
 		qt/commentaryeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
 
@@ -644,7 +660,22 @@ sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
 commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
-		fixedparameters.h
+		fixedparameters.h \
+		qt/dipylonui.h \
+		qt/mainwindow.h \
+		qt/sourceeditor.h \
+		dipydoc/dipydoc.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
+		misc/hash.h \
+		pos/posintext/vectorposintextranges.h \
+		pos/posintext2posinaudio.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudiorange.h \
+		languages/languagefromto.h \
+		languages/languages.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
 
 dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \

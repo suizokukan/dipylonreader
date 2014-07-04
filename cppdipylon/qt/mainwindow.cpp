@@ -34,9 +34,9 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     setCentralWidget(main_splitter);
 
     source_editor = new SourceEditor(this->current_dipylonui);
-    commentary_zone = new CommentaryEditor();
+    commentary_editor = new CommentaryEditor(this->current_dipylonui);
     main_splitter->addWidget(source_editor);
-    main_splitter->addWidget(commentary_zone);
+    main_splitter->addWidget(commentary_editor);
 
     this->main_splitter->setSizes( fixedparameters::editors_size_in_main_splitter );
 
@@ -67,6 +67,8 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
 
 void MainWindow::closeEvent(QCloseEvent *arg_event)
 {
+  qDebug() << "MainWindow::closeEvent";
+
     if (maybeSave()) {
         writeSettings();
         arg_event->accept();
@@ -549,6 +551,8 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
 
         // hash update :
         this->source_editor->modified_chars_hash = text_ranges_hash;
+
+        this->current_dipylonui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
       }
       else {
         qDebug() << "...";

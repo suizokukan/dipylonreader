@@ -181,6 +181,50 @@ bool PosInTextRanges::contains(PosInText x0, PosInText x1) const
 
 /*______________________________________________________________________________
 
+        PosInTextRanges::max() : return the greatest element in "this" or 0
+        if "this" is empty.
+______________________________________________________________________________*/
+PosInText PosInTextRanges::max(void) const {
+
+  PosInText res = 0;
+
+  for (auto &i : vec) {
+    if( i.first > res ) {
+      res = i.first;
+    }
+
+    if( i.second > res ) {
+      res = i.second;
+    }
+  }
+
+  return res;
+}
+
+/*______________________________________________________________________________
+
+        PosInTextRanges::min() : return the smallest element in "this" or
+                                 0xFFFFFFFF if "this" is empty.
+______________________________________________________________________________*/
+PosInText PosInTextRanges::min(void) const {
+
+  PosInText res = 0xFFFFFFFF;
+
+  for (auto &i : vec) {
+    if( i.first < res ) {
+      res = i.first;
+    }
+
+    if( i.second < res ) {
+      res = i.second;
+    }
+  }
+
+  return res;
+}
+
+/*______________________________________________________________________________
+
         PosInTextRanges::to_str() : return a QString representing the object
                                     according to the POSINTEXTRANGES_STR format
                                     (see posintextranges.h)

@@ -35,6 +35,7 @@
   "argc" and "argv".
 ______________________________________________________________________________*/
 DipylonUI::DipylonUI(int argc, char **argv) {
+
   this->cmdline_argc = argc;
   this->cmdline_argv = argv;
 
@@ -57,6 +58,44 @@ DipylonUI::DipylonUI(int argc, char **argv) {
     this->path_to_dipydocs = fixedparameters::default_path_to_dipydocs;
   }
 
+}
+
+/*______________________________________________________________________________
+
+  DipylonUI destructor
+______________________________________________________________________________*/
+DipylonUI::~DipylonUI(void) {
+
+  qDebug() << "DipylonUI::~DipylonUI(#beginning)";
+  delete icon_new;
+  delete icon_open;
+  delete icon_save;
+  delete icon_cut;
+  delete icon_copy;
+  delete icon_paste;
+  delete icon_audio_pause;
+  delete icon_audio_play;
+  delete icon_audio_stop;
+  qDebug() << "DipylonUI::~DipylonUI(#fin)";
+}
+
+/*______________________________________________________________________________
+
+  DipylonUI::get_translations_for() : return a QString with the translations
+                                      matching the positions x0 to x1 in the
+                                      source text.
+______________________________________________________________________________*/
+QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
+
+  VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.contains(x0, x1);
+
+  QStringList strlist_of_translations;
+
+  for(auto &posintextranges : vector_posintextranges) {
+    strlist_of_translations.append( this->current_dipydoc.translation[posintextranges] );
+  }
+
+  return strlist_of_translations.join(" + ");
 }
 
 /*______________________________________________________________________________
@@ -132,22 +171,4 @@ int DipylonUI::go(void) {
 
   // main loop :
   return app.exec();
-}
-
-/*______________________________________________________________________________
-
-  DipylonUI destructor
-______________________________________________________________________________*/
-DipylonUI::~DipylonUI(void) {
-
-  delete icon_new;
-  delete icon_open;
-  delete icon_save;
-  delete icon_cut;
-  delete icon_copy;
-  delete icon_paste;
-  delete icon_audio_pause;
-  delete icon_audio_play;
-  delete icon_audio_stop;
-  delete mainWin;
 }

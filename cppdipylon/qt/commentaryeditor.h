@@ -29,8 +29,11 @@
 #define COMMENTARYEDITOR_H
 
 #include "fixedparameters.h"
+#include "qt/dipylonui.h"
 
 #include <QTextEdit>
+
+class DipylonUI;
 
 /*______________________________________________________________________________
 
@@ -42,9 +45,15 @@ class CommentaryEditor : public QTextEdit
     Q_OBJECT
 
 public:
-    CommentaryEditor(void);
+    CommentaryEditor(DipylonUI&);
 
+    void update_content__translation_expected(PosInTextRanges&);
     void set_the_appearance(void);
+
+private:
+    // DipylonUI object linked to the editor :
+    DipylonUI& current_dipylonui;
+
 };
 
 #endif

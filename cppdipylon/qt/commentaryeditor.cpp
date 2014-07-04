@@ -32,9 +32,8 @@
   CommentaryEditor constructor
 
 ______________________________________________________________________________*/
-CommentaryEditor::CommentaryEditor(void) {
+CommentaryEditor::CommentaryEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
-
   this->set_the_appearance();
 }
 
@@ -50,4 +49,20 @@ void CommentaryEditor::set_the_appearance(void) {
                                      "selection-background-color: blue;";
 
   this->setStyleSheet(default_stylesheet);
+}
+
+/*______________________________________________________________________________
+
+  CommentaryEditor::update_content__translation_expected
+
+______________________________________________________________________________*/
+void CommentaryEditor::update_content__translation_expected(PosInTextRanges& posintext) {
+
+  PosInText x0 = posintext.min();
+  PosInText x1 = posintext.max();
+
+  QString matching_translations = this->current_dipylonui.get_translations_for(x0, x1);
+
+  qDebug() << "***" << posintext.to_str() <<x0 << x1 << matching_translations;
+  this->setPlainText(matching_translations);
 }

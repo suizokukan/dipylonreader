@@ -106,8 +106,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
       PosInText x0 = static_cast<PosInText>( cur.selectionStart() );
       PosInText x1 = static_cast<PosInText>( cur.selectionEnd() );
       qDebug() << "SourceEditor::mouseReleaseEvent; selection=" << x0 << "-" << x1;
-      //%%%%%this->current_dipylonui.
-    }
+     }
 
     QTextEdit::mouseReleaseEvent(mouse_event);
 }

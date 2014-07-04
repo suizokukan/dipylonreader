@@ -87,6 +87,8 @@ class PosInTextRanges {
   VPairOfPosInTextCI end(void);
   std::size_t        get_hash(void);
   int                internal_state(void) const;
+  PosInText          max(void) const;
+  PosInText          min(void) const;
   size_t             size(void) const;
   QString            to_str(void) const;
   bool               well_initialized(void) const;

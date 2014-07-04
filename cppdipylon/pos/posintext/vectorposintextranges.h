@@ -48,26 +48,34 @@
 
 #include <QString>
 
+/*
+  type used by the main object of VectorPosInTextRanges, a vector of PosInTextRanges.
+*/
+typedef std::vector<PosInTextRanges> VPosInTextRanges;
+typedef std::vector<PosInTextRanges>::const_iterator VPosInTextRangesCI;
+
 /*______________________________________________________________________________
 
 
   VectorPosInTextRanges class
 
-  wrapper around a std::vector<PosInTextRanges> object named "vposintextranges".
+  wrapper around a VPosInTextRanges object named "vposintextranges".
 
 ______________________________________________________________________________*/
 struct VectorPosInTextRanges
 {
-        std::vector<PosInTextRanges> vposintextranges;
+        VPosInTextRanges vposintextranges;
 
-                         VectorPosInTextRanges(void);
-                         VectorPosInTextRanges(const VectorPosInTextRanges&);
-                         VectorPosInTextRanges(std::vector<PosInTextRanges>);
+                               VectorPosInTextRanges(void);
+                               VectorPosInTextRanges(const VectorPosInTextRanges&);
+                               VectorPosInTextRanges(VPosInTextRanges);
         VectorPosInTextRanges& operator=(const VectorPosInTextRanges&);
-        void        clear(void);
-        std::size_t size(void) const;
-        void        sort(void);
-        QString     to_str(void) const;
+        VPosInTextRangesCI     begin(void) const;
+        void                   clear(void);
+        VPosInTextRangesCI     end(void) const;
+        std::size_t            size(void) const;
+        void                   sort(void);
+        QString                to_str(void) const;
 
         const char* MAIN_SEPARATOR = "/";
 
@@ -107,7 +115,7 @@ struct VectorPosInTextRanges
 inline VectorPosInTextRanges::VectorPosInTextRanges(void)
 {}
 
-inline VectorPosInTextRanges::VectorPosInTextRanges(std::vector<PosInTextRanges> v) : vposintextranges(v)
+inline VectorPosInTextRanges::VectorPosInTextRanges(VPosInTextRanges v) : vposintextranges(v)
 {}
 
 inline VectorPosInTextRanges::VectorPosInTextRanges( const VectorPosInTextRanges& other )  : \
@@ -120,6 +128,14 @@ inline VectorPosInTextRanges& VectorPosInTextRanges::operator=(const VectorPosIn
     this->vposintextranges = other.vposintextranges;
   }
   return *this;
+}
+
+inline VPosInTextRangesCI VectorPosInTextRanges::begin(void) const {
+  return this->vposintextranges.begin();
+}
+
+inline VPosInTextRangesCI VectorPosInTextRanges::end(void) const {
+  return this->vposintextranges.end();
 }
 
 inline std::size_t VectorPosInTextRanges::size(void) const {

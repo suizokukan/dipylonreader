@@ -59,6 +59,8 @@ struct IntegersAndAString
 ________________________________________________________________________________*/
 class PosInText2Str {
 
+ friend class DipyDoc;
+
  private:
 
   std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher> map;

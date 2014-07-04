@@ -39,12 +39,13 @@ class SourceEditor;
 #include <QMediaPlayer>
 #include <QMainWindow>
 #include <QtWidgets>
-#include <QFile>  // [XAV]QFile
+#include <QFile>
 
 class QAction;
 class QMenu;
 class QSplitter;
 class DipylonUI;
+class CommentaryEditor;
 
 class MainWindow : public QMainWindow
 {
@@ -53,7 +54,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(DipylonUI&);
 
-    void load_text(const QString& source_text); // XAV
+    void load_text(const QString& source_text);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -67,11 +68,11 @@ private slots:
     void about();
     void documentWasModified();
 
-    void audiocontrols_play(void); // XAV
-    void audiocontrols_stop(void); // XAV
-    void audio_position_changed(qint64); // XAV
+    void audiocontrols_play(void);
+    void audiocontrols_stop(void);
+    void audio_position_changed(qint64);
 
-    void closing(void);	// XAV
+    void closing(void);
 
 private:
     DipylonUI& current_dipylonui;
@@ -88,8 +89,9 @@ private:
     void setCurrentDipyDoc(const QString&);
     QString strippedName(const QString &fullFileName);
 
+
     SourceEditor *source_editor = nullptr;
-    CommentaryEditor *commentary_zone = nullptr;
+    CommentaryEditor *commentary_editor = nullptr;
     QSplitter *main_splitter = nullptr;
     QString curFile;
 
@@ -110,9 +112,9 @@ private:
     QAction *aboutAct = nullptr;
     QAction *aboutQtAct = nullptr;
 
-    QAction* audiocontrols_playAct = nullptr;     // XAV
-    QAction* audiocontrols_stopAct = nullptr;     // XAV
-    QToolBar* audiocontrolsToolBar = nullptr;     // XAV
+    QAction* audiocontrols_playAct = nullptr;
+    QAction* audiocontrols_stopAct = nullptr;
+    QToolBar* audiocontrolsToolBar = nullptr;
 
     QMediaPlayer* audio_player = nullptr;
 };
