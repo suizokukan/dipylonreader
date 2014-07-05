@@ -51,8 +51,8 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 
+-13 : text défini dans <text filename="text" informations="...">
 - segfault avec ALT+F4
-- 12 : ajouter informations sur l'enregistrement audio/origine du texte/de la traduction
 
 (0.2.4 : click : new start)
 
@@ -655,19 +655,21 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
+version 12
+  added "informations" to "audiorecord" and "translation"
 version 11
   added audiorecord::filename token
 version 10
   first format's version
 
-main.xml, version 11 :
+main.xml, version 12 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <dipydoc dipydoc_version="10" languages="lat->fra" filename="record.ogg">
-  <audiorecord name="enregistrement audio">
+  <audiorecord name="enregistrement audio" informations="...">
     <segment textranges="8-26" audiorange="0-2399" srctext="Prīmus amor Phoebī" />
   </audiorecord>
-  <translation name="enregistrement audio">
+  <translation name="enregistrement audio" informations="...">
     <segment textranges="8-26" srctext="Prīmus amor Phoebī">Le premier amour de Phébus</segment>
   </translation>
 </dipydoc>

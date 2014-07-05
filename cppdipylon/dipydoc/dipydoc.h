@@ -80,10 +80,12 @@ private:
   // audiorecord data :
   QString              audiorecord_name;
   QString              audiorecord_filename;    // with full path
+  QString              audiorecord_informations;
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
   // translation data :
   QString              translation_name;
+  QString              translation_informations;
   PosInText2Str        translation;
 
   bool                 check_path(const QString&);
@@ -101,7 +103,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 11;
+  static const int     minimal_dipydoc_version = 12;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

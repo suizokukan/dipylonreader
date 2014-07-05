@@ -289,7 +289,11 @@ QString DipyDoc::get_xml_repr(void) const {
 
   // audiorecord : the functions reads through this->text2audio with sorted keys.
   list_of_posintextranges.clear();
-  res += "  <audiorecord name=\"$AUDIORECORDNAME$\" filename=\"$AUDIORECORDFILENAME$\">\n";
+  res += "  <audiorecord \n"
+         "        name=\"$AUDIORECORDNAME$\" \n"
+         "        filename=\"$AUDIORECORDFILENAME$\" \n"
+         "        informations=\"$AUDIORECORDINFORMATIONS$\" \n"
+         "  >\n";
   for(auto &textrange : this->text2audio) {
     list_of_posintextranges.vposintextranges.push_back( textrange.first );
   }
@@ -307,7 +311,10 @@ QString DipyDoc::get_xml_repr(void) const {
   // translation : the functions reads through this->translation with sorted keys.
   res += "\n";
   list_of_posintextranges.clear();
-  res += "  <translation name=\"$TRANSLATIONNAME$\">\n";
+  res += "  <translation \n"
+         "        name=\"$TRANSLATIONNAME$\" \n"
+         "        informations=\"$TRANSLATIONINFORMATIONS$\" \n"
+         "  >\n";
   for(auto &textrange : this->translation) {
     list_of_posintextranges.vposintextranges.push_back( textrange.first );
   }
@@ -329,7 +336,9 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace( "$DIPYDOCVERSION$", QString().setNum(this->dipydoc_version) );
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
   res.replace( "$AUDIORECORDNAME$", this->audiorecord_name );
+  res.replace( "$AUDIORECORDINFORMATIONS$", this->audiorecord_informations );
   res.replace( "$TRANSLATIONNAME$", this->translation_name );
+  res.replace( "$TRANSLATIONINFORMATIONS$", this->translation_informations );
   // just the filename, not the path :
   res.replace( "$AUDIORECORDFILENAME$", QFileInfo(this->audiorecord_filename).fileName() );
 
@@ -421,12 +430,14 @@ void DipyDoc::init_from_xml(const QString& path) {
         current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
         this->audiorecord_name = xmlreader.attributes().value("name").toString();
         this->audiorecord_filename = path + "/" + xmlreader.attributes().value("filename").toString();
+        this->audiorecord_informations = xmlreader.attributes().value("informations").toString();
         continue;
       }
 
       if( name == "translation" ) {
         current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
         this->translation_name = xmlreader.attributes().value("name").toString();
+        this->translation_informations = xmlreader.attributes().value("informations").toString();
         continue;
       }
 
