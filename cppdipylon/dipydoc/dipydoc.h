@@ -48,13 +48,15 @@
   divisions inside a DipyDoc file :
 
   o DIPYDOCDIV_UNDEFINED : everything but the other constants.
-  o DIPYDOCDIV_INSIDE_AUDIORECORD : inside <audiorecord></audiorecord>
-  o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation></translation>
+  o DIPYDOCDIV_INSIDE_AUDIORECORD : inside <audiorecord>
+  o DIPYDOCDIV_INSIDE_TEXT        : inside <text>
+  o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation>
 */
 enum DipyDocDiv : int {
     DIPYDOCDIV_UNDEFINED = 0,
     DIPYDOCDIV_INSIDE_AUDIORECORD = 1,
-    DIPYDOCDIV_INSIDE_TRANSLATION = 2,
+    DIPYDOCDIV_INSIDE_TEXT = 2,
+    DIPYDOCDIV_INSIDE_TRANSLATION = 3,
 };
 
 /*______________________________________________________________________________
@@ -77,6 +79,9 @@ private:
   LanguageFromTo       languagefromto;
   // source text :
   QString              source_text;
+  QString              source_text_name;
+  QString              source_text_filename;    // with full path
+  QString              source_text_informations;
   // audiorecord data :
   QString              audiorecord_name;
   QString              audiorecord_filename;    // with full path
@@ -103,7 +108,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 12;
+  static const int     minimal_dipydoc_version = 13;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
@@ -134,11 +139,11 @@ public:
     MISSING_MAIN_FILE = -5,
     MISSING_TEXT_FILE = -6,
     MISSING_AUDIO_FILE = -7,
+    MISSING_SOURCE_TEXT_FILE = -8,
   };
 
-  // name of the files in a dipydoc directory :
+  // name of the main file in a dipydoc directory :
   constexpr static const char*   MAIN_FILENAME = "main.xml";
-  constexpr static const char*   TEXT_FILENAME = "text";
 };
 
 inline DipyDoc::DipyDoc(void) {
