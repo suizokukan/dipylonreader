@@ -25,6 +25,7 @@ HEADERS         +=  fixedparameters.h \
                     qt/dipylonui.h \	
                     qt/sourceeditor.h \
                     qt/commentaryeditor.h \
+                    qt/textformat.h \
                     dipydoc/dipydoc.h \
                     pos/posintext2posinaudio.h \
                     pos/posinaudio2posintext.h \
@@ -41,6 +42,7 @@ SOURCES         +=  main.cpp \
                     qt/dipylonui.cpp \
                     qt/sourceeditor.cpp \
                     qt/commentaryeditor.cpp \
+                    qt/textformat.cpp \
                     dipydoc/dipydoc.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
