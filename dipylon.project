@@ -51,13 +51,14 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 
-- TextFormat : utiliser cette classe pour définir les QTextCharFormat existant.
+- click : karaoke.new start
 - segfault avec ALT+F4
 - DipyDocTranslation, DipyDocAudioRecord ...
-- vector of DipyDocTranslation + current_translation
+- vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
 - si pas d'enregistrement audio -> icônes grisées
 
-(0.2.4 : click : new start)
+flèche ???
+récupérer la position du curseur : http://www.qtcentre.org/threads/45645-QTextEdit-cursorForPosition%28%29-and-character-at-mouse-pointer
 
 ################################################################################
 [1] options de compilation

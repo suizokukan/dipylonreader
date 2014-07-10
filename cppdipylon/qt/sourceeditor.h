@@ -66,6 +66,7 @@ protected:
     void keyReleaseEvent(QKeyEvent*);
     void mouseReleaseEvent(QMouseEvent*);
     void mousePressEvent(QMouseEvent*);
+    void paintEvent(QPaintEvent*);
 
 private:
     // DipylonUI object linked to the editor :

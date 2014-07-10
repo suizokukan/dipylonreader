@@ -42,6 +42,28 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
 
 /*______________________________________________________________________________
 
+  SourceEditor::paintEvent()
+
+  doc : http://qt-project.org/doc/qt-4.8/qpainterpath.html#cubicTo
+
+  sur QPen : http://qt-project.org/doc/qt-4.8/qpen.html
+______________________________________________________________________________*/
+void SourceEditor::paintEvent(QPaintEvent* ev) {
+
+  const QRect rec = ev->rect();
+  QPainter p(viewport());
+  //p.setPen(QPen("red"));
+  p.setPen( QPen(QBrush("red"), 5, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
+
+  QPainterPath path = QPainterPath( QPointF(400,400) ); // starting point
+  path.cubicTo( QPointF(300,50), QPointF(50,50), QPointF(20,100) ); // p1, p2, endpoint
+  p.drawPath(path);
+
+  QTextEdit::paintEvent(ev);
+}
+
+/*______________________________________________________________________________
+
   SourceEditor::set_the_appearance
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
