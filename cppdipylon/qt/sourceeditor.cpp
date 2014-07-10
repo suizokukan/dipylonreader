@@ -76,6 +76,8 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
 
   p.drawRect( x0-2, y0-2, 4,4);
 
+  p.drawRect( x1-1, y1-1, 2,2);
+
   // arrow head :
   /*  const double cos = -0.707; //0.866;
   const double sin =  0.707; //0.500.

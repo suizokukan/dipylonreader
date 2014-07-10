@@ -51,12 +51,16 @@
   o DIPYDOCDIV_INSIDE_AUDIORECORD : inside <audiorecord>
   o DIPYDOCDIV_INSIDE_TEXT        : inside <text>
   o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation>
+  o DIPYDOCDIV_INSIDE_TEXTFORMAT  : inside <textformat>
+  o DIPYDOCDIV_INSIDE_LEVEL       : inside <level>
 */
 enum DipyDocDiv : int {
     DIPYDOCDIV_UNDEFINED = 0,
     DIPYDOCDIV_INSIDE_AUDIORECORD = 1,
     DIPYDOCDIV_INSIDE_TEXT = 2,
     DIPYDOCDIV_INSIDE_TRANSLATION = 3,
+    DIPYDOCDIV_INSIDE_TEXTFORMAT = 4,
+    DIPYDOCDIV_INSIDE_LEVEL = 5,
 };
 
 /*______________________________________________________________________________
@@ -150,6 +154,11 @@ private:
   // translation data :
   DipyDocTranslation   translation;
 
+  // text formats :
+  std::map<QString, QString> textformats;
+  // levels :
+  std::map<int, QString> levels;
+
   bool                 check_path(const QString&);
   void                 init_from_xml(const QString&);
 
@@ -165,7 +174,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 13;
+  static const int     minimal_dipydoc_version = 14;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

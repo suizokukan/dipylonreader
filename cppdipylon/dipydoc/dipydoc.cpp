@@ -145,11 +145,15 @@ void DipyDoc::clear(void) {
   this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
 
   this->errors.clear();
-  this->source_text.clear();
-  this->audiorecord.clear();
+
   this->dipydoc_version = -1;
   this->languagefromto.clear();
+
+  this->source_text.clear();
+  this->audiorecord.clear();
   this->translation.clear();
+
+  this->textformats.clear();
 }
 
 /*______________________________________________________________________________
@@ -264,7 +268,9 @@ QString DipyDoc::get_xml_repr(void) const {
   QString res;
   VectorPosInTextRanges list_of_posintextranges;
 
-  // header :
+  /*............................................................................
+    header
+  ............................................................................*/
   res += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 
   res += "\n";
@@ -287,6 +293,7 @@ QString DipyDoc::get_xml_repr(void) const {
          "        filename=\"$TEXTFILENAME$\" \n"
          "        informations=\"$TEXTINFORMATIONS$\" \n"
          "  />\n";
+
   /*............................................................................
     audiorecord : the functions reads through this->audiorecord.text2audio with sorted keys.
   ............................................................................*/
@@ -334,7 +341,35 @@ QString DipyDoc::get_xml_repr(void) const {
   }
   res += "  </translation>\n";
 
-  // final line :
+  /*............................................................................
+    textformats
+  ............................................................................*/
+  res += "\n";
+  res += "  <textformats>\n";
+  for(auto &textformat : this->textformats) {
+    QString new_line("    <textformat name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
+    new_line.replace( "$NAME$", textformat.first );
+    new_line.replace( "$ASPECT$",  textformat.second );
+    res += new_line;
+  }
+  res += "  </textformats>\n";
+
+  /*............................................................................
+    levels
+  ............................................................................*/
+  res += "\n";
+  res += "  <levels>\n";
+  for(auto &level : this->levels) {
+    QString new_line("    <level number=\"$NUMBER$\" name=\"$NAME$\" />\n");
+    new_line.replace( "$NUMBER$", QString().setNum(level.first) );
+    new_line.replace( "$NAME$", level.second );
+    res += new_line;
+  }
+  res += "  </levels>\n";
+
+  /*............................................................................
+    final line
+  ............................................................................*/
   res += "\n";
   res += "</dipydoc>\n";
 
@@ -457,6 +492,22 @@ void DipyDoc::init_from_xml(const QString& path) {
         current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
         this->translation.name = xmlreader.attributes().value("name").toString();
         this->translation.informations = xmlreader.attributes().value("informations").toString();
+        continue;
+      }
+
+      if( name == "textformat" ) {
+        current_division = DIPYDOCDIV_INSIDE_TEXTFORMAT;
+        QString textformat_name = xmlreader.attributes().value("name").toString();
+        QString textformat_aspect = xmlreader.attributes().value("aspect").toString();
+        this->textformats[ textformat_name ] = textformat_aspect;
+        continue;
+      }
+
+      if( name == "level" ) {
+        current_division = DIPYDOCDIV_INSIDE_LEVEL;
+        int     level_number = xmlreader.attributes().value("number").toString().toInt();
+        QString level_name = xmlreader.attributes().value("name").toString();
+        this->levels[ level_number ] = level_name;
         continue;
       }
 

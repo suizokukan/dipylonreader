@@ -51,13 +51,22 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 
+- dans ... , vérifierque "number", "name" existent :
+
+      if( name == "level" ) {
+        current_division = DIPYDOCDIV_INSIDE_LEVEL;
+        int     level_number = xmlreader.attributes().value("number").toString().toInt();
+        QString level_name = xmlreader.attributes().value("name").toString();
+        this->levels[ level_number ] = level_name;
+        continue;
+      }
+- version 14 de main.xml
+- puisque les textformats sont définis dans main.xml, permettre de définir aussi l'aspect général du texte.
 - click : karaoke.new start
 - segfault avec ALT+F4
 - vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
 - si pas d'enregistrement audio -> icônes grisées
-
-flèche ???
-récupérer la position du curseur : http://www.qtcentre.org/threads/45645-QTextEdit-cursorForPosition%28%29-and-character-at-mouse-pointer
+- flèche ??? / récupérer la position du curseur : http://www.qtcentre.org/threads/45645-QTextEdit-cursorForPosition%28%29-and-character-at-mouse-pointer
 
 ################################################################################
 [1] options de compilation
@@ -658,6 +667,8 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
+version 14
+  added <textformats>, <levels>
 version 13
   added <text/>
 version 12
@@ -667,10 +678,12 @@ version 11
 version 10
   first format's version
 
-main.xml, version 13 :
+main.xml, version 14 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <dipydoc dipydoc_version="10" languages="lat->fra" filename="record.ogg">
+
   <text name="..." filename="text" informations="..."/>
   <audiorecord name="enregistrement audio" informations="...">
     <segment textranges="8-26" audiorange="0-2399" srctext="Prīmus amor Phoebī" />
@@ -678,6 +691,15 @@ main.xml, version 13 :
   <translation name="enregistrement audio" informations="...">
     <segment textranges="8-26" srctext="Prīmus amor Phoebī">Le premier amour de Phébus</segment>
   </translation>
+
+  <textformats>
+	<textformat name="nominatif-sujet" aspect="foreground=black;background=blue" />
+  </textformats>
+  
+  <levels>
+	<level number="0" name="mot"/>
+  </levels>
+
 </dipydoc>
 
 ################################################################################
