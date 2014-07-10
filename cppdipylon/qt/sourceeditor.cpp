@@ -52,12 +52,42 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
 
   const QRect rec = ev->rect();
   QPainter p(viewport());
-  //p.setPen(QPen("red"));
-  p.setPen( QPen(QBrush("red"), 5, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
 
-  QPainterPath path = QPainterPath( QPointF(400,400) ); // starting point
-  path.cubicTo( QPointF(300,50), QPointF(50,50), QPointF(20,100) ); // p1, p2, endpoint
+  float x0 = 400;
+  float y0 = 400;
+  float x1 = 20;
+  float y1 = 100;
+  float dx = (x1 - x0);
+  float dy = (y1 - y0);
+
+  QPointF startingpoint = QPointF(x0, y0);
+  QPointF endpoint = QPointF(x1, y1);
+
+
+  p.setPen( QPen(QBrush("red"), 2, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
+
+  // arrow body :
+  QPainterPath path = QPainterPath( startingpoint ); // starting point
+  path.cubicTo( QPointF(300,50), QPointF(50,50), endpoint ); // p1, p2, endpoint
   p.drawPath(path);
+
+
+  p.setPen( QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
+
+  p.drawRect( x0-2, y0-2, 4,4);
+
+  // arrow head :
+  /*  const double cos = -0.707; //0.866;
+  const double sin =  0.707; //0.500.
+  QPointF end1 = QPointF(
+        x1 + (dx * cos + dy * -sin),
+        y1 + (dx * sin + dy * cos));
+  QPointF end2 = QPointF(
+        x1 + (dx * cos + dy * sin),
+        y1 + (dx * -sin + dy * cos));
+  p.drawLine(endpoint, end1);
+  p.drawLine(endpoint, end2);
+  */
 
   QTextEdit::paintEvent(ev);
 }
