@@ -68,7 +68,9 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
 
   // arrow body :
   QPainterPath path = QPainterPath( startingpoint ); // starting point
-  path.cubicTo( QPointF(300,50), QPointF(50,50), endpoint ); // p1, p2, endpoint
+  path.cubicTo( QPointF( x0*1.3, y0*0.9),
+                QPointF( x0*1.1, y0*0.7),
+                endpoint ); // p1, p2, endpoint
   p.drawPath(path);
 
 
