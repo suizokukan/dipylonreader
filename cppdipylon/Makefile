@@ -525,6 +525,7 @@ moc_mainwindow.cpp: fixedparameters.h \
 		qt/dipylonui.h \
 		qt/mainwindow.h \
 		qt/commentaryeditor.h \
+		qt/textformat.h \
 		qt/mainwindow.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/mainwindow.h -o moc_mainwindow.cpp
 
@@ -544,6 +545,7 @@ moc_sourceeditor.cpp: fixedparameters.h \
 		qt/dipylonui.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
+		qt/textformat.h \
 		qt/commentaryeditor.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
@@ -564,6 +566,7 @@ moc_commentaryeditor.cpp: fixedparameters.h \
 		pos/posinaudio/posinaudiorange.h \
 		languages/languagefromto.h \
 		languages/languages.h \
+		qt/textformat.h \
 		qt/commentaryeditor.h \
 		qt/commentaryeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
@@ -598,6 +601,7 @@ main.o: main.cpp qt/dipylonui.h \
 		pos/posinaudio/posinaudiorange.h \
 		languages/languagefromto.h \
 		languages/languages.h \
+		qt/textformat.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
@@ -621,6 +625,7 @@ mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
 		languages/languagefromto.h \
 		languages/languages.h \
 		qt/dipylonui.h \
+		qt/textformat.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o qt/mainwindow.cpp
 
@@ -640,6 +645,7 @@ dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
 		pos/posinaudio/posinaudiorange.h \
 		languages/languagefromto.h \
 		languages/languages.h \
+		qt/textformat.h \
 		qt/commentaryeditor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
 
@@ -659,7 +665,8 @@ sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
 		languages/languages.h \
 		qt/dipylonui.h \
 		qt/mainwindow.h \
-		qt/commentaryeditor.h
+		qt/commentaryeditor.h \
+		qt/textformat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
 commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
@@ -678,7 +685,8 @@ commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
 		pos/posinaudio2posintext.h \
 		pos/posinaudio/posinaudiorange.h \
 		languages/languagefromto.h \
-		languages/languages.h
+		languages/languages.h \
+		qt/textformat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
 
 textformat.o: qt/textformat.cpp qt/textformat.h

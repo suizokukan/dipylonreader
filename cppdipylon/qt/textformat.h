@@ -57,7 +57,7 @@ class TextFormat {
 
 private:
 
-  QTextCharFormat      qtextcharformat;
+  QTextCharFormat      _qtextcharformat;
   bool                 _well_initialized;
   int                  _internal_state;
 
@@ -69,6 +69,7 @@ public:
 
   int                  init_from_string(const QString&);
   int                  internal_state(void) const;
+  QTextCharFormat      qtextcharformat(void) const;
   bool                 well_initialized(void) const;
 
   /*
@@ -92,7 +93,7 @@ public:
 inline TextFormat::TextFormat(void) {
   this->_well_initialized = false;
   this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
-  this->qtextcharformat = QTextCharFormat();
+  this->_qtextcharformat = QTextCharFormat();
 }
 
 inline int TextFormat::internal_state(void) const {

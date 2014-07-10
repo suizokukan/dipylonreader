@@ -62,13 +62,10 @@ ______________________________________________________________________________*/
 void SourceEditor::set_the_text_formats(void) {
 
   // default style format :
-  auto default_brush = QBrush(Qt::white);
-  this->format_text_default.setForeground(default_brush);
+  this->format_text_default = TextFormat(fixedparameters::sourceeditor_default_textformat).qtextcharformat();
 
   // karaoke style format :
-  auto karaoke_brush = QBrush(Qt::red);
-  this->format_text_karaoke.setFontWeight(QFont::Bold);
-  this->format_text_karaoke.setForeground(karaoke_brush);
+  this->format_text_karaoke = TextFormat(fixedparameters::sourceeditor_karaoke_textformat).qtextcharformat();
 }
 
 /*______________________________________________________________________________

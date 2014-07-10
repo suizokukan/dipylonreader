@@ -31,6 +31,7 @@
 #include "fixedparameters.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/dipylonui.h"
+#include "qt/textformat.h"
 #include "pos/posintext/posintext.h"
 
 #include <QTextEdit>
