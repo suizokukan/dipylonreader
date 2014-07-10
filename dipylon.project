@@ -51,9 +51,9 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 
+- DipyDocTranslation, DipyDocAudioRecord ...
 - click : karaoke.new start
 - segfault avec ALT+F4
-- DipyDocTranslation, DipyDocAudioRecord ...
 - vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
 - si pas d'enregistrement audio -> icônes grisées
 

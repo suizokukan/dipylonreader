@@ -87,12 +87,12 @@ DipylonUI::~DipylonUI(void) {
 ______________________________________________________________________________*/
 QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
 
-  VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.contains(x0, x1);
+  VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.translations.contains(x0, x1);
 
   QStringList strlist_of_translations;
 
   for(auto &posintextranges : vector_posintextranges) {
-    strlist_of_translations.append( this->current_dipydoc.translation[posintextranges] );
+    strlist_of_translations.append( this->current_dipydoc.translation.translations[posintextranges] );
   }
 
   return strlist_of_translations.join(" ");

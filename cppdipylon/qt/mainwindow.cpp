@@ -378,8 +378,8 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
   }
   else {
     this->load_text(this->current_dipylonui.current_dipydoc.source_text);
-    qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord_filename;
-    this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord_filename));
+    qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord.filename;
+    this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord.filename));
   }
 
   #ifndef QT_NO_CURSOR
@@ -560,8 +560,8 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
   */
 }
 
-void MainWindow::load_text(const QString& source_text)  {
-  this->source_editor->setPlainText(source_text);
+void MainWindow::load_text(const DipyDocSourceText& source_text)  {
+  this->source_editor->setPlainText(source_text.text);
 }
 
 // app::SIGNAL(aboutToQuit()) -> mainWin::SLOT(closing())

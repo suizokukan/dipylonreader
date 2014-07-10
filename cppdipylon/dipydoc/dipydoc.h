@@ -61,6 +61,72 @@ enum DipyDocDiv : int {
 
 /*______________________________________________________________________________
 
+  DipyDocAudioRecord class
+
+  Tbis class is used to create an attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct DipyDocAudioRecord {
+  QString              name = "";
+  QString              filename = "";    // with full path
+  QString              informations = "";
+  PosInText2PosInAudio text2audio;
+  PosInAudio2PosInText audio2text;
+
+  void                 clear(void);
+};
+inline void DipyDocAudioRecord::clear(void) {
+  this->name = "";
+  this->filename = "";
+  this->informations = "";
+  this->text2audio.clear();
+  this->audio2text.clear();
+}
+
+/*______________________________________________________________________________
+
+  DipyDocSourceText class
+
+  Tbis class is used to create an attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct DipyDocSourceText {
+  QString text = "";
+  QString name = "";
+  QString filename = "";    // with full path
+  QString informations = "";
+
+  void    clear(void);
+};
+inline void DipyDocSourceText::clear(void) {
+  this->text = "";
+  this->name = "";
+  this->filename = "";
+  this->informations = "";
+}
+
+/*______________________________________________________________________________
+
+  DipyDocTranslation class
+
+  Tbis class is used to create an attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct DipyDocTranslation {
+  QString       name = "";
+  QString       informations = "";
+  PosInText2Str translations;
+
+  void          clear(void);
+};
+inline void DipyDocTranslation::clear(void) {
+  this->name = "";
+  this->informations = "";
+  this->translations.clear();
+}
+
+/*______________________________________________________________________________
+
   DipyDoc class
 
 ______________________________________________________________________________*/
@@ -78,20 +144,11 @@ private:
   int                  dipydoc_version;
   LanguageFromTo       languagefromto;
   // source text :
-  QString              source_text;
-  QString              source_text_name;
-  QString              source_text_filename;    // with full path
-  QString              source_text_informations;
+  DipyDocSourceText    source_text;
   // audiorecord data :
-  QString              audiorecord_name;
-  QString              audiorecord_filename;    // with full path
-  QString              audiorecord_informations;
-  PosInText2PosInAudio text2audio;
-  PosInAudio2PosInText audio2text;
+  DipyDocAudioRecord   audiorecord;
   // translation data :
-  QString              translation_name;
-  QString              translation_informations;
-  PosInText2Str        translation;
+  DipyDocTranslation   translation;
 
   bool                 check_path(const QString&);
   void                 init_from_xml(const QString&);
@@ -149,8 +206,11 @@ public:
 inline DipyDoc::DipyDoc(void) {
   this->_well_initialized = false;
   this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
-  this->source_text = QString("");
-  this->translation = PosInText2Str();
+
+  this->audiorecord.clear();
+  this->source_text.clear();
+  this->translation.clear();
+
   this->dipydoc_version = -1;
 }
 
@@ -163,7 +223,7 @@ inline bool DipyDoc::well_initialized(void) const {
 }
 
 inline PosInTextRanges DipyDoc::audio2text_contains(PosInAudio pos) const {
-  return this->audio2text.contains(pos);
+  return this->audiorecord.audio2text.contains(pos);
 }
 
 #endif

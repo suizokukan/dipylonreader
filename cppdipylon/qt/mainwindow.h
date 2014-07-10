@@ -58,7 +58,7 @@ friend class CommentaryEditor;
 public:
     MainWindow(DipylonUI&);
 
-    void load_text(const QString& source_text);
+    void load_text(const DipyDocSourceText& source_text);
 
 protected:
     void closeEvent(QCloseEvent *event);
