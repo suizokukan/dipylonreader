@@ -561,7 +561,7 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
 }
 
 void MainWindow::load_text(const DipyDocSourceText& source_text)  {
-  this->source_editor->setPlainText(source_text.text);
+  this->source_editor->load_text(source_text);
 }
 
 // app::SIGNAL(aboutToQuit()) -> mainWin::SLOT(closing())

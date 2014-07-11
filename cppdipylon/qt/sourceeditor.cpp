@@ -216,6 +216,34 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
 
 /*______________________________________________________________________________
 
+        SourceEditor::load_text()
+______________________________________________________________________________*/
+void SourceEditor::load_text(const DipyDocSourceText& source_text) {
+
+  /*
+     "lettrine" ("initial") :
+  */
+  QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
+
+  QTextDocument* qtextdocument = this->document();
+  qtextdocument->addResource(QTextDocument::ImageResource, QUrl("lettrine"), lettrine_img);
+
+  QTextImageFormat qtextimageformat = QTextImageFormat();
+  qtextimageformat.setWidth( lettrine_img.width() );
+  qtextimageformat.setHeight( lettrine_img.height() );
+  qtextimageformat.setName("lettrine");
+
+  QTextCursor cur = this->textCursor();
+  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);
+
+  /*
+    text
+  */
+  cur.insertText(source_text.text);
+}
+
+/*______________________________________________________________________________
+
         SourceEditor::mousePressEvent
 ______________________________________________________________________________*/
 void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {

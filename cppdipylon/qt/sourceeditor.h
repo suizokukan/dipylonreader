@@ -57,6 +57,7 @@ class SourceEditor : public QTextEdit
 
 public:
          SourceEditor(DipylonUI&);
+    void load_text(const DipyDocSourceText&);
     void modify_the_text_format(PosInTextRanges&);
     void set_the_text_formats(void);
     void set_the_appearance(void);
