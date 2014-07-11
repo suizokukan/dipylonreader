@@ -670,6 +670,8 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
+version 16
+  added <title> and <lettrine>
 version 15
   added <arrows>
 version 14
@@ -688,6 +690,10 @@ main.xml, version 15 :
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <dipydoc dipydoc_version="10" languages="lat->fra" filename="record.ogg">
+
+  <title>TITRE</title>
+
+  <lettrine filename="lettrine.png" />
 
   <text name="..." filename="text" informations="..."/>
   <audiorecord name="enregistrement audio" informations="...">

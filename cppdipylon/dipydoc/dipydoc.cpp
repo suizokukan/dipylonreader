@@ -146,6 +146,10 @@ void DipyDoc::clear(void) {
 
   this->errors.clear();
 
+  this->title = QString("");
+  this->lettrine = QImage();
+  this->lettrine_filename = QString("");
+
   this->dipydoc_version = -1;
   this->languagefromto.clear();
 
@@ -288,6 +292,16 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "\n";
 
   /*............................................................................
+    title : no sub-elements.
+  ............................................................................*/
+  res += "  <title>$TITLE$</title>\n\n";
+
+  /*............................................................................
+    lettrine : no sub-elements.
+  ............................................................................*/
+  res += "  <lettrine filename=\"$LETTRINE$\" />\n\n";
+
+  /*............................................................................
     text : no sub-elements.
   ............................................................................*/
   res += "  <text \n"
@@ -392,6 +406,9 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace( "$DIPYDOCVERSION$", QString().setNum(this->dipydoc_version) );
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
 
+  res.replace( "$TITLE$", this->title );
+  res.replace( "$LETTRINE$", this->lettrine_filename );
+
   res.replace( "$AUDIORECORDNAME$", this->audiorecord.name );
   res.replace( "$AUDIORECORDINFORMATIONS$", this->audiorecord.informations );
   // just the filename, not the path :
@@ -481,10 +498,12 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       QString name = xmlreader.name().toString();
 
-      if( name == "dipydoc" ) {
-        current_division = DIPYDOCDIV_UNDEFINED;
-        this->dipydoc_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
-        this->languagefromto = LanguageFromTo( xmlreader.attributes().value("languages").toString() );
+      if( name == "arrow" ) {
+        current_division = DIPYDOCDIV_INSIDE_ARROW;
+        QString arrow_name = xmlreader.attributes().value("name").toString();
+        QString arrow_aspect = xmlreader.attributes().value("aspect").toString();
+        ArrowDetails arrowdetails(arrow_aspect);
+        this->arrows[ arrow_name ] = arrowdetails;
         continue;
       }
 
@@ -496,35 +515,17 @@ void DipyDoc::init_from_xml(const QString& path) {
         continue;
       }
 
-      if( name == "text" ) {
-        current_division = DIPYDOCDIV_INSIDE_TEXT;
-        this->source_text.name = xmlreader.attributes().value("name").toString();
-        this->source_text.filename = path + "/" + xmlreader.attributes().value("filename").toString();
-        this->source_text.informations = xmlreader.attributes().value("informations").toString();
+      if( name == "dipydoc" ) {
+        current_division = DIPYDOCDIV_UNDEFINED;
+        this->dipydoc_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
+        this->languagefromto = LanguageFromTo( xmlreader.attributes().value("languages").toString() );
         continue;
       }
 
-      if( name == "translation" ) {
-        current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
-        this->translation.name = xmlreader.attributes().value("name").toString();
-        this->translation.informations = xmlreader.attributes().value("informations").toString();
-        continue;
-      }
-
-      if( name == "textformat" ) {
-        current_division = DIPYDOCDIV_INSIDE_TEXTFORMAT;
-        QString textformat_name = xmlreader.attributes().value("name").toString();
-        QString textformat_aspect = xmlreader.attributes().value("aspect").toString();
-        this->textformats[ textformat_name ] = textformat_aspect;
-        continue;
-      }
-
-      if( name == "arrow" ) {
-        current_division = DIPYDOCDIV_INSIDE_ARROW;
-        QString arrow_name = xmlreader.attributes().value("name").toString();
-        QString arrow_aspect = xmlreader.attributes().value("aspect").toString();
-        ArrowDetails arrowdetails(arrow_aspect);
-        this->arrows[ arrow_name ] = arrowdetails;
+      if( name == "lettrine" ) {
+        current_division = DIPYDOCDIV_INSIDE_LETTRINE;
+        this->lettrine_filename = xmlreader.attributes().value("filename").toString();
+        this->lettrine = QImage(this->lettrine_filename);
         continue;
       }
 
@@ -574,6 +575,35 @@ void DipyDoc::init_from_xml(const QString& path) {
         }
         continue;
 
+      }
+
+      if( name == "text" ) {
+        current_division = DIPYDOCDIV_INSIDE_TEXT;
+        this->source_text.name = xmlreader.attributes().value("name").toString();
+        this->source_text.filename = path + "/" + xmlreader.attributes().value("filename").toString();
+        this->source_text.informations = xmlreader.attributes().value("informations").toString();
+        continue;
+      }
+
+      if( name == "textformat" ) {
+        current_division = DIPYDOCDIV_INSIDE_TEXTFORMAT;
+        QString textformat_name = xmlreader.attributes().value("name").toString();
+        QString textformat_aspect = xmlreader.attributes().value("aspect").toString();
+        this->textformats[ textformat_name ] = textformat_aspect;
+        continue;
+      }
+
+      if( name == "title" ) {
+        current_division = DIPYDOCDIV_INSIDE_TITLE;
+        this->title = xmlreader.readElementText();
+        continue;
+      }
+
+      if( name == "translation" ) {
+        current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
+        this->translation.name = xmlreader.attributes().value("name").toString();
+        this->translation.informations = xmlreader.attributes().value("informations").toString();
+        continue;
       }
 
       current_division = DIPYDOCDIV_UNDEFINED;

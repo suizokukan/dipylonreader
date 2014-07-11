@@ -49,22 +49,26 @@
 /*
   divisions inside a DipyDoc file :
 
-  o DIPYDOCDIV_UNDEFINED : everything but the other constants.
-  o DIPYDOCDIV_INSIDE_AUDIORECORD : inside <audiorecord>
-  o DIPYDOCDIV_INSIDE_TEXT        : inside <text>
-  o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation>
-  o DIPYDOCDIV_INSIDE_TEXTFORMAT  : inside <textformat>
-  o DIPYDOCDIV_INSIDE_LEVEL       : inside <level>
   o DIPYDOCDIV_INSIDE_ARROW       : inside <arrow>
+  o DIPYDOCDIV_INSIDE_AUDIORECORD : inside <audiorecord>
+  o DIPYDOCDIV_INSIDE_LEVEL       : inside <level>
+  o DIPYDOCDIV_INSIDE_TEXT        : inside <text>
+  o DIPYDOCDIV_INSIDE_TEXTFORMAT  : inside <textformat>
+  o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation>
+
+  o DIPYDOCDIV_UNDEFINED : everything but the other constants.
 */
 enum DipyDocDiv : int {
-    DIPYDOCDIV_UNDEFINED = 0,
-    DIPYDOCDIV_INSIDE_AUDIORECORD = 1,
-    DIPYDOCDIV_INSIDE_TEXT = 2,
-    DIPYDOCDIV_INSIDE_TRANSLATION = 3,
-    DIPYDOCDIV_INSIDE_TEXTFORMAT = 4,
-    DIPYDOCDIV_INSIDE_LEVEL = 5,
-    DIPYDOCDIV_INSIDE_ARROW = 6,
+    DIPYDOCDIV_INSIDE_ARROW = 1,
+    DIPYDOCDIV_INSIDE_AUDIORECORD = 2,
+    DIPYDOCDIV_INSIDE_LETTRINE = 3,
+    DIPYDOCDIV_INSIDE_LEVEL = 4,
+    DIPYDOCDIV_INSIDE_TEXT = 5,
+    DIPYDOCDIV_INSIDE_TEXTFORMAT = 6,
+    DIPYDOCDIV_INSIDE_TITLE = 7,
+    DIPYDOCDIV_INSIDE_TRANSLATION = 8,
+
+    DIPYDOCDIV_UNDEFINED = 99,
 };
 
 /*______________________________________________________________________________
@@ -242,6 +246,11 @@ private:
   // general informations :
   int                  dipydoc_version;
   LanguageFromTo       languagefromto;
+  // title :
+  QString              title;
+  // lettrine :
+  QString              lettrine_filename;
+  QImage               lettrine;
   // source text :
   DipyDocSourceText    source_text;
   // audiorecord data :
