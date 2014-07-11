@@ -681,7 +681,7 @@ version 11
 version 10
   first format's version
 
-main.xml, version 14 :
+main.xml, version 15 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 
@@ -696,7 +696,7 @@ main.xml, version 14 :
   </translation>
 
   <textformats>
-	<textformat name="nominatif-sujet" aspect="foreground=black;background=blue" />
+	<textformat name="nominatif-sujet" aspect="color=black;background-color=blue" />
   </textformats>
   
   <levels>

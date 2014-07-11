@@ -79,7 +79,7 @@ const QString commentaryeditor_default_stylesheet = "color: white;"
 
   text format : see textformat.h::TEXTFORMAT_SRCSTRING_FORMAT format.
 */
-const QString sourceeditor_default_textformat  = "foreground=white;";
-const QString sourceeditor_karaoke_textformat  = "foreground=red;";
+const QString sourceeditor_default_textformat  = "color=white;";
+const QString sourceeditor_karaoke_textformat  = "color=red;";
 }
 #endif

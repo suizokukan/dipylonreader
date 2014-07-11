@@ -32,8 +32,8 @@
 		known keywords :
 
 		o "bold"
-		o "background=xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
-		o "foreground=xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
+		o "background-color=xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
+		o "color=xxx"            with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
 		o "italic"
 		o "underlinecolor=xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
 		o "underlinestyle=xxx" with "xxx"=dashline, dotline, singleline, waveline
