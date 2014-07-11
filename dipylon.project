@@ -51,7 +51,8 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 
-- dans ... , vérifierque "number", "name" existent :
+- homogénéiser le texte de TextFormat avec le CSS "background" > "background-color"
+- dans ... , vérifier que "number", "name" existent :
 
       if( name == "level" ) {
         current_division = DIPYDOCDIV_INSIDE_LEVEL;
@@ -60,13 +61,13 @@ SOMMAIRE
         this->levels[ level_number ] = level_name;
         continue;
       }
-- version 14 de main.xml
+- quand un DipyDoc trop ancien (numversion) est lu, le messae d'erreur parle "d'état indéfini" : créer un message d'erreur adapté.
+- version 17 de main.xml avec les notes
 - puisque les textformats sont définis dans main.xml, permettre de définir aussi l'aspect général du texte.
 - click : karaoke.new start
 - segfault avec ALT+F4
 - vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
 - si pas d'enregistrement audio -> icônes grisées
-- flèche ??? / récupérer la position du curseur : http://www.qtcentre.org/threads/45645-QTextEdit-cursorForPosition%28%29-and-character-at-mouse-pointer
 
 ################################################################################
 [1] options de compilation
@@ -667,6 +668,8 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
+version 15
+  added <arrows>
 version 14
   added <textformats>, <levels>
 version 13
@@ -697,8 +700,12 @@ main.xml, version 14 :
   </textformats>
   
   <levels>
-	<level number="0" name="mot"/>
+	<level number="0" name="mot" aspect="foreground=red"/>
   </levels>
+
+  <arrows>
+    <arrow name="nominatif→génitif" aspect="maincolor=red;"/>
+  </arrows>
 
 </dipydoc>
 

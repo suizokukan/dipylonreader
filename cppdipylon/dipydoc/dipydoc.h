@@ -32,6 +32,7 @@
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
 #include "languages/languagefromto.h"
+#include "qt/textformat.h"
 
 // $$$
 #include <QDebug>
@@ -43,6 +44,7 @@
 #include <QTextStream>
 #include <QXmlStreamReader>
 #include <QObject>
+#include <QTextCharFormat>
 
 /*
   divisions inside a DipyDoc file :
@@ -53,6 +55,7 @@
   o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation>
   o DIPYDOCDIV_INSIDE_TEXTFORMAT  : inside <textformat>
   o DIPYDOCDIV_INSIDE_LEVEL       : inside <level>
+  o DIPYDOCDIV_INSIDE_ARROW       : inside <arrow>
 */
 enum DipyDocDiv : int {
     DIPYDOCDIV_UNDEFINED = 0,
@@ -61,13 +64,14 @@ enum DipyDocDiv : int {
     DIPYDOCDIV_INSIDE_TRANSLATION = 3,
     DIPYDOCDIV_INSIDE_TEXTFORMAT = 4,
     DIPYDOCDIV_INSIDE_LEVEL = 5,
+    DIPYDOCDIV_INSIDE_ARROW = 6,
 };
 
 /*______________________________________________________________________________
 
   DipyDocAudioRecord class
 
-  Tbis class is used to create an attribute of DipyDoc.
+  This class is used to create an attribute of DipyDoc.
 
 ______________________________________________________________________________*/
 struct DipyDocAudioRecord {
@@ -91,7 +95,7 @@ inline void DipyDocAudioRecord::clear(void) {
 
   DipyDocSourceText class
 
-  Tbis class is used to create an attribute of DipyDoc.
+  This class is used to create an attribute of DipyDoc.
 
 ______________________________________________________________________________*/
 struct DipyDocSourceText {
@@ -113,7 +117,7 @@ inline void DipyDocSourceText::clear(void) {
 
   DipyDocTranslation class
 
-  Tbis class is used to create an attribute of DipyDoc.
+  This class is used to create an attribute of DipyDoc.
 
 ______________________________________________________________________________*/
 struct DipyDocTranslation {
@@ -127,6 +131,97 @@ inline void DipyDocTranslation::clear(void) {
   this->name = "";
   this->informations = "";
   this->translations.clear();
+}
+
+/*______________________________________________________________________________
+
+  DipyDocNotes class
+
+  This class is used to create an attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct NoteSegment {
+  QString textformatname = "";
+  std::map< PosInTextRanges, QString > arrows;
+};
+
+struct Note {
+  QString textformatname = "";
+  QString text = "";
+  std::map<PosInTextRanges, NoteSegment> segments;
+};
+
+struct DipyDocNotes {
+  std::map<int,  std::map<PosInTextRanges, Note> > notes;
+  void clear(void);
+};
+inline void DipyDocNotes::clear(void) {
+  this->notes.clear();
+}
+
+/*______________________________________________________________________________
+
+  LevelDetails class
+
+  This class is used to create the "levels" attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct LevelDetails {
+
+  bool well_initialized = false;
+
+  QString name;
+  // the same information is kept twice : as a QTextCharFormat and as a QString.
+  QString strtextformat;
+  QTextCharFormat textformat;
+
+  // default constructor :
+  LevelDetails(void);
+  // constructor from a QString describing the level's details :
+  LevelDetails(QString, QString);
+};
+inline LevelDetails::LevelDetails(void) {
+  this->well_initialized = false;
+  this->name = QString("");
+  this->strtextformat = QString("");
+  this->textformat = QTextCharFormat();
+}
+inline LevelDetails::LevelDetails(QString _name, QString _strtextformat) : name(_name), strtextformat(_strtextformat) {
+  TextFormat raw_textformat = TextFormat();
+  this->well_initialized = raw_textformat.init_from_string(_strtextformat);
+
+  if( this->well_initialized == true ) {
+    this->textformat = raw_textformat.qtextcharformat();
+  }
+}
+
+/*______________________________________________________________________________
+
+  ArrowDetails class
+
+  This class is used to create the "arrows" attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct ArrowDetails {
+
+  // the same informations are kept twice : as a QString and as serial attributes.
+  QString straspect;
+
+  //int    thickness;
+  QColor main_color;
+  //QColor startingpoint_color;
+  //QColor endpoint_color;
+
+  // default constructor :
+  ArrowDetails(void);
+  // constructor from a QString describing the arrow's aspect :
+  ArrowDetails(QString);
+};
+inline ArrowDetails::ArrowDetails(void) {
+  this->straspect = QString("");
+  this->main_color = QColor();
+}
+inline ArrowDetails::ArrowDetails(QString _straspect) : straspect(_straspect) {
 }
 
 /*______________________________________________________________________________
@@ -153,11 +248,14 @@ private:
   DipyDocAudioRecord   audiorecord;
   // translation data :
   DipyDocTranslation   translation;
-
   // text formats :
   std::map<QString, QString> textformats;
   // levels :
-  std::map<int, QString> levels;
+  std::map<int, LevelDetails> levels;
+  // notes :
+  DipyDocNotes         notes;
+  // arrows :
+  std::map<QString, ArrowDetails> arrows;
 
   bool                 check_path(const QString&);
   void                 init_from_xml(const QString&);
@@ -174,7 +272,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 14;
+  static const int     minimal_dipydoc_version = 15;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
@@ -213,14 +311,7 @@ public:
 };
 
 inline DipyDoc::DipyDoc(void) {
-  this->_well_initialized = false;
-  this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
-
-  this->audiorecord.clear();
-  this->source_text.clear();
-  this->translation.clear();
-
-  this->dipydoc_version = -1;
+  this->clear();
 }
 
 inline int DipyDoc::internal_state(void) const {

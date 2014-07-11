@@ -50,19 +50,28 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
 
+  // starting point :
+  QTextCursor current_posintext_pos = this->textCursor();
+  QPoint current_xy_pos = this->mapFromGlobal(QCursor().pos());
+  // end point :
+  QTextCursor dest_posintext_pos = this->textCursor();
+  dest_posintext_pos.movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, 100);
+  QRect dest_rect = this->cursorRect( dest_posintext_pos );
+
+  // à étudier (???)
+  //http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
+  //http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
+
   const QRect rec = ev->rect();
   QPainter p(viewport());
 
-  float x0 = 400;
-  float y0 = 400;
-  float x1 = 20;
-  float y1 = 100;
-  float dx = (x1 - x0);
-  float dy = (y1 - y0);
+  float x0 = current_xy_pos.x();
+  float y0 = current_xy_pos.y();
+  float x1 = dest_rect.x();
+  float y1 = dest_rect.y();
 
   QPointF startingpoint = QPointF(x0, y0);
   QPointF endpoint = QPointF(x1, y1);
-
 
   p.setPen( QPen(QBrush("red"), 2, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
 
@@ -73,12 +82,13 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
                 endpoint ); // p1, p2, endpoint
   p.drawPath(path);
 
-
   p.setPen( QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
 
   p.drawRect( x0-2, y0-2, 4,4);
 
   p.drawRect( x1-1, y1-1, 2,2);
+
+  this->update();
 
   // arrow head :
   /*  const double cos = -0.707; //0.866;

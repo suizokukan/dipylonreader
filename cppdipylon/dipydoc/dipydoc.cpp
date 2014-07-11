@@ -149,11 +149,13 @@ void DipyDoc::clear(void) {
   this->dipydoc_version = -1;
   this->languagefromto.clear();
 
+  this->textformats.clear();
+  this->arrows.clear();
+  this->levels.clear();
+
   this->source_text.clear();
   this->audiorecord.clear();
   this->translation.clear();
-
-  this->textformats.clear();
 }
 
 /*______________________________________________________________________________
@@ -360,12 +362,26 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "\n";
   res += "  <levels>\n";
   for(auto &level : this->levels) {
-    QString new_line("    <level number=\"$NUMBER$\" name=\"$NAME$\" />\n");
+    QString new_line("    <level number=\"$NUMBER$\" name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
     new_line.replace( "$NUMBER$", QString().setNum(level.first) );
-    new_line.replace( "$NAME$", level.second );
+    new_line.replace( "$NAME$", level.second.name );
+    new_line.replace( "$ASPECT$", level.second.strtextformat );
     res += new_line;
   }
   res += "  </levels>\n";
+
+  /*............................................................................
+    arrows
+  ............................................................................*/
+  res += "\n";
+  res += "  <arrows>\n";
+  for(auto &arrow : this->arrows) {
+    QString new_line("    <arrow name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
+    new_line.replace( "$NAME$", arrow.first );
+    new_line.replace( "$ASPECT$",  arrow.second.straspect );
+    res += new_line;
+  }
+  res += "  </arrows>\n";
 
   /*............................................................................
     final line
@@ -503,11 +519,24 @@ void DipyDoc::init_from_xml(const QString& path) {
         continue;
       }
 
+      if( name == "arrow" ) {
+        current_division = DIPYDOCDIV_INSIDE_ARROW;
+        QString arrow_name = xmlreader.attributes().value("name").toString();
+        QString arrow_aspect = xmlreader.attributes().value("aspect").toString();
+        ArrowDetails arrowdetails(arrow_aspect);
+        this->arrows[ arrow_name ] = arrowdetails;
+        continue;
+      }
+
       if( name == "level" ) {
         current_division = DIPYDOCDIV_INSIDE_LEVEL;
         int     level_number = xmlreader.attributes().value("number").toString().toInt();
         QString level_name = xmlreader.attributes().value("name").toString();
-        this->levels[ level_number ] = level_name;
+        QString level_strtextformat = xmlreader.attributes().value("aspect").toString();
+
+        LevelDetails leveldetails( level_name, level_strtextformat );
+
+        this->levels[ level_number ] = leveldetails;
         continue;
       }
 
