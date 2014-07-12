@@ -28,7 +28,6 @@
 #ifndef COMMENTARYEDITOR_H
 #define COMMENTARYEDITOR_H
 
-#include "fixedparameters.h"
 #include "qt/dipylonui.h"
 
 #include <QTextEdit>
@@ -50,8 +49,10 @@ friend class MainWindow;
 public:
     CommentaryEditor(DipylonUI&);
 
-    void update_content__translation_expected(PosInTextRanges&);
     void set_the_appearance(void);
+    void set_the_text_formats(void);
+    void update_content__translation_expected(PosInTextRanges&);
+    void update_aspect_from_dipydoc_aspect_informations(void);
 
 protected:
     void keyReleaseEvent(QKeyEvent*);
@@ -60,6 +61,8 @@ private:
     // DipylonUI object linked to the editor :
     DipylonUI& current_dipylonui;
 
+    // text formats, initialized by this->set_the_text_formats() :
+    QTextCharFormat format_text = QTextCharFormat();
 };
 
 #endif

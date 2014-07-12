@@ -28,7 +28,6 @@
 #ifndef SOURCEEDITOR_H
 #define SOURCEEDITOR_H
 
-#include "fixedparameters.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/dipylonui.h"
 #include "qt/textformat.h"
@@ -59,9 +58,10 @@ public:
          SourceEditor(DipylonUI&);
     void load_text(const DipyDocSourceText&);
     void modify_the_text_format(PosInTextRanges&);
+    void reset_all_text_format_to_default(void);
     void set_the_text_formats(void);
     void set_the_appearance(void);
-    void reset_all_text_format_to_default(void);
+    void update_aspect_from_dipydoc_aspect_informations(void);
 
 protected:
     void keyReleaseEvent(QKeyEvent*);

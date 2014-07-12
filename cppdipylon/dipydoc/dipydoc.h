@@ -28,6 +28,7 @@
 #ifndef DIPYDOC_H
 #define DIPYDOC_H
 
+#include "fixedparameters.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
@@ -49,24 +50,29 @@
 /*
   divisions inside a DipyDoc file :
 
-  o DIPYDOCDIV_INSIDE_ARROW       : inside <arrow>
-  o DIPYDOCDIV_INSIDE_AUDIORECORD : inside <audiorecord>
-  o DIPYDOCDIV_INSIDE_LEVEL       : inside <level>
-  o DIPYDOCDIV_INSIDE_TEXT        : inside <text>
-  o DIPYDOCDIV_INSIDE_TEXTFORMAT  : inside <textformat>
-  o DIPYDOCDIV_INSIDE_TRANSLATION : inside <translation>
+  o DIPYDOCDIV_INSIDE_ARROW            : inside <arrow>
+  o DIPYDOCDIV_INSIDE_AUDIORECORD      : inside <audiorecord>
+  o DIPYDOCDIV_INSIDE_COMMENTARYEDITOR : inside <commentaryeditor>
+  o DIPYDOCDIV_INSIDE_LETTRINE         : inside <lettrine>
+  o DIPYDOCDIV_INSIDE_LEVEL            : inside <level>
+  o DIPYDOCDIV_INSIDE_SOURCEEDITOR     : inside <sourceeditor>
+  o DIPYDOCDIV_INSIDE_TEXT             : inside <text>
+  o DIPYDOCDIV_INSIDE_TEXTFORMATS      : inside <textformats>
+  o DIPYDOCDIV_INSIDE_TRANSLATION      : inside <translation>
 
   o DIPYDOCDIV_UNDEFINED : everything but the other constants.
 */
 enum DipyDocDiv : int {
     DIPYDOCDIV_INSIDE_ARROW = 1,
     DIPYDOCDIV_INSIDE_AUDIORECORD = 2,
-    DIPYDOCDIV_INSIDE_LETTRINE = 3,
-    DIPYDOCDIV_INSIDE_LEVEL = 4,
-    DIPYDOCDIV_INSIDE_TEXT = 5,
-    DIPYDOCDIV_INSIDE_TEXTFORMAT = 6,
-    DIPYDOCDIV_INSIDE_TITLE = 7,
-    DIPYDOCDIV_INSIDE_TRANSLATION = 8,
+    DIPYDOCDIV_INSIDE_COMMENTARYEDITOR = 3,
+    DIPYDOCDIV_INSIDE_LETTRINE = 4,
+    DIPYDOCDIV_INSIDE_LEVEL = 5,
+    DIPYDOCDIV_INSIDE_SOURCEEDITOR = 6,
+    DIPYDOCDIV_INSIDE_TEXT = 7,
+    DIPYDOCDIV_INSIDE_TEXTFORMATS = 8,
+    DIPYDOCDIV_INSIDE_TITLE = 9,
+    DIPYDOCDIV_INSIDE_TRANSLATION = 10,
 
     DIPYDOCDIV_UNDEFINED = 99,
 };
@@ -237,6 +243,8 @@ class DipyDoc {
 
 friend class DipylonUI;
 friend class MainWindow;
+friend class SourceEditor;
+friend class CommentaryEditor;
 
 private:
 
@@ -246,6 +254,13 @@ private:
   // general informations :
   int                  dipydoc_version;
   LanguageFromTo       languagefromto;
+  // sourceeditor.aspect :
+  QString              sourceeditor_stylesheet;
+  QString              sourceeditor_default_strtextformat;
+  QString              sourceeditor_karaoke_strtextformat;
+  // commentaryeditor.aspect :
+  QString              commentaryeditor_stylesheet;
+  QString              commentaryeditor_strtextformat;
   // title :
   QString              title;
   // lettrine :
@@ -281,7 +296,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 15;
+  static const int     minimal_dipydoc_version = 17;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

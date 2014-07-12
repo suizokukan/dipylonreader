@@ -34,7 +34,8 @@
 ______________________________________________________________________________*/
 CommentaryEditor::CommentaryEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
-  this->set_the_appearance();
+
+  this->update_aspect_from_dipydoc_aspect_informations();
 }
 
 /*______________________________________________________________________________
@@ -42,7 +43,17 @@ CommentaryEditor::CommentaryEditor(DipylonUI& dipylonui) : current_dipylonui(dip
   CommentaryEditor::set_the_appearance
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_appearance(void) {
-  this->setStyleSheet(fixedparameters::commentaryeditor_default_stylesheet);
+  this->setStyleSheet(current_dipylonui.current_dipydoc.commentaryeditor_stylesheet);
+}
+
+/*______________________________________________________________________________
+
+  CommentaryEditor::set_the_text_formats
+
+  Initialize this->format_text_*
+______________________________________________________________________________*/
+void CommentaryEditor::set_the_text_formats(void) {
+  this->format_text = TextFormat(current_dipylonui.current_dipydoc.commentaryeditor_strtextformat).qtextcharformat();
 }
 
 /*______________________________________________________________________________
@@ -57,7 +68,10 @@ void CommentaryEditor::update_content__translation_expected(PosInTextRanges& pos
 
   QString matching_translations = this->current_dipylonui.get_translations_for(x0, x1);
 
-  this->setPlainText(matching_translations);
+  this->clear();
+  QTextCursor cur = this->textCursor();
+  cur.setCharFormat( this->format_text );
+  cur.insertText(matching_translations);
 }
 
 /*______________________________________________________________________________
@@ -138,4 +152,13 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
   }
 
   QTextEdit::keyReleaseEvent(keyboard_event);
+}
+
+/*______________________________________________________________________________
+
+  CommentaryEditor::update_aspect_from_dipydoc_aspect_informations
+______________________________________________________________________________*/
+void CommentaryEditor::update_aspect_from_dipydoc_aspect_informations(void) {
+  this->set_the_text_formats();
+  this->set_the_appearance();
 }

@@ -150,6 +150,13 @@ void DipyDoc::clear(void) {
   this->lettrine = QImage();
   this->lettrine_filename = QString("");
 
+  this->sourceeditor_stylesheet = fixedparameters::default__sourceeditor_stylesheet;
+  this->sourceeditor_default_strtextformat = fixedparameters::default__sourceeditor_default_strtextformat;
+  this->sourceeditor_karaoke_strtextformat = fixedparameters::default__sourceeditor_karaoke_strtextformat;
+
+  this->commentaryeditor_stylesheet = fixedparameters::default__commentaryeditor_stylesheet;
+  this->commentaryeditor_strtextformat = fixedparameters::default__commentaryeditor_strtextformat;
+
   this->dipydoc_version = -1;
   this->languagefromto.clear();
 
@@ -311,6 +318,25 @@ QString DipyDoc::get_xml_repr(void) const {
          "  />\n";
 
   /*............................................................................
+    aspect :
+  ............................................................................*/
+  res += "\n";
+  res += "  <aspect>\n";
+
+  res += "    <sourceeditor>\n";
+  res += "      <stylesheet>$SOURCEEDITOR_STYLESHEET$</stylesheet>\n";
+  res += "      <default_textformat>$SOURCEEDITOR_DEFAULTTEXTFORMAT$</default_textformat>\n";
+  res += "      <karaoke_textformat>$SOURCEEDITOR_KARAOKETEXTFORMAT$</karaoke_textformat>\n";
+  res += "    </sourceeditor>\n";
+
+  res += "    <commentaryeditor>\n";
+  res += "      <stylesheet>$COMMENTARYEDITOR_STYLESHEET$</stylesheet>\n";
+  res += "      <textformat>$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$</textformat>\n";
+  res += "    </commentaryeditor>\n";
+
+  res += "  </aspect>\n";
+
+  /*............................................................................
     audiorecord : the functions reads through this->audiorecord.text2audio with sorted keys.
   ............................................................................*/
   res += "\n";
@@ -408,6 +434,12 @@ QString DipyDoc::get_xml_repr(void) const {
 
   res.replace( "$TITLE$", this->title );
   res.replace( "$LETTRINE$", this->lettrine_filename );
+
+  res.replace( "$SOURCEEDITOR_STYLESHEET$", this->sourceeditor_stylesheet );
+  res.replace( "$SOURCEEDITOR_DEFAULTTEXTFORMAT$", this->sourceeditor_default_strtextformat );
+  res.replace( "$SOURCEEDITOR_KARAOKETEXTFORMAT$", this->sourceeditor_karaoke_strtextformat );
+  res.replace( "$COMMENTARYEDITOR_STYLESHEET$", this->commentaryeditor_stylesheet );
+  res.replace( "$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$", this->commentaryeditor_strtextformat );
 
   res.replace( "$AUDIORECORDNAME$", this->audiorecord.name );
   res.replace( "$AUDIORECORDINFORMATIONS$", this->audiorecord.informations );
@@ -515,11 +547,36 @@ void DipyDoc::init_from_xml(const QString& path) {
         continue;
       }
 
+      if( name == "commentaryeditor" ) {
+        current_division = DIPYDOCDIV_INSIDE_COMMENTARYEDITOR;
+        continue;
+      }
+
+      if( name == "default_textformat" ) {
+
+        if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
+          this->sourceeditor_default_strtextformat = xmlreader.readElementText();
+          continue;
+        }
+
+        // $$$ problem $$$ unknown case.
+      }
+
       if( name == "dipydoc" ) {
         current_division = DIPYDOCDIV_UNDEFINED;
         this->dipydoc_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
         this->languagefromto = LanguageFromTo( xmlreader.attributes().value("languages").toString() );
         continue;
+      }
+
+      if( name == "karaoke_textformat" ) {
+
+        if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
+          this->sourceeditor_karaoke_strtextformat = xmlreader.readElementText();
+          continue;
+        }
+
+        // $$$ problem $$$ unknown case.
       }
 
       if( name == "lettrine" ) {
@@ -577,6 +634,26 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       }
 
+      if( name == "sourceeditor" ) {
+        current_division = DIPYDOCDIV_INSIDE_SOURCEEDITOR;
+        continue;
+      }
+
+      if( name == "stylesheet" ) {
+        qDebug() << "*****" << static_cast<int>(current_division);
+        if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
+          this->sourceeditor_stylesheet = xmlreader.readElementText();
+          qDebug() << "*****" << this->sourceeditor_stylesheet;
+          continue;
+        }
+        if ( current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR ) {
+          this->commentaryeditor_stylesheet = xmlreader.readElementText();
+          continue;
+        }
+        // $$$ problem $$$ : unknown case
+        continue;
+      }
+
       if( name == "text" ) {
         current_division = DIPYDOCDIV_INSIDE_TEXT;
         this->source_text.name = xmlreader.attributes().value("name").toString();
@@ -586,11 +663,25 @@ void DipyDoc::init_from_xml(const QString& path) {
       }
 
       if( name == "textformat" ) {
-        current_division = DIPYDOCDIV_INSIDE_TEXTFORMAT;
-        QString textformat_name = xmlreader.attributes().value("name").toString();
-        QString textformat_aspect = xmlreader.attributes().value("aspect").toString();
-        this->textformats[ textformat_name ] = textformat_aspect;
+
+        if ( current_division == DIPYDOCDIV_INSIDE_TEXTFORMATS ) {
+          QString textformat_name = xmlreader.attributes().value("name").toString();
+          QString textformat_aspect = xmlreader.attributes().value("aspect").toString();
+          this->textformats[ textformat_name ] = textformat_aspect;
+          continue;
+        }
+
+        if ( current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR ) {
+          this->commentaryeditor_strtextformat =xmlreader.readElementText();
+          continue;
+        }
+
+        // $$$ error $$$ unknown case
         continue;
+      }
+
+      if( name == "textformats" ) {
+        current_division = DIPYDOCDIV_INSIDE_TEXTFORMATS;
       }
 
       if( name == "title" ) {

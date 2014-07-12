@@ -38,7 +38,7 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     main_splitter->addWidget(source_editor);
     main_splitter->addWidget(commentary_editor);
 
-    this->main_splitter->setSizes( fixedparameters::editors_size_in_main_splitter );
+    this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
 
     createActions();
     createMenus();
@@ -58,8 +58,8 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
 
     // $$$can't change qint64 to PosInAudio here...
     connect(this->audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
-    this->audio_player->setNotifyInterval(fixedparameters::audio_notify_interval);
-    this->audio_player->setVolume(fixedparameters::audio_player_volume);
+    this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
+    this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
 
     setCurrentDipyDoc("");
     setUnifiedTitleAndToolBarOnMac(true);
@@ -387,6 +387,14 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
   #endif
 
   if( this->current_dipylonui.current_dipydoc.well_initialized() == true ) {
+
+    // update source editor aspect :
+    this->source_editor->update_aspect_from_dipydoc_aspect_informations();
+
+    // update commentary editor aspect :
+    this->commentary_editor->update_aspect_from_dipydoc_aspect_informations();
+
+    // update the rest of the UI :
     setCurrentDipyDoc(directoryName);
     statusBar()->showMessage(tr("DipyDoc loaded"), 2000);
   }

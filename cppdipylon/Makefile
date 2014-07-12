@@ -529,8 +529,8 @@ moc_mainwindow.cpp: fixedparameters.h \
 		qt/mainwindow.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/mainwindow.h -o moc_mainwindow.cpp
 
-moc_sourceeditor.cpp: fixedparameters.h \
-		dipydoc/dipydoc.h \
+moc_sourceeditor.cpp: dipydoc/dipydoc.h \
+		fixedparameters.h \
 		pos/posintext/posintext2str.h \
 		pos/posintext/posintext.h \
 		pos/posintext/posintextranges.h \
@@ -550,8 +550,8 @@ moc_sourceeditor.cpp: fixedparameters.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
-moc_commentaryeditor.cpp: fixedparameters.h \
-		qt/dipylonui.h \
+moc_commentaryeditor.cpp: qt/dipylonui.h \
+		fixedparameters.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
@@ -650,8 +650,8 @@ dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
 
 sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
-		fixedparameters.h \
 		dipydoc/dipydoc.h \
+		fixedparameters.h \
 		pos/posintext/posintext2str.h \
 		pos/posintext/posintext.h \
 		pos/posintext/posintextranges.h \
@@ -670,8 +670,8 @@ sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
 
 commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
-		fixedparameters.h \
 		qt/dipylonui.h \
+		fixedparameters.h \
 		qt/mainwindow.h \
 		qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
@@ -693,6 +693,7 @@ textformat.o: qt/textformat.cpp qt/textformat.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o textformat.o qt/textformat.cpp
 
 dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \
+		fixedparameters.h \
 		pos/posintext/posintext2str.h \
 		pos/posintext/posintext.h \
 		pos/posintext/posintextranges.h \

@@ -35,9 +35,7 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
 
   this->setReadOnly(true);
 
-  this->set_the_text_formats();
-
-  this->set_the_appearance();
+  this->update_aspect_from_dipydoc_aspect_informations();
 }
 
 /*______________________________________________________________________________
@@ -385,9 +383,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   SourceEditor::set_the_appearance
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
-
-  // everything but the text :
-  this->setStyleSheet(fixedparameters::sourceeditor_default_stylesheet);
+  this->setStyleSheet(current_dipylonui.current_dipydoc.sourceeditor_stylesheet);
 }
 
 /*______________________________________________________________________________
@@ -399,8 +395,17 @@ ______________________________________________________________________________*/
 void SourceEditor::set_the_text_formats(void) {
 
   // default style format :
-  this->format_text_bydefault = TextFormat(fixedparameters::sourceeditor_default_textformat).qtextcharformat();
+  this->format_text_bydefault = TextFormat(current_dipylonui.current_dipydoc.sourceeditor_default_strtextformat).qtextcharformat();
 
   // karaoke style format :
-  this->format_text_karaoke = TextFormat(fixedparameters::sourceeditor_karaoke_textformat).qtextcharformat();
+  this->format_text_karaoke = TextFormat(current_dipylonui.current_dipydoc.sourceeditor_karaoke_strtextformat).qtextcharformat();
+}
+
+/*______________________________________________________________________________
+
+  SourceEditor::update_aspect_from_dipydoc_aspect_informations
+______________________________________________________________________________*/
+void SourceEditor::update_aspect_from_dipydoc_aspect_informations(void) {
+  this->set_the_text_formats();
+  this->set_the_appearance();
 }

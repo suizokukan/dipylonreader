@@ -46,41 +46,49 @@ static const QString application_version = "0.2.5";
 static const QString application_style   = "CleanLooks";
 
 /*
-  editors_size_in_main_splitter = sourceeditor / commentaryeditor size.
+  default__editors_size_in_main_splitter = sourceeditor / commentaryeditor size.
 */
-static const QList<int> editors_size_in_main_splitter = {{500,100}};
+static const QList<int> default__editors_size_in_main_splitter = {{500,100}};
 
 /*
   static constant used by QMediaPlayer object.
 */
 // http://qt-project.org/doc/qt-5/qmediaobject.html#notifyInterval-prop
-static const int audio_notify_interval = 500;
+static const int default__audio_notify_interval = 500;
 // http://qt-project.org/doc/qt-5/qmediaplayer.html#volume-prop
-static const int audio_player_volume = 50;
+static const int default__audio_player_volume = 50;
 
 /* default path to the dipydocs.
 */
 //$$$static const QString default_path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
-static const QString default_path_to_dipydocs  = QDir::homePath() + "/projets/freedipydocs/";
+static const QString default__path_to_dipydocs  = QDir::homePath() + "/projets/freedipydocs/";
 
 /*
   editors' default style sheets :
 */
-const QString sourceeditor_default_stylesheet = "background-color: #4169E1;"
-                                                "selection-color: white;"
-                                                "selection-background-color: blue;";
+const QString default__sourceeditor_stylesheet = "background-color: #4169E1;"
+                                                 "selection-color: white;"
+                                                 "selection-background-color: blue;";
 
-const QString commentaryeditor_default_stylesheet = "color: white;"
-                                                    "background-color: #191970;"
-                                                    "selection-color: yellow;"
-                                                    "selection-background-color: red;";
+const QString default__commentaryeditor_stylesheet = "color: white;"
+                                                     "background-color: #191970;"
+                                                     "selection-color: yellow;"
+                                                     "selection-background-color: red;";
 
 /*
   source editor text formats :
 
   text format : see textformat.h::TEXTFORMAT_SRCSTRING_FORMAT format.
 */
-const QString sourceeditor_default_textformat  = "color=white;";
-const QString sourceeditor_karaoke_textformat  = "color=red;";
+const QString default__sourceeditor_default_strtextformat  = "color=white;";
+const QString default__sourceeditor_karaoke_strtextformat  = "color=red;";
+
+/*
+  commentary editor text formats :
+
+  text format : see textformat.h::TEXTFORMAT_SRCSTRING_FORMAT format.
+*/
+const QString default__commentaryeditor_strtextformat = "color=yellow;";
+
 }
 #endif
