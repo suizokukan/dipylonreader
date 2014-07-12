@@ -42,100 +42,6 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
 
 /*______________________________________________________________________________
 
-  SourceEditor::paintEvent()
-
-  doc : http://qt-project.org/doc/qt-4.8/qpainterpath.html#cubicTo
-
-  sur QPen : http://qt-project.org/doc/qt-4.8/qpen.html
-______________________________________________________________________________*/
-void SourceEditor::paintEvent(QPaintEvent* ev) {
-
-  // starting point :
-  QTextCursor current_posintext_pos = this->textCursor();
-  QPoint current_xy_pos = this->mapFromGlobal(QCursor().pos());
-  // end point :
-  QTextCursor dest_posintext_pos = this->textCursor();
-  dest_posintext_pos.movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, 100);
-  QRect dest_rect = this->cursorRect( dest_posintext_pos );
-
-  // à étudier (???)
-  //http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
-  //http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
-
-  const QRect rec = ev->rect();
-  QPainter p(viewport());
-
-  float x0 = current_xy_pos.x();
-  float y0 = current_xy_pos.y();
-  float x1 = dest_rect.x();
-  float y1 = dest_rect.y();
-
-  QPointF startingpoint = QPointF(x0, y0);
-  QPointF endpoint = QPointF(x1, y1);
-
-  p.setPen( QPen(QBrush("red"), 2, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
-
-  // arrow body :
-  QPainterPath path = QPainterPath( startingpoint ); // starting point
-  path.cubicTo( QPointF( x0*1.3, y0*0.9),
-                QPointF( x0*1.1, y0*0.7),
-                endpoint ); // p1, p2, endpoint
-  p.drawPath(path);
-
-  p.setPen( QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
-
-  p.drawRect( x0-2, y0-2, 4,4);
-
-  p.drawRect( x1-1, y1-1, 2,2);
-
-  this->update();
-
-  // arrow head :
-  /*  const double cos = -0.707; //0.866;
-  const double sin =  0.707; //0.500.
-  QPointF end1 = QPointF(
-        x1 + (dx * cos + dy * -sin),
-        y1 + (dx * sin + dy * cos));
-  QPointF end2 = QPointF(
-        x1 + (dx * cos + dy * sin),
-        y1 + (dx * -sin + dy * cos));
-  p.drawLine(endpoint, end1);
-  p.drawLine(endpoint, end2);
-  */
-
-  QTextEdit::paintEvent(ev);
-}
-
-/*______________________________________________________________________________
-
-  SourceEditor::set_the_appearance
-______________________________________________________________________________*/
-void SourceEditor::set_the_appearance(void) {
-
-  // everything but the text :
-  this->setStyleSheet(fixedparameters::sourceeditor_default_stylesheet);
-
-  // the text (default format) :
-  this->setCurrentCharFormat(this->format_text_default);
-}
-
-/*______________________________________________________________________________
-
-  SourceEditor::set_the_text_formats()
-
-  Initialize this->format_text_*
-______________________________________________________________________________*/
-void SourceEditor::set_the_text_formats(void) {
-
-  // default style format :
-  this->format_text_default = TextFormat(fixedparameters::sourceeditor_default_textformat).qtextcharformat();
-
-  // karaoke style format :
-  this->format_text_karaoke = TextFormat(fixedparameters::sourceeditor_karaoke_textformat).qtextcharformat();
-}
-
-/*______________________________________________________________________________
-
         SourceEditor::keyReleaseEvent
 
         See http://qt-project.org/doc/qt-5/qt.html#Key-enum for the list of
@@ -220,26 +126,108 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
 ______________________________________________________________________________*/
 void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
+  this->clear();
+
+  QTextCursor cur = this->textCursor();
+  QTextDocument* qtextdocument = this->document();
+
   /*
-     "lettrine" ("initial") :
+     title
+  */
+  QTextCharFormat title_textcharformat = QTextCharFormat();
+  title_textcharformat.setForeground(QBrush(Qt::red));
+  title_textcharformat.setBackground(QBrush(Qt::green));
+  QTextBlockFormat title_blockformat = QTextBlockFormat();
+  title_blockformat.setAlignment(Qt::AlignHCenter);
+  cur.insertBlock( title_blockformat, title_textcharformat );
+  cur.insertText("TITLE2");
+  cur.insertText("\n");
+
+  /*
+    introduction
+  */
+  QTextCharFormat intro_textcharformat = QTextCharFormat();
+  intro_textcharformat.setForeground(QBrush(Qt::yellow));
+  intro_textcharformat.setBackground(QBrush(Qt::blue));
+  QTextBlockFormat intro_blockformat = QTextBlockFormat();
+  intro_blockformat.setAlignment(Qt::AlignLeft);
+  cur.insertBlock( intro_blockformat, intro_textcharformat );
+  cur.insertText("introduction...");
+  cur.insertText("\n");
+
+  QTextBlockFormat text_blockformat = QTextBlockFormat();
+  text_blockformat.setAlignment(Qt::AlignLeft);
+  cur.insertBlock( text_blockformat, this->format_text_default );
+
+  /*
+     lettrine ("initial") :
   */
   QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
 
-  QTextDocument* qtextdocument = this->document();
   qtextdocument->addResource(QTextDocument::ImageResource, QUrl("lettrine"), lettrine_img);
 
   QTextImageFormat qtextimageformat = QTextImageFormat();
-  qtextimageformat.setWidth( lettrine_img.width() );
-  qtextimageformat.setHeight( lettrine_img.height() );
+  qtextimageformat.setWidth( lettrine_img.width()/5 );
+  qtextimageformat.setHeight( lettrine_img.height()/5 );
   qtextimageformat.setName("lettrine");
 
-  QTextCursor cur = this->textCursor();
   cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);
 
   /*
     text
   */
+  cur.setCharFormat( this->format_text_default );
   cur.insertText(source_text.text);
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::modify_the_text_format
+
+        This function modify the appearence of the text BUT DOES NOT UPDATE
+        the .modified_chars_hash attribute.
+_____________________________________________________________________________*/
+void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
+
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
+
+   QTextCursor cur = this->textCursor();
+
+   // first we set the ancient modified text's appearance to "default" :
+   QList<QTextEdit::ExtraSelection> selections;
+
+    for(auto &x0x1 : this->modified_chars ) {
+      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
+      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
+      QTextEdit::ExtraSelection sel = { cur, this->format_text_default };
+      selections.append(sel);
+    }
+    this->setExtraSelections(selections);
+
+    selections.clear();
+
+   // ... and then we modify the new text's appearance :
+    for(auto &x0x1 : positions ) {
+      qDebug() << "SourceEditor::modify_the_text_format=" << static_cast<int>(x0x1.first) << "-" << static_cast<int>(x0x1.second);
+
+      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+      cur.movePosition(QTextCursor::NextCharacter,
+                       QTextCursor::MoveAnchor,
+                       static_cast<int>(x0x1.first));
+      cur.movePosition(QTextCursor::NextCharacter,
+                       QTextCursor::KeepAnchor,
+                       static_cast<int>(x0x1.second - x0x1.first));
+      QTextEdit::ExtraSelection sel = { cur, this->format_text_karaoke };
+      selections.append(sel);
+    }
+    this->setExtraSelections(selections);
+
+    this->modified_chars = positions;
+
+    cur.clearSelection();
+ }
+
 }
 
 /*______________________________________________________________________________
@@ -307,52 +295,68 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
 
 /*______________________________________________________________________________
 
-        SourceEditor::modify_the_text_format
+  SourceEditor::paintEvent()
 
-        This function modify the appearence of the text BUT DOES NOT UPDATE
-        the .modified_chars_hash attribute.
-_____________________________________________________________________________*/
-void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
+  doc : http://qt-project.org/doc/qt-4.8/qpainterpath.html#cubicTo
 
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
+  sur QPen : http://qt-project.org/doc/qt-4.8/qpen.html
+______________________________________________________________________________*/
+void SourceEditor::paintEvent(QPaintEvent* ev) {
 
-   QTextCursor cur = this->textCursor();
+  // starting point :
+  QTextCursor current_posintext_pos = this->textCursor();
+  QPoint current_xy_pos = this->mapFromGlobal(QCursor().pos());
+  // end point :
+  QTextCursor dest_posintext_pos = this->textCursor();
+  dest_posintext_pos.movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, 100);
+  QRect dest_rect = this->cursorRect( dest_posintext_pos );
 
-   // first we set the ancient modified text's appearance to "default" :
-   QList<QTextEdit::ExtraSelection> selections;
+  // à étudier (???)
+  //http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
+  //http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
 
-    for(auto &x0x1 : this->modified_chars ) {
-      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
-      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
-      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
-      QTextEdit::ExtraSelection sel = { cur, this->format_text_default };
-      selections.append(sel);
-    }
-    this->setExtraSelections(selections);
+  const QRect rec = ev->rect();
+  QPainter p(viewport());
 
-    selections.clear();
+  float x0 = current_xy_pos.x();
+  float y0 = current_xy_pos.y();
+  float x1 = dest_rect.x();
+  float y1 = dest_rect.y();
 
-   // ... and then we modify the new text's appearance :
-    for(auto &x0x1 : positions ) {
-      qDebug() << "SourceEditor::modify_the_text_format=" << static_cast<int>(x0x1.first) << "-" << static_cast<int>(x0x1.second);
+  QPointF startingpoint = QPointF(x0, y0);
+  QPointF endpoint = QPointF(x1, y1);
 
-      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
-      cur.movePosition(QTextCursor::NextCharacter,
-                       QTextCursor::MoveAnchor,
-                       static_cast<int>(x0x1.first));
-      cur.movePosition(QTextCursor::NextCharacter,
-                       QTextCursor::KeepAnchor,
-                       static_cast<int>(x0x1.second - x0x1.first));
-      QTextEdit::ExtraSelection sel = { cur, this->format_text_karaoke };
-      selections.append(sel);
-    }
-    this->setExtraSelections(selections);
+  p.setPen( QPen(QBrush("red"), 2, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
 
-    this->modified_chars = positions;
+  // arrow body :
+  QPainterPath path = QPainterPath( startingpoint ); // starting point
+  path.cubicTo( QPointF( x0*1.3, y0*0.9),
+                QPointF( x0*1.1, y0*0.7),
+                endpoint ); // p1, p2, endpoint
+  p.drawPath(path);
 
-    cur.clearSelection();
- }
+  p.setPen( QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
 
+  p.drawRect( x0-2, y0-2, 4,4);
+
+  p.drawRect( x1-1, y1-1, 2,2);
+
+  this->update();
+
+  // arrow head :
+  /*  const double cos = -0.707; //0.866;
+  const double sin =  0.707; //0.500.
+  QPointF end1 = QPointF(
+        x1 + (dx * cos + dy * -sin),
+        y1 + (dx * sin + dy * cos));
+  QPointF end2 = QPointF(
+        x1 + (dx * cos + dy * sin),
+        y1 + (dx * -sin + dy * cos));
+  p.drawLine(endpoint, end1);
+  p.drawLine(endpoint, end2);
+  */
+
+  QTextEdit::paintEvent(ev);
 }
 
 /*______________________________________________________________________________
@@ -374,4 +378,29 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   selections.append(sel);
 
   cur.clearSelection();
+}
+
+/*______________________________________________________________________________
+
+  SourceEditor::set_the_appearance
+______________________________________________________________________________*/
+void SourceEditor::set_the_appearance(void) {
+
+  // everything but the text :
+  this->setStyleSheet(fixedparameters::sourceeditor_default_stylesheet);
+}
+
+/*______________________________________________________________________________
+
+  SourceEditor::set_the_text_formats()
+
+  Initialize this->format_text_*
+______________________________________________________________________________*/
+void SourceEditor::set_the_text_formats(void) {
+
+  // default style format :
+  this->format_text_default = TextFormat(fixedparameters::sourceeditor_default_textformat).qtextcharformat();
+
+  // karaoke style format :
+  this->format_text_karaoke = TextFormat(fixedparameters::sourceeditor_karaoke_textformat).qtextcharformat();
 }

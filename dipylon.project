@@ -52,7 +52,9 @@ SOMMAIRE
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 
 - lettrine
-- informations sur le dipydoc
+- introduction
+- "format_text_default" > "format_text_bydefault"
+- Menu : informations sur le dipydoc
 - homogénéiser le texte de TextFormat avec le CSS "background" > "background-color"
 - dans ... , vérifier que "number", "name" existent :
 

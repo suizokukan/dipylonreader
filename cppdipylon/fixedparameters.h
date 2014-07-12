@@ -60,7 +60,8 @@ static const int audio_player_volume = 50;
 
 /* default path to the dipydocs.
 */
-static const QString default_path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
+//$$$static const QString default_path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
+static const QString default_path_to_dipydocs  = QDir::homePath() + "/projets/freedipydocs/";
 
 /*
   editors' default style sheets :
