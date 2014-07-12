@@ -55,42 +55,45 @@ int TextFormat::init_from_string(const QString& source_string) {
 
     for( auto &keyword : list_of_keywords) {
 
+      // spaces are not taken in account :
+      keyword.replace(" ", "");
+
       // background colors .....................................................
-      if( keyword == "background-color=black") {
+      if( keyword == "background-color:black") {
         this->_qtextcharformat.setBackground( QBrush(Qt::black) );
         continue;
       }
 
-      if (keyword == "background-color=blue") {
+      if (keyword == "background-color:blue") {
          this->_qtextcharformat.setBackground( QBrush(Qt::blue) );
          continue;
       }
 
-      if (keyword == "background-color=cyan") {
+      if (keyword == "background-color:cyan") {
          this->_qtextcharformat.setBackground( QBrush(Qt::cyan) );
          continue;
       }
-      if (keyword == "background-color=gray") {
+      if (keyword == "background-color:gray") {
          this->_qtextcharformat.setBackground( QBrush(Qt::gray) );
          continue;
       }
-      if (keyword == "background-color=green") {
+      if (keyword == "background-color:green") {
          this->_qtextcharformat.setBackground( QBrush(Qt::green) );
          continue;
       }
-      if (keyword == "background-color=magenta") {
+      if (keyword == "background-color:magenta") {
          this->_qtextcharformat.setBackground( QBrush(Qt::magenta) );
          continue;
       }
-      if (keyword == "background-color=red") {
+      if (keyword == "background-color:red") {
          this->_qtextcharformat.setBackground( QBrush(Qt::red) );
          continue;
       }
-      if (keyword == "background-color=white") {
+      if (keyword == "background-color:white") {
          this->_qtextcharformat.setBackground( QBrush(Qt::white) );
          continue;
       }
-      if (keyword == "background-color=yellow") {
+      if (keyword == "background-color:yellow") {
          this->_qtextcharformat.setBackground( QBrush(Qt::yellow) );
          continue;
       }
@@ -102,39 +105,39 @@ int TextFormat::init_from_string(const QString& source_string) {
       }
 
       // foreground colors .....................................................
-      if (keyword == "color=black") {
+      if (keyword == "color:black") {
          this->_qtextcharformat.setForeground( QBrush(Qt::black) );
          continue;
       }
-      if (keyword == "color=blue") {
+      if (keyword == "color:blue") {
          this->_qtextcharformat.setForeground( QBrush(Qt::blue) );
          continue;
       }
-      if (keyword == "color=cyan") {
+      if (keyword == "color:cyan") {
          this->_qtextcharformat.setForeground( QBrush(Qt::cyan) );
          continue;
       }
-      if (keyword == "color=gray") {
+      if (keyword == "color:gray") {
          this->_qtextcharformat.setForeground( QBrush(Qt::gray) );
          continue;
       }
-      if (keyword == "color=green") {
+      if (keyword == "color:green") {
          this->_qtextcharformat.setForeground( QBrush(Qt::green) );
          continue;
       }
-      if (keyword == "color=magenta") {
+      if (keyword == "color:magenta") {
          this->_qtextcharformat.setForeground( QBrush(Qt::magenta) );
          continue;
       }
-      if (keyword == "color=red") {
+      if (keyword == "color:red") {
          this->_qtextcharformat.setForeground( QBrush(Qt::red) );
          continue;
       }
-      if (keyword == "color=white") {
+      if (keyword == "color:white") {
          this->_qtextcharformat.setForeground( QBrush(Qt::white) );
          continue;
       }
-      if (keyword == "color=yellow") {
+      if (keyword == "color:yellow") {
          this->_qtextcharformat.setForeground( QBrush(Qt::yellow) );
          continue;
       }
@@ -146,39 +149,39 @@ int TextFormat::init_from_string(const QString& source_string) {
       }
 
       // underline colors ......................................................
-      if (keyword == "underlinecolor=black") {
+      if (keyword == "underlinecolor:black") {
          this->_qtextcharformat.setUnderlineColor( Qt::black );
          continue;
       }
-      if (keyword == "underlinecolor=blue") {
+      if (keyword == "underlinecolor:blue") {
          this->_qtextcharformat.setUnderlineColor( Qt::blue );
          continue;
       }
-      if (keyword == "underlinecolor=cyan") {
+      if (keyword == "underlinecolor:cyan") {
          this->_qtextcharformat.setUnderlineColor( Qt::cyan );
          continue;
       }
-      if (keyword == "underlinecolor=gray") {
+      if (keyword == "underlinecolor:gray") {
          this->_qtextcharformat.setUnderlineColor( Qt::gray );
          continue;
       }
-      if (keyword == "underlinecolor=green") {
+      if (keyword == "underlinecolor:green") {
          this->_qtextcharformat.setUnderlineColor( Qt::green );
          continue;
       }
-      if (keyword == "underlinecolor=magenta") {
+      if (keyword == "underlinecolor:magenta") {
          this->_qtextcharformat.setUnderlineColor( Qt::magenta );
          continue;
       }
-      if (keyword == "underlinecolor=red") {
+      if (keyword == "underlinecolor:red") {
          this->_qtextcharformat.setUnderlineColor( Qt::red );
          continue;
       }
-      if (keyword == "underlinecolor=white") {
+      if (keyword == "underlinecolor:white") {
          this->_qtextcharformat.setUnderlineColor( Qt::white );
          continue;
       }
-      if (keyword == "underlinecolor=yellow") {
+      if (keyword == "underlinecolor:yellow") {
          this->_qtextcharformat.setUnderlineColor( Qt::yellow );
          continue;
       }

@@ -29,14 +29,16 @@
 	TEXTFORMAT_SRCSTRING_FORMAT :
 		"xxx;yyy" or "xxx;yyy;zzz;"
 
+                in a keyword, spaces are ignored.
+
 		known keywords :
 
 		o "bold"
-		o "background-color=xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
-		o "color=xxx"            with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
+		o "background-color:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
+		o "color:xxx"            with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
 		o "italic"
-		o "underlinecolor=xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
-		o "underlinestyle=xxx" with "xxx"=dashline, dotline, singleline, waveline
+		o "underlinecolor:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
+		o "underlinestyle:xxx" with "xxx"=dashline, dotline, singleline, waveline
 
 *******************************************************************************/
 

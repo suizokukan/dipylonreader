@@ -296,7 +296,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 17;
+  static const int     minimal_dipydoc_version = 18;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
