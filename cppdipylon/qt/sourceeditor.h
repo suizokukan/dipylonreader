@@ -74,7 +74,7 @@ private:
     DipylonUI& current_dipylonui;
 
     // text formats, initialized by this->set_the_text_formats() :
-    QTextCharFormat format_text_default = QTextCharFormat();
+    QTextCharFormat format_text_bydefault = QTextCharFormat();
     QTextCharFormat format_text_karaoke = QTextCharFormat();
 
     PosInTextRanges modified_chars = PosInTextRanges();

@@ -157,7 +157,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
   QTextBlockFormat text_blockformat = QTextBlockFormat();
   text_blockformat.setAlignment(Qt::AlignLeft);
-  cur.insertBlock( text_blockformat, this->format_text_default );
+  cur.insertBlock( text_blockformat, this->format_text_bydefault );
 
   /*
      lettrine ("initial") :
@@ -176,7 +176,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
     text
   */
-  cur.setCharFormat( this->format_text_default );
+  cur.setCharFormat( this->format_text_bydefault );
   cur.insertText(source_text.text);
 }
 
@@ -200,7 +200,7 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
       cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
-      QTextEdit::ExtraSelection sel = { cur, this->format_text_default };
+      QTextEdit::ExtraSelection sel = { cur, this->format_text_bydefault };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
@@ -374,7 +374,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
 
   cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
   cur.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-  QTextEdit::ExtraSelection sel = { cur, this->format_text_default };
+  QTextEdit::ExtraSelection sel = { cur, this->format_text_bydefault };
   selections.append(sel);
 
   cur.clearSelection();
@@ -399,7 +399,7 @@ ______________________________________________________________________________*/
 void SourceEditor::set_the_text_formats(void) {
 
   // default style format :
-  this->format_text_default = TextFormat(fixedparameters::sourceeditor_default_textformat).qtextcharformat();
+  this->format_text_bydefault = TextFormat(fixedparameters::sourceeditor_default_textformat).qtextcharformat();
 
   // karaoke style format :
   this->format_text_karaoke = TextFormat(fixedparameters::sourceeditor_karaoke_textformat).qtextcharformat();
