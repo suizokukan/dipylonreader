@@ -56,7 +56,6 @@ SOMMAIRE
 
 - "format_text_default" > "format_text_bydefault"
 - Menu : informations sur le dipydoc
-- homogénéiser le texte de TextFormat avec le CSS "background" > "background-color"
 - dans ... , vérifier que "number", "name" existent :
 
       if( name == "level" ) {
@@ -67,7 +66,7 @@ SOMMAIRE
         continue;
       }
 - quand un DipyDoc trop ancien (numversion) est lu, le messae d'erreur parle "d'état indéfini" : créer un message d'erreur adapté.
-- version 17 de main.xml avec les notes
+- version 18 de main.xml avec les notes
 - puisque les textformats sont définis dans main.xml, permettre de définir aussi l'aspect général du texte.
 - click : karaoke.new start
 - segfault avec ALT+F4
