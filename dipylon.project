@@ -50,9 +50,10 @@ SOMMAIRE
 0.2.1 : XML read/write
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
+0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 
-- lettrine
-- introduction
+(0.2.5 : v17+title+introduction+style des paragraphes)
+
 - "format_text_default" > "format_text_bydefault"
 - Menu : informations sur le dipydoc
 - homogénéiser le texte de TextFormat avec le CSS "background" > "background-color"
