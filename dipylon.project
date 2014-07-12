@@ -54,7 +54,6 @@ SOMMAIRE
 
 (0.2.5 : v17+title+introduction+style des paragraphes)
 
-- "format_text_default" > "format_text_bydefault"
 - Menu : informations sur le dipydoc
 - dans ... , vérifier que "number", "name" existent :
 
