@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : qt/blockformat.h
 
-    Blockformat class, simple wrapper around QTextBlockFormat allowing the object
+    BlockFormat class, simple wrapper around QTextBlockFormat allowing the object
     to be initialized from a string (see BLOCKFORMAT_SRCSTRING_FORMAT below).
 
 	____________________________________________________________________________
@@ -33,7 +33,7 @@
 
 		known keywords :
 
-		o "alignement:xxx" with xxx = "left", "right", "hcenter", "justify"
+		o "alignment:xxx" with xxx = "left", "right", "hcenter", "justify"
 
 *******************************************************************************/
 
@@ -46,7 +46,7 @@
 
 /*______________________________________________________________________________
 
-  Blockformat class : a simple wrapper around the QTextBlockFormat object
+  BlockFormat class : a simple wrapper around the QTextBlockFormat object
                      named "qtextblockformat".
 
 ______________________________________________________________________________*/
@@ -86,17 +86,17 @@ public:
 
 };
 
-inline Blockformat::Blockformat(void) {
+inline BlockFormat::BlockFormat(void) {
   this->_well_initialized = false;
   this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
   this->_qtextblockformat = QTextBlockFormat();
 }
 
-inline int Blockformat::internal_state(void) const {
+inline int BlockFormat::internal_state(void) const {
   return this->_internal_state;
 }
 
-inline bool Blockformat::well_initialized(void) const {
+inline bool BlockFormat::well_initialized(void) const {
   return this->_well_initialized;
 }
 

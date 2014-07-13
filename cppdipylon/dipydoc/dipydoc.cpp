@@ -304,12 +304,12 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     title :
   ............................................................................*/
-  res += "  <title textformat=\"$TITLETEXTFORMAT$\">$TITLETEXT$</title>\n\n";
+  res += "  <title textformat=\"$TITLETEXTFORMAT$\" blockformat=\"$TITLEBLOCKFORMAT$\" >$TITLETEXT$</title>\n\n";
 
   /*............................................................................
     introduction :
   ............................................................................*/
-  res += "  <introduction textformat=\"$INTRODUCTIIONTEXTFORMAT$\">$INTRODUCTIONTEXT$</introduction>\n\n";
+  res += "  <introduction textformat=\"$INTRODUCTIONTEXTFORMAT$\" blockformat=\"$TITLEBLOCKFORMAT$\">$INTRODUCTIONTEXT$</introduction>\n\n";
 
   /*............................................................................
     lettrine : no sub-elements.
@@ -442,9 +442,11 @@ QString DipyDoc::get_xml_repr(void) const {
 
   res.replace( "$TITLETEXT$", this->title.text );
   res.replace( "$TITLETEXTFORMAT$", this->title.strtextformat );
+  res.replace( "$TITLEBLOCKFORMAT$", this->title.strblockformat );
 
   res.replace( "$INTRODUCTIONTEXT$", this->introduction.text );
   res.replace( "$INTRODUCTIONTEXTFORMAT$", this->introduction.strtextformat );
+  res.replace( "$INTRODUCTIONBLOCKFORMAT$", this->introduction.strblockformat );
 
   res.replace( "$LETTRINE$", this->lettrine_filename );
 
@@ -584,6 +586,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if( name == "introduction" ) {
         this->introduction.strtextformat = xmlreader.attributes().value("textformat").toString();
+        this->introduction.strblockformat = xmlreader.attributes().value("blockformat").toString();
         this->introduction.text = xmlreader.readElementText();
         continue;
       }
@@ -704,6 +707,7 @@ void DipyDoc::init_from_xml(const QString& path) {
       if( name == "title" ) {
         current_division = DIPYDOCDIV_INSIDE_TITLE;
         this->title.strtextformat = xmlreader.attributes().value("textformat").toString();
+        this->title.strblockformat = xmlreader.attributes().value("blockformat").toString();
         this->title.text = xmlreader.readElementText();
         continue;
       }

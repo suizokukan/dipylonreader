@@ -34,6 +34,7 @@
 #include "pos/posinaudio2posintext.h"
 #include "languages/languagefromto.h"
 #include "qt/textformat.h"
+#include "qt/blockformat.h"
 
 // $$$
 #include <QDebug>
@@ -109,12 +110,14 @@ ______________________________________________________________________________*/
 struct DipyDocIntroduction {
   QString text = "";
   QString strtextformat = "";
+  QString strblockformat = "";
 
   void    clear(void);
 };
 inline void DipyDocIntroduction::clear(void) {
   this->text = "";
   this->strtextformat = "";
+  this->strblockformat = "";
 }
 
 /*______________________________________________________________________________
@@ -149,12 +152,14 @@ ______________________________________________________________________________*/
 struct DipyDocTitle {
   QString text = "";
   QString strtextformat = "";
+  QString strblockformat = "";
 
   void    clear(void);
 };
 inline void DipyDocTitle::clear(void) {
   this->text = "";
   this->strtextformat = "";
+  this->strblockformat = "";
 }
 
 /*______________________________________________________________________________
@@ -332,7 +337,7 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 18;
+  static const int     minimal_dipydoc_version = 19;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

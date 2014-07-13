@@ -134,30 +134,43 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   */
   if ( this->current_dipylonui.current_dipydoc.title.text != "" ) {
 
+    // format :
     TextFormat title_textformat = TextFormat();
     title_textformat.init_from_string(this->current_dipylonui.current_dipydoc.title.strtextformat);
-    QTextCharFormat title_textcharformat = title_textformat.qtextcharformat();
+    QTextCharFormat title_qtextcharformat = title_textformat.qtextcharformat();
 
-    QTextBlockFormat title_blockformat = QTextBlockFormat();
-    title_blockformat.setAlignment(Qt::AlignHCenter);
-    cur.insertBlock( title_blockformat, title_textcharformat );
+    BlockFormat title_blockformat = BlockFormat();
+    title_blockformat.init_from_string(this->current_dipylonui.current_dipydoc.title.strblockformat);
+    QTextBlockFormat title_qtextblockformat = title_blockformat.qtextblockformat();
+
+    cur.insertBlock( title_qtextblockformat, title_qtextcharformat );
+
+    // text :
     cur.insertText(this->current_dipylonui.current_dipydoc.title.text);
     cur.insertText("\n");
+
   }
 
   /*
     introduction
   */
   if ( this->current_dipylonui.current_dipydoc.introduction.text != "" ) {
+
+    // format :
     TextFormat introduction_textformat = TextFormat();
     introduction_textformat.init_from_string(this->current_dipylonui.current_dipydoc.introduction.strtextformat);
-    QTextCharFormat introduction_textcharformat = introduction_textformat.qtextcharformat();
+    QTextCharFormat introduction_qtextcharformat = introduction_textformat.qtextcharformat();
 
-    QTextBlockFormat introduction_blockformat = QTextBlockFormat();
-    introduction_blockformat.setAlignment(Qt::AlignLeft);
-    cur.insertBlock( introduction_blockformat, introduction_textcharformat );
+    BlockFormat introduction_blockformat = BlockFormat();
+    introduction_blockformat.init_from_string(this->current_dipylonui.current_dipydoc.introduction.strblockformat);
+    QTextBlockFormat introduction_qtextblockformat = introduction_blockformat.qtextblockformat();
+
+    cur.insertBlock( introduction_qtextblockformat, introduction_qtextcharformat );
+
+    // text :
     cur.insertText(this->current_dipylonui.current_dipydoc.introduction.text);
     cur.insertText("\n");
+
   }
 
   /*

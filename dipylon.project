@@ -57,6 +57,7 @@ SOMMAIRE
 (0.2.5 : v19+title+introduction+style des paragraphes; pour cela, il faut ajouter un object BlockFormat)
 
 - initialiser tous les strtextformat disponibles dans main.xml par des paramètres dans fixedparameters::
+- google/c++lint
 - title format > DipydocTitle
 - décalage induit par le titre+intro
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
@@ -170,6 +171,9 @@ QT_NO_DEBUG_OUTPUT : no qDebug() output.
 * les pointeurs doivent être déclarés initialiés à null_ptr
 * un fichier XXX.cpp ne peut avoir qu'un seul include si le fichier XXX.h existe. main.cpp n'est donc pas concerné.
 * pour les includes : d'abord les miens, ceux de la STD, ensuite ceux de Qt.
+
+suivre Google/c++lint / http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
+python2 ~/projets/cpplint.py --linelength=120 main.cpp
 
 ################################################################################
 [2.1] range-based for loop
@@ -698,6 +702,7 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
+version 19 : added <introduction>
 version 18 : keywords used to define text format follow somehow CSS style.
 version 17 : added <aspect>
 version 16 : added <title> and <lettrine>
@@ -708,13 +713,15 @@ version 12 : added "informations" to "audiorecord" and "translation"
 version 11 : added audiorecord::filename token
 version 10 : first format's version
 
-main.xml, version 15 :
+main.xml, version 19 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <dipydoc dipydoc_version="10" languages="lat->fra" filename="record.ogg">
 
-  <title>TITRE</title>
+  <title textformat="color: yellow" blockformat="alignment:right" >TITRE</title>
+
+  <introduction textformat="color: red;" blockformat="alignment:right">INTRODUCTION</introduction>
 
   <lettrine filename="lettrine.png" />
 

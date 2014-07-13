@@ -58,23 +58,23 @@ int BlockFormat::init_from_string(const QString& source_string) {
       // spaces are not taken in account :
       keyword.replace(" ", "");
 
-      // alignement ............................................................
-      if( keyword == "alignement:left") {
+      // alignment .............................................................
+      if( keyword == "alignment:left") {
         this->_qtextblockformat.setAlignment(Qt::AlignLeft);
         continue;
       }
 
-      if( keyword == "alignement:right") {
+      if( keyword == "alignment:right") {
         this->_qtextblockformat.setAlignment(Qt::AlignRight);
         continue;
       }
 
-      if( keyword == "alignement:hcenter") {
+      if( keyword == "alignment:hcenter") {
         this->_qtextblockformat.setAlignment(Qt::AlignHCenter);
         continue;
       }
 
-      if( keyword == "alignement:justify") {
+      if( keyword == "alignment:justify") {
         this->_qtextblockformat.setAlignment(Qt::AlignJustify);
         continue;
       }

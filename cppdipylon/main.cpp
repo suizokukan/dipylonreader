@@ -23,9 +23,11 @@
 
 *******************************************************************************/
 
-#include "qt/dipylonui.h"
-
 #include <QApplication>
+#include <QDebug>
+#include <vector>
+
+#include "qt/dipylonui.h"
 
 //$$$
 #include "pos/posinaudio2posintext.h"
@@ -33,8 +35,6 @@
 #include "pos/posintext/vectorposintextranges.h"
 #include "pos/posintext2posinaudio.h"
 #include "languages/languagefromto.h"
-#include <QDebug>
-#include <vector>
 
 /*______________________________________________________________________________
 
@@ -43,8 +43,7 @@
   See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about "argc"
   and "argv".
 ______________________________________________________________________________*/
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     Q_INIT_RESOURCE(dipylon);
 
     DipylonUI myapp = DipylonUI(argc, argv);
