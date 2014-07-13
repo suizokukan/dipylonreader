@@ -146,7 +146,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
     cur.insertBlock( title_qtextblockformat, title_qtextcharformat );
 
     // text :
-    cur.insertText(this->current_dipylonui.current_dipydoc.title.text);
+    cur.insertHtml(this->current_dipylonui.current_dipydoc.title.text);
     cur.insertText("\n");
 
   }
@@ -168,7 +168,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
     cur.insertBlock( introduction_qtextblockformat, introduction_qtextcharformat );
 
     // text :
-    cur.insertText(this->current_dipylonui.current_dipydoc.introduction.text);
+    cur.insertHtml(this->current_dipylonui.current_dipydoc.introduction.text);
     cur.insertText("\n");
 
   }

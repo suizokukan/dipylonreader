@@ -699,6 +699,9 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
+title, introduction : pas obligatoire; HTML
+fichier texte : obligatoire, plain text
+
 version 19 : added <introduction> and block format.
 version 18 : keywords used to define text format follow somehow CSS style.
 version 17 : added <aspect>
