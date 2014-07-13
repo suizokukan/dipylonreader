@@ -55,13 +55,12 @@ SOMMAIRE
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 
+- BlockFormat et TextFormat devraient garder la string ayant permis de les initialiser : supprimer les variables conservant cette information.
+- version 20 de main.xml avec les notes
 - initialiser tous les strtextformat disponibles dans main.xml par des paramètres dans fixedparameters::
 - google/c++lint
-- title format > DipydocTitle
 - décalage induit par le titre+intro
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
-- intro text
-- intro format
 - Menu : informations sur le dipydoc
 - dans ... , vérifier que "number", "name" existent :
 
@@ -73,7 +72,6 @@ SOMMAIRE
         continue;
       }
 - quand un DipyDoc trop ancien (numversion) est lu, le messae d'erreur parle "d'état indéfini" : créer un message d'erreur adapté.
-- version 20 de main.xml avec les notes
 - puisque les textformats sont définis dans main.xml, permettre de définir aussi l'aspect général du texte.
 - click : karaoke.new start
 - segfault avec ALT+F4
