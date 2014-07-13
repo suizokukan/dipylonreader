@@ -53,8 +53,7 @@ SOMMAIRE
 0.2.2 : open DipyDoc / save DipyDoc main file
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
-
-(0.2.5 : v19+title+introduction+style des paragraphes; pour cela, il faut ajouter un object BlockFormat)
+0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 
 - initialiser tous les strtextformat disponibles dans main.xml par des paramètres dans fixedparameters::
 - google/c++lint
@@ -702,7 +701,7 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
-version 19 : added <introduction>
+version 19 : added <introduction> and block format.
 version 18 : keywords used to define text format follow somehow CSS style.
 version 17 : added <aspect>
 version 16 : added <title> and <lettrine>
