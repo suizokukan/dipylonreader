@@ -53,7 +53,6 @@
   o DIPYDOCDIV_INSIDE_ARROW            : inside <arrow>
   o DIPYDOCDIV_INSIDE_AUDIORECORD      : inside <audiorecord>
   o DIPYDOCDIV_INSIDE_COMMENTARYEDITOR : inside <commentaryeditor>
-  o DIPYDOCDIV_INSIDE_LETTRINE         : inside <lettrine>
   o DIPYDOCDIV_INSIDE_LEVEL            : inside <level>
   o DIPYDOCDIV_INSIDE_SOURCEEDITOR     : inside <sourceeditor>
   o DIPYDOCDIV_INSIDE_TEXT             : inside <text>
@@ -66,13 +65,12 @@ enum DipyDocDiv : int {
     DIPYDOCDIV_INSIDE_ARROW = 1,
     DIPYDOCDIV_INSIDE_AUDIORECORD = 2,
     DIPYDOCDIV_INSIDE_COMMENTARYEDITOR = 3,
-    DIPYDOCDIV_INSIDE_LETTRINE = 4,
-    DIPYDOCDIV_INSIDE_LEVEL = 5,
-    DIPYDOCDIV_INSIDE_SOURCEEDITOR = 6,
-    DIPYDOCDIV_INSIDE_TEXT = 7,
-    DIPYDOCDIV_INSIDE_TEXTFORMATS = 8,
-    DIPYDOCDIV_INSIDE_TITLE = 9,
-    DIPYDOCDIV_INSIDE_TRANSLATION = 10,
+    DIPYDOCDIV_INSIDE_LEVEL = 4,
+    DIPYDOCDIV_INSIDE_SOURCEEDITOR = 5,
+    DIPYDOCDIV_INSIDE_TEXT = 6,
+    DIPYDOCDIV_INSIDE_TEXTFORMATS = 7,
+    DIPYDOCDIV_INSIDE_TITLE = 8,
+    DIPYDOCDIV_INSIDE_TRANSLATION = 9,
 
     DIPYDOCDIV_UNDEFINED = 99,
 };
@@ -103,6 +101,24 @@ inline void DipyDocAudioRecord::clear(void) {
 
 /*______________________________________________________________________________
 
+  DipyDocIntroduction class
+
+  This class is used to create an attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct DipyDocIntroduction {
+  QString text = "";
+  QString strtextformat = "";
+
+  void    clear(void);
+};
+inline void DipyDocIntroduction::clear(void) {
+  this->text = "";
+  this->strtextformat = "";
+}
+
+/*______________________________________________________________________________
+
   DipyDocSourceText class
 
   This class is used to create an attribute of DipyDoc.
@@ -121,6 +137,24 @@ inline void DipyDocSourceText::clear(void) {
   this->name = "";
   this->filename = "";
   this->informations = "";
+}
+
+/*______________________________________________________________________________
+
+  DipyDocTitle class
+
+  This class is used to create an attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct DipyDocTitle {
+  QString text = "";
+  QString strtextformat = "";
+
+  void    clear(void);
+};
+inline void DipyDocTitle::clear(void) {
+  this->text = "";
+  this->strtextformat = "";
 }
 
 /*______________________________________________________________________________
@@ -262,7 +296,9 @@ private:
   QString              commentaryeditor_stylesheet;
   QString              commentaryeditor_strtextformat;
   // title :
-  QString              title;
+  DipyDocTitle         title;
+  // introduction :
+  DipyDocIntroduction  introduction;
   // lettrine :
   QString              lettrine_filename;
   QImage               lettrine;

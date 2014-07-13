@@ -132,34 +132,44 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
      title
   */
-  QTextCharFormat title_textcharformat = QTextCharFormat();
-  title_textcharformat.setForeground(QBrush(Qt::red));
-  title_textcharformat.setBackground(QBrush(Qt::green));
-  QTextBlockFormat title_blockformat = QTextBlockFormat();
-  title_blockformat.setAlignment(Qt::AlignHCenter);
-  cur.insertBlock( title_blockformat, title_textcharformat );
-  cur.insertText("TITLE2");
-  cur.insertText("\n");
+  if ( this->current_dipylonui.current_dipydoc.title.text != "" ) {
+
+    TextFormat title_textformat = TextFormat();
+    title_textformat.init_from_string(this->current_dipylonui.current_dipydoc.title.strtextformat);
+    QTextCharFormat title_textcharformat = title_textformat.qtextcharformat();
+
+    QTextBlockFormat title_blockformat = QTextBlockFormat();
+    title_blockformat.setAlignment(Qt::AlignHCenter);
+    cur.insertBlock( title_blockformat, title_textcharformat );
+    cur.insertText(this->current_dipylonui.current_dipydoc.title.text);
+    cur.insertText("\n");
+  }
 
   /*
     introduction
   */
-  QTextCharFormat intro_textcharformat = QTextCharFormat();
-  intro_textcharformat.setForeground(QBrush(Qt::yellow));
-  intro_textcharformat.setBackground(QBrush(Qt::blue));
-  QTextBlockFormat intro_blockformat = QTextBlockFormat();
-  intro_blockformat.setAlignment(Qt::AlignLeft);
-  cur.insertBlock( intro_blockformat, intro_textcharformat );
-  cur.insertText("introduction...");
-  cur.insertText("\n");
+  if ( this->current_dipylonui.current_dipydoc.introduction.text != "" ) {
+    TextFormat introduction_textformat = TextFormat();
+    introduction_textformat.init_from_string(this->current_dipylonui.current_dipydoc.introduction.strtextformat);
+    QTextCharFormat introduction_textcharformat = introduction_textformat.qtextcharformat();
 
-  QTextBlockFormat text_blockformat = QTextBlockFormat();
-  text_blockformat.setAlignment(Qt::AlignLeft);
-  cur.insertBlock( text_blockformat, this->format_text_bydefault );
+    QTextBlockFormat introduction_blockformat = QTextBlockFormat();
+    introduction_blockformat.setAlignment(Qt::AlignLeft);
+    cur.insertBlock( introduction_blockformat, introduction_textcharformat );
+    cur.insertText(this->current_dipylonui.current_dipydoc.introduction.text);
+    cur.insertText("\n");
+  }
 
   /*
      lettrine ("initial") :
   */
+
+  // new block for the lettrine and the text :
+  QTextBlockFormat text_blockformat = QTextBlockFormat();
+  text_blockformat.setAlignment(Qt::AlignLeft);
+  cur.insertBlock( text_blockformat, this->format_text_bydefault );
+
+
   QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
 
   qtextdocument->addResource(QTextDocument::ImageResource, QUrl("lettrine"), lettrine_img);

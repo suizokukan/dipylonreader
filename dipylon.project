@@ -24,8 +24,10 @@ SOMMAIRE
     [3.3] debugging
 
 [4] particularités de Qt(5)
-[4.1] comment lire un fichier multimédia
-[4.2] Qt et les destructors
+    [4.1] comment lire un fichier multimédia
+    [4.2] Qt et les destructors
+    [4.3] Qt et XML
+        [4.3.1] ordre de lecture entre xmlreader.attributes().value() et xmlreader.readElementText()
 
 [5] découpage audio
 
@@ -52,9 +54,14 @@ SOMMAIRE
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 
-(0.2.5 : v19+title+introduction+style des paragraphes)
+(0.2.5 : v19+title+introduction+style des paragraphes; pour cela, il faut ajouter un object BlockFormat)
 
-- homégéniser TextFormat() et CSS : 'color=red' > 'color:red'
+- initialiser tous les strtextformat disponibles dans main.xml par des paramètres dans fixedparameters::
+- title format > DipydocTitle
+- décalage induit par le titre+intro
+- vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
+- intro text
+- intro format
 - Menu : informations sur le dipydoc
 - dans ... , vérifier que "number", "name" existent :
 
@@ -597,6 +604,25 @@ QString MainWindow::strippedName(const QString &fullFileName)
 }
 
 ################################################################################
+[4.3] Qt et XML
+################################################################################
+
+[4.3.1] ordre de lecture entre xmlreader.attributes().value() et xmlreader.readElementText()
+
+NON :
+QString text(xmlreader.readElementText());
+PosInTextRanges textranges( xmlreader.attributes().value("textranges").toString() );
+
+    ... car xmlreader.attributes().value("textranges").toString() vaut ""
+
+OUI :
+PosInTextRanges textranges( xmlreader.attributes().value("textranges").toString() );
+QString text(xmlreader.readElementText());
+
+
+
+
+################################################################################
 [5] découpage audio
 ################################################################################
 
@@ -672,24 +698,15 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
-version 18
-  keywords used to define text format follow somehow CSS style.
-version 17
-  added <aspect>
-version 16
-  added <title> and <lettrine>
-version 15
-  added <arrows>
-version 14
-  added <textformats>, <levels>
-version 13
-  added <text/>
-version 12
-  added "informations" to "audiorecord" and "translation"
-version 11
-  added audiorecord::filename token
-version 10
-  first format's version
+version 18 : keywords used to define text format follow somehow CSS style.
+version 17 : added <aspect>
+version 16 : added <title> and <lettrine>
+version 15 : added <arrows>
+version 14 : added <textformats>, <levels>
+version 13 : added <text/>
+version 12 : added "informations" to "audiorecord" and "translation"
+version 11 : added audiorecord::filename token
+version 10 : first format's version
 
 main.xml, version 15 :
 

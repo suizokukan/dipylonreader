@@ -22,7 +22,7 @@
     ❏Dipylon❏ : qt/textformat.h
 
     TextFormat class, simple wrapper around QTextCharFormat allowing the object
-	to be initialized from a string (see TEXTFORMAT_SRCSTRING_FORMAT below).
+    to be initialized from a string (see TEXTFORMAT_SRCSTRING_FORMAT below).
 
 	____________________________________________________________________________
 
@@ -86,7 +86,7 @@ public:
   */
   enum INTERNALSTATE : int {
     OK = 0,
-	NOT_YET_INITIALIZED = -1,
+    NOT_YET_INITIALIZED = -1,
     BADSRCSTRING_UNKNOWNKEYWORD = -2,
   };
 

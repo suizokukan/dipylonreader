@@ -146,7 +146,10 @@ void DipyDoc::clear(void) {
 
   this->errors.clear();
 
-  this->title = QString("");
+  this->title.clear();
+
+  this->introduction.clear();
+
   this->lettrine = QImage();
   this->lettrine_filename = QString("");
 
@@ -299,9 +302,14 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "\n";
 
   /*............................................................................
-    title : no sub-elements.
+    title :
   ............................................................................*/
-  res += "  <title>$TITLE$</title>\n\n";
+  res += "  <title textformat=\"$TITLETEXTFORMAT$\">$TITLETEXT$</title>\n\n";
+
+  /*............................................................................
+    introduction :
+  ............................................................................*/
+  res += "  <introduction textformat=\"$INTRODUCTIIONTEXTFORMAT$\">$INTRODUCTIONTEXT$</introduction>\n\n";
 
   /*............................................................................
     lettrine : no sub-elements.
@@ -432,7 +440,12 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace( "$DIPYDOCVERSION$", QString().setNum(this->dipydoc_version) );
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
 
-  res.replace( "$TITLE$", this->title );
+  res.replace( "$TITLETEXT$", this->title.text );
+  res.replace( "$TITLETEXTFORMAT$", this->title.strtextformat );
+
+  res.replace( "$INTRODUCTIONTEXT$", this->introduction.text );
+  res.replace( "$INTRODUCTIONTEXTFORMAT$", this->introduction.strtextformat );
+
   res.replace( "$LETTRINE$", this->lettrine_filename );
 
   res.replace( "$SOURCEEDITOR_STYLESHEET$", this->sourceeditor_stylesheet );
@@ -569,6 +582,12 @@ void DipyDoc::init_from_xml(const QString& path) {
         continue;
       }
 
+      if( name == "introduction" ) {
+        this->introduction.strtextformat = xmlreader.attributes().value("textformat").toString();
+        this->introduction.text = xmlreader.readElementText();
+        continue;
+      }
+
       if( name == "karaoke_textformat" ) {
 
         if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
@@ -580,7 +599,6 @@ void DipyDoc::init_from_xml(const QString& path) {
       }
 
       if( name == "lettrine" ) {
-        current_division = DIPYDOCDIV_INSIDE_LETTRINE;
         this->lettrine_filename = xmlreader.attributes().value("filename").toString();
         this->lettrine = QImage(this->lettrine_filename);
         continue;
@@ -640,10 +658,8 @@ void DipyDoc::init_from_xml(const QString& path) {
       }
 
       if( name == "stylesheet" ) {
-        qDebug() << "*****" << static_cast<int>(current_division);
         if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
           this->sourceeditor_stylesheet = xmlreader.readElementText();
-          qDebug() << "*****" << this->sourceeditor_stylesheet;
           continue;
         }
         if ( current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR ) {
@@ -672,7 +688,7 @@ void DipyDoc::init_from_xml(const QString& path) {
         }
 
         if ( current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR ) {
-          this->commentaryeditor_strtextformat =xmlreader.readElementText();
+          this->commentaryeditor_strtextformat = xmlreader.readElementText();
           continue;
         }
 
@@ -682,11 +698,13 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if( name == "textformats" ) {
         current_division = DIPYDOCDIV_INSIDE_TEXTFORMATS;
+        continue;
       }
 
       if( name == "title" ) {
         current_division = DIPYDOCDIV_INSIDE_TITLE;
-        this->title = xmlreader.readElementText();
+        this->title.strtextformat = xmlreader.attributes().value("textformat").toString();
+        this->title.text = xmlreader.readElementText();
         continue;
       }
 
