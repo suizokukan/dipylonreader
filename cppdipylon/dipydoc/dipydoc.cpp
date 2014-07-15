@@ -154,11 +154,7 @@ void DipyDoc::clear(void) {
   this->lettrine_filename = QString("");
 
   this->sourceeditor_stylesheet = fixedparameters::default__sourceeditor_stylesheet;
-  this->sourceeditor_default_strtextformat = fixedparameters::default__sourceeditor_default_strtextformat;
-  this->sourceeditor_karaoke_strtextformat = fixedparameters::default__sourceeditor_karaoke_strtextformat;
-
   this->commentaryeditor_stylesheet = fixedparameters::default__commentaryeditor_stylesheet;
-  this->commentaryeditor_strtextformat = fixedparameters::default__commentaryeditor_strtextformat;
 
   this->dipydoc_version = -1;
   this->languagefromto.clear();

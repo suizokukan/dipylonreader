@@ -60,7 +60,6 @@ public:
     void load_text(const DipyDocSourceText&);
     void modify_the_text_format(PosInTextRanges&);
     void reset_all_text_format_to_default(void);
-    void set_the_text_formats(void);
     void set_the_appearance(void);
     void update_aspect_from_dipydoc_aspect_informations(void);
 
@@ -73,10 +72,6 @@ protected:
 private:
     // DipylonUI object linked to the editor :
     DipylonUI& current_dipylonui;
-
-    // text formats, initialized by this->set_the_text_formats() :
-    QTextCharFormat format_text_bydefault = QTextCharFormat();
-    QTextCharFormat format_text_karaoke = QTextCharFormat();
 
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :

@@ -85,11 +85,3 @@ int BlockFormat::init_from_string(const QString& source_string) {
 
     return res;
 }
-
-/*______________________________________________________________________________
-
-        BlockFormat::qtextblockformat() : return the qtextblockformat attribute.
-______________________________________________________________________________*/
-QTextBlockFormat BlockFormat::qtextblockformat(void) const {
-  return this->_qtextblockformat;
-}

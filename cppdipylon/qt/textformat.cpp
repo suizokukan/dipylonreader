@@ -209,11 +209,3 @@ int TextFormat::init_from_string(const QString& source_string) {
 
     return res;
 }
-
-/*______________________________________________________________________________
-
-        TextFormat::qtextcharformat() : return the qtextcharformat attribute.
-______________________________________________________________________________*/
-QTextCharFormat TextFormat::qtextcharformat(void) const {
-  return this->_qtextcharformat;
-}

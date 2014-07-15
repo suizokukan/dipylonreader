@@ -178,9 +178,13 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   */
 
   // new block for the lettrine and the text :
+  TextFormat text_textformat = TextFormat();
+  text_textformat.init_from_string(this->current_dipylonui.current_dipydoc.sourceeditor_default_strtextformat);
+  QTextCharFormat text_qtextcharformat = text_textformat.qtextcharformat();
+
   QTextBlockFormat text_blockformat = QTextBlockFormat();
   text_blockformat.setAlignment(Qt::AlignLeft);
-  cur.insertBlock( text_blockformat, this->format_text_bydefault );
+  cur.insertBlock( text_blockformat,text_qtextcharformat );
 
 
   QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
@@ -197,7 +201,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
     text
   */
-  cur.setCharFormat( this->format_text_bydefault );
+  cur.setCharFormat( text_qtextcharformat );
   cur.insertText(source_text.text);
 }
 
@@ -411,24 +415,8 @@ void SourceEditor::set_the_appearance(void) {
 
 /*______________________________________________________________________________
 
-  SourceEditor::set_the_text_formats()
-
-  Initialize this->format_text_*
-______________________________________________________________________________*/
-void SourceEditor::set_the_text_formats(void) {
-
-  // default style format :
-  this->format_text_bydefault = TextFormat(current_dipylonui.current_dipydoc.sourceeditor_default_strtextformat).qtextcharformat();
-
-  // karaoke style format :
-  this->format_text_karaoke = TextFormat(current_dipylonui.current_dipydoc.sourceeditor_karaoke_strtextformat).qtextcharformat();
-}
-
-/*______________________________________________________________________________
-
   SourceEditor::update_aspect_from_dipydoc_aspect_informations
 ______________________________________________________________________________*/
 void SourceEditor::update_aspect_from_dipydoc_aspect_informations(void) {
-  this->set_the_text_formats();
   this->set_the_appearance();
 }

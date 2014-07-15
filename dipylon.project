@@ -55,9 +55,13 @@ SOMMAIRE
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 
-- BlockFormat et TextFormat devraient garder la string ayant permis de les initialiser : supprimer les variables conservant cette information.
+{ problème à résoudre SourceEditor::format_text_bydefault à supprimer
+{ passage par référence 
+{ BlockFormat et TextFormat devraient garder la string ayant permis de les initialiser : supprimer les variables conservant cette information.; réécrire  SourceEditor::load_text()
+{ même chose dans commentaryeditor.cpp
+
+- choisir dans main.xml le format du block de texte (pour le moment :  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
 - version 20 de main.xml avec les notes
-- initialiser tous les strtextformat disponibles dans main.xml par des paramètres dans fixedparameters::
 - google/c++lint
 - décalage induit par le titre+intro
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)

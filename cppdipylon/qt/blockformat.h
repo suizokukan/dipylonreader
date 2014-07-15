@@ -55,6 +55,7 @@ class BlockFormat {
 private:
 
   QTextBlockFormat     _qtextblockformat;
+  QString              _strtextblockformat;
   bool                 _well_initialized;
   int                  _internal_state;
 
@@ -89,11 +90,20 @@ public:
 inline BlockFormat::BlockFormat(void) {
   this->_well_initialized = false;
   this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
+  this->_strtextblockformat = QString("");
   this->_qtextblockformat = QTextBlockFormat();
 }
 
 inline int BlockFormat::internal_state(void) const {
   return this->_internal_state;
+}
+
+inline QTextBlockFormat BlockFormat::qtextblockformat(void) const {
+  return this->_qtextblockformat;
+}
+
+inline QString BlockFormat::strtextblockformat(void) const {
+  return this->_strtextblockformat;
 }
 
 inline bool BlockFormat::well_initialized(void) const {

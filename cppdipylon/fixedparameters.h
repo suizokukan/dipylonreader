@@ -74,21 +74,5 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
                                                      "background-color: #191970;"
                                                      "selection-color: yellow;"
                                                      "selection-background-color: red;";
-
-/*
-  source editor text formats :
-
-  text format : see textformat.h::TEXTFORMAT_SRCSTRING_FORMAT format.
-*/
-const QString default__sourceeditor_default_strtextformat  = "color=white;";
-const QString default__sourceeditor_karaoke_strtextformat  = "color=red;";
-
-/*
-  commentary editor text formats :
-
-  text format : see textformat.h::TEXTFORMAT_SRCSTRING_FORMAT format.
-*/
-const QString default__commentaryeditor_strtextformat = "color=yellow;";
-
 }
 #endif

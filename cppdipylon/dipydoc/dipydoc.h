@@ -217,31 +217,24 @@ inline void DipyDocNotes::clear(void) {
 ______________________________________________________________________________*/
 struct LevelDetails {
 
-  bool well_initialized = false;
+  bool       well_initialized = false;
 
-  QString name;
-  // the same information is kept twice : as a QTextCharFormat and as a QString.
-  QString strtextformat;
-  QTextCharFormat textformat;
+  QString    name;
+  TextFormat textformat;
 
-  // default constructor :
-  LevelDetails(void);
-  // constructor from a QString describing the level's details :
-  LevelDetails(QString, QString);
+             // default constructor :
+             LevelDetails(void);
+
+             // constructor from a QString describing the level's details :
+             LevelDetails(QString, QString);
 };
 inline LevelDetails::LevelDetails(void) {
   this->well_initialized = false;
   this->name = QString("");
-  this->strtextformat = QString("");
-  this->textformat = QTextCharFormat();
+  this->textformat = TextFormat();
 }
-inline LevelDetails::LevelDetails(QString _name, QString _strtextformat) : name(_name), strtextformat(_strtextformat) {
-  TextFormat raw_textformat = TextFormat();
-  this->well_initialized = raw_textformat.init_from_string(_strtextformat);
-
-  if( this->well_initialized == true ) {
-    this->textformat = raw_textformat.qtextcharformat();
-  }
+inline LevelDetails::LevelDetails(QString _name, QString _strtextformat) : name(_name), textformat(_strtextformat) {
+  this->well_initialized = this->textformat.well_initialized()
 }
 
 /*______________________________________________________________________________
@@ -295,11 +288,11 @@ private:
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :
   QString              sourceeditor_stylesheet;
-  QString              sourceeditor_default_strtextformat;
-  QString              sourceeditor_karaoke_strtextformat;
+  TextFormat           sourceeditor_default_strtextformat;
+  TextFormat           sourceeditor_karaoke_strtextformat;
   // commentaryeditor.aspect :
   QString              commentaryeditor_stylesheet;
-  QString              commentaryeditor_strtextformat;
+  TextFormat           commentaryeditor_strtextformat;
   // title :
   DipyDocTitle         title;
   // introduction :
