@@ -84,9 +84,9 @@ enum DipyDocDiv : int {
 
 ______________________________________________________________________________*/
 struct DipyDocAudioRecord {
-  QString              name = "";
-  QString              filename = "";    // with full path
-  QString              informations = "";
+  QString              name;
+  QString              filename;    // with full path
+  QString              informations;
   PosInText2PosInAudio text2audio;
   PosInAudio2PosInText audio2text;
 
@@ -108,16 +108,16 @@ inline void DipyDocAudioRecord::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocIntroduction {
-  QString text = "";
-  QString strtextformat = "";
-  QString strblockformat = "";
+  QString text;
+  TextFormat textformat;
+  BlockFormat blockformat;
 
   void    clear(void);
 };
 inline void DipyDocIntroduction::clear(void) {
   this->text = "";
-  this->strtextformat = "";
-  this->strblockformat = "";
+  this->textformat = TextFormat();
+  this->blockformat = BlockFormat();
 }
 
 /*______________________________________________________________________________
@@ -128,10 +128,10 @@ inline void DipyDocIntroduction::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocSourceText {
-  QString text = "";
-  QString name = "";
-  QString filename = "";    // with full path
-  QString informations = "";
+  QString text;
+  QString name;
+  QString filename;    // with full path
+  QString informations;
 
   void    clear(void);
 };
@@ -150,16 +150,16 @@ inline void DipyDocSourceText::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocTitle {
-  QString text = "";
-  QString strtextformat = "";
-  QString strblockformat = "";
+  QString text;
+  TextFormat textformat;
+  BlockFormat blockformat;
 
   void    clear(void);
 };
 inline void DipyDocTitle::clear(void) {
   this->text = "";
-  this->strtextformat = "";
-  this->strblockformat = "";
+  this->textformat = TextFormat();
+  this->blockformat = BlockFormat();
 }
 
 /*______________________________________________________________________________
@@ -170,8 +170,8 @@ inline void DipyDocTitle::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocTranslation {
-  QString       name = "";
-  QString       informations = "";
+  QString       name;
+  QString       informations;
   PosInText2Str translations;
 
   void          clear(void);
@@ -234,7 +234,7 @@ inline LevelDetails::LevelDetails(void) {
   this->textformat = TextFormat();
 }
 inline LevelDetails::LevelDetails(QString _name, QString _strtextformat) : name(_name), textformat(_strtextformat) {
-  this->well_initialized = this->textformat.well_initialized()
+  this->well_initialized = this->textformat.well_initialized();
 }
 
 /*______________________________________________________________________________
@@ -288,11 +288,11 @@ private:
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :
   QString              sourceeditor_stylesheet;
-  TextFormat           sourceeditor_default_strtextformat;
-  TextFormat           sourceeditor_karaoke_strtextformat;
+  TextFormat           sourceeditor_default_textformat;
+  TextFormat           sourceeditor_karaoke_textformat;
   // commentaryeditor.aspect :
   QString              commentaryeditor_stylesheet;
-  TextFormat           commentaryeditor_strtextformat;
+  TextFormat           commentaryeditor_textformat;
   // title :
   DipyDocTitle         title;
   // introduction :

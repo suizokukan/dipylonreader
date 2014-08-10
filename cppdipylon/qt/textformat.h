@@ -67,14 +67,14 @@ private:
   constexpr static const char* SEPARATOR = ";";
 
 public:
-                       TextFormat(void);
-                       TextFormat(const QString&);
+                         TextFormat(void);
+                         TextFormat(const QString&);
 
-  int                  init_from_string(const QString&);
-  int                  internal_state(void) const;
-  QTextCharFormat      qtextcharformat(void) const;
-  QString              strtextformat(void) const;
-  bool                 well_initialized(void) const;
+  int                    init_from_string(const QString&);
+  int                    internal_state(void) const;
+  const QTextCharFormat& qtextcharformat(void) const;
+  const QString&         strtextcharformat(void) const;
+  bool                   well_initialized(void) const;
 
   /*
      INTERNALSTATE
@@ -105,11 +105,11 @@ inline int TextFormat::internal_state(void) const {
   return this->_internal_state;
 }
 
-inline QTextCharFormat TextFormat::qtextcharformat(void) const {
+inline const QTextCharFormat& TextFormat::qtextcharformat(void) const {
   return this->_qtextcharformat;
 }
 
-inline QString TextFormat::strtextcharformat(void) const {
+inline const QString& TextFormat::strtextcharformat(void) const {
   return this->_strtextcharformat;
 }
 

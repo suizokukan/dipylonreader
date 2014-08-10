@@ -135,13 +135,8 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   if ( this->current_dipylonui.current_dipydoc.title.text != "" ) {
 
     // format :
-    TextFormat title_textformat = TextFormat();
-    title_textformat.init_from_string(this->current_dipylonui.current_dipydoc.title.strtextformat);
-    QTextCharFormat title_qtextcharformat = title_textformat.qtextcharformat();
-
-    BlockFormat title_blockformat = BlockFormat();
-    title_blockformat.init_from_string(this->current_dipylonui.current_dipydoc.title.strblockformat);
-    QTextBlockFormat title_qtextblockformat = title_blockformat.qtextblockformat();
+    QTextCharFormat title_qtextcharformat = this->current_dipylonui.current_dipydoc.title.textformat.qtextcharformat();
+    QTextBlockFormat title_qtextblockformat = this->current_dipylonui.current_dipydoc.title.blockformat.qtextblockformat();
 
     cur.insertBlock( title_qtextblockformat, title_qtextcharformat );
 
@@ -157,13 +152,8 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   if ( this->current_dipylonui.current_dipydoc.introduction.text != "" ) {
 
     // format :
-    TextFormat introduction_textformat = TextFormat();
-    introduction_textformat.init_from_string(this->current_dipylonui.current_dipydoc.introduction.strtextformat);
-    QTextCharFormat introduction_qtextcharformat = introduction_textformat.qtextcharformat();
-
-    BlockFormat introduction_blockformat = BlockFormat();
-    introduction_blockformat.init_from_string(this->current_dipylonui.current_dipydoc.introduction.strblockformat);
-    QTextBlockFormat introduction_qtextblockformat = introduction_blockformat.qtextblockformat();
+    QTextCharFormat introduction_qtextcharformat = this->current_dipylonui.current_dipydoc.introduction.textformat.qtextcharformat();
+    QTextBlockFormat introduction_qtextblockformat = this->current_dipylonui.current_dipydoc.introduction.blockformat.qtextblockformat();
 
     cur.insertBlock( introduction_qtextblockformat, introduction_qtextcharformat );
 
@@ -178,9 +168,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   */
 
   // new block for the lettrine and the text :
-  TextFormat text_textformat = TextFormat();
-  text_textformat.init_from_string(this->current_dipylonui.current_dipydoc.sourceeditor_default_strtextformat);
-  QTextCharFormat text_qtextcharformat = text_textformat.qtextcharformat();
+  QTextCharFormat text_qtextcharformat = this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat();
 
   QTextBlockFormat text_blockformat = QTextBlockFormat();
   text_blockformat.setAlignment(Qt::AlignLeft);
@@ -225,7 +213,8 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
       cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
       cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
-      QTextEdit::ExtraSelection sel = { cur, this->format_text_bydefault };
+      QTextEdit::ExtraSelection sel = { cur,
+                                        this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat() };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
@@ -243,7 +232,8 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
       cur.movePosition(QTextCursor::NextCharacter,
                        QTextCursor::KeepAnchor,
                        static_cast<int>(x0x1.second - x0x1.first));
-      QTextEdit::ExtraSelection sel = { cur, this->format_text_karaoke };
+      QTextEdit::ExtraSelection sel = { cur,
+                                        this->current_dipylonui.current_dipydoc.sourceeditor_karaoke_textformat.qtextcharformat() };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
@@ -399,7 +389,8 @@ void SourceEditor::reset_all_text_format_to_default(void) {
 
   cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
   cur.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-  QTextEdit::ExtraSelection sel = { cur, this->format_text_bydefault };
+  QTextEdit::ExtraSelection sel = { cur,
+                                    this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat() };
   selections.append(sel);
 
   cur.clearSelection();

@@ -409,7 +409,7 @@ QString DipyDoc::get_xml_repr(void) const {
     QString new_line("    <level number=\"$NUMBER$\" name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
     new_line.replace( "$NUMBER$", QString().setNum(level.first) );
     new_line.replace( "$NAME$", level.second.name );
-    new_line.replace( "$ASPECT$", level.second.strtextformat );
+    new_line.replace( "$ASPECT$", level.second.textformat.strtextcharformat() );
     res += new_line;
   }
   res += "  </levels>\n";
@@ -437,20 +437,20 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
 
   res.replace( "$TITLETEXT$", this->title.text );
-  res.replace( "$TITLETEXTFORMAT$", this->title.strtextformat );
-  res.replace( "$TITLEBLOCKFORMAT$", this->title.strblockformat );
+  res.replace( "$TITLETEXTFORMAT$", this->title.textformat.strtextcharformat() );
+  res.replace( "$TITLEBLOCKFORMAT$", this->title.blockformat.strtextblockformat() );
 
   res.replace( "$INTRODUCTIONTEXT$", this->introduction.text );
-  res.replace( "$INTRODUCTIONTEXTFORMAT$", this->introduction.strtextformat );
-  res.replace( "$INTRODUCTIONBLOCKFORMAT$", this->introduction.strblockformat );
+  res.replace( "$INTRODUCTIONTEXTFORMAT$", this->introduction.textformat.strtextcharformat() );
+  res.replace( "$INTRODUCTIONBLOCKFORMAT$", this->introduction.blockformat.strtextblockformat() );
 
   res.replace( "$LETTRINE$", this->lettrine_filename );
 
   res.replace( "$SOURCEEDITOR_STYLESHEET$", this->sourceeditor_stylesheet );
-  res.replace( "$SOURCEEDITOR_DEFAULTTEXTFORMAT$", this->sourceeditor_default_strtextformat );
-  res.replace( "$SOURCEEDITOR_KARAOKETEXTFORMAT$", this->sourceeditor_karaoke_strtextformat );
+  res.replace( "$SOURCEEDITOR_DEFAULTTEXTFORMAT$", this->sourceeditor_default_textformat.strtextcharformat() );
+  res.replace( "$SOURCEEDITOR_KARAOKETEXTFORMAT$", this->sourceeditor_karaoke_textformat.strtextcharformat() );
   res.replace( "$COMMENTARYEDITOR_STYLESHEET$", this->commentaryeditor_stylesheet );
-  res.replace( "$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$", this->commentaryeditor_strtextformat );
+  res.replace( "$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$", this->commentaryeditor_textformat.strtextcharformat() );
 
   res.replace( "$AUDIORECORDNAME$", this->audiorecord.name );
   res.replace( "$AUDIORECORDINFORMATIONS$", this->audiorecord.informations );
@@ -566,7 +566,7 @@ void DipyDoc::init_from_xml(const QString& path) {
       if( name == "default_textformat" ) {
 
         if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
-          this->sourceeditor_default_strtextformat = xmlreader.readElementText();
+          this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
           continue;
         }
 
@@ -581,8 +581,8 @@ void DipyDoc::init_from_xml(const QString& path) {
       }
 
       if( name == "introduction" ) {
-        this->introduction.strtextformat = xmlreader.attributes().value("textformat").toString();
-        this->introduction.strblockformat = xmlreader.attributes().value("blockformat").toString();
+        this->introduction.textformat = TextFormat( xmlreader.attributes().value("textformat").toString() );
+        this->introduction.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
         this->introduction.text = xmlreader.readElementText();
         continue;
       }
@@ -590,7 +590,7 @@ void DipyDoc::init_from_xml(const QString& path) {
       if( name == "karaoke_textformat" ) {
 
         if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
-          this->sourceeditor_karaoke_strtextformat = xmlreader.readElementText();
+          this->sourceeditor_karaoke_textformat = TextFormat( xmlreader.readElementText() );
           continue;
         }
 
@@ -687,7 +687,7 @@ void DipyDoc::init_from_xml(const QString& path) {
         }
 
         if ( current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR ) {
-          this->commentaryeditor_strtextformat = xmlreader.readElementText();
+          this->commentaryeditor_textformat = TextFormat( xmlreader.readElementText() );
           continue;
         }
 
@@ -702,8 +702,8 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if( name == "title" ) {
         current_division = DIPYDOCDIV_INSIDE_TITLE;
-        this->title.strtextformat = xmlreader.attributes().value("textformat").toString();
-        this->title.strblockformat = xmlreader.attributes().value("blockformat").toString();
+        this->title.textformat = TextFormat( xmlreader.attributes().value("textformat").toString() );
+        this->title.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
         this->title.text = xmlreader.readElementText();
         continue;
       }

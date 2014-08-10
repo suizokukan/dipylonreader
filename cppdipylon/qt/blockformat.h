@@ -62,13 +62,14 @@ private:
   constexpr static const char* SEPARATOR = ";";
 
 public:
-                       BlockFormat(void);
-                       BlockFormat(const QString&);
+                          BlockFormat(void);
+                          BlockFormat(const QString&);
 
-  int                  init_from_string(const QString&);
-  int                  internal_state(void) const;
-  QTextBlockFormat     qtextblockformat(void) const;
-  bool                 well_initialized(void) const;
+  int                     init_from_string(const QString&);
+  int                     internal_state(void) const;
+  const QString&          strtextblockformat(void) const;
+  const QTextBlockFormat& qtextblockformat(void) const;
+  bool                    well_initialized(void) const;
 
   /*
      INTERNALSTATE
@@ -98,11 +99,11 @@ inline int BlockFormat::internal_state(void) const {
   return this->_internal_state;
 }
 
-inline QTextBlockFormat BlockFormat::qtextblockformat(void) const {
+inline const QTextBlockFormat& BlockFormat::qtextblockformat(void) const {
   return this->_qtextblockformat;
 }
 
-inline QString BlockFormat::strtextblockformat(void) const {
+inline const QString& BlockFormat::strtextblockformat(void) const {
   return this->_strtextblockformat;
 }
 

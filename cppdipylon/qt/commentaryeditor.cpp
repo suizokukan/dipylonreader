@@ -53,7 +53,7 @@ void CommentaryEditor::set_the_appearance(void) {
   Initialize this->format_text_*
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_text_formats(void) {
-  this->format_text = TextFormat(current_dipylonui.current_dipydoc.commentaryeditor_strtextformat).qtextcharformat();
+  this->format_text = current_dipylonui.current_dipydoc.commentaryeditor_textformat.qtextcharformat();
 }
 
 /*______________________________________________________________________________
