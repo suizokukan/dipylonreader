@@ -58,14 +58,14 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
     o _from, _to must be defined in "known_languages" (see languages.h)
 
   ............................................................................*/
-  auto known_languages_end = known_languages.end();
+  auto known_languages_end = languages::known_languages.end();
 
-  if( known_languages.find(this->_from) == known_languages_end ) {
+  if( languages::known_languages.find(this->_from) == known_languages_end ) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_FROMLANGUAGE;
   }
 
-  if( known_languages.find(this->_to) == known_languages_end ) {
+  if( languages::known_languages.find(this->_to) == known_languages_end ) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_TOLANGUAGE;
   }

@@ -121,7 +121,7 @@ inline const QString& LanguageFromTo::from(void) const {
 }
 
 inline const QString& LanguageFromTo::from_longname(void) const {
-  return known_languages.at(this->_from);
+  return languages::known_languages.at(this->_from);
 }
 
 inline const QString& LanguageFromTo::to(void) const {
@@ -129,7 +129,7 @@ inline const QString& LanguageFromTo::to(void) const {
 }
 
 inline const QString& LanguageFromTo::to_longname(void) const {
-  return known_languages.at(this->_to);
+  return languages::known_languages.at(this->_to);
 }
 
 #endif

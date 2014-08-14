@@ -25,12 +25,13 @@
 
 *******************************************************************************/
 
-#ifndef LANGUAGES_H
-#define LANGUAGES_H
+#ifndef CPPDIPYLON_LANGUAGES_LANGUAGES_H_
+#define CPPDIPYLON_LANGUAGES_LANGUAGES_H_
 
-#include <map>
 #include <QString>
 #include <QObject>
+
+#include <map>
 
 /*______________________________________________________________________________
 
@@ -38,12 +39,11 @@
                     their short names (ISO 639-3) and their long names.
 
 ______________________________________________________________________________*/
-namespace {
-  std::map<QString, QString> known_languages = \
-    {
+namespace languages {
+    static std::map<QString, QString> known_languages = {
       { QString("lat"), QString(QObject::tr("Latin")) },
       { QString("fra"), QString(QObject::tr("French")) },
     };
 }
 
-#endif
+#endif  // CPPDIPYLON_LANGUAGES_LANGUAGES_H_

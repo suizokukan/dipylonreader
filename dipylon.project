@@ -57,7 +57,6 @@ SOMMAIRE
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 
-- version maximale de DipyDoc
 - choisir dans main.xml le format du block de texte (pour le moment :  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
 - version 20 de main.xml avec les notes
 - google/c++lint
