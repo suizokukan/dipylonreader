@@ -368,7 +368,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
 
   if( this->current_dipylonui.current_dipydoc.well_initialized() == false ) {
     QMessageBox msgBox;
-    msgBox.setText( tr("Unable to load a DipyDoc from <b>") + directoryName + "</b> ." +\
+    msgBox.setText( tr("Unable to load a (valid) DipyDoc from <b>") + directoryName + "</b> ." +\
                     "<br/><br/>" + this->current_dipylonui.current_dipydoc.diagnosis() + \
                     "<br/><br/>" + tr("See more details below.") );
     this->current_dipylonui.current_dipydoc.errors.prepend( "internal state = " + \

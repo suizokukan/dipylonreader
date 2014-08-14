@@ -57,6 +57,7 @@ SOMMAIRE
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 
+- version maximale de DipyDoc
 - choisir dans main.xml le format du block de texte (pour le moment :  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
 - version 20 de main.xml avec les notes
 - google/c++lint
@@ -72,7 +73,7 @@ SOMMAIRE
         this->levels[ level_number ] = level_name;
         continue;
       }
-- quand un DipyDoc trop ancien (numversion) est lu, le messae d'erreur parle "d'état indéfini" : créer un message d'erreur adapté.
+
 - puisque les textformats sont définis dans main.xml, permettre de définir aussi l'aspect général du texte.
 - click : karaoke.new start
 - segfault avec ALT+F4

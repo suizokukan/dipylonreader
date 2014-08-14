@@ -331,6 +331,7 @@ public:
   bool                 well_initialized(void) const;
 
   static const int     minimal_dipydoc_version = 19;
+  static const int     maximal_dipydoc_version = 19;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
@@ -349,6 +350,8 @@ public:
      o MISSING_MAIN_FILE : the main file doesn't exist in "path".
      o MISSING_TEXT_FILE : the text file doesn't exist in "path".
      o MISSING_AUDIO_FILE : the expected audio file is missing.
+     o OUTDATED_DIPYDOC_VERSION : the version of the DipyDoc is outdated.
+     o DIPYDOC_VERSION_TOO_RECENT : the version of the DipyDoc is too recent.
 
      please update DipyDoc::diagnosis() if you modify this constants.
   */
@@ -362,6 +365,8 @@ public:
     MISSING_TEXT_FILE = -6,
     MISSING_AUDIO_FILE = -7,
     MISSING_SOURCE_TEXT_FILE = -8,
+    OUTDATED_DIPYDOC_VERSION = -9,
+    DIPYDOC_VERSION_TOO_RECENT = -10,
   };
 
   // name of the main file in a dipydoc directory :

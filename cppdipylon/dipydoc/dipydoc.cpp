@@ -224,6 +224,22 @@ QString DipyDoc::diagnosis(void) const {
       return msg;
     }
 
+    case DipyDoc::INTERNALSTATE::OUTDATED_DIPYDOC_VERSION : {
+      QString msg = QObject::tr("The given path contain a DipyDoc document whose version ($VERSION$) is outdated."
+                                "The minimal version being $MINVERSION$, please update your DipyDoc documents.");
+      msg.replace( "$VERSION$", QString().setNum(this->dipydoc_version ));
+      msg.replace( "$MINVERSION$", QString().setNum(this->minimal_dipydoc_version ));
+      return msg;
+    }
+
+    case DipyDoc::INTERNALSTATE::DIPYDOC_VERSION_TOO_RECENT : {
+      QString msg = QObject::tr("The given path contain a DipyDoc document whose version ($VERSION$) is too recent."
+                                "The maximal version being $MAXVERSION$, please update your DipyDoc reader.");
+      msg.replace( "$VERSION$", QString().setNum(this->dipydoc_version ));
+      msg.replace( "$MAXVERSION$", QString().setNum(this->maximal_dipydoc_version ));
+      return msg;
+    }
+
     default : {
       return QObject::tr("anomaly : unknown internal state.");
     }
@@ -756,6 +772,24 @@ void DipyDoc::init_from_xml(const QString& path) {
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append( msg_error );
+
+    this->_internal_state = OUTDATED_DIPYDOC_VERSION;
+
+    qDebug() << msg_error;
+  }
+
+  dipydoc_version_ok = (this->dipydoc_version <= this->maximal_dipydoc_version);
+
+  if( dipydoc_version_ok == false ) {
+    msg_error = "An error occurs while reading the main file; ";
+    msg_error += "the DipyDoc version of the file is too recent";
+    msg_error += "current version = " + QString().setNum(this->dipydoc_version) + "; ";
+    msg_error += "maximal version supported = " + QString().setNum(this->maximal_dipydoc_version) + "; ";
+    msg_error += "filename=" + main_filename;
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append( msg_error );
+
+    this->_internal_state = DIPYDOC_VERSION_TOO_RECENT;
 
     qDebug() << msg_error;
   }
