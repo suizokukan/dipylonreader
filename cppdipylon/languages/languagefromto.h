@@ -43,13 +43,13 @@
 
 *******************************************************************************/
 
-#ifndef LANGUAGEFROMTO_H
-#define LANGUAGEFROMTO_H
+#ifndef CPPDIPYLON_LANGUAGES_LANGUAGEFROMTO_H_
+#define CPPDIPYLON_LANGUAGES_LANGUAGEFROMTO_H_
 
 #include <QString>
 #include <QStringList>
 
-#include "languages.h"
+#include "languages/languages.h"
 
 /*______________________________________________________________________________
 
@@ -57,13 +57,12 @@
 
 ______________________________________________________________________________*/
 class LanguageFromTo {
-
-public:
+ public:
   int             internal_state(void) const;
   bool            well_initialized(void) const;
 
                   LanguageFromTo(void);
-                  LanguageFromTo(const QString&);
+         explicit LanguageFromTo(const QString&);
   void            clear(void);
   const QString&  from(void) const;
   const QString&  from_longname(void) const;
@@ -92,7 +91,7 @@ public:
     UNDEFINED_TOLANGUAGE = -4,
   };
 
-private:
+ private:
   int     _internal_state;
   bool    _well_initialized;
   QString _from;
@@ -132,4 +131,4 @@ inline const QString& LanguageFromTo::to_longname(void) const {
   return languages::known_languages.at(this->_to);
 }
 
-#endif
+#endif  // CPPDIPYLON_LANGUAGES_LANGUAGEFROMTO_H_
