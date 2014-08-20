@@ -59,11 +59,13 @@ SOMMAIRE
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
 
-- choisir dans main.xml le format du block de texte (pour le moment :  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
+- bug : choix du répertoire ???
+- choisir dans main.xml le format du block de texte (pour le moment :  source_editor.cpp::cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
+- vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
+
 - version 20 de main.xml avec les notes
 - google/c++lint
 - décalage induit par le titre+intro
-- vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - Menu : informations sur le dipydoc
 - dans ... , vérifier que "number", "name" existent :
 
