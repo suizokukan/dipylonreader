@@ -171,7 +171,8 @@ int DipylonUI::go(void) {
     see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 
   */
-  QObject::connect(&app, SIGNAL(aboutToQuit()), mainWin, SLOT(closing()));
+  QObject::connect(&app, &QApplication::aboutToQuit,
+                   this->mainWin, &MainWindow::closing);
 
   // main loop :
   return app.exec();

@@ -74,7 +74,7 @@ private slots:
 
     void audiocontrols_play(void);
     void audiocontrols_stop(void);
-    void audio_position_changed(qint64);
+    void audio_position_changed(PosInAudio);
 
     void closing(void);
 

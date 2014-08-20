@@ -27,37 +27,48 @@
 
 #include "qt/mainwindow.h"
 
+/*______________________________________________________________________________
+
+  MainWindow::constructor
+
+______________________________________________________________________________*/
 MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
 {
-    main_splitter = new QSplitter(this);
-    main_splitter->setOrientation( Qt::Vertical );
-    setCentralWidget(main_splitter);
+    this->main_splitter = new QSplitter(this);
+    this->main_splitter->setOrientation( Qt::Vertical );
+    this->setCentralWidget(main_splitter);
 
-    source_editor = new SourceEditor(this->current_dipylonui);
-    commentary_editor = new CommentaryEditor(this->current_dipylonui);
-    main_splitter->addWidget(source_editor);
-    main_splitter->addWidget(commentary_editor);
+    this->source_editor = new SourceEditor(this->current_dipylonui);
+    this->commentary_editor = new CommentaryEditor(this->current_dipylonui);
+    this->main_splitter->addWidget(this->source_editor);
+    this->main_splitter->addWidget(this->commentary_editor);
 
     this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
 
-    createActions();
-    createMenus();
-    createToolBars();
-    createStatusBar();
+    this->createActions();
+    this->createMenus();
+    this->createToolBars();
+    this->createStatusBar();
 
-    readSettings();
+    this->readSettings();
 
-    connect(source_editor->document(), SIGNAL(contentsChanged()),
-            this, SLOT(documentWasModified()));
+    // signal : the document has been modified.
+    connect( this->source_editor->document(), &QTextDocument::contentsChanged,
+             this, &MainWindow::documentWasModified);
 
     /*
       audio_player initialization
+
+      http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
     */
-    // http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
     this->audio_player = new QMediaPlayer(this);
 
-    // $$$can't change qint64 to PosInAudio here...
-    connect(this->audio_player, SIGNAL(positionChanged(qint64)), this, SLOT(audio_position_changed(qint64)));
+    /*
+       signal : the position in the audio record has been changed.
+    */
+    connect( this->audio_player, &QMediaPlayer::positionChanged,
+             this, &MainWindow::audio_position_changed );
+
     this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
     this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
 
@@ -65,26 +76,52 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     setUnifiedTitleAndToolBarOnMac(true);
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::about
+______________________________________________________________________________*/
+void MainWindow::about()
+{
+   QMessageBox::about(this, tr("About Application"),
+            tr("The <b>Application</b> example demonstrates how to "
+               "write modern GUI applications using Qt, with a menu bar, "
+               "toolbars, and a status bar."));
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::closeEvent
+
+  Function called when the main window is closed.
+______________________________________________________________________________*/
 void MainWindow::closeEvent(QCloseEvent *arg_event)
 {
   qDebug() << "MainWindow::closeEvent";
 
-    if (maybeSave()) {
-        writeSettings();
-        arg_event->accept();
-    } else {
-        arg_event->ignore();
-    }
+  if (maybeSave()) {
+      writeSettings();
+      arg_event->accept();
+  } else {
+      arg_event->ignore();
+  }
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::newFile
+_____________________________________________________________________________*/
 void MainWindow::newFile()
 {
-    if (maybeSave()) {
-        source_editor->clear();
-        setCurrentDipyDoc("");
-    }
+  if (maybeSave()) {
+      source_editor->clear();
+      setCurrentDipyDoc("");
+  }
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::open
+______________________________________________________________________________*/
 void MainWindow::open(void) {
 
   if (maybeSave()) {
@@ -100,15 +137,23 @@ void MainWindow::open(void) {
   }
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::save
+______________________________________________________________________________*/
 bool MainWindow::save()
 {
-    if (curFile.isEmpty()) {
-        return saveAs();
-    } else {
-        return saveFile(curFile);
-    }
+  if (curFile.isEmpty()) {
+      return saveAs();
+  } else {
+      return saveFile(curFile);
+  }
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::saveAs
+______________________________________________________________________________*/
 bool MainWindow::saveAs()
 {
     QFileDialog dialog(this);
@@ -123,6 +168,10 @@ bool MainWindow::saveAs()
     return saveFile(files.at(0));
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::saveMainFileOfADipyDocAs
+______________________________________________________________________________*/
 bool MainWindow::saveMainFileOfADipyDocAs()
 {
     QFileDialog dialog(this);
@@ -160,14 +209,6 @@ bool MainWindow::saveMainFileOfADipyDocAs()
     return true;
 }
 
-void MainWindow::about()
-{
-   QMessageBox::about(this, tr("About Application"),
-            tr("The <b>Application</b> example demonstrates how to "
-               "write modern GUI applications using Qt, with a menu bar, "
-               "toolbars, and a status bar."));
-}
-
 void MainWindow::documentWasModified()
 {
     setWindowModified(source_editor->document()->isModified());
@@ -180,37 +221,43 @@ void MainWindow::createActions()
                           this);
     newAct->setShortcuts(QKeySequence::New);
     newAct->setStatusTip(tr("Create a new file"));
-    connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
+    connect(newAct, &QAction::triggered,
+            this, &MainWindow::newFile);
 
     openAct = new QAction( *(this->current_dipylonui.icon_open),
                            tr("&Open"),
                            this);
     openAct->setShortcuts(QKeySequence::Open);
     openAct->setStatusTip(tr("Open an existing DipyDoc"));
-    connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
+    connect(openAct, &QAction::triggered,
+            this, &MainWindow::open);
 
     saveAct = new QAction( *(this->current_dipylonui.icon_save),
                            tr("&Save"),
                            this);
     saveAct->setShortcuts(QKeySequence::Save);
     saveAct->setStatusTip(tr("Save the document to disk"));
-    connect(saveAct, SIGNAL(triggered()), this, SLOT(save()));
+    connect(saveAct, &QAction::triggered,
+            this, &MainWindow::save);
 
     saveAsAct = new QAction(tr("Save &As..."), this);
     saveAsAct->setShortcuts(QKeySequence::SaveAs);
     saveAsAct->setStatusTip(tr("Save the document under a new name"));
-    connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(saveAsAct, &QAction::triggered,
+            this, &MainWindow::saveAs);
 
     #ifdef READANDWRITE
     saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
     saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
-    connect(saveMainFileOfADipyDocAsAct, SIGNAL(triggered()), this, SLOT(saveMainFileOfADipyDocAs()));
+    connect(saveMainFileOfADipyDocAsAct, &QAction::triggered,
+            this, &MainWindow::saveMainFileOfADipyDocAs);
     #endif
 
     exitAct = new QAction(tr("E&xit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
     exitAct->setStatusTip(tr("Exit the application"));
-    connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
+    connect(exitAct, &QAction::triggered,
+            this, &MainWindow::close);
 
     cutAct = new QAction( *(this->current_dipylonui.icon_cut),
                           tr("Cu&t"),
@@ -218,7 +265,8 @@ void MainWindow::createActions()
     cutAct->setShortcuts(QKeySequence::Cut);
     cutAct->setStatusTip(tr("Cut the current selection's contents to the "
                             "clipboard"));
-    connect(cutAct, SIGNAL(triggered()), source_editor, SLOT(cut()));
+    connect(cutAct, &QAction::triggered,
+            source_editor, &QTextEdit::cut);
 
     copyAct = new QAction( *(this->current_dipylonui.icon_copy),
                            tr("&Copy"),
@@ -226,7 +274,8 @@ void MainWindow::createActions()
     copyAct->setShortcuts(QKeySequence::Copy);
     copyAct->setStatusTip(tr("Copy the current selection's contents to the "
                              "clipboard"));
-    connect(copyAct, SIGNAL(triggered()), source_editor, SLOT(copy()));
+    connect(copyAct, &QAction::triggered,
+            source_editor, &QTextEdit::copy);
 
     pasteAct = new QAction( *(this->current_dipylonui.icon_paste),
                             tr("&Paste"),
@@ -234,40 +283,39 @@ void MainWindow::createActions()
     pasteAct->setShortcuts(QKeySequence::Paste);
     pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
                               "selection"));
-    connect(pasteAct, SIGNAL(triggered()), source_editor, SLOT(paste()));
+    connect(pasteAct, &QAction::triggered,
+            source_editor, &QTextEdit::paste);
 
     aboutAct = new QAction(tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+    connect(aboutAct, &QAction::triggered,
+            this, &MainWindow::about);
 
     aboutQtAct = new QAction(tr("About &Qt"), this);
     aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(aboutQtAct, &QAction::triggered,
+            qApp, &QApplication::aboutQt);
 
     cutAct->setEnabled(false);
     copyAct->setEnabled(false);
-    connect(source_editor, SIGNAL(copyAvailable(bool)),
-            cutAct, SLOT(setEnabled(bool)));
-    connect(source_editor, SIGNAL(copyAvailable(bool)),
-            copyAct, SLOT(setEnabled(bool)));
+    connect(source_editor, &QTextEdit::copyAvailable,
+            cutAct, &QAction::setEnabled);
+    connect(source_editor, &QTextEdit::copyAvailable,
+            copyAct, &QAction::setEnabled);
 
     this->audiocontrols_playAct = new QAction( *(this->current_dipylonui.icon_audio_play),
                                                tr("play"),
                                                this);
     this->audiocontrols_playAct->setStatusTip(tr("play..."));
-    connect(this->audiocontrols_playAct,
-            SIGNAL(triggered()),
-            this,
-            SLOT(audiocontrols_play()));
+    connect(this->audiocontrols_playAct, &QAction::triggered,
+            this, &MainWindow::audiocontrols_play);
 
     this->audiocontrols_stopAct = new QAction( *(this->current_dipylonui.icon_audio_stop),
                                                tr("stop"),
                                                this);
     this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
-    connect(this->audiocontrols_stopAct,
-            SIGNAL(triggered()),
-            this,
-            SLOT(audiocontrols_stop()));
+    connect(this->audiocontrols_stopAct, &QAction::triggered,
+            this, &MainWindow::audiocontrols_stop);
 
     // let's update icons' appearence :
     this->update_the_icons_according_to_the_current_dipydoc();
@@ -587,7 +635,9 @@ void MainWindow::audiocontrols_stop(void) {
   this->source_editor->reset_all_text_format_to_default();
 }
 
-// "qint64" and not PosInAudio
+/*
+    qint64 is another name for PosInAudio. See posinaudio.h for more details.
+*/
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
   /* KARAOKE + PLAYING :
@@ -625,7 +675,6 @@ void MainWindow::load_text(const DipyDocSourceText& source_text)  {
   this->source_editor->load_text(source_text);
 }
 
-// app::SIGNAL(aboutToQuit()) -> mainWin::SLOT(closing())
 /*
   from the doc of QCoreApplication::exec:
 

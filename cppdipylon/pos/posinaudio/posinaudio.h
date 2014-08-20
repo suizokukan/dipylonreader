@@ -37,6 +37,9 @@
   qint64 : Typedef for long long int (__int64 on Windows). This type is guaranteed to be 64-bit on all platforms supported by Qt.
 
  from http://qt-project.org/doc/qt-5/qtglobal.html#qint64-typedef
+
+ Several lines of code (linked to Qt signals) in this project assume that PosInAudio is equal to qint64.
+ see http://stackoverflow.com/questions/25402685
 */
 typedef qint64 PosInAudio;
 

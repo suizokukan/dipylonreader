@@ -28,6 +28,7 @@ SOMMAIRE
     [4.2] Qt et les destructors
     [4.3] Qt et XML
         [4.3.1] ordre de lecture entre xmlreader.attributes().value() et xmlreader.readElementText()
+    [4.4] Qt5 et les signaux
 
 [5] découpage audio
 
@@ -625,8 +626,25 @@ OUI :
 PosInTextRanges textranges( xmlreader.attributes().value("textranges").toString() );
 QString text(xmlreader.readElementText());
 
+################################################################################
+[4.4] Qt5 et les signaux
+################################################################################
 
+utiliser la nouvelle syntaxe :
 
+non pas
+    connect(sender, SIGNAL(valueChanged(QString,QString)),
+                 receiver, SLOT(updateValue(QString)) );
+
+mais :
+    connect(sender, &Sender::valueChanged,
+                 receiver, &Receiver::updateValue );
+
+Grâce à cette nouvelle syntaxe, c'est le compilateur qui évalue les arguments; 
+avec l'ancienne syntaxe seul MOC se chargeait d'analyser des chaînes de
+caractères.
+
+Référence : http://qt-project.org/wiki/New_Signal_Slot_Syntax
 
 ################################################################################
 [5] découpage audio
