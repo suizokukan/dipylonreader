@@ -213,7 +213,8 @@ QString DipyDoc::diagnosis(void) const {
     }
 
     case DipyDoc::INTERNALSTATE::MISSING_AUDIO_FILE : {
-      QString msg = QObject::tr("The given path doesn't contain the expected audio file, '$FILENAME$'.");
+      QString msg = QObject::tr("The given path doesn't contain the expected audio file ('$FILENAME$') "
+                                "whose name was given in the DipyDoc.");
       msg.replace( "$FILENAME$", this->audiorecord.filename );
       return msg;
     }
@@ -359,24 +360,27 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     audiorecord : the functions reads through this->audiorecord.text2audio with sorted keys.
   ............................................................................*/
-  res += "\n";
-  list_of_posintextranges.clear();
-  res += "  <audiorecord \n"
-         "        name=\"$AUDIORECORDNAME$\" \n"
-         "        filename=\"$AUDIORECORDFILENAME$\" \n"
-         "        informations=\"$AUDIORECORDINFORMATIONS$\" \n"
-         "  >\n";
-  for(auto &textrange : this->audiorecord.text2audio) {
-    list_of_posintextranges.vposintextranges.push_back( textrange.first );
-  }
-  list_of_posintextranges.sort();
-  for(auto &textranges : list_of_posintextranges.vposintextranges) {
-    QString new_line("    <segment textranges=\"$TEXTRANGE$\" audiorange=\"$AUDIORANGE$\" srctext=\"$TEXT$\" />\n");
-    new_line.replace( "$TEXTRANGE$", textranges.to_str() );
-    PosInAudioRange posinaudiorange( this->audiorecord.text2audio[textranges] );
-    new_line.replace( "$AUDIORANGE$", posinaudiorange.to_str() );
-    new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30) );
-    res += new_line;
+  if( this->audiorecord.available == true ) {
+    res += "\n";
+    list_of_posintextranges.clear();
+    res += "  <audiorecord \n"
+           "        name=\"$AUDIORECORDNAME$\" \n"
+           "        filename=\"$AUDIORECORDFILENAME$\" \n"
+           "        informations=\"$AUDIORECORDINFORMATIONS$\" \n"
+           "  >\n";
+
+      for(auto &textrange : this->audiorecord.text2audio) {
+        list_of_posintextranges.vposintextranges.push_back( textrange.first );
+      }
+      list_of_posintextranges.sort();
+      for(auto &textranges : list_of_posintextranges.vposintextranges) {
+        QString new_line("    <segment textranges=\"$TEXTRANGE$\" audiorange=\"$AUDIORANGE$\" srctext=\"$TEXT$\" />\n");
+        new_line.replace( "$TEXTRANGE$", textranges.to_str() );
+        PosInAudioRange posinaudiorange( this->audiorecord.text2audio[textranges] );
+        new_line.replace( "$AUDIORANGE$", posinaudiorange.to_str() );
+        new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30) );
+        res += new_line;
+      }
   }
   res += "  </audiorecord>\n";
 
@@ -568,6 +572,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if( name == "audiorecord" ) {
         current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
+        this->audiorecord.available = true;
         this->audiorecord.name = xmlreader.attributes().value("name").toString();
         this->audiorecord.filename = path + "/" + xmlreader.attributes().value("filename").toString();
         this->audiorecord.informations = xmlreader.attributes().value("informations").toString();
@@ -753,7 +758,13 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (4) initialize "audio2text"
   ............................................................................*/
-  this->audiorecord.audio2text = PosInAudio2PosInText( this->audiorecord.text2audio );
+  if( this->audiorecord.available == true ) {
+    this->audiorecord.audio2text = PosInAudio2PosInText( this->audiorecord.text2audio );
+  }
+  else {
+    // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
+    this->audiorecord.audio2text.clear();
+  }
 
   /*............................................................................
     (5) checks
@@ -811,7 +822,8 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.3) is audiorecord.text2audio correctly initialized ?
   ............................................................................*/
-  if( this->audiorecord.text2audio.well_initialized() == false ) {
+  if( this->audiorecord.available == true and \
+      this->audiorecord.text2audio.well_initialized() == false ) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "text2audio isn't correctly initialized";
     msg_error += "message error due to the PosInText2PosInAudio object =" + QString().setNum(this->audiorecord.text2audio.internal_state());
@@ -825,7 +837,8 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.4) is audio2text correctly initialized ?
   ............................................................................*/
-  if( this->audiorecord.audio2text.well_initialized() == false ) {
+  if( this->audiorecord.available == true and \
+      this->audiorecord.audio2text.well_initialized() == false ) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "audio2text isn't correctly initialized";
     msg_error += "message error due to the PosInAudio2PosInText object =" + QString().setNum(this->audiorecord.audio2text.internal_state());
@@ -855,19 +868,22 @@ void DipyDoc::init_from_xml(const QString& path) {
   ............................................................................*/
   bool audiofile_ok = true;
 
-  QFile audiofile( this->audiorecord.filename );
-  if (!audiofile.open(QFile::ReadOnly) ) {
-    audiofile_ok = false;
+  if( this->audiorecord.available == true ) {
 
-    msg_error = "An error occurs while opening the audio file; ";
-    msg_error += "filename=" + this->audiorecord.filename;
-    msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+      QFile audiofile( this->audiorecord.filename );
+      if (!audiofile.open(QFile::ReadOnly) ) {
+        audiofile_ok = false;
 
-    this->_internal_state = MISSING_AUDIO_FILE;
+        msg_error = "An error occurs while opening the audio file; ";
+        msg_error += "filename=" + this->audiorecord.filename;
+        msg_error += "[in the function DipyDoc::init_from_xml]";
+        this->errors.append( msg_error );
 
-    qDebug() << msg_error;
-    }
+        this->_internal_state = MISSING_AUDIO_FILE;
+
+        qDebug() << msg_error;
+        }
+  }
 
   /*............................................................................
     (5.7) does the text file exist ?

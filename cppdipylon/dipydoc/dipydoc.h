@@ -84,6 +84,7 @@ enum DipyDocDiv : int {
 
 ______________________________________________________________________________*/
 struct DipyDocAudioRecord {
+  bool                 available;
   QString              name;
   QString              filename;    // with full path
   QString              informations;
@@ -93,6 +94,7 @@ struct DipyDocAudioRecord {
   void                 clear(void);
 };
 inline void DipyDocAudioRecord::clear(void) {
+  this->available = false;
   this->name = "";
   this->filename = "";
   this->informations = "";
@@ -331,7 +333,7 @@ public:
   bool                 well_initialized(void) const;
 
   static const int     minimal_dipydoc_version = 19;
-  static const int     maximal_dipydoc_version = 19;
+  static const int     maximal_dipydoc_version = 20;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

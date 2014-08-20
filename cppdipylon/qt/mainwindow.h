@@ -92,7 +92,7 @@ private:
     bool saveFile(const QString &fileName);
     void setCurrentDipyDoc(const QString&);
     QString strippedName(const QString &fullFileName);
-
+    void update_the_icons_according_to_the_current_dipydoc(void);
 
     SourceEditor *source_editor = nullptr;
     CommentaryEditor *commentary_editor = nullptr;

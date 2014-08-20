@@ -251,17 +251,26 @@ void MainWindow::createActions()
     connect(source_editor, SIGNAL(copyAvailable(bool)),
             copyAct, SLOT(setEnabled(bool)));
 
-    audiocontrols_playAct = new QAction( *(this->current_dipylonui.icon_audio_play),
-                                         tr("play"),
-                                         this);
-    audiocontrols_playAct->setStatusTip(tr("play..."));
-    connect(audiocontrols_playAct, SIGNAL(triggered()), this, SLOT(audiocontrols_play()));
+    this->audiocontrols_playAct = new QAction( *(this->current_dipylonui.icon_audio_play),
+                                               tr("play"),
+                                               this);
+    this->audiocontrols_playAct->setStatusTip(tr("play..."));
+    connect(this->audiocontrols_playAct,
+            SIGNAL(triggered()),
+            this,
+            SLOT(audiocontrols_play()));
 
-    audiocontrols_stopAct = new QAction( *(this->current_dipylonui.icon_audio_stop),
-                                         tr("stop"),
-                                         this);
-    audiocontrols_stopAct->setStatusTip(tr("stop..."));
-    connect(audiocontrols_stopAct, SIGNAL(triggered()), this, SLOT(audiocontrols_stop()));
+    this->audiocontrols_stopAct = new QAction( *(this->current_dipylonui.icon_audio_stop),
+                                               tr("stop"),
+                                               this);
+    this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
+    connect(this->audiocontrols_stopAct,
+            SIGNAL(triggered()),
+            this,
+            SLOT(audiocontrols_stop()));
+
+    // let's update icons' appearence :
+    this->update_the_icons_according_to_the_current_dipydoc();
 }
 
 void MainWindow::createMenus()
@@ -302,8 +311,8 @@ void MainWindow::createToolBars()
     editToolBar->addAction(pasteAct);
 
     audiocontrolsToolBar = addToolBar(tr("AudioControls"));
-    audiocontrolsToolBar->addAction(audiocontrols_playAct);
-    audiocontrolsToolBar->addAction(audiocontrols_stopAct);
+    audiocontrolsToolBar->addAction(this->audiocontrols_playAct);
+    audiocontrolsToolBar->addAction(this->audiocontrols_stopAct);
 }
 
 void MainWindow::createStatusBar()
@@ -367,6 +376,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
   this->current_dipylonui.current_dipydoc = DipyDoc(directoryName);
 
   if( this->current_dipylonui.current_dipydoc.well_initialized() == false ) {
+    // an error occurs :
     QMessageBox msgBox;
     msgBox.setText( tr("Unable to load a (valid) DipyDoc from <b>") + directoryName + "</b> ." +\
                     "<br/><br/>" + this->current_dipylonui.current_dipydoc.diagnosis() + \
@@ -377,9 +387,13 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
     msgBox.exec();
   }
   else {
+    // no error, let's load the DipyDoc :
     this->load_text(this->current_dipylonui.current_dipydoc.source_text);
-    qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord.filename;
-    this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord.filename));
+
+    if( this->current_dipylonui.current_dipydoc.audiorecord.available == true ) {
+      qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord.filename;
+      this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord.filename));
+    }
   }
 
   #ifndef QT_NO_CURSOR
@@ -395,8 +409,47 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
     this->commentary_editor->update_aspect_from_dipydoc_aspect_informations();
 
     // update the rest of the UI :
+    this->update_the_icons_according_to_the_current_dipydoc();
     setCurrentDipyDoc(directoryName);
     statusBar()->showMessage(tr("DipyDoc loaded"), 2000);
+  }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::update_the_icons_according_to_the_current_dipydoc
+
+  Modify the icon's appearence along the current DipyDoc.
+
+________________________________________________________________________________*/
+void MainWindow::update_the_icons_according_to_the_current_dipydoc(void) {
+
+  if( this->current_dipylonui.current_dipydoc.well_initialized() == false ||
+      (this->current_dipylonui.current_dipydoc.well_initialized() == true and
+       this->current_dipylonui.current_dipydoc.audiorecord.available == false) ) {
+
+    /*
+       No current DipyDoc or no audio in the current DipyDoc :
+    */
+    this->audiocontrols_playAct->setEnabled(false);
+    // we refresh the icon to display it using only shades of gray :
+    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+
+    this->audiocontrols_stopAct->setEnabled(false);
+    // we refresh the icon to display it using only shades of gray :
+    this->audiocontrols_stopAct->setIcon( *(this->current_dipylonui.icon_audio_stop) );
+  }
+  else {
+    /*
+       the current DipyDoc is ok and contains an audio record :
+    */
+    this->audiocontrols_playAct->setEnabled(true);
+    // we refresh the icon to display it in colors :
+    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+
+    this->audiocontrols_stopAct->setEnabled(true);
+    // we refresh the icon to display it in colors :
+    this->audiocontrols_stopAct->setIcon( *(this->current_dipylonui.icon_audio_stop) );
   }
 }
 
@@ -446,7 +499,7 @@ QString MainWindow::strippedName(const QString &fullFileName)
 
   MainWindow::audiocontrols_play()
 
-  Function connected to audiocontrols_playAct::triggered()
+  Function connected to this->audiocontrols_playAct::triggered()
 
   known cases :
 
@@ -509,7 +562,7 @@ void MainWindow::audiocontrols_play(void)
 
   MainWindow::audiocontrols_stop()
 
-  Function connected to audiocontrols_stopAct::triggered()
+  Function connected to this->audiocontrols_stopAct::triggered()
 
   o set the reading mode to UNDEFINED.
   o stop the sound

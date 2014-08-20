@@ -75,7 +75,9 @@ DipylonUI::~DipylonUI(void) {
   delete icon_paste;
   delete icon_audio_pause;
   delete icon_audio_play;
+  delete icon_audio_play_unavailable;
   delete icon_audio_stop;
+  delete icon_audio_stop_unavailable;
   qDebug() << "DipylonUI::~DipylonUI(#fin)";
 }
 
@@ -153,7 +155,9 @@ int DipylonUI::go(void) {
   this->icon_paste = new QIcon(":ressources/images/icons/paste.png");
   this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
   this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
+  this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
+  this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
 
   // main window creation :
   this->mainWin = new MainWindow(*this);

@@ -56,7 +56,9 @@ SOMMAIRE
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
+*0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
 
+- trier et annoter mainwindow.cpp + mainwindow.h
 - choisir dans main.xml le format du block de texte (pour le moment :  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
 - version 20 de main.xml avec les notes
 - google/c++lint
@@ -705,6 +707,7 @@ sous Linux : ./dipylon > output 2>&1
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
+version 20 : audiorecord is optional : if no audiorecord block found, no audio available.
 version 19 : added <introduction> and block format.
 version 18 : keywords used to define text format follow somehow CSS style.
 version 17 : added <aspect>
@@ -716,11 +719,11 @@ version 12 : added "informations" to "audiorecord" and "translation"
 version 11 : added audiorecord::filename token
 version 10 : first format's version
 
-main.xml, version 19 :
+main.xml, version 20 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<dipydoc dipydoc_version="10" languages="lat->fra" filename="record.ogg">
+<dipydoc dipydoc_version="20" languages="lat->fra" filename="record.ogg">
 
   <title textformat="color: yellow" blockformat="alignment:right" >TITRE</title>
 

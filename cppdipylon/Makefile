@@ -504,8 +504,10 @@ qrc_dipylon.cpp: dipylon.qrc \
 		ressources/images/icons/audio_stop.png \
 		ressources/images/icons/copy.png \
 		ressources/images/icons/audio_play.png \
+		ressources/images/icons/audio_play_unavailable.png \
 		ressources/images/icons/new.png \
-		ressources/images/icons/paste.png
+		ressources/images/icons/paste.png \
+		ressources/images/icons/audio_stop_unavailable.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp

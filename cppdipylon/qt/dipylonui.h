@@ -70,7 +70,9 @@ private:
   QIcon*      icon_paste = nullptr;
   QIcon*      icon_audio_pause = nullptr;
   QIcon*      icon_audio_play = nullptr;
+  QIcon*      icon_audio_play_unavailable = nullptr;
   QIcon*      icon_audio_stop = nullptr;
+  QIcon*      icon_audio_stop_unavailable = nullptr;
 
   // path to the DipyDocs : the initial value is initialized by DipylonUI's constructor.
   QString     path_to_dipydocs;
