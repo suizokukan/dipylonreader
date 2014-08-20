@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : qt/mainwindow.h
 
-    the MainWindow object : see http://qt-project.org/doc/qt-5/qmainwindow.html
+    about the MainWindow object : see http://qt-project.org/doc/qt-5/qmainwindow.html
 
 *******************************************************************************/
 
@@ -64,60 +64,57 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
+    void about();
+    void audiocontrols_play(void);
+    void audiocontrols_stop(void);
+    void audio_position_changed(PosInAudio);
+    void closing(void);
+    void documentWasModified();
     void newFile();
     void open();
     bool save();
     bool saveAs();
     bool saveMainFileOfADipyDocAs();
-    void about();
-    void documentWasModified();
-
-    void audiocontrols_play(void);
-    void audiocontrols_stop(void);
-    void audio_position_changed(PosInAudio);
-
-    void closing(void);
 
 private:
     DipylonUI& current_dipylonui;
 
-    void createActions();
-    void createMenus();
-    void createToolBars();
-    void createStatusBar();
-    void readSettings();
-    void writeSettings();
-    bool maybeSave();
-    void loadDipyDoc(const QString&);
-    bool saveFile(const QString &fileName);
-    void setCurrentDipyDoc(const QString&);
-    QString strippedName(const QString &fullFileName);
-    void update_the_icons_according_to_the_current_dipydoc(void);
+    void    createActions();
+    void    createMenus();
+    void    createStatusBar();
+    void    createToolBars();
+    void    loadDipyDoc(const QString&);
+    bool    maybeSave();
+    void    readSettings();
+    bool    saveFile(const QString &fileName);
+    void    setCurrentDipyDoc(const QString&);
+    void    update_the_icons_according_to_the_current_dipydoc(void);
+    void    writeSettings();
 
-    SourceEditor *source_editor = nullptr;
+    SourceEditor     *source_editor = nullptr;
     CommentaryEditor *commentary_editor = nullptr;
-    QSplitter *main_splitter = nullptr;
-    QString curFile;
+    QSplitter        *main_splitter = nullptr;
+    QString          curFile;
 
-    QMenu *fileMenu = nullptr;
-    QMenu *editMenu = nullptr;
-    QMenu *helpMenu = nullptr;
-    QToolBar *fileToolBar = nullptr;
-    QToolBar *editToolBar = nullptr;
-    QAction *newAct = nullptr;
-    QAction *openAct = nullptr;
-    QAction *saveAct = nullptr;
-    QAction *saveAsAct = nullptr;
-    QAction *saveMainFileOfADipyDocAsAct = nullptr;
-    QAction *exitAct = nullptr;
-    QAction *cutAct = nullptr;
-    QAction *copyAct = nullptr;
-    QAction *pasteAct = nullptr;
-    QAction *aboutAct = nullptr;
-    QAction *aboutQtAct = nullptr;
+    QMenu     *fileMenu = nullptr;
+    QMenu     *editMenu = nullptr;
+    QMenu     *helpMenu = nullptr;
+    QToolBar  *fileToolBar = nullptr;
+    QToolBar  *editToolBar = nullptr;
+    QAction   *newAct = nullptr;
+    QAction   *openAct = nullptr;
+    QAction   *saveAct = nullptr;
+    QAction   *saveAsAct = nullptr;
+    QAction   *saveMainFileOfADipyDocAsAct = nullptr;
+    QAction   *exitAct = nullptr;
+    QAction   *cutAct = nullptr;
+    QAction   *copyAct = nullptr;
+    QAction   *pasteAct = nullptr;
+    QAction   *aboutAct = nullptr;
+    QAction   *aboutQtAct = nullptr;
 
-    QAction* audiocontrols_playAct = nullptr;
-    QAction* audiocontrols_stopAct = nullptr;
+    QAction*  audiocontrols_playAct = nullptr;
+    QAction*  audiocontrols_stopAct = nullptr;
     QToolBar* audiocontrolsToolBar = nullptr;
 
     QMediaPlayer* audio_player = nullptr;

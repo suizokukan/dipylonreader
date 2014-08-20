@@ -90,6 +90,136 @@ void MainWindow::about()
 
 /*______________________________________________________________________________
 
+  MainWindow::audiocontrols_play()
+
+  Function connected to this->audiocontrols_playAct::triggered()
+
+  known cases :
+
+  o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
+  o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
+  o [1.3] KARAOKE + UNDEFINED : nothing to do.
+  o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
+
+________________________________________________________________________________*/
+void MainWindow::audiocontrols_play(void)
+{
+
+  switch( this->current_dipylonui.reading_mode ) {
+
+    case DipylonUI::READINGMODE_KARAOKE: {
+
+      switch( this->current_dipylonui.reading_mode_details ) {
+
+        //......................................................................
+        // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
+          this->audio_player->pause();
+          break;
+        }
+
+        //......................................................................
+        // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+          this->audio_player->play();
+          break;
+        }
+
+        // [1.3] KARAOKE + UNDEFINED : nothing to do.
+        default : {
+          break;
+        }
+      }
+
+      break;
+    }
+
+    //..........................................................................
+    //[2] UNDEFINED reading mode -> KARAOKE + PLAYING
+    default: {
+        this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
+        this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+        this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+        this->audio_player->play();
+        break;
+    }
+
+  }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::audiocontrols_stop()
+
+  Function connected to this->audiocontrols_stopAct::triggered()
+
+  o set the reading mode to UNDEFINED.
+  o stop the sound
+  o set the source editor's text format to "default".
+
+________________________________________________________________________________*/
+void MainWindow::audiocontrols_stop(void) {
+  qDebug() << "MainWindow::audiocontrols_stop";
+
+  // KARAOKE + ON PAUSE ? we set the icon from "pause" to "play".
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
+      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE ) {
+
+    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+  }
+
+  this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
+  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
+
+  audio_player->stop();
+
+  this->source_editor->reset_all_text_format_to_default();
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::audio_position_changed
+
+________________________________________________________________________________*/
+void MainWindow::audio_position_changed(qint64 arg_pos) {
+
+  /* KARAOKE + PLAYING :
+   */
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
+      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING ) {
+
+      // where are the characters linked to "arg_pos" ?
+      PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
+      std::size_t text_ranges_hash = text_ranges.get_hash();
+
+      if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
+
+        // the function modifies the appearence of such characters :
+        this->source_editor->modify_the_text_format(text_ranges);
+
+        // hash update :
+        this->source_editor->modified_chars_hash = text_ranges_hash;
+
+        this->current_dipylonui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
+      }
+
+      return;
+  }
+
+  /*
+    this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
+    this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE
+
+    -> nothing to do.
+  */
+}
+
+/*______________________________________________________________________________
+
   MainWindow::closeEvent
 
   Function called when the main window is closed.
@@ -108,112 +238,22 @@ void MainWindow::closeEvent(QCloseEvent *arg_event)
 
 /*______________________________________________________________________________
 
-  MainWindow::newFile
-_____________________________________________________________________________*/
-void MainWindow::newFile()
-{
-  if (maybeSave()) {
-      source_editor->clear();
-      setCurrentDipyDoc("");
-  }
+  MainWindow::closing
+
+  from the doc of QCoreApplication::exec:
+
+    We recommend that you connect clean-up code to the aboutToQuit() signal, instead of putting it in your application's main() function because on some platforms the QCoreApplication::exec() call may not return. For example, on Windows when the user logs off, the system terminates the process after Qt closes all top-level windows. Hence, there is no guarantee that the application will have time to exit its event loop and execute code at the end of the main() function after the QCoreApplication::exec() call.
+
+    see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
+________________________________________________________________________________*/
+void MainWindow::closing(void) {
+  qDebug() << "MainWindow::closing";
 }
 
 /*______________________________________________________________________________
 
-  MainWindow::open
+  MainWindow::createActions
 ______________________________________________________________________________*/
-void MainWindow::open(void) {
-
-  if (maybeSave()) {
-      QString directoryName = QFileDialog::getExistingDirectory(this,
-                                                                QObject::tr("Open a DipyDoc directory"),
-                                                                this->current_dipylonui.path_to_dipydocs,
-                                                                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-
-    if (!directoryName.isEmpty()) {
-           loadDipyDoc(directoryName);
-           this->current_dipylonui.path_to_dipydocs = directoryName;
-    }
-  }
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::save
-______________________________________________________________________________*/
-bool MainWindow::save()
-{
-  if (curFile.isEmpty()) {
-      return saveAs();
-  } else {
-      return saveFile(curFile);
-  }
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::saveAs
-______________________________________________________________________________*/
-bool MainWindow::saveAs()
-{
-    QFileDialog dialog(this);
-    dialog.setWindowModality(Qt::WindowModal);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    dialog.exec();
-    QStringList files = dialog.selectedFiles();
-
-    if (files.isEmpty())
-        return false;
-
-    return saveFile(files.at(0));
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::saveMainFileOfADipyDocAs
-______________________________________________________________________________*/
-bool MainWindow::saveMainFileOfADipyDocAs()
-{
-    QFileDialog dialog(this);
-    dialog.setWindowModality(Qt::WindowModal);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    dialog.exec();
-    QStringList files = dialog.selectedFiles();
-
-    if (files.isEmpty()) {
-      return false;
-    }
-
-    QString fileName = files.at(0);
-
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot write file %1:\n%2.")
-                             .arg(fileName)
-                             .arg(file.errorString()));
-        return false;
-    }
-
-    QTextStream out(&file);
-#ifndef QT_NO_CURSOR
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-#endif
-    out << this->current_dipylonui.current_dipydoc.get_xml_repr();
-#ifndef QT_NO_CURSOR
-    QApplication::restoreOverrideCursor();
-#endif
-
-    setCurrentDipyDoc(fileName);
-    statusBar()->showMessage(tr("File saved"), 2000);
-    return true;
-}
-
-void MainWindow::documentWasModified()
-{
-    setWindowModified(source_editor->document()->isModified());
-}
-
 void MainWindow::createActions()
 {
     newAct = new QAction( *(this->current_dipylonui.icon_new),
@@ -321,6 +361,10 @@ void MainWindow::createActions()
     this->update_the_icons_according_to_the_current_dipydoc();
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::createMenus
+______________________________________________________________________________*/
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
@@ -346,6 +390,19 @@ void MainWindow::createMenus()
     helpMenu->addAction(aboutQtAct);
 }
 
+/*______________________________________________________________________________
+
+  MainWindow::createStatusBar
+______________________________________________________________________________*/
+void MainWindow::createStatusBar()
+{
+    statusBar()->showMessage(tr("Ready"));
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::createToolBars
+______________________________________________________________________________*/
 void MainWindow::createToolBars()
 {
     fileToolBar = addToolBar(tr("File"));
@@ -363,47 +420,13 @@ void MainWindow::createToolBars()
     audiocontrolsToolBar->addAction(this->audiocontrols_stopAct);
 }
 
-void MainWindow::createStatusBar()
+/*______________________________________________________________________________
+
+  MainWindow::documentWasModified
+______________________________________________________________________________*/
+void MainWindow::documentWasModified()
 {
-    statusBar()->showMessage(tr("Ready"));
-}
-
-void MainWindow::readSettings()
-{
-    QSettings settings("QtProject", "Application Example");
-    QPoint _pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize _size = settings.value("size", QSize(400, 400)).toSize();
-    resize(_size);
-    move(_pos);
-}
-
-void MainWindow::writeSettings()
-{
-    QSettings settings("QtProject", "Application Example");
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-}
-
-/* http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
-
-The maybeSave() function is called to save pending changes. If there are pending changes, it pops up a QMessageBox giving the user to save the document. The options are QMessageBox::Yes, QMessageBox::No, and QMessageBox::Cancel. The Yes button is made the default button (the button that is invoked when the user presses Return) using the QMessageBox::Default flag; the Cancel button is made the escape button (the button that is invoked when the user presses Esc) using the QMessageBox::Escape flag.
-
-The maybeSave() function returns true in all cases, except when the user clicks Cancel. The caller must check the return value and stop whatever it was doing if the return value is false.
-*/
-bool MainWindow::maybeSave()
-{
-    if (source_editor->document()->isModified()) {
-        QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, tr("Application"),
-                     tr("The document has been modified.\n"
-                        "Do you want to save your changes?"),
-                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-        if (ret == QMessageBox::Save)
-            return save();
-        else if (ret == QMessageBox::Cancel)
-            return false;
-    }
-    return true;
+    setWindowModified(source_editor->document()->isModified());
 }
 
 /*______________________________________________________________________________
@@ -465,6 +488,204 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
 
 /*______________________________________________________________________________
 
+  MainWindow::load_text
+
+________________________________________________________________________________*/
+void MainWindow::load_text(const DipyDocSourceText& source_text)  {
+  this->source_editor->load_text(source_text);
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::maybeSave
+
+ http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
+
+The maybeSave() function is called to save pending changes. If there are pending changes, it pops up a QMessageBox giving the user to save the document. The options are QMessageBox::Yes, QMessageBox::No, and QMessageBox::Cancel. The Yes button is made the default button (the button that is invoked when the user presses Return) using the QMessageBox::Default flag; the Cancel button is made the escape button (the button that is invoked when the user presses Esc) using the QMessageBox::Escape flag.
+
+The maybeSave() function returns true in all cases, except when the user clicks Cancel. The caller must check the return value and stop whatever it was doing if the return value is false.
+______________________________________________________________________________*/
+bool MainWindow::maybeSave()
+{
+    if (source_editor->document()->isModified()) {
+        QMessageBox::StandardButton ret;
+        ret = QMessageBox::warning(this, tr("Application"),
+                     tr("The document has been modified.\n"
+                        "Do you want to save your changes?"),
+                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        if (ret == QMessageBox::Save)
+            return save();
+        else if (ret == QMessageBox::Cancel)
+            return false;
+    }
+    return true;
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::newFile
+_____________________________________________________________________________*/
+void MainWindow::newFile()
+{
+  if (maybeSave()) {
+      source_editor->clear();
+      setCurrentDipyDoc("");
+  }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::open
+______________________________________________________________________________*/
+void MainWindow::open(void) {
+
+  if (maybeSave()) {
+      QString directoryName = QFileDialog::getExistingDirectory(this,
+                                                                QObject::tr("Open a DipyDoc directory"),
+                                                                this->current_dipylonui.path_to_dipydocs,
+                                                                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (!directoryName.isEmpty()) {
+           loadDipyDoc(directoryName);
+           this->current_dipylonui.path_to_dipydocs = directoryName;
+    }
+  }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::readSettings
+______________________________________________________________________________*/
+void MainWindow::readSettings()
+{
+    QSettings settings("QtProject", "Application Example");
+    QPoint _pos = settings.value("pos", QPoint(200, 200)).toPoint();
+    QSize _size = settings.value("size", QSize(400, 400)).toSize();
+    resize(_size);
+    move(_pos);
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::save
+______________________________________________________________________________*/
+bool MainWindow::save()
+{
+  if (curFile.isEmpty()) {
+      return saveAs();
+  } else {
+      return saveFile(curFile);
+  }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::saveAs
+______________________________________________________________________________*/
+bool MainWindow::saveAs()
+{
+    QFileDialog dialog(this);
+    dialog.setWindowModality(Qt::WindowModal);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.exec();
+    QStringList files = dialog.selectedFiles();
+
+    if (files.isEmpty())
+        return false;
+
+    return saveFile(files.at(0));
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::saveFile
+
+________________________________________________________________________________*/
+bool MainWindow::saveFile(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Application"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return false;
+    }
+
+    QTextStream out(&file);
+#ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+#endif
+    out << source_editor->toPlainText();
+#ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+#endif
+
+    setCurrentDipyDoc(fileName);
+    statusBar()->showMessage(tr("File saved"), 2000);
+    return true;
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::saveMainFileOfADipyDocAs
+______________________________________________________________________________*/
+bool MainWindow::saveMainFileOfADipyDocAs()
+{
+    QFileDialog dialog(this);
+    dialog.setWindowModality(Qt::WindowModal);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.exec();
+    QStringList files = dialog.selectedFiles();
+
+    if (files.isEmpty()) {
+      return false;
+    }
+
+    QString fileName = files.at(0);
+
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Application"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return false;
+    }
+
+    QTextStream out(&file);
+#ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+#endif
+    out << this->current_dipylonui.current_dipydoc.get_xml_repr();
+#ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+#endif
+
+    setCurrentDipyDoc(fileName);
+    statusBar()->showMessage(tr("File saved"), 2000);
+    return true;
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::setCurrentDipyDoc
+
+________________________________________________________________________________*/
+void MainWindow::setCurrentDipyDoc(const QString &directoryName)
+{
+    curFile = directoryName;
+    source_editor->document()->setModified(false);
+    setWindowModified(false);
+
+    QString shownName = curFile;
+    if (curFile.isEmpty())
+        shownName = "untitled.txt";
+    setWindowFilePath(shownName);
+}
+
+/*______________________________________________________________________________
+
   MainWindow::update_the_icons_according_to_the_current_dipydoc
 
   Modify the icon's appearence along the current DipyDoc.
@@ -501,187 +722,13 @@ void MainWindow::update_the_icons_according_to_the_current_dipydoc(void) {
   }
 }
 
-bool MainWindow::saveFile(const QString &fileName)
-{
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot write file %1:\n%2.")
-                             .arg(fileName)
-                             .arg(file.errorString()));
-        return false;
-    }
-
-    QTextStream out(&file);
-#ifndef QT_NO_CURSOR
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-#endif
-    out << source_editor->toPlainText();
-#ifndef QT_NO_CURSOR
-    QApplication::restoreOverrideCursor();
-#endif
-
-    setCurrentDipyDoc(fileName);
-    statusBar()->showMessage(tr("File saved"), 2000);
-    return true;
-}
-
-void MainWindow::setCurrentDipyDoc(const QString &directoryName)
-{
-    curFile = directoryName;
-    source_editor->document()->setModified(false);
-    setWindowModified(false);
-
-    QString shownName = curFile;
-    if (curFile.isEmpty())
-        shownName = "untitled.txt";
-    setWindowFilePath(shownName);
-}
-
-QString MainWindow::strippedName(const QString &fullFileName)
-{
-    return QFileInfo(fullFileName).fileName();
-}
-
 /*______________________________________________________________________________
 
-  MainWindow::audiocontrols_play()
-
-  Function connected to this->audiocontrols_playAct::triggered()
-
-  known cases :
-
-  o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-  o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-  o [1.3] KARAOKE + UNDEFINED : nothing to do.
-  o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
-
-________________________________________________________________________________*/
-void MainWindow::audiocontrols_play(void)
+  MainWindow::writeSettings
+______________________________________________________________________________*/
+void MainWindow::writeSettings()
 {
-
-  switch( this->current_dipylonui.reading_mode ) {
-
-    case DipylonUI::READINGMODE_KARAOKE: {
-
-      switch( this->current_dipylonui.reading_mode_details ) {
-
-        //......................................................................
-        // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
-          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
-          this->audio_player->pause();
-          break;
-        }
-
-        //......................................................................
-        // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
-          this->audio_player->play();
-          break;
-        }
-
-        // [1.3] KARAOKE + UNDEFINED : nothing to do.
-        default : {
-          break;
-        }
-      }
-
-      break;
-    }
-
-    //..........................................................................
-    //[2] UNDEFINED reading mode -> KARAOKE + PLAYING
-    default: {
-        this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
-        this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-        this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
-        this->audio_player->play();
-        break;
-    }
-
-  }
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::audiocontrols_stop()
-
-  Function connected to this->audiocontrols_stopAct::triggered()
-
-  o set the reading mode to UNDEFINED.
-  o stop the sound
-  o set the source editor's text format to "default".
-
-________________________________________________________________________________*/
-void MainWindow::audiocontrols_stop(void) {
-  qDebug() << "MainWindow::audiocontrols_stop";
-
-  // KARAOKE + ON PAUSE ? we set the icon from "pause" to "play".
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
-      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE ) {
-
-    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
-  }
-
-  this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
-  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
-
-  audio_player->stop();
-
-  this->source_editor->reset_all_text_format_to_default();
-}
-
-/*
-    qint64 is another name for PosInAudio. See posinaudio.h for more details.
-*/
-void MainWindow::audio_position_changed(qint64 arg_pos) {
-
-  /* KARAOKE + PLAYING :
-   */
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
-      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING ) {
-
-      // where are the characters linked to "arg_pos" ?
-      PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
-      std::size_t text_ranges_hash = text_ranges.get_hash();
-
-      if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
-
-        // the function modifies the appearence of such characters :
-        this->source_editor->modify_the_text_format(text_ranges);
-
-        // hash update :
-        this->source_editor->modified_chars_hash = text_ranges_hash;
-
-        this->current_dipylonui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
-      }
-
-      return;
-  }
-
-  /*
-    this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
-    this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE
-
-    -> nothing to do.
-  */
-}
-
-void MainWindow::load_text(const DipyDocSourceText& source_text)  {
-  this->source_editor->load_text(source_text);
-}
-
-/*
-  from the doc of QCoreApplication::exec:
-
-    We recommend that you connect clean-up code to the aboutToQuit() signal, instead of putting it in your application's main() function because on some platforms the QCoreApplication::exec() call may not return. For example, on Windows when the user logs off, the system terminates the process after Qt closes all top-level windows. Hence, there is no guarantee that the application will have time to exit its event loop and execute code at the end of the main() function after the QCoreApplication::exec() call.
-
-    see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
-*/
-void MainWindow::closing(void) {
-  qDebug() << "MainWindow::closing";
+    QSettings settings("QtProject", "Application Example");
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
 }

@@ -59,7 +59,6 @@ SOMMAIRE
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 *0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
 
-- trier et annoter mainwindow.cpp + mainwindow.h
 - choisir dans main.xml le format du block de texte (pour le moment :  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
 - version 20 de main.xml avec les notes
 - google/c++lint
