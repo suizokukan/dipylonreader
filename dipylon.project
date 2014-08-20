@@ -57,7 +57,7 @@ SOMMAIRE
 0.2.3 : karaoke mode with the translations displayed in the commentary zone
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
-*0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
+0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
 
 - choisir dans main.xml le format du block de texte (pour le moment :  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
 - version 20 de main.xml avec les notes

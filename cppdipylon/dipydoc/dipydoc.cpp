@@ -381,8 +381,8 @@ QString DipyDoc::get_xml_repr(void) const {
         new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30) );
         res += new_line;
       }
+    res += "  </audiorecord>\n";
   }
-  res += "  </audiorecord>\n";
 
   /*............................................................................
      translation : the functions reads through this->translation.translations with sorted keys.
