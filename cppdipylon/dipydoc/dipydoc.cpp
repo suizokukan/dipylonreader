@@ -147,9 +147,7 @@ void DipyDoc::clear(void) {
   this->errors.clear();
 
   this->title.clear();
-
   this->introduction.clear();
-
   this->lettrine.clear();
 
   this->sourceeditor_stylesheet = fixedparameters::default__sourceeditor_stylesheet;
@@ -338,17 +336,23 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     title :
   ............................................................................*/
-  res += "  <title textformat=\"$TITLETEXTFORMAT$\" blockformat=\"$TITLEBLOCKFORMAT$\" >$TITLETEXT$</title>\n\n";
+  if( this->title.available == true ) {
+    res += "  <title textformat=\"$TITLETEXTFORMAT$\" blockformat=\"$TITLEBLOCKFORMAT$\" >$TITLETEXT$</title>\n\n";
+  }
 
   /*............................................................................
     introduction :
   ............................................................................*/
-  res += "  <introduction textformat=\"$INTRODUCTIONTEXTFORMAT$\" blockformat=\"$INTRODUCTIONBLOCKFORMAT$\">$INTRODUCTIONTEXT$</introduction>\n\n";
+  if( this->introduction.available == true ) {
+    res += "  <introduction textformat=\"$INTRODUCTIONTEXTFORMAT$\" blockformat=\"$INTRODUCTIONBLOCKFORMAT$\">$INTRODUCTIONTEXT$</introduction>\n\n";
+  }
 
   /*............................................................................
     lettrine :
   ............................................................................*/
-  res += "  <lettrine filename=\"$LETTRINEFILENAME$\" positionintextframe=\"$LETTRINEPOSITIONINTEXTFRAME$\" aspectratio=\"$LETTRINEASPECTRATIO$\"/>\n\n";
+  if( this->lettrine.available == true ) {
+    res += "  <lettrine filename=\"$LETTRINEFILENAME$\" positionintextframe=\"$LETTRINEPOSITIONINTEXTFRAME$\" aspectratio=\"$LETTRINEASPECTRATIO$\"/>\n\n";
+  }
 
   /*............................................................................
     text : no sub-elements.
@@ -627,6 +631,7 @@ void DipyDoc::init_from_xml(const QString& path) {
       }
 
       if( name == "introduction" ) {
+        this->introduction.available = true;
         this->introduction.textformat = TextFormat( xmlreader.attributes().value("textformat").toString() );
         this->introduction.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
         this->introduction.text = xmlreader.readElementText();
@@ -752,6 +757,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if( name == "title" ) {
         current_division = DIPYDOCDIV_INSIDE_TITLE;
+        this->title.available = true;
         this->title.textformat = TextFormat( xmlreader.attributes().value("textformat").toString() );
         this->title.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
         this->title.text = xmlreader.readElementText();

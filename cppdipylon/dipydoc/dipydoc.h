@@ -111,13 +111,15 @@ inline void DipyDocAudioRecord::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocIntroduction {
-  QString text;
-  TextFormat textformat;
+  bool        available;
+  QString     text;
+  TextFormat  textformat;
   BlockFormat blockformat;
 
-  void    clear(void);
+  void        clear(void);
 };
 inline void DipyDocIntroduction::clear(void) {
+  this->available = false;
   this->text = "";
   this->textformat = TextFormat();
   this->blockformat = BlockFormat();
@@ -153,13 +155,15 @@ inline void DipyDocSourceText::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocTitle {
-  QString text;
-  TextFormat textformat;
+  bool        available;
+  QString     text;
+  TextFormat  textformat;
   BlockFormat blockformat;
 
-  void    clear(void);
+  void        clear(void);
 };
 inline void DipyDocTitle::clear(void) {
+  this->available = false;
   this->text = "";
   this->textformat = TextFormat();
   this->blockformat = BlockFormat();

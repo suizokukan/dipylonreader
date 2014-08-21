@@ -132,7 +132,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
      title
   */
-  if ( this->current_dipylonui.current_dipydoc.title.text != "" ) {
+  if ( this->current_dipylonui.current_dipydoc.title.available == true ) {
 
     // format :
     QTextCharFormat title_qtextcharformat = this->current_dipylonui.current_dipydoc.title.textformat.qtextcharformat();
@@ -149,7 +149,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
     introduction
   */
-  if ( this->current_dipylonui.current_dipydoc.introduction.text != "" ) {
+  if ( this->current_dipylonui.current_dipydoc.introduction.available == true ) {
 
     // format :
     QTextCharFormat introduction_qtextcharformat = this->current_dipylonui.current_dipydoc.introduction.textformat.qtextcharformat();
@@ -164,7 +164,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   }
 
   /*
-     lettrine ("initial") :
+     lettrine ("initial") + text
   */
 
   // new block for the lettrine and the text :

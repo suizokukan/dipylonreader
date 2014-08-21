@@ -60,9 +60,7 @@ SOMMAIRE
 0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
 *0.2.7 : DipyDoc's version = 21 (lettrine format)
 
-- pourquoi title & intro n'ont-ils pas d'available ? Cela permettrait de ne pas écrire inutilement un titre/une intro blanche ?
 - dans dipydoc.cpp, il reste des $$$ (et dans le reste du code ?)
-- dans dipydoc.h, utiliser le passage par référence pour soulager les constructeurs.
 
 - choisir dans main.xml le format du block de texte (pour le moment : source_editor.cpp::cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
 
