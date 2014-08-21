@@ -606,7 +606,9 @@ QString DipyDoc::get_xml_repr(void) const {
         (3) xml reading
             (3.1) main file reading
             (3.2) was the xml reading of the main file ok ?
-        (4) initialize "audiorecord.audio2text"
+        (4) secondary initializations
+            (4.1) initialization of "audiorecord.audio2text"
+            (4.2) (false) initialization of "number_of_chars_before_source_text"
         (5) checks
             (5.1) is the version of the Dipy doc correct ?
             (5.2) is the object languagefromto correctly initialized ?
@@ -871,7 +873,11 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
-    (4) initialize "audio2text"
+    (4) secondary initializations
+  ............................................................................*/
+
+  /*............................................................................
+    (4.1) initialization of "audiorecord.audio2text"
   ............................................................................*/
   if( this->audiorecord.available == true ) {
     this->audiorecord.audio2text = PosInAudio2PosInText( this->audiorecord.text2audio );
@@ -880,6 +886,29 @@ void DipyDoc::init_from_xml(const QString& path) {
     // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
     this->audiorecord.audio2text.clear();
   }
+
+  /*............................................................................
+    (4.2) (false) initialization of "number_of_chars_before_source_text"
+
+    The first attempt to compute "number_of_chars_before_source_text was doubtfull :
+
+      this->source_text.number_of_chars_before_source_text = 0;
+      if( this->title.available == true ) {
+        this->source_text.number_of_chars_before_source_text += this->title.text.length();
+      }
+      if( this->introduction.available == true ) {
+        this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
+      }
+      if( this->lettrine.available == true ) {
+        this->source_text.number_of_chars_before_source_text += 1;
+      }
+
+    ... the main problem was that it's difficult to know how is the lettrine's
+    image coded into the text. The result was ok but I can not trust this
+    code : how will Qt work on different architectures ? So I decided to ask
+    SourceEditor::load_text() to initialize "number_of_chars_before_source_text"
+    by simply incrementing a cursor's position as the document is filled.
+  ............................................................................*/
 
   /*............................................................................
     (5) checks

@@ -192,7 +192,13 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
   /*
     text
+
+     about the followig initialization of "number_of_chars_before_source_text" :
+     see DipyDoc::init_from_xml() to see why this attribute has not been
+     initialized before.
   */
+  this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text = cur.position();
+
   cur.setCharFormat( text_qtextcharformat );
   cur.insertText(source_text.text);
 }
@@ -208,15 +214,20 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
   if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
 
+   int shift = this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text;
+
    QTextCursor cur = this->textCursor();
 
    // first we set the ancient modified text's appearance to "default" :
    QList<QTextEdit::ExtraSelection> selections;
 
     for(auto &x0x1 : this->modified_chars ) {
-      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
-      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, static_cast<int>(x0x1.first));
-      cur.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
+      cur.movePosition(QTextCursor::Start,
+                       QTextCursor::MoveAnchor);
+      cur.movePosition(QTextCursor::NextCharacter,
+                       QTextCursor::MoveAnchor, static_cast<int>(x0x1.first) + shift);
+      cur.movePosition(QTextCursor::NextCharacter,
+                       QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
       QTextEdit::ExtraSelection sel = { cur,
                                         this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat() };
       selections.append(sel);
@@ -227,12 +238,16 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
    // ... and then we modify the new text's appearance :
     for(auto &x0x1 : positions ) {
-      qDebug() << "SourceEditor::modify_the_text_format=" << static_cast<int>(x0x1.first) << "-" << static_cast<int>(x0x1.second);
+      qDebug() << "SourceEditor::modify_the_text_format=" << \
+               static_cast<int>(x0x1.first) + shift << \
+               "-" << \
+               static_cast<int>(x0x1.second);
 
-      cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+      cur.movePosition(QTextCursor::Start,
+                       QTextCursor::MoveAnchor);
       cur.movePosition(QTextCursor::NextCharacter,
                        QTextCursor::MoveAnchor,
-                       static_cast<int>(x0x1.first));
+                       static_cast<int>(x0x1.first) + shift);
       cur.movePosition(QTextCursor::NextCharacter,
                        QTextCursor::KeepAnchor,
                        static_cast<int>(x0x1.second - x0x1.first));

@@ -62,11 +62,11 @@ SOMMAIRE
 0.2.8 : DipyDoc's version = 22 (text reading direction)
 
 - dans dipydoc.cpp, il reste des $$$ (et dans le reste du code ?)
+- expliquer ce qu'est "aspectratio" dans la doc.
 
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes
 - google/c++lint
-- décalage induit par le titre+intro
 - Menu : informations sur le dipydoc
 - dans ... , vérifier que "number", "name" existent :
 
