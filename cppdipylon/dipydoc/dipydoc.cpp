@@ -150,8 +150,7 @@ void DipyDoc::clear(void) {
 
   this->introduction.clear();
 
-  this->lettrine = QImage();
-  this->lettrine_filename = QString("");
+  this->lettrine.clear();
 
   this->sourceeditor_stylesheet = fixedparameters::default__sourceeditor_stylesheet;
   this->commentaryeditor_stylesheet = fixedparameters::default__commentaryeditor_stylesheet;
@@ -197,30 +196,34 @@ QString DipyDoc::diagnosis(void) const {
     }
 
     case DipyDoc::INTERNALSTATE::PATH_IS_A_FILE : {
-      return QObject::tr("The given path is a file.");
+      return QObject::tr("The given path is a file : a DipyDoc is a folder with several files.");
     }
 
     case DipyDoc::INTERNALSTATE::MISSING_MAIN_FILE : {
-      QString msg = QObject::tr("The given path doesn't contain the expected main file, '$FILENAME$'.");
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the given path doesn't contain the expected main file, '$FILENAME$'.");
       msg.replace( "$FILENAME$", this->MAIN_FILENAME );
       return msg;
     }
 
     case DipyDoc::INTERNALSTATE::MISSING_TEXT_FILE : {
-      QString msg = QObject::tr("The given path doesn't contain the expected text file, '$FILENAME$'.");
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the given path doesn't contain the expected text file, '$FILENAME$'.");
       msg.replace( "$FILENAME$", this->source_text.filename );
       return msg;
     }
 
     case DipyDoc::INTERNALSTATE::MISSING_AUDIO_FILE : {
-      QString msg = QObject::tr("The given path doesn't contain the expected audio file ('$FILENAME$') "
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the given path doesn't contain the expected audio file ('$FILENAME$') "
                                 "whose name was given in the DipyDoc.");
       msg.replace( "$FILENAME$", this->audiorecord.filename );
       return msg;
     }
 
     case DipyDoc::INTERNALSTATE::MISSING_SOURCE_TEXT_FILE : {
-      QString msg = QObject::tr("The given path doesn't contain the expected text file, '$FILENAME$'.");
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the given path doesn't contain the expected text file, '$FILENAME$'.");
       msg.replace( "$FILENAME$", this->source_text.filename );
       return msg;
     }
@@ -238,6 +241,24 @@ QString DipyDoc::diagnosis(void) const {
                                 "The maximal version being $MAXVERSION$, please update your DipyDoc reader.");
       msg.replace( "$VERSION$", QString().setNum(this->dipydoc_version ));
       msg.replace( "$MAXVERSION$", QString().setNum(this->maximal_dipydoc_version ));
+      return msg;
+    }
+
+    case DipyDoc::WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO : {
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the given ratio aspect of the lettrine is zero or above. "
+                                "A correct value would be greater than 0."
+                                "Value given in main.xml : $LETTRINEASPECTRATIO");
+      msg.replace( "$LETTRINEASPECTRATIO$", QString().setNum(this->lettrine.aspectratio) );
+      return msg;
+    }
+
+    case DipyDoc::MISSING_LETTRINE_FILE : {
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the given path doesn't contain the expected lettrine file image."
+                                "In main.xml the name '$LETTRINEFILENAME$' appears but such a file "
+                                "can't be found in the given path.");
+      msg.replace( "$LETTRINEFILENAME$", this->lettrine.filename );
       return msg;
     }
 
@@ -322,12 +343,12 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     introduction :
   ............................................................................*/
-  res += "  <introduction textformat=\"$INTRODUCTIONTEXTFORMAT$\" blockformat=\"$TITLEBLOCKFORMAT$\">$INTRODUCTIONTEXT$</introduction>\n\n";
+  res += "  <introduction textformat=\"$INTRODUCTIONTEXTFORMAT$\" blockformat=\"$INTRODUCTIONBLOCKFORMAT$\">$INTRODUCTIONTEXT$</introduction>\n\n";
 
   /*............................................................................
-    lettrine : no sub-elements.
+    lettrine :
   ............................................................................*/
-  res += "  <lettrine filename=\"$LETTRINE$\" />\n\n";
+  res += "  <lettrine filename=\"$LETTRINEFILENAME$\" positionintextframe=\"$LETTRINEPOSITIONINTEXTFRAME$\" aspectratio=\"$LETTRINEASPECTRATIO$\"/>\n\n";
 
   /*............................................................................
     text : no sub-elements.
@@ -429,7 +450,7 @@ QString DipyDoc::get_xml_repr(void) const {
     QString new_line("    <level number=\"$NUMBER$\" name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
     new_line.replace( "$NUMBER$", QString().setNum(level.first) );
     new_line.replace( "$NAME$", level.second.name );
-    new_line.replace( "$ASPECT$", level.second.textformat.strtextcharformat() );
+    new_line.replace( "$ASPECT$", level.second.textformat.repr() );
     res += new_line;
   }
   res += "  </levels>\n";
@@ -457,20 +478,22 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
 
   res.replace( "$TITLETEXT$", this->title.text );
-  res.replace( "$TITLETEXTFORMAT$", this->title.textformat.strtextcharformat() );
-  res.replace( "$TITLEBLOCKFORMAT$", this->title.blockformat.strtextblockformat() );
+  res.replace( "$TITLETEXTFORMAT$", this->title.textformat.repr() );
+  res.replace( "$TITLEBLOCKFORMAT$", this->title.blockformat.repr() );
 
   res.replace( "$INTRODUCTIONTEXT$", this->introduction.text );
-  res.replace( "$INTRODUCTIONTEXTFORMAT$", this->introduction.textformat.strtextcharformat() );
-  res.replace( "$INTRODUCTIONBLOCKFORMAT$", this->introduction.blockformat.strtextblockformat() );
+  res.replace( "$INTRODUCTIONTEXTFORMAT$", this->introduction.textformat.repr() );
+  res.replace( "$INTRODUCTIONBLOCKFORMAT$", this->introduction.blockformat.repr() );
 
-  res.replace( "$LETTRINE$", this->lettrine_filename );
+  res.replace( "$LETTRINEFILENAME$", this->lettrine.filename );
+  res.replace( "$LETTRINEASPECTRATIO$", QString().setNum(this->lettrine.aspectratio) );
+  res.replace( "$LETTRINEPOSITIONINTEXTFRAME$$", this->lettrine.position_in_text_frame.repr() );
 
   res.replace( "$SOURCEEDITOR_STYLESHEET$", this->sourceeditor_stylesheet );
-  res.replace( "$SOURCEEDITOR_DEFAULTTEXTFORMAT$", this->sourceeditor_default_textformat.strtextcharformat() );
-  res.replace( "$SOURCEEDITOR_KARAOKETEXTFORMAT$", this->sourceeditor_karaoke_textformat.strtextcharformat() );
+  res.replace( "$SOURCEEDITOR_DEFAULTTEXTFORMAT$", this->sourceeditor_default_textformat.repr() );
+  res.replace( "$SOURCEEDITOR_KARAOKETEXTFORMAT$", this->sourceeditor_karaoke_textformat.repr() );
   res.replace( "$COMMENTARYEDITOR_STYLESHEET$", this->commentaryeditor_stylesheet );
-  res.replace( "$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$", this->commentaryeditor_textformat.strtextcharformat() );
+  res.replace( "$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$", this->commentaryeditor_textformat.repr() );
 
   res.replace( "$AUDIORECORDNAME$", this->audiorecord.name );
   res.replace( "$AUDIORECORDINFORMATIONS$", this->audiorecord.informations );
@@ -512,6 +535,8 @@ QString DipyDoc::get_xml_repr(void) const {
             (5.5) is translation correctly initialized ?
             (5.6) does the audio file exist ?
             (5.7) does the text file exist ?
+            (5.8) is the aspectratio of the lettrine correctly initialized ?
+            (5.9) does the lettrine's file exist ?
         (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
@@ -619,8 +644,12 @@ void DipyDoc::init_from_xml(const QString& path) {
       }
 
       if( name == "lettrine" ) {
-        this->lettrine_filename = xmlreader.attributes().value("filename").toString();
-        this->lettrine = QImage(this->lettrine_filename);
+        this->lettrine.well_initialized = true; // this will be checked later.
+        this->lettrine.available = true;
+        this->lettrine.filename = xmlreader.attributes().value("filename").toString();
+        this->lettrine.aspectratio = xmlreader.attributes().value("aspectratio").toInt();
+        this->lettrine.position_in_text_frame = PosInTextFrameFormat( xmlreader.attributes().value("positionintextframe").toString() );
+        this->lettrine.image = QImage(this->lettrine.filename);
         continue;
       }
 
@@ -905,6 +934,37 @@ void DipyDoc::init_from_xml(const QString& path) {
     }
 
   /*............................................................................
+    (5.8) is the aspectratio of the lettrine correctly initialized ?
+  ............................................................................*/
+  if( this->lettrine.available == true && this->lettrine.aspectratio <= 0 ) {
+    msg_error = "the aspect ratio defined for the lettrine isn't correct; "
+                "accepted values are integers greater than 0."
+                "given aspectratio = " + QString().setNum(this->lettrine.aspectratio);
+    this->errors.append( msg_error );
+
+    this->_internal_state = WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO;
+
+    qDebug() << msg_error;
+  }
+
+  /*............................................................................
+    (5.9) does the lettrine's file exist ?
+  ............................................................................*/
+  if( this->lettrine.available == true ) {
+      QFile lettrinefile( this->lettrine.filename );
+      if (!lettrinefile.open(QFile::ReadOnly) ) {
+        msg_error = "An error occurs while reading the lettrine's file; ";
+        msg_error += "filename=" + this->lettrine.filename;
+        msg_error += "[in the function DipyDoc::init_from_xml]";
+        this->errors.append( msg_error );
+
+        this->_internal_state = MISSING_LETTRINE_FILE;
+
+        qDebug() << msg_error;
+        }
+  }
+
+  /*............................................................................
     (6) initializaton of _well_initialized
   ............................................................................*/
   this->_well_initialized = xml_reading_is_ok and \
@@ -914,7 +974,8 @@ void DipyDoc::init_from_xml(const QString& path) {
                             this->audiorecord.audio2text.well_initialized() and \
                             this->translation.translations.well_initialized() and \
                             audiofile_ok and \
-                            textfile_ok;
+                            textfile_ok and \
+                            this->lettrine.well_initialized;
 
   qDebug() << "DipyDoc::init_from_xml" << "xml:this->_well_initialized" << this->_well_initialized;
 }

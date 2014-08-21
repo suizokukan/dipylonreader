@@ -169,22 +169,26 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
   // new block for the lettrine and the text :
   QTextCharFormat text_qtextcharformat = this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat();
-
   QTextBlockFormat text_blockformat = QTextBlockFormat();
   text_blockformat.setAlignment(Qt::AlignLeft);
-  cur.insertBlock( text_blockformat,text_qtextcharformat );
+  cur.insertBlock( text_blockformat, text_qtextcharformat );
 
+  if ( this->current_dipylonui.current_dipydoc.lettrine.available == true )
+  {
+    int aspectratio = this->current_dipylonui.current_dipydoc.lettrine.aspectratio;
 
-  QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
+    QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
 
-  qtextdocument->addResource(QTextDocument::ImageResource, QUrl("lettrine"), lettrine_img);
+    qtextdocument->addResource(QTextDocument::ImageResource, QUrl("lettrine"), lettrine_img);
 
-  QTextImageFormat qtextimageformat = QTextImageFormat();
-  qtextimageformat.setWidth( lettrine_img.width()/5 );
-  qtextimageformat.setHeight( lettrine_img.height()/5 );
-  qtextimageformat.setName("lettrine");
+    QTextImageFormat qtextimageformat = QTextImageFormat();
+    qtextimageformat.setWidth(  lettrine_img.width()  / aspectratio );
+    qtextimageformat.setHeight( lettrine_img.height() / aspectratio );
+    qtextimageformat.setName("lettrine");
 
-  cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);
+    cur.insertImage( qtextimageformat,
+                     this->current_dipylonui.current_dipydoc.lettrine.position_in_text_frame.position() );
+  }
 
   /*
     text

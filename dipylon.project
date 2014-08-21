@@ -58,12 +58,17 @@ SOMMAIRE
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
+*0.2.7 : DipyDoc's version = 21 (lettrine format)
 
-- bug : choix du répertoire ???
-- choisir dans main.xml le format du block de texte (pour le moment :  source_editor.cpp::cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
+- pourquoi title & intro n'ont-ils pas d'available ? Cela permettrait de ne pas écrire inutilement un titre/une intro blanche ?
+- trier dipylon.pro
+- dans dipydoc.cpp, il reste des $$$ (et dans le reste du code ?)
+- dans dipydoc.h, utiliser le passage par référence pour soulager les constructeurs.
+
+- choisir dans main.xml le format du block de texte (pour le moment : source_editor.cpp::cur.insertImage(qtextimageformat, QTextFrameFormat::FloatLeft);)
+
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
-
-- version 20 de main.xml avec les notes
+- version XX de main.xml avec les notes
 - google/c++lint
 - décalage induit par le titre+intro
 - Menu : informations sur le dipydoc

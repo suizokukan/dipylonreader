@@ -35,6 +35,7 @@
 #include "languages/languagefromto.h"
 #include "qt/textformat.h"
 #include "qt/blockformat.h"
+#include "qt/posintextframeformat.h"
 
 // $$$
 #include <QDebug>
@@ -270,6 +271,45 @@ inline ArrowDetails::ArrowDetails(QString _straspect) : straspect(_straspect) {
 
 /*______________________________________________________________________________
 
+  DipyDocLettrine class
+
+  This class is used to create the "lettrine" attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct DipyDocLettrine {
+  bool                 well_initialized;
+  bool                 available;
+  QString              filename;
+  QImage               image;
+  PosInTextFrameFormat position_in_text_frame;
+  int                  aspectratio;
+
+       DipyDocLettrine(void);
+       DipyDocLettrine(bool _available, QString _filename, QImage _image, PosInTextFrameFormat _position_in_text_frame, int _aspectratio);
+  void clear(void);
+};
+inline DipyDocLettrine::DipyDocLettrine(void) {
+  this->well_initialized = false;
+  this->available = false;
+  this->filename = QString("");
+  this->image = QImage();
+  this->position_in_text_frame = PosInTextFrameFormat();
+  this->aspectratio = 0;
+}
+inline DipyDocLettrine::DipyDocLettrine(bool _available, QString _filename, QImage _image, PosInTextFrameFormat _position_in_text_frame, int _aspectratio) : available(_available), filename(_filename), image(_image), position_in_text_frame(_position_in_text_frame), aspectratio(_aspectratio) {
+  this->well_initialized = true;
+}
+inline void DipyDocLettrine::clear(void) {
+  this->well_initialized = true;
+  this->available = false;
+  this->filename = QString("");
+  this->image = QImage();
+  this->position_in_text_frame = PosInTextFrameFormat();
+  this->aspectratio = 1;
+}
+
+/*______________________________________________________________________________
+
   DipyDoc class
 
 ______________________________________________________________________________*/
@@ -300,8 +340,7 @@ private:
   // introduction :
   DipyDocIntroduction  introduction;
   // lettrine :
-  QString              lettrine_filename;
-  QImage               lettrine;
+  DipyDocLettrine      lettrine;
   // source text :
   DipyDocSourceText    source_text;
   // audiorecord data :
@@ -332,8 +371,8 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 19;
-  static const int     maximal_dipydoc_version = 20;
+  static const int     minimal_dipydoc_version = 21;
+  static const int     maximal_dipydoc_version = 21;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
@@ -354,6 +393,8 @@ public:
      o MISSING_AUDIO_FILE : the expected audio file is missing.
      o OUTDATED_DIPYDOC_VERSION : the version of the DipyDoc is outdated.
      o DIPYDOC_VERSION_TOO_RECENT : the version of the DipyDoc is too recent.
+     o WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO : the lettrine's aspect ratio isn't correct.
+     o MISSING_LETTRINE_FILE : the expected file doesn't exist in "path"
 
      please update DipyDoc::diagnosis() if you modify this constants.
   */
@@ -369,6 +410,8 @@ public:
     MISSING_SOURCE_TEXT_FILE = -8,
     OUTDATED_DIPYDOC_VERSION = -9,
     DIPYDOC_VERSION_TOO_RECENT = -10,
+    WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO = 11,
+    MISSING_LETTRINE_FILE = -12,
   };
 
   // name of the main file in a dipydoc directory :

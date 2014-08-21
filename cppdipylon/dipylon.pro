@@ -27,6 +27,7 @@ HEADERS         +=  fixedparameters.h \
                     qt/commentaryeditor.h \
                     qt/textformat.h \
                     qt/blockformat.h \
+                    qt/posintextframeformat.h \
                     dipydoc/dipydoc.h \
                     pos/posintext2posinaudio.h \
                     pos/posinaudio2posintext.h \
@@ -45,6 +46,7 @@ SOURCES         +=  main.cpp \
                     qt/commentaryeditor.cpp \
                     qt/textformat.cpp \
                     qt/blockformat.cpp \
+                    qt/posintextframeformat.cpp \
                     dipydoc/dipydoc.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \

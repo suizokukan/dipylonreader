@@ -49,6 +49,8 @@ BlockFormat::BlockFormat(const QString& source_string) {
 ______________________________________________________________________________*/
 int BlockFormat::init_from_string(const QString& source_string) {
 
+    this->_repr = source_string;
+
     QStringList list_of_keywords = source_string.split(this->SEPARATOR);
 
     int res = BlockFormat::INTERNALSTATE::OK;
