@@ -58,7 +58,7 @@ SOMMAIRE
 0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
 0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
 0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
-*0.2.7 : DipyDoc's version = 21 (lettrine format)
+0.2.7 : DipyDoc's version = 21 (lettrine format)
 
 - dans dipydoc.cpp, il reste des $$$ (et dans le reste du code ?)
 
