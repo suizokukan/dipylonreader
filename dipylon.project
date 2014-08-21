@@ -62,7 +62,6 @@ SOMMAIRE
 0.2.8 : DipyDoc's version = 22 (text reading direction)
 
 - dans dipydoc.cpp, il reste des $$$ (et dans le reste du code ?)
-- expliquer ce qu'est "aspectratio" dans la doc.
 
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes
@@ -739,6 +738,8 @@ version 13 : added <text/>
 version 12 : added "informations" to "audiorecord" and "translation"
 version 11 : added audiorecord::filename token
 version 10 : first format's version
+
+NB : "aspectratio" : entier divisant la taille de l'éditeur. Ex : s'il est égal à 3, la largeur représentera le tiers de la largeur de l'éditeur. La hauteur est également divisée de manière à garder la même proportion.
 
 main.xml, version 22 :
 

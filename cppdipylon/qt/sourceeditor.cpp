@@ -179,11 +179,19 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
     QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
 
-    qtextdocument->addResource(QTextDocument::ImageResource, QUrl("lettrine"), lettrine_img);
+    qtextdocument->addResource(QTextDocument::ImageResource,
+                               QUrl("lettrine"),
+                               lettrine_img);
 
     QTextImageFormat qtextimageformat = QTextImageFormat();
-    qtextimageformat.setWidth(  lettrine_img.width()  / aspectratio );
-    qtextimageformat.setHeight( lettrine_img.height() / aspectratio );
+    /*
+       the image's size is reduced according to the "aspectratio" variable.
+
+       It is noteworthy that the height is automatically resized so that the
+       image' proportions are intact after the resizing.
+    */
+    qtextimageformat.setWidth(  this->width() / aspectratio );
+
     qtextimageformat.setName("lettrine");
 
     cur.insertImage( qtextimageformat,
