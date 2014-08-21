@@ -78,7 +78,6 @@ SOMMAIRE
         continue;
       }
 
-- puisque les textformats sont définis dans main.xml, permettre de définir aussi l'aspect général du texte.
 - click : karaoke.new start
 - segfault avec ALT+F4
 - vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)

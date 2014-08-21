@@ -38,8 +38,7 @@
 
 _____________________________________________________________________________*/
 PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
-
-  if( src._well_initialized == false ) {
+  if (src._well_initialized == false) {
     this->_well_initialized = false;
     this->_internal_state = PosInAudio2PosInText::INTERNALSTATE::WRONG_INITIALIZATION;
   }
@@ -56,10 +55,9 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
       qDebug() << typeid(src_i).name();
       qDebug() << src_i.first.to_str()  << src_i.second.first << "-" << src_i.second.second;
   */
-  for(auto &src_i : src.map) {
+  for (auto &src_i : src.map) {
     this->map[ src_i.second ] = src_i.first;
   }
-
 }
 
 /*______________________________________________________________________________
@@ -88,13 +86,11 @@ void PosInAudio2PosInText::clear(void) {
        empty PosInTextRanges if indexes in "this" do not contain "pos".
 
 _____________________________________________________________________________*/
-PosInTextRanges PosInAudio2PosInText::contains(PosInAudio pos) const
-{
+PosInTextRanges PosInAudio2PosInText::contains(PosInAudio pos) const {
   PosInTextRanges res = PosInTextRanges();
 
-  for(auto &i : this->map) {
-
-    if( (i.first.pair.first <= pos) && (pos <= i.first.pair.second) ) {
+  for (auto &i : this->map) {
+    if ( (i.first.pair.first <= pos) && (pos <= i.first.pair.second) ) {
       // ok, the searched PosInAudioRange has been found and can be returned :
       return i.second;
     }
