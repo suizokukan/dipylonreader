@@ -229,14 +229,14 @@ struct LevelDetails {
              LevelDetails(void);
 
              // constructor from a QString describing the level's details :
-             LevelDetails(QString, QString);
+             LevelDetails(QString&, QString&);
 };
 inline LevelDetails::LevelDetails(void) {
   this->well_initialized = false;
   this->name = QString("");
   this->textformat = TextFormat();
 }
-inline LevelDetails::LevelDetails(QString _name, QString _strtextformat) : name(_name), textformat(_strtextformat) {
+inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : name(_name), textformat(_strtextformat) {
   this->well_initialized = this->textformat.well_initialized();
 }
 
@@ -260,13 +260,13 @@ struct ArrowDetails {
   // default constructor :
   ArrowDetails(void);
   // constructor from a QString describing the arrow's aspect :
-  ArrowDetails(QString);
+  ArrowDetails(QString&);
 };
 inline ArrowDetails::ArrowDetails(void) {
   this->straspect = QString("");
   this->main_color = QColor();
 }
-inline ArrowDetails::ArrowDetails(QString _straspect) : straspect(_straspect) {
+inline ArrowDetails::ArrowDetails(QString& _straspect) : straspect(_straspect) {
 }
 
 /*______________________________________________________________________________
@@ -285,7 +285,7 @@ struct DipyDocLettrine {
   int                  aspectratio;
 
        DipyDocLettrine(void);
-       DipyDocLettrine(bool _available, QString _filename, QImage _image, PosInTextFrameFormat _position_in_text_frame, int _aspectratio);
+       DipyDocLettrine(bool _available, QString& _filename, QImage& _image, PosInTextFrameFormat& _position_in_text_frame, int _aspectratio);
   void clear(void);
 };
 inline DipyDocLettrine::DipyDocLettrine(void) {
@@ -296,7 +296,7 @@ inline DipyDocLettrine::DipyDocLettrine(void) {
   this->position_in_text_frame = PosInTextFrameFormat();
   this->aspectratio = 0;
 }
-inline DipyDocLettrine::DipyDocLettrine(bool _available, QString _filename, QImage _image, PosInTextFrameFormat _position_in_text_frame, int _aspectratio) : available(_available), filename(_filename), image(_image), position_in_text_frame(_position_in_text_frame), aspectratio(_aspectratio) {
+inline DipyDocLettrine::DipyDocLettrine(bool _available, QString& _filename, QImage& _image, PosInTextFrameFormat& _position_in_text_frame, int _aspectratio) : available(_available), filename(_filename), image(_image), position_in_text_frame(_position_in_text_frame), aspectratio(_aspectratio) {
   this->well_initialized = true;
 }
 inline void DipyDocLettrine::clear(void) {
