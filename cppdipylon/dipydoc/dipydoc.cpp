@@ -491,7 +491,7 @@ QString DipyDoc::get_xml_repr(void) const {
 
   res.replace( "$LETTRINEFILENAME$", this->lettrine.filename );
   res.replace( "$LETTRINEASPECTRATIO$", QString().setNum(this->lettrine.aspectratio) );
-  res.replace( "$LETTRINEPOSITIONINTEXTFRAME$$", this->lettrine.position_in_text_frame.repr() );
+  res.replace( "$LETTRINEPOSITIONINTEXTFRAME$", this->lettrine.position_in_text_frame.repr() );
 
   res.replace( "$SOURCEEDITOR_STYLESHEET$", this->sourceeditor_stylesheet );
   res.replace( "$SOURCEEDITOR_DEFAULTTEXTFORMAT$", this->sourceeditor_default_textformat.repr() );
