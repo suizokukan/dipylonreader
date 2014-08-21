@@ -608,7 +608,7 @@ QString DipyDoc::get_xml_repr(void) const {
             (3.2) was the xml reading of the main file ok ?
         (4) secondary initializations
             (4.1) initialization of "audiorecord.audio2text"
-            (4.2) (false) initialization of "number_of_chars_before_source_text"
+            (4.2) (fake) initialization of "number_of_chars_before_source_text"
         (5) checks
             (5.1) is the version of the Dipy doc correct ?
             (5.2) is the object languagefromto correctly initialized ?
@@ -888,7 +888,7 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
-    (4.2) (false) initialization of "number_of_chars_before_source_text"
+    (4.2) (fake) initialization of "number_of_chars_before_source_text"
 
     The first attempt to compute "number_of_chars_before_source_text was doubtfull :
 
