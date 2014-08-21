@@ -19,16 +19,9 @@ QT += multimedia
 
 # Input
 HEADERS         +=  fixedparameters.h \
+                    dipydoc/dipydoc.h \
                     languages/languages.h \
                     languages/languagefromto.h \
-                    qt/mainwindow.h \
-                    qt/dipylonui.h \	
-                    qt/sourceeditor.h \
-                    qt/commentaryeditor.h \
-                    qt/textformat.h \
-                    qt/blockformat.h \
-                    qt/posintextframeformat.h \
-                    dipydoc/dipydoc.h \
                     pos/posintext2posinaudio.h \
                     pos/posinaudio2posintext.h \
                     pos/posinaudio/posinaudio.h \
@@ -37,23 +30,30 @@ HEADERS         +=  fixedparameters.h \
                     pos/posintext/posintextranges.h \
                     pos/posintext/vectorposintextranges.h \
                     pos/posintext/posintext2str.h
+                    qt/blockformat.h \
+                    qt/commentaryeditor.h \
+                    qt/dipylonui.h \	
+                    qt/mainwindow.h \
+                    qt/posintextframeformat.h \
+                    qt/sourceeditor.h \
+                    qt/textformat.h \
 
 SOURCES         +=  main.cpp \
                     languages/languagefromto.cpp \
-                    qt/mainwindow.cpp \
-                    qt/dipylonui.cpp \
-                    qt/sourceeditor.cpp \
-                    qt/commentaryeditor.cpp \
-                    qt/textformat.cpp \
-                    qt/blockformat.cpp \
-                    qt/posintextframeformat.cpp \
                     dipydoc/dipydoc.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
                     pos/posinaudio/posinaudiorange.cpp \
+                    pos/posintext/posintext2str.cpp
                     pos/posintext/posintextranges.cpp \
                     pos/posintext/vectorposintextranges.cpp \
-                    pos/posintext/posintext2str.cpp
+                    qt/blockformat.cpp \
+                    qt/commentaryeditor.cpp \
+                    qt/dipylonui.cpp \
+                    qt/mainwindow.cpp \
+                    qt/posintextframeformat.cpp \
+                    qt/sourceeditor.cpp \
+                    qt/textformat.cpp \
 
 QMAKE_CFLAGS     += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
 
