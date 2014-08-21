@@ -657,8 +657,12 @@ void DipyDoc::init_from_xml(const QString& path) {
   QXmlStreamReader xmlreader;
   xmlreader.setDevice(&dipydoc_main_xml);
 
+  bool xml_reading_is_ok = true;
+
   /*............................................................................
     (3.1) main file reading
+
+    If an error occurs, set "xml_reading_is_ok" to false and fills "msg_error".
   ............................................................................*/
   DipyDocDiv current_division = DIPYDOCDIV_UNDEFINED;
 
@@ -701,7 +705,15 @@ void DipyDoc::init_from_xml(const QString& path) {
           continue;
         }
 
-        // $$$ problem $$$ unknown case.
+        xml_reading_is_ok == false;
+        msg_error = "An error occurs while reading the main file, ";
+        msg_error = "the document is ill-formed :";
+        msg_error += "A <default_textformat> has been found out of "
+                     "<sourceeditor> .";
+        msg_error += "filename=" + main_filename;
+        msg_error += "[in the function DipyDoc::init_from_xml]";
+        this->errors.append( msg_error );
+        continue;
       }
 
       if( name == "dipydoc" ) {
@@ -726,7 +738,15 @@ void DipyDoc::init_from_xml(const QString& path) {
           continue;
         }
 
-        // $$$ problem $$$ unknown case.
+        xml_reading_is_ok == false;
+        msg_error = "An error occurs while reading the main file, ";
+        msg_error = "the document is ill-formed :";
+        msg_error += "A <karaoke_textformat> has been found out of "
+                     "<sourceeditor> .";
+        msg_error += "filename=" + main_filename;
+        msg_error += "[in the function DipyDoc::init_from_xml]";
+        this->errors.append( msg_error );
+        continue;
       }
 
       if( name == "lettrine" ) {
@@ -801,7 +821,15 @@ void DipyDoc::init_from_xml(const QString& path) {
           this->commentaryeditor_stylesheet = xmlreader.readElementText();
           continue;
         }
-        // $$$ problem $$$ : unknown case
+
+        xml_reading_is_ok == false;
+        msg_error = "An error occurs while reading the main file, ";
+        msg_error = "the document is ill-formed :";
+        msg_error += "A <stylesheet> has been found out of "
+                     "<sourceeditor> or <commentaryeditor>.";
+        msg_error += "filename=" + main_filename;
+        msg_error += "[in the function DipyDoc::init_from_xml]";
+        this->errors.append( msg_error );
         continue;
       }
 
@@ -828,7 +856,14 @@ void DipyDoc::init_from_xml(const QString& path) {
           continue;
         }
 
-        // $$$ error $$$ unknown case
+        xml_reading_is_ok == false;
+        msg_error = "An error occurs while reading the main file, ";
+        msg_error = "the document is ill-formed :";
+        msg_error += "A <textformat> has been found out of "
+                     "<textformats> or <commentaryeditor>.";
+        msg_error += "filename=" + main_filename;
+        msg_error += "[in the function DipyDoc::init_from_xml]";
+        this->errors.append( msg_error );
         continue;
       }
 
@@ -856,7 +891,10 @@ void DipyDoc::init_from_xml(const QString& path) {
       current_division = DIPYDOCDIV_UNDEFINED;
     }
   }
-  bool xml_reading_is_ok = !xmlreader.hasError();
+
+  if( xml_reading_is_ok == true ) {
+    xml_reading_is_ok = !xmlreader.hasError();
+  }
 
   /*............................................................................
     (3.2) was the xml reading of the main file ok ?
