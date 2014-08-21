@@ -34,14 +34,15 @@
 
 *******************************************************************************/
 
-#ifndef POSINTEXT2POSINAUDIO_H
-#define POSINTEXT2POSINAUDIO_H
+#ifndef CPPDIPYLON_POS_POSINTEXT2POSINAUDIO_H_
+#define CPPDIPYLON_POS_POSINTEXT2POSINAUDIO_H_
+
+#include <utility>
+#include <unordered_map>
 
 #include "pos/posintext/posintextranges.h"
 #include "pos/posintext/vectorposintextranges.h"
 #include "pos/posinaudio/posinaudio.h"
-
-#include <unordered_map>
 
 /* type of the unordered_map used by the PosInText2PosInAudio class :
 
@@ -58,8 +59,7 @@ typedef UMAP_Text2Audio::const_iterator UMAP_Text2AudioCI;
         { {{ {1,2}, {3,4} },},  {1500, 1598} },
       };
 ________________________________________________________________________________*/
-struct PosInTextAndAudio
-{
+struct PosInTextAndAudio {
   VPairOfPosInText integers_text;
   PairOfPosInAudio integers_audio;
 };
@@ -70,11 +70,9 @@ struct PosInTextAndAudio
 
 ________________________________________________________________________________*/
 class PosInText2PosInAudio {
-
   friend class PosInAudio2PosInText;
 
  private:
-
   UMAP_Text2Audio map;
   int                     _internal_state;
   bool                    _well_initialized;
@@ -82,14 +80,13 @@ class PosInText2PosInAudio {
   void                    checks(void);
 
  public:
-
                           PosInText2PosInAudio(void);
                           PosInText2PosInAudio(const PosInText2PosInAudio&);
                           PosInText2PosInAudio(std::initializer_list< PosInTextAndAudio >);
                           ~PosInText2PosInAudio(void);
 
-  PairOfPosInAudio&       operator[]( PosInTextRanges key );
-  const PairOfPosInAudio& operator[]( const PosInTextRanges key ) const;
+  PairOfPosInAudio&       operator[](PosInTextRanges key);
+  const PairOfPosInAudio& operator[](const PosInTextRanges key) const;
   PosInText2PosInAudio&   operator=(const PosInText2PosInAudio&);
 
   UMAP_Text2AudioCI       begin(void) const;
@@ -117,40 +114,36 @@ class PosInText2PosInAudio {
     };
 };
 
-inline PosInText2PosInAudio::PosInText2PosInAudio( void ) {
+inline PosInText2PosInAudio::PosInText2PosInAudio(void) {
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE::OK;
 }
 
-inline PosInText2PosInAudio::PosInText2PosInAudio( const PosInText2PosInAudio& other )  : \
+inline PosInText2PosInAudio::PosInText2PosInAudio(const PosInText2PosInAudio& other)  : \
                   map(other.map), \
                   _internal_state(other._internal_state), \
                   _well_initialized(other._well_initialized)
 {}
 
-inline PosInText2PosInAudio::PosInText2PosInAudio( std::initializer_list< PosInTextAndAudio > values)
-{
+inline PosInText2PosInAudio::PosInText2PosInAudio(std::initializer_list< PosInTextAndAudio > values) {
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE::OK;
 
   // i : iterator over this->values :
-  for(auto &i : values) {
-
-    this->map.insert( std::pair<PosInTextRanges, PairOfPosInAudio>( PosInTextRanges(i.integers_text),
-                                                                                    i.integers_audio)
-                    );
+  for (auto &i : values) {
+    this->map.insert(std::pair<PosInTextRanges, PairOfPosInAudio>(PosInTextRanges(i.integers_text),
+                                                                                  i.integers_audio) );
   }
 
   // is everything ok ?
   this->checks();
 }
 
-inline PosInText2PosInAudio::~PosInText2PosInAudio( void )
-{}
+inline PosInText2PosInAudio::~PosInText2PosInAudio(void) {
+}
 
 inline PosInText2PosInAudio& PosInText2PosInAudio::operator=(const PosInText2PosInAudio& other) {
-
-  if( this != &other) {
+  if (this != &other) {
     this->map = other.map;
     this->_well_initialized = other._well_initialized;
     this->_internal_state = other._internal_state;
@@ -158,10 +151,10 @@ inline PosInText2PosInAudio& PosInText2PosInAudio::operator=(const PosInText2Pos
   return *this;
 }
 
-inline PairOfPosInAudio& PosInText2PosInAudio::operator[]( PosInTextRanges key) {
+inline PairOfPosInAudio& PosInText2PosInAudio::operator[](PosInTextRanges key) {
   return this->map[key];
 }
-inline const PairOfPosInAudio& PosInText2PosInAudio::operator[]( const PosInTextRanges key ) const {
+inline const PairOfPosInAudio& PosInText2PosInAudio::operator[](const PosInTextRanges key) const {
   return this->map.at(key);
 }
 
@@ -185,4 +178,4 @@ inline bool PosInText2PosInAudio::well_initialized(void) const {
   return this->_well_initialized;
 }
 
-#endif
+#endif  // CPPDIPYLON_POS_POSINTEXT2POSINAUDIO_H_

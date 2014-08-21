@@ -26,6 +26,7 @@
 *******************************************************************************/
 
 #include "pos/posintext2posinaudio.h"
+#include <vector>
 
 /*______________________________________________________________________________
 
@@ -42,14 +43,12 @@
 
 ______________________________________________________________________________*/
 void PosInText2PosInAudio::checks(void) {
-
   /*
     are the PosInTextRanges objects ok ?
   */
-  for(auto &i : this->map)
-  {
+  for (auto &i : this->map) {
     // i.first is a PosInTextRanges object.
-    if( i.first._well_initialized == false ) {
+    if (i.first._well_initialized == false) {
       this->_well_initialized = false;
       this->_internal_state = INTERNALSTATE::BAD_POS_IN_TEXTRANGES;
       return;
@@ -59,10 +58,9 @@ void PosInText2PosInAudio::checks(void) {
   /*
     are the <PosInAudio, PosInAudio> well ordered ?
   */
-  for(auto &i : this->map)
-  {
+  for (auto &i : this->map) {
     // i.second is a pair of PosInAudio object.
-    if( i.second.first > i.second.second ) {
+    if (i.second.first > i.second.second) {
       this->_well_initialized = false;
       this->_internal_state = INTERNALSTATE::BAD_POS_IN_AUDIO_X0X1;
       return;
@@ -96,12 +94,10 @@ void PosInText2PosInAudio::clear(void) {
        empty PosInTextRanges if indexes in "this" do not contain "x0".
 
 _____________________________________________________________________________*/
-PosInTextRanges PosInText2PosInAudio::contains(PosInText x0) const
-{
-  for(auto &i : this->map) {
-
+PosInTextRanges PosInText2PosInAudio::contains(PosInText x0) const {
+  for (auto &i : this->map) {
     // i->first is a PosInTextRanges object.
-    if( i.first.contains(x0) == true ) {
+    if (i.first.contains(x0) == true) {
       // ok, the searched PosInTextRanges has been found and can be returned :
       return i.first;
     }
@@ -122,15 +118,14 @@ PosInTextRanges PosInText2PosInAudio::contains(PosInText x0) const
        vector if this do not contain "x0...x1"
 
 _____________________________________________________________________________*/
-VectorPosInTextRanges PosInText2PosInAudio::contains(PosInText x0, PosInText x1) const
-{
+VectorPosInTextRanges PosInText2PosInAudio::contains(PosInText x0, PosInText x1) const {
   std::vector<PosInTextRanges> res;
 
-  for(auto &i : this->map) {
+  for (auto &i : this->map) {
     // i->first is a PosInTextRanges object.
-    if( i.first.contains(x0, x1) == true ) {
+    if (i.first.contains(x0, x1) == true) {
       // ok, the searched PosInTextRanges has been found :
-      res.push_back( i.first );
+      res.push_back(i.first);
     }
   }
 
