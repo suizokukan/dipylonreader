@@ -169,8 +169,8 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
   // new block for the lettrine and the text :
   QTextCharFormat text_qtextcharformat = this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat();
-  QTextBlockFormat text_blockformat = QTextBlockFormat();
-  text_blockformat.setAlignment(Qt::AlignLeft);
+  QTextBlockFormat text_blockformat = this->current_dipylonui.current_dipydoc.source_text.blockformat.qtextblockformat();
+
   cur.insertBlock( text_blockformat, text_qtextcharformat );
 
   if ( this->current_dipylonui.current_dipydoc.lettrine.available == true )

@@ -361,6 +361,7 @@ QString DipyDoc::get_xml_repr(void) const {
          "        name=\"$TEXTNAME$\" \n"
          "        filename=\"$TEXTFILENAME$\" \n"
          "        informations=\"$TEXTINFORMATIONS$\" \n"
+         "        blockformat=\"$TEXTBLOCKFORMAT$\" \n"
          "  />\n";
 
   /*............................................................................
@@ -478,6 +479,9 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "\n";
   res += "</dipydoc>\n";
 
+  /*............................................................................
+    various replacements
+  ............................................................................*/
   res.replace( "$DIPYDOCVERSION$", QString().setNum(this->dipydoc_version) );
   res.replace( "$LANGUAGEFROMTO$", this->languagefromto.to_str() );
 
@@ -506,6 +510,7 @@ QString DipyDoc::get_xml_repr(void) const {
 
   res.replace( "$TEXTNAME$", this->source_text.name );
   res.replace( "$TEXTINFORMATIONS$", this->source_text.informations );
+  res.replace( "$TEXTBLOCKFORMAT$", this->source_text.blockformat.repr() );
   // just the filename, not the path :
   res.replace( "$TEXTFILENAME$", QFileInfo(this->source_text.filename).fileName() );
 
@@ -729,6 +734,7 @@ void DipyDoc::init_from_xml(const QString& path) {
         this->source_text.name = xmlreader.attributes().value("name").toString();
         this->source_text.filename = path + "/" + xmlreader.attributes().value("filename").toString();
         this->source_text.informations = xmlreader.attributes().value("informations").toString();
+        this->source_text.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
         continue;
       }
 

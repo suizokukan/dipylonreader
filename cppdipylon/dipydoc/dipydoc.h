@@ -133,10 +133,11 @@ inline void DipyDocIntroduction::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocSourceText {
-  QString text;
-  QString name;
-  QString filename;    // with full path
-  QString informations;
+  QString     text;
+  QString     name;
+  QString     filename;    // with full path
+  QString     informations;
+  BlockFormat blockformat;
 
   void    clear(void);
 };
@@ -145,6 +146,7 @@ inline void DipyDocSourceText::clear(void) {
   this->name = "";
   this->filename = "";
   this->informations = "";
+  this->blockformat = BlockFormat();
 }
 
 /*______________________________________________________________________________
@@ -375,8 +377,8 @@ public:
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 21;
-  static const int     maximal_dipydoc_version = 21;
+  static const int     minimal_dipydoc_version = 22;
+  static const int     maximal_dipydoc_version = 22;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
