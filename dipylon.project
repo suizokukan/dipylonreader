@@ -172,8 +172,6 @@ QT_NO_DEBUG_OUTPUT : no qDebug() output.
 
 [2.0] conventions
 * les pointeurs doivent être déclarés initialiés à null_ptr
-* un fichier XXX.cpp ne peut avoir qu'un seul include si le fichier XXX.h existe. main.cpp n'est donc pas concerné.
-* pour les includes : d'abord les miens, ceux de la STD, ensuite ceux de Qt.
 
 suivre Google/c++lint / http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
 python2 ~/projets/cpplint.py --linelength=120 main.cpp

@@ -42,7 +42,7 @@ PosInAudioRange::PosInAudioRange(const QString& src_qstring) {
   this->_internal_state = PosInAudioRange::INTERNALSTATE::OK;
 
   // error : if src_qstring is empty, the initialisation can't be correct :
-  if( src_qstring.size() == 0 ) {
+  if (src_qstring.size() == 0) {
     this->_well_initialized = false;
     this->_internal_state = PosInAudioRange::INTERNALSTATE::EMPTY;
     return;
@@ -50,7 +50,7 @@ PosInAudioRange::PosInAudioRange(const QString& src_qstring) {
 
   // let's initialize this object from src_qstring :
   QStringList splitted_strings = src_qstring.split(this->MAIN_SEPARATOR);
-  if( splitted_strings.length() != 2 ) {
+  if (splitted_strings.length() != 2) {
     // error : ill-formed src_qstring (ill formed source string)
     this->_well_initialized = false;
     this->_internal_state = PosInAudioRange::INTERNALSTATE::ILL_FORMED_SRC_STRING;
@@ -61,7 +61,7 @@ PosInAudioRange::PosInAudioRange(const QString& src_qstring) {
   QString x1 = splitted_strings[1];
 
   // error : no empty number.
-  if( (x0.length() == 0) || (x1.length() == 0) ) {
+  if ( (x0.length() == 0) || (x1.length() == 0) ) {
     this->_well_initialized = false;
     this->_internal_state = PosInAudioRange::INTERNALSTATE::ILL_FORMED_SRC_STRING;
     return;
@@ -83,11 +83,10 @@ PosInAudioRange::PosInAudioRange(const QString& src_qstring) {
             o if x0 >= x1 -> error, INTERNALSTATE::X0X1
 ______________________________________________________________________________*/
 void PosInAudioRange::checks(void) {
-
   /*
         X0X1 test :
   */
-  if( this->pair.first >= this->pair.second ) {
+  if (this->pair.first >= this->pair.second) {
        this->_well_initialized = false;
        this->_internal_state = PosInAudioRange::INTERNALSTATE::X0X1;
   }
@@ -101,7 +100,8 @@ ______________________________________________________________________________*/
 QString PosInAudioRange::to_str(void) const {
   QString res("");
 
-  res = QString().number( this->pair.first ) + this->MAIN_SEPARATOR + QString().number( this->pair.second );
+  res = QString().number(this->pair.first) + \
+        this->MAIN_SEPARATOR + QString().number(this->pair.second);
 
   return res;
 }

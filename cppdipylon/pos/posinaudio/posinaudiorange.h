@@ -32,13 +32,15 @@
 
 *******************************************************************************/
 
-#ifndef POSINAUDIORANGE_H
-#define POSINAUDIORANGE_H
+#ifndef CPPDIPYLON_POS_POSINAUDIO_POSINAUDIORANGE_H_
+#define CPPDIPYLON_POS_POSINAUDIO_POSINAUDIORANGE_H_
 
 #include <QString>
 #include <QStringList>
-#include "pos/posinaudio/posinaudio.h"
 
+#include <utility>
+
+#include "pos/posinaudio/posinaudio.h"
 /*______________________________________________________________________________
 
   PosInAudioRange class
@@ -46,17 +48,15 @@
   wrapper around "pair", a PairOfPosInAudio object.
 ______________________________________________________________________________*/
 class PosInAudioRange {
-
- friend class PosInText2PosInAudio;
- friend class PosInAudio2PosInText;
+    friend class PosInText2PosInAudio;
+    friend class PosInAudio2PosInText;
 
  public:
-
                      PosInAudioRange(void);
-                     PosInAudioRange(const PosInAudioRange&);
-                     PosInAudioRange(const QString&);
+            explicit PosInAudioRange(const PosInAudioRange&);
+            explicit PosInAudioRange(const QString&);
                      PosInAudioRange(PosInAudio, PosInAudio);
-                     PosInAudioRange( std::pair<PosInAudio, PosInAudio> );
+            explicit PosInAudioRange(std::pair<PosInAudio, PosInAudio>);
                      ~PosInAudioRange(void);
                      PosInAudioRange& operator=(const PosInAudioRange&);
   bool               operator==(const PosInAudioRange& other) const;
@@ -88,7 +88,6 @@ class PosInAudioRange {
   };
 
  private:
-
   // for more details, see the POSINAUDIORANGE_STR format :
   constexpr static const char* MAIN_SEPARATOR = "-";
 
@@ -102,18 +101,17 @@ class PosInAudioRange {
 inline PosInAudioRange::PosInAudioRange(void) : \
                   pair(PairOfPosInAudio()), \
                   _internal_state(this->INTERNALSTATE::EMPTY), \
-                  _well_initialized(false)
-{}
+                  _well_initialized(false) {
+}
 
-inline PosInAudioRange::PosInAudioRange( const PosInAudioRange& other )  : \
+inline PosInAudioRange::PosInAudioRange(const PosInAudioRange& other)  : \
                   pair(other.pair), \
                   _internal_state(other._internal_state), \
-                  _well_initialized(other._well_initialized)
-{}
+                  _well_initialized(other._well_initialized) {
+}
 
-inline PosInAudioRange::PosInAudioRange( PosInAudio x0, PosInAudio x1) : \
+inline PosInAudioRange::PosInAudioRange(PosInAudio x0, PosInAudio x1) : \
 pair(x0, x1) {
-
   this->_internal_state = this->INTERNALSTATE::OK;
   this->_well_initialized = true;
 
@@ -121,9 +119,8 @@ pair(x0, x1) {
   this->checks();
 }
 
-inline PosInAudioRange::PosInAudioRange( std::pair<PosInAudio, PosInAudio> x0x1 ) : \
+inline PosInAudioRange::PosInAudioRange(std::pair<PosInAudio, PosInAudio> x0x1) : \
 pair(x0x1.first, x0x1.second) {
-
   this->_internal_state = this->INTERNALSTATE::OK;
   this->_well_initialized = true;
 
@@ -131,11 +128,11 @@ pair(x0x1.first, x0x1.second) {
   this->checks();
 }
 
-inline PosInAudioRange::~PosInAudioRange(void) {}
+inline PosInAudioRange::~PosInAudioRange(void) {
+}
 
 inline PosInAudioRange& PosInAudioRange::operator=(const PosInAudioRange& other) {
-
-  if( this != &other) {
+  if (this != &other) {
     this->pair = other.pair;
     this->_internal_state = other._internal_state;
     this->_well_initialized = other._well_initialized;
@@ -190,4 +187,4 @@ struct PosInAudioRangeHasher {
   std::size_t operator()(const PosInAudioRange& k) const;
 };
 
-#endif
+#endif  // CPPDIPYLON_POS_POSINAUDIO_POSINAUDIORANGE_H_
