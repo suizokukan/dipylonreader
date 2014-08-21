@@ -81,7 +81,6 @@ SOMMAIRE
 - click : karaoke.new start
 - segfault avec ALT+F4
 - vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
-- si pas d'enregistrement audio -> icônes grisées
 - fichier de configuration (Linux : ~/.dipylon, ...)
 - plusieurs documents ouverts simultanément
 

@@ -25,11 +25,12 @@
 
 *******************************************************************************/
 
-#ifndef POSINAUDIO_H
-#define POSINAUDIO_H
+#ifndef CPPDIPYLON_POS_POSINAUDIO_POSINAUDIO_H_
+#define CPPDIPYLON_POS_POSINAUDIO_POSINAUDIO_H_
+
+#include <QtGlobal>
 
 #include <utility>
-#include <QtGlobal>
 
 // base type :
 
@@ -45,4 +46,4 @@ typedef qint64 PosInAudio;
 
 typedef std::pair<PosInAudio, PosInAudio> PairOfPosInAudio;
 
-#endif
+#endif  // CPPDIPYLON_POS_POSINAUDIO_POSINAUDIO_H_
