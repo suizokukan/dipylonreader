@@ -384,7 +384,7 @@ QString DipyDoc::get_xml_repr(void) const {
     text : no sub-elements.
   ............................................................................*/
   res += "  <text \n"
-         "        name=\"$TEXTNAME$\" \n"
+         "        description=\"$TEXTNAME$\" \n"
          "        filename=\"$TEXTFILENAME$\" \n"
          "        informations=\"$TEXTINFORMATIONS$\" \n"
          "        blockformat=\"$TEXTBLOCKFORMAT$\" \n"
@@ -420,7 +420,7 @@ QString DipyDoc::get_xml_repr(void) const {
     res += "\n";
     list_of_posintextranges.clear();
     res += "  <audiorecord \n"
-           "        name=\"$AUDIORECORDNAME$\" \n"
+           "        description=\"$AUDIORECORDNAME$\" \n"
            "        filename=\"$AUDIORECORDFILENAME$\" \n"
            "        informations=\"$AUDIORECORDINFORMATIONS$\" \n"
            "  >\n";
@@ -450,7 +450,7 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "\n";
   list_of_posintextranges.clear();
   res += "  <translation \n"
-         "        name=\"$TRANSLATIONNAME$\" \n"
+         "        description=\"$TRANSLATIONNAME$\" \n"
          "        informations=\"$TRANSLATIONINFORMATIONS$\" \n"
          "  >\n";
   for(auto &textrange : this->translation.translations) {
@@ -681,7 +681,7 @@ void DipyDoc::init_from_xml(const QString& path) {
       if( name == "audiorecord" ) {
         current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
         this->audiorecord.available = true;
-        this->audiorecord.name = xmlreader.attributes().value("name").toString();
+        this->audiorecord.name = xmlreader.attributes().value("description").toString();
         this->audiorecord.filename = path + "/" + xmlreader.attributes().value("filename").toString();
         this->audiorecord.informations = xmlreader.attributes().value("informations").toString();
         continue;
@@ -805,7 +805,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if( name == "text" ) {
         current_division = DIPYDOCDIV_INSIDE_TEXT;
-        this->source_text.name = xmlreader.attributes().value("name").toString();
+        this->source_text.name = xmlreader.attributes().value("description").toString();
         this->source_text.filename = path + "/" + xmlreader.attributes().value("filename").toString();
         this->source_text.informations = xmlreader.attributes().value("informations").toString();
         this->source_text.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
@@ -846,7 +846,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if( name == "translation" ) {
         current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
-        this->translation.name = xmlreader.attributes().value("name").toString();
+        this->translation.name = xmlreader.attributes().value("description").toString();
         this->translation.informations = xmlreader.attributes().value("informations").toString();
         continue;
       }
