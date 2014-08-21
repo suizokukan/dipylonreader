@@ -29,14 +29,14 @@ HEADERS         +=  fixedparameters.h \
                     pos/posintext/posintext.h \
                     pos/posintext/posintextranges.h \
                     pos/posintext/vectorposintextranges.h \
-                    pos/posintext/posintext2str.h
+                    pos/posintext/posintext2str.h \
                     qt/blockformat.h \
                     qt/commentaryeditor.h \
                     qt/dipylonui.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
                     qt/sourceeditor.h \
-                    qt/textformat.h \
+                    qt/textformat.h
 
 SOURCES         +=  main.cpp \
                     languages/languagefromto.cpp \
@@ -44,7 +44,7 @@ SOURCES         +=  main.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
                     pos/posinaudio/posinaudiorange.cpp \
-                    pos/posintext/posintext2str.cpp
+                    pos/posintext/posintext2str.cpp \
                     pos/posintext/posintextranges.cpp \
                     pos/posintext/vectorposintextranges.cpp \
                     qt/blockformat.cpp \
@@ -53,7 +53,7 @@ SOURCES         +=  main.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/sourceeditor.cpp \
-                    qt/textformat.cpp \
+                    qt/textformat.cpp
 
 QMAKE_CFLAGS     += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
 

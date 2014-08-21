@@ -47,43 +47,43 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		languages/languagefromto.cpp \
-		qt/mainwindow.cpp \
-		qt/dipylonui.cpp \
-		qt/sourceeditor.cpp \
-		qt/commentaryeditor.cpp \
-		qt/textformat.cpp \
-		qt/blockformat.cpp \
-		qt/posintextframeformat.cpp \
 		dipydoc/dipydoc.cpp \
 		pos/posintext2posinaudio.cpp \
 		pos/posinaudio2posintext.cpp \
 		pos/posinaudio/posinaudiorange.cpp \
+		pos/posintext/posintext2str.cpp \
 		pos/posintext/posintextranges.cpp \
 		pos/posintext/vectorposintextranges.cpp \
-		pos/posintext/posintext2str.cpp qrc_dipylon.cpp \
+		qt/blockformat.cpp \
+		qt/commentaryeditor.cpp \
+		qt/dipylonui.cpp \
+		qt/mainwindow.cpp \
+		qt/posintextframeformat.cpp \
+		qt/sourceeditor.cpp \
+		qt/textformat.cpp qrc_dipylon.cpp \
+		moc_commentaryeditor.cpp \
 		moc_mainwindow.cpp \
-		moc_sourceeditor.cpp \
-		moc_commentaryeditor.cpp
+		moc_sourceeditor.cpp
 OBJECTS       = main.o \
 		languagefromto.o \
-		mainwindow.o \
-		dipylonui.o \
-		sourceeditor.o \
-		commentaryeditor.o \
-		textformat.o \
-		blockformat.o \
-		posintextframeformat.o \
 		dipydoc.o \
 		posintext2posinaudio.o \
 		posinaudio2posintext.o \
 		posinaudiorange.o \
+		posintext2str.o \
 		posintextranges.o \
 		vectorposintextranges.o \
-		posintext2str.o \
+		blockformat.o \
+		commentaryeditor.o \
+		dipylonui.o \
+		mainwindow.o \
+		posintextframeformat.o \
+		sourceeditor.o \
+		textformat.o \
 		qrc_dipylon.o \
+		moc_commentaryeditor.o \
 		moc_mainwindow.o \
-		moc_sourceeditor.o \
-		moc_commentaryeditor.o
+		moc_sourceeditor.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/shell-unix.conf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
@@ -193,20 +193,20 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		dipylon.pro main.cpp \
 		languages/languagefromto.cpp \
-		qt/mainwindow.cpp \
-		qt/dipylonui.cpp \
-		qt/sourceeditor.cpp \
-		qt/commentaryeditor.cpp \
-		qt/textformat.cpp \
-		qt/blockformat.cpp \
-		qt/posintextframeformat.cpp \
 		dipydoc/dipydoc.cpp \
 		pos/posintext2posinaudio.cpp \
 		pos/posinaudio2posintext.cpp \
 		pos/posinaudio/posinaudiorange.cpp \
+		pos/posintext/posintext2str.cpp \
 		pos/posintext/posintextranges.cpp \
 		pos/posintext/vectorposintextranges.cpp \
-		pos/posintext/posintext2str.cpp
+		qt/blockformat.cpp \
+		qt/commentaryeditor.cpp \
+		qt/dipylonui.cpp \
+		qt/mainwindow.cpp \
+		qt/posintextframeformat.cpp \
+		qt/sourceeditor.cpp \
+		qt/textformat.cpp
 QMAKE_TARGET  = dipylon
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = dipylon
@@ -475,7 +475,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/dipylon1.0.0 || mkdir -p .tmp/dipylon1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents fixedparameters.h languages/languages.h languages/languagefromto.h qt/mainwindow.h qt/dipylonui.h qt/sourceeditor.h qt/commentaryeditor.h qt/textformat.h qt/blockformat.h qt/posintextframeformat.h dipydoc/dipydoc.h pos/posintext2posinaudio.h pos/posinaudio2posintext.h pos/posinaudio/posinaudio.h pos/posinaudio/posinaudiorange.h pos/posintext/posintext.h pos/posintext/posintextranges.h pos/posintext/vectorposintextranges.h pos/posintext/posintext2str.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp languages/languagefromto.cpp qt/mainwindow.cpp qt/dipylonui.cpp qt/sourceeditor.cpp qt/commentaryeditor.cpp qt/textformat.cpp qt/blockformat.cpp qt/posintextframeformat.cpp dipydoc/dipydoc.cpp pos/posintext2posinaudio.cpp pos/posinaudio2posintext.cpp pos/posinaudio/posinaudiorange.cpp pos/posintext/posintextranges.cpp pos/posintext/vectorposintextranges.cpp pos/posintext/posintext2str.cpp .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon_French.ts .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon.qrc .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents fixedparameters.h dipydoc/dipydoc.h languages/languages.h languages/languagefromto.h pos/posintext2posinaudio.h pos/posinaudio2posintext.h pos/posinaudio/posinaudio.h pos/posinaudio/posinaudiorange.h pos/posintext/posintext.h pos/posintext/posintextranges.h pos/posintext/vectorposintextranges.h pos/posintext/posintext2str.h qt/blockformat.h qt/commentaryeditor.h qt/dipylonui.h qt/mainwindow.h qt/posintextframeformat.h qt/sourceeditor.h qt/textformat.h .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents main.cpp languages/languagefromto.cpp dipydoc/dipydoc.cpp pos/posintext2posinaudio.cpp pos/posinaudio2posintext.cpp pos/posinaudio/posinaudiorange.cpp pos/posintext/posintext2str.cpp pos/posintext/posintextranges.cpp pos/posintext/vectorposintextranges.cpp qt/blockformat.cpp qt/commentaryeditor.cpp qt/dipylonui.cpp qt/mainwindow.cpp qt/posintextframeformat.cpp qt/sourceeditor.cpp qt/textformat.cpp .tmp/dipylon1.0.0/ && $(COPY_FILE) --parents dipylon_French.ts .tmp/dipylon1.0.0/ && (cd `dirname .tmp/dipylon1.0.0` && $(TAR) dipylon1.0.0.tar dipylon1.0.0 && $(COMPRESS) dipylon1.0.0.tar) && $(MOVE) `dirname .tmp/dipylon1.0.0`/dipylon1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/dipylon1.0.0
 
 
 clean:compiler_clean 
@@ -511,9 +511,32 @@ qrc_dipylon.cpp: dipylon.qrc \
 		ressources/images/icons/paste.png
 	/usr/lib/qt/bin/rcc -name dipylon dipylon.qrc -o qrc_dipylon.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
+compiler_moc_header_make_all: moc_commentaryeditor.cpp moc_mainwindow.cpp moc_sourceeditor.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_sourceeditor.cpp moc_commentaryeditor.cpp
+	-$(DEL_FILE) moc_commentaryeditor.cpp moc_mainwindow.cpp moc_sourceeditor.cpp
+moc_commentaryeditor.cpp: qt/dipylonui.h \
+		fixedparameters.h \
+		qt/mainwindow.h \
+		qt/sourceeditor.h \
+		dipydoc/dipydoc.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
+		misc/hash.h \
+		pos/posintext/vectorposintextranges.h \
+		pos/posintext2posinaudio.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudiorange.h \
+		languages/languagefromto.h \
+		languages/languages.h \
+		qt/textformat.h \
+		qt/blockformat.h \
+		qt/posintextframeformat.h \
+		qt/commentaryeditor.h \
+		qt/commentaryeditor.h
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
+
 moc_mainwindow.cpp: fixedparameters.h \
 		qt/sourceeditor.h \
 		dipydoc/dipydoc.h \
@@ -560,29 +583,6 @@ moc_sourceeditor.cpp: dipydoc/dipydoc.h \
 		qt/sourceeditor.h
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/sourceeditor.h -o moc_sourceeditor.cpp
 
-moc_commentaryeditor.cpp: qt/dipylonui.h \
-		fixedparameters.h \
-		qt/mainwindow.h \
-		qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		pos/posintext/posintext2str.h \
-		pos/posintext/posintext.h \
-		pos/posintext/posintextranges.h \
-		misc/hash.h \
-		pos/posintext/vectorposintextranges.h \
-		pos/posintext2posinaudio.h \
-		pos/posinaudio/posinaudio.h \
-		pos/posinaudio2posintext.h \
-		pos/posinaudio/posinaudiorange.h \
-		languages/languagefromto.h \
-		languages/languages.h \
-		qt/textformat.h \
-		qt/blockformat.h \
-		qt/posintextframeformat.h \
-		qt/commentaryeditor.h \
-		qt/commentaryeditor.h
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/home/suizokukan/projets/dipylon/last/dipylon/cppdipylon -I/usr/include/qt -I/usr/include/qt/QtMultimedia -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/4.9.0 -I/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu -I/usr/include/c++/4.9.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include-fixed -I/usr/include qt/commentaryeditor.h -o moc_commentaryeditor.cpp
-
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all:
@@ -622,103 +622,6 @@ main.o: main.cpp qt/dipylonui.h \
 languagefromto.o: languages/languagefromto.cpp languages/languagefromto.h \
 		languages/languages.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o languagefromto.o languages/languagefromto.cpp
-
-mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
-		fixedparameters.h \
-		qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		pos/posintext/posintext2str.h \
-		pos/posintext/posintext.h \
-		pos/posintext/posintextranges.h \
-		misc/hash.h \
-		pos/posintext/vectorposintextranges.h \
-		pos/posintext2posinaudio.h \
-		pos/posinaudio/posinaudio.h \
-		pos/posinaudio2posintext.h \
-		pos/posinaudio/posinaudiorange.h \
-		languages/languagefromto.h \
-		languages/languages.h \
-		qt/textformat.h \
-		qt/blockformat.h \
-		qt/posintextframeformat.h \
-		qt/dipylonui.h \
-		qt/commentaryeditor.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o qt/mainwindow.cpp
-
-dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
-		fixedparameters.h \
-		qt/mainwindow.h \
-		qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		pos/posintext/posintext2str.h \
-		pos/posintext/posintext.h \
-		pos/posintext/posintextranges.h \
-		misc/hash.h \
-		pos/posintext/vectorposintextranges.h \
-		pos/posintext2posinaudio.h \
-		pos/posinaudio/posinaudio.h \
-		pos/posinaudio2posintext.h \
-		pos/posinaudio/posinaudiorange.h \
-		languages/languagefromto.h \
-		languages/languages.h \
-		qt/textformat.h \
-		qt/blockformat.h \
-		qt/posintextframeformat.h \
-		qt/commentaryeditor.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
-
-sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		fixedparameters.h \
-		pos/posintext/posintext2str.h \
-		pos/posintext/posintext.h \
-		pos/posintext/posintextranges.h \
-		misc/hash.h \
-		pos/posintext/vectorposintextranges.h \
-		pos/posintext2posinaudio.h \
-		pos/posinaudio/posinaudio.h \
-		pos/posinaudio2posintext.h \
-		pos/posinaudio/posinaudiorange.h \
-		languages/languagefromto.h \
-		languages/languages.h \
-		qt/textformat.h \
-		qt/blockformat.h \
-		qt/posintextframeformat.h \
-		qt/dipylonui.h \
-		qt/mainwindow.h \
-		qt/commentaryeditor.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
-
-commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
-		qt/dipylonui.h \
-		fixedparameters.h \
-		qt/mainwindow.h \
-		qt/sourceeditor.h \
-		dipydoc/dipydoc.h \
-		pos/posintext/posintext2str.h \
-		pos/posintext/posintext.h \
-		pos/posintext/posintextranges.h \
-		misc/hash.h \
-		pos/posintext/vectorposintextranges.h \
-		pos/posintext2posinaudio.h \
-		pos/posinaudio/posinaudio.h \
-		pos/posinaudio2posintext.h \
-		pos/posinaudio/posinaudiorange.h \
-		languages/languagefromto.h \
-		languages/languages.h \
-		qt/textformat.h \
-		qt/blockformat.h \
-		qt/posintextframeformat.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
-
-textformat.o: qt/textformat.cpp qt/textformat.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o textformat.o qt/textformat.cpp
-
-blockformat.o: qt/blockformat.cpp qt/blockformat.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o blockformat.o qt/blockformat.cpp
-
-posintextframeformat.o: qt/posintextframeformat.cpp qt/posintextframeformat.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posintextframeformat.o qt/posintextframeformat.cpp
 
 dipydoc.o: dipydoc/dipydoc.cpp dipydoc/dipydoc.h \
 		fixedparameters.h \
@@ -760,6 +663,13 @@ posinaudiorange.o: pos/posinaudio/posinaudiorange.cpp pos/posinaudio/posinaudior
 		pos/posinaudio/posinaudio.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posinaudiorange.o pos/posinaudio/posinaudiorange.cpp
 
+posintext2str.o: pos/posintext/posintext2str.cpp pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
+		misc/hash.h \
+		pos/posintext/vectorposintextranges.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posintext2str.o pos/posintext/posintext2str.cpp
+
 posintextranges.o: pos/posintext/posintextranges.cpp pos/posintext/posintextranges.h \
 		pos/posintext/posintext.h \
 		misc/hash.h
@@ -771,24 +681,114 @@ vectorposintextranges.o: pos/posintext/vectorposintextranges.cpp pos/posintext/v
 		misc/hash.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vectorposintextranges.o pos/posintext/vectorposintextranges.cpp
 
-posintext2str.o: pos/posintext/posintext2str.cpp pos/posintext/posintext2str.h \
+blockformat.o: qt/blockformat.cpp qt/blockformat.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o blockformat.o qt/blockformat.cpp
+
+commentaryeditor.o: qt/commentaryeditor.cpp qt/commentaryeditor.h \
+		qt/dipylonui.h \
+		fixedparameters.h \
+		qt/mainwindow.h \
+		qt/sourceeditor.h \
+		dipydoc/dipydoc.h \
+		pos/posintext/posintext2str.h \
 		pos/posintext/posintext.h \
 		pos/posintext/posintextranges.h \
 		misc/hash.h \
-		pos/posintext/vectorposintextranges.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posintext2str.o pos/posintext/posintext2str.cpp
+		pos/posintext/vectorposintextranges.h \
+		pos/posintext2posinaudio.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudiorange.h \
+		languages/languagefromto.h \
+		languages/languages.h \
+		qt/textformat.h \
+		qt/blockformat.h \
+		qt/posintextframeformat.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o commentaryeditor.o qt/commentaryeditor.cpp
+
+dipylonui.o: qt/dipylonui.cpp qt/dipylonui.h \
+		fixedparameters.h \
+		qt/mainwindow.h \
+		qt/sourceeditor.h \
+		dipydoc/dipydoc.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
+		misc/hash.h \
+		pos/posintext/vectorposintextranges.h \
+		pos/posintext2posinaudio.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudiorange.h \
+		languages/languagefromto.h \
+		languages/languages.h \
+		qt/textformat.h \
+		qt/blockformat.h \
+		qt/posintextframeformat.h \
+		qt/commentaryeditor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dipylonui.o qt/dipylonui.cpp
+
+mainwindow.o: qt/mainwindow.cpp qt/mainwindow.h \
+		fixedparameters.h \
+		qt/sourceeditor.h \
+		dipydoc/dipydoc.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
+		misc/hash.h \
+		pos/posintext/vectorposintextranges.h \
+		pos/posintext2posinaudio.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudiorange.h \
+		languages/languagefromto.h \
+		languages/languages.h \
+		qt/textformat.h \
+		qt/blockformat.h \
+		qt/posintextframeformat.h \
+		qt/dipylonui.h \
+		qt/commentaryeditor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o qt/mainwindow.cpp
+
+posintextframeformat.o: qt/posintextframeformat.cpp qt/posintextframeformat.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o posintextframeformat.o qt/posintextframeformat.cpp
+
+sourceeditor.o: qt/sourceeditor.cpp qt/sourceeditor.h \
+		dipydoc/dipydoc.h \
+		fixedparameters.h \
+		pos/posintext/posintext2str.h \
+		pos/posintext/posintext.h \
+		pos/posintext/posintextranges.h \
+		misc/hash.h \
+		pos/posintext/vectorposintextranges.h \
+		pos/posintext2posinaudio.h \
+		pos/posinaudio/posinaudio.h \
+		pos/posinaudio2posintext.h \
+		pos/posinaudio/posinaudiorange.h \
+		languages/languagefromto.h \
+		languages/languages.h \
+		qt/textformat.h \
+		qt/blockformat.h \
+		qt/posintextframeformat.h \
+		qt/dipylonui.h \
+		qt/mainwindow.h \
+		qt/commentaryeditor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sourceeditor.o qt/sourceeditor.cpp
+
+textformat.o: qt/textformat.cpp qt/textformat.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o textformat.o qt/textformat.cpp
 
 qrc_dipylon.o: qrc_dipylon.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_dipylon.o qrc_dipylon.cpp
+
+moc_commentaryeditor.o: moc_commentaryeditor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_commentaryeditor.o moc_commentaryeditor.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_sourceeditor.o: moc_sourceeditor.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sourceeditor.o moc_sourceeditor.cpp
-
-moc_commentaryeditor.o: moc_commentaryeditor.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_commentaryeditor.o moc_commentaryeditor.cpp
 
 ####### Install
 
