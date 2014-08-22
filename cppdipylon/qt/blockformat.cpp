@@ -27,7 +27,7 @@
 
 *******************************************************************************/
 
-#include "blockformat.h"
+#include "qt/blockformat.h"
 
 /*______________________________________________________________________________
 
@@ -48,41 +48,38 @@ BlockFormat::BlockFormat(const QString& source_string) {
 	available values.
 ______________________________________________________________________________*/
 int BlockFormat::init_from_string(const QString& source_string) {
-
     this->_repr = source_string;
 
     QStringList list_of_keywords = source_string.split(this->SEPARATOR);
 
     int res = BlockFormat::INTERNALSTATE::OK;
 
-    for( auto &keyword : list_of_keywords) {
-
+    for (auto &keyword : list_of_keywords) {
       // spaces are not taken in account :
       keyword.replace(" ", "");
 
       // alignment .............................................................
-      if( keyword == "alignment:left") {
+      if (keyword == "alignment:left") {
         this->_qtextblockformat.setAlignment(Qt::AlignLeft);
         continue;
       }
 
-      if( keyword == "alignment:right") {
+      if (keyword == "alignment:right") {
         this->_qtextblockformat.setAlignment(Qt::AlignRight);
         continue;
       }
 
-      if( keyword == "alignment:hcenter") {
+      if (keyword == "alignment:hcenter") {
         this->_qtextblockformat.setAlignment(Qt::AlignHCenter);
         continue;
       }
 
-      if( keyword == "alignment:justify") {
+      if (keyword == "alignment:justify") {
         this->_qtextblockformat.setAlignment(Qt::AlignJustify);
         continue;
       }
 
       res = BlockFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
-
     }
 
     return res;

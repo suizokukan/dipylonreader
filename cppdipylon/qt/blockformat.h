@@ -37,8 +37,8 @@
 
 *******************************************************************************/
 
-#ifndef BLOCKFORMAT_H
-#define BLOCKFORMAT_H
+#ifndef CPPDIPYLON_QT_BLOCKFORMAT_H_
+#define CPPDIPYLON_QT_BLOCKFORMAT_H_
 
 #include <QTextBlockFormat>
 #include <QString>
@@ -51,9 +51,7 @@
 
 ______________________________________________________________________________*/
 class BlockFormat {
-
-private:
-
+ private:
   QTextBlockFormat     _qtextblockformat;
   QString              _repr;
   bool                 _well_initialized;
@@ -61,9 +59,9 @@ private:
 
   constexpr static const char* SEPARATOR = ";";
 
-public:
+ public:
                           BlockFormat(void);
-                          BlockFormat(const QString&);
+                 explicit BlockFormat(const QString&);
 
   int                     init_from_string(const QString&);
   int                     internal_state(void) const;
@@ -85,7 +83,6 @@ public:
     NOT_YET_INITIALIZED = -1,
     BADSRCSTRING_UNKNOWNKEYWORD = -2,
   };
-
 };
 
 inline BlockFormat::BlockFormat(void) {
@@ -111,4 +108,4 @@ inline bool BlockFormat::well_initialized(void) const {
   return this->_well_initialized;
 }
 
-#endif
+#endif  // CPPDIPYLON_QT_BLOCKFORMAT_H_

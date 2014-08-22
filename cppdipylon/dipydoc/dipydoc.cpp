@@ -33,7 +33,7 @@
 
 *******************************************************************************/
 
-#include "dipydoc.h"
+#include "dipydoc/dipydoc.h"
 
 /*______________________________________________________________________________
 
@@ -46,13 +46,12 @@
 
 ______________________________________________________________________________*/
 DipyDoc::DipyDoc(const QString& path) {
-
   qDebug() << "DipyDoc::DipyDoc from " << path;
 
   this->clear();
 
   // does the path leads to the expected files ?
-  if( this->check_path(path) == false ) {
+  if (this->check_path(path) == false) {
     qDebug() << "DipyDoc::DipyDoc" << "problem with the path =" << path;
     return;
   }
@@ -62,7 +61,7 @@ DipyDoc::DipyDoc(const QString& path) {
 
   // let's open the text file :
   QFile src_file(this->source_text.filename);
-  src_file.open( QIODevice::ReadOnly | QIODevice::Text );
+  src_file.open(QIODevice::ReadOnly | QIODevice::Text);
   QTextStream src_file_stream(&src_file);
   src_file_stream.setCodec("UTF-8");
   this->source_text.text = src_file_stream.readAll();
@@ -84,34 +83,33 @@ DipyDoc::DipyDoc(const QString& path) {
         o does the file "path/text" exists ?
         o does the file "path/main.xml" exists ?
 ______________________________________________________________________________*/
-bool DipyDoc::check_path(const QString& path)
-{
+bool DipyDoc::check_path(const QString& path) {
   QString msg_error;
 
   // does "path" exists ?
   QFileInfo path_info = QFileInfo(path);
-  if( path_info.exists() == false ) {
+  if (path_info.exists() == false) {
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::UNKNOWN_PATH;
 
     msg_error = "an error occured : 'path' doesn't exist";
     msg_error += "path = " + path + "; ";
     msg_error += "[in function DipyDoc::check_path]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << "DipyDoc::check_path; error : " << msg_error;
     return false;
   }
 
   // is "path" a directory ?
-  if( path_info.isFile() == true ) {
+  if (path_info.isFile() == true) {
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::PATH_IS_A_FILE;
 
     msg_error = "an error occured : 'path' is a file, not a directory";
     msg_error += "path = " + path + "; ";
     msg_error += "[in function DipyDoc::check_path]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << "DipyDoc::check_path; error : " << msg_error;
     return false;
@@ -119,14 +117,14 @@ bool DipyDoc::check_path(const QString& path)
 
   // does the main file exist ?
   QFileInfo main_info = QFileInfo(path + "/" + this->MAIN_FILENAME);
-  if( main_info.exists() == false ) {
+  if (main_info.exists() == false) {
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::MISSING_MAIN_FILE;
 
     msg_error = "an error occured : missing main file in path.";
     msg_error += "path = " + path + "; ";
     msg_error += "[in function DipyDoc::check_path]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << "DipyDoc::check_path; error : " << msg_error;
     return false;
@@ -174,9 +172,7 @@ void DipyDoc::clear(void) {
 
 ______________________________________________________________________________*/
 QString DipyDoc::diagnosis(void) const {
-
-  switch( this->_internal_state) {
-
+  switch (this->_internal_state) {
     case DipyDoc::INTERNALSTATE::OK : {
       return QObject::tr("No problem has been detected.");
     }
@@ -204,7 +200,7 @@ QString DipyDoc::diagnosis(void) const {
       QString msg = QObject::tr("This DipyDoc contains an error : "
                                 "the given path doesn't contain "
                                 "the expected main file, '$FILENAME$'.");
-      msg.replace( "$FILENAME$", this->MAIN_FILENAME );
+      msg.replace("$FILENAME$", this->MAIN_FILENAME);
       return msg;
     }
 
@@ -212,7 +208,7 @@ QString DipyDoc::diagnosis(void) const {
       QString msg = QObject::tr("This DipyDoc contains an error : "
                                 "the given path doesn't contain the "
                                 "expected text file, '$FILENAME$'.");
-      msg.replace( "$FILENAME$", this->source_text.filename );
+      msg.replace("$FILENAME$", this->source_text.filename);
       return msg;
     }
 
@@ -221,7 +217,7 @@ QString DipyDoc::diagnosis(void) const {
                                 "the given path doesn't contain the "
                                 "expected audio file ('$FILENAME$') "
                                 "whose name was given in the DipyDoc.");
-      msg.replace( "$FILENAME$", this->audiorecord.filename );
+      msg.replace("$FILENAME$", this->audiorecord.filename);
       return msg;
     }
 
@@ -229,7 +225,7 @@ QString DipyDoc::diagnosis(void) const {
       QString msg = QObject::tr("This DipyDoc contains an error : "
                                 "the given path doesn't contain the "
                                 "expected text file, '$FILENAME$'.");
-      msg.replace( "$FILENAME$", this->source_text.filename );
+      msg.replace("$FILENAME$", this->source_text.filename);
       return msg;
     }
 
@@ -238,8 +234,8 @@ QString DipyDoc::diagnosis(void) const {
                                 "whose version ($VERSION$) is outdated."
                                 "The minimal version being $MINVERSION$, "
                                 "please update your DipyDoc documents.");
-      msg.replace( "$VERSION$", QString().setNum(this->dipydoc_version ));
-      msg.replace( "$MINVERSION$", QString().setNum(this->minimal_dipydoc_version ));
+      msg.replace("$VERSION$", QString().setNum(this->dipydoc_version));
+      msg.replace("$MINVERSION$", QString().setNum(this->minimal_dipydoc_version));
       return msg;
     }
 
@@ -248,8 +244,8 @@ QString DipyDoc::diagnosis(void) const {
                                 "whose version ($VERSION$) is too recent."
                                 "The maximal version being $MAXVERSION$, "
                                 "please update your DipyDoc reader.");
-      msg.replace( "$VERSION$", QString().setNum(this->dipydoc_version ));
-      msg.replace( "$MAXVERSION$", QString().setNum(this->maximal_dipydoc_version ));
+      msg.replace("$VERSION$", QString().setNum(this->dipydoc_version));
+      msg.replace("$MAXVERSION$", QString().setNum(this->maximal_dipydoc_version));
       return msg;
     }
 
@@ -259,7 +255,7 @@ QString DipyDoc::diagnosis(void) const {
                                 "is zero or above. "
                                 "A correct value would be greater than 0."
                                 "Value given in main.xml : $LETTRINEASPECTRATIO");
-      msg.replace( "$LETTRINEASPECTRATIO$", QString().setNum(this->lettrine.aspectratio) );
+      msg.replace("$LETTRINEASPECTRATIO$", QString().setNum(this->lettrine.aspectratio));
       return msg;
     }
 
@@ -270,16 +266,14 @@ QString DipyDoc::diagnosis(void) const {
                                 "In main.xml the name '$LETTRINEFILENAME$' "
                                 "appears but such a file "
                                 "can't be found in the given path.");
-      msg.replace( "$LETTRINEFILENAME$", this->lettrine.filename );
+      msg.replace("$LETTRINEFILENAME$", this->lettrine.filename);
       return msg;
     }
 
     default : {
       return QObject::tr("anomaly : unknown internal state.");
     }
-
   }
-
 }
 
 /*______________________________________________________________________________
@@ -293,14 +287,13 @@ QString DipyDoc::diagnosis(void) const {
           string returned.
 ______________________________________________________________________________*/
 QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges positions, int maxlength) const {
-
   QString res;
 
-  for( auto &textrange : positions ) {
-    QString substring = this->source_text.text.mid( static_cast<int>(textrange.first),
-                                                    static_cast<int>(textrange.second - textrange.first ));
+  for (auto &textrange : positions) {
+    QString substring = this->source_text.text.mid(static_cast<int>(textrange.first),
+                                                    static_cast<int>(textrange.second - textrange.first));
 
-    if( substring.length() > maxlength ) {
+    if (substring.length() > maxlength) {
       int left_length = (maxlength / 2)-3;
       int right_length = maxlength - left_length;
       substring = substring.left(left_length) + "[…]" + substring.right(right_length);
@@ -326,7 +319,6 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
 
 ______________________________________________________________________________*/
 QString DipyDoc::get_xml_repr(void) const {
-
   QString res;
   VectorPosInTextRanges list_of_posintextranges;
 
@@ -352,7 +344,7 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     title :
   ............................................................................*/
-  if( this->title.available == true ) {
+  if (this->title.available == true) {
     res += "  <title "
            "textformat=\"$TITLETEXTFORMAT$\" "
            "blockformat=\"$TITLEBLOCKFORMAT$\" "
@@ -364,7 +356,7 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     introduction :
   ............................................................................*/
-  if( this->introduction.available == true ) {
+  if (this->introduction.available == true) {
     res += "  <introduction textformat=\"$INTRODUCTIONTEXTFORMAT$\" "
            "blockformat=\"$INTRODUCTIONBLOCKFORMAT$\">"
            "$INTRODUCTIONTEXT$"
@@ -374,7 +366,7 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     lettrine :
   ............................................................................*/
-  if( this->lettrine.available == true ) {
+  if (this->lettrine.available == true) {
     res += "  <lettrine filename=\"$LETTRINEFILENAME$\" "
            "positionintextframe=\"$LETTRINEPOSITIONINTEXTFRAME$\" "
            "aspectratio=\"$LETTRINEASPECTRATIO$\"/>\n\n";
@@ -416,7 +408,7 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     audiorecord : the functions reads through this->audiorecord.text2audio with sorted keys.
   ............................................................................*/
-  if( this->audiorecord.available == true ) {
+  if (this->audiorecord.available == true) {
     res += "\n";
     list_of_posintextranges.clear();
     res += "  <audiorecord \n"
@@ -425,20 +417,20 @@ QString DipyDoc::get_xml_repr(void) const {
            "        informations=\"$AUDIORECORDINFORMATIONS$\" \n"
            "  >\n";
 
-      for(auto &textrange : this->audiorecord.text2audio) {
-        list_of_posintextranges.vposintextranges.push_back( textrange.first );
+      for (auto &textrange : this->audiorecord.text2audio) {
+        list_of_posintextranges.vposintextranges.push_back(textrange.first);
       }
       list_of_posintextranges.sort();
-      for(auto &textranges : list_of_posintextranges.vposintextranges) {
+      for (auto &textranges : list_of_posintextranges.vposintextranges) {
         QString new_line("    <segment "
                          "textranges=\"$TEXTRANGE$\" "
                          "audiorange=\"$AUDIORANGE$\" "
                          "srctext=\"$TEXT$\" "
                          "/>\n");
-        new_line.replace( "$TEXTRANGE$", textranges.to_str() );
-        PosInAudioRange posinaudiorange( this->audiorecord.text2audio[textranges] );
-        new_line.replace( "$AUDIORANGE$", posinaudiorange.to_str() );
-        new_line.replace( "$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30) );
+        new_line.replace("$TEXTRANGE$", textranges.to_str());
+        PosInAudioRange posinaudiorange(this->audiorecord.text2audio[textranges]);
+        new_line.replace("$AUDIORANGE$", posinaudiorange.to_str());
+        new_line.replace("$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30));
         res += new_line;
       }
     res += "  </audiorecord>\n";
@@ -453,21 +445,21 @@ QString DipyDoc::get_xml_repr(void) const {
          "        description=\"$TRANSLATIONNAME$\" \n"
          "        informations=\"$TRANSLATIONINFORMATIONS$\" \n"
          "  >\n";
-  for(auto &textrange : this->translation.translations) {
-    list_of_posintextranges.vposintextranges.push_back( textrange.first );
+  for (auto &textrange : this->translation.translations) {
+    list_of_posintextranges.vposintextranges.push_back(textrange.first);
   }
   list_of_posintextranges.sort();
 
-  for(auto &textranges : list_of_posintextranges.vposintextranges) {
+  for (auto &textranges : list_of_posintextranges.vposintextranges) {
     QString new_line("    <segment "
                      "textranges=\"$TEXTRANGE$\" "
                      "srctext=\"$TEXT$\""
                      ">");
 
-    new_line.replace( "$TEXTRANGE$",
-                      textranges.to_str() );
-    new_line.replace( "$TEXT$",
-                      this->get_condensed_extracts_from_the_source_text(textranges, 30) );
+    new_line.replace("$TEXTRANGE$",
+                      textranges.to_str());
+    new_line.replace("$TEXT$",
+                      this->get_condensed_extracts_from_the_source_text(textranges, 30));
     res += new_line;
     res += this->translation.translations[ textranges ];
     res += "</segment>\n";
@@ -479,10 +471,10 @@ QString DipyDoc::get_xml_repr(void) const {
   ............................................................................*/
   res += "\n";
   res += "  <textformats>\n";
-  for(auto &textformat : this->textformats) {
+  for (auto &textformat : this->textformats) {
     QString new_line("    <textformat name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
-    new_line.replace( "$NAME$", textformat.first );
-    new_line.replace( "$ASPECT$",  textformat.second );
+    new_line.replace("$NAME$", textformat.first);
+    new_line.replace("$ASPECT$",  textformat.second);
     res += new_line;
   }
   res += "  </textformats>\n";
@@ -492,14 +484,14 @@ QString DipyDoc::get_xml_repr(void) const {
   ............................................................................*/
   res += "\n";
   res += "  <levels>\n";
-  for(auto &level : this->levels) {
+  for (auto &level : this->levels) {
     QString new_line("    <level number=\"$NUMBER$\" "
                      "name=\"$NAME$\" "
                      "aspect=\"$ASPECT$\" "
                      "/>\n");
-    new_line.replace( "$NUMBER$", QString().setNum(level.first) );
-    new_line.replace( "$NAME$", level.second.name );
-    new_line.replace( "$ASPECT$", level.second.textformat.repr() );
+    new_line.replace("$NUMBER$", QString().setNum(level.first));
+    new_line.replace("$NAME$", level.second.name);
+    new_line.replace("$ASPECT$", level.second.textformat.repr());
     res += new_line;
   }
   res += "  </levels>\n";
@@ -509,12 +501,12 @@ QString DipyDoc::get_xml_repr(void) const {
   ............................................................................*/
   res += "\n";
   res += "  <arrows>\n";
-  for(auto &arrow : this->arrows) {
+  for (auto &arrow : this->arrows) {
     QString new_line("    <arrow name=\"$NAME$\" "
                      "aspect=\"$ASPECT$\" "
                      "/>\n");
-    new_line.replace( "$NAME$", arrow.first );
-    new_line.replace( "$ASPECT$",  arrow.second.straspect );
+    new_line.replace("$NAME$", arrow.first);
+    new_line.replace("$ASPECT$",  arrow.second.straspect);
     res += new_line;
   }
   res += "  </arrows>\n";
@@ -528,65 +520,65 @@ QString DipyDoc::get_xml_repr(void) const {
   /*............................................................................
     various replacements
   ............................................................................*/
-  res.replace( "$DIPYDOCVERSION$",
-               QString().setNum(this->dipydoc_version) );
-  res.replace( "$LANGUAGEFROMTO$",
-               this->languagefromto.to_str() );
+  res.replace("$DIPYDOCVERSION$",
+               QString().setNum(this->dipydoc_version));
+  res.replace("$LANGUAGEFROMTO$",
+               this->languagefromto.to_str());
 
-  res.replace( "$TITLETEXT$",
-               this->title.text );
-  res.replace( "$TITLETEXTFORMAT$",
-               this->title.textformat.repr() );
-  res.replace( "$TITLEBLOCKFORMAT$",
-               this->title.blockformat.repr() );
+  res.replace("$TITLETEXT$",
+               this->title.text);
+  res.replace("$TITLETEXTFORMAT$",
+               this->title.textformat.repr());
+  res.replace("$TITLEBLOCKFORMAT$",
+               this->title.blockformat.repr());
 
-  res.replace( "$INTRODUCTIONTEXT$",
-               this->introduction.text );
-  res.replace( "$INTRODUCTIONTEXTFORMAT$",
-               this->introduction.textformat.repr() );
-  res.replace( "$INTRODUCTIONBLOCKFORMAT$",
-               this->introduction.blockformat.repr() );
+  res.replace("$INTRODUCTIONTEXT$",
+               this->introduction.text);
+  res.replace("$INTRODUCTIONTEXTFORMAT$",
+               this->introduction.textformat.repr());
+  res.replace("$INTRODUCTIONBLOCKFORMAT$",
+               this->introduction.blockformat.repr());
 
-  res.replace( "$LETTRINEFILENAME$",
-               this->lettrine.filename );
-  res.replace( "$LETTRINEASPECTRATIO$",
-               QString().setNum(this->lettrine.aspectratio) );
-  res.replace( "$LETTRINEPOSITIONINTEXTFRAME$",
-               this->lettrine.position_in_text_frame.repr() );
+  res.replace("$LETTRINEFILENAME$",
+               this->lettrine.filename);
+  res.replace("$LETTRINEASPECTRATIO$",
+               QString().setNum(this->lettrine.aspectratio));
+  res.replace("$LETTRINEPOSITIONINTEXTFRAME$",
+               this->lettrine.position_in_text_frame.repr());
 
-  res.replace( "$SOURCEEDITOR_STYLESHEET$",
-               this->sourceeditor_stylesheet );
-  res.replace( "$SOURCEEDITOR_DEFAULTTEXTFORMAT$",
-               this->sourceeditor_default_textformat.repr() );
-  res.replace( "$SOURCEEDITOR_KARAOKETEXTFORMAT$",
-               this->sourceeditor_karaoke_textformat.repr() );
-  res.replace( "$COMMENTARYEDITOR_STYLESHEET$",
-               this->commentaryeditor_stylesheet );
-  res.replace( "$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$",
-               this->commentaryeditor_textformat.repr() );
+  res.replace("$SOURCEEDITOR_STYLESHEET$",
+               this->sourceeditor_stylesheet);
+  res.replace("$SOURCEEDITOR_DEFAULTTEXTFORMAT$",
+               this->sourceeditor_default_textformat.repr());
+  res.replace("$SOURCEEDITOR_KARAOKETEXTFORMAT$",
+               this->sourceeditor_karaoke_textformat.repr());
+  res.replace("$COMMENTARYEDITOR_STYLESHEET$",
+               this->commentaryeditor_stylesheet);
+  res.replace("$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$",
+               this->commentaryeditor_textformat.repr());
 
-  res.replace( "$AUDIORECORDNAME$",
-               this->audiorecord.name );
-  res.replace( "$AUDIORECORDINFORMATIONS$",
-               this->audiorecord.informations );
+  res.replace("$AUDIORECORDNAME$",
+               this->audiorecord.name);
+  res.replace("$AUDIORECORDINFORMATIONS$",
+               this->audiorecord.informations);
   // just the filename, not the path :
-  res.replace( "$AUDIORECORDFILENAME$",
-               QFileInfo(this->audiorecord.filename).fileName() );
+  res.replace("$AUDIORECORDFILENAME$",
+               QFileInfo(this->audiorecord.filename).fileName());
 
-  res.replace( "$TEXTNAME$",
-               this->source_text.name );
-  res.replace( "$TEXTINFORMATIONS$",
-               this->source_text.informations );
-  res.replace( "$TEXTBLOCKFORMAT$",
-               this->source_text.blockformat.repr() );
+  res.replace("$TEXTNAME$",
+               this->source_text.name);
+  res.replace("$TEXTINFORMATIONS$",
+               this->source_text.informations);
+  res.replace("$TEXTBLOCKFORMAT$",
+               this->source_text.blockformat.repr());
   // just the filename, not the path :
-  res.replace( "$TEXTFILENAME$",
-               QFileInfo(this->source_text.filename).fileName() );
+  res.replace("$TEXTFILENAME$",
+               QFileInfo(this->source_text.filename).fileName());
 
-  res.replace( "$TRANSLATIONNAME$",
-               this->translation.name );
-  res.replace( "$TRANSLATIONINFORMATIONS$",
-               this->translation.informations );
+  res.replace("$TRANSLATIONNAME$",
+               this->translation.name);
+  res.replace("$TRANSLATIONINFORMATIONS$",
+               this->translation.informations);
 
   return res;
 }
@@ -623,7 +615,6 @@ QString DipyDoc::get_xml_repr(void) const {
 
 ______________________________________________________________________________*/
 void DipyDoc::init_from_xml(const QString& path) {
-
   QString msg_error;
 
   /*............................................................................
@@ -639,15 +630,14 @@ void DipyDoc::init_from_xml(const QString& path) {
   QString main_filename = path + "/" + this->MAIN_FILENAME;
   QFile dipydoc_main_xml(main_filename);
 
-  if ( !dipydoc_main_xml.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
-
+  if (!dipydoc_main_xml.open(QIODevice::ReadOnly | QIODevice::Text)) {
     qDebug() << "DipyDoc::init_from_xml" \
              << "can't open the main file in " << path;
 
     msg_error = "An error occurs while opening the main file; ";
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
     return;
   }
 
@@ -666,16 +656,14 @@ void DipyDoc::init_from_xml(const QString& path) {
   ............................................................................*/
   DipyDocDiv current_division = DIPYDOCDIV_UNDEFINED;
 
-  while(!xmlreader.atEnd() && !xmlreader.hasError()) {
-
+  while (!xmlreader.atEnd() && !xmlreader.hasError()) {
     QXmlStreamReader::TokenType token = xmlreader.readNext();
 
     // token=StartElement ?
-    if(token == QXmlStreamReader::StartElement) {
-
+    if (token == QXmlStreamReader::StartElement) {
       QString name = xmlreader.name().toString();
 
-      if( name == "arrow" ) {
+      if (name == "arrow") {
         current_division = DIPYDOCDIV_INSIDE_ARROW;
         QString arrow_name = xmlreader.attributes().value("name").toString();
         QString arrow_aspect = xmlreader.attributes().value("aspect").toString();
@@ -684,7 +672,7 @@ void DipyDoc::init_from_xml(const QString& path) {
         continue;
       }
 
-      if( name == "audiorecord" ) {
+      if (name == "audiorecord") {
         current_division = DIPYDOCDIV_INSIDE_AUDIORECORD;
         this->audiorecord.available = true;
         this->audiorecord.name = xmlreader.attributes().value("description").toString();
@@ -693,14 +681,13 @@ void DipyDoc::init_from_xml(const QString& path) {
         continue;
       }
 
-      if( name == "commentaryeditor" ) {
+      if (name == "commentaryeditor") {
         current_division = DIPYDOCDIV_INSIDE_COMMENTARYEDITOR;
         continue;
       }
 
-      if( name == "default_textformat" ) {
-
-        if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
+      if (name == "default_textformat") {
+        if (current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR) {
           this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
           continue;
         }
@@ -712,29 +699,28 @@ void DipyDoc::init_from_xml(const QString& path) {
                      "<sourceeditor> .";
         msg_error += "filename=" + main_filename;
         msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append( msg_error );
+        this->errors.append(msg_error);
         continue;
       }
 
-      if( name == "dipydoc" ) {
+      if (name == "dipydoc") {
         current_division = DIPYDOCDIV_UNDEFINED;
         this->dipydoc_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
-        this->languagefromto = LanguageFromTo( xmlreader.attributes().value("languages").toString() );
+        this->languagefromto = LanguageFromTo(xmlreader.attributes().value("languages").toString());
         continue;
       }
 
-      if( name == "introduction" ) {
+      if (name == "introduction") {
         this->introduction.available = true;
-        this->introduction.textformat = TextFormat( xmlreader.attributes().value("textformat").toString() );
-        this->introduction.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
+        this->introduction.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+        this->introduction.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
         this->introduction.text = xmlreader.readElementText();
         continue;
       }
 
-      if( name == "karaoke_textformat" ) {
-
-        if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
-          this->sourceeditor_karaoke_textformat = TextFormat( xmlreader.readElementText() );
+      if (name == "karaoke_textformat") {
+        if (current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR) {
+          this->sourceeditor_karaoke_textformat = TextFormat(xmlreader.readElementText());
           continue;
         }
 
@@ -745,40 +731,41 @@ void DipyDoc::init_from_xml(const QString& path) {
                      "<sourceeditor> .";
         msg_error += "filename=" + main_filename;
         msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append( msg_error );
+        this->errors.append(msg_error);
         continue;
       }
 
-      if( name == "lettrine" ) {
-        this->lettrine.well_initialized = true; // this will be checked later.
+      if (name == "lettrine") {
+        this->lettrine.well_initialized = true;  // this will be checked later.
         this->lettrine.available = true;
         this->lettrine.filename = xmlreader.attributes().value("filename").toString();
         this->lettrine.aspectratio = xmlreader.attributes().value("aspectratio").toInt();
-        this->lettrine.position_in_text_frame = PosInTextFrameFormat( xmlreader.attributes().value("positionintextframe").toString() );
+
+        QString str_pos = xmlreader.attributes().value("positionintextframe").toString();
+        this->lettrine.position_in_text_frame = PosInTextFrameFormat(str_pos);
+
         this->lettrine.image = QImage(this->lettrine.filename);
         continue;
       }
 
-      if( name == "level" ) {
+      if (name == "level") {
         current_division = DIPYDOCDIV_INSIDE_LEVEL;
         int     level_number = xmlreader.attributes().value("number").toString().toInt();
         QString level_name = xmlreader.attributes().value("name").toString();
         QString level_strtextformat = xmlreader.attributes().value("aspect").toString();
 
-        LevelDetails leveldetails( level_name, level_strtextformat );
+        LevelDetails leveldetails(level_name, level_strtextformat);
 
         this->levels[ level_number ] = leveldetails;
         continue;
       }
 
-      if( name == "segment" ) {
-
-        switch( current_division ) {
-
+      if (name == "segment") {
+        switch (current_division) {
           case DIPYDOCDIV_INSIDE_AUDIORECORD : {
-            PosInTextRanges textranges( xmlreader.attributes().value("textranges").toString() );
-            PosInAudioRange audiorange( xmlreader.attributes().value("audiorange").toString() );
-            this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio( audiorange.first(), audiorange.second() );
+            PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+            PosInAudioRange audiorange(xmlreader.attributes().value("audiorange").toString());
+            this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio(audiorange.first(), audiorange.second());
 
             qDebug() << "DipyDoc::init_from_xml : audiorecord:segment" << \
                         "textranges=" << textranges.to_str() << \
@@ -787,7 +774,7 @@ void DipyDoc::init_from_xml(const QString& path) {
           }
 
           case DIPYDOCDIV_INSIDE_TRANSLATION : {
-            PosInTextRanges textranges( xmlreader.attributes().value("textranges").toString() );
+            PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
             QString text(xmlreader.readElementText());
             this->translation.translations[ textranges ] = text;
 
@@ -801,23 +788,21 @@ void DipyDoc::init_from_xml(const QString& path) {
           default : {
             break;
           }
-
         }
         continue;
-
       }
 
-      if( name == "sourceeditor" ) {
+      if (name == "sourceeditor") {
         current_division = DIPYDOCDIV_INSIDE_SOURCEEDITOR;
         continue;
       }
 
-      if( name == "stylesheet" ) {
-        if ( current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR ) {
+      if (name == "stylesheet") {
+        if (current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR) {
           this->sourceeditor_stylesheet = xmlreader.readElementText();
           continue;
         }
-        if ( current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR ) {
+        if (current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR) {
           this->commentaryeditor_stylesheet = xmlreader.readElementText();
           continue;
         }
@@ -829,30 +814,29 @@ void DipyDoc::init_from_xml(const QString& path) {
                      "<sourceeditor> or <commentaryeditor>.";
         msg_error += "filename=" + main_filename;
         msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append( msg_error );
+        this->errors.append(msg_error);
         continue;
       }
 
-      if( name == "text" ) {
+      if (name == "text") {
         current_division = DIPYDOCDIV_INSIDE_TEXT;
         this->source_text.name = xmlreader.attributes().value("description").toString();
         this->source_text.filename = path + "/" + xmlreader.attributes().value("filename").toString();
         this->source_text.informations = xmlreader.attributes().value("informations").toString();
-        this->source_text.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
+        this->source_text.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
         continue;
       }
 
-      if( name == "textformat" ) {
-
-        if ( current_division == DIPYDOCDIV_INSIDE_TEXTFORMATS ) {
+      if (name == "textformat") {
+        if (current_division == DIPYDOCDIV_INSIDE_TEXTFORMATS) {
           QString textformat_name = xmlreader.attributes().value("name").toString();
           QString textformat_aspect = xmlreader.attributes().value("aspect").toString();
           this->textformats[ textformat_name ] = textformat_aspect;
           continue;
         }
 
-        if ( current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR ) {
-          this->commentaryeditor_textformat = TextFormat( xmlreader.readElementText() );
+        if (current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR) {
+          this->commentaryeditor_textformat = TextFormat(xmlreader.readElementText());
           continue;
         }
 
@@ -863,25 +847,25 @@ void DipyDoc::init_from_xml(const QString& path) {
                      "<textformats> or <commentaryeditor>.";
         msg_error += "filename=" + main_filename;
         msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append( msg_error );
+        this->errors.append(msg_error);
         continue;
       }
 
-      if( name == "textformats" ) {
+      if (name == "textformats") {
         current_division = DIPYDOCDIV_INSIDE_TEXTFORMATS;
         continue;
       }
 
-      if( name == "title" ) {
+      if (name == "title") {
         current_division = DIPYDOCDIV_INSIDE_TITLE;
         this->title.available = true;
-        this->title.textformat = TextFormat( xmlreader.attributes().value("textformat").toString() );
-        this->title.blockformat = BlockFormat( xmlreader.attributes().value("blockformat").toString() );
+        this->title.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+        this->title.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
         this->title.text = xmlreader.readElementText();
         continue;
       }
 
-      if( name == "translation" ) {
+      if (name == "translation") {
         current_division = DIPYDOCDIV_INSIDE_TRANSLATION;
         this->translation.name = xmlreader.attributes().value("description").toString();
         this->translation.informations = xmlreader.attributes().value("informations").toString();
@@ -892,7 +876,7 @@ void DipyDoc::init_from_xml(const QString& path) {
     }
   }
 
-  if( xml_reading_is_ok == true ) {
+  if (xml_reading_is_ok == true) {
     xml_reading_is_ok = !xmlreader.hasError();
   }
 
@@ -900,12 +884,12 @@ void DipyDoc::init_from_xml(const QString& path) {
     (3.2) was the xml reading of the main file ok ?
   ............................................................................*/
 
-  if( xml_reading_is_ok == false ) {
+  if (xml_reading_is_ok == false) {
     msg_error = "An error occurs while reading the main file : ";
     msg_error += xmlreader.errorString() + "; ";
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << msg_error;
   }
@@ -917,10 +901,9 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (4.1) initialization of "audiorecord.audio2text"
   ............................................................................*/
-  if( this->audiorecord.available == true ) {
-    this->audiorecord.audio2text = PosInAudio2PosInText( this->audiorecord.text2audio );
-  }
-  else {
+  if (this->audiorecord.available == true) {
+    this->audiorecord.audio2text = PosInAudio2PosInText(this->audiorecord.text2audio);
+  } else {
     // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
     this->audiorecord.audio2text.clear();
   }
@@ -931,13 +914,13 @@ void DipyDoc::init_from_xml(const QString& path) {
     The first attempt to compute "number_of_chars_before_source_text was doubtfull :
 
       this->source_text.number_of_chars_before_source_text = 0;
-      if( this->title.available == true ) {
+      if (this->title.available == true) {
         this->source_text.number_of_chars_before_source_text += this->title.text.length();
       }
-      if( this->introduction.available == true ) {
+      if (this->introduction.available == true) {
         this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
       }
-      if( this->lettrine.available == true ) {
+      if (this->lettrine.available == true) {
         this->source_text.number_of_chars_before_source_text += 1;
       }
 
@@ -957,7 +940,7 @@ void DipyDoc::init_from_xml(const QString& path) {
   ............................................................................*/
   bool dipydoc_version_ok = (this->dipydoc_version >= this->minimal_dipydoc_version);
 
-  if( dipydoc_version_ok == false ) {
+  if (dipydoc_version_ok == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "the DipyDoc version of the file is outdated.";
     msg_error += "current version = " + \
@@ -966,7 +949,7 @@ void DipyDoc::init_from_xml(const QString& path) {
                  QString().setNum(this->minimal_dipydoc_version) + "; ";
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     this->_internal_state = OUTDATED_DIPYDOC_VERSION;
 
@@ -975,7 +958,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
   dipydoc_version_ok = (this->dipydoc_version <= this->maximal_dipydoc_version);
 
-  if( dipydoc_version_ok == false ) {
+  if (dipydoc_version_ok == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "the DipyDoc version of the file is too recent";
     msg_error += "current version = " + \
@@ -984,7 +967,7 @@ void DipyDoc::init_from_xml(const QString& path) {
                  QString().setNum(this->maximal_dipydoc_version) + "; ";
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     this->_internal_state = DIPYDOC_VERSION_TOO_RECENT;
 
@@ -994,14 +977,14 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
      (5.2) is the object languagefromto correctly initialized ?
   ............................................................................*/
-  if( languagefromto.well_initialized() == false ) {
+  if (languagefromto.well_initialized() == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "Languages from/to could not be read";
     msg_error += "message error due to the LanguageFromTo object =" + \
                  QString().setNum(this->languagefromto.internal_state());
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << msg_error;
   }
@@ -1009,15 +992,15 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.3) is audiorecord.text2audio correctly initialized ?
   ............................................................................*/
-  if( this->audiorecord.available == true and \
-      this->audiorecord.text2audio.well_initialized() == false ) {
+  if (this->audiorecord.available == true && \
+      this->audiorecord.text2audio.well_initialized() == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "text2audio isn't correctly initialized";
     msg_error += "message error due to the PosInText2PosInAudio object =" +\
                  QString().setNum(this->audiorecord.text2audio.internal_state());
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << msg_error;
   }
@@ -1025,15 +1008,15 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.4) is audio2text correctly initialized ?
   ............................................................................*/
-  if( this->audiorecord.available == true and \
-      this->audiorecord.audio2text.well_initialized() == false ) {
+  if (this->audiorecord.available == true && \
+      this->audiorecord.audio2text.well_initialized() == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "audio2text isn't correctly initialized";
     msg_error += "message error due to the PosInAudio2PosInText object =" +\
                  QString().setNum(this->audiorecord.audio2text.internal_state());
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << msg_error;
   }
@@ -1041,14 +1024,14 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.5) is translation correctly initialized ?
   ............................................................................*/
-  if( translation.translations.well_initialized() == false ) {
+  if (translation.translations.well_initialized() == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "translation isn't correctly initialized";
     msg_error += "message error due to the PosInText2Str object =" +\
                  QString().setNum(this->translation.translations.internal_state());
     msg_error += "filename=" + main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     qDebug() << msg_error;
   }
@@ -1058,16 +1041,15 @@ void DipyDoc::init_from_xml(const QString& path) {
   ............................................................................*/
   bool audiofile_ok = true;
 
-  if( this->audiorecord.available == true ) {
-
-      QFile audiofile( this->audiorecord.filename );
-      if (!audiofile.open(QFile::ReadOnly) ) {
+  if (this->audiorecord.available == true) {
+      QFile audiofile(this->audiorecord.filename);
+      if (!audiofile.open(QFile::ReadOnly)) {
         audiofile_ok = false;
 
         msg_error = "An error occurs while opening the audio file; ";
         msg_error += "filename=" + this->audiorecord.filename;
         msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append( msg_error );
+        this->errors.append(msg_error);
 
         this->_internal_state = MISSING_AUDIO_FILE;
 
@@ -1080,14 +1062,14 @@ void DipyDoc::init_from_xml(const QString& path) {
   ............................................................................*/
   bool textfile_ok = true;
 
-  QFile textfile( this->source_text.filename );
-  if (!textfile.open(QFile::ReadOnly) ) {
+  QFile textfile(this->source_text.filename);
+  if (!textfile.open(QFile::ReadOnly)) {
     textfile_ok = false;
 
     msg_error = "An error occurs while opening the text file; ";
     msg_error += "filename=" + this->source_text.filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     this->_internal_state = MISSING_SOURCE_TEXT_FILE;
 
@@ -1097,12 +1079,12 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.8) is the aspectratio of the lettrine correctly initialized ?
   ............................................................................*/
-  if( this->lettrine.available == true && this->lettrine.aspectratio <= 0 ) {
+  if (this->lettrine.available == true && this->lettrine.aspectratio <= 0) {
     msg_error = "the aspect ratio defined for the lettrine isn't correct; "
                 "accepted values are integers greater than 0."
                 "given aspectratio = " +\
                 QString().setNum(this->lettrine.aspectratio);
-    this->errors.append( msg_error );
+    this->errors.append(msg_error);
 
     this->_internal_state = WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO;
 
@@ -1112,13 +1094,13 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.9) does the lettrine's file exist ?
   ............................................................................*/
-  if( this->lettrine.available == true ) {
-      QFile lettrinefile( this->lettrine.filename );
-      if (!lettrinefile.open(QFile::ReadOnly) ) {
+  if (this->lettrine.available == true) {
+      QFile lettrinefile(this->lettrine.filename);
+      if (!lettrinefile.open(QFile::ReadOnly)) {
         msg_error = "An error occurs while reading the lettrine's file; ";
         msg_error += "filename=" + this->lettrine.filename;
         msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append( msg_error );
+        this->errors.append(msg_error);
 
         this->_internal_state = MISSING_LETTRINE_FILE;
 
@@ -1129,14 +1111,14 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (6) initializaton of _well_initialized
   ............................................................................*/
-  this->_well_initialized = xml_reading_is_ok and \
-                            dipydoc_version_ok and \
-                            this->languagefromto.well_initialized() and \
-                            this->audiorecord.text2audio.well_initialized() and \
-                            this->audiorecord.audio2text.well_initialized() and \
-                            this->translation.translations.well_initialized() and \
-                            audiofile_ok and \
-                            textfile_ok and \
+  this->_well_initialized = xml_reading_is_ok && \
+                            dipydoc_version_ok && \
+                            this->languagefromto.well_initialized() && \
+                            this->audiorecord.text2audio.well_initialized() && \
+                            this->audiorecord.audio2text.well_initialized() && \
+                            this->translation.translations.well_initialized() && \
+                            audiofile_ok && \
+                            textfile_ok && \
                             this->lettrine.well_initialized;
 
   qDebug() << "DipyDoc::init_from_xml" << \

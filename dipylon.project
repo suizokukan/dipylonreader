@@ -65,8 +65,10 @@ SOMMAIRE
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
         a été modifié.        
 
+- color doit accepter #RRBBVV
 - couleurs
 - essayer avec l'hébreu.
+- virer les $$
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes
 - google/c++lint

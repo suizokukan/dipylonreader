@@ -25,17 +25,8 @@
 
 *******************************************************************************/
 
-#ifndef DIPYDOC_H
-#define DIPYDOC_H
-
-#include "fixedparameters.h"
-#include "pos/posintext/posintext2str.h"
-#include "pos/posintext2posinaudio.h"
-#include "pos/posinaudio2posintext.h"
-#include "languages/languagefromto.h"
-#include "qt/textformat.h"
-#include "qt/blockformat.h"
-#include "qt/posintextframeformat.h"
+#ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
+#define CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 
 // $$$
 #include <QDebug>
@@ -48,6 +39,17 @@
 #include <QXmlStreamReader>
 #include <QObject>
 #include <QTextCharFormat>
+
+#include <map>
+
+#include "./fixedparameters.h"
+#include "pos/posintext/posintext2str.h"
+#include "pos/posintext2posinaudio.h"
+#include "pos/posinaudio2posintext.h"
+#include "languages/languagefromto.h"
+#include "qt/textformat.h"
+#include "qt/blockformat.h"
+#include "qt/posintextframeformat.h"
 
 /*
   divisions inside a DipyDoc file :
@@ -133,7 +135,6 @@ inline void DipyDocIntroduction::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocSourceText {
-
   /*
     Before the source text, the title and the introduction may be inserted.
     In this attribute is stored the number of characters appearing before
@@ -234,7 +235,6 @@ inline void DipyDocNotes::clear(void) {
 
 ______________________________________________________________________________*/
 struct LevelDetails {
-
   bool       well_initialized = false;
 
   QString    name;
@@ -263,19 +263,18 @@ inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : nam
 
 ______________________________________________________________________________*/
 struct ArrowDetails {
-
   // the same informations are kept twice : as a QString and as serial attributes.
   QString straspect;
 
-  //int    thickness;
+  // int    thickness;
   QColor main_color;
-  //QColor startingpoint_color;
-  //QColor endpoint_color;
+  // QColor startingpoint_color;
+  // QColor endpoint_color;
 
   // default constructor :
   ArrowDetails(void);
   // constructor from a QString describing the arrow's aspect :
-  ArrowDetails(QString&);
+  explicit ArrowDetails(QString&);
 };
 inline ArrowDetails::ArrowDetails(void) {
   this->straspect = QString("");
@@ -300,7 +299,11 @@ struct DipyDocLettrine {
   int                  aspectratio;
 
        DipyDocLettrine(void);
-       DipyDocLettrine(bool _available, QString& _filename, QImage& _image, PosInTextFrameFormat& _position_in_text_frame, int _aspectratio);
+       DipyDocLettrine(bool _available,
+                       const QString& _filename,
+                       const QImage& _image,
+                       const PosInTextFrameFormat& _position_in_text_frame,
+                       int _aspectratio);
   void clear(void);
 };
 inline DipyDocLettrine::DipyDocLettrine(void) {
@@ -311,7 +314,16 @@ inline DipyDocLettrine::DipyDocLettrine(void) {
   this->position_in_text_frame = PosInTextFrameFormat();
   this->aspectratio = 0;
 }
-inline DipyDocLettrine::DipyDocLettrine(bool _available, QString& _filename, QImage& _image, PosInTextFrameFormat& _position_in_text_frame, int _aspectratio) : available(_available), filename(_filename), image(_image), position_in_text_frame(_position_in_text_frame), aspectratio(_aspectratio) {
+inline DipyDocLettrine::DipyDocLettrine(bool _available,
+                                        const QString& _filename,
+                                        const QImage& _image,
+                                        const PosInTextFrameFormat& _position_in_text_frame,
+                                        int _aspectratio) : \
+available(_available),
+filename(_filename),
+image(_image),
+position_in_text_frame(_position_in_text_frame),
+aspectratio(_aspectratio) {
   this->well_initialized = true;
 }
 inline void DipyDocLettrine::clear(void) {
@@ -329,14 +341,12 @@ inline void DipyDocLettrine::clear(void) {
 
 ______________________________________________________________________________*/
 class DipyDoc {
-
 friend class DipylonUI;
 friend class MainWindow;
 friend class SourceEditor;
 friend class CommentaryEditor;
 
-private:
-
+ private:
   bool                 _well_initialized;
   int                  _internal_state;
 
@@ -376,9 +386,9 @@ private:
 
   QStringList          errors;
 
-public:
+ public:
                        DipyDoc(void);
-                       DipyDoc(const QString&);
+              explicit DipyDoc(const QString&);
   void                 clear(void);
   QString              diagnosis(void) const;
   QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
@@ -449,4 +459,4 @@ inline PosInTextRanges DipyDoc::audio2text_contains(PosInAudio pos) const {
   return this->audiorecord.audio2text.contains(pos);
 }
 
-#endif
+#endif  // CPPDIPYLON_DIPYDOC_DIPYDOC_H_
