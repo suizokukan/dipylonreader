@@ -34,8 +34,8 @@
 
 *******************************************************************************/
 
-#ifndef POSINTEXTFRAMEFORMAT_H
-#define POSINTEXTFRAMEFORMAT_H
+#ifndef CPPDIPYLON_QT_POSINTEXTFRAMEFORMAT_H_
+#define CPPDIPYLON_QT_POSINTEXTFRAMEFORMAT_H_
 
 #include <QString>
 #include <QStringList>
@@ -46,9 +46,7 @@
   PosInTextFrameFormat class
 ______________________________________________________________________________*/
 class PosInTextFrameFormat {
-
-private:
-
+ private:
   QTextFrameFormat::Position  _position;
 
   QString                     _repr;
@@ -58,9 +56,9 @@ private:
 
   constexpr static const char* SEPARATOR = ";";
 
-public:
-                          PosInTextFrameFormat(void);
-                          PosInTextFrameFormat(const QString&);
+ public:
+                            PosInTextFrameFormat(void);
+                   explicit PosInTextFrameFormat(const QString&);
 
   int                       init_from_string(const QString&);
   int                       internal_state(void) const;
@@ -82,7 +80,6 @@ public:
     NOT_YET_INITIALIZED = -1,
     BADSRCSTRING_UNKNOWNKEYWORD = -2,
   };
-
 };
 
 inline PosInTextFrameFormat::PosInTextFrameFormat(void) {
@@ -108,4 +105,4 @@ inline bool PosInTextFrameFormat::well_initialized(void) const {
   return this->_well_initialized;
 }
 
-#endif
+#endif  // CPPDIPYLON_QT_POSINTEXTFRAMEFORMAT_H_

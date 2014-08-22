@@ -27,7 +27,7 @@
 
 *******************************************************************************/
 
-#include "posintextframeformat.h"
+#include "qt/posintextframeformat.h"
 
 /*______________________________________________________________________________
 
@@ -49,29 +49,27 @@ PosInTextFrameFormat::PosInTextFrameFormat(const QString& source_string) {
         the available values.
 ______________________________________________________________________________*/
 int PosInTextFrameFormat::init_from_string(const QString& source_string) {
-
     this->_repr = source_string;
 
     QStringList list_of_keywords = source_string.split(this->SEPARATOR);
 
     int res = PosInTextFrameFormat::INTERNALSTATE::OK;
 
-    for( auto &keyword : list_of_keywords) {
-
+    for (auto &keyword : list_of_keywords) {
       // spaces are not taken in account :
       keyword.replace(" ", "");
 
-      if( keyword == "inflow") {
+      if (keyword == "inflow") {
         this->_position = QTextFrameFormat::InFlow;
         continue;
       }
 
-      if( keyword == "floatleft") {
+      if (keyword == "floatleft") {
         this->_position = QTextFrameFormat::FloatLeft;
         continue;
       }
 
-      if( keyword == "floatright") {
+      if (keyword == "floatright") {
         this->_position = QTextFrameFormat::FloatRight;
         continue;
       }
