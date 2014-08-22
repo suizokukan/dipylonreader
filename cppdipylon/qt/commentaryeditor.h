@@ -25,12 +25,12 @@
 
 *******************************************************************************/
 
-#ifndef COMMENTARYEDITOR_H
-#define COMMENTARYEDITOR_H
-
-#include "qt/dipylonui.h"
+#ifndef CPPDIPYLON_QT_COMMENTARYEDITOR_H_
+#define CPPDIPYLON_QT_COMMENTARYEDITOR_H_
 
 #include <QTextEdit>
+
+#include "qt/dipylonui.h"
 
 class DipylonUI;
 
@@ -39,25 +39,24 @@ class DipylonUI;
   CommentaryEditor class
 ______________________________________________________________________________*/
 
-class CommentaryEditor : public QTextEdit
-{
+class CommentaryEditor : public QTextEdit {
 friend class DipylonUI;
 friend class MainWindow;
 
     Q_OBJECT
 
-public:
-    CommentaryEditor(DipylonUI&);
+ public:
+    explicit CommentaryEditor(DipylonUI&);
 
     void set_the_appearance(void);
     void set_the_text_formats(void);
-    void update_content__translation_expected(PosInTextRanges&);
+    void update_content__translation_expected(const PosInTextRanges&);
     void update_aspect_from_dipydoc_aspect_informations(void);
 
-protected:
-    void keyReleaseEvent(QKeyEvent*);
+ protected:
+    void keyReleaseEvent(QKeyEvent* keyboard_event);
 
-private:
+ private:
     // DipylonUI object linked to the editor :
     DipylonUI& current_dipylonui;
 
@@ -65,4 +64,4 @@ private:
     QTextCharFormat format_text = QTextCharFormat();
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_COMMENTARYEDITOR_H_

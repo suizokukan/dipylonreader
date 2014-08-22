@@ -61,8 +61,7 @@ void CommentaryEditor::set_the_text_formats(void) {
   CommentaryEditor::update_content__translation_expected
 
 ______________________________________________________________________________*/
-void CommentaryEditor::update_content__translation_expected(PosInTextRanges& posintext) {
-
+void CommentaryEditor::update_content__translation_expected(const PosInTextRanges& posintext) {
   PosInText x0 = posintext.min();
   PosInText x1 = posintext.max();
 
@@ -70,7 +69,7 @@ void CommentaryEditor::update_content__translation_expected(PosInTextRanges& pos
 
   this->clear();
   QTextCursor cur = this->textCursor();
-  cur.setCharFormat( this->format_text );
+  cur.setCharFormat(this->format_text);
   cur.insertText(matching_translations);
 }
 
@@ -88,25 +87,22 @@ void CommentaryEditor::update_content__translation_expected(PosInTextRanges& pos
   o [1.3] KARAOKE + UNDEFINED : nothing to do.
   o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
 ______________________________________________________________________________*/
-void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
-{
+void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
   qDebug() << "CommentaryEditor::keyReleaseEvent" << keyboard_event->key();
 
-  switch( keyboard_event->key() ) {
-
+  switch (keyboard_event->key()) {
     case Qt::Key_Space : {
-
-      switch( this->current_dipylonui.reading_mode ) {
-
+      switch (this->current_dipylonui.reading_mode) {
         case DipylonUI::READINGMODE_KARAOKE: {
-
-          switch( this->current_dipylonui.reading_mode_details ) {
-
+          switch (this->current_dipylonui.reading_mode_details) {
             //......................................................................
             // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
             case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
               this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
-              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
+
+              QIcon icon = *(this->current_dipylonui.icon_audio_pause);
+              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(icon);
+
               this->current_dipylonui.mainWin->audio_player->pause();
               break;
             }
@@ -115,7 +111,10 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
             // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
             case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
               this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+
+              QIcon icon = *(this->current_dipylonui.icon_audio_play);
+              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(icon);
+
               this->current_dipylonui.mainWin->audio_player->play();
               break;
             }
@@ -130,15 +129,14 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
         }
 
         //..........................................................................
-        //[2] UNDEFINED reading mode -> KARAOKE + PLAYING
+        // [2] UNDEFINED reading mode -> KARAOKE + PLAYING
         default: {
             this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
             this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-            this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+            this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(*(this->current_dipylonui.icon_audio_play));
             this->current_dipylonui.mainWin->audio_player->play();
             break;
         }
-
       }
 
       break;
@@ -148,7 +146,6 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
     default : {
       break;
     }
-
   }
 
   QTextEdit::keyReleaseEvent(keyboard_event);
