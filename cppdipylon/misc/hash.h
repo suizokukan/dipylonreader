@@ -23,21 +23,20 @@
 
     ⇨ generic hash function stealed from the Boost library.
 
-      see www.boost.org/doc/libs/1_40_0/boost/functional/hash/hash.hpp  
+      see www.boost.org/doc/libs/1_40_0/boost/functional/hash/hash.hpp
 
 *********************************************************************************/
 
-#ifndef HASH_H
-#define HASH_H
+#ifndef CPPDIPYLON_MISC_HASH_H_
+#define CPPDIPYLON_MISC_HASH_H_
 
 #include <cstddef>
 #include <functional>
 
 template <class T>
-void hash_combine(std::size_t& seed, const T& v)
-{
+void hash_combine(std::size_t& seed, const T& v) {
   std::hash<T> hasher;
-  seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+  seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
-#endif
+#endif  // CPPDIPYLON_MISC_HASH_H_
