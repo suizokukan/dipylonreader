@@ -7,4 +7,4 @@ qmake-qt5
 
 make
 
-./dipylon
+./build/dipylon

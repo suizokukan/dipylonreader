@@ -27,6 +27,8 @@
 
 #include "pos/posintext/posintextranges.h"
 
+#include <algorithm>
+
 /*______________________________________________________________________________
 
         PosInTextRanges::PosInTextRanges : constructor from a QString.
@@ -42,7 +44,7 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
   this->_internal_state = PosInTextRanges::INTERNALSTATE::OK;
 
   // error : if src_qstring is empty, the initialisation can't be correct :
-  if( src_qstring.size() == 0 ) {
+  if (src_qstring.size() == 0) {
     this->_well_initialized = false;
     this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTY;
     return;
@@ -50,42 +52,41 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
 
   // let's initialize this vector from src_qstring :
   QStringList splitted_strings = src_qstring.split(this->MAIN_SEPARATOR);
-  if( splitted_strings.length() == 0 ) {
+  if (splitted_strings.length() == 0) {
     // error : ill-formed src_qstring (no MAIN_SEPARATOR)
     this->_well_initialized = false;
     this->_internal_state = PosInTextRanges::INTERNALSTATE::NO_MAIN_SEPARATOR;
     return;
   }
 
-  for( auto &qstringlist_iterator : splitted_strings ) {
+  for (auto &qstringlist_iterator : splitted_strings) {
     QStringList x0x1 = qstringlist_iterator.split(this->SECONDARY_SEPARATOR);
 
-    if( x0x1.length() != 2 ) {
+    if (x0x1.length() != 2) {
        // error : ill-formed src_qstring :
        this->_well_initialized = false;
        this->_internal_state = PosInTextRanges::INTERNALSTATE::PROBLEM_WITH_SECOND_SEPARATOR;
        break;
-    }
-    else {
+    } else {
       // int(egers) become PosInText objects :
 
       QString x0_str = x0x1[0];
       QString x1_str = x0x1[1];
 
-      if( (x0_str.length() == 0) || (x1_str.length() == 0) ) {
+      if ((x0_str.length() == 0) || (x1_str.length() == 0)) {
         this->_well_initialized = false;
         this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTY_STRING_FOR_NUMBER;
         break;
       }
 
-      PosInText x0 = static_cast<PosInText>( x0_str.toInt() );
-      PosInText x1 = static_cast<PosInText>( x1_str.toInt() );
-      this->vec.push_back( std::make_pair(x0,x1) );
+      PosInText x0 = static_cast<PosInText>(x0_str.toInt());
+      PosInText x1 = static_cast<PosInText>(x1_str.toInt());
+      this->vec.push_back(std::make_pair(x0, x1));
     }
   }
 
   // see POSINTEXTRANGES_STR format : at least one range must be defined.
-  if( this->_well_initialized == true && this->vec.size() == 0 ) {
+  if (this->_well_initialized == true && this->vec.size() == 0) {
       this->_well_initialized = false;
       this->_internal_state = PosInTextRanges::INTERNALSTATE::EMPTY;
       return;
@@ -109,7 +110,7 @@ void PosInTextRanges::checks(void) {
         X0X1 test :
   */
   // i is a std::vector < std::pair<PosInText, PosInText> >
-  for( auto &i : vec ) {
+  for (auto &i : vec) {
      if (i.first >= i.second) {
        this->_well_initialized = false;
        this->_internal_state = PosInTextRanges::INTERNALSTATE::X0X1;
@@ -121,11 +122,11 @@ void PosInTextRanges::checks(void) {
          overlapping test :
   */
   // i, j are std::vector < std::pair<PosInText, PosInText> >
-  for( auto &i : vec ) {
-    for( auto &j : vec ) {
-      if( i != j ) {
-        if( ((i.first < j.first) && (j.first < i.second)) ||
-            ((i.first < j.second) && (j.second < i.second)) ) {
+  for (auto &i : vec) {
+    for (auto &j : vec) {
+      if (i != j) {
+        if ( ((i.first < j.first) && (j.first < i.second)) ||
+             ((i.first < j.second) && (j.second < i.second)) ) {
           this->_well_initialized = false;
           this->_internal_state = PosInTextRanges::INTERNALSTATE::OVERLAPPING;
           return;
@@ -140,13 +141,12 @@ void PosInTextRanges::checks(void) {
         PosInTextRanges::contains() : return either true if (PosInText)x0 is inside
                                       a range of the object, either false.
 ______________________________________________________________________________*/
-bool PosInTextRanges::contains(PosInText x0) const
-{
+bool PosInTextRanges::contains(PosInText x0) const {
   bool res = false;
 
   // i is a std::vector < std::pair<PosInText, PosInText> > iterator.
   for (auto &i : vec) {
-    if( (i.first <= x0) && (x0 <= i.second) ) {
+    if ( (i.first <= x0) && (x0 <= i.second) ) {
       res = true;
       break;
     }
@@ -161,16 +161,15 @@ bool PosInTextRanges::contains(PosInText x0) const
                                  (PosInText)x0 and (PosInText)x1 is inside one range
                                  of the object, either false.
 ______________________________________________________________________________*/
-bool PosInTextRanges::contains(PosInText x0, PosInText x1) const
-{
+bool PosInTextRanges::contains(PosInText x0, PosInText x1) const {
   bool res = false;
 
   // i is a std::vector < std::pair<PosInText, PosInText> > iterator.
   for (auto &i : vec) {
-    if( ((i.first <= x0) && (x0 <= i.second)) ||
-        ((i.first <= x1) && (x1 <= i.second)) ||
-        ((i.first > x0) && (x1 > i.second))
-        ) {
+    if ( ((i.first <= x0) && (x0 <= i.second)) ||
+         ((i.first <= x1) && (x1 <= i.second)) ||
+         ((i.first > x0) && (x1 > i.second))
+         ) {
       res = true;
       break;
     }
@@ -185,15 +184,14 @@ bool PosInTextRanges::contains(PosInText x0, PosInText x1) const
                                  MINIMAL_POSINTEXT if "this" is empty.
 ______________________________________________________________________________*/
 PosInText PosInTextRanges::max(void) const {
-
   PosInText res = MINIMAL_POSINTEXT;
 
   for (auto &i : vec) {
-    if( i.first > res ) {
+    if (i.first > res) {
       res = i.first;
     }
 
-    if( i.second > res ) {
+    if (i.second > res) {
       res = i.second;
     }
   }
@@ -207,15 +205,14 @@ PosInText PosInTextRanges::max(void) const {
                                  MAXIMAL_POSINTEXT if "this" is empty.
 ______________________________________________________________________________*/
 PosInText PosInTextRanges::min(void) const {
-
   PosInText res = MAXIMAL_POSINTEXT;
 
   for (auto &i : vec) {
-    if( i.first < res ) {
+    if (i.first < res) {
       res = i.first;
     }
 
-    if( i.second < res ) {
+    if (i.second < res) {
       res = i.second;
     }
   }
@@ -233,16 +230,16 @@ QString PosInTextRanges::to_str(void) const {
   QString res("");
 
   // empty vector ? nothing to do.
-  if( this->vec.empty() ) {
+  if (this->vec.empty()) {
     return res;
   }
 
   // we go through the object with an iterator :
   // i is a std::vector < std::pair<PosInText, PosInText> > iterator
   for (auto &i : vec) {
-      res += QString().number( i.first );
+      res += QString().number(i.first);
       res += this->SECONDARY_SEPARATOR;
-      res += QString().number( i.second );
+      res += QString().number(i.second);
       res += this->MAIN_SEPARATOR;
     }
 
@@ -266,12 +263,11 @@ QString PosInTextRanges::to_str(void) const {
 
 ______________________________________________________________________________*/
 std::size_t PosInTextRangesHasher::operator()(const PosInTextRanges& k) const {
-
   std::size_t hash = 0;
 
   for (auto &i : k.vec) {
-    hash_combine( hash, i.first);
-    hash_combine( hash, i.second);
+    hash_combine(hash, i.first);
+    hash_combine(hash, i.second);
   }
 
   return hash;

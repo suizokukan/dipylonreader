@@ -39,14 +39,15 @@
 
 *******************************************************************************/
 
-#ifndef VECTORPOSINTEXTRANGES_H
-#define VECTORPOSINTEXTRANGES_H
-
-#include "posintextranges.h"
-
-#include <vector>
+#ifndef CPPDIPYLON_POS_POSINTEXT_VECTORPOSINTEXTRANGES_H_
+#define CPPDIPYLON_POS_POSINTEXT_VECTORPOSINTEXTRANGES_H_
 
 #include <QString>
+
+#include <algorithm>
+#include <vector>
+
+#include "pos/posintext/posintextranges.h"
 
 /*
   type used by the main object of VectorPosInTextRanges, a vector of PosInTextRanges.
@@ -62,8 +63,7 @@ typedef std::vector<PosInTextRanges>::const_iterator VPosInTextRangesCI;
   wrapper around a VPosInTextRanges object named "vposintextranges".
 
 ______________________________________________________________________________*/
-struct VectorPosInTextRanges
-{
+struct VectorPosInTextRanges {
         VPosInTextRanges vposintextranges;
 
                                VectorPosInTextRanges(void);
@@ -82,24 +82,22 @@ struct VectorPosInTextRanges
         /*
                 Functor used to sort VectorPosInTextRanges.
         */
-	struct VectorPosInTextRangesCMP {
+        struct VectorPosInTextRangesCMP {
+                VectorPosInTextRanges* m;
 
-		VectorPosInTextRanges* m;
-
-		VectorPosInTextRangesCMP(VectorPosInTextRanges* p) : m(p) {};
+                VectorPosInTextRangesCMP(VectorPosInTextRanges* p) : m(p) {}
 
                 // is (PosInTextRanges)ii < (PosInTextRanges)jj ?
-                bool operator() ( PosInTextRanges ii, PosInTextRanges jj ) {
+                bool operator() (PosInTextRanges ii, PosInTextRanges jj) {
                   auto i = ii.begin();
                   auto j = jj.begin();
 
-                  while(i != ii.end() && j != jj.end()) {
-
-                    if( i->first < j->first ) {
-   		      return true;
+                  while (i != ii.end() && j != jj.end()) {
+                    if (i->first < j->first) {
+                        return true;
                     }
-                    if( i->first > j->first ) {
-   		      return false;
+                    if (i->first > j->first) {
+                        return false;
                     }
 
                     // if i->first == j->first, the function goes further :
@@ -108,8 +106,8 @@ struct VectorPosInTextRanges
                   }
 
                   return false;
-		}
-	};
+                }
+        };
 };
 
 inline VectorPosInTextRanges::VectorPosInTextRanges(void)
@@ -118,13 +116,12 @@ inline VectorPosInTextRanges::VectorPosInTextRanges(void)
 inline VectorPosInTextRanges::VectorPosInTextRanges(VPosInTextRanges v) : vposintextranges(v)
 {}
 
-inline VectorPosInTextRanges::VectorPosInTextRanges( const VectorPosInTextRanges& other )  : \
+inline VectorPosInTextRanges::VectorPosInTextRanges(const VectorPosInTextRanges& other)  : \
                        vposintextranges(other.vposintextranges)
 {}
 
 inline VectorPosInTextRanges& VectorPosInTextRanges::operator=(const VectorPosInTextRanges& other) {
-
-  if( this != &other) {
+  if (this != &other) {
     this->vposintextranges = other.vposintextranges;
   }
   return *this;
@@ -142,4 +139,4 @@ inline std::size_t VectorPosInTextRanges::size(void) const {
   return this->vposintextranges.size();
 }
 
-#endif
+#endif  // CPPDIPYLON_POS_POSINTEXT_VECTORPOSINTEXTRANGES_H_

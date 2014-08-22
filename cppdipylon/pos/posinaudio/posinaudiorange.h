@@ -56,7 +56,7 @@ class PosInAudioRange {
             explicit PosInAudioRange(const PosInAudioRange&);
             explicit PosInAudioRange(const QString&);
                      PosInAudioRange(PosInAudio, PosInAudio);
-            explicit PosInAudioRange(std::pair<PosInAudio, PosInAudio>);
+                     PosInAudioRange(std::pair<PosInAudio, PosInAudio>);
                      ~PosInAudioRange(void);
                      PosInAudioRange& operator=(const PosInAudioRange&);
   bool               operator==(const PosInAudioRange& other) const;

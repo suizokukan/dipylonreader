@@ -29,6 +29,7 @@ SOMMAIRE
     [4.3] Qt et XML
         [4.3.1] ordre de lecture entre xmlreader.attributes().value() et xmlreader.readElementText()
     [4.4] Qt5 et les signaux
+    [4.5] qmake
 
 [5] découpage audio
 
@@ -64,6 +65,9 @@ SOMMAIRE
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
         a été modifié.        
 
+- faire le build dans build/
+- couleurs
+- essayer avec l'hébreu.
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes
 - google/c++lint
@@ -643,6 +647,11 @@ avec l'ancienne syntaxe seul MOC se chargeait d'analyser des chaînes de
 caractères.
 
 Référence : http://qt-project.org/wiki/New_Signal_Slot_Syntax
+
+################################################################################
+[4.5] qmake
+################################################################################
+http://qtcenter.org/wiki/index.php?title=Undocumented_qmake
 
 ################################################################################
 [5] découpage audio

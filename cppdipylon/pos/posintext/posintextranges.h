@@ -46,16 +46,18 @@
 
 *******************************************************************************/
 
-#ifndef POSINTEXTRANGES_H
-#define POSINTEXTRANGES_H
-
-#include "pos/posintext/posintext.h"
-#include "misc/hash.h"
-
-#include <vector>
+#ifndef CPPDIPYLON_POS_POSINTEXT_POSINTEXTRANGES_H_
+#define CPPDIPYLON_POS_POSINTEXT_POSINTEXTRANGES_H_
 
 #include <QString>
 #include <QStringList>
+
+#include <algorithm>
+#include <utility>
+#include <vector>
+
+#include "pos/posintext/posintext.h"
+#include "misc/hash.h"
 
 /*______________________________________________________________________________
 
@@ -64,13 +66,11 @@
   wrapper around "vec", a vector of pair of <PosInText, PosInText>
 ________________________________________________________________________________*/
 class PosInTextRanges {
-
- friend class PosInTextRangesHasher;
- friend class PosInText2Str;
- friend class PosInText2PosInAudio;
+    friend class PosInTextRangesHasher;
+    friend class PosInText2Str;
+    friend class PosInText2PosInAudio;
 
  public:
-
                      PosInTextRanges(void);
                      PosInTextRanges(const PosInTextRanges&);
                      PosInTextRanges(const QString&);
@@ -119,7 +119,6 @@ class PosInTextRanges {
   };
 
  private:
-
   // for more details, see the POSINTEXTRANGES_STR format :
   constexpr static const char* MAIN_SEPARATOR = "+";
   constexpr static const char* SECONDARY_SEPARATOR = "-";
@@ -137,7 +136,7 @@ inline PosInTextRanges::PosInTextRanges(void) : \
                   _well_initialized(false)
 {}
 
-inline PosInTextRanges::PosInTextRanges( const PosInTextRanges& other )  : \
+inline PosInTextRanges::PosInTextRanges(const PosInTextRanges& other)  : \
                   vec(other.vec), \
                   _internal_state(other._internal_state), \
                   _well_initialized(other._well_initialized)
@@ -145,14 +144,13 @@ inline PosInTextRanges::PosInTextRanges( const PosInTextRanges& other )  : \
 
 inline PosInTextRanges::PosInTextRanges(std::initializer_list<std::pair<PosInText, PosInText> > values) : \
 vec(values) {
-
   this->_internal_state = this->INTERNALSTATE::OK;
 
   // error : if "values" is empty, the initialisation can't be correct :
   this->_well_initialized = (values.size() > 0);
 
   // shall we go further ?
-  if( this->_well_initialized == false ) {
+  if (this->_well_initialized == false) {
     // ... no.
     this->_internal_state = this->INTERNALSTATE::EMPTY;
     return;
@@ -164,14 +162,13 @@ vec(values) {
 
 inline PosInTextRanges::PosInTextRanges(std::vector< std::pair<PosInText, PosInText> > values) : \
 vec(values) {
-
   this->_internal_state = this->INTERNALSTATE::OK;
 
   // error : if values is empty, the initialisation can't be correct :
   this->_well_initialized = (values.size() > 0);
 
   // shall we go further ?
-  if( this->_well_initialized == false ) {
+  if (this->_well_initialized == false) {
     // ... no.
     this->_internal_state = this->INTERNALSTATE::EMPTY;
     return;
@@ -184,8 +181,7 @@ vec(values) {
 inline PosInTextRanges::~PosInTextRanges(void) {}
 
 inline PosInTextRanges& PosInTextRanges::operator=(const PosInTextRanges& other) {
-
-  if( this != &other) {
+  if (this != &other) {
     this->vec = other.vec;
     this->_internal_state = other._internal_state;
     this->_well_initialized = other._well_initialized;
@@ -211,7 +207,8 @@ inline VPairOfPosInTextCI PosInTextRanges::end(void) {
 
 inline std::size_t PosInTextRanges::get_hash(void) {
   std::size_t hash = 0;
-  for(auto &i : vec ) {
+
+  for (auto &i : vec) {
     hash_combine(hash, i.first);
     hash_combine(hash, i.second);
   }
@@ -236,4 +233,4 @@ struct PosInTextRangesHasher {
   std::size_t operator()(const PosInTextRanges& k) const;
 };
 
-#endif
+#endif  // CPPDIPYLON_POS_POSINTEXT_POSINTEXTRANGES_H_

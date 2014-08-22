@@ -25,16 +25,17 @@
 
 *******************************************************************************/
 
-#ifndef POSINTEXT2STR_H
-#define POSINTEXT2STR_H
+#ifndef CPPDIPYLON_POS_POSINTEXT_POSINTEXT2STR_H_
+#define CPPDIPYLON_POS_POSINTEXT_POSINTEXT2STR_H_
+
+#include <QString>
+
+#include <unordered_map>
+#include <utility>
 
 #include "pos/posintext/posintext.h"
 #include "pos/posintext/posintextranges.h"
 #include "pos/posintext/vectorposintextranges.h"
-
-#include <unordered_map>
-
-#include <QString>
 
 /*______________________________________________________________________________
 
@@ -46,8 +47,7 @@
         { {{ {1,2}, {3,8} },}, "example3"},
       };
 ________________________________________________________________________________*/
-struct IntegersAndAString
-{
+struct IntegersAndAString {
   VPairOfPosInText integers;
   QString string;
 };
@@ -58,11 +58,9 @@ struct IntegersAndAString
 
 ________________________________________________________________________________*/
 class PosInText2Str {
-
- friend class DipyDoc;
+    friend class DipyDoc;
 
  private:
-
   std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher> map;
   int                    _internal_state;
   bool                   _well_initialized;
@@ -70,14 +68,13 @@ class PosInText2Str {
   void                   checks(void);
 
  public:
-
                          PosInText2Str(void);
                          PosInText2Str(const PosInText2Str&);
                          PosInText2Str(std::initializer_list< IntegersAndAString >);
                         ~PosInText2Str(void);
 
-  QString&              operator[]( PosInTextRanges key );
-  const QString &       operator[]( const PosInTextRanges key ) const;
+  QString&              operator[](PosInTextRanges key);
+  const QString &       operator[](const PosInTextRanges key) const;
   PosInText2Str&        operator=(const PosInText2Str&);
 
   std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator begin(void) const;
@@ -105,40 +102,35 @@ class PosInText2Str {
   };
 };
 
-inline PosInText2Str::PosInText2Str( void ) {
+inline PosInText2Str::PosInText2Str(void) {
   this->_well_initialized = false;
   this->_internal_state = this->INTERNALSTATE::NOT_YET_INITIALIZED;
 }
 
-inline PosInText2Str::PosInText2Str( const PosInText2Str& other )  : \
+inline PosInText2Str::PosInText2Str(const PosInText2Str& other)  : \
                   map(other.map), \
                   _internal_state(other._internal_state), \
                   _well_initialized(other._well_initialized)
 {}
 
-inline PosInText2Str::PosInText2Str( std::initializer_list< IntegersAndAString > values)
-{
+inline PosInText2Str::PosInText2Str(std::initializer_list< IntegersAndAString > values) {
   this->_well_initialized = true;
   this->_internal_state = this->INTERNALSTATE::OK;
 
   // i : iterator over this->values :
-  for(auto &i : values) {
-
-    this->map.insert( std::pair<PosInTextRanges, QString>( PosInTextRanges(i.integers),
-                                                                           i.string)
-                    );
+  for (auto &i : values) {
+    this->map.insert(std::pair<PosInTextRanges, QString>(PosInTextRanges(i.integers), i.string) );
   }
 
   // is everything ok ?
   this->checks();
 }
 
-inline PosInText2Str::~PosInText2Str( void )
-{}
+inline PosInText2Str::~PosInText2Str(void) {
+}
 
 inline PosInText2Str& PosInText2Str::operator=(const PosInText2Str& other) {
-
-  if( this != &other) {
+  if (this != &other) {
     this->map = other.map;
     this->_well_initialized = other._well_initialized;
     this->_internal_state = other._internal_state;
@@ -146,18 +138,22 @@ inline PosInText2Str& PosInText2Str::operator=(const PosInText2Str& other) {
   return *this;
 }
 
-inline QString& PosInText2Str::operator[]( PosInTextRanges key) {
+inline QString& PosInText2Str::operator[](PosInTextRanges key) {
   return this->map[key];
 }
-inline const QString& PosInText2Str::operator[]( const PosInTextRanges key ) const {
+inline const QString& PosInText2Str::operator[](const PosInTextRanges key) const {
   return this->map.at(key);
 }
 
-inline std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator PosInText2Str::begin(void) const {
+inline std::unordered_map<PosInTextRanges,
+                          QString,
+                          PosInTextRangesHasher>::const_iterator PosInText2Str::begin(void) const {
   return this->map.begin();
 }
 
-inline std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator PosInText2Str::end(void) const {
+inline std::unordered_map<PosInTextRanges,
+                          QString,
+                          PosInTextRangesHasher>::const_iterator PosInText2Str::end(void) const {
   return this->map.end();
 }
 
@@ -173,4 +169,4 @@ inline bool PosInText2Str::well_initialized(void) const {
   return this->_well_initialized;
 }
 
-#endif
+#endif  // CPPDIPYLON_POS_POSINTEXT_POSINTEXT2STR_H_

@@ -25,9 +25,10 @@
 
 *******************************************************************************/
 
-#ifndef POSINTEXT_H
-#define POSINTEXT_H
+#ifndef CPPDIPYLON_POS_POSINTEXT_POSINTEXT_H_
+#define CPPDIPYLON_POS_POSINTEXT_POSINTEXT_H_
 
+#include <utility>
 #include <vector>
 
 // base type :
@@ -39,4 +40,4 @@ typedef std::vector<std::pair<PosInText, PosInText> > VPairOfPosInText;
 
 typedef std::vector<std::pair<PosInText, PosInText> >::const_iterator VPairOfPosInTextCI;
 
-#endif
+#endif  // CPPDIPYLON_POS_POSINTEXT_POSINTEXT_H_
