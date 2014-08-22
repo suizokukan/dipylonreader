@@ -1,7 +1,4 @@
-rm qrc_*.cpp
-rm moc_*.cpp
-rm *.o
-rm dipylon
+rm -rf build/*
 
 qmake-qt5
 

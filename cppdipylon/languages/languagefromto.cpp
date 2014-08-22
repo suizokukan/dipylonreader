@@ -25,7 +25,7 @@
 
 *******************************************************************************/
 
-#include "languagefromto.h"
+#include "languages/languagefromto.h"
 
 /*______________________________________________________________________________
 
@@ -34,13 +34,12 @@
   see the LANGUAGEFROMTO_FORMAT defined in languagefromto.h
 ________________________________________________________________________________*/
 LanguageFromTo::LanguageFromTo(const QString& src) {
-
   this->_well_initialized = true;
   this->_internal_state = OK;
 
   QStringList splitted_strings = src.split(this->SEPARATOR);
 
-  if( splitted_strings.length() != 2 ) {
+  if ( splitted_strings.length() != 2 ) {
     // error : ill-formed src (no SEPARATOR or more than one SEPARATOR)
     this->_well_initialized = false;
     this->_internal_state = ILLFORMED_SOURCE_STRING;
@@ -60,12 +59,12 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
   ............................................................................*/
   auto known_languages_end = languages::known_languages.end();
 
-  if( languages::known_languages.find(this->_from) == known_languages_end ) {
+  if ( languages::known_languages.find(this->_from) == known_languages_end ) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_FROMLANGUAGE;
   }
 
-  if( languages::known_languages.find(this->_to) == known_languages_end ) {
+  if (languages::known_languages.find(this->_to) == known_languages_end) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_TOLANGUAGE;
   }
@@ -89,7 +88,6 @@ void LanguageFromTo::clear(void) {
   Return a QString representation of this.
 ________________________________________________________________________________*/
 const QString LanguageFromTo::to_str(void) const {
-
   QString res;
 
   res += this->from();

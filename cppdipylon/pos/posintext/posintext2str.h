@@ -49,7 +49,7 @@
 ________________________________________________________________________________*/
 struct IntegersAndAString {
   VPairOfPosInText integers;
-  QString string;
+  QString str;
 };
 
 /*______________________________________________________________________________
@@ -119,7 +119,7 @@ inline PosInText2Str::PosInText2Str(std::initializer_list< IntegersAndAString > 
 
   // i : iterator over this->values :
   for (auto &i : values) {
-    this->map.insert(std::pair<PosInTextRanges, QString>(PosInTextRanges(i.integers), i.string) );
+    this->map.insert(std::pair<PosInTextRanges, QString>(PosInTextRanges(i.integers), i.str) );
   }
 
   // is everything ok ?
