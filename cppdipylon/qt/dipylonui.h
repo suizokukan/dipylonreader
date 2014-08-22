@@ -25,16 +25,16 @@
 
 *******************************************************************************/
 
-#ifndef DIPYLONUI_H
-#define DIPYLONUI_H
-
-#include "fixedparameters.h"
-#include "qt/mainwindow.h"
-#include "dipydoc/dipydoc.h"
+#ifndef CPPDIPYLON_QT_DIPYLONUI_H_
+#define CPPDIPYLON_QT_DIPYLONUI_H_
 
 #include <QApplication>
 #include <QString>
 #include <QTranslator>
+
+#include "./fixedparameters.h"
+#include "qt/mainwindow.h"
+#include "dipydoc/dipydoc.h"
 
 class MainWindow;
 
@@ -49,12 +49,11 @@ typedef unsigned int ReadingModeDetails;
   DipylonUI class : a wrapper around the QApplication object.
 ________________________________________________________________________________*/
 class DipylonUI {
-
   friend class MainWindow;
   friend class SourceEditor;
   friend class CommentaryEditor;
 
-private:
+ private:
   // attributes used to initialize the QApplication constructor :
   int         cmdline_argc = 0;
   char**      cmdline_argv = nullptr;
@@ -79,8 +78,7 @@ private:
 
   MainWindow* mainWin = nullptr;
 
-public:
-
+ public:
   /*
     READINGMODE, READINGMODEDETAILS :
 
@@ -113,4 +111,4 @@ public:
   void               update_commentary_editor__translation_expected(PosInTextRanges&);
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_DIPYLONUI_H_

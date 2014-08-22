@@ -35,7 +35,6 @@
   "argc" and "argv".
 ______________________________________________________________________________*/
 DipylonUI::DipylonUI(int argc, char **argv) {
-
   this->cmdline_argc = argc;
   this->cmdline_argv = argv;
 
@@ -45,7 +44,7 @@ DipylonUI::DipylonUI(int argc, char **argv) {
 
   */
   QFileInfo path_info = QFileInfo(fixedparameters::default__path_to_dipydocs);
-  if( path_info.exists() == false || path_info.isFile() ) {
+  if (path_info.exists() == false || path_info.isFile()) {
     qDebug() << "DipylonUI::DipylonUI" \
              << "problem with the default path stored in fixedparameters.h, using the current directory." \
              << " (path_info.exists()=" << path_info.exists() \
@@ -53,11 +52,9 @@ DipylonUI::DipylonUI(int argc, char **argv) {
              << ")";
     // problem with the default value, the program has to use the current directory :
     this->path_to_dipydocs = ".";
-  }
-  else {
+  } else {
     this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
   }
-
 }
 
 /*______________________________________________________________________________
@@ -65,7 +62,6 @@ DipylonUI::DipylonUI(int argc, char **argv) {
   DipylonUI destructor
 ______________________________________________________________________________*/
 DipylonUI::~DipylonUI(void) {
-
   qDebug() << "DipylonUI::~DipylonUI(#beginning)";
   delete icon_new;
   delete icon_open;
@@ -88,13 +84,12 @@ DipylonUI::~DipylonUI(void) {
                                       source text.
 ______________________________________________________________________________*/
 QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
-
   VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.translations.contains(x0, x1);
 
   QStringList strlist_of_translations;
 
-  for(auto &posintextranges : vector_posintextranges) {
-    strlist_of_translations.append( this->current_dipydoc.translation.translations[posintextranges] );
+  for (auto &posintextranges : vector_posintextranges) {
+    strlist_of_translations.append(this->current_dipydoc.translation.translations[posintextranges]);
   }
 
   return strlist_of_translations.join(" ");
@@ -105,7 +100,6 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
   DipylonUI::go() : UI creation + main loop
 ______________________________________________________________________________*/
 int DipylonUI::go(void) {
-
   /*
     We want to use the system's standard settings.
 
@@ -114,14 +108,14 @@ int DipylonUI::go(void) {
   QApplication::setDesktopSettingsAware(true);
 
   // general settings :
-  QApplication app( this->cmdline_argc, this->cmdline_argv);
-  app.setOrganizationName( fixedparameters::organization_name );
-  app.setOrganizationDomain( fixedparameters::organization_domain );
-  app.setApplicationName(fixedparameters::application_name );
-  app.setApplicationVersion( fixedparameters::application_version );
+  QApplication app(this->cmdline_argc, this->cmdline_argv);
+  app.setOrganizationName(fixedparameters::organization_name);
+  app.setOrganizationDomain(fixedparameters::organization_domain);
+  app.setApplicationName(fixedparameters::application_name);
+  app.setApplicationVersion(fixedparameters::application_version);
 
   // application's look :
-  app.setStyle( fixedparameters::application_style );
+  app.setStyle(fixedparameters::application_style);
 
   /* i18n :
 
@@ -133,16 +127,20 @@ int DipylonUI::go(void) {
   qDebug() << "i18n : local_system.language()=" << QLocale::languageToString(local_system.language());
 
   QTranslator qtTranslator;
-  QString system_translations_filename( "qt_" + local_system.name() );
-  QString system_translations_path( QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
+  QString system_translations_filename("qt_" + local_system.name());
+  QString system_translations_path(QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   bool system_translations_res = qtTranslator.load(system_translations_filename,
                                                    system_translations_path);
-  qDebug() << "i18n : loading " << system_translations_filename << "from" << system_translations_path << "success=" << system_translations_res;
+  qDebug() << "i18n : loading " << system_translations_filename \
+           << "from" \
+           << system_translations_path \
+           << "success=" << system_translations_res;
   app.installTranslator(&qtTranslator);
 
   QTranslator dipylonTranslator;
   QString dipylon_translations_filename("dipylon_" + QLocale::languageToString(local_system.language()));
-  bool dipylon_translations_res = dipylonTranslator.load("dipylon_" + QLocale::languageToString(local_system.language()));
+  bool dipylon_translations_res = dipylonTranslator.load("dipylon_" + \
+                                                         QLocale::languageToString(local_system.language()));
   qDebug() << "i18n : loading " << dipylon_translations_filename << "success=" << dipylon_translations_res;
   app.installTranslator(&dipylonTranslator);
 
