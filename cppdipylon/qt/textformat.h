@@ -34,11 +34,11 @@
 		known keywords :
 
 		o "bold"
-		o "background-color:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
-		o "color:xxx"            with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
+		o "background-color:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow or #RRGGBB
+		o "color:xxx"            with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow or #RRGGBB
 		o "italic"
-		o "underlinecolor:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow
-		o "underlinestyle:xxx" with "xxx"=dashline, dotline, singleline, waveline
+		o "underlinecolor:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow or #RRGGBB
+		o "underlinestyle:xxx" with "xxx"=dashline, dotline, singleline, waveline or #RRGGBB
 
 *******************************************************************************/
 
@@ -82,14 +82,16 @@ public:
      constants used to define the internal_state attribute.
 
      o OK
-	 o NOT_YET_INITIALIZED : the object has not yet been initialized
-	 o BADSRCSTRING_UNKNOWNKEYWORD : unknown keyword present in the source
-	                                 string.
+     o NOT_YET_INITIALIZED : the object has not yet been initialized
+     o BADSRCSTRING_UNKNOWNKEYWORD : unknown keyword present in the source
+                                     string.
+     o WRONG_HEX_VALUE : wrong hexadecimal value given in the source string.
   */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_INITIALIZED = -1,
     BADSRCSTRING_UNKNOWNKEYWORD = -2,
+    WRONG_HEX_VALUE = -3,
   };
 
 };

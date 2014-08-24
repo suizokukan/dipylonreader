@@ -49,6 +49,8 @@ TextFormat::TextFormat(const QString& source_string) {
 ______________________________________________________________________________*/
 int TextFormat::init_from_string(const QString& source_string) {
 
+    this->_well_initialized = true;
+
     this->_repr = source_string;
 
     QStringList list_of_keywords = source_string.split(this->SEPARATOR);
@@ -60,7 +62,23 @@ int TextFormat::init_from_string(const QString& source_string) {
       // spaces are not taken in account :
       keyword.replace(" ", "");
 
-      // background colors .....................................................
+      /*
+        background colors
+      */
+      // background color with hexadecimal value ?
+      if( keyword.startsWith("background-color:#") == true ) {
+        QString str_value = keyword.right( keyword.length() - QString("background-color:#").length() );
+        bool ok;
+        int value = str_value.toInt(&ok, 16);
+        if( ok == true ) {
+          this->_qtextcharformat.setBackground( QBrush(static_cast<unsigned int>(value)) );
+        } else {
+          res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+          this->_well_initialized = false;
+        }
+        continue;
+      }
+
       if( keyword == "background-color:black") {
         this->_qtextcharformat.setBackground( QBrush(Qt::black) );
         continue;
@@ -100,13 +118,32 @@ int TextFormat::init_from_string(const QString& source_string) {
          continue;
       }
 
-      // bold ..................................................................
+      /*
+         bold
+      */
       if (keyword == "italic") {
          this->_qtextcharformat.setFontWeight(QFont::Bold);
          continue;
       }
 
-      // foreground colors .....................................................
+      /*
+         foreground colors
+      */
+
+      // foreground color with hexadecimal value ?
+      if( keyword.startsWith("color:#") == true ) {
+        QString str_value = keyword.right( keyword.length() - QString("color:#").length() );
+        bool ok;
+        int value = str_value.toInt(&ok, 16);
+        if( ok == true ) {
+          this->_qtextcharformat.setForeground( QBrush(static_cast<unsigned int>(value)) );
+        } else {
+          res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+          this->_well_initialized = false;
+        }
+        continue;
+      }
+
       if (keyword == "color:black") {
          this->_qtextcharformat.setForeground( QBrush(Qt::black) );
          continue;
@@ -144,13 +181,31 @@ int TextFormat::init_from_string(const QString& source_string) {
          continue;
       }
 
-      // italic ................................................................
+      /*
+        italic
+      */
       if (keyword == "italic") {
          this->_qtextcharformat.setFontItalic(true);
          continue;
       }
 
-      // underline colors ......................................................
+      /*
+        underline colors
+      */
+      // underline color with hexadecimal value ?
+      if( keyword.startsWith("underlinecolor:#") == true ) {
+        QString str_value = keyword.right( keyword.length() - QString("underlinecolor:#").length() );
+        bool ok;
+        int value = str_value.toInt(&ok, 16);
+        if( ok == true ) {
+          this->_qtextcharformat.setUnderlineColor( static_cast<unsigned int>(value) );
+        } else {
+          res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+          this->_well_initialized = false;
+        }
+        continue;
+      }
+
       if (keyword == "underlinecolor:black") {
          this->_qtextcharformat.setUnderlineColor( Qt::black );
          continue;
@@ -188,7 +243,9 @@ int TextFormat::init_from_string(const QString& source_string) {
          continue;
       }
 
-      // underline style .......................................................
+      /*
+         underline style
+      */
       if (keyword == "underlinestyle=dashline") {
          this->_qtextcharformat.setFontUnderline(QTextCharFormat::DashUnderline);
          continue;
@@ -207,6 +264,7 @@ int TextFormat::init_from_string(const QString& source_string) {
       }
 
       res = TextFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
+      this->_well_initialized = false;
     }
 
     return res;

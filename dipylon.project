@@ -65,6 +65,8 @@ SOMMAIRE
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
         a été modifié.        
 
+- bug : si la couleur hexadécimale est évidemment fausse, rien n'est signalé.
+
 - cross-comp > Windows
 - cross-comp > Mac
 - couleurs : color doit accepter #RRBBVV + choisir des couleurs acceptables + se restreindre à des couleurs standards

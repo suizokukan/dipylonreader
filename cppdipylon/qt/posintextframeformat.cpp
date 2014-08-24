@@ -49,6 +49,8 @@ PosInTextFrameFormat::PosInTextFrameFormat(const QString& source_string) {
         the available values.
 ______________________________________________________________________________*/
 int PosInTextFrameFormat::init_from_string(const QString& source_string) {
+    this->_well_initialized = true;
+
     this->_repr = source_string;
 
     QStringList list_of_keywords = source_string.split(this->SEPARATOR);
@@ -74,6 +76,7 @@ int PosInTextFrameFormat::init_from_string(const QString& source_string) {
         continue;
       }
 
+      this->_well_initialized = false;
       res = PosInTextFrameFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
     }
 

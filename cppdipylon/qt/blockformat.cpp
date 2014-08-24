@@ -48,6 +48,8 @@ BlockFormat::BlockFormat(const QString& source_string) {
 	available values.
 ______________________________________________________________________________*/
 int BlockFormat::init_from_string(const QString& source_string) {
+    this->_well_initialized = true;
+
     this->_repr = source_string;
 
     QStringList list_of_keywords = source_string.split(this->SEPARATOR);
@@ -80,6 +82,7 @@ int BlockFormat::init_from_string(const QString& source_string) {
       }
 
       res = BlockFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
+      this->_well_initialized = false;
     }
 
     return res;
