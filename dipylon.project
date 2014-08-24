@@ -65,8 +65,9 @@ SOMMAIRE
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
         a été modifié.        
 
-- color doit accepter #RRBBVV
-- couleurs
+- cross-comp > Windows
+- cross-comp > Mac
+- couleurs : color doit accepter #RRBBVV + choisir des couleurs acceptables + se restreindre à des couleurs standards
 - pouvoir choisir sa police de caractères
 - virer les $$
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
