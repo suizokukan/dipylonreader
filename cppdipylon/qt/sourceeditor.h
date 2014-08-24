@@ -25,8 +25,16 @@
 
 *******************************************************************************/
 
-#ifndef SOURCEEDITOR_H
-#define SOURCEEDITOR_H
+#ifndef CPPDIPYLON_QT_SOURCEEDITOR_H_
+#define CPPDIPYLON_QT_SOURCEEDITOR_H_
+
+// $$$
+#include <QDebug>
+
+#include <QTextEdit>
+#include <QTextCharFormat>
+#include <QList>
+#include <vector>
 
 #include "dipydoc/dipydoc.h"
 #include "qt/dipylonui.h"
@@ -34,13 +42,6 @@
 #include "qt/blockformat.h"
 #include "pos/posintext/posintext.h"
 
-#include <QTextEdit>
-#include <QTextCharFormat>
-#include <QList>
-#include <vector>
-
-// $$$
-#include <QDebug>
 
 class DipylonUI;
 
@@ -48,28 +49,27 @@ class DipylonUI;
 
   SourceEditor class
 ______________________________________________________________________________*/
-class SourceEditor : public QTextEdit
-{
+class SourceEditor : public QTextEdit {
   friend class DipylonUI;
   friend class MainWindow;
 
     Q_OBJECT
 
-public:
-         SourceEditor(DipylonUI&);
+ public:
+    explicit SourceEditor(DipylonUI&);
     void load_text(const DipyDocSourceText&);
     void modify_the_text_format(PosInTextRanges&);
     void reset_all_text_format_to_default(void);
     void set_the_appearance(void);
     void update_aspect_from_dipydoc_aspect_informations(void);
 
-protected:
-    void keyReleaseEvent(QKeyEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
-    void mousePressEvent(QMouseEvent*);
-    void paintEvent(QPaintEvent*);
+ protected:
+    void keyReleaseEvent(QKeyEvent* keyboard_event);
+    void mouseReleaseEvent(QMouseEvent* mouse_event);
+    void mousePressEvent(QMouseEvent* mouse_event);
+    void paintEvent(QPaintEvent* ev);
 
-private:
+ private:
     // DipylonUI object linked to the editor :
     DipylonUI& current_dipylonui;
 
@@ -78,4 +78,4 @@ private:
     std::size_t modified_chars_hash = 0x123456789;
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_SOURCEEDITOR_H_

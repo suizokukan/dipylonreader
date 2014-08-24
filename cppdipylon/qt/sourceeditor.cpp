@@ -32,7 +32,6 @@
   SourceEditor constructor
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
-
   this->setReadOnly(true);
 
   this->update_aspect_from_dipydoc_aspect_informations();
@@ -52,35 +51,30 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
   o [1.3] KARAOKE + UNDEFINED : nothing to do.
   o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
 ______________________________________________________________________________*/
-void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
-{
+void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
+  DipylonUI& ui = this->current_dipylonui;
   qDebug() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
 
-  switch( keyboard_event->key() ) {
-
+  switch (keyboard_event->key()) {
     case Qt::Key_Space : {
-
-      switch( this->current_dipylonui.reading_mode ) {
-
+      switch (ui.reading_mode) {
         case DipylonUI::READINGMODE_KARAOKE: {
-
-          switch( this->current_dipylonui.reading_mode_details ) {
-
+          switch (ui.reading_mode_details) {
             //......................................................................
             // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
             case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
-              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
-              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
-              this->current_dipylonui.mainWin->audio_player->pause();
+              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+              ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_pause));
+              ui.mainWin->audio_player->pause();
               break;
             }
 
             //......................................................................
             // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
             case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
-              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-              this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
-              this->current_dipylonui.mainWin->audio_player->play();
+              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+              ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_play));
+              ui.mainWin->audio_player->play();
               break;
             }
 
@@ -94,15 +88,14 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
         }
 
         //..........................................................................
-        //[2] UNDEFINED reading mode -> KARAOKE + PLAYING
+        // [2] UNDEFINED reading mode -> KARAOKE + PLAYING
         default: {
-            this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
-            this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-            this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
-            this->current_dipylonui.mainWin->audio_player->play();
+            ui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
+            ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_play));
+            ui.mainWin->audio_player->play();
             break;
         }
-
       }
 
       break;
@@ -112,7 +105,6 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
     default : {
       break;
     }
-
   }
 
   QTextEdit::keyReleaseEvent(keyboard_event);
@@ -123,8 +115,9 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event)
         SourceEditor::load_text()
 ______________________________________________________________________________*/
 void SourceEditor::load_text(const DipyDocSourceText& source_text) {
-
   this->clear();
+
+  DipyDoc& dipydoc = this->current_dipylonui.current_dipydoc;
 
   QTextCursor cur = this->textCursor();
   QTextDocument* qtextdocument = this->document();
@@ -132,35 +125,31 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
      title
   */
-  if ( this->current_dipylonui.current_dipydoc.title.available == true ) {
-
+  if (dipydoc.title.available == true) {
     // format :
-    QTextCharFormat title_qtextcharformat = this->current_dipylonui.current_dipydoc.title.textformat.qtextcharformat();
-    QTextBlockFormat title_qtextblockformat = this->current_dipylonui.current_dipydoc.title.blockformat.qtextblockformat();
+    QTextCharFormat title_qtextcharformat = dipydoc.title.textformat.qtextcharformat();
+    QTextBlockFormat title_qtextblockformat = dipydoc.title.blockformat.qtextblockformat();
 
-    cur.insertBlock( title_qtextblockformat, title_qtextcharformat );
+    cur.insertBlock(title_qtextblockformat, title_qtextcharformat);
 
     // text :
-    cur.insertText(this->current_dipylonui.current_dipydoc.title.text);
+    cur.insertText(dipydoc.title.text);
     cur.insertText("\n");
-
   }
 
   /*
     introduction
   */
-  if ( this->current_dipylonui.current_dipydoc.introduction.available == true ) {
-
+  if (dipydoc.introduction.available == true) {
     // format :
-    QTextCharFormat introduction_qtextcharformat = this->current_dipylonui.current_dipydoc.introduction.textformat.qtextcharformat();
-    QTextBlockFormat introduction_qtextblockformat = this->current_dipylonui.current_dipydoc.introduction.blockformat.qtextblockformat();
+    QTextCharFormat introduction_qtextcharformat = dipydoc.introduction.textformat.qtextcharformat();
+    QTextBlockFormat introduction_qtextblockformat = dipydoc.introduction.blockformat.qtextblockformat();
 
-    cur.insertBlock( introduction_qtextblockformat, introduction_qtextcharformat );
+    cur.insertBlock(introduction_qtextblockformat, introduction_qtextcharformat);
 
     // text :
-    cur.insertText(this->current_dipylonui.current_dipydoc.introduction.text);
+    cur.insertText(dipydoc.introduction.text);
     cur.insertText("\n");
-
   }
 
   /*
@@ -168,16 +157,15 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   */
 
   // new block for the lettrine and the text :
-  QTextCharFormat text_qtextcharformat = this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat();
-  QTextBlockFormat text_blockformat = this->current_dipylonui.current_dipydoc.source_text.blockformat.qtextblockformat();
+  QTextCharFormat text_qtextcharformat = dipydoc.sourceeditor_default_textformat.qtextcharformat();
+  QTextBlockFormat text_blockformat = dipydoc.source_text.blockformat.qtextblockformat();
 
-  cur.insertBlock( text_blockformat, text_qtextcharformat );
+  cur.insertBlock(text_blockformat, text_qtextcharformat);
 
-  if ( this->current_dipylonui.current_dipydoc.lettrine.available == true )
-  {
-    int aspectratio = this->current_dipylonui.current_dipydoc.lettrine.aspectratio;
+  if (dipydoc.lettrine.available == true) {
+    int aspectratio = dipydoc.lettrine.aspectratio;
 
-    QImage lettrine_img( "/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png" );
+    QImage lettrine_img("/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png");
 
     qtextdocument->addResource(QTextDocument::ImageResource,
                                QUrl("lettrine"),
@@ -190,12 +178,12 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
        It is noteworthy that the height is automatically resized so that the
        image' proportions are intact after the resizing.
     */
-    qtextimageformat.setWidth(  this->width() / aspectratio );
+    qtextimageformat.setWidth(this->width() / aspectratio);
 
     qtextimageformat.setName("lettrine");
 
-    cur.insertImage( qtextimageformat,
-                     this->current_dipylonui.current_dipydoc.lettrine.position_in_text_frame.position() );
+    cur.insertImage(qtextimageformat,
+                     dipydoc.lettrine.position_in_text_frame.position());
   }
 
   /*
@@ -205,9 +193,9 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
      see DipyDoc::init_from_xml() to see why this attribute has not been
      initialized before.
   */
-  this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text = cur.position();
+  dipydoc.source_text.number_of_chars_before_source_text = cur.position();
 
-  cur.setCharFormat( text_qtextcharformat );
+  cur.setCharFormat(text_qtextcharformat);
   cur.insertText(source_text.text);
 }
 
@@ -219,17 +207,17 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
         the .modified_chars_hash attribute.
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
+  DipyDoc& dipydoc = this->current_dipylonui.current_dipydoc;
 
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
+  if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
+    int shift = dipydoc.source_text.number_of_chars_before_source_text;
 
-   int shift = this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text;
+    QTextCursor cur = this->textCursor();
 
-   QTextCursor cur = this->textCursor();
+    // first we set the ancient modified text's appearance to "default" :
+    QList<QTextEdit::ExtraSelection> selections;
 
-   // first we set the ancient modified text's appearance to "default" :
-   QList<QTextEdit::ExtraSelection> selections;
-
-    for(auto &x0x1 : this->modified_chars ) {
+    for (auto &x0x1 : this->modified_chars) {
       cur.movePosition(QTextCursor::Start,
                        QTextCursor::MoveAnchor);
       cur.movePosition(QTextCursor::NextCharacter,
@@ -237,15 +225,15 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
       cur.movePosition(QTextCursor::NextCharacter,
                        QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
       QTextEdit::ExtraSelection sel = { cur,
-                                        this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat() };
+                                        dipydoc.sourceeditor_default_textformat.qtextcharformat() };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
 
     selections.clear();
 
-   // ... and then we modify the new text's appearance :
-    for(auto &x0x1 : positions ) {
+    // ... and then we modify the new text's appearance :
+    for (auto &x0x1 : positions) {
       qDebug() << "SourceEditor::modify_the_text_format=" << \
                static_cast<int>(x0x1.first) + shift << \
                "-" << \
@@ -260,7 +248,7 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
                        QTextCursor::KeepAnchor,
                        static_cast<int>(x0x1.second - x0x1.first));
       QTextEdit::ExtraSelection sel = { cur,
-                                        this->current_dipylonui.current_dipydoc.sourceeditor_karaoke_textformat.qtextcharformat() };
+                            dipydoc.sourceeditor_karaoke_textformat.qtextcharformat() };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
@@ -268,8 +256,7 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
     this->modified_chars = positions;
 
     cur.clearSelection();
- }
-
+  }
 }
 
 /*______________________________________________________________________________
@@ -277,7 +264,6 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
         SourceEditor::mousePressEvent
 ______________________________________________________________________________*/
 void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
-
     QTextCursor cur = this->textCursor();
 
     qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cur.position();
@@ -286,7 +272,7 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
     //    PosInText x0 =  static_cast<PosInText>(cur.position());
     //    qDebug() << "x0=" << x0;
     /*
-  switch( this->current_dipylonui.reading_mode ) {
+  switch (this->current_dipylonui.reading_mode) {
 
     case DipylonUI::READINGMODE_KARAOKE: {
 
@@ -300,7 +286,7 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
         (5) indiquer que l'on reprend la lecture en pause
 
       this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-      this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+      this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(*(this->current_dipylonui.icon_audio_play));
       this->current_dipylonui.mainWin->audio_player->play();
       break;
     }
@@ -319,16 +305,15 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
 
         SourceEditor::mouseReleaseEvent
 _____________________________________________________________________________*/
-void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
-{
+void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     QTextCursor cur = this->textCursor();
 
     qDebug() << "SourceEditor::mouseReleaseEvent" << "pos=" << cur.position();
 
-    if ( cur.hasSelection() ) {
+    if (cur.hasSelection()) {
       QString selected_txt = cur.selectedText();
-      PosInText x0 = static_cast<PosInText>( cur.selectionStart() );
-      PosInText x1 = static_cast<PosInText>( cur.selectionEnd() );
+      PosInText x0 = static_cast<PosInText>(cur.selectionStart());
+      PosInText x1 = static_cast<PosInText>(cur.selectionEnd());
       qDebug() << "SourceEditor::mouseReleaseEvent; selection=" << x0 << "-" << x1;
      }
 
@@ -344,18 +329,17 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event)
   sur QPen : http://qt-project.org/doc/qt-4.8/qpen.html
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
-
   // starting point :
   QTextCursor current_posintext_pos = this->textCursor();
   QPoint current_xy_pos = this->mapFromGlobal(QCursor().pos());
   // end point :
   QTextCursor dest_posintext_pos = this->textCursor();
   dest_posintext_pos.movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, 100);
-  QRect dest_rect = this->cursorRect( dest_posintext_pos );
+  QRect dest_rect = this->cursorRect(dest_posintext_pos);
 
   // à étudier (???)
-  //http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
-  //http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
+  // http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
+  // http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
 
   const QRect rec = ev->rect();
   QPainter p(viewport());
@@ -368,20 +352,20 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   QPointF startingpoint = QPointF(x0, y0);
   QPointF endpoint = QPointF(x1, y1);
 
-  p.setPen( QPen(QBrush("red"), 2, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
+  p.setPen(QPen(QBrush("red"), 2, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
 
   // arrow body :
-  QPainterPath path = QPainterPath( startingpoint ); // starting point
-  path.cubicTo( QPointF( x0*1.3, y0*0.9),
-                QPointF( x0*1.1, y0*0.7),
-                endpoint ); // p1, p2, endpoint
+  QPainterPath path = QPainterPath(startingpoint);  // starting point
+  path.cubicTo(QPointF(x0*1.3, y0*0.9),
+               QPointF(x0*1.1, y0*0.7),
+               endpoint);  // p1, p2, endpoint
   p.drawPath(path);
 
-  p.setPen( QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin) );
+  p.setPen(QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
 
-  p.drawRect( x0-2, y0-2, 4,4);
+  p.drawRect(x0-2, y0-2, 4, 4);
 
-  p.drawRect( x1-1, y1-1, 2,2);
+  p.drawRect(x1-1, y1-1, 2, 2);
 
   this->update();
 
@@ -408,7 +392,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
         This function resets the appearance of all the text.
 _____________________________________________________________________________*/
 void SourceEditor::reset_all_text_format_to_default(void) {
-
+  DipyDoc& dipydoc = this->current_dipylonui.current_dipydoc;
   QTextCursor cur = this->textCursor();
 
   QList<QTextEdit::ExtraSelection> selections;
@@ -417,7 +401,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
   cur.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
   QTextEdit::ExtraSelection sel = { cur,
-                                    this->current_dipylonui.current_dipydoc.sourceeditor_default_textformat.qtextcharformat() };
+                                    dipydoc.sourceeditor_default_textformat.qtextcharformat() };
   selections.append(sel);
 
   cur.clearSelection();
