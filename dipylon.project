@@ -71,6 +71,7 @@ SOMMAIRE
 
 - pourquoi pas -Woverflow ?
 - pourquoi pas -Wunused-but-set-variable
+- Wunused-value
 
 - cross-comp > Mac
 - couleurs : utiliser les couleurs d'Anne + se restreindre à des couleurs standards
@@ -107,9 +108,7 @@ SOMMAIRE
 Voir l'article en [1.2] : presque toutes les options en ont été reprises :
 o l'option "-Wmissing-declarations" a été abandonnée car elle entrait en conflit avec le code automatiquement généré par Qt.
 
-options du projet :
-
--pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused
+options du projet : voir dipylon.sh
 
 ################################################################################
 [1.2] article à propos des options de compilation

@@ -341,7 +341,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   // http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
   // http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
 
-  const QRect rec = ev->rect();
+  //const QRect rec = ev->rect();
   QPainter p(viewport());
 
   float x0 = current_xy_pos.x();
