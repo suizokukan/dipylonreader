@@ -1,7 +1,7 @@
 echo "=== cross-compiling Linux > Windows using MXE ==="
-echo ""
-echo "===   everything will be compiled in the 2win/ folder : beware !"
-echo "===   this folder must exist !"
+echo "==="
+echo "===   everything will be compiled in the 2win/ folder"
+echo "==="
 echo ""
 
 echo "== export MXE binary folder to PATH"
@@ -9,8 +9,9 @@ export PATH=~/mxe/usr/bin:$PATH
 echo $PATH
 
 echo "== filling 2win/"
+mkdir -p 2win/
 rm -rf 2win/*
-rsync -av --progress . 2win/ --exclude 2win/
+rsync -a . 2win/ --exclude 2win/
 
 echo "== dipylon2win.pro > 2win/dipylon.pro"
 rm 2win/dipylon.pro*
