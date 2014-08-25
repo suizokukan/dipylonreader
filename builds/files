@@ -1,2 +1,2 @@
-dipylon_windows_32bits
-dipylon_linux_64bits
+dipylon_windows_32bits : dipylon2win.sh
+dipylon_linux_64bits : dipylon.sh

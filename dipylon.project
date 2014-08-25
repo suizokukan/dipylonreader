@@ -69,6 +69,8 @@ SOMMAIRE
 - cross-comp > Windows
 - remettre un max d'options pour la compil. vers Windows
 
+- type de doc = texte/image
+
 - pourquoi pas -Woverflow ?
 - pourquoi pas -Wunused-but-set-variable
 - Wunused-value
