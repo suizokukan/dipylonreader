@@ -66,7 +66,7 @@ SOMMAIRE
         a été modifié.   
 0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
 0.3.1 : cross-compilation vers Windows
-*0.3.2 : DipyDoc's version = 23 (document's type)
+0.3.2 : DipyDoc's version = 23 (document's type)
 
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 
