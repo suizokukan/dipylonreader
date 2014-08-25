@@ -42,7 +42,7 @@ namespace fixedparameters {
 static const QString organization_name   = "suizokukan's factory";
 static const QString organization_domain = "94.23.197.37";
 static const QString application_name    = "Dipylon";
-static const QString application_version = "0.3.1";
+static const QString application_version = "0.3.2";
 static const QString application_style   = "CleanLooks";
 
 /*
@@ -74,5 +74,7 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
                                                      "background-color: #191970;"
                                                      "selection-color: yellow;"
                                                      "selection-background-color: red;";
+
+const QStringList known_doctypes = { QString("text"), };
 }
 #endif

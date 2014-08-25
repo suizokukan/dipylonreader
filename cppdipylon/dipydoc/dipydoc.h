@@ -349,6 +349,7 @@ friend class CommentaryEditor;
  private:
   bool                 _well_initialized;
   int                  _internal_state;
+  QString              doctype;
 
   QString              main_filename_with_fullpath;
 
@@ -404,8 +405,8 @@ friend class CommentaryEditor;
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 22;
-  static const int     maximal_dipydoc_version = 22;
+  static const int     minimal_dipydoc_version = 23;
+  static const int     maximal_dipydoc_version = 23;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;
@@ -431,6 +432,7 @@ friend class CommentaryEditor;
      o WRONG_AUDIORECORD_TEXT2AUDIO : "audiorecord.text2audio" isn't correctly initialized
      o WRONG_AUDIORECORD_AUDIO2TEXT : "audiorecord.audio2text" isn't correctly initialized
      o WRONG_TRANSLATION : the "translations" object isn't correctly initialized.
+     o WRONG_DOCTYPE : the document's type is unknown.
 
      please update DipyDoc::diagnosis() if you modify this constants.
   */
@@ -451,6 +453,7 @@ friend class CommentaryEditor;
     WRONG_AUDIORECORD_TEXT2AUDIO = -13,
     WRONG_AUDIORECORD_AUDIO2TEXT = -14,
     WRONG_TRANSLATION = -15,
+    WRONG_DOCTYPE = -16,
   };
 
   // name of the main file in a dipydoc directory :

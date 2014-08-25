@@ -142,6 +142,8 @@ void DipyDoc::clear(void) {
   this->_well_initialized = false;
   this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
 
+  this->doctype = QString("");
+
   this->main_filename_with_fullpath = QString("");
 
   this->errors.clear();
@@ -290,6 +292,12 @@ QString DipyDoc::diagnosis(void) const {
       return msg;
     }
 
+    case DipyDoc::INTERNALSTATE::WRONG_DOCTYPE : {
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the document's type isn't known by this version of the software.");
+      return msg;
+    }
+
     default : {
       return QObject::tr("anomaly : unknown internal state.");
     }
@@ -298,9 +306,12 @@ QString DipyDoc::diagnosis(void) const {
 
 /*______________________________________________________________________________
 
+  DipyDoc::error__wrong_content
+
+
   function(s) called by DipyDoc::init_from_xml()
 
-  if an error occurs in the object "src", add an error message to DipyDoc::errors
+  if an error occured in the object "src", add an error message to DipyDoc::errors
 
   return a value to initialize "xml_reading_is_ok"
 
@@ -384,6 +395,9 @@ bool DipyDoc::error__wrong_content(const TextFormat& src,
 
 /*______________________________________________________________________________
 
+  DipyDoc::error__misplaced_content
+
+
   function called by DipyDoc::init_from_xml().
 
   add an error message to DipyDoc::errors : the "element" has been found
@@ -460,7 +474,9 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "\n";
 
   res += "<dipydoc dipydoc_version=\"$DIPYDOCVERSION$\" "
-         "languages=\"$LANGUAGEFROMTO$\">\n";
+         "languages=\"$LANGUAGEFROMTO$\" "
+         "type=\"$DOCTYPE$\" "
+         ">\n";
 
   res += "\n";
 
@@ -647,6 +663,8 @@ QString DipyDoc::get_xml_repr(void) const {
                QString().setNum(this->dipydoc_version));
   res.replace("$LANGUAGEFROMTO$",
                this->languagefromto.to_str());
+  res.replace("$DOCTYPE$",
+               this->doctype);
 
   res.replace("$TITLETEXT$",
                this->title.text);
@@ -733,6 +751,7 @@ QString DipyDoc::get_xml_repr(void) const {
             (5.6) does the text file exist ?
             (5.7) is the aspectratio of the lettrine correctly initialized ?
             (5.8) does the lettrine's file exist ?
+            (5.9) is the document's type ok ?
         (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
@@ -829,6 +848,8 @@ void DipyDoc::init_from_xml(const QString& path) {
         this->languagefromto = LanguageFromTo(xmlreader.attributes().value("languages").toString());
         xml_reading_is_ok &= this->error__wrong_content(this->languagefromto,
                                                         QString("dipydoc:lanuages"));
+
+        this->doctype = xmlreader.attributes().value("type").toString();
         continue;
       }
 
@@ -1229,6 +1250,19 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
+    (5.9) is the document's type ok ?
+  ............................................................................*/
+  bool doctype_is_ok = (fixedparameters::known_doctypes.indexOf(this->doctype) != -1);
+
+  if (doctype_is_ok == false) {
+    msg_error = "An error occurs while reading the main file; ";
+    msg_error += "the doctype '"+this->doctype+"' is unknown.";
+    msg_error += "Accepted document's types are : " + fixedparameters::known_doctypes.join(";");
+    this->errors.append(msg_error);
+    this->_internal_state = WRONG_DOCTYPE;
+  }
+
+  /*............................................................................
     (6) initializaton of _well_initialized
   ............................................................................*/
   this->_well_initialized = xml_reading_is_ok && \
@@ -1239,7 +1273,8 @@ void DipyDoc::init_from_xml(const QString& path) {
                             this->translation.translations.well_initialized() && \
                             audiofile_ok && \
                             textfile_ok && \
-                            this->lettrine.well_initialized;
+                            this->lettrine.well_initialized && \
+                            doctype_is_ok;
 
   qDebug() << "DipyDoc::init_from_xml" << \
            "xml:this->_well_initialized" << this->_well_initialized;

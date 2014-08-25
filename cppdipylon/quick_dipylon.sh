@@ -6,4 +6,6 @@ qmake-qt5 -project dipylon.pro
 
 make
 
-./build/dipylon
+cp ./build/dipylon ../builds/dipylon_linux_64bits
+
+./../builds/dipylon_linux_64bits

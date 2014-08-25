@@ -66,12 +66,9 @@ SOMMAIRE
         a été modifié.   
 0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
 0.3.1 : cross-compilation vers Windows
+*0.3.2 : DipyDoc's version = 23 (document's type)
 
-- type de doc = texte/image
-
-- pourquoi pas -Woverflow ?
-- pourquoi pas -Wunused-but-set-variable
-- Wunused-value
+- réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 
 - cross-comp > Mac
 - couleurs : utiliser les couleurs d'Anne + se restreindre à des couleurs standards
@@ -739,6 +736,7 @@ sous Linux : ./dipylon > output 2>&1
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
+version 23 : document's type
 version 22 : text reading direction + "name" -> "description" for text, audiorecord and translation
 version 21 : lettrine format
 version 20 : audiorecord is optional : if no audiorecord block found, no audio available.
