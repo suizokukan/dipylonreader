@@ -28,7 +28,6 @@
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 #define CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 
-// $$$
 #include <QDebug>
 
 #include <QString>

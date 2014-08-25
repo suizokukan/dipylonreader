@@ -28,7 +28,6 @@
 #ifndef CPPDIPYLON_QT_SOURCEEDITOR_H_
 #define CPPDIPYLON_QT_SOURCEEDITOR_H_
 
-// $$$
 #include <QDebug>
 
 #include <QTextEdit>

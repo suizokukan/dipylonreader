@@ -24,17 +24,8 @@
 *******************************************************************************/
 
 #include <QApplication>
-#include <QDebug>
-#include <vector>
 
 #include "qt/dipylonui.h"
-
-//$$$
-#include "pos/posinaudio2posintext.h"
-#include "pos/posintext/posintextranges.h"
-#include "pos/posintext/vectorposintextranges.h"
-#include "pos/posintext2posinaudio.h"
-#include "languages/languagefromto.h"
 
 /*______________________________________________________________________________
 
