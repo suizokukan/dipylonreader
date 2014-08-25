@@ -58,10 +58,10 @@ static const int default__audio_notify_interval = 500;
 // http://qt-project.org/doc/qt-5/qmediaplayer.html#volume-prop
 static const int default__audio_player_volume = 50;
 
-/* default path to the dipydocs.
+/*
+   default path to the dipydocs.
 */
-//$$$static const QString default_path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
-static const QString default__path_to_dipydocs  = QDir::homePath() + "/projets/freedipydocs/";
+static const QString default_path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
 
 /*
   editors' default style sheets :
