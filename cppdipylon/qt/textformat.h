@@ -48,6 +48,7 @@
 #include <QTextCharFormat>
 #include <QString>
 #include <QStringList>
+#include <QDebug>
 
 /*______________________________________________________________________________
 

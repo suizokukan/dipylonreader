@@ -62,6 +62,10 @@ int TextFormat::init_from_string(const QString& source_string) {
       // spaces are not taken in account :
       keyword.replace(" ", "");
 
+      if( keyword.length() == 0) {
+        continue;
+      }
+
       /*
         background colors
       */
@@ -262,6 +266,9 @@ int TextFormat::init_from_string(const QString& source_string) {
          this->_qtextcharformat.setFontUnderline(QTextCharFormat::WaveUnderline);
          continue;
       }
+
+      qDebug() << "TextFormat::init_from_string() : unknown keyword=" << keyword \
+               << "keyword.length()=" << keyword.length();
 
       res = TextFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
       this->_well_initialized = false;

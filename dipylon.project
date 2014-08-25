@@ -65,9 +65,6 @@ SOMMAIRE
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
         a été modifié.        
 
-- bug avec choix de couleur
-- bug avec lettrine
-
 - main_filename -> main_filename_with_fullpath
 
 - cross-comp > Windows

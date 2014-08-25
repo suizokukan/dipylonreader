@@ -60,6 +60,10 @@ int BlockFormat::init_from_string(const QString& source_string) {
       // spaces are not taken in account :
       keyword.replace(" ", "");
 
+      if( keyword.length() == 0) {
+        continue;
+      }
+
       // alignment .............................................................
       if (keyword == "alignment:left") {
         this->_qtextblockformat.setAlignment(Qt::AlignLeft);
