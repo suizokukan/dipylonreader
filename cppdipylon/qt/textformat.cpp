@@ -57,7 +57,20 @@ int TextFormat::init_from_string(const QString& source_string) {
 
     int res = TextFormat::INTERNALSTATE::OK;
 
-    for( auto &keyword : list_of_keywords) {
+    for (auto &keyword : list_of_keywords) {
+
+      /*
+        A special case : "font-family" expects an argument which may have
+        a space within like "Liberation Mono". So this special case is
+        treated before the other ones.
+      */
+      if (keyword.contains("font-family")) {
+        QString fontfamily = keyword.replace("font-family", "");
+        fontfamily.replace(":", "");
+        fontfamily.trimmed();
+        this->_qtextcharformat.setFontFamily(fontfamily);
+        continue;
+      }
 
       // spaces are not taken in account :
       keyword.replace(" ", "");

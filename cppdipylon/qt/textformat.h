@@ -39,6 +39,7 @@
 		o "italic"
 		o "underlinecolor:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow or #RRGGBB
 		o "underlinestyle:xxx" with "xxx"=dashline, dotline, singleline, waveline or #RRGGBB
+                o "font-family:xxx" with xxx being a string of characters
 
 *******************************************************************************/
 

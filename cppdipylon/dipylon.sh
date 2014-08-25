@@ -13,6 +13,9 @@ echo ""
 echo "== cleaning the build/ folder"
 rm -rf build/*
 
+echo "== removing the binary in builds/"
+rm ../builds/dipylon_linux_64bits
+
 echo "== calling qmake"
 qmake-qt5 -makefile dipylon.pro
 

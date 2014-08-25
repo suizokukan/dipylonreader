@@ -453,6 +453,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
   this->current_dipylonui.current_dipydoc = DipyDoc(directoryName);
 
   if( this->current_dipylonui.current_dipydoc.well_initialized() == false ) {
+
     // an error occurs :
     QMessageBox msgBox;
     msgBox.setText( tr("Unable to load a (valid) DipyDoc from <b>") + directoryName + "</b> ." +\

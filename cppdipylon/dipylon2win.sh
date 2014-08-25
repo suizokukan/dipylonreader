@@ -36,6 +36,9 @@ rm -rf 2win/build/*
 cd 2win/
 echo "== now in 2win/"
 
+echo "== removing the binary in builds/"
+rm ../../builds/dipylon_windows_32bits
+
 echo "== calling qmake"
 ~/mxe/usr/i686-pc-mingw32/qt5/bin/qmake -makefile dipylon.pro
 echo "== calling make"

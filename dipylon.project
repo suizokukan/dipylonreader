@@ -67,13 +67,15 @@ SOMMAIRE
 0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
 0.3.1 : cross-compilation vers Windows
 0.3.2 : DipyDoc's version = 23 (document's type)
+0.3.3 : DipyDoc's version = 24 (fonts)
+
+- pouvoir choisir sa police de caractères (ex: hébreu)
+
+- on pourrait réécrire *formats*::init_from_string() avec QString.simplified()
 
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
-
 - cross-comp > Mac
 - couleurs : utiliser les couleurs d'Anne + se restreindre à des couleurs standards
-- pouvoir choisir sa police de caractères (ex: hébreu)
-- virer les $$
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes
 - google/c++lint : les tests ne passent pas !

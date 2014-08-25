@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QString>
 #include <QTranslator>
+#include <QFontDatabase>
 
 #include "./fixedparameters.h"
 #include "qt/mainwindow.h"

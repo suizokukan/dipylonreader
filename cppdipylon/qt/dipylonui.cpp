@@ -172,6 +172,13 @@ int DipylonUI::go(void) {
   QObject::connect(&app, &QApplication::aboutToQuit,
                    this->mainWin, &MainWindow::closing);
 
+  /*
+    we display the list of the available fonts' families :
+  */
+  QFontDatabase qfontdatabase;
+  qDebug() << "list of the available fonts' families : " \
+           << qfontdatabase.families().join("; ");
+
   // main loop :
   return app.exec();
 }

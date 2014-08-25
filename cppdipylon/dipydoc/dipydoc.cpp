@@ -60,11 +60,13 @@ DipyDoc::DipyDoc(const QString& path) {
   this->init_from_xml(path);
 
   // let's open the text file :
-  QFile src_file(this->source_text.filename);
-  src_file.open(QIODevice::ReadOnly | QIODevice::Text);
-  QTextStream src_file_stream(&src_file);
-  src_file_stream.setCodec("UTF-8");
-  this->source_text.text = src_file_stream.readAll();
+  if( this->well_initialized() == true ) {
+    QFile src_file(this->source_text.filename);
+    src_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream src_file_stream(&src_file);
+    src_file_stream.setCodec("UTF-8");
+    this->source_text.text = src_file_stream.readAll();
+  }
 }
 
 /*______________________________________________________________________________
@@ -1085,9 +1087,9 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (5.1) is the version of the Dipy doc correct ?
   ............................................................................*/
-  bool dipydoc_version_ok = (this->dipydoc_version >= this->minimal_dipydoc_version);
+  bool dipydoc_version_ok1 = (this->dipydoc_version >= this->minimal_dipydoc_version);
 
-  if (dipydoc_version_ok == false) {
+  if (dipydoc_version_ok1 == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "the DipyDoc version of the file is outdated.";
     msg_error += "current version = " + \
@@ -1103,9 +1105,9 @@ void DipyDoc::init_from_xml(const QString& path) {
     qDebug() << msg_error;
   }
 
-  dipydoc_version_ok = (this->dipydoc_version <= this->maximal_dipydoc_version);
+  bool dipydoc_version_ok2 = (this->dipydoc_version <= this->maximal_dipydoc_version);
 
-  if (dipydoc_version_ok == false) {
+  if (dipydoc_version_ok2 == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "the DipyDoc version of the file is too recent";
     msg_error += "current version = " + \
@@ -1120,6 +1122,8 @@ void DipyDoc::init_from_xml(const QString& path) {
 
     qDebug() << msg_error;
   }
+
+  bool dipydoc_version_ok = dipydoc_version_ok1 & dipydoc_version_ok2;
 
   /*............................................................................
     (5.2) is audiorecord.text2audio correctly initialized ?
@@ -1277,5 +1281,5 @@ void DipyDoc::init_from_xml(const QString& path) {
                             doctype_is_ok;
 
   qDebug() << "DipyDoc::init_from_xml" << \
-           "xml:this->_well_initialized" << this->_well_initialized;
+           "xml:this->_well_initialized = " << this->_well_initialized;
 }
