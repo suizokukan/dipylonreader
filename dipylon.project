@@ -63,13 +63,12 @@ SOMMAIRE
 0.2.8 : DipyDoc's version = 22 (text reading direction)
 0.2.9 : l'affichage du texte tient compte du décalage induit par l'affichage du
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
-        a été modifié.        
-
-- main_filename -> main_filename_with_fullpath
+        a été modifié.   
+0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
 
 - cross-comp > Windows
 - cross-comp > Mac
-- couleurs : color doit accepter #RRBBVV + choisir des couleurs acceptables + se restreindre à des couleurs standards
+- couleurs : utiliser les couleurs d'Anne + se restreindre à des couleurs standards
 - pouvoir choisir sa police de caractères (ex: hébreu)
 - virer les $$
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
