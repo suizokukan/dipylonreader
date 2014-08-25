@@ -65,9 +65,7 @@ SOMMAIRE
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
         a été modifié.   
 0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
-
-- cross-comp > Windows
-- remettre un max d'options pour la compil. vers Windows
+0.3.1 : cross-compilation vers Windows
 
 - type de doc = texte/image
 
