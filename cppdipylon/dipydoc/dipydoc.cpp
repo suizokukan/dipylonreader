@@ -142,7 +142,7 @@ void DipyDoc::clear(void) {
   this->_well_initialized = false;
   this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
 
-  this->main_filename = QString("");
+  this->main_filename_with_fullpath = QString("");
 
   this->errors.clear();
 
@@ -202,7 +202,7 @@ QString DipyDoc::diagnosis(void) const {
       QString msg = QObject::tr("This DipyDoc contains an error : "
                                 "the given path doesn't contain "
                                 "the expected main file, '$FILENAME$'.");
-      msg.replace("$FILENAME$", this->MAIN_FILENAME);
+      msg.replace("$FILENAME$", this->main_filename_with_fullpath);
       return msg;
     }
 
@@ -312,7 +312,7 @@ bool DipyDoc::error__wrong_content(const BlockFormat& src,
 
   if ( flag == false ) {
     QString msg_error;
-    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "An error occurs while reading the main file '"+this->main_filename_with_fullpath+"'. ";
     msg_error = "The document is ill-formed :";
     msg_error += "wrong content in the definition of the BlockFormat object <"+where+">";
     msg_error += ": error code number #";
@@ -331,7 +331,7 @@ bool DipyDoc::error__wrong_content(const LanguageFromTo& src,
 
   if ( flag == false ) {
     QString msg_error;
-    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "An error occurs while reading the main file '"+this->main_filename_with_fullpath+"'. ";
     msg_error = "The document is ill-formed :";
     msg_error += "wrong content in the definition of the LanguageFromTo object <"+where+">";
     msg_error += ": error code number #";
@@ -350,7 +350,7 @@ bool DipyDoc::error__wrong_content(const PosInTextFrameFormat& src,
 
   if ( flag == false ) {
     QString msg_error;
-    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "An error occurs while reading the main file '"+this->main_filename_with_fullpath+"'. ";
     msg_error = "The document is ill-formed :";
     msg_error += "wrong content in the definition of the PosInTextFrameFormat object <"+where+">";
     msg_error += ": error code number #";
@@ -369,7 +369,7 @@ bool DipyDoc::error__wrong_content(const TextFormat& src,
 
   if ( flag == false ) {
     QString msg_error;
-    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "An error occurs while reading the main file '"+this->main_filename_with_fullpath+"'. ";
     msg_error = "The document is ill-formed :";
     msg_error += "wrong content in the definition of the TextFormat object <"+where+">";
     msg_error += ": error code number #";
@@ -392,7 +392,7 @@ ________________________________________________________________________________
 void DipyDoc::error__misplaced_content(const QString& element,
                                        const QString& where) {
   QString msg_error;
-  msg_error = "An error occurs while reading the main file '"+this->main_filename+"'.";
+  msg_error = "An error occurs while reading the main file '"+this->main_filename_with_fullpath+"'.";
   msg_error = "The document is ill-formed :";
   msg_error += "A <"+element+"> has been found outside of <"+where+">.";
   msg_error += "[in the function DipyDoc::init_from_xml]";
@@ -749,15 +749,15 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (2) main file opening
   ............................................................................*/
-  this->main_filename = path + "/" + this->MAIN_FILENAME;
-  QFile dipydoc_main_xml(this->main_filename);
+  this->main_filename_with_fullpath = path + "/" + this->MAIN_FILENAME;
+  QFile dipydoc_main_xml(this->main_filename_with_fullpath);
 
   if (!dipydoc_main_xml.open(QIODevice::ReadOnly | QIODevice::Text)) {
     qDebug() << "DipyDoc::init_from_xml" \
              << "can't open the main file in " << path;
 
     msg_error = "An error occurs while opening the main file; ";
-    msg_error += "filename=" + this->main_filename;
+    msg_error += "filename=" + this->main_filename_with_fullpath;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
     return;
@@ -1013,7 +1013,7 @@ void DipyDoc::init_from_xml(const QString& path) {
   if (xml_reading_is_ok == false) {
     msg_error = "An error occurs while reading the main file : ";
     msg_error += xmlreader.errorString() + "; ";
-    msg_error += "filename=" + this->main_filename;
+    msg_error += "filename=" + this->main_filename_with_fullpath;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -1073,7 +1073,7 @@ void DipyDoc::init_from_xml(const QString& path) {
                  QString().setNum(this->dipydoc_version) + "; ";
     msg_error += "minimal version supported = " + \
                  QString().setNum(this->minimal_dipydoc_version) + "; ";
-    msg_error += "filename=" + this->main_filename;
+    msg_error += "filename=" + this->main_filename_with_fullpath;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -1091,7 +1091,7 @@ void DipyDoc::init_from_xml(const QString& path) {
                  QString().setNum(this->dipydoc_version) + "; ";
     msg_error += "maximal version supported = " + \
                  QString().setNum(this->maximal_dipydoc_version) + "; ";
-    msg_error += "filename=" + this->main_filename;
+    msg_error += "filename=" + this->main_filename_with_fullpath;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -1109,7 +1109,7 @@ void DipyDoc::init_from_xml(const QString& path) {
     msg_error += "text2audio isn't correctly initialized";
     msg_error += "message error due to the PosInText2PosInAudio object =" +\
                  QString().setNum(this->audiorecord.text2audio.internal_state());
-    msg_error += "filename=" + this->main_filename;
+    msg_error += "filename=" + this->main_filename_with_fullpath;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -1127,7 +1127,7 @@ void DipyDoc::init_from_xml(const QString& path) {
     msg_error += "audio2text isn't correctly initialized";
     msg_error += "message error due to the PosInAudio2PosInText object =" +\
                  QString().setNum(this->audiorecord.audio2text.internal_state());
-    msg_error += "filename=" + this->main_filename;
+    msg_error += "filename=" + this->main_filename_with_fullpath;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -1144,7 +1144,7 @@ void DipyDoc::init_from_xml(const QString& path) {
     msg_error += "translation isn't correctly initialized";
     msg_error += "message error due to the PosInText2Str object =" +\
                  QString().setNum(this->translation.translations.internal_state());
-    msg_error += "filename=" + this->main_filename;
+    msg_error += "filename=" + this->main_filename_with_fullpath;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 

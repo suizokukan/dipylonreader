@@ -350,7 +350,7 @@ friend class CommentaryEditor;
   bool                 _well_initialized;
   int                  _internal_state;
 
-  QString              main_filename;
+  QString              main_filename_with_fullpath;
 
   // general informations :
   int                  dipydoc_version;
