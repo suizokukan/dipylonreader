@@ -812,6 +812,7 @@ http://qt-project.org/doc/qt-5/android-support.html
  ensuite : compilation vers 32 bits avec la branche multi-target (confer https://github.com/mxe/mxe/issues/39)
          
 
+
 utilisation de MinGW-w64 : stackoverflow.com/questions/19425482
 
 pour pouvoir compiler essai1, il a fallu ajouter à Path le chemin suivant : c:\Program Files (x86)\mingw-w64\i686-4.9.1-posix-dwarf-rt_v3-rev0\mingw32\bin\mingw32-make.exe"
