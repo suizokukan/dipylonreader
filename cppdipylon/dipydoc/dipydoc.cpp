@@ -933,7 +933,7 @@ void DipyDoc::init_from_xml(const QString& path) {
           continue;
         }
 
-        xml_reading_is_ok == false;
+        xml_reading_is_ok == false; // $$$!!!%M%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         this->error__misplaced_content(QString("stylesheet"), QString("sourceeditor or commentaryeditor"));
         continue;
       }

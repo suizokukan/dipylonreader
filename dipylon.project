@@ -67,6 +67,11 @@ SOMMAIRE
 0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
 
 - cross-comp > Windows
+- remettre un max d'options pour la compil. vers Windows
+
+- pourquoi pas -Woverflow ?
+- pourquoi pas -Wunused-but-set-variable
+
 - cross-comp > Mac
 - couleurs : utiliser les couleurs d'Anne + se restreindre à des couleurs standards
 - pouvoir choisir sa police de caractères (ex: hébreu)

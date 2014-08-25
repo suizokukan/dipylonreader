@@ -1,6 +1,6 @@
 rm -rf build/*
 
-qmake-qt5
+qmake-qt5 -makefile dipylon.pro
 
 make
 
