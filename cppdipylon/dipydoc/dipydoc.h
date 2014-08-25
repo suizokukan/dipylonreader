@@ -350,6 +350,8 @@ friend class CommentaryEditor;
   bool                 _well_initialized;
   int                  _internal_state;
 
+  QString              main_filename;
+
   // general informations :
   int                  dipydoc_version;
   LanguageFromTo       languagefromto;
@@ -391,6 +393,12 @@ friend class CommentaryEditor;
               explicit DipyDoc(const QString&);
   void                 clear(void);
   QString              diagnosis(void) const;
+  void                 error__misplaced_content(const QString& element,
+                                                const QString& where);
+  bool                 error__wrong_content(const LanguageFromTo& src, const QString& where);
+  bool                 error__wrong_content(const BlockFormat& src, const QString& where);
+  bool                 error__wrong_content(const PosInTextFrameFormat& src, const QString& where);
+  bool                 error__wrong_content(const TextFormat& src, const QString& where);
   QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   QString              get_xml_repr(void) const;
   int                  internal_state(void) const;
@@ -419,7 +427,10 @@ friend class CommentaryEditor;
      o OUTDATED_DIPYDOC_VERSION : the version of the DipyDoc is outdated.
      o DIPYDOC_VERSION_TOO_RECENT : the version of the DipyDoc is too recent.
      o WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO : the lettrine's aspect ratio isn't correct.
-     o MISSING_LETTRINE_FILE : the expected file doesn't exist in "path"
+     o LETTRINE_FILE_DECLARED_BUT_MISSING : the expected file doesn't exist in "path"
+     o WRONG_AUDIORECORD_TEXT2AUDIO : "audiorecord.text2audio" isn't correctly initialized
+     o WRONG_AUDIORECORD_AUDIO2TEXT : "audiorecord.audio2text" isn't correctly initialized
+     o WRONG_TRANSLATION : the "translations" object isn't correctly initialized.
 
      please update DipyDoc::diagnosis() if you modify this constants.
   */
@@ -436,7 +447,10 @@ friend class CommentaryEditor;
     OUTDATED_DIPYDOC_VERSION = -9,
     DIPYDOC_VERSION_TOO_RECENT = -10,
     WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO = 11,
-    MISSING_LETTRINE_FILE = -12,
+    LETTRINE_FILE_DECLARED_BUT_MISSING = -12,
+    WRONG_AUDIORECORD_TEXT2AUDIO = -13,
+    WRONG_AUDIORECORD_AUDIO2TEXT = -14,
+    WRONG_TRANSLATION = -15,
   };
 
   // name of the main file in a dipydoc directory :

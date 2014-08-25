@@ -65,12 +65,15 @@ SOMMAIRE
         titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
         a été modifié.        
 
-- bug : si la couleur hexadécimale est évidemment fausse, rien n'est signalé.
+- bug avec choix de couleur
+- bug avec lettrine
+
+- main_filename -> main_filename_with_fullpath
 
 - cross-comp > Windows
 - cross-comp > Mac
 - couleurs : color doit accepter #RRBBVV + choisir des couleurs acceptables + se restreindre à des couleurs standards
-- pouvoir choisir sa police de caractères
+- pouvoir choisir sa police de caractères (ex: hébreu)
 - virer les $$
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes

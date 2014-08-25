@@ -142,6 +142,8 @@ void DipyDoc::clear(void) {
   this->_well_initialized = false;
   this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
 
+  this->main_filename = QString("");
+
   this->errors.clear();
 
   this->title.clear();
@@ -249,7 +251,7 @@ QString DipyDoc::diagnosis(void) const {
       return msg;
     }
 
-    case DipyDoc::WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO : {
+    case DipyDoc::INTERNALSTATE::WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO : {
       QString msg = QObject::tr("This DipyDoc contains an error : "
                                 "the given ratio aspect of the lettrine "
                                 "is zero or above. "
@@ -259,7 +261,7 @@ QString DipyDoc::diagnosis(void) const {
       return msg;
     }
 
-    case DipyDoc::MISSING_LETTRINE_FILE : {
+    case DipyDoc::INTERNALSTATE::LETTRINE_FILE_DECLARED_BUT_MISSING : {
       QString msg = QObject::tr("This DipyDoc contains an error : "
                                 "the given path doesn't contain the "
                                 "expected lettrine file image."
@@ -270,10 +272,131 @@ QString DipyDoc::diagnosis(void) const {
       return msg;
     }
 
+    case DipyDoc::INTERNALSTATE::WRONG_AUDIORECORD_TEXT2AUDIO : {
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "audiorecord.text2audio can't be initialized.");
+      return msg;
+    }
+
+    case DipyDoc::INTERNALSTATE::WRONG_AUDIORECORD_AUDIO2TEXT : {
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "audiorecord.audio2text can't be initialized.");
+      return msg;
+    }
+
+    case DipyDoc::INTERNALSTATE::WRONG_TRANSLATION : {
+      QString msg = QObject::tr("This DipyDoc contains an error : "
+                                "the translations' data are ill-formed.");
+      return msg;
+    }
+
     default : {
       return QObject::tr("anomaly : unknown internal state.");
     }
   }
+}
+
+/*______________________________________________________________________________
+
+  function(s) called by DipyDoc::init_from_xml()
+
+  if an error occurs in the object "src", add an error message to DipyDoc::errors
+
+  return a value to initialize "xml_reading_is_ok"
+
+________________________________________________________________________________*/
+bool DipyDoc::error__wrong_content(const BlockFormat& src,
+                                   const QString& where) {
+  int flag = src.well_initialized();
+  int error_number = src.internal_state();
+
+  if ( flag == false ) {
+    QString msg_error;
+    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "The document is ill-formed :";
+    msg_error += "wrong content in the definition of the BlockFormat object <"+where+">";
+    msg_error += ": error code number #";
+    msg_error += QString().setNum(error_number);
+    msg_error += " .";
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append(msg_error);
+  }
+
+  return flag;
+}
+bool DipyDoc::error__wrong_content(const LanguageFromTo& src,
+                                   const QString& where) {
+  int flag = src.well_initialized();
+  int error_number = src.internal_state();
+
+  if ( flag == false ) {
+    QString msg_error;
+    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "The document is ill-formed :";
+    msg_error += "wrong content in the definition of the LanguageFromTo object <"+where+">";
+    msg_error += ": error code number #";
+    msg_error += QString().setNum(error_number);
+    msg_error += " .";
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append(msg_error);
+  }
+
+  return flag;
+}
+bool DipyDoc::error__wrong_content(const PosInTextFrameFormat& src,
+                                   const QString& where) {
+  int flag = src.well_initialized();
+  int error_number = src.internal_state();
+
+  if ( flag == false ) {
+    QString msg_error;
+    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "The document is ill-formed :";
+    msg_error += "wrong content in the definition of the PosInTextFrameFormat object <"+where+">";
+    msg_error += ": error code number #";
+    msg_error += QString().setNum(error_number);
+    msg_error += " .";
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append(msg_error);
+  }
+
+  return flag;
+}
+bool DipyDoc::error__wrong_content(const TextFormat& src,
+                                   const QString& where) {
+  int flag = src.well_initialized();
+  int error_number = src.internal_state();
+
+  if ( flag == false ) {
+    QString msg_error;
+    msg_error = "An error occurs while reading the main file '"+this->main_filename+"'. ";
+    msg_error = "The document is ill-formed :";
+    msg_error += "wrong content in the definition of the TextFormat object <"+where+">";
+    msg_error += ": error code number #";
+    msg_error += QString().setNum(error_number);
+    msg_error += " .";
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append(msg_error);
+  }
+
+  return flag;
+}
+
+/*______________________________________________________________________________
+
+  function called by DipyDoc::init_from_xml().
+
+  add an error message to DipyDoc::errors : the "element" has been found
+  outside "where".
+________________________________________________________________________________*/
+void DipyDoc::error__misplaced_content(const QString& element,
+                                       const QString& where) {
+  QString msg_error;
+  msg_error = "An error occurs while reading the main file '"+this->main_filename+"'.";
+  msg_error = "The document is ill-formed :";
+  msg_error += "A <"+element+"> has been found outside of <"+where+">.";
+  msg_error += "[in the function DipyDoc::init_from_xml]";
+  this->errors.append(msg_error);
 }
 
 /*______________________________________________________________________________
@@ -600,17 +723,16 @@ QString DipyDoc::get_xml_repr(void) const {
             (3.2) was the xml reading of the main file ok ?
         (4) secondary initializations
             (4.1) initialization of "audiorecord.audio2text"
-            (4.2) (fake) initialization of "number_of_chars_before_source_text"
+            (4.2) "number_of_chars_before_source_text" is not initialized here
         (5) checks
             (5.1) is the version of the Dipy doc correct ?
-            (5.2) is the object languagefromto correctly initialized ?
-            (5.3) is audiorecord.text2audio correctly initialized ?
-            (5.4) is audiorecord.audio2text correctly initialized ?
-            (5.5) is translation correctly initialized ?
-            (5.6) does the audio file exist ?
-            (5.7) does the text file exist ?
-            (5.8) is the aspectratio of the lettrine correctly initialized ?
-            (5.9) does the lettrine's file exist ?
+            (5.2) is audiorecord.text2audio correctly initialized ?
+            (5.3) is audiorecord.audio2text correctly initialized ?
+            (5.4) is translation correctly initialized ?
+            (5.5) does the audio file exist ?
+            (5.6) does the text file exist ?
+            (5.7) is the aspectratio of the lettrine correctly initialized ?
+            (5.8) does the lettrine's file exist ?
         (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
@@ -627,15 +749,15 @@ void DipyDoc::init_from_xml(const QString& path) {
   /*............................................................................
     (2) main file opening
   ............................................................................*/
-  QString main_filename = path + "/" + this->MAIN_FILENAME;
-  QFile dipydoc_main_xml(main_filename);
+  this->main_filename = path + "/" + this->MAIN_FILENAME;
+  QFile dipydoc_main_xml(this->main_filename);
 
   if (!dipydoc_main_xml.open(QIODevice::ReadOnly | QIODevice::Text)) {
     qDebug() << "DipyDoc::init_from_xml" \
              << "can't open the main file in " << path;
 
     msg_error = "An error occurs while opening the main file; ";
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + this->main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
     return;
@@ -688,32 +810,39 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       if (name == "default_textformat") {
         if (current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR) {
+
           this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
+          xml_reading_is_ok &= this->error__wrong_content(this->sourceeditor_default_textformat,
+                                                          QString("default_textformat"));
           continue;
         }
 
-        xml_reading_is_ok == false;
-        msg_error = "An error occurs while reading the main file, ";
-        msg_error = "the document is ill-formed :";
-        msg_error += "A <default_textformat> has been found out of "
-                     "<sourceeditor> .";
-        msg_error += "filename=" + main_filename;
-        msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append(msg_error);
+        xml_reading_is_ok = false;
+        this->error__misplaced_content(QString("default_textformat"), QString("sourceeditor"));
         continue;
       }
 
       if (name == "dipydoc") {
         current_division = DIPYDOCDIV_UNDEFINED;
         this->dipydoc_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
+
         this->languagefromto = LanguageFromTo(xmlreader.attributes().value("languages").toString());
+        xml_reading_is_ok &= this->error__wrong_content(this->languagefromto,
+                                                        QString("dipydoc:lanuages"));
         continue;
       }
 
       if (name == "introduction") {
         this->introduction.available = true;
+
         this->introduction.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+        xml_reading_is_ok &= this->error__wrong_content(this->introduction.textformat,
+                                                        QString("introduction:textformat"));
+
         this->introduction.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+        xml_reading_is_ok &= this->error__wrong_content(this->introduction.blockformat,
+                                                       QString("introduction:blockformat"));
+
         this->introduction.text = xmlreader.readElementText();
         continue;
       }
@@ -721,17 +850,13 @@ void DipyDoc::init_from_xml(const QString& path) {
       if (name == "karaoke_textformat") {
         if (current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR) {
           this->sourceeditor_karaoke_textformat = TextFormat(xmlreader.readElementText());
+          xml_reading_is_ok &= this->error__wrong_content(this->sourceeditor_karaoke_textformat,
+                                                         QString("karaoke_textformat"));
           continue;
         }
 
-        xml_reading_is_ok == false;
-        msg_error = "An error occurs while reading the main file, ";
-        msg_error = "the document is ill-formed :";
-        msg_error += "A <karaoke_textformat> has been found out of "
-                     "<sourceeditor> .";
-        msg_error += "filename=" + main_filename;
-        msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append(msg_error);
+        xml_reading_is_ok = false;
+        this->error__misplaced_content(QString("karaoke_textformat"), QString("sourceeditor"));
         continue;
       }
 
@@ -743,7 +868,8 @@ void DipyDoc::init_from_xml(const QString& path) {
 
         QString str_pos = xmlreader.attributes().value("positionintextframe").toString();
         this->lettrine.position_in_text_frame = PosInTextFrameFormat(str_pos);
-
+        xml_reading_is_ok &= this->error__wrong_content(this->lettrine.position_in_text_frame,
+                                                       QString("lettrine:posintextframeformat"));
         this->lettrine.image = QImage(this->lettrine.filename);
         continue;
       }
@@ -808,13 +934,7 @@ void DipyDoc::init_from_xml(const QString& path) {
         }
 
         xml_reading_is_ok == false;
-        msg_error = "An error occurs while reading the main file, ";
-        msg_error = "the document is ill-formed :";
-        msg_error += "A <stylesheet> has been found out of "
-                     "<sourceeditor> or <commentaryeditor>.";
-        msg_error += "filename=" + main_filename;
-        msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append(msg_error);
+        this->error__misplaced_content(QString("stylesheet"), QString("sourceeditor or commentaryeditor"));
         continue;
       }
 
@@ -823,7 +943,10 @@ void DipyDoc::init_from_xml(const QString& path) {
         this->source_text.name = xmlreader.attributes().value("description").toString();
         this->source_text.filename = path + "/" + xmlreader.attributes().value("filename").toString();
         this->source_text.informations = xmlreader.attributes().value("informations").toString();
+
         this->source_text.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+        xml_reading_is_ok &= this->error__wrong_content(this->source_text.blockformat,
+                                                       QString("text:blockformat"));
         continue;
       }
 
@@ -837,17 +960,13 @@ void DipyDoc::init_from_xml(const QString& path) {
 
         if (current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR) {
           this->commentaryeditor_textformat = TextFormat(xmlreader.readElementText());
+          xml_reading_is_ok &= this->error__wrong_content(this->commentaryeditor_textformat,
+                                                         QString("commentaryeditor:textformat"));
           continue;
         }
 
-        xml_reading_is_ok == false;
-        msg_error = "An error occurs while reading the main file, ";
-        msg_error = "the document is ill-formed :";
-        msg_error += "A <textformat> has been found out of "
-                     "<textformats> or <commentaryeditor>.";
-        msg_error += "filename=" + main_filename;
-        msg_error += "[in the function DipyDoc::init_from_xml]";
-        this->errors.append(msg_error);
+        xml_reading_is_ok = false;
+        this->error__misplaced_content(QString("textformat"), QString("textformats or commentaryeditor"));
         continue;
       }
 
@@ -859,8 +978,15 @@ void DipyDoc::init_from_xml(const QString& path) {
       if (name == "title") {
         current_division = DIPYDOCDIV_INSIDE_TITLE;
         this->title.available = true;
+
         this->title.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+        xml_reading_is_ok &= this->error__wrong_content(this->title.textformat,
+                                                       QString("title:textformat"));
+
         this->title.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+        xml_reading_is_ok &= this->error__wrong_content(this->title.blockformat,
+                                                       QString("title:blockformat"));
+
         this->title.text = xmlreader.readElementText();
         continue;
       }
@@ -887,7 +1013,7 @@ void DipyDoc::init_from_xml(const QString& path) {
   if (xml_reading_is_ok == false) {
     msg_error = "An error occurs while reading the main file : ";
     msg_error += xmlreader.errorString() + "; ";
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + this->main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -909,7 +1035,7 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
-    (4.2) (fake) initialization of "number_of_chars_before_source_text"
+    (4.2) "number_of_chars_before_source_text" is not initialized here
 
     The first attempt to compute "number_of_chars_before_source_text was doubtfull :
 
@@ -947,7 +1073,7 @@ void DipyDoc::init_from_xml(const QString& path) {
                  QString().setNum(this->dipydoc_version) + "; ";
     msg_error += "minimal version supported = " + \
                  QString().setNum(this->minimal_dipydoc_version) + "; ";
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + this->main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -965,7 +1091,7 @@ void DipyDoc::init_from_xml(const QString& path) {
                  QString().setNum(this->dipydoc_version) + "; ";
     msg_error += "maximal version supported = " + \
                  QString().setNum(this->maximal_dipydoc_version) + "; ";
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + this->main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 
@@ -975,22 +1101,7 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
-     (5.2) is the object languagefromto correctly initialized ?
-  ............................................................................*/
-  if (languagefromto.well_initialized() == false) {
-    msg_error = "An error occurs while reading the main file; ";
-    msg_error += "Languages from/to could not be read";
-    msg_error += "message error due to the LanguageFromTo object =" + \
-                 QString().setNum(this->languagefromto.internal_state());
-    msg_error += "filename=" + main_filename;
-    msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append(msg_error);
-
-    qDebug() << msg_error;
-  }
-
-  /*............................................................................
-    (5.3) is audiorecord.text2audio correctly initialized ?
+    (5.2) is audiorecord.text2audio correctly initialized ?
   ............................................................................*/
   if (this->audiorecord.available == true && \
       this->audiorecord.text2audio.well_initialized() == false) {
@@ -998,15 +1109,17 @@ void DipyDoc::init_from_xml(const QString& path) {
     msg_error += "text2audio isn't correctly initialized";
     msg_error += "message error due to the PosInText2PosInAudio object =" +\
                  QString().setNum(this->audiorecord.text2audio.internal_state());
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + this->main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
+
+    this->_internal_state = WRONG_AUDIORECORD_TEXT2AUDIO;
 
     qDebug() << msg_error;
   }
 
   /*............................................................................
-    (5.4) is audio2text correctly initialized ?
+    (5.3) is audio2text correctly initialized ?
   ............................................................................*/
   if (this->audiorecord.available == true && \
       this->audiorecord.audio2text.well_initialized() == false) {
@@ -1014,30 +1127,34 @@ void DipyDoc::init_from_xml(const QString& path) {
     msg_error += "audio2text isn't correctly initialized";
     msg_error += "message error due to the PosInAudio2PosInText object =" +\
                  QString().setNum(this->audiorecord.audio2text.internal_state());
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + this->main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
+
+    this->_internal_state = WRONG_AUDIORECORD_AUDIO2TEXT;
 
     qDebug() << msg_error;
   }
 
   /*............................................................................
-    (5.5) is translation correctly initialized ?
+    (5.4) is translation correctly initialized ?
   ............................................................................*/
   if (translation.translations.well_initialized() == false) {
     msg_error = "An error occurs while reading the main file; ";
     msg_error += "translation isn't correctly initialized";
     msg_error += "message error due to the PosInText2Str object =" +\
                  QString().setNum(this->translation.translations.internal_state());
-    msg_error += "filename=" + main_filename;
+    msg_error += "filename=" + this->main_filename;
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
+
+    this->_internal_state = WRONG_TRANSLATION;
 
     qDebug() << msg_error;
   }
 
   /*............................................................................
-    (5.6) does the audio file exist ?
+    (5.5) does the audio file exist ?
   ............................................................................*/
   bool audiofile_ok = true;
 
@@ -1058,7 +1175,7 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
-    (5.7) does the text file exist ?
+    (5.6) does the text file exist ?
   ............................................................................*/
   bool textfile_ok = true;
 
@@ -1077,7 +1194,7 @@ void DipyDoc::init_from_xml(const QString& path) {
     }
 
   /*............................................................................
-    (5.8) is the aspectratio of the lettrine correctly initialized ?
+    (5.7) is the aspectratio of the lettrine correctly initialized ?
   ............................................................................*/
   if (this->lettrine.available == true && this->lettrine.aspectratio <= 0) {
     msg_error = "the aspect ratio defined for the lettrine isn't correct; "
@@ -1092,17 +1209,20 @@ void DipyDoc::init_from_xml(const QString& path) {
   }
 
   /*............................................................................
-    (5.9) does the lettrine's file exist ?
+    (5.8) does the lettrine's file exist ?
   ............................................................................*/
   if (this->lettrine.available == true) {
-      QFile lettrinefile(this->lettrine.filename);
+      QFile lettrinefile(path + "/" + this->lettrine.filename);
       if (!lettrinefile.open(QFile::ReadOnly)) {
         msg_error = "An error occurs while reading the lettrine's file; ";
-        msg_error += "filename=" + this->lettrine.filename;
-        msg_error += "[in the function DipyDoc::init_from_xml]";
+        msg_error += "is the file missing ?";
+        msg_error += "filename='" + this->lettrine.filename + "'";
+        msg_error += " [in the function DipyDoc::init_from_xml]";
         this->errors.append(msg_error);
 
-        this->_internal_state = MISSING_LETTRINE_FILE;
+        this->lettrine.well_initialized = false;
+
+        this->_internal_state = LETTRINE_FILE_DECLARED_BUT_MISSING;
 
         qDebug() << msg_error;
         }
