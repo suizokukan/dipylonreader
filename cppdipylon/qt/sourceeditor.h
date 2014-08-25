@@ -75,7 +75,11 @@ class SourceEditor : public QTextEdit {
 
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :
+    #ifdef COMPILE_TO_32BITS_ARCHITECTURE
+    std::size_t modified_chars_hash = 0x12345678;
+    #else
     std::size_t modified_chars_hash = 0x123456789;
+    #endif
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEEDITOR_H_

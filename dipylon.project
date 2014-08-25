@@ -79,7 +79,7 @@ SOMMAIRE
 - virer les $$
 - vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes
-- google/c++lint
+- google/c++lint : les tests ne passent pas !
 - Menu : informations sur le dipydoc
 - dans ... , vérifier que "number", "name" existent :
 

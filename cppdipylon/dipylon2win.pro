@@ -1,5 +1,5 @@
 ######################################################################
-# Dipylon project
+# Dipylon project : .pro file for Windows/32 bits/ with MXE
 ######################################################################
 
 TEMPLATE = app
@@ -16,6 +16,8 @@ DEFINES += QT_NO_DEBUG_OUTPUT
 
 # some particularities bound to MXE/Qt :
 DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
+
+DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
 
 QT += widgets
 QT += multimedia
