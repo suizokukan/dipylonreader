@@ -8,15 +8,14 @@ INCLUDEPATH += .
 RESOURCES        =  dipylon.qrc
 TRANSLATIONS = dipylon_French.ts
 
-# to get rid of the qDebug() messages, uncomment this line :
+#_______________________________________________________________________________
+#
+# compilation options : see dipylon.project for more informations
+#
+#_______________________________________________________________________________
 DEFINES += QT_NO_DEBUG_OUTPUT
-
-# access to DipyDoc write functions :
 #DEFINES += READANDWRITE
-
-# some particularities bound to MXE/Qt :
 DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
-
 DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
 
 QT += widgets

@@ -7,7 +7,7 @@ SOMMAIRE
 [1] options de compilation
     [1.1] options choisies pour le projet
     [1.2] article à propos des options de compilation
-    [1.3] QT_NO_DEBUG_OUTPUT
+    [1.3] autres options
 
 [2] style de code
     [2.0] conventions
@@ -172,11 +172,20 @@ Warnings that are absent:
     -Wzero-as-null-pointer-constant and -Wuseless-cast are GCC-4.7-only warnings, which I will add when I transition to GCC 4.7.
 
 ################################################################################
-[1.3] QT_NO_DEBUG_OUTPUT
+[1.3] autres options
 ################################################################################
-confer dipylon.pro
 
-QT_NO_DEBUG_OUTPUT : no qDebug() output.
+o QT_NO_DEBUG_OUTPUT
+  no qDebug() output
+  
+o DREADANDWRITE
+  access to DipyDoc write functions
+
+o CROSSCOMPILE_TO_WIN_USING_MXE
+  some particularities bound to MXE/Qt
+
+o COMPILE_TO_32BITS_ARCHITECTURE
+  compilation to a 32 architecture
 
 ################################################################################
 [2] style de code
