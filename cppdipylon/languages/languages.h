@@ -36,13 +36,20 @@
 /*______________________________________________________________________________
 
   known_languages : name of the languages recognized by the program with
-                    their short names (ISO 639-3) and their long names.
+                    their short names (ISO 639-3) and their English long names.
 
 ______________________________________________________________________________*/
 namespace languages {
     static std::map<QString, QString> known_languages = {
-      { QString("lat"), QString(QObject::tr("Latin")) },
+      { QString("ang"), QString(QObject::tr("Old English")) },
+      { QString("bod"), QString(QObject::tr("Tibetan")) },
+      { QString("deu"), QString(QObject::tr("German")) },
       { QString("fra"), QString(QObject::tr("French")) },
+      { QString("grc"), QString(QObject::tr("Ancient Greek")) },
+      { QString("hbo"), QString(QObject::tr("Biblical Hebrew")) },
+      { QString("jpn"), QString(QObject::tr("Japan")) },
+      { QString("lat"), QString(QObject::tr("Latin")) },
+      { QString("san"), QString(QObject::tr("Sanskrit")) },
     };
 }
 
