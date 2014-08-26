@@ -69,9 +69,11 @@ SOMMAIRE
 0.3.2 : DipyDoc's version = 23 (document's type)
 0.3.3 : DipyDoc's version = 24 (fonts)
 
-- pouvoir choisir sa police de caractères (ex: hébreu)
-
 - on pourrait réécrire *formats*::init_from_string() avec QString.simplified()
+
+- options de compilation à mettre en // sur les deux fichiers .sh
+- compilation statique pour Linux
+- marquer le binaire linux comme dynamique
 
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 - cross-comp > Mac
