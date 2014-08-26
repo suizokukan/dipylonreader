@@ -162,6 +162,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
   cur.insertBlock(text_blockformat, text_qtextcharformat);
 
+  // adding the lettrine :
   if (dipydoc.lettrine.available == true) {
     int aspectratio = dipydoc.lettrine.aspectratio;
 
@@ -183,7 +184,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
     qtextimageformat.setName("lettrine");
 
     cur.insertImage(qtextimageformat,
-                     dipydoc.lettrine.position_in_text_frame.position());
+                    dipydoc.lettrine.position_in_text_frame.position());
   }
 
   /*
