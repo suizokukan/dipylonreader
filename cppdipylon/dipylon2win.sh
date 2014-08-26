@@ -37,7 +37,7 @@ cd 2win/
 echo "== now in 2win/"
 
 echo "== removing the binary in builds/"
-rm ../../builds/dipylon_windows_32bits_qtstatic
+rm ../../builds/dipylon_windows_32bits_qtstatic.exe
 
 echo "== calling qmake"
 ~/mxe/usr/i686-pc-mingw32/qt5/bin/qmake -makefile dipylon.pro
@@ -45,7 +45,7 @@ echo "== calling make"
 make
 
 echo "== copying the binary into the builds/ folder"
-cp ./build/dipylon.exe ../../builds/dipylon_windows_32bits_qtstatic
+cp ./build/dipylon.exe ../../builds/dipylon_windows_32bits_qtstatic.exe
 
 echo "== now in ./"
 cd ..
