@@ -47,6 +47,7 @@ DipylonUI::DipylonUI(int argc, char **argv) {
   if (path_info.exists() == false || path_info.isFile()) {
     qDebug() << "DipylonUI::DipylonUI" \
              << "problem with the default path stored in fixedparameters.h, using the current directory." \
+             << " default path = " << fixedparameters::default__path_to_dipydocs \
              << " (path_info.exists()=" << path_info.exists() \
              << "path_info.isFile()=" << path_info.isFile() \
              << ")";

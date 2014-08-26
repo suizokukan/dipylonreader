@@ -13,13 +13,25 @@ TRANSLATIONS = dipylon_French.ts
 # compilation options : see dipylon.project for more informations
 #
 #_______________________________________________________________________________
-DEFINES += QT_NO_DEBUG_OUTPUT
+#DEFINES += QT_NO_DEBUG_OUTPUT
 #DEFINES += READANDWRITE
 DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
 DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
 
+#_______________________________________________________________________________
+#
+# add this line if you want to see qDebug() messages
+#_______________________________________________________________________________
+CONFIG += console
+
+
+
 QT += widgets
 QT += multimedia
+
+# on Windows, in order to use QMediaPlayer, add the following line :
+# (see http://lists.gnu.org/archive/html/mingw-cross-env-list/2013-06/msg00027.html)
+QTPLUGIN += dsengine qtmedia_audioengine
 
 # Input
 HEADERS         +=  fixedparameters.h \
@@ -67,7 +79,9 @@ UI_DIR = build/
 
 #_______________________________________________________________________________
 #
-# .rc file used, e.g., to add the desktop icon to the application
+# .rc file used to add the desktop icon to the application
+#
+# see http://qt-project.org/doc/qt-5/appicon.html
 #_______________________________________________________________________________
 RC_FILE = dipylon.rc
 

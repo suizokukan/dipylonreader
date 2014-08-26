@@ -18,6 +18,14 @@ DEFINES += READANDWRITE
 #DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
 #DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
 
+#_______________________________________________________________________________
+#
+# add this line if you wan to see qDebug() messages
+#
+# on Linux system, this line has no effect.
+#_______________________________________________________________________________
+#CONFIG += console
+
 QT += widgets
 QT += multimedia
 
