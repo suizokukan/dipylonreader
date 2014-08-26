@@ -14,7 +14,7 @@ echo "== cleaning the build/ folder"
 rm -rf build/*
 
 echo "== removing the binary in builds/"
-rm ../builds/dipylon_linux_64bits
+rm ../builds/dipylon_linux_64bits_qtdynamic
 
 echo "== calling qmake"
 qmake-qt5 -makefile dipylon.pro
@@ -23,7 +23,7 @@ echo "== calling make"
 make
 
 echo "== copying the binary into the builds/ folder"
-cp ./build/dipylon ../builds/dipylon_linux_64bits
+cp ./build/dipylon ../builds/dipylon_linux_64bits_qtdynamic
 
 echo "== launching the binary"
-./../builds/dipylon_linux_64bits
+./../builds/dipylon_linux_64bits_qtdynamic

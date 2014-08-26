@@ -71,7 +71,6 @@ SOMMAIRE
 
 - on pourrait réécrire *formats*::init_from_string() avec QString.simplified()
 
-- options de compilation à mettre en // sur les deux fichiers .sh
 - compilation statique pour Linux
 - marquer le binaire linux comme dynamique
 

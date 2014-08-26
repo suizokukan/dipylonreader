@@ -1,2 +1,3 @@
-dipylon_windows_32bits : dipylon2win.sh
-dipylon_linux_64bits : dipylon.sh
+o dipylon_linux_64bits_qtdynamic -> dipylon.sh
+
+o dipylon_windows_32bits_qtstatic -> dipylon2win.sh
