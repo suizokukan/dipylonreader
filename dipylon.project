@@ -69,15 +69,10 @@ SOMMAIRE
 0.3.2 : DipyDoc's version = 23 (document's type)
 0.3.3 : DipyDoc's version = 24 (fonts)
 
-- on pourrait réécrire *formats*::init_from_string() avec QString.simplified()
-
 - compilation statique pour Linux
-- marquer le binaire linux comme dynamique
-
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 - cross-comp > Mac
 - couleurs : utiliser les couleurs d'Anne + se restreindre à des couleurs standards
-- vérifier que les textformats dans le XML sont tous valides. (pour des raisons de performance, ne pas le vérifier après)
 - version XX de main.xml avec les notes
 - google/c++lint : les tests ne passent pas !
 - Menu : informations sur le dipydoc
