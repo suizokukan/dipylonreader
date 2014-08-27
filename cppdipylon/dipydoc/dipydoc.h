@@ -292,14 +292,14 @@ ______________________________________________________________________________*/
 struct DipyDocLettrine {
   bool                 well_initialized;
   bool                 available;
-  QString              filename;
+  QString              filename_with_fullpath;
   QImage               image;
   PosInTextFrameFormat position_in_text_frame;
   int                  aspectratio;
 
        DipyDocLettrine(void);
        DipyDocLettrine(bool _available,
-                       const QString& _filename,
+                       const QString& _filename_with_fullpath,
                        const QImage& _image,
                        const PosInTextFrameFormat& _position_in_text_frame,
                        int _aspectratio);
@@ -308,18 +308,18 @@ struct DipyDocLettrine {
 inline DipyDocLettrine::DipyDocLettrine(void) {
   this->well_initialized = false;
   this->available = false;
-  this->filename = QString("");
+  this->filename_with_fullpath = QString("");
   this->image = QImage();
   this->position_in_text_frame = PosInTextFrameFormat();
   this->aspectratio = 0;
 }
 inline DipyDocLettrine::DipyDocLettrine(bool _available,
-                                        const QString& _filename,
+                                        const QString& _filename_with_fullpath,
                                         const QImage& _image,
                                         const PosInTextFrameFormat& _position_in_text_frame,
                                         int _aspectratio) : \
 available(_available),
-filename(_filename),
+filename_with_fullpath(_filename_with_fullpath),
 image(_image),
 position_in_text_frame(_position_in_text_frame),
 aspectratio(_aspectratio) {
@@ -328,7 +328,7 @@ aspectratio(_aspectratio) {
 inline void DipyDocLettrine::clear(void) {
   this->well_initialized = true;
   this->available = false;
-  this->filename = QString("");
+  this->filename_with_fullpath = QString("");
   this->image = QImage();
   this->position_in_text_frame = PosInTextFrameFormat();
   this->aspectratio = 1;

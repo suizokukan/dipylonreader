@@ -166,11 +166,9 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   if (dipydoc.lettrine.available == true) {
     int aspectratio = dipydoc.lettrine.aspectratio;
 
-    QImage lettrine_img("/home/suizokukan/projets/freedipydocs/Ovid_M_I_452_465__lat_fra/P.png");
-
     qtextdocument->addResource(QTextDocument::ImageResource,
                                QUrl("lettrine"),
-                               lettrine_img);
+                               dipydoc.lettrine.image);
 
     QTextImageFormat qtextimageformat = QTextImageFormat();
     /*

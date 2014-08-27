@@ -272,7 +272,7 @@ QString DipyDoc::diagnosis(void) const {
                                 "In main.xml the name '$LETTRINEFILENAME$' "
                                 "appears but such a file "
                                 "can't be found in the given path.");
-      msg.replace("$LETTRINEFILENAME$", this->lettrine.filename);
+      msg.replace("$LETTRINEFILENAME$", this->lettrine.filename_with_fullpath);
       return msg;
     }
 
@@ -683,7 +683,7 @@ QString DipyDoc::get_xml_repr(void) const {
                this->introduction.blockformat.repr());
 
   res.replace("$LETTRINEFILENAME$",
-               this->lettrine.filename);
+               this->lettrine.filename_with_fullpath);
   res.replace("$LETTRINEASPECTRATIO$",
                QString().setNum(this->lettrine.aspectratio));
   res.replace("$LETTRINEPOSITIONINTEXTFRAME$",
@@ -886,14 +886,23 @@ void DipyDoc::init_from_xml(const QString& path) {
       if (name == "lettrine") {
         this->lettrine.well_initialized = true;  // this will be checked later.
         this->lettrine.available = true;
-        this->lettrine.filename = xmlreader.attributes().value("filename").toString();
+        this->lettrine.filename_with_fullpath = path + "/" + \
+                                                xmlreader.attributes().value("filename").toString();
         this->lettrine.aspectratio = xmlreader.attributes().value("aspectratio").toInt();
 
         QString str_pos = xmlreader.attributes().value("positionintextframe").toString();
         this->lettrine.position_in_text_frame = PosInTextFrameFormat(str_pos);
         xml_reading_is_ok &= this->error__wrong_content(this->lettrine.position_in_text_frame,
                                                        QString("lettrine:posintextframeformat"));
-        this->lettrine.image = QImage(this->lettrine.filename);
+        this->lettrine.image = QImage(this->lettrine.filename_with_fullpath);
+
+        qDebug() << "informations about the lettrine; " \
+                 << "isNull()=" << this->lettrine.image.isNull() \
+                 << "format()=" << static_cast<unsigned int>(this->lettrine.image.format()) \
+                 << "width()=" << this->lettrine.image.width() \
+                 << "height()=" << this->lettrine.image.height() \
+                 << "isGrayscale()=" << this->lettrine.image.isGrayscale();
+
         continue;
       }
 
@@ -1237,11 +1246,11 @@ void DipyDoc::init_from_xml(const QString& path) {
     (5.8) does the lettrine's file exist ?
   ............................................................................*/
   if (this->lettrine.available == true) {
-      QFile lettrinefile(path + "/" + this->lettrine.filename);
+      QFile lettrinefile(this->lettrine.filename_with_fullpath);
       if (!lettrinefile.open(QFile::ReadOnly)) {
         msg_error = "An error occurs while reading the lettrine's file; ";
-        msg_error += "is the file missing ?";
-        msg_error += "filename='" + this->lettrine.filename + "'";
+        msg_error += "is the file missing ? ";
+        msg_error += "filename='" + this->lettrine.filename_with_fullpath + "'";
         msg_error += " [in the function DipyDoc::init_from_xml]";
         this->errors.append(msg_error);
 
