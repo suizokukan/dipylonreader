@@ -34,12 +34,14 @@
 		known keywords :
 
 		o "alignment:xxx" with xxx = "left", "right", "hcenter", "justify"
+                o "line-height:xxx%" where xxx is an integer (0<=integer)
 
 *******************************************************************************/
 
 #ifndef CPPDIPYLON_QT_BLOCKFORMAT_H_
 #define CPPDIPYLON_QT_BLOCKFORMAT_H_
 
+#include <QDebug>
 #include <QTextBlockFormat>
 #include <QString>
 #include <QStringList>
@@ -77,11 +79,16 @@ class BlockFormat {
      o OK
      o NOT_YET_INITIALIZED : the object has not yet been initialized
      o BADSRCSTRING_UNKNOWNKEYWORD : unknown keyword present in the source string.
+     o LINE_HEIGHT_IS_NOT_A_PERCENTAGE : line-height expects a percentage.
+     o LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE : line-height expects a percentage which is
+                                               an integer greater or equal to 0.
   */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_INITIALIZED = -1,
     BADSRCSTRING_UNKNOWNKEYWORD = -2,
+    LINE_HEIGHT_IS_NOT_A_PERCENTAGE = -3,
+    LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE = -3,
   };
 };
 

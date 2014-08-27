@@ -156,10 +156,13 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
      lettrine ("initial") + text
   */
 
-  // new block for the lettrine and the text :
+  /*
+    new block for the lettrine and the text :
+  */
   QTextCharFormat text_qtextcharformat = dipydoc.sourceeditor_default_textformat.qtextcharformat();
   QTextBlockFormat text_blockformat = dipydoc.source_text.blockformat.qtextblockformat();
 
+  // inserting the block :
   cur.insertBlock(text_blockformat, text_qtextcharformat);
 
   // adding the lettrine :

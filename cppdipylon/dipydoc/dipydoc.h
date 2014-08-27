@@ -404,8 +404,8 @@ friend class CommentaryEditor;
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 24;
-  static const int     maximal_dipydoc_version = 24;
+  static const int     minimal_dipydoc_version = 25;
+  static const int     maximal_dipydoc_version = 25;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

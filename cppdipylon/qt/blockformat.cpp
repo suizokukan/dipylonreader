@@ -48,6 +48,12 @@ BlockFormat::BlockFormat(const QString& source_string) {
 	available values.
 ______________________________________________________________________________*/
 int BlockFormat::init_from_string(const QString& source_string) {
+
+    // default values :
+    this->_qtextblockformat.setAlignment(Qt::AlignLeft);
+    this->_qtextblockformat.setLineHeight(100, QTextBlockFormat::ProportionalHeight);
+
+    // initialization :
     this->_well_initialized = true;
 
     this->_repr = source_string;
@@ -57,14 +63,52 @@ int BlockFormat::init_from_string(const QString& source_string) {
     int res = BlockFormat::INTERNALSTATE::OK;
 
     for (auto &keyword : list_of_keywords) {
+
       // spaces are not taken in account :
       keyword.replace(" ", "");
 
-      if( keyword.length() == 0) {
+      if (keyword.length() == 0) {
         continue;
       }
 
-      // alignment .............................................................
+      /*
+        line-height
+      */
+      if( keyword.startsWith("line-height:") == true ) {
+        QString str_value = keyword.right( keyword.length() - QString("line-height:").length() );
+
+        bool ok = true;
+
+        if( str_value.endsWith("%") == false ) {
+          ok = false;
+          res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_PERCENTAGE;
+          this->_well_initialized = false;
+          continue;
+        }
+
+        str_value.replace("%", "");
+
+        int value = str_value.toInt(&ok, 10);
+        if (ok == true) {
+
+          if (value < 0) {
+            res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE;
+            this->_well_initialized = false;
+            continue;
+          } else {
+            this->_qtextblockformat.setLineHeight(value, QTextBlockFormat::ProportionalHeight);
+          }
+        } else {
+          // 'res' isn't an integer :
+          res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE;
+          this->_well_initialized = false;
+        }
+        continue;
+      }
+
+      /*
+        alignment
+      */
       if (keyword == "alignment:left") {
         this->_qtextblockformat.setAlignment(Qt::AlignLeft);
         continue;
