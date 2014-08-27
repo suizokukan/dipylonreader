@@ -501,6 +501,7 @@ compiler_rcc_make_all: build/qrc_dipylon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) build/qrc_dipylon.cpp
 build/qrc_dipylon.cpp: dipylon.qrc \
+		i18n/dipylon_French.qm \
 		ressources/images/icons/audio_pause.png \
 		ressources/images/icons/save.png \
 		ressources/images/icons/open.png \

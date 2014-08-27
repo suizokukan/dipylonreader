@@ -122,27 +122,38 @@ int DipylonUI::go(void) {
 
      o Qt translations stored in system files
      o Dipylon translation stored in dipylon_XXX files.
+
+     see http://qt-project.org/doc/qt-5/internationalization.html
   */
   QLocale local_system = QLocale::system();
   qDebug() << "i18n : local_system.name()=" << local_system.name();  // language_COUNTRY
   qDebug() << "i18n : local_system.language()=" << QLocale::languageToString(local_system.language());
 
+  /*
+     global i18n (translations written by Qt)
+
+     This translations are loaded from the Qt files installed on the system.
+  */
   QTranslator qtTranslator;
   QString system_translations_filename("qt_" + local_system.name());
   QString system_translations_path(QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   bool system_translations_res = qtTranslator.load(system_translations_filename,
                                                    system_translations_path);
   qDebug() << "i18n : loading " << system_translations_filename \
-           << "from" \
-           << system_translations_path \
+           << "from" << system_translations_path \
            << "success=" << system_translations_res;
   app.installTranslator(&qtTranslator);
 
+  /*
+     Dipylon-i18n (translations specific to Dipylon)
+
+     This translations are loaded from the ressource files.
+  */
   QTranslator dipylonTranslator;
   QString dipylon_translations_filename("dipylon_" + QLocale::languageToString(local_system.language()));
-  bool dipylon_translations_res = dipylonTranslator.load("dipylon_" + \
-                                                         QLocale::languageToString(local_system.language()));
-  qDebug() << "i18n : loading " << dipylon_translations_filename << "success=" << dipylon_translations_res;
+  bool dipylon_translations_res = dipylonTranslator.load(dipylon_translations_filename, ":/i18n");
+  qDebug() << "i18n : loading " << dipylon_translations_filename \
+           << "success=" << dipylon_translations_res;
   app.installTranslator(&dipylonTranslator);
 
   // creating the icons :

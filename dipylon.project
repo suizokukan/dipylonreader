@@ -78,7 +78,9 @@ SOMMAIRE
 0.3.3 : DipyDoc's version = 24 (fonts)
 
 [TRAVAIL COURANT]
-- icône pour Win
+- mettre dans i18n/ les traductions. C'est le foutoir :
+- changer le nom des fichiers i18n : _French > _fr_xx
+- dans dipylon.sh : rm -f ../builds/dipylon_linux_64bits_qtdynamic [ajouter le -f]
 - interligne
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
@@ -87,6 +89,7 @@ SOMMAIRE
 - Menu : informations sur le dipydoc
 - click : karaoke.new start
 - segfault avec ALT+F4
+- système de warnings (ex : pas possible de charger la bonne i18n), accessible par le menu avec tous les warnings apparaissant.
 
 [A FAIRE]
 - compilation statique pour Linux
@@ -721,7 +724,7 @@ dipylon/qt/                                         Qt5 / UI code
 dipylon/tests/
 	     /testhash..[h|cpp]		            test of the hash function defined misc/hash.h
 	     /testposintext2str.[h|cpp]		    test of the PosInText2Str class
-	     /testposintextranges.[h|cpp]	    test of the PosInTextRanges class
+	     /testposintextranges.[h|cpp]	    test of the PosInTetRanges class
 	     /testvectorposintextranges.[h|cpp]	    test of the VectorPosInTextRanges class
 	     /tests.cpp				    entry point for the tests
 
