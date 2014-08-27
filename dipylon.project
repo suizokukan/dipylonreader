@@ -82,7 +82,6 @@ SOMMAIRE
 [TRAVAIL COURANT]
 - char.size
 - _fr_ dans le nom du binaire, build/ -> build2linux64_dynamic_alllanguages, build2win -> build2win32_static_fr
-- interligne
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 - version XX de main.xml avec les notes

@@ -49,10 +49,6 @@ PosInTextFrameFormat::PosInTextFrameFormat(const QString& source_string) {
         the available values.
 ______________________________________________________________________________*/
 int PosInTextFrameFormat::init_from_string(const QString& source_string) {
-  // default value(s) :
-  this->_position = QTextFrameFormat::FloatLeft;
-
-  // initialization :
   this->_well_initialized = true;
 
   this->_repr = source_string;

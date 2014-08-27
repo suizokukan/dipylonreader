@@ -48,90 +48,82 @@ BlockFormat::BlockFormat(const QString& source_string) {
 	available values.
 ______________________________________________________________________________*/
 int BlockFormat::init_from_string(const QString& source_string) {
+  this->_repr = source_string;
 
-    // default values :
-    this->_qtextblockformat.setAlignment(Qt::AlignLeft);
-    this->_qtextblockformat.setLineHeight(100, QTextBlockFormat::ProportionalHeight);
+  QStringList list_of_keywords = source_string.split(this->SEPARATOR);
 
-    // initialization :
-    this->_well_initialized = true;
+  int res = BlockFormat::INTERNALSTATE::OK;
 
-    this->_repr = source_string;
+  for (auto &keyword : list_of_keywords) {
 
-    QStringList list_of_keywords = source_string.split(this->SEPARATOR);
+    // spaces are not taken in account :
+    keyword.replace(" ", "");
 
-    int res = BlockFormat::INTERNALSTATE::OK;
-
-    for (auto &keyword : list_of_keywords) {
-
-      // spaces are not taken in account :
-      keyword.replace(" ", "");
-
-      if (keyword.length() == 0) {
-        continue;
-      }
-
-      /*
-        line-height
-      */
-      if( keyword.startsWith("line-height:") == true ) {
-        QString str_value = keyword.right( keyword.length() - QString("line-height:").length() );
-
-        bool ok = true;
-
-        if( str_value.endsWith("%") == false ) {
-          ok = false;
-          res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_PERCENTAGE;
-          this->_well_initialized = false;
-          continue;
-        }
-
-        str_value.replace("%", "");
-
-        int value = str_value.toInt(&ok, 10);
-        if (ok == true) {
-
-          if (value < 0) {
-            res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE;
-            this->_well_initialized = false;
-            continue;
-          } else {
-            this->_qtextblockformat.setLineHeight(value, QTextBlockFormat::ProportionalHeight);
-          }
-        } else {
-          // 'res' isn't an integer :
-          res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE;
-          this->_well_initialized = false;
-        }
-        continue;
-      }
-
-      /*
-        alignment
-      */
-      if (keyword == "alignment:left") {
-        this->_qtextblockformat.setAlignment(Qt::AlignLeft);
-        continue;
-      }
-
-      if (keyword == "alignment:right") {
-        this->_qtextblockformat.setAlignment(Qt::AlignRight);
-        continue;
-      }
-
-      if (keyword == "alignment:hcenter") {
-        this->_qtextblockformat.setAlignment(Qt::AlignHCenter);
-        continue;
-      }
-
-      if (keyword == "alignment:justify") {
-        this->_qtextblockformat.setAlignment(Qt::AlignJustify);
-        continue;
-      }
-
-      res = BlockFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
-      this->_well_initialized = false;
+    if (keyword.length() == 0) {
+      continue;
     }
 
-    return res;
+    /*
+      line-height
+    */
+    if( keyword.startsWith("line-height:") == true ) {
+      QString str_value = keyword.right( keyword.length() - QString("line-height:").length() );
+
+      bool ok = true;
+
+      if (str_value.endsWith("%") == false ) {
+        ok = false;
+        res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_PERCENTAGE;
+        this->_well_initialized = false;
+        continue;
+      }
+
+      str_value.replace("%", "");
+
+      int value = str_value.toInt(&ok, 10);
+      if (ok == true) {
+
+        if (value < 0) {
+          res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE;
+          this->_well_initialized = false;
+          continue;
+        } else {
+          this->_qtextblockformat.setLineHeight(value, QTextBlockFormat::ProportionalHeight);
+        }
+      } else {
+        // 'res' isn't an integer :
+        res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE;
+        this->_well_initialized = false;
+      }
+      continue;
+    }
+
+    /*
+      alignment
+    */
+    if (keyword == "alignment:left") {
+      this->_qtextblockformat.setAlignment(Qt::AlignLeft);
+      continue;
+    }
+
+    if (keyword == "alignment:right") {
+      this->_qtextblockformat.setAlignment(Qt::AlignRight);
+      continue;
+    }
+
+    if (keyword == "alignment:hcenter") {
+      this->_qtextblockformat.setAlignment(Qt::AlignHCenter);
+      continue;
+    }
+
+    if (keyword == "alignment:justify") {
+      this->_qtextblockformat.setAlignment(Qt::AlignJustify);
+      continue;
+    }
+
+    res = BlockFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
+    this->_well_initialized = false;
+  }
+
+  return res;
 }

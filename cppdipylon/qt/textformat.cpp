@@ -48,11 +48,6 @@ TextFormat::TextFormat(const QString& source_string) {
 		available values.
 ______________________________________________________________________________*/
 int TextFormat::init_from_string(const QString& source_string) {
-  // default values :
-  this->_qtextcharformat.setBackground( QBrush(Qt::black) );
-  this->_qtextcharformat.setForeground( QBrush(Qt::white) );
-
-  // initialization :
   this->_well_initialized = true;
 
   this->_repr = source_string;

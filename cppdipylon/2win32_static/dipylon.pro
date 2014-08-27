@@ -1,5 +1,5 @@
 ######################################################################
-# Dipylon project : .pro file for Windows/32 bits/ with MXE
+# Dipylon project : .pro file for Windows/32 bits/static with MXE
 ######################################################################
 
 TEMPLATE = app
