@@ -80,7 +80,6 @@ SOMMAIRE
 [TRAVAIL COURANT]
 - mettre dans i18n/ les traductions. C'est le foutoir :
 - changer le nom des fichiers i18n : _French > _fr_xx
-- dans dipylon.sh : rm -f ../builds/dipylon_linux_64bits_qtdynamic [ajouter le -f]
 - interligne
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
