@@ -117,6 +117,8 @@ int DipylonUI::go(void) {
 
   // application's look :
   app.setStyle(fixedparameters::application_style);
+  // application's icon :
+  app.setWindowIcon(QIcon(":/ressources/images/icons/dipylon_application_icon.png"));
 
   /* i18n :
 
