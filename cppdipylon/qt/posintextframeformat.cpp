@@ -49,40 +49,44 @@ PosInTextFrameFormat::PosInTextFrameFormat(const QString& source_string) {
         the available values.
 ______________________________________________________________________________*/
 int PosInTextFrameFormat::init_from_string(const QString& source_string) {
-    this->_well_initialized = true;
+  // default value(s) :
+  this->_position = QTextFrameFormat::FloatLeft;
 
-    this->_repr = source_string;
+  // initialization :
+  this->_well_initialized = true;
 
-    QStringList list_of_keywords = source_string.split(this->SEPARATOR);
+  this->_repr = source_string;
 
-    int res = PosInTextFrameFormat::INTERNALSTATE::OK;
+  QStringList list_of_keywords = source_string.split(this->SEPARATOR);
 
-    for (auto &keyword : list_of_keywords) {
-      // spaces are not taken in account :
-      keyword.replace(" ", "");
+  int res = PosInTextFrameFormat::INTERNALSTATE::OK;
 
-      if( keyword.length() == 0) {
-        continue;
-      }
+  for (auto &keyword : list_of_keywords) {
+    // spaces are not taken in account :
+    keyword.replace(" ", "");
 
-      if (keyword == "inflow") {
-        this->_position = QTextFrameFormat::InFlow;
-        continue;
-      }
-
-      if (keyword == "floatleft") {
-        this->_position = QTextFrameFormat::FloatLeft;
-        continue;
-      }
-
-      if (keyword == "floatright") {
-        this->_position = QTextFrameFormat::FloatRight;
-        continue;
-      }
-
-      this->_well_initialized = false;
-      res = PosInTextFrameFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
+    if( keyword.length() == 0) {
+      continue;
     }
 
-    return res;
+    if (keyword == "inflow") {
+      this->_position = QTextFrameFormat::InFlow;
+      continue;
+    }
+
+    if (keyword == "floatleft") {
+      this->_position = QTextFrameFormat::FloatLeft;
+      continue;
+    }
+
+    if (keyword == "floatright") {
+      this->_position = QTextFrameFormat::FloatRight;
+      continue;
+    }
+
+    this->_well_initialized = false;
+    res = PosInTextFrameFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
+  }
+
+  return res;
 }

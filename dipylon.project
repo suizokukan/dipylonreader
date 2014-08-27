@@ -80,9 +80,8 @@ SOMMAIRE
 0.3.5 : DipyDoc's version = 25 (line-height)
 
 [TRAVAIL COURANT]
-- default values for format*::init_from_string()
 - char.size
-- _fr_ dans le nom du binaire
+- _fr_ dans le nom du binaire, build/ -> build2linux64_dynamic_alllanguages, build2win -> build2win32_static_fr
 - interligne
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.

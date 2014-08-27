@@ -48,244 +48,248 @@ TextFormat::TextFormat(const QString& source_string) {
 		available values.
 ______________________________________________________________________________*/
 int TextFormat::init_from_string(const QString& source_string) {
+  // default values :
+  this->_qtextcharformat.setBackground( QBrush(Qt::black) );
+  this->_qtextcharformat.setForeground( QBrush(Qt::white) );
 
-    this->_well_initialized = true;
+  // initialization :
+  this->_well_initialized = true;
 
-    this->_repr = source_string;
+  this->_repr = source_string;
 
-    QStringList list_of_keywords = source_string.split(this->SEPARATOR);
+  QStringList list_of_keywords = source_string.split(this->SEPARATOR);
 
-    int res = TextFormat::INTERNALSTATE::OK;
+  int res = TextFormat::INTERNALSTATE::OK;
 
-    for (auto &keyword : list_of_keywords) {
+  for (auto &keyword : list_of_keywords) {
 
-      /*
-        A special case : "font-family" expects an argument which may have
-        a space within like "Liberation Mono". So this special case is
-        treated before the other ones.
-      */
-      if (keyword.contains("font-family")) {
-        QString fontfamily = keyword.replace("font-family", "");
-        fontfamily.replace(":", "");
-        fontfamily.trimmed();
-        this->_qtextcharformat.setFontFamily(fontfamily);
-        continue;
-      }
-
-      // spaces are not taken in account :
-      keyword.replace(" ", "");
-
-      if( keyword.length() == 0) {
-        continue;
-      }
-
-      /*
-        background colors
-      */
-      // background color with hexadecimal value ?
-      if( keyword.startsWith("background-color:#") == true ) {
-        QString str_value = keyword.right( keyword.length() - QString("background-color:#").length() );
-        bool ok;
-        int value = str_value.toInt(&ok, 16);
-        if( ok == true ) {
-          this->_qtextcharformat.setBackground( QBrush(static_cast<unsigned int>(value)) );
-        } else {
-          res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
-          this->_well_initialized = false;
-        }
-        continue;
-      }
-
-      if( keyword == "background-color:black") {
-        this->_qtextcharformat.setBackground( QBrush(Qt::black) );
-        continue;
-      }
-
-      if (keyword == "background-color:blue") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::blue) );
-         continue;
-      }
-
-      if (keyword == "background-color:cyan") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::cyan) );
-         continue;
-      }
-      if (keyword == "background-color:gray") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::gray) );
-         continue;
-      }
-      if (keyword == "background-color:green") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::green) );
-         continue;
-      }
-      if (keyword == "background-color:magenta") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::magenta) );
-         continue;
-      }
-      if (keyword == "background-color:red") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::red) );
-         continue;
-      }
-      if (keyword == "background-color:white") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::white) );
-         continue;
-      }
-      if (keyword == "background-color:yellow") {
-         this->_qtextcharformat.setBackground( QBrush(Qt::yellow) );
-         continue;
-      }
-
-      /*
-         bold
-      */
-      if (keyword == "italic") {
-         this->_qtextcharformat.setFontWeight(QFont::Bold);
-         continue;
-      }
-
-      /*
-         foreground colors
-      */
-
-      // foreground color with hexadecimal value ?
-      if( keyword.startsWith("color:#") == true ) {
-        QString str_value = keyword.right( keyword.length() - QString("color:#").length() );
-        bool ok;
-        int value = str_value.toInt(&ok, 16);
-        if( ok == true ) {
-          this->_qtextcharformat.setForeground( QBrush(static_cast<unsigned int>(value)) );
-        } else {
-          res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
-          this->_well_initialized = false;
-        }
-        continue;
-      }
-
-      if (keyword == "color:black") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::black) );
-         continue;
-      }
-      if (keyword == "color:blue") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::blue) );
-         continue;
-      }
-      if (keyword == "color:cyan") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::cyan) );
-         continue;
-      }
-      if (keyword == "color:gray") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::gray) );
-         continue;
-      }
-      if (keyword == "color:green") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::green) );
-         continue;
-      }
-      if (keyword == "color:magenta") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::magenta) );
-         continue;
-      }
-      if (keyword == "color:red") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::red) );
-         continue;
-      }
-      if (keyword == "color:white") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::white) );
-         continue;
-      }
-      if (keyword == "color:yellow") {
-         this->_qtextcharformat.setForeground( QBrush(Qt::yellow) );
-         continue;
-      }
-
-      /*
-        italic
-      */
-      if (keyword == "italic") {
-         this->_qtextcharformat.setFontItalic(true);
-         continue;
-      }
-
-      /*
-        underline colors
-      */
-      // underline color with hexadecimal value ?
-      if( keyword.startsWith("underlinecolor:#") == true ) {
-        QString str_value = keyword.right( keyword.length() - QString("underlinecolor:#").length() );
-        bool ok;
-        int value = str_value.toInt(&ok, 16);
-        if( ok == true ) {
-          this->_qtextcharformat.setUnderlineColor( static_cast<unsigned int>(value) );
-        } else {
-          res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
-          this->_well_initialized = false;
-        }
-        continue;
-      }
-
-      if (keyword == "underlinecolor:black") {
-         this->_qtextcharformat.setUnderlineColor( Qt::black );
-         continue;
-      }
-      if (keyword == "underlinecolor:blue") {
-         this->_qtextcharformat.setUnderlineColor( Qt::blue );
-         continue;
-      }
-      if (keyword == "underlinecolor:cyan") {
-         this->_qtextcharformat.setUnderlineColor( Qt::cyan );
-         continue;
-      }
-      if (keyword == "underlinecolor:gray") {
-         this->_qtextcharformat.setUnderlineColor( Qt::gray );
-         continue;
-      }
-      if (keyword == "underlinecolor:green") {
-         this->_qtextcharformat.setUnderlineColor( Qt::green );
-         continue;
-      }
-      if (keyword == "underlinecolor:magenta") {
-         this->_qtextcharformat.setUnderlineColor( Qt::magenta );
-         continue;
-      }
-      if (keyword == "underlinecolor:red") {
-         this->_qtextcharformat.setUnderlineColor( Qt::red );
-         continue;
-      }
-      if (keyword == "underlinecolor:white") {
-         this->_qtextcharformat.setUnderlineColor( Qt::white );
-         continue;
-      }
-      if (keyword == "underlinecolor:yellow") {
-         this->_qtextcharformat.setUnderlineColor( Qt::yellow );
-         continue;
-      }
-
-      /*
-         underline style
-      */
-      if (keyword == "underlinestyle=dashline") {
-         this->_qtextcharformat.setFontUnderline(QTextCharFormat::DashUnderline);
-         continue;
-      }
-      if (keyword == "underlinestyle=dotline") {
-         this->_qtextcharformat.setFontUnderline(QTextCharFormat::DotLine);
-         continue;
-      }
-      if (keyword == "underlinestyle=singleline") {
-         this->_qtextcharformat.setFontUnderline(QTextCharFormat::SingleUnderline);
-         continue;
-      }
-      if (keyword == "underlinestyle=waveline") {
-         this->_qtextcharformat.setFontUnderline(QTextCharFormat::WaveUnderline);
-         continue;
-      }
-
-      qDebug() << "TextFormat::init_from_string() : unknown keyword=" << keyword \
-               << "keyword.length()=" << keyword.length();
-
-      res = TextFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
-      this->_well_initialized = false;
+    /*
+      A special case : "font-family" expects an argument which may have
+      a space within like "Liberation Mono". So this special case is
+      treated before the other ones.
+    */
+    if (keyword.contains("font-family")) {
+      QString fontfamily = keyword.replace("font-family", "");
+      fontfamily.replace(":", "");
+      fontfamily.trimmed();
+      this->_qtextcharformat.setFontFamily(fontfamily);
+      continue;
     }
 
-    return res;
+    // spaces are not taken in account :
+    keyword.replace(" ", "");
+
+    if( keyword.length() == 0) {
+      continue;
+    }
+
+    /*
+      background colors
+    */
+    // background color with hexadecimal value ?
+    if( keyword.startsWith("background-color:#") == true ) {
+      QString str_value = keyword.right( keyword.length() - QString("background-color:#").length() );
+      bool ok;
+      int value = str_value.toInt(&ok, 16);
+      if( ok == true ) {
+        this->_qtextcharformat.setBackground( QBrush(static_cast<unsigned int>(value)) );
+      } else {
+        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+        this->_well_initialized = false;
+      }
+      continue;
+    }
+
+    if( keyword == "background-color:black") {
+      this->_qtextcharformat.setBackground( QBrush(Qt::black) );
+      continue;
+    }
+
+    if (keyword == "background-color:blue") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::blue) );
+       continue;
+    }
+
+    if (keyword == "background-color:cyan") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::cyan) );
+       continue;
+    }
+    if (keyword == "background-color:gray") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::gray) );
+       continue;
+    }
+    if (keyword == "background-color:green") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::green) );
+       continue;
+    }
+    if (keyword == "background-color:magenta") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::magenta) );
+       continue;
+    }
+    if (keyword == "background-color:red") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::red) );
+       continue;
+    }
+    if (keyword == "background-color:white") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::white) );
+       continue;
+    }
+    if (keyword == "background-color:yellow") {
+       this->_qtextcharformat.setBackground( QBrush(Qt::yellow) );
+       continue;
+    }
+
+    /*
+       bold
+    */
+    if (keyword == "italic") {
+       this->_qtextcharformat.setFontWeight(QFont::Bold);
+       continue;
+    }
+
+    /*
+       foreground colors
+    */
+
+    // foreground color with hexadecimal value ?
+    if( keyword.startsWith("color:#") == true ) {
+      QString str_value = keyword.right( keyword.length() - QString("color:#").length() );
+      bool ok;
+      int value = str_value.toInt(&ok, 16);
+      if( ok == true ) {
+        this->_qtextcharformat.setForeground( QBrush(static_cast<unsigned int>(value)) );
+      } else {
+        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+        this->_well_initialized = false;
+      }
+      continue;
+    }
+
+    if (keyword == "color:black") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::black) );
+       continue;
+    }
+    if (keyword == "color:blue") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::blue) );
+       continue;
+    }
+    if (keyword == "color:cyan") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::cyan) );
+       continue;
+    }
+    if (keyword == "color:gray") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::gray) );
+       continue;
+    }
+    if (keyword == "color:green") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::green) );
+       continue;
+    }
+    if (keyword == "color:magenta") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::magenta) );
+       continue;
+    }
+    if (keyword == "color:red") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::red) );
+       continue;
+    }
+    if (keyword == "color:white") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::white) );
+       continue;
+    }
+    if (keyword == "color:yellow") {
+       this->_qtextcharformat.setForeground( QBrush(Qt::yellow) );
+       continue;
+    }
+
+    /*
+      italic
+    */
+    if (keyword == "italic") {
+       this->_qtextcharformat.setFontItalic(true);
+       continue;
+    }
+
+    /*
+      underline colors
+    */
+    // underline color with hexadecimal value ?
+    if( keyword.startsWith("underlinecolor:#") == true ) {
+      QString str_value = keyword.right( keyword.length() - QString("underlinecolor:#").length() );
+      bool ok;
+      int value = str_value.toInt(&ok, 16);
+      if( ok == true ) {
+        this->_qtextcharformat.setUnderlineColor( static_cast<unsigned int>(value) );
+      } else {
+        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+        this->_well_initialized = false;
+      }
+      continue;
+    }
+
+    if (keyword == "underlinecolor:black") {
+       this->_qtextcharformat.setUnderlineColor( Qt::black );
+       continue;
+    }
+    if (keyword == "underlinecolor:blue") {
+       this->_qtextcharformat.setUnderlineColor( Qt::blue );
+       continue;
+    }
+    if (keyword == "underlinecolor:cyan") {
+       this->_qtextcharformat.setUnderlineColor( Qt::cyan );
+       continue;
+    }
+    if (keyword == "underlinecolor:gray") {
+       this->_qtextcharformat.setUnderlineColor( Qt::gray );
+       continue;
+    }
+    if (keyword == "underlinecolor:green") {
+       this->_qtextcharformat.setUnderlineColor( Qt::green );
+       continue;
+    }
+    if (keyword == "underlinecolor:magenta") {
+       this->_qtextcharformat.setUnderlineColor( Qt::magenta );
+       continue;
+    }
+    if (keyword == "underlinecolor:red") {
+       this->_qtextcharformat.setUnderlineColor( Qt::red );
+       continue;
+    }
+    if (keyword == "underlinecolor:white") {
+       this->_qtextcharformat.setUnderlineColor( Qt::white );
+       continue;
+    }
+    if (keyword == "underlinecolor:yellow") {
+       this->_qtextcharformat.setUnderlineColor( Qt::yellow );
+       continue;
+    }
+
+    /*
+       underline style
+    */
+    if (keyword == "underlinestyle=dashline") {
+       this->_qtextcharformat.setFontUnderline(QTextCharFormat::DashUnderline);
+       continue;
+    }
+    if (keyword == "underlinestyle=dotline") {
+       this->_qtextcharformat.setFontUnderline(QTextCharFormat::DotLine);
+       continue;
+    }
+    if (keyword == "underlinestyle=singleline") {
+       this->_qtextcharformat.setFontUnderline(QTextCharFormat::SingleUnderline);
+       continue;
+    }
+    if (keyword == "underlinestyle=waveline") {
+       this->_qtextcharformat.setFontUnderline(QTextCharFormat::WaveUnderline);
+       continue;
+    }
+
+    qDebug() << "TextFormat::init_from_string() : unknown keyword=" << keyword \
+             << "keyword.length()=" << keyword.length();
+
+    res = TextFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
+    this->_well_initialized = false;
+  }
+
+  return res;
 }
