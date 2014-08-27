@@ -76,10 +76,9 @@ SOMMAIRE
 0.3.1 : cross-compilation vers Windows
 0.3.2 : DipyDoc's version = 23 (document's type)
 0.3.3 : DipyDoc's version = 24 (fonts)
+0.3.4 : all translations are included in the binary file; QMediaPlayer is now ok on Windows systems
 
 [TRAVAIL COURANT]
-- mettre dans i18n/ les traductions. C'est le foutoir :
-- changer le nom des fichiers i18n : _French > _fr_xx
 - interligne
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
