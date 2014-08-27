@@ -132,21 +132,14 @@ int DipylonUI::go(void) {
   /*
      global i18n (translations written by Qt)
 
-     This translations are loaded from the Qt files installed on the system.
+     This translations are loaded from the ressource files, not from the system files
+     since this project uses its own qt_*.ts files.
 
-     Files are searched in the folder given by QLibraryInfo::location(QLibraryInfo::TranslationsPath).
-
-     On at least one Windows system (Windows7, French only), the following lines were useless :
-     the translations weren't loaded here but appear when the program displays ui-boxes
-     ("Cancel" being correctly translated by "Annuler")
   */
   QTranslator qtTranslator;
-  QString system_translations_filename("qt_" + local_system.name());
-  QString system_translations_path(QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-  bool system_translations_res = qtTranslator.load(system_translations_filename,
-                                                   system_translations_path);
+  QString system_translations_filename("qt_" +QLocale::languageToString(local_system.language()));
+  bool system_translations_res = qtTranslator.load(system_translations_filename, ":/i18n");
   qDebug() << "i18n : loading " << system_translations_filename \
-           << "from" << system_translations_path \
            << "success=" << system_translations_res;
   app.installTranslator(&qtTranslator);
 

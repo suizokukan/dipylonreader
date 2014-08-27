@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>i18n/dipylon_French.qm</file>
+    <file>i18n/qt_French.qm</file>
 
     <file>ressources/images/icons/copy.png</file>
     <file>ressources/images/icons/cut.png</file>
