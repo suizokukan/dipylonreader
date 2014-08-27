@@ -80,7 +80,7 @@ SOMMAIRE
 0.3.5 : DipyDoc's version = 25 (line-height+font-size)
 
 [TRAVAIL COURANT]
-- char.sizeq
+- icône du programme.
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 - version XX de main.xml avec les notes
