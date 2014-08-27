@@ -40,6 +40,7 @@
 		o "underlinecolor:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow or #RRGGBB
 		o "underlinestyle:xxx" with "xxx"=dashline, dotline, singleline, waveline or #RRGGBB
                 o "font-family:xxx" with xxx being a string of characters
+                o "font-size:xxx" with xxx being an integer
 
 *******************************************************************************/
 
@@ -87,15 +88,20 @@ public:
      o NOT_YET_INITIALIZED : the object has not yet been initialized
      o BADSRCSTRING_UNKNOWNKEYWORD : unknown keyword present in the source
                                      string.
-     o WRONG_HEX_VALUE : wrong hexadecimal value given in the source string.
+     o WRONG_HEX_VALUE_FOR_BACKGROUND_COLORS : wrong hexadecimal value given after the "background-color" keyword.
+     o WRONG_HEX_VALUE_FOR_FOREGROUND_COLORS : wrong hexadecimal value given after the "color" keyword.
+     o WRONG_HEX_VALUE_FOR_UNDERLINE_COLORS : wrong hexadecimal value given after the "underlinecolor" keyword.
+     o WRONG_DECIMAL_VALUE_FOR_FONTSIZE : wrong decimal value given after the "font-size" keyword.
   */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_INITIALIZED = -1,
     BADSRCSTRING_UNKNOWNKEYWORD = -2,
-    WRONG_HEX_VALUE = -3,
+    WRONG_HEX_VALUE_FOR_UNDERLINE_COLORS = -3,
+    WRONG_HEX_VALUE_FOR_FOREGROUND_COLORS = -4,
+    WRONG_HEX_VALUE_FOR_BACKGROUND_COLORS = -5,
+    WRONG_DECIMAL_VALUE_FOR_FONTSIZE = -6,
   };
-
 };
 
 inline TextFormat::TextFormat(void) {

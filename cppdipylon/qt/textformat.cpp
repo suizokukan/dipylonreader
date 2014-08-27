@@ -44,7 +44,7 @@ TextFormat::TextFormat(const QString& source_string) {
 
         TextFormat::init_from_string() : initialize "this" from a source string.
 
-		The function returns an "internal state". See textformat.h for the
+	The function returns an "internal state". See textformat.h for the
 		available values.
 ______________________________________________________________________________*/
 int TextFormat::init_from_string(const QString& source_string) {
@@ -79,6 +79,22 @@ int TextFormat::init_from_string(const QString& source_string) {
     }
 
     /*
+      font-size
+    */
+    if( keyword.startsWith("font-size:") == true ) {
+      QString str_value = keyword.right( keyword.length() - QString("font-size:").length() );
+      bool ok;
+      int value = str_value.toInt(&ok, 10);
+      if( ok == true ) {
+        this->_qtextcharformat.setFontPointSize( value );
+      } else {
+        res = TextFormat::INTERNALSTATE::WRONG_DECIMAL_VALUE_FOR_FONTSIZE;
+        this->_well_initialized = false;
+      }
+      continue;
+    }
+
+    /*
       background colors
     */
     // background color with hexadecimal value ?
@@ -89,12 +105,13 @@ int TextFormat::init_from_string(const QString& source_string) {
       if( ok == true ) {
         this->_qtextcharformat.setBackground( QBrush(static_cast<unsigned int>(value)) );
       } else {
-        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE_FOR_BACKGROUND_COLORS;
         this->_well_initialized = false;
       }
       continue;
     }
 
+    // background colors with a keyword like "black", ... ?
     if( keyword == "background-color:black") {
       this->_qtextcharformat.setBackground( QBrush(Qt::black) );
       continue;
@@ -154,7 +171,7 @@ int TextFormat::init_from_string(const QString& source_string) {
       if( ok == true ) {
         this->_qtextcharformat.setForeground( QBrush(static_cast<unsigned int>(value)) );
       } else {
-        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE_FOR_FOREGROUND_COLORS;
         this->_well_initialized = false;
       }
       continue;
@@ -216,7 +233,7 @@ int TextFormat::init_from_string(const QString& source_string) {
       if( ok == true ) {
         this->_qtextcharformat.setUnderlineColor( static_cast<unsigned int>(value) );
       } else {
-        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE;
+        res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE_FOR_UNDERLINE_COLORS;
         this->_well_initialized = false;
       }
       continue;

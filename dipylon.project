@@ -77,11 +77,10 @@ SOMMAIRE
 0.3.2 : DipyDoc's version = 23 (document's type)
 0.3.3 : DipyDoc's version = 24 (fonts)
 0.3.4 : all translations are included in the binary file; QMediaPlayer is now ok on Windows systems
-0.3.5 : DipyDoc's version = 25 (line-height)
+0.3.5 : DipyDoc's version = 25 (line-height+font-size)
 
 [TRAVAIL COURANT]
-- char.size
-- _fr_ dans le nom du binaire, build/ -> build2linux64_dynamic_alllanguages, build2win -> build2win32_static_fr
+- char.sizeq
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 - version XX de main.xml avec les notes
@@ -761,7 +760,7 @@ sous Linux : ./dipylon > output 2>&1
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
-version 25 : blockformat::"line-height"
+version 25 : blockformat::"line-height", textformat::"font-size"
 version 24 : fonts
 version 23 : document's type
 version 22 : text reading direction + "name" -> "description" for text, audiorecord and translation
@@ -792,7 +791,19 @@ main.xml, version 25 :
 
   <lettrine filename="lettrine.png" />
 
-  <text description="..." filename="text" informations="..."/>
+  <aspect>
+    <sourceeditor>
+      <stylesheet>background-color: #ffffcc; selection-color: white; selection-background-color: blue</stylesheet>
+      <default_textformat>color: #330000;font-family: DejaVu Sans; font-size:20;</default_textformat>
+      <karaoke_textformat>color: #cc0000</karaoke_textformat>
+    </sourceeditor>
+
+    <commentaryeditor>
+      <stylesheet>background-color: #ffcc99; selection-color: white; selection-background-color: blue;</stylesheet>
+      <textformat>color: #cc0000</textformat>
+    </commentaryeditor>
+  </aspect>
+
   <audiorecord description="enregistrement audio" informations="...">
     <segment textranges="8-26" audiorange="0-2399" srctext="Prīmus amor Phoebī" />
   </audiorecord>
