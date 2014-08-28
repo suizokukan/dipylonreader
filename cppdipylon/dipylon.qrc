@@ -12,6 +12,9 @@
     <file>ressources/images/icons/paste.png</file>
     <file>ressources/images/icons/save.png</file>
 
+    <file>ressources/images/icons/readingmode_karaoke.png</file>
+    <file>ressources/images/icons/readingmode_grammar.png</file>
+
     <file>ressources/images/icons/audio_play.png</file>
     <file>ressources/images/icons/audio_pause.png</file>
     <file>ressources/images/icons/audio_stop.png</file>

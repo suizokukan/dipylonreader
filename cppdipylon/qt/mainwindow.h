@@ -75,6 +75,7 @@ private slots:
     bool save();
     bool saveAs();
     bool saveMainFileOfADipyDocAs();
+    void readingmodeAct_buttonpressed(void);
 
 private:
     DipylonUI& current_dipylonui;
@@ -88,7 +89,7 @@ private:
     void    readSettings();
     bool    saveFile(const QString &fileName);
     void    setCurrentDipyDoc(const QString&);
-    void    update_the_icons_according_to_the_current_dipydoc(void);
+    void    update_icons(void);
     void    writeSettings();
 
     SourceEditor     *source_editor = nullptr;
@@ -99,8 +100,6 @@ private:
     QMenu     *fileMenu = nullptr;
     QMenu     *editMenu = nullptr;
     QMenu     *helpMenu = nullptr;
-    QToolBar  *fileToolBar = nullptr;
-    QToolBar  *editToolBar = nullptr;
     QAction   *newAct = nullptr;
     QAction   *openAct = nullptr;
     QAction   *saveAct = nullptr;
@@ -113,9 +112,13 @@ private:
     QAction   *aboutAct = nullptr;
     QAction   *aboutQtAct = nullptr;
 
+    QAction*  readingmodeAct = nullptr;
     QAction*  audiocontrols_playAct = nullptr;
     QAction*  audiocontrols_stopAct = nullptr;
-    QToolBar* audiocontrolsToolBar = nullptr;
+
+    QToolBar  *fileToolBar = nullptr;
+    QToolBar  *editToolBar = nullptr;
+    QToolBar  *modecontrolToolBar = nullptr;
 
     QMediaPlayer* audio_player = nullptr;
 };

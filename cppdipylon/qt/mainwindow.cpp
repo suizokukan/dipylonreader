@@ -32,8 +32,7 @@
   MainWindow::constructor
 
 ______________________________________________________________________________*/
-MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
-{
+MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
     this->main_splitter = new QSplitter(this);
     this->main_splitter->setOrientation( Qt::Vertical );
     this->setCentralWidget(main_splitter);
@@ -51,6 +50,9 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
     this->createStatusBar();
 
     this->readSettings();
+
+    // let's update the icons' appearence :
+    this->update_icons();
 
     // signal : the document has been modified.
     connect( this->source_editor->document(), &QTextDocument::contentsChanged,
@@ -80,8 +82,7 @@ MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui)
 
   MainWindow::about
 ______________________________________________________________________________*/
-void MainWindow::about()
-{
+void MainWindow::about() {
    QMessageBox::about(this, tr("About Application"),
             tr("The <b>Application</b> example demonstrates how to "
                "write modern GUI applications using Qt, with a menu bar, "
@@ -96,22 +97,24 @@ void MainWindow::about()
 
   known cases :
 
-  o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-  o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-  o [1.3] KARAOKE + UNDEFINED : nothing to do.
-  o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
-
+  o [1] karaoke
+        o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
+        o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
+        o [1.3] KARAOKE + STOP -> KARAOKE + PLAYING
+        o [1.4] KARAOKE + UNDEFINED : nothing to do.
+  o [2] grammar
+  o [3] undefined, default
 ________________________________________________________________________________*/
-void MainWindow::audiocontrols_play(void)
-{
+void MainWindow::audiocontrols_play(void) {
+  switch (this->current_dipylonui.reading_mode ) {
 
-  switch( this->current_dipylonui.reading_mode ) {
-
+    /*
+      [1] karaoke
+    */
     case DipylonUI::READINGMODE_KARAOKE: {
 
-      switch( this->current_dipylonui.reading_mode_details ) {
+      switch (this->current_dipylonui.reading_mode_details ) {
 
-        //......................................................................
         // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
         case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
           this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
@@ -120,7 +123,6 @@ void MainWindow::audiocontrols_play(void)
           break;
         }
 
-        //......................................................................
         // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
         case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
           this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
@@ -129,7 +131,15 @@ void MainWindow::audiocontrols_play(void)
           break;
         }
 
-        // [1.3] KARAOKE + UNDEFINED : nothing to do.
+        // [1.3] KARAOKE + STOP -> KARAOKE + PLAYING
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+          this->audio_player->play();
+          break;
+        }
+
+        // [1.4] default
         default : {
           break;
         }
@@ -138,13 +148,20 @@ void MainWindow::audiocontrols_play(void)
       break;
     }
 
-    //..........................................................................
-    //[2] UNDEFINED reading mode -> KARAOKE + PLAYING
+    /*
+      grammar
+    */
+    case DipylonUI::READINGMODE_GRAMMAR: {
+      break;
+    }
+
+    /*
+      undefined, default
+    */
+    case DipylonUI::READINGMODE_UNDEFINED: {
+      break;
+    }
     default: {
-        this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
-        this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-        this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
-        this->audio_player->play();
         break;
     }
 
@@ -157,8 +174,8 @@ void MainWindow::audiocontrols_play(void)
 
   Function connected to this->audiocontrols_stopAct::triggered()
 
-  o set the reading mode to UNDEFINED.
   o stop the sound
+  o set the mode's detail to READINGMODEDETAIL_KARAOKE_STOP
   o set the source editor's text format to "default".
 
 ________________________________________________________________________________*/
@@ -172,8 +189,7 @@ void MainWindow::audiocontrols_stop(void) {
     this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
   }
 
-  this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
-  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
+  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
 
   audio_player->stop();
 
@@ -224,8 +240,7 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
 
   Function called when the main window is closed.
 ______________________________________________________________________________*/
-void MainWindow::closeEvent(QCloseEvent *arg_event)
-{
+void MainWindow::closeEvent(QCloseEvent *arg_event) {
   qDebug() << "MainWindow::closeEvent";
 
   if (maybeSave()) {
@@ -254,8 +269,7 @@ void MainWindow::closing(void) {
 
   MainWindow::createActions
 ______________________________________________________________________________*/
-void MainWindow::createActions()
-{
+void MainWindow::createActions() {
     newAct = new QAction( *(this->current_dipylonui.icon_new),
                           tr("&New"),
                           this);
@@ -349,6 +363,13 @@ void MainWindow::createActions()
     connect(source_editor, &QTextEdit::copyAvailable,
             copyAct, &QAction::setEnabled);
 
+    this->readingmodeAct = new QAction( *(this->current_dipylonui.icon_readingmode_karaoke),
+                                 tr("change the mode"),
+                                 this);
+    this->readingmodeAct->setStatusTip(tr("change the mode"));
+    connect(this->readingmodeAct, &QAction::triggered,
+            this, &MainWindow::readingmodeAct_buttonpressed);
+
     this->audiocontrols_playAct = new QAction( *(this->current_dipylonui.icon_audio_play),
                                                tr("play"),
                                                this);
@@ -362,46 +383,41 @@ void MainWindow::createActions()
     this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
     connect(this->audiocontrols_stopAct, &QAction::triggered,
             this, &MainWindow::audiocontrols_stop);
-
-    // let's update icons' appearence :
-    this->update_the_icons_according_to_the_current_dipydoc();
 }
 
 /*______________________________________________________________________________
 
   MainWindow::createMenus
 ______________________________________________________________________________*/
-void MainWindow::createMenus()
-{
-    fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(newAct);
-    fileMenu->addAction(openAct);
-    fileMenu->addAction(saveAct);
-    fileMenu->addAction(saveAsAct);
-    #ifdef READANDWRITE
-    fileMenu->addAction(saveMainFileOfADipyDocAsAct);
-    #endif
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAct);
+void MainWindow::createMenus() {
+  fileMenu = menuBar()->addMenu(tr("&File"));
+  fileMenu->addAction(newAct);
+  fileMenu->addAction(openAct);
+  fileMenu->addAction(saveAct);
+  fileMenu->addAction(saveAsAct);
+  #ifdef READANDWRITE
+  fileMenu->addAction(saveMainFileOfADipyDocAsAct);
+  #endif
+  fileMenu->addSeparator();
+  fileMenu->addAction(exitAct);
 
-    editMenu = menuBar()->addMenu(tr("&Edit"));
-    editMenu->addAction(cutAct);
-    editMenu->addAction(copyAct);
-    editMenu->addAction(pasteAct);
+  editMenu = menuBar()->addMenu(tr("&Edit"));
+  editMenu->addAction(cutAct);
+  editMenu->addAction(copyAct);
+  editMenu->addAction(pasteAct);
 
-    menuBar()->addSeparator();
+  menuBar()->addSeparator();
 
-    helpMenu = menuBar()->addMenu(tr("&Help"));
-    helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
+  helpMenu = menuBar()->addMenu(tr("&Help"));
+  helpMenu->addAction(aboutAct);
+  helpMenu->addAction(aboutQtAct);
 }
 
 /*______________________________________________________________________________
 
   MainWindow::createStatusBar
 ______________________________________________________________________________*/
-void MainWindow::createStatusBar()
-{
+void MainWindow::createStatusBar() {
     statusBar()->showMessage(tr("Ready"));
 }
 
@@ -409,29 +425,28 @@ void MainWindow::createStatusBar()
 
   MainWindow::createToolBars
 ______________________________________________________________________________*/
-void MainWindow::createToolBars()
-{
-    fileToolBar = addToolBar(tr("File"));
-    fileToolBar->addAction(newAct);
-    fileToolBar->addAction(openAct);
-    fileToolBar->addAction(saveAct);
+void MainWindow::createToolBars() {
+    this->fileToolBar = addToolBar(tr("File"));
+    this->fileToolBar->addAction(this->newAct);
+    this->fileToolBar->addAction(this->openAct);
+    this->fileToolBar->addAction(this->saveAct);
 
-    editToolBar = addToolBar(tr("Edit"));
-    editToolBar->addAction(cutAct);
-    editToolBar->addAction(copyAct);
-    editToolBar->addAction(pasteAct);
+    this->editToolBar = addToolBar(tr("Edit"));
+    this->editToolBar->addAction(this->cutAct);
+    this->editToolBar->addAction(this->copyAct);
+    this->editToolBar->addAction(this->pasteAct);
 
-    audiocontrolsToolBar = addToolBar(tr("AudioControls"));
-    audiocontrolsToolBar->addAction(this->audiocontrols_playAct);
-    audiocontrolsToolBar->addAction(this->audiocontrols_stopAct);
+    this->modecontrolToolBar = addToolBar(tr("AudioControls"));
+    this->modecontrolToolBar->addAction(this->readingmodeAct);
+    this->modecontrolToolBar->addAction(this->audiocontrols_playAct);
+    this->modecontrolToolBar->addAction(this->audiocontrols_stopAct);
 }
 
 /*______________________________________________________________________________
 
   MainWindow::documentWasModified
 ______________________________________________________________________________*/
-void MainWindow::documentWasModified()
-{
+void MainWindow::documentWasModified() {
     setWindowModified(source_editor->document()->isModified());
 }
 
@@ -442,8 +457,7 @@ void MainWindow::documentWasModified()
   Display an informative message if something's wrong happened.
 
 ______________________________________________________________________________*/
-void MainWindow::loadDipyDoc(const QString &directoryName)
-{
+void MainWindow::loadDipyDoc(const QString &directoryName) {
   qDebug() << "MainWindow::loadDipyDoc" << directoryName;
 
   #ifndef QT_NO_CURSOR
@@ -487,7 +501,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName)
     this->commentary_editor->update_aspect_from_dipydoc_aspect_informations();
 
     // update the rest of the UI :
-    this->update_the_icons_according_to_the_current_dipydoc();
+    this->update_icons();
     setCurrentDipyDoc(directoryName);
     statusBar()->showMessage(tr("DipyDoc loaded"), 2000);
   }
@@ -512,8 +526,7 @@ The maybeSave() function is called to save pending changes. If there are pending
 
 The maybeSave() function returns true in all cases, except when the user clicks Cancel. The caller must check the return value and stop whatever it was doing if the return value is false.
 ______________________________________________________________________________*/
-bool MainWindow::maybeSave()
-{
+bool MainWindow::maybeSave() {
     if (source_editor->document()->isModified()) {
         QMessageBox::StandardButton ret;
         ret = QMessageBox::warning(this, tr("Application"),
@@ -532,8 +545,7 @@ bool MainWindow::maybeSave()
 
   MainWindow::newFile
 _____________________________________________________________________________*/
-void MainWindow::newFile()
-{
+void MainWindow::newFile() {
   if (maybeSave()) {
       source_editor->clear();
       setCurrentDipyDoc("");
@@ -553,53 +565,94 @@ void MainWindow::open(void) {
                                                               QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (!directoryName.isEmpty()) {
-       loadDipyDoc(directoryName);
 
-       /*
-         Let's initialize this->current_dipylonui.path_to_dipydocs :
+      // loading the DipyDoc :
+      loadDipyDoc(directoryName);
 
-         It can't be set to "directoryName" since we don't want the user
-         looks into the current directory, full of the Dipydoc files
-         (main.xml, ...) : we need to place the user in the parent directory.
-       */
-       QDir parent_directory = QDir(directoryName);
-       if( parent_directory.cdUp() == true ) {
-         /*
-            Ok, we can go upper and set path_to_dipydocs to the parent
-            directory
-         */
-         this->current_dipylonui.path_to_dipydocs = parent_directory.absolutePath();
-       }
-       else {
-         /*
-           No, for some reasons the upper directory isn't readable : we
-           keep the current directory.
-         */
-         this->current_dipylonui.path_to_dipydocs = directoryName;
-       }
+      /*
+        Let's initialize this->current_dipylonui.path_to_dipydocs :
+
+        It can't be set to "directoryName" since we don't want the user
+        looks into the current directory, full of the Dipydoc files
+        (main.xml, ...) : we need to place the user in the parent directory.
+      */
+      QDir parent_directory = QDir(directoryName);
+      if( parent_directory.cdUp() == true ) {
+        /*
+           Ok, we can go upper and set path_to_dipydocs to the parent
+           directory
+        */
+        this->current_dipylonui.path_to_dipydocs = parent_directory.absolutePath();
+      }
+      else {
+        /*
+          No, for some reasons the upper directory isn't readable : we
+          keep the current directory.
+        */
+        this->current_dipylonui.path_to_dipydocs = directoryName;
+      }
+
+      // default reading mode :
+      this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_GRAMMAR;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_GRAMMAR;
+
+      // updating the UI :
+      this->update_icons();
     }
   }
 }
 
 /*______________________________________________________________________________
 
+  MainWindow::readingmodeAct_buttonpressed()
+
+  connected to readingmodeAct::triggered()
+______________________________________________________________________________*/
+void MainWindow::readingmodeAct_buttonpressed(void) {
+  switch (this->current_dipylonui.reading_mode ) {
+
+    case DipylonUI::READINGMODE_KARAOKE: {
+      this->audiocontrols_stop();
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_GRAMMAR;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_GRAMMAR;
+      qDebug() << "switched to GRAMMAR mode";
+      break;
+    }
+
+    case DipylonUI::READINGMODE_GRAMMAR: {
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
+      qDebug() << "switched to KARAOKE mode";
+      break;
+    }
+
+    default : {
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
+      qDebug() << "switched to UNDEFINED mode";
+      break;
+    }
+  }
+
+  this->update_icons();
+}
+
+/*______________________________________________________________________________
+
   MainWindow::readSettings
 ______________________________________________________________________________*/
-void MainWindow::readSettings()
-{
-    QSettings settings("QtProject", "Application Example");
-    QPoint _pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize _size = settings.value("size", QSize(400, 400)).toSize();
-    resize(_size);
-    move(_pos);
+void MainWindow::readSettings() {
+  QSettings settings("QtProject", "Application Example");
+  QPoint _pos = settings.value("pos", QPoint(200, 200)).toPoint();
+  QSize _size = settings.value("size", QSize(400, 400)).toSize();
+  resize(_size);
+  move(_pos);
 }
 
 /*______________________________________________________________________________
 
   MainWindow::save
 ______________________________________________________________________________*/
-bool MainWindow::save()
-{
+bool MainWindow::save() {
   if (curFile.isEmpty()) {
       return saveAs();
   } else {
@@ -611,8 +664,7 @@ bool MainWindow::save()
 
   MainWindow::saveAs
 ______________________________________________________________________________*/
-bool MainWindow::saveAs()
-{
+bool MainWindow::saveAs() {
     QFileDialog dialog(this);
     dialog.setWindowModality(Qt::WindowModal);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -630,8 +682,7 @@ bool MainWindow::saveAs()
   MainWindow::saveFile
 
 ________________________________________________________________________________*/
-bool MainWindow::saveFile(const QString &fileName)
-{
+bool MainWindow::saveFile(const QString &fileName) {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         QMessageBox::warning(this, tr("Application"),
@@ -659,8 +710,7 @@ bool MainWindow::saveFile(const QString &fileName)
 
   MainWindow::saveMainFileOfADipyDocAs
 ______________________________________________________________________________*/
-bool MainWindow::saveMainFileOfADipyDocAs()
-{
+bool MainWindow::saveMainFileOfADipyDocAs() {
     QFileDialog dialog(this);
     dialog.setWindowModality(Qt::WindowModal);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -701,8 +751,7 @@ bool MainWindow::saveMainFileOfADipyDocAs()
   MainWindow::setCurrentDipyDoc
 
 ________________________________________________________________________________*/
-void MainWindow::setCurrentDipyDoc(const QString &directoryName)
-{
+void MainWindow::setCurrentDipyDoc(const QString &directoryName) {
     curFile = directoryName;
     source_editor->document()->setModified(false);
     setWindowModified(false);
@@ -715,19 +764,41 @@ void MainWindow::setCurrentDipyDoc(const QString &directoryName)
 
 /*______________________________________________________________________________
 
-  MainWindow::update_the_icons_according_to_the_current_dipydoc
+  MainWindow::update_icons()
 
-  Modify the icon's appearence along the current DipyDoc.
-
+  Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
-void MainWindow::update_the_icons_according_to_the_current_dipydoc(void) {
+void MainWindow::update_icons(void) {
 
-  if( this->current_dipylonui.current_dipydoc.well_initialized() == false ||
+  /*
+    "reading mode" icon :
+  */
+  switch (this->current_dipylonui.reading_mode ) {
+
+    case DipylonUI::READINGMODE_KARAOKE: {
+      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_karaoke) );
+      break;
+    }
+
+    case DipylonUI::READINGMODE_GRAMMAR: {
+      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_grammar) );
+      break;
+    }
+
+    default : {
+      break;
+    }
+  }
+
+  /*
+    "audio controls" icons :
+  */
+  if (this->current_dipylonui.reading_mode != DipylonUI::READINGMODE_KARAOKE ||
+      this->current_dipylonui.current_dipydoc.well_initialized() == false ||
       (this->current_dipylonui.current_dipydoc.well_initialized() == true and
-       this->current_dipylonui.current_dipydoc.audiorecord.available == false) ) {
-
+       this->current_dipylonui.current_dipydoc.audiorecord.available == false)) {
     /*
-       No current DipyDoc or no audio in the current DipyDoc :
+       No karaoke mode or no current DipyDoc or no audio in the current DipyDoc :
     */
     this->audiocontrols_playAct->setEnabled(false);
     // we refresh the icon to display it using only shades of gray :
@@ -755,8 +826,7 @@ void MainWindow::update_the_icons_according_to_the_current_dipydoc(void) {
 
   MainWindow::writeSettings
 ______________________________________________________________________________*/
-void MainWindow::writeSettings()
-{
+void MainWindow::writeSettings() {
     QSettings settings("QtProject", "Application Example");
     settings.setValue("pos", pos());
     settings.setValue("size", size());

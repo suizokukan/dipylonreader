@@ -29,7 +29,7 @@
 
 /*______________________________________________________________________________
 
-  DipylonUI constructor
+  DipylonUI constructor : the real initialization is the go() method.
 
   See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about
   "argc" and "argv".
@@ -38,10 +38,10 @@ DipylonUI::DipylonUI(int argc, char **argv) {
   this->cmdline_argc = argc;
   this->cmdline_argv = argv;
 
-  /* initialization of this->path_info :
+  /*
+     initialization of this->path_info :
 
      if it's possible, this attribute takes the value stored in fixedparameters::default_path_to_dipydocs :
-
   */
   QFileInfo path_info = QFileInfo(fixedparameters::default__path_to_dipydocs);
   if (path_info.exists() == false || path_info.isFile()) {
@@ -75,6 +75,8 @@ DipylonUI::~DipylonUI(void) {
   delete icon_audio_play_unavailable;
   delete icon_audio_stop;
   delete icon_audio_stop_unavailable;
+  delete icon_readingmode_karaoke;
+  delete icon_readingmode_grammar;
   qDebug() << "DipylonUI::~DipylonUI(#fin)";
 }
 
@@ -101,6 +103,8 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
   DipylonUI::go() : UI creation + main loop
 ______________________________________________________________________________*/
 int DipylonUI::go(void) {
+  qDebug() << "enter in DipylonUI::go()";
+
   /*
     We want to use the system's standard settings.
 
@@ -169,6 +173,18 @@ int DipylonUI::go(void) {
   this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
   this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
+  this->icon_readingmode_karaoke = new QIcon(":ressources/images/icons/readingmode_karaoke.png");
+  this->icon_readingmode_grammar = new QIcon(":ressources/images/icons/readingmode_grammar.png");
+
+  /*
+     default reading mode
+
+     This parameter will be set again when a file will be opended. But the UI needs
+     this information for the display, e.g. the icons.
+  */
+  this->reading_mode         = DipylonUI::READINGMODE::READINGMODE_GRAMMAR;
+  this->reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_GRAMMAR;
+  qDebug() << "now in GRAMMAR mode";
 
   // main window creation :
   this->mainWin = new MainWindow(*this);

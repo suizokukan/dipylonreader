@@ -73,6 +73,8 @@ class DipylonUI {
   QIcon*      icon_audio_play_unavailable = nullptr;
   QIcon*      icon_audio_stop = nullptr;
   QIcon*      icon_audio_stop_unavailable = nullptr;
+  QIcon*      icon_readingmode_karaoke = nullptr;
+  QIcon*      icon_readingmode_grammar = nullptr;
 
   // path to the DipyDocs : the initial value is initialized by DipylonUI's constructor.
   QString     path_to_dipydocs;
@@ -86,6 +88,8 @@ class DipylonUI {
     o READINGMODE_UNDEFINED : no reading mode defined
       o READINGMODEDETAIL_UNDEFINED
 
+    o READINGMODEDETAIL_GRAMMAR : grammar only, no sound
+
     o READINGMODE_KARAOKE : audio record
       o READINGMODEDETAIL_KARAOKE_PLAYING
       o READINGMODEDETAIL_KARAOKE_ONPAUSE
@@ -93,13 +97,15 @@ class DipylonUI {
   enum READINGMODE : ReadingMode {
     READINGMODE_UNDEFINED = 0,
     READINGMODE_KARAOKE = 1,
+    READINGMODE_GRAMMAR = 2,
   };
   enum READINGMODEDETAILS : ReadingModeDetails {
       READINGMODEDETAIL_UNDEFINED = 0,
       READINGMODEDETAIL_KARAOKE_PLAYING = 0x1000,
       READINGMODEDETAIL_KARAOKE_ONPAUSE = 0x1001,
+      READINGMODEDETAIL_KARAOKE_STOP    = 0x1002,
+      READINGMODEDETAIL_GRAMMAR         = 0x2000,
   };
-
 
   ReadingMode        reading_mode = DipylonUI::READINGMODE_UNDEFINED;
   ReadingModeDetails reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
