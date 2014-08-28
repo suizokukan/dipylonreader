@@ -78,7 +78,7 @@ SOMMAIRE
 0.3.3 : DipyDoc's version = 24 (fonts)
 0.3.4 : all translations are included in the binary file; QMediaPlayer is now ok on Windows systems
 0.3.5 : DipyDoc's version = 25 (line-height+font-size), application's icon
-*0.3.6 : DipyDoc's version = 26 (arrows' aspect)
+0.3.6 : 'mode' button, Dipydoc's version = 26 (arrows' aspect)
 
 [TRAVAIL COURANT]
 - justify ne fonctionne pas
