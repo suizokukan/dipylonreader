@@ -800,10 +800,12 @@ void MainWindow::update_icons(void) {
     /*
        No karaoke mode or no current DipyDoc or no audio in the current DipyDoc :
     */
+    this->audiocontrols_playAct->setVisible(false);
     this->audiocontrols_playAct->setEnabled(false);
     // we refresh the icon to display it using only shades of gray :
     this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
 
+    this->audiocontrols_stopAct->setVisible(false);
     this->audiocontrols_stopAct->setEnabled(false);
     // we refresh the icon to display it using only shades of gray :
     this->audiocontrols_stopAct->setIcon( *(this->current_dipylonui.icon_audio_stop) );
@@ -812,10 +814,12 @@ void MainWindow::update_icons(void) {
     /*
        the current DipyDoc is ok and contains an audio record :
     */
+    this->audiocontrols_playAct->setVisible(true);
     this->audiocontrols_playAct->setEnabled(true);
     // we refresh the icon to display it in colors :
     this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
 
+    this->audiocontrols_stopAct->setVisible(true);
     this->audiocontrols_stopAct->setEnabled(true);
     // we refresh the icon to display it in colors :
     this->audiocontrols_stopAct->setIcon( *(this->current_dipylonui.icon_audio_stop) );

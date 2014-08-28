@@ -1289,6 +1289,11 @@ void DipyDoc::init_from_xml(const QString& path) {
                             this->lettrine.well_initialized && \
                             doctype_is_ok;
 
+  qDebug() << "(DipyDoc::init_from_xml) levels=";
+  for (auto &level : this->levels) {
+    qDebug() << "  #" << level.first << "name=" << level.second.name << "textformat=" << level.second.textformat.repr();
+  }
+
   qDebug() << "DipyDoc::init_from_xml" << \
            "xml:this->_well_initialized = " << this->_well_initialized;
 }
