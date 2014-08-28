@@ -762,6 +762,7 @@ sous Linux : ./dipylon > output 2>&1
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
+version 26 : arrowformat
 version 25 : blockformat::"line-height", textformat::"font-size"
 version 24 : fonts
 version 23 : document's type
@@ -781,11 +782,11 @@ version 10 : first format's version
 
 NB : "aspectratio" : entier divisant la taille de l'éditeur. Ex : s'il est égal à 3, la largeur représentera le tiers de la largeur de l'éditeur. La hauteur est également divisée de manière à garder la même proportion.
 
-main.xml, version 25 :
+main.xml, version 26 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<dipydoc dipydoc_version="25" languages="lat->fra" type="text">
+<dipydoc dipydoc_version="26" languages="lat->fra" type="text">
 
   <title textformat="color: yellow; font-family:Times" blockformat="alignment:right" >TITRE</title>
 
@@ -818,11 +819,18 @@ main.xml, version 25 :
   </textformats>
   
   <levels>
-	<level number="0" name="mot" aspect="foreground=red"/>
+    <level number="0" name="mot" textformat="color:red;"/>
+    <level number="1" name="groupe nominal" textformat="color:green;"/>
+    <level number="2" name="proposition" textformat="color:blue;"/>
+    <level number="3" name="phrase" textformat="color:white;"/>
   </levels>
 
   <arrows>
-    <arrow name="nominatif→génitif" aspect="maincolor=red;"/>
+    <arrow name="nominatif→génitif" arrowformat="maincolor:red;"/>
+    <arrow name="génitif→nominatif" arrowformat="maincolor:red;"/>
+    <arrow name="sujet→verbe" arrowformat="maincolor:red;"/>
+    <arrow name="sujet d'une phrase nominale→complément d'une phrase nominale" arrowformat="main-color:red;"/>
+    <arrow name="complément d'une phrase nominale→sujet d'une phrase nominale" arrowformat="main-color:red;"/>
   </arrows>
 
 </dipydoc>
