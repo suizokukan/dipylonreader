@@ -46,9 +46,10 @@
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
 #include "languages/languagefromto.h"
-#include "qt/textformat.h"
+#include "qt/arrowformat.h"
 #include "qt/blockformat.h"
 #include "qt/posintextframeformat.h"
+#include "qt/textformat.h"
 
 /*
   divisions inside a DipyDoc file :
@@ -256,34 +257,6 @@ inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : nam
 
 /*______________________________________________________________________________
 
-  ArrowDetails class
-
-  This class is used to create the "arrows" attribute of DipyDoc.
-
-______________________________________________________________________________*/
-struct ArrowDetails {
-  // the same informations are kept twice : as a QString and as serial attributes.
-  QString straspect;
-
-  // int    thickness;
-  QColor main_color;
-  // QColor startingpoint_color;
-  // QColor endpoint_color;
-
-  // default constructor :
-  ArrowDetails(void);
-  // constructor from a QString describing the arrow's aspect :
-  explicit ArrowDetails(QString&);
-};
-inline ArrowDetails::ArrowDetails(void) {
-  this->straspect = QString("");
-  this->main_color = QColor();
-}
-inline ArrowDetails::ArrowDetails(QString& _straspect) : straspect(_straspect) {
-}
-
-/*______________________________________________________________________________
-
   DipyDocLettrine class
 
   This class is used to create the "lettrine" attribute of DipyDoc.
@@ -381,7 +354,7 @@ friend class CommentaryEditor;
   // notes :
   DipyDocNotes         notes;
   // arrows :
-  std::map<QString, ArrowDetails> arrows;
+  std::map<QString, ArrowFormat> arrows;
 
   bool                 check_path(const QString&);
   void                 init_from_xml(const QString&);
@@ -395,8 +368,9 @@ friend class CommentaryEditor;
   QString              diagnosis(void) const;
   void                 error__misplaced_content(const QString& element,
                                                 const QString& where);
-  bool                 error__wrong_content(const LanguageFromTo& src, const QString& where);
+  bool                 error__wrong_content(const ArrowFormat& src, const QString& where);
   bool                 error__wrong_content(const BlockFormat& src, const QString& where);
+  bool                 error__wrong_content(const LanguageFromTo& src, const QString& where);
   bool                 error__wrong_content(const PosInTextFrameFormat& src, const QString& where);
   bool                 error__wrong_content(const TextFormat& src, const QString& where);
   QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
@@ -404,8 +378,8 @@ friend class CommentaryEditor;
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 25;
-  static const int     maximal_dipydoc_version = 25;
+  static const int     minimal_dipydoc_version = 26;
+  static const int     maximal_dipydoc_version = 26;
 
   // public access to audio2text.contains() :
   PosInTextRanges      audio2text_contains(PosInAudio) const;

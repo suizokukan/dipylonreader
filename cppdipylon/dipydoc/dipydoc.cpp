@@ -318,6 +318,25 @@ QString DipyDoc::diagnosis(void) const {
   return a value to initialize "xml_reading_is_ok"
 
 ________________________________________________________________________________*/
+bool DipyDoc::error__wrong_content(const ArrowFormat& src,
+                                   const QString& where) {
+  int flag = src.well_initialized();
+  int error_number = src.internal_state();
+
+  if ( flag == false ) {
+    QString msg_error;
+    msg_error = "An error occurs while reading the main file '"+this->main_filename_with_fullpath+"'. ";
+    msg_error = "The document is ill-formed :";
+    msg_error += "wrong content in the definition of the ArrowFormat object <"+where+">";
+    msg_error += ": error code number #";
+    msg_error += QString().setNum(error_number);
+    msg_error += " .";
+    msg_error += "[in the function DipyDoc::init_from_xml]";
+    this->errors.append(msg_error);
+  }
+
+  return flag;
+}
 bool DipyDoc::error__wrong_content(const BlockFormat& src,
                                    const QString& where) {
   int flag = src.well_initialized();
@@ -628,11 +647,11 @@ QString DipyDoc::get_xml_repr(void) const {
   for (auto &level : this->levels) {
     QString new_line("    <level number=\"$NUMBER$\" "
                      "name=\"$NAME$\" "
-                     "aspect=\"$ASPECT$\" "
+                     "textformat=\"$TEXTFORMAT$\" "
                      "/>\n");
     new_line.replace("$NUMBER$", QString().setNum(level.first));
     new_line.replace("$NAME$", level.second.name);
-    new_line.replace("$ASPECT$", level.second.textformat.repr());
+    new_line.replace("$TEXTFORMAT$", level.second.textformat.repr());
     res += new_line;
   }
   res += "  </levels>\n";
@@ -644,10 +663,10 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "  <arrows>\n";
   for (auto &arrow : this->arrows) {
     QString new_line("    <arrow name=\"$NAME$\" "
-                     "aspect=\"$ASPECT$\" "
+                     "arrowformat=\"$ARROWFORMAT$\" "
                      "/>\n");
     new_line.replace("$NAME$", arrow.first);
-    new_line.replace("$ASPECT$",  arrow.second.straspect);
+    new_line.replace("$ARROWFORMAT$$",  arrow.second.repr());
     res += new_line;
   }
   res += "  </arrows>\n";
@@ -809,9 +828,12 @@ void DipyDoc::init_from_xml(const QString& path) {
       if (name == "arrow") {
         current_division = DIPYDOCDIV_INSIDE_ARROW;
         QString arrow_name = xmlreader.attributes().value("name").toString();
-        QString arrow_aspect = xmlreader.attributes().value("aspect").toString();
-        ArrowDetails arrowdetails(arrow_aspect);
-        this->arrows[ arrow_name ] = arrowdetails;
+
+        ArrowFormat arrow_format(xmlreader.attributes().value("arrowformat").toString());
+        xml_reading_is_ok &= this->error__wrong_content(arrow_format,
+                                                        QString("arrow::arrowformat"));
+
+        this->arrows[ arrow_name ] = arrow_format;
         continue;
       }
 
@@ -910,7 +932,7 @@ void DipyDoc::init_from_xml(const QString& path) {
         current_division = DIPYDOCDIV_INSIDE_LEVEL;
         int     level_number = xmlreader.attributes().value("number").toString().toInt();
         QString level_name = xmlreader.attributes().value("name").toString();
-        QString level_strtextformat = xmlreader.attributes().value("aspect").toString();
+        QString level_strtextformat = xmlreader.attributes().value("textformat").toString();
 
         LevelDetails leveldetails(level_name, level_strtextformat);
 
@@ -1289,9 +1311,16 @@ void DipyDoc::init_from_xml(const QString& path) {
                             this->lettrine.well_initialized && \
                             doctype_is_ok;
 
+  // $$$ à supprimer ou à grouper en seul appel à qDebug() :
   qDebug() << "(DipyDoc::init_from_xml) levels=";
   for (auto &level : this->levels) {
     qDebug() << "  #" << level.first << "name=" << level.second.name << "textformat=" << level.second.textformat.repr();
+  }
+
+  // $$$ à supprimer ou à grouper en seul appel à qDebug() :
+  qDebug() << "(DipyDoc::init_from_xml) arrows=";
+  for (auto &arrow : this->arrows) {
+    qDebug() << "  name=" << arrow.first << "arrowformat=" << arrow.second.repr();
   }
 
   qDebug() << "DipyDoc::init_from_xml" << \

@@ -42,6 +42,7 @@ HEADERS         +=  fixedparameters.h \
                     pos/posintext/posintextranges.h \
                     pos/posintext/vectorposintextranges.h \
                     pos/posintext/posintext2str.h \
+                    qt/arrowformat.h \
                     qt/blockformat.h \
                     qt/commentaryeditor.h \
                     qt/dipylonui.h \	
@@ -59,6 +60,7 @@ SOURCES         +=  main.cpp \
                     pos/posintext/posintext2str.cpp \
                     pos/posintext/posintextranges.cpp \
                     pos/posintext/vectorposintextranges.cpp \
+                    qt/arrowformat.cpp \
                     qt/blockformat.cpp \
                     qt/commentaryeditor.cpp \
                     qt/dipylonui.cpp \
