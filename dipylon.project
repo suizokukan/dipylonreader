@@ -82,6 +82,7 @@ SOMMAIRE
 
 [TRAVAIL COURANT]
 - lecture des notes (vérifier la qualité de chaque 'note')
+- ajouter un mkdir ../builds (-f pour éviter un msg d'erreur si le rép. existe ?) dans les .sh
 - $$$ à supprimer
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
