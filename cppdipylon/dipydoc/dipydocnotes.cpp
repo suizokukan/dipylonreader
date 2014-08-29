@@ -24,6 +24,7 @@
 *******************************************************************************/
 
 #include <dipydoc/dipydocnotes.h>
+#include <QDebug>
 
 /*______________________________________________________________________________
 
@@ -70,4 +71,21 @@ QString DipyDocNotes::repr(void) {
     }
   }
   return res;
+}
+
+/*______________________________________________________________________________
+
+        DipyDocNotes::insert()
+
+        insert in map[level][pos] a 'note'.
+______________________________________________________________________________*/
+void DipyDocNotes::insert(int level, PosInTextRanges pos, DipyDocNote note) {
+  if (this->map.count(level) == 0) {
+    UMAP_PosNote empty_map;
+    this->map[level] = empty_map;
+    this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
+  }
+  else {
+    this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
+  }
 }

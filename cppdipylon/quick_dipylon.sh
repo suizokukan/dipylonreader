@@ -11,16 +11,16 @@ echo "==="
 echo ""
 
 echo "== filling temp__build_linux64_dynamic/"
-rm temp__build_linux64_dynamic/build/qrc_*.cpp
-rm temp__build_linux64_dynamic/build/moc_*.cpp
-rm temp__build_linux64_dynamic/build/dipylon
+rm -f temp__build_linux64_dynamic/build/qrc_*.cpp
+rm -f temp__build_linux64_dynamic/build/moc_*.cpp
+rm -f temp__build_linux64_dynamic/build/dipylon
 rsync -a . temp__build_linux64_dynamic/ --exclude temp__build_linux64_dynamic/
 
 cd temp__build_linux64_dynamic/
 echo "== now in temp__build_linux64_dynamic/"
 
 echo "== removing the binary in builds/ folder"
-rm ../../builds/dipylon_linux_64bits_dynamic
+rm -f ../../builds/dipylon_linux_64bits_dynamic
 
 echo "== calling qmake"
 qmake-qt5 -project dipylon.pro

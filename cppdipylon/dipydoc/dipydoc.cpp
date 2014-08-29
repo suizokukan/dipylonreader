@@ -318,7 +318,8 @@ QString DipyDoc::diagnosis(void) const {
   return a value to initialize "xml_reading_is_ok"
 
 ________________________________________________________________________________*/
-bool DipyDoc::error__wrong_content(const ArrowFormat& src,
+bool DipyDoc::error__wrong_content(const QXmlStreamReader& xmlreader,
+                                   const ArrowFormat& src,
                                    const QString& where) {
   int flag = src.well_initialized();
   int error_number = src.internal_state();
@@ -331,13 +332,17 @@ bool DipyDoc::error__wrong_content(const ArrowFormat& src,
     msg_error += ": error code number #";
     msg_error += QString().setNum(error_number);
     msg_error += " .";
-    msg_error += "[in the function DipyDoc::init_from_xml]";
+    msg_error += "errorString()=" + xmlreader.errorString() + "; ";
+    msg_error += "lineNumber()=" + QString().setNum(xmlreader.lineNumber()) + "; ";
+    msg_error += "columnNumber()=" + QString().setNum(xmlreader.columnNumber()) + "; ";
+    msg_error += "characterOffset()=" + QString().setNum(xmlreader.characterOffset()) + "; ";
     this->errors.append(msg_error);
   }
 
   return flag;
 }
-bool DipyDoc::error__wrong_content(const BlockFormat& src,
+bool DipyDoc::error__wrong_content(const QXmlStreamReader& xmlreader,
+                                   const BlockFormat& src,
                                    const QString& where) {
   int flag = src.well_initialized();
   int error_number = src.internal_state();
@@ -350,13 +355,17 @@ bool DipyDoc::error__wrong_content(const BlockFormat& src,
     msg_error += ": error code number #";
     msg_error += QString().setNum(error_number);
     msg_error += " .";
-    msg_error += "[in the function DipyDoc::init_from_xml]";
+    msg_error += "errorString()=" + xmlreader.errorString() + "; ";
+    msg_error += "lineNumber()=" + QString().setNum(xmlreader.lineNumber()) + "; ";
+    msg_error += "columnNumber()=" + QString().setNum(xmlreader.columnNumber()) + "; ";
+    msg_error += "characterOffset()=" + QString().setNum(xmlreader.characterOffset()) + "; ";
     this->errors.append(msg_error);
   }
 
   return flag;
 }
-bool DipyDoc::error__wrong_content(const LanguageFromTo& src,
+bool DipyDoc::error__wrong_content(const QXmlStreamReader& xmlreader,
+                                   const LanguageFromTo& src,
                                    const QString& where) {
   int flag = src.well_initialized();
   int error_number = src.internal_state();
@@ -369,13 +378,16 @@ bool DipyDoc::error__wrong_content(const LanguageFromTo& src,
     msg_error += ": error code number #";
     msg_error += QString().setNum(error_number);
     msg_error += " .";
-    msg_error += "[in the function DipyDoc::init_from_xml]";
-    this->errors.append(msg_error);
+    msg_error += "errorString()=" + xmlreader.errorString() + "; ";
+    msg_error += "lineNumber()=" + QString().setNum(xmlreader.lineNumber()) + "; ";
+    msg_error += "columnNumber()=" + QString().setNum(xmlreader.columnNumber()) + "; ";
+    msg_error += "characterOffset()=" + QString().setNum(xmlreader.characterOffset()) + "; ";
   }
 
   return flag;
 }
-bool DipyDoc::error__wrong_content(const PosInTextFrameFormat& src,
+bool DipyDoc::error__wrong_content(const QXmlStreamReader& xmlreader,
+                                   const PosInTextFrameFormat& src,
                                    const QString& where) {
   int flag = src.well_initialized();
   int error_number = src.internal_state();
@@ -388,13 +400,17 @@ bool DipyDoc::error__wrong_content(const PosInTextFrameFormat& src,
     msg_error += ": error code number #";
     msg_error += QString().setNum(error_number);
     msg_error += " .";
-    msg_error += "[in the function DipyDoc::init_from_xml]";
+    msg_error += "errorString()=" + xmlreader.errorString() + "; ";
+    msg_error += "lineNumber()=" + QString().setNum(xmlreader.lineNumber()) + "; ";
+    msg_error += "columnNumber()=" + QString().setNum(xmlreader.columnNumber()) + "; ";
+    msg_error += "characterOffset()=" + QString().setNum(xmlreader.characterOffset()) + "; ";
     this->errors.append(msg_error);
   }
 
   return flag;
 }
-bool DipyDoc::error__wrong_content(const TextFormat& src,
+bool DipyDoc::error__wrong_content(const QXmlStreamReader& xmlreader,
+                                   const TextFormat& src,
                                    const QString& where) {
   int flag = src.well_initialized();
   int error_number = src.internal_state();
@@ -407,7 +423,10 @@ bool DipyDoc::error__wrong_content(const TextFormat& src,
     msg_error += ": error code number #";
     msg_error += QString().setNum(error_number);
     msg_error += " .";
-    msg_error += "[in the function DipyDoc::init_from_xml]";
+    msg_error += "errorString()=" + xmlreader.errorString() + "; ";
+    msg_error += "lineNumber()=" + QString().setNum(xmlreader.lineNumber()) + "; ";
+    msg_error += "columnNumber()=" + QString().setNum(xmlreader.columnNumber()) + "; ";
+    msg_error += "characterOffset()=" + QString().setNum(xmlreader.characterOffset()) + "; ";
     this->errors.append(msg_error);
   }
 
@@ -424,13 +443,19 @@ bool DipyDoc::error__wrong_content(const TextFormat& src,
   add an error message to DipyDoc::errors : the "element" has been found
   outside "where".
 ________________________________________________________________________________*/
-void DipyDoc::error__misplaced_content(const QString& element,
-                                       const QString& where) {
+void DipyDoc::error__misplaced_content(const QXmlStreamReader& xmlreader,
+                                       const QString& element,
+                                       const QString& where,
+                                       int current_division) {
   QString msg_error;
   msg_error = "An error occurs while reading the main file '"+this->main_filename_with_fullpath+"'.";
   msg_error = "The document is ill-formed :";
-  msg_error += "A <"+element+"> has been found outside of <"+where+">.";
-  msg_error += "[in the function DipyDoc::init_from_xml]";
+  msg_error += "A <"+element+"> has been found outside of <"+where+"> ";
+  msg_error += "in the division number " + QString().setNum(current_division) + " .";
+  msg_error += "errorString()=" + xmlreader.errorString() + "; ";
+  msg_error += "lineNumber()=" + QString().setNum(xmlreader.lineNumber()) + "; ";
+  msg_error += "columnNumber()=" + QString().setNum(xmlreader.columnNumber()) + "; ";
+  msg_error += "characterOffset()=" + QString().setNum(xmlreader.characterOffset()) + "; ";
   this->errors.append(msg_error);
 }
 
@@ -830,7 +855,8 @@ void DipyDoc::init_from_xml(const QString& path) {
         QString arrow_name = xmlreader.attributes().value("name").toString();
 
         ArrowFormat arrow_format(xmlreader.attributes().value("arrowformat").toString());
-        xml_reading_is_ok &= this->error__wrong_content(arrow_format,
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        arrow_format,
                                                         QString("arrow::arrowformat"));
 
         this->arrows[ arrow_name ] = arrow_format;
@@ -855,13 +881,14 @@ void DipyDoc::init_from_xml(const QString& path) {
         if (current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR) {
 
           this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
-          xml_reading_is_ok &= this->error__wrong_content(this->sourceeditor_default_textformat,
+          xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                          this->sourceeditor_default_textformat,
                                                           QString("default_textformat"));
           continue;
         }
 
         xml_reading_is_ok = false;
-        this->error__misplaced_content(QString("default_textformat"), QString("sourceeditor"));
+        this->error__misplaced_content(xmlreader, QString("default_textformat"), QString("sourceeditor"), current_division);
         continue;
       }
 
@@ -870,7 +897,8 @@ void DipyDoc::init_from_xml(const QString& path) {
         this->dipydoc_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
 
         this->languagefromto = LanguageFromTo(xmlreader.attributes().value("languages").toString());
-        xml_reading_is_ok &= this->error__wrong_content(this->languagefromto,
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        this->languagefromto,
                                                         QString("dipydoc:lanuages"));
 
         this->doctype = xmlreader.attributes().value("type").toString();
@@ -881,12 +909,14 @@ void DipyDoc::init_from_xml(const QString& path) {
         this->introduction.available = true;
 
         this->introduction.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
-        xml_reading_is_ok &= this->error__wrong_content(this->introduction.textformat,
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        this->introduction.textformat,
                                                         QString("introduction:textformat"));
 
         this->introduction.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
-        xml_reading_is_ok &= this->error__wrong_content(this->introduction.blockformat,
-                                                       QString("introduction:blockformat"));
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        this->introduction.blockformat,
+                                                        QString("introduction:blockformat"));
 
         this->introduction.text = xmlreader.readElementText();
         continue;
@@ -895,13 +925,14 @@ void DipyDoc::init_from_xml(const QString& path) {
       if (name == "karaoke_textformat") {
         if (current_division == DIPYDOCDIV_INSIDE_SOURCEEDITOR) {
           this->sourceeditor_karaoke_textformat = TextFormat(xmlreader.readElementText());
-          xml_reading_is_ok &= this->error__wrong_content(this->sourceeditor_karaoke_textformat,
-                                                         QString("karaoke_textformat"));
+          xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                          this->sourceeditor_karaoke_textformat,
+                                                          QString("karaoke_textformat"));
           continue;
         }
 
         xml_reading_is_ok = false;
-        this->error__misplaced_content(QString("karaoke_textformat"), QString("sourceeditor"));
+        this->error__misplaced_content(xmlreader, QString("karaoke_textformat"), QString("sourceeditor"), current_division);
         continue;
       }
 
@@ -914,8 +945,9 @@ void DipyDoc::init_from_xml(const QString& path) {
 
         QString str_pos = xmlreader.attributes().value("positionintextframe").toString();
         this->lettrine.position_in_text_frame = PosInTextFrameFormat(str_pos);
-        xml_reading_is_ok &= this->error__wrong_content(this->lettrine.position_in_text_frame,
-                                                       QString("lettrine:posintextframeformat"));
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        this->lettrine.position_in_text_frame,
+                                                        QString("lettrine:posintextframeformat"));
         this->lettrine.image = QImage(this->lettrine.filename_with_fullpath);
 
         qDebug() << "informations about the lettrine; " \
@@ -951,7 +983,8 @@ void DipyDoc::init_from_xml(const QString& path) {
             int             level = xmlreader.attributes().value("level").toString().toInt();
             QString         textformatname = xmlreader.attributes().value("aspect").toString();
             PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
-            QString         text(xmlreader.readElementText());
+            //            QString         text(xmlreader.readElementText());
+            QString         text(xmlreader.text().toString());
 
             DipyDocNote     note(level, textranges, text, textformatname);
 
@@ -961,7 +994,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
           default : {
            xml_reading_is_ok = false;
-           this->error__misplaced_content(QString("note"), QString("notes"));
+           this->error__misplaced_content(xmlreader, QString("note"), QString("notes"), current_division);
            break;
           }
         }
@@ -1017,7 +1050,7 @@ void DipyDoc::init_from_xml(const QString& path) {
         }
 
         xml_reading_is_ok = false;
-        this->error__misplaced_content(QString("stylesheet"), QString("sourceeditor or commentaryeditor"));
+        this->error__misplaced_content(xmlreader, QString("stylesheet"), QString("sourceeditor or commentaryeditor"), current_division);
         continue;
       }
 
@@ -1028,8 +1061,9 @@ void DipyDoc::init_from_xml(const QString& path) {
         this->source_text.informations = xmlreader.attributes().value("informations").toString();
 
         this->source_text.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
-        xml_reading_is_ok &= this->error__wrong_content(this->source_text.blockformat,
-                                                       QString("text:blockformat"));
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        this->source_text.blockformat,
+                                                        QString("text:blockformat"));
         continue;
       }
 
@@ -1043,13 +1077,14 @@ void DipyDoc::init_from_xml(const QString& path) {
 
         if (current_division == DIPYDOCDIV_INSIDE_COMMENTARYEDITOR) {
           this->commentaryeditor_textformat = TextFormat(xmlreader.readElementText());
-          xml_reading_is_ok &= this->error__wrong_content(this->commentaryeditor_textformat,
-                                                         QString("commentaryeditor:textformat"));
+          xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                          this->commentaryeditor_textformat,
+                                                          QString("commentaryeditor:textformat"));
           continue;
         }
 
         xml_reading_is_ok = false;
-        this->error__misplaced_content(QString("textformat"), QString("textformats or commentaryeditor"));
+        this->error__misplaced_content(xmlreader, QString("textformat"), QString("textformats or commentaryeditor"), current_division);
         continue;
       }
 
@@ -1063,12 +1098,14 @@ void DipyDoc::init_from_xml(const QString& path) {
         this->title.available = true;
 
         this->title.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
-        xml_reading_is_ok &= this->error__wrong_content(this->title.textformat,
-                                                       QString("title:textformat"));
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        this->title.textformat,
+                                                        QString("title:textformat"));
 
         this->title.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
-        xml_reading_is_ok &= this->error__wrong_content(this->title.blockformat,
-                                                       QString("title:blockformat"));
+        xml_reading_is_ok &= this->error__wrong_content(xmlreader,
+                                                        this->title.blockformat,
+                                                        QString("title:blockformat"));
 
         this->title.text = xmlreader.readElementText();
         continue;
@@ -1083,6 +1120,7 @@ void DipyDoc::init_from_xml(const QString& path) {
 
       current_division = DIPYDOCDIV_UNDEFINED;
     }
+
   }
 
   if (xml_reading_is_ok == true) {
@@ -1094,9 +1132,13 @@ void DipyDoc::init_from_xml(const QString& path) {
   ............................................................................*/
 
   if (xml_reading_is_ok == false) {
-    msg_error = "An error occurs while reading the main file : ";
+    msg_error = "At least one error occurs while reading the main file : ";
     msg_error += xmlreader.errorString() + "; ";
     msg_error += "filename=" + this->main_filename_with_fullpath;
+    msg_error += "errorString()=" + xmlreader.errorString() + "; ";
+    msg_error += "lineNumber()=" + QString().setNum(xmlreader.lineNumber()) + "; ";
+    msg_error += "columnNumber()=" + QString().setNum(xmlreader.columnNumber()) + "; ";
+    msg_error += "characterOffset()=" + QString().setNum(xmlreader.characterOffset()) + "; ";
     msg_error += "[in the function DipyDoc::init_from_xml]";
     this->errors.append(msg_error);
 

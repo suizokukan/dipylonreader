@@ -343,13 +343,15 @@ friend class CommentaryEditor;
               explicit DipyDoc(const QString&);
   void                 clear(void);
   QString              diagnosis(void) const;
-  void                 error__misplaced_content(const QString& element,
-                                                const QString& where);
-  bool                 error__wrong_content(const ArrowFormat& src, const QString& where);
-  bool                 error__wrong_content(const BlockFormat& src, const QString& where);
-  bool                 error__wrong_content(const LanguageFromTo& src, const QString& where);
-  bool                 error__wrong_content(const PosInTextFrameFormat& src, const QString& where);
-  bool                 error__wrong_content(const TextFormat& src, const QString& where);
+  void                 error__misplaced_content(const QXmlStreamReader& xmlreader,
+                                                const QString& element,
+                                                const QString& where,
+                                                int current_division);
+  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const ArrowFormat& src, const QString& where);
+  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const BlockFormat& src, const QString& where);
+  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const LanguageFromTo& src, const QString& where);
+  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const PosInTextFrameFormat& src, const QString& where);
+  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const TextFormat& src, const QString& where);
   QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   QString              get_xml_repr(void) const;
   int                  internal_state(void) const;

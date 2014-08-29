@@ -103,20 +103,15 @@ struct DipyDocNotes {
 
   void              clear(void);
   QString           repr(void);
+  std::size_t       size(void);
 };
 
 inline void DipyDocNotes::clear(void) {
   this->map.clear();
 }
 
-inline void DipyDocNotes::insert(int level, PosInTextRanges pos, DipyDocNote note) {
-  if (this->map.count(level) == 0) {
-    UMAP_PosNote empty_map;
-    this->map[level] = empty_map;
-  }
-  else {
-    this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
-  }
+inline std::size_t DipyDocNotes::size(void) {
+  return this->map.size();
 }
 
 #endif  // CPPDIPYLON_DIPYDOC_NOTES_H_
