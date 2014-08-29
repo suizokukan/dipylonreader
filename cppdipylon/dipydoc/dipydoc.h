@@ -42,6 +42,7 @@
 #include <map>
 
 #include "./fixedparameters.h"
+#include "dipydoc/dipydocnotes.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
@@ -62,6 +63,7 @@
   o DIPYDOCDIV_INSIDE_TEXT             : inside <text>
   o DIPYDOCDIV_INSIDE_TEXTFORMATS      : inside <textformats>
   o DIPYDOCDIV_INSIDE_TRANSLATION      : inside <translation>
+  o DIPYDOCDIV_INSIDE_NOTES            : inside <notes>
 
   o DIPYDOCDIV_UNDEFINED : everything but the other constants.
 */
@@ -75,6 +77,7 @@ enum DipyDocDiv : int {
     DIPYDOCDIV_INSIDE_TEXTFORMATS = 7,
     DIPYDOCDIV_INSIDE_TITLE = 8,
     DIPYDOCDIV_INSIDE_TRANSLATION = 9,
+    DIPYDOCDIV_INSIDE_NOTES = 10,
 
     DIPYDOCDIV_UNDEFINED = 99,
 };
@@ -199,32 +202,6 @@ inline void DipyDocTranslation::clear(void) {
   this->name = "";
   this->informations = "";
   this->translations.clear();
-}
-
-/*______________________________________________________________________________
-
-  DipyDocNotes class
-
-  This class is used to create an attribute of DipyDoc.
-
-______________________________________________________________________________*/
-struct NoteSegment {
-  QString textformatname = "";
-  std::map< PosInTextRanges, QString > arrows;
-};
-
-struct Note {
-  QString textformatname = "";
-  QString text = "";
-  std::map<PosInTextRanges, NoteSegment> segments;
-};
-
-struct DipyDocNotes {
-  std::map<int,  std::map<PosInTextRanges, Note> > notes;
-  void clear(void);
-};
-inline void DipyDocNotes::clear(void) {
-  this->notes.clear();
 }
 
 /*______________________________________________________________________________

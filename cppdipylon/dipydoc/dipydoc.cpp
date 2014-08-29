@@ -940,6 +940,35 @@ void DipyDoc::init_from_xml(const QString& path) {
         continue;
       }
 
+      if (name == "notes") {
+        current_division = DIPYDOCDIV_INSIDE_NOTES;
+        continue;
+      }
+
+      if (name == "note") {
+        switch (current_division) {
+          case DIPYDOCDIV_INSIDE_NOTES : {
+            int             level = xmlreader.attributes().value("level").toString().toInt();
+            QString         textformatname = xmlreader.attributes().value("aspect").toString();
+            PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+            QString         text(xmlreader.readElementText());
+
+            DipyDocNote     note(level, textranges, text, textformatname);
+
+            this->notes.insert(level, textranges, note);
+            break;
+          }
+
+          default : {
+           xml_reading_is_ok = false;
+           this->error__misplaced_content(QString("note"), QString("notes"));
+           break;
+          }
+        }
+
+        continue;
+      }
+
       if (name == "segment") {
         switch (current_division) {
           case DIPYDOCDIV_INSIDE_AUDIORECORD : {
@@ -1322,6 +1351,9 @@ void DipyDoc::init_from_xml(const QString& path) {
   for (auto &arrow : this->arrows) {
     qDebug() << "  name=" << arrow.first << "arrowformat=" << arrow.second.repr();
   }
+
+  qDebug() << "(DipyDoc::init_from_xml) notes=";
+  qDebug() << this->notes.repr();
 
   qDebug() << "DipyDoc::init_from_xml" << \
            "xml:this->_well_initialized = " << this->_well_initialized;

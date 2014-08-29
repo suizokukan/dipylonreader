@@ -81,6 +81,7 @@ SOMMAIRE
 0.3.6 : 'mode' button, Dipydoc's version = 26 (arrows' aspect)
 
 [TRAVAIL COURANT]
+- to_str > repr();
 - justify ne fonctionne pas
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 - version XX de main.xml avec les notes
