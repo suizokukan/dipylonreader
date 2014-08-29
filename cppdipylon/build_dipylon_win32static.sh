@@ -10,6 +10,9 @@ echo "===   copied into the builds/ folder"
 echo "==="
 echo ""
 
+echo "== create builds/ folder if it doesn't exist"
+mkdir -p ../builds
+
 echo "== export MXE binary folder to PATH"
 export PATH=~/mxe/usr/bin:$PATH
 echo $PATH

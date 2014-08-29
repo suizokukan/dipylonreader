@@ -10,6 +10,9 @@ echo "===   copied into the builds/ folder"
 echo "==="
 echo ""
 
+echo "== create builds/ folder if it doesn't exist"
+mkdir -p ../builds
+
 echo "== filling temp__build_linux64_dynamic/"
 rm -f temp__build_linux64_dynamic/build/qrc_*.cpp
 rm -f temp__build_linux64_dynamic/build/moc_*.cpp
