@@ -94,10 +94,10 @@ void PosInAudioRange::checks(void) {
 
 /*______________________________________________________________________________
 
-        PosInAudioRange::to_str() : return a QString representing the object
+        PosInAudioRange::repr() : return a QString representing the object
                                     according to the POSINAUDIORANGE_STR format.
 ______________________________________________________________________________*/
-QString PosInAudioRange::to_str(void) const {
+QString PosInAudioRange::repr(void) const {
   QString res("");
 
   res = QString().number(this->pair.first) + \

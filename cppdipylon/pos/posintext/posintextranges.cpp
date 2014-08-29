@@ -222,11 +222,11 @@ PosInText PosInTextRanges::min(void) const {
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::to_str() : return a QString representing the object
+        PosInTextRanges::repr() : return a QString representing the object
                                     according to the POSINTEXTRANGES_STR format
                                     (see posintextranges.h)
 ______________________________________________________________________________*/
-QString PosInTextRanges::to_str(void) const {
+QString PosInTextRanges::repr(void) const {
   QString res("");
 
   // empty vector ? nothing to do.

@@ -69,7 +69,7 @@ class LanguageFromTo {
   const QString&  from_longname(void) const;
   const QString&  to(void) const;
   const QString&  to_longname(void) const;
-  const QString   to_str(void) const;
+  const QString   repr(void) const;
 
   /*
      INTERNALSTATE

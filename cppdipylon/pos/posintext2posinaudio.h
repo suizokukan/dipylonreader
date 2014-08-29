@@ -30,7 +30,7 @@
         { {{ {5,6}, {9,12} },},  {1750, 1790} },
       };
     qDebug() << text2audio[{{ {1,2}, {3,4} },}].first << text2audio[{{ {1,2}, {3,4} },}].second;
-    qDebug() << text2audio.contains(6).to_str();
+    qDebug() << text2audio.contains(6).repr();
 
 *******************************************************************************/
 

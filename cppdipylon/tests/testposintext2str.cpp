@@ -107,15 +107,15 @@ void TestPosInText2Str::test2b(void)
   };
 
   // only one PosInTextRanges expected : no need to sort.
-  QCOMPARE( posintext2str.contains(24, 25).to_str(),
+  QCOMPARE( posintext2str.contains(24, 25).repr(),
             QString("") );
-  QCOMPARE( posintext2str.contains(9, 12).to_str(),
+  QCOMPARE( posintext2str.contains(9, 12).repr(),
             QString("10-11+12-23") );
-  QCOMPARE( posintext2str.contains(11, 12).to_str(),
+  QCOMPARE( posintext2str.contains(11, 12).repr(),
             QString("10-11+12-23") );
-  QCOMPARE( posintext2str.contains(10, 23).to_str(),
+  QCOMPARE( posintext2str.contains(10, 23).repr(),
             QString("10-11+12-23") );
-  QCOMPARE( posintext2str.contains(10, 25).to_str(),
+  QCOMPARE( posintext2str.contains(10, 25).repr(),
             QString("10-11+12-23") );
 
   /* the function sorts the results since the order of the PosInTextRanges elements
@@ -125,12 +125,12 @@ void TestPosInText2Str::test2b(void)
   VectorPosInTextRanges res;
   res = posintext2str.contains(1, 25);
   res.sort();
-  QCOMPARE( res.to_str(),
+  QCOMPARE( res.repr(),
             QString("1-2+3-4/5-6+7-8/10-11+12-23") );
 
   res = posintext2str.contains(1, 99);
   res.sort();
-  QCOMPARE( res.to_str(),
+  QCOMPARE( res.repr(),
             QString("1-2+3-4/5-6+7-8/10-11+12-23/80-81+83-89/90-91+93-99") );
 
 }

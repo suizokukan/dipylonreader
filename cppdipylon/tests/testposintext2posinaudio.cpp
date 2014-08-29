@@ -86,8 +86,8 @@ void TestPosInText2PosInAudio::test2(void) {
         { {{ {15,16}, {19,112} },},  {1950, 1999} },
       };
 
-   QCOMPARE( text2audio.contains(6).to_str(), QString("5-6+9-12") );
-   QCOMPARE( text2audio.contains(13).to_str(), QString("") );
+   QCOMPARE( text2audio.contains(6).repr(), QString("5-6+9-12") );
+   QCOMPARE( text2audio.contains(13).repr(), QString("") );
 }
 
 /*
@@ -101,12 +101,12 @@ void TestPosInText2PosInAudio::test3(void) {
         { {{ {15,16}, {19,112} },},  {1950, 1999} },
       };
 
-   QCOMPARE( text2audio.contains(115, 120).to_str(), QString("") );
-   QCOMPARE( text2audio.contains(5, 6).to_str() , QString("5-6+9-12") );
+   QCOMPARE( text2audio.contains(115, 120).repr(), QString("") );
+   QCOMPARE( text2audio.contains(5, 6).repr() , QString("5-6+9-12") );
    // we sort the result in order to avoid to get "5-6+9-12/1-2+3-4" ...
    auto res = text2audio.contains(1, 12);
    res.sort();
-   QCOMPARE( res.to_str() , QString("1-2+3-4/5-6+9-12") );
+   QCOMPARE( res.repr() , QString("1-2+3-4/5-6+9-12") );
 }
 
 /*

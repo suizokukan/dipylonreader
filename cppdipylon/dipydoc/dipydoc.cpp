@@ -587,9 +587,9 @@ QString DipyDoc::get_xml_repr(void) const {
                          "audiorange=\"$AUDIORANGE$\" "
                          "srctext=\"$TEXT$\" "
                          "/>\n");
-        new_line.replace("$TEXTRANGE$", textranges.to_str());
+        new_line.replace("$TEXTRANGE$", textranges.repr());
         PosInAudioRange posinaudiorange(this->audiorecord.text2audio[textranges]);
-        new_line.replace("$AUDIORANGE$", posinaudiorange.to_str());
+        new_line.replace("$AUDIORANGE$", posinaudiorange.repr());
         new_line.replace("$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30));
         res += new_line;
       }
@@ -617,7 +617,7 @@ QString DipyDoc::get_xml_repr(void) const {
                      ">");
 
     new_line.replace("$TEXTRANGE$",
-                      textranges.to_str());
+                      textranges.repr());
     new_line.replace("$TEXT$",
                       this->get_condensed_extracts_from_the_source_text(textranges, 30));
     res += new_line;
@@ -683,7 +683,7 @@ QString DipyDoc::get_xml_repr(void) const {
   res.replace("$DIPYDOCVERSION$",
                QString().setNum(this->dipydoc_version));
   res.replace("$LANGUAGEFROMTO$",
-               this->languagefromto.to_str());
+               this->languagefromto.repr());
   res.replace("$DOCTYPE$",
                this->doctype);
 
@@ -977,8 +977,8 @@ void DipyDoc::init_from_xml(const QString& path) {
             this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio(audiorange.first(), audiorange.second());
 
             qDebug() << "DipyDoc::init_from_xml : audiorecord:segment" << \
-                        "textranges=" << textranges.to_str() << \
-                        "audiorange=" << audiorange.to_str();
+                        "textranges=" << textranges.repr() << \
+                        "audiorange=" << audiorange.repr();
             break;
           }
 
@@ -988,7 +988,7 @@ void DipyDoc::init_from_xml(const QString& path) {
             this->translation.translations[ textranges ] = text;
 
             qDebug() << "DipyDoc::init_from_xml : translation:segment" << \
-                        "textranges=" << textranges.to_str() << \
+                        "textranges=" << textranges.repr() << \
                         "srctext=" << text;
             break;
           }

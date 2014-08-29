@@ -90,7 +90,7 @@ class PosInTextRanges {
   PosInText          max(void) const;
   PosInText          min(void) const;
   size_t             size(void) const;
-  QString            to_str(void) const;
+  QString            repr(void) const;
   bool               well_initialized(void) const;
 
   /*

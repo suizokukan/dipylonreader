@@ -51,7 +51,7 @@ void TestLanguageFromTo::test0(void)
   QCOMPARE( l.internal_state() , static_cast<int>(LanguageFromTo::INTERNALSTATE::OK) );
   QCOMPARE( l.from(), QString("lat") );
   QCOMPARE( l.to(), QString("fra") );
-  QCOMPARE( l.to_str(), QString("lat->fra") );
+  QCOMPARE( l.repr(), QString("lat->fra") );
 }
 
 /*

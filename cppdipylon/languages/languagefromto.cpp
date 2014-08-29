@@ -85,11 +85,11 @@ void LanguageFromTo::clear(void) {
 
 /*______________________________________________________________________________
 
-  LanguangeFromTo::to_str()
+  LanguangeFromTo::repr()
 
   Return a QString representation of this.
 ________________________________________________________________________________*/
-const QString LanguageFromTo::to_str(void) const {
+const QString LanguageFromTo::repr(void) const {
   QString res;
 
   res += this->from();

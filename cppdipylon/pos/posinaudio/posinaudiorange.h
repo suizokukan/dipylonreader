@@ -66,7 +66,7 @@ class PosInAudioRange {
   std::size_t        get_hash(void) const;
   int                internal_state(void) const;
   PosInAudio         second(void) const;
-  QString            to_str(void) const;
+  QString            repr(void) const;
   bool               well_initialized(void) const;
 
   /*

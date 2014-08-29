@@ -48,15 +48,15 @@ void VectorPosInTextRanges::sort(void) {
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::to_str : return a QString representation of this.
+        PosInTextRanges::repr : return a QString representation of this.
 ______________________________________________________________________________*/
-QString VectorPosInTextRanges::to_str(void) const {
+QString VectorPosInTextRanges::repr(void) const {
 
   QString res = QString("");
 
   // i is an iterator over PosInTextRanges objects :
   for(auto &i : this->vposintextranges) {
-    res += i.to_str();
+    res += i.repr();
     res += this->MAIN_SEPARATOR;
   }
 

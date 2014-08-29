@@ -33,7 +33,7 @@
     PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio);
 
     qDebug() << audio2text.size();
-    qDebug() << audio2text[{1500, 1598}].to_str();
+    qDebug() << audio2text[{1500, 1598}].repr();
 
 
 *******************************************************************************/

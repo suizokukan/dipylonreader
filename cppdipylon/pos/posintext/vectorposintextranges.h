@@ -33,9 +33,9 @@
                               PosInTextRanges( { {1, 2}, {190,191} } ),
                               PosInTextRanges( { {0,5}, {10, 20} } ),
                          });
-    qDebug() << v1.to_str();
+    qDebug() << v1.repr();
     v1.sort();
-    qDebug() << v1.to_str();
+    qDebug() << v1.repr();
 
 *******************************************************************************/
 
@@ -75,7 +75,7 @@ struct VectorPosInTextRanges {
         VPosInTextRangesCI     end(void) const;
         std::size_t            size(void) const;
         void                   sort(void);
-        QString                to_str(void) const;
+        QString                repr(void) const;
 
         const char* MAIN_SEPARATOR = "/";
 

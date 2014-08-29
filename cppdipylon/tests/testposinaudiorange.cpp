@@ -50,7 +50,7 @@ void TestPosInAudioRange::test0(void)
 
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::OK) );
-  QCOMPARE( g.to_str(), str );
+  QCOMPARE( g.repr(), str );
   QCOMPARE( g.first(), 0 );
   QCOMPARE( g.second(), 1 );
 }
@@ -62,7 +62,7 @@ void TestPosInAudioRange::test1(void)
 {
   const QString& str = QString("  94- 95 ");
   PosInAudioRange g(str);
-  QCOMPARE( g.to_str(), QString("94-95") );
+  QCOMPARE( g.repr(), QString("94-95") );
 
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , static_cast<int>(PosInAudioRange::INTERNALSTATE::OK) );

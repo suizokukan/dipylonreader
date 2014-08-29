@@ -51,7 +51,7 @@ void TestVectorPosInTextRanges::test0(void)
                                                        }));
 
   QCOMPARE( vposintextranges.size() == 2 , true );
-  QCOMPARE( vposintextranges.to_str(), QString("10-20+150-250/50-70+190-191"));
+  QCOMPARE( vposintextranges.repr(), QString("10-20+150-250/50-70+190-191"));
 }
 
 /*
@@ -62,7 +62,7 @@ void TestVectorPosInTextRanges::test1(void)
   VectorPosInTextRanges vposintextranges = VectorPosInTextRanges( std::vector<PosInTextRanges>() );
 
   QCOMPARE( vposintextranges.size() == 0 , true );
-  QCOMPARE( vposintextranges.to_str(), QString(""));
+  QCOMPARE( vposintextranges.repr(), QString(""));
 }
 
 /*
@@ -80,5 +80,5 @@ void TestVectorPosInTextRanges::test2(void)
   vposintextranges.sort();
 
   QCOMPARE( vposintextranges.size() == 5 , true );
-  QCOMPARE( vposintextranges.to_str(), QString("0-5+10-20/0-5+11-20/1-2+190-191/8-9+91-92/10-20+150-250"));
+  QCOMPARE( vposintextranges.repr(), QString("0-5+10-20/0-5+11-20/1-2+190-191/8-9+91-92/10-20+150-250"));
 }

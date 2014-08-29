@@ -37,7 +37,7 @@ QString DipyDocNote::repr(void) {
   res += "level=" + QString().setNum(this->level);
   res += "; ";
 
-  res += "PosInTextRanges=" + this->posintextranges.to_str();
+  res += "PosInTextRanges=" + this->posintextranges.repr();
   res += "; ";
 
   res += "text=" + this->text;
@@ -64,7 +64,7 @@ QString DipyDocNotes::repr(void) {
       // pos_and_note.first : PosInTextRanges
       // pos_and_note.second : DipyDocNote
       res += "* level= " + QString().setNum(note_by_level.first) + "; " + \
-             "ranges= " + pos_and_note.first.to_str() + "; " + \
+             "ranges= " + pos_and_note.first.repr() + "; " + \
              "note= " + pos_and_note.second.repr() + "; " + \
              "\n";
     }

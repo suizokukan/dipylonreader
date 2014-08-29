@@ -51,7 +51,7 @@ void TestPosInTextRanges::test0(void)
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OK) );
   QCOMPARE( g.size() == 2 , true );
-  QCOMPARE( g.to_str(), str );
+  QCOMPARE( g.repr(), str );
 }
 
 /*
@@ -65,7 +65,7 @@ void TestPosInTextRanges::test1(void)
   QCOMPARE( g.well_initialized() ,true );
   QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OK) );
   QCOMPARE( g.size() == 4 , true );
-  QCOMPARE( g.to_str(), str );
+  QCOMPARE( g.repr(), str );
 
   QCOMPARE( g.contains(0) , false );
   QCOMPARE( g.contains(97) , true );
@@ -83,7 +83,7 @@ void TestPosInTextRanges::test2(void)
 {
   const QString& str = QString("  94- 95 +   97  -  98 +  101 -  105  ");
   PosInTextRanges g(str);
-  QCOMPARE( g.to_str(), QString("94-95+97-98+101-105") );
+  QCOMPARE( g.repr(), QString("94-95+97-98+101-105") );
 
   QCOMPARE( g.well_initialized() , true );
   QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::OK) );

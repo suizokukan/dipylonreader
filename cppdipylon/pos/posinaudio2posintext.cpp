@@ -53,7 +53,7 @@ PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio& src) {
         src_i.second : (PosInAudio, PosInAudio)
 
       qDebug() << typeid(src_i).name();
-      qDebug() << src_i.first.to_str()  << src_i.second.first << "-" << src_i.second.second;
+      qDebug() << src_i.first.repr()  << src_i.second.first << "-" << src_i.second.second;
   */
   for (auto &src_i : src.map) {
     this->map[ src_i.second ] = src_i.first;
