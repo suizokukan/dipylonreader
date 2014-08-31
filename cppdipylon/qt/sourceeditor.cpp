@@ -125,7 +125,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
      title
   */
-  if (dipydoc.title.available == true) {
+  if (dipydoc.title.found == true) {
     // format :
     QTextCharFormat title_qtextcharformat = dipydoc.title.textformat.qtextcharformat();
     QTextBlockFormat title_qtextblockformat = dipydoc.title.blockformat.qtextblockformat();
@@ -140,7 +140,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
     introduction
   */
-  if (dipydoc.introduction.available == true) {
+  if (dipydoc.introduction.found == true) {
     // format :
     QTextCharFormat introduction_qtextcharformat = dipydoc.introduction.textformat.qtextcharformat();
     QTextBlockFormat introduction_qtextblockformat = dipydoc.introduction.blockformat.qtextblockformat();
@@ -166,7 +166,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   cur.insertBlock(text_blockformat, text_qtextcharformat);
 
   // adding the lettrine :
-  if (dipydoc.lettrine.available == true) {
+  if (dipydoc.lettrine.found == true) {
     int aspectratio = dipydoc.lettrine.aspectratio;
 
     qtextdocument->addResource(QTextDocument::ImageResource,

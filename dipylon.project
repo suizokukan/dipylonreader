@@ -82,9 +82,39 @@ SOMMAIRE
 
 [TRAVAIL COURANT]
 - lecture des notes (vérifier la qualité de chaque 'note')
-- ajouter un mkdir ../builds (-f pour éviter un msg d'erreur si le rép. existe ?) dans les .sh
-- $$$ à supprimer
-- justify ne fonctionne pas
+  [ description ou name ? unifier ] +   [ description ou informations ? unifier ]
+  [ certains codes d'erreurs sont à définir par des constantes+diagnosis pour guider l'utilisateur néophypte : tout le monde n'a pas envie d'ouvrir More details !]
+  [ faudrait p'tête tr() certains chaînes ]
+  [ DOCTYPE ??? ]
+  [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
+
+- freedipylonreader > dipylonreader
+- justify ne fonctionne pas (au moins sur Linux)
+- unordered_map > map
+- [dipydoc] présenter les textes de façon correcte (gros caractères)
+- [ui] faire pivoter les fenêtres : bouton ou dragable (cf QDockWidget)
+- [ui] si zone de traduction horizontale, placer la traduction à la même hauteur que le le texte traduit.
+- [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
+- si aucun mode grammaire ou karaoke disponible, erreur
+- [ui/tablette] bouton Menu (en haut à gauche ? un gros point ?)
+- build : Linux_static/Linux_dynamique/Win32static/Win64static/OSXstatic/IPadStatic/AndroidStatic
+- définir les constantes associées aux différents builds
+- réunir dans dipylon.project TOUTES les constantes de compilation
+- fichier de config pour stocker fichiers ouverts (premier lancement, etc.) : QSettings [!!! définir nom entreprise+produit, cf notes importantes sur comment restaurer la taille de Mainwindow, note pour savoir quand lire/écrire les données, note sur intérêt de forcer l'usage du format INI, lire Platform.limitations]
+- accès à la liste des dipydocs disponibles
+- [ui] splashscreen (Anne ? ou reprendre l'icône ?)
+- [ui/desktop] maximiser la fenêtre (au premier lancement, mettre à moitié de l'écran)
+- constantes de compilation : DESKTOP/NONDESKTOP, puis DESKTOP_LINUX, DESKTOP_WIN32_STATIC, ... etc.
+- [ui] surlignage -> traduction
+- [ui] icône "mute"
+- [win] installateur Windows (cf mail de ~)
+- [dipydoc] <version>5</version> + <identifiant>ABC</identifiant> (le dernier pour que on puisse passer d'un texte à l'autre, std::map)
+- créer des branches (ui, dipydoc) mais avant régler la structure de l'ui (multitabs, plusieurs dipydocs...)
+- [ui] -/+ taille du texte : click-droit et menu contextuel ? barre d'outils en base de l'écran ?
+- renommer MXE MXE_Qt5_1
+- laisser la possibilité d'ouvrir plusieurs fois le même doc (!! à la clef dans le map : IDENTIFIANT+POS)
+- [ui] flèche gauche, flèche droite : passer d'un segment à l'autre (+first pos, +last pos)
+- remplace qDebug() vers une fonction warning() dont les messages seront émis par qDdebug() + stockés et pourront être affichés via un menu.
 - réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
 - version XX de main.xml avec les notes
 - google/c++lint : les tests ne passent pas !

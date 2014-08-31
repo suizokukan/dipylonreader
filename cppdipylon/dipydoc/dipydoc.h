@@ -52,36 +52,6 @@
 #include "qt/posintextframeformat.h"
 #include "qt/textformat.h"
 
-/*
-  divisions inside a DipyDoc file :
-
-  o DIPYDOCDIV_INSIDE_ARROW            : inside <arrow>
-  o DIPYDOCDIV_INSIDE_AUDIORECORD      : inside <audiorecord>
-  o DIPYDOCDIV_INSIDE_COMMENTARYEDITOR : inside <commentaryeditor>
-  o DIPYDOCDIV_INSIDE_LEVEL            : inside <level>
-  o DIPYDOCDIV_INSIDE_SOURCEEDITOR     : inside <sourceeditor>
-  o DIPYDOCDIV_INSIDE_TEXT             : inside <text>
-  o DIPYDOCDIV_INSIDE_TEXTFORMATS      : inside <textformats>
-  o DIPYDOCDIV_INSIDE_TRANSLATION      : inside <translation>
-  o DIPYDOCDIV_INSIDE_NOTES            : inside <notes>
-
-  o DIPYDOCDIV_UNDEFINED : everything but the other constants.
-*/
-enum DipyDocDiv : int {
-    DIPYDOCDIV_INSIDE_ARROW = 1,
-    DIPYDOCDIV_INSIDE_AUDIORECORD = 2,
-    DIPYDOCDIV_INSIDE_COMMENTARYEDITOR = 3,
-    DIPYDOCDIV_INSIDE_LEVEL = 4,
-    DIPYDOCDIV_INSIDE_SOURCEEDITOR = 5,
-    DIPYDOCDIV_INSIDE_TEXT = 6,
-    DIPYDOCDIV_INSIDE_TEXTFORMATS = 7,
-    DIPYDOCDIV_INSIDE_TITLE = 8,
-    DIPYDOCDIV_INSIDE_TRANSLATION = 9,
-    DIPYDOCDIV_INSIDE_NOTES = 10,
-
-    DIPYDOCDIV_UNDEFINED = 99,
-};
-
 /*______________________________________________________________________________
 
   DipyDocAudioRecord class
@@ -90,7 +60,7 @@ enum DipyDocDiv : int {
 
 ______________________________________________________________________________*/
 struct DipyDocAudioRecord {
-  bool                 available;
+  bool                 found;
   QString              name;
   QString              filename;    // with full path
   QString              informations;
@@ -100,7 +70,7 @@ struct DipyDocAudioRecord {
   void                 clear(void);
 };
 inline void DipyDocAudioRecord::clear(void) {
-  this->available = false;
+  this->found = false;
   this->name = "";
   this->filename = "";
   this->informations = "";
@@ -116,7 +86,7 @@ inline void DipyDocAudioRecord::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocIntroduction {
-  bool        available;
+  bool        found;
   QString     text;
   TextFormat  textformat;
   BlockFormat blockformat;
@@ -124,11 +94,82 @@ struct DipyDocIntroduction {
   void        clear(void);
 };
 inline void DipyDocIntroduction::clear(void) {
-  this->available = false;
+  this->found = false;
   this->text = "";
   this->textformat = TextFormat();
   this->blockformat = BlockFormat();
 }
+
+/*______________________________________________________________________________
+
+  DipyDocLettrine class
+
+  This class is used to create the "lettrine" attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct DipyDocLettrine {
+  bool                 found;
+  QString              filename_with_fullpath;
+  QImage               image;
+  PosInTextFrameFormat position_in_text_frame;
+  int                  aspectratio;
+
+       DipyDocLettrine(void);
+       DipyDocLettrine(bool _found,
+                       const QString& _filename_with_fullpath,
+                       const QImage& _image,
+                       const PosInTextFrameFormat& _position_in_text_frame,
+                       int _aspectratio);
+  void clear(void);
+};
+inline DipyDocLettrine::DipyDocLettrine(void) {
+  this->found = false;
+  this->filename_with_fullpath = QString("");
+  this->image = QImage();
+  this->position_in_text_frame = PosInTextFrameFormat();
+  this->aspectratio = 0;
+}
+inline DipyDocLettrine::DipyDocLettrine(bool _found,
+                                        const QString& _filename_with_fullpath,
+                                        const QImage& _image,
+                                        const PosInTextFrameFormat& _position_in_text_frame,
+                                        int _aspectratio) : \
+found(_found),
+filename_with_fullpath(_filename_with_fullpath),
+image(_image),
+position_in_text_frame(_position_in_text_frame),
+aspectratio(_aspectratio) {
+}
+inline void DipyDocLettrine::clear(void) {
+  this->found = false;
+  this->filename_with_fullpath = QString("");
+  this->image = QImage();
+  this->position_in_text_frame = PosInTextFrameFormat();
+  this->aspectratio = 1;
+}
+
+/*______________________________________________________________________________
+
+  LevelDetails class
+
+  This class is used to create the "levels" attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct LevelDetails {
+  QString    name;
+  TextFormat textformat;
+
+             // default constructor :
+             LevelDetails(void);
+
+             // constructor from a QString describing the level's details :
+             LevelDetails(QString&, QString&);
+};
+inline LevelDetails::LevelDetails(void) {
+  this->name = QString("");
+  this->textformat = TextFormat();
+}
+inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : name(_name), textformat(_strtextformat) {}
 
 /*______________________________________________________________________________
 
@@ -170,7 +211,7 @@ inline void DipyDocSourceText::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocTitle {
-  bool        available;
+  bool        found;
   QString     text;
   TextFormat  textformat;
   BlockFormat blockformat;
@@ -178,7 +219,7 @@ struct DipyDocTitle {
   void        clear(void);
 };
 inline void DipyDocTitle::clear(void) {
-  this->available = false;
+  this->found = false;
   this->text = "";
   this->textformat = TextFormat();
   this->blockformat = BlockFormat();
@@ -192,6 +233,7 @@ inline void DipyDocTitle::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocTranslation {
+  bool          found;
   QString       name;
   QString       informations;
   PosInText2Str translations;
@@ -199,89 +241,10 @@ struct DipyDocTranslation {
   void          clear(void);
 };
 inline void DipyDocTranslation::clear(void) {
+  this->found = false;
   this->name = "";
   this->informations = "";
   this->translations.clear();
-}
-
-/*______________________________________________________________________________
-
-  LevelDetails class
-
-  This class is used to create the "levels" attribute of DipyDoc.
-
-______________________________________________________________________________*/
-struct LevelDetails {
-  bool       well_initialized = false;
-
-  QString    name;
-  TextFormat textformat;
-
-             // default constructor :
-             LevelDetails(void);
-
-             // constructor from a QString describing the level's details :
-             LevelDetails(QString&, QString&);
-};
-inline LevelDetails::LevelDetails(void) {
-  this->well_initialized = false;
-  this->name = QString("");
-  this->textformat = TextFormat();
-}
-inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : name(_name), textformat(_strtextformat) {
-  this->well_initialized = this->textformat.well_initialized();
-}
-
-/*______________________________________________________________________________
-
-  DipyDocLettrine class
-
-  This class is used to create the "lettrine" attribute of DipyDoc.
-
-______________________________________________________________________________*/
-struct DipyDocLettrine {
-  bool                 well_initialized;
-  bool                 available;
-  QString              filename_with_fullpath;
-  QImage               image;
-  PosInTextFrameFormat position_in_text_frame;
-  int                  aspectratio;
-
-       DipyDocLettrine(void);
-       DipyDocLettrine(bool _available,
-                       const QString& _filename_with_fullpath,
-                       const QImage& _image,
-                       const PosInTextFrameFormat& _position_in_text_frame,
-                       int _aspectratio);
-  void clear(void);
-};
-inline DipyDocLettrine::DipyDocLettrine(void) {
-  this->well_initialized = false;
-  this->available = false;
-  this->filename_with_fullpath = QString("");
-  this->image = QImage();
-  this->position_in_text_frame = PosInTextFrameFormat();
-  this->aspectratio = 0;
-}
-inline DipyDocLettrine::DipyDocLettrine(bool _available,
-                                        const QString& _filename_with_fullpath,
-                                        const QImage& _image,
-                                        const PosInTextFrameFormat& _position_in_text_frame,
-                                        int _aspectratio) : \
-available(_available),
-filename_with_fullpath(_filename_with_fullpath),
-image(_image),
-position_in_text_frame(_position_in_text_frame),
-aspectratio(_aspectratio) {
-  this->well_initialized = true;
-}
-inline void DipyDocLettrine::clear(void) {
-  this->well_initialized = true;
-  this->available = false;
-  this->filename_with_fullpath = QString("");
-  this->image = QImage();
-  this->position_in_text_frame = PosInTextFrameFormat();
-  this->aspectratio = 1;
 }
 
 /*______________________________________________________________________________
@@ -300,10 +263,11 @@ friend class CommentaryEditor;
   int                  _internal_state;
   QString              doctype;
 
+  QString              path;
   QString              main_filename_with_fullpath;
 
   // general informations :
-  int                  dipydoc_version;
+  int                  dipydocformat_version;
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :
   QString              sourceeditor_stylesheet;
@@ -326,86 +290,56 @@ friend class CommentaryEditor;
   DipyDocTranslation   translation;
   // text formats :
   std::map<QString, QString> textformats;
-  // levels :
+  // levels (see DipyDoc::levels_repr)
   std::map<int, LevelDetails> levels;
   // notes :
   DipyDocNotes         notes;
-  // arrows :
+  // arrows (see DipyDoc::arrows_repr)
   std::map<QString, ArrowFormat> arrows;
 
-  bool                 check_path(const QString&);
-  void                 init_from_xml(const QString&);
+  QStringList          err_messages;
 
-  QStringList          errors;
+  // private methods ...........................................................
+  QString                arrows_repr(void) const;
+  bool                   check_path(const QString&);
+  void                   clear(void);
+  bool                   error(const QString& msg);
+  bool                   error(const QString& msg, const QString& error_string);
+  template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
+  QString                error_string(const QXmlStreamReader& xmlreader);
+  QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
+  bool                   init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlreader);
+  bool                   init_from_xml__read_first_token(QXmlStreamReader& xmlreader);
+  QString                levels_repr(void) const;
 
+ // public methods .............................................................
  public:
                        DipyDoc(void);
               explicit DipyDoc(const QString&);
-  void                 clear(void);
+  PosInTextRanges      audio2text_contains(PosInAudio pos) const;
   QString              diagnosis(void) const;
-  void                 error__misplaced_content(const QXmlStreamReader& xmlreader,
-                                                const QString& element,
-                                                const QString& where,
-                                                int current_division);
-  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const ArrowFormat& src, const QString& where);
-  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const BlockFormat& src, const QString& where);
-  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const LanguageFromTo& src, const QString& where);
-  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const PosInTextFrameFormat& src, const QString& where);
-  bool                 error__wrong_content(const QXmlStreamReader& xmlreader, const TextFormat& src, const QString& where);
-  QString              get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   QString              get_xml_repr(void) const;
+  void                 init_from_xml(const QString&);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
-  static const int     minimal_dipydoc_version = 26;
-  static const int     maximal_dipydoc_version = 26;
-
-  // public access to audio2text.contains() :
-  PosInTextRanges      audio2text_contains(PosInAudio) const;
+ // public constants ...........................................................
+  static const int     min_dipydocformat_version = 26;
+  static const int     max_dipydocformat_version = 26;
 
   /*
      INTERNALSTATE
 
      constants used to define the internal_state attribute.
 
-     o OK
-     o NOT_YET_INITIALIZED : the object has not been initialized and is in an
-                             undefined state.
-     o BAD_INITIALIZATION : a problem occurs during the initialization.
-     o UNKNOWN_PATH : the source string "path" doesn't exist.
-     o PATH_IS_A_FILE : the source string "path" is a file (a directory is expected)
-     o MISSING_MAIN_FILE : the main file doesn't exist in "path".
-     o MISSING_TEXT_FILE : the text file doesn't exist in "path".
-     o MISSING_AUDIO_FILE : the expected audio file is missing.
-     o OUTDATED_DIPYDOC_VERSION : the version of the DipyDoc is outdated.
-     o DIPYDOC_VERSION_TOO_RECENT : the version of the DipyDoc is too recent.
-     o WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO : the lettrine's aspect ratio isn't correct.
-     o LETTRINE_FILE_DECLARED_BUT_MISSING : the expected file doesn't exist in "path"
-     o WRONG_AUDIORECORD_TEXT2AUDIO : "audiorecord.text2audio" isn't correctly initialized
-     o WRONG_AUDIORECORD_AUDIO2TEXT : "audiorecord.audio2text" isn't correctly initialized
-     o WRONG_TRANSLATION : the "translations" object isn't correctly initialized.
-     o WRONG_DOCTYPE : the document's type is unknown.
-
-     please update DipyDoc::diagnosis() if you modify this constants.
+     o OK :  the object has been correctly initialized.
+     o NOT_YET_INITIALIZED : the object has not been initialized and is in an undefined state.
+     o NOT_CORRECTLY_INITIALIZED : a problem occurs during the initialization.
   */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_INITIALIZED = -1,
-    BAD_INITIALIZATION = -2,
-    UNKNOWN_PATH = -3,
-    PATH_IS_A_FILE = -4,
-    MISSING_MAIN_FILE = -5,
-    MISSING_TEXT_FILE = -6,
-    MISSING_AUDIO_FILE = -7,
-    MISSING_SOURCE_TEXT_FILE = -8,
-    OUTDATED_DIPYDOC_VERSION = -9,
-    DIPYDOC_VERSION_TOO_RECENT = -10,
-    WRONG_VALUE_FOR_LETTRINE_ASPECTRATIO = 11,
-    LETTRINE_FILE_DECLARED_BUT_MISSING = -12,
-    WRONG_AUDIORECORD_TEXT2AUDIO = -13,
-    WRONG_AUDIORECORD_AUDIO2TEXT = -14,
-    WRONG_TRANSLATION = -15,
-    WRONG_DOCTYPE = -16,
+    NOT_CORRECTLY_INITIALIZED = -2,
   };
 
   // name of the main file in a dipydoc directory :

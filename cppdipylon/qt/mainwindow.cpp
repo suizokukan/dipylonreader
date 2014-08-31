@@ -473,16 +473,16 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     msgBox.setText( tr("Unable to load a (valid) DipyDoc from <b>") + directoryName + "</b> ." +\
                     "<br/><br/>" + this->current_dipylonui.current_dipydoc.diagnosis() + \
                     "<br/><br/>" + tr("See more details below.") );
-    this->current_dipylonui.current_dipydoc.errors.prepend( "internal state = " + \
-                                                            QString().setNum(this->current_dipylonui.current_dipydoc.internal_state()) );
-    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.errors.join("\n\n") );
+    this->current_dipylonui.current_dipydoc.err_messages.prepend( "internal state = " + \
+                                       QString().setNum(this->current_dipylonui.current_dipydoc.internal_state()) );
+    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.err_messages.join("\n\n") );
     msgBox.exec();
   }
   else {
     // no error, let's load the DipyDoc :
     this->load_text(this->current_dipylonui.current_dipydoc.source_text);
 
-    if( this->current_dipylonui.current_dipydoc.audiorecord.available == true ) {
+    if( this->current_dipylonui.current_dipydoc.audiorecord.found == true ) {
       qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord.filename;
       this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord.filename));
     }
@@ -796,7 +796,7 @@ void MainWindow::update_icons(void) {
   if (this->current_dipylonui.reading_mode != DipylonUI::READINGMODE_KARAOKE ||
       this->current_dipylonui.current_dipydoc.well_initialized() == false ||
       (this->current_dipylonui.current_dipydoc.well_initialized() == true and
-       this->current_dipylonui.current_dipydoc.audiorecord.available == false)) {
+       this->current_dipylonui.current_dipydoc.audiorecord.found == false)) {
     /*
        No karaoke mode or no current DipyDoc or no audio in the current DipyDoc :
     */
