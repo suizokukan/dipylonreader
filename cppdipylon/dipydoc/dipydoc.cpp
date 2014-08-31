@@ -794,10 +794,12 @@ bool DipyDoc::init_from_xml__read_first_token(QXmlStreamReader& xmlreader) {
   return a bool (=success)
 ______________________________________________________________________________*/
 bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlreader) {
+
  bool ok = true;
 
  while (xmlreader.readNextStartElement()) {
    QString tokenname = xmlreader.name().toString();
+   qDebug() << "#############################" << tokenname;
 
    /*
      title
@@ -816,7 +818,6 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
      // title::text
      this->title.text = xmlreader.readElementText();
 
-     xmlreader.skipCurrentElement();
      continue;
   }
 
@@ -839,7 +840,6 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
      // introduction::text
      this->introduction.text = xmlreader.readElementText();
 
-     xmlreader.skipCurrentElement();
      continue;
   }
 
@@ -879,7 +879,6 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
        ok = false;
      }
 
-     xmlreader.skipCurrentElement();
      continue;
    }
 
@@ -908,7 +907,6 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
      // text::informations
      this->source_text.informations = xmlreader.readElementText();
 
-     xmlreader.skipCurrentElement();
      continue;
   }
 
@@ -934,7 +932,6 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
          ok &= this->error(this->sourceeditor_karaoke_textformat, this->error_string(xmlreader),
                            QString("aspect::sourceeditor::karaoke_textformat"));
 
-         xmlreader.skipCurrentElement();
          continue;
        }
 
@@ -949,12 +946,10 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
          ok &= this->error(this->commentaryeditor_textformat, this->error_string(xmlreader),
                            QString("aspect::commentaryeditor::textformat"));
 
-         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
-     xmlreader.skipCurrentElement();
    }
 
    /*
@@ -996,12 +991,10 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio(audiorange.first(), audiorange.second());
 
-         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
-     xmlreader.skipCurrentElement();
    }
 
    /*
@@ -1029,12 +1022,10 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
          QString text(xmlreader.readElementText());
          this->translation.translations[ textranges ] = xmlreader.readElementText();
 
-         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
-     xmlreader.skipCurrentElement();
    }
 
    /*
@@ -1052,12 +1043,10 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->textformats[ name ] = aspect;
 
-         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
-     xmlreader.skipCurrentElement();
    }
 
    /*
@@ -1080,12 +1069,10 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->levels[ number ] = LevelDetails(name, textformat_str);
 
-         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
-     xmlreader.skipCurrentElement();
    }
 
    /*
@@ -1105,12 +1092,10 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->arrows[ name ] = arrowformat;
 
-         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
-     xmlreader.skipCurrentElement();
    }
 
    /*
@@ -1136,12 +1121,10 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
                             textranges,
                             DipyDocNote(level, textranges, text, textformatname));
 
-         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
-     xmlreader.skipCurrentElement();
    }
  } // ... while (xmlreader.readNextStartElement())
  return ok;

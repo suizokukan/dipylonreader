@@ -87,6 +87,7 @@ SOMMAIRE
   [ faudrait p'tête tr() certains chaînes ]
   [ DOCTYPE ??? ]
   [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
+  [ si text::filename est empty, déclencher une erreur : cela signifie que la balise <text> n'a pas été lue]
 
 - freedipylonreader > dipylonreader
 - justify ne fonctionne pas (au moins sur Linux)
