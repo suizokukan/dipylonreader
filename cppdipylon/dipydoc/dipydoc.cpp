@@ -194,7 +194,7 @@ QString DipyDoc::diagnosis(void) const {
     case DipyDoc::INTERNALSTATE::INCORRECT_VERSION_OF_THE_DIPYDOC : {
       return QObject::tr("The DipyDoc could not be read since its version is either too old"
                          "or too recent. See the details for more informations."
-                         "Please replace this Dipydoc by another one.");
+                         "Please update your Dipydoc application.");
     }
 
     case DipyDoc::INTERNALSTATE::THE_GIVENPATH_DOES_NOT_EXIST : {
