@@ -64,10 +64,10 @@ QString DipyDocNotes::repr(void) {
     for (auto &pos_and_note : note_by_level.second) {
       // pos_and_note.first : PosInTextRanges
       // pos_and_note.second : DipyDocNote
-      res += "* level= " + QString().setNum(note_by_level.first) + "; " + \
+      res += "\n" + \
+             "* level= " + QString().setNum(note_by_level.first) + "; " + \
              "ranges= " + pos_and_note.first.repr() + "; " + \
-             "note= " + pos_and_note.second.repr() + "; " + \
-             "\n";
+             "note= " + pos_and_note.second.repr() + "; ";
     }
   }
   return res;

@@ -80,7 +80,7 @@ ______________________________________________________________________________*/
 QString DipyDoc::arrows_repr(void) const {
   QString res("");
   for (auto &arrow : this->arrows) {
-    res += QString("  name='%1' - arrowformat='%2'\n").arg(arrow.first,
+    res += QString("\n  name='%1' - arrowformat='%2'").arg(arrow.first,
                                                            arrow.second.repr());
     }
   return res;
@@ -719,9 +719,9 @@ void DipyDoc::init_from_xml(const QString& _path) {
     this->_internal_state = DipyDoc::INTERNALSTATE::OK;
   }
 
-  qDebug() << "(DipyDoc::init_from_xml) levels=\n" << this->levels_repr();
+  qDebug() << "(DipyDoc::init_from_xml) levels=" << this->levels_repr();
 
-  qDebug() << "(DipyDoc::init_from_xml) arrows=\n" << this->arrows_repr();
+  qDebug() << "(DipyDoc::init_from_xml) arrows=" << this->arrows_repr();
 
   qDebug() << "(DipyDoc::init_from_xml) notes=";
   qDebug() << this->notes.repr();
@@ -799,12 +799,11 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
  while (xmlreader.readNextStartElement()) {
    QString tokenname = xmlreader.name().toString();
-   qDebug() << "#############################" << tokenname;
 
    /*
      title
    */
-   if (tokenname == "title") {
+   if (xmlreader.name() == "title") {
      this->title.found = true;
 
      // title::textformat
@@ -879,6 +878,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
        ok = false;
      }
 
+     xmlreader.skipCurrentElement();
      continue;
    }
 
@@ -892,7 +892,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
      ok &= this->error(this->source_text.blockformat, this->error_string(xmlreader), QString("text:blockformat"));
 
      // text::description
-     this->source_text.informations = xmlreader.readElementText();
+     this->source_text.name = xmlreader.attributes().value("description").toString();
 
      // text::filename
      this->source_text.filename = this->path + "/" + xmlreader.attributes().value("filename").toString();
@@ -905,8 +905,9 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
      }
 
      // text::informations
-     this->source_text.informations = xmlreader.readElementText();
+     this->source_text.informations = xmlreader.attributes().value("informations").toString();
 
+     xmlreader.skipCurrentElement();
      continue;
   }
 
@@ -919,37 +920,50 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
        // aspect::sourceeditor
        if (xmlreader.name() == "sourceeditor") {
 
-         // aspect::sourceeditor::stylesheet
-         this->sourceeditor_stylesheet = xmlreader.attributes().value("stylesheet").toString();
-
-         // aspect::sourceeditor::default_textformat
-         this->sourceeditor_default_textformat = TextFormat(xmlreader.attributes().value("default_textformat").toString());
-         ok &= this->error(this->sourceeditor_default_textformat, this->error_string(xmlreader),
-                           QString("aspect::sourceeditor::default_textformat"));
-
-         // aspect::sourceeditor::karaoke_textformat
-         this->sourceeditor_karaoke_textformat = TextFormat(xmlreader.attributes().value("karaoke_textformat").toString());
-         ok &= this->error(this->sourceeditor_karaoke_textformat, this->error_string(xmlreader),
-                           QString("aspect::sourceeditor::karaoke_textformat"));
-
-         continue;
+         while (xmlreader.readNextStartElement()) {
+           // aspect::sourceeditor::stylesheet
+           if (xmlreader.name() == "stylesheet") {
+             this->sourceeditor_stylesheet = xmlreader.readElementText();
+             continue;
+           }
+           // aspect::sourceeditor::default_textformat
+           if (xmlreader.name() == "default_textformat") {
+             this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
+             ok &= this->error(this->sourceeditor_default_textformat, this->error_string(xmlreader),
+                               QString("aspect::sourceeditor::default_textformat"));
+             continue;
+           }
+           // aspect::sourceeditor::karaoke_textformat
+           if (xmlreader.name() == "karaoke_textformat") {
+             this->sourceeditor_karaoke_textformat = TextFormat(xmlreader.readElementText());
+             ok &= this->error(this->sourceeditor_karaoke_textformat, this->error_string(xmlreader),
+                               QString("aspect::sourceeditor::karaoke_textformat"));
+             continue;
+           }
+         }
        }
 
        // aspect::commentaryeditor
        if (xmlreader.name() == "commentaryeditor") {
 
-         // aspect::commentaryeditor::stylesheet
-         this->commentaryeditor_stylesheet = xmlreader.attributes().value("stylesheet").toString();
-
-         // aspect::commentaryeditor::textformat
-         this->commentaryeditor_textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
-         ok &= this->error(this->commentaryeditor_textformat, this->error_string(xmlreader),
-                           QString("aspect::commentaryeditor::textformat"));
-
-         continue;
+         while (xmlreader.readNextStartElement()) {
+           // aspect::commentaryeditor::stylesheet
+           if (xmlreader.name() == "stylesheet") {
+             this->commentaryeditor_stylesheet = xmlreader.readElementText();
+             continue;
+           }
+           // aspect::commentaryeditor::textformat
+           if (xmlreader.name() == "textformat") {
+             this->commentaryeditor_textformat = TextFormat(xmlreader.readElementText());
+             ok &= this->error(this->commentaryeditor_textformat, this->error_string(xmlreader),
+                               QString("aspect::commentaryeditor::textformat"));
+             continue;
+           }
+         }
        }
      }
 
+     continue;
    }
 
    /*
@@ -991,10 +1005,12 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio(audiorange.first(), audiorange.second());
 
+         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
+     continue;
    }
 
    /*
@@ -1026,6 +1042,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
        }
      }
 
+     continue;
    }
 
    /*
@@ -1043,10 +1060,12 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->textformats[ name ] = aspect;
 
+         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
+     continue;
    }
 
    /*
@@ -1069,10 +1088,12 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->levels[ number ] = LevelDetails(name, textformat_str);
 
+         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
+     continue;
    }
 
    /*
@@ -1092,10 +1113,12 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          this->arrows[ name ] = arrowformat;
 
+         xmlreader.skipCurrentElement();
          continue;
        }
      }
 
+     continue;
    }
 
    /*
@@ -1125,6 +1148,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
        }
      }
 
+     continue;
    }
  } // ... while (xmlreader.readNextStartElement())
  return ok;
@@ -1139,7 +1163,7 @@ ______________________________________________________________________________*/
 QString DipyDoc::levels_repr(void) const {
   QString res("");
   for (auto &level : this->levels) {
-    res += QString("  #%1 - name='%2' - textformat='%3'\n").arg(QString().setNum(level.first),
+    res += QString("\n  #%1 - name='%2' - textformat='%3'").arg(QString().setNum(level.first),
                                                                 level.second.name,
                                                                 level.second.textformat.repr());
     }
