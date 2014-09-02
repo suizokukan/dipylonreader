@@ -61,7 +61,7 @@
 ______________________________________________________________________________*/
 struct DipyDocAudioRecord {
   bool                 found;
-  QString              name;
+  QString              description;
   QString              filename;    // with full path
   QString              informations;
   PosInText2PosInAudio text2audio;
@@ -71,7 +71,7 @@ struct DipyDocAudioRecord {
 };
 inline void DipyDocAudioRecord::clear(void) {
   this->found = false;
-  this->name = "";
+  this->description = "";
   this->filename = "";
   this->informations = "";
   this->text2audio.clear();
@@ -187,7 +187,7 @@ struct DipyDocSourceText {
   int         number_of_chars_before_source_text;
 
   QString     text;
-  QString     name;
+  QString     description;
   QString     filename;    // with full path
   QString     informations;
   BlockFormat blockformat;
@@ -197,7 +197,7 @@ struct DipyDocSourceText {
 inline void DipyDocSourceText::clear(void) {
   this->number_of_chars_before_source_text = 0;
   this->text = "";
-  this->name = "";
+  this->description = "";
   this->filename = "";
   this->informations = "";
   this->blockformat = BlockFormat();
@@ -234,7 +234,7 @@ inline void DipyDocTitle::clear(void) {
 ______________________________________________________________________________*/
 struct DipyDocTranslation {
   bool          found;
-  QString       name;
+  QString       description;
   QString       informations;
   PosInText2Str translations;
 
@@ -242,7 +242,7 @@ struct DipyDocTranslation {
 };
 inline void DipyDocTranslation::clear(void) {
   this->found = false;
-  this->name = "";
+  this->description = "";
   this->informations = "";
   this->translations.clear();
 }
@@ -267,6 +267,8 @@ friend class CommentaryEditor;
   QString              main_filename_with_fullpath;
 
   // general informations :
+  QString              id;
+  int                  version;
   int                  dipydocformat_version;
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :
@@ -324,8 +326,8 @@ friend class CommentaryEditor;
   bool                 well_initialized(void) const;
 
  // public constants ...........................................................
-  static const int     min_dipydocformat_version = 26;
-  static const int     max_dipydocformat_version = 26;
+  static const int     min_dipydocformat_version = 27;
+  static const int     max_dipydocformat_version = 27;
 
   /*
      INTERNALSTATE
@@ -335,11 +337,17 @@ friend class CommentaryEditor;
      o OK :  the object has been correctly initialized.
      o NOT_YET_INITIALIZED : the object has not been initialized and is in an undefined state.
      o NOT_CORRECTLY_INITIALIZED : a problem occurs during the initialization.
+     o INCORRECT_VERSION_OF_THE_DIPYDOC : version too high or too low.
+     o THE_GIVENPATH_DOES_NOT_EXIST : wrong path to the DipyDoc
+     o THE_GIVENPATH_IS_NOT_A_DIRECTORY
   */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_INITIALIZED = -1,
     NOT_CORRECTLY_INITIALIZED = -2,
+    INCORRECT_VERSION_OF_THE_DIPYDOC = -3,
+    THE_GIVENPATH_DOES_NOT_EXIST = -4,
+    THE_GIVENPATH_IS_NOT_A_DIRECTORY = -5,
   };
 
   // name of the main file in a dipydoc directory :

@@ -13,8 +13,6 @@ TRANSLATIONS = dipylon_French.ts
 # compilation options : see dipylon.project for more informations
 #
 #_______________________________________________________________________________
-#DEFINES += QT_NO_DEBUG_OUTPUT
-#DEFINES += READANDWRITE
 DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
 DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
 
