@@ -83,8 +83,10 @@ SOMMAIRE
 0.3.7 :
   o feature #1 : new constants for the build defining the target's architecture.
   o feature #2 : DipyDoc's version = 27 ('version' tag, 'id' tag)
-    - error if empty text's file name (=dipydoc corrupted)
-    - improved DipyDoc::diagnosis() error messages
+    * error if empty text's file name (=dipydoc corrupted)
+    - id's::text -> id's text
+   
+QT_NO_CURSOR à définir comme constant de compilation (?)
 
 [TRAVAIL COURANT]
 - lecture des notes (vérifier la qualité de chaque 'note')
