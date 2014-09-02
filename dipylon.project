@@ -83,14 +83,13 @@ SOMMAIRE
 0.3.7 :
   o feature #1 : new constants for the build defining the target's architecture.
   o feature #2 : DipyDoc's version = 27 ('version' tag, 'id' tag)
-
-  [ description ou name ? unifier ] +   [ description ou informations ? unifier ]
+    - error if empty text's file name (=dipydoc corrupted)
+    - improved DipyDoc::diagnosis() error messages
 
 [TRAVAIL COURANT]
 - lecture des notes (vérifier la qualité de chaque 'note')
   [ faudrait p'tête tr() certains chaînes ]
   [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
-  [ si text::filename est empty, déclencher une erreur : cela signifie que la balise <text> n'a pas été lue]
 
 - justify ne fonctionne pas (au moins sur Linux)
 - unordered_map > map
@@ -825,7 +824,7 @@ version 10 : first format's version
 
 NB : "aspectratio" : entier divisant la taille de l'éditeur. Ex : s'il est égal à 3, la largeur représentera le tiers de la largeur de l'éditeur. La hauteur est également divisée de manière à garder la même proportion.
 
-main.xml, version 26 :
+main.xml, version 27 :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 
@@ -834,7 +833,7 @@ main.xml, version 26 :
   <id>démo/Ovide/M/452-465/lat->fra<id/>
   <version>1</version>
 
-
+  <text description="texte source" filename="text" informations="source du texte : Wikipedia, X. Faure" blockformat="alignment:left" />
   <title textformat="color: yellow; font-family:Times" blockformat="alignment:right" >TITRE</title>
 
   <introduction textformat="color: red;" blockformat="alignment:right; line-height:150%;">INTRODUCTION</introduction>
@@ -854,7 +853,7 @@ main.xml, version 26 :
     </commentaryeditor>
   </aspect>
 
-  <audiorecord description="enregistrement audio" informations="...">
+  <audiorecord description="enregistrement audio" informations="..." filename="record.ogg" >
     <segment textranges="8-26" audiorange="0-2399" srctext="Prīmus amor Phoebī" />
   </audiorecord>
   <translation description="enregistrement audio" informations="...">
