@@ -842,7 +842,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
    */
    if (xmlreader.name() == "id") {
 
-     // id's::text
+     // id's text
      this->id = xmlreader.readElementText();
 
      continue;
@@ -855,7 +855,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
    */
    if (xmlreader.name() == "version") {
 
-     // version::text
+     // version's text
      this->version = xmlreader.readElementText().toInt();
 
      continue;

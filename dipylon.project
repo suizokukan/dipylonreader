@@ -83,23 +83,20 @@ SOMMAIRE
 0.3.7 :
   o feature #1 : new constants for the build defining the target's architecture.
   o feature #2 : DipyDoc's version = 27 ('version' tag, 'id' tag)
-    * error if empty text's file name (=dipydoc corrupted)
-    - id's::text -> id's text
+    - lecture des notes (vérifier la qualité de chaque 'note')
+      [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
+    - [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
+     si aucun mode grammaire ou karaoke disponible, erreur
    
-QT_NO_CURSOR à définir comme constant de compilation (?)
+QT_NO_CURSOR à définir comme constante de compilation (?)
 
 [TRAVAIL COURANT]
-- lecture des notes (vérifier la qualité de chaque 'note')
-  [ faudrait p'tête tr() certains chaînes ]
-  [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
 
 - justify ne fonctionne pas (au moins sur Linux)
 - unordered_map > map
 - [dipydoc] présenter les textes de façon correcte (gros caractères)
 - [ui] faire pivoter les fenêtres : bouton ou dragable (cf QDockWidget)
 - [ui] si zone de traduction horizontale, placer la traduction à la même hauteur que le le texte traduit.
-- [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
-- si aucun mode grammaire ou karaoke disponible, erreur
 - [ui/tablette] bouton Menu (en haut à gauche ? un gros point ?)
 - build : Linux_static/Linux_dynamique/Win32static/Win64static/OSXstatic/IPadStatic/AndroidStatic
 - fichier de config pour stocker fichiers ouverts (premier lancement, etc.) : QSettings [!!! définir nom entreprise+produit, cf notes importantes sur comment restaurer la taille de Mainwindow, note pour savoir quand lire/écrire les données, note sur intérêt de forcer l'usage du format INI, lire Platform.limitations]
