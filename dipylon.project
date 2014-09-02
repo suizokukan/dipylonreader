@@ -83,14 +83,13 @@ SOMMAIRE
 0.3.7 :
   o feature #1 : new constants for the build defining the target's architecture.
   o feature #2 : DipyDoc's version = 27 ('version' tag, 'id' tag)
-    - lecture des notes (vérifier la qualité de chaque 'note')
-      [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
-    - [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
-     si aucun mode grammaire ou karaoke disponible, erreur
-   
+  
 QT_NO_CURSOR à définir comme constante de compilation (?)
 
 [TRAVAIL COURANT]
+    - [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
+    - lecture des notes (vérifier la qualité de chaque 'note')
+      [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
 
 - justify ne fonctionne pas (au moins sur Linux)
 - unordered_map > map
