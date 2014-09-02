@@ -267,6 +267,8 @@ friend class CommentaryEditor;
   QString              main_filename_with_fullpath;
 
   // general informations :
+  QString              id;
+  int                  version;
   int                  dipydocformat_version;
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :

@@ -83,11 +83,11 @@ SOMMAIRE
 0.3.7 :
   o feature #1 : new constants for the build defining the target's architecture.
   o feature #2 : DipyDoc's version = 27 ('version' tag, 'id' tag)
-    - added error constants to dipydoc.* and improved messages in DipyDoc::diagnosis()
+
+  [ description ou name ? unifier ] +   [ description ou informations ? unifier ]
 
 [TRAVAIL COURANT]
 - lecture des notes (vérifier la qualité de chaque 'note')
-  [ description ou name ? unifier ] +   [ description ou informations ? unifier ]
   [ faudrait p'tête tr() certains chaînes ]
   [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
   [ si text::filename est empty, déclencher une erreur : cela signifie que la balise <text> n'a pas été lue]
@@ -804,6 +804,7 @@ sous Linux : ./dipylon > output 2>&1
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
+version 27 : 'version' and 'id' tags
 version 26 : arrowformat
 version 25 : blockformat::"line-height", textformat::"font-size"
 version 24 : fonts
@@ -829,6 +830,10 @@ main.xml, version 26 :
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <dipydoc dipydoc_version="26" languages="lat->fra" type="text">
+
+  <id>démo/Ovide/M/452-465/lat->fra<id/>
+  <version>1</version>
+
 
   <title textformat="color: yellow; font-family:Times" blockformat="alignment:right" >TITRE</title>
 

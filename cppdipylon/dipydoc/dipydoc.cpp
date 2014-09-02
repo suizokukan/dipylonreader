@@ -138,6 +138,9 @@ void DipyDoc::clear(void) {
   this->_well_initialized = false;
   this->_internal_state = DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED;
 
+  this->id = QString("default id");
+  this->version = 0;
+
   this->doctype = QString("");
 
   this->path = QString("");
@@ -819,6 +822,30 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
  while (xmlreader.readNextStartElement()) {
    QString tokenname = xmlreader.name().toString();
+
+   /*
+     id
+   */
+   if (xmlreader.name() == "id") {
+
+     // title::text
+     this->id = xmlreader.readElementText();
+
+     continue;
+  }
+
+   /*
+     version
+
+     = document's version [nothing to do with the format of the dipydoc file]
+   */
+   if (xmlreader.name() == "version") {
+
+     // version::text
+     this->version = xmlreader.readElementText().toInt();
+
+     continue;
+  }
 
    /*
      title
