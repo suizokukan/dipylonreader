@@ -335,11 +335,17 @@ friend class CommentaryEditor;
      o OK :  the object has been correctly initialized.
      o NOT_YET_INITIALIZED : the object has not been initialized and is in an undefined state.
      o NOT_CORRECTLY_INITIALIZED : a problem occurs during the initialization.
+     o INCORRECT_VERSION_OF_THE_DIPYDOC : version too high or too low.
+     o THE_GIVENPATH_DOES_NOT_EXIST : wrong path to the DipyDoc
+     o THE_GIVENPATH_IS_NOT_A_DIRECTORY
   */
   enum INTERNALSTATE : int {
     OK = 0,
     NOT_YET_INITIALIZED = -1,
     NOT_CORRECTLY_INITIALIZED = -2,
+    INCORRECT_VERSION_OF_THE_DIPYDOC = -3,
+    THE_GIVENPATH_DOES_NOT_EXIST = -4,
+    THE_GIVENPATH_IS_NOT_A_DIRECTORY = -5,
   };
 
   // name of the main file in a dipydoc directory :

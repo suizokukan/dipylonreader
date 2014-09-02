@@ -104,6 +104,7 @@ bool DipyDoc::check_path(const QString& _path) {
   QFileInfo path_info = QFileInfo(_path);
   if (path_info.exists() == false) {
     QString msg(QString("An error occured while opening the main file : the path '%1' doesn't exist").arg(_path));
+    this->_internal_state = DipyDoc::INTERNALSTATE::THE_GIVENPATH_DOES_NOT_EXIST;
     this->error(msg);
     return false;
   }
@@ -111,6 +112,7 @@ bool DipyDoc::check_path(const QString& _path) {
   // is "_path" a directory ?
   if (path_info.isFile() == true) {
     QString msg(QString("An error occured while opening the main file : the path '%1' is not a directory.").arg(_path));
+    this->_internal_state = DipyDoc::INTERNALSTATE::THE_GIVENPATH_IS_NOT_A_DIRECTORY;
     this->error(msg);
     return false;
   }
@@ -177,13 +179,30 @@ QString DipyDoc::diagnosis(void) const {
     }
 
     case DipyDoc::INTERNALSTATE::NOT_YET_INITIALIZED : {
-      return QObject::tr("The DipyDoc has not been initialized "
-                         "and stays in an undefined state.");
+      return QObject::tr("corrupted DipyDoc : the document could not be read. "
+                         "Please replace this Dipydoc by another one.");
     }
 
     case DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED : {
-      return QObject::tr("The DipyDoc has not been correctly initialized "
-                         "but no further information can be given.");
+      return QObject::tr("corrupted DipyDoc : the document could not be read. "
+                         "Please replace this Dipydoc by another one.");
+    }
+
+    case DipyDoc::INTERNALSTATE::INCORRECT_VERSION_OF_THE_DIPYDOC : {
+      return QObject::tr("The DipyDoc could not be read since its version is either too old"
+                         "or too recent. See the details for more informations."
+                         "Please replace this Dipydoc by another one.");
+    }
+
+    case DipyDoc::INTERNALSTATE::THE_GIVENPATH_DOES_NOT_EXIST : {
+      return QObject::tr("This DipyDoc could not be read since the given path doesn't exist."
+                         "Please give another path.");
+    }
+
+    case DipyDoc::INTERNALSTATE::THE_GIVENPATH_IS_NOT_A_DIRECTORY : {
+      return QObject::tr("This DipyDoc could not be read since the given path is"
+                         "not a directory (perhaps did you give a file instead ?)"
+                         "Please give a directory and not a file to load.");
     }
 
     default : {
@@ -753,6 +772,7 @@ bool DipyDoc::init_from_xml__read_first_token(QXmlStreamReader& xmlreader) {
   if( dipydoc_version_ok == false ) {
     QString msg("wrong version's format : "
                 "we should have (min. version))%1 <= (version read)%2 <= (max. version)%3");
+    this->_internal_state = DipyDoc::INTERNALSTATE::INCORRECT_VERSION_OF_THE_DIPYDOC;
     this->error( msg.arg(this->min_dipydocformat_version,
                          this->dipydocformat_version,
                          this->max_dipydocformat_version),

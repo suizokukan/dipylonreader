@@ -80,14 +80,15 @@ SOMMAIRE
 0.3.5 : DipyDoc's version = 25 (line-height+font-size), application's icon
 0.3.6 : 'mode' button, Dipydoc's version = 26 (arrows' aspect)
 
-feature #1 : new constants for the build defining the target's architecture.
+0.3.7 :
+  o feature #1 : new constants for the build defining the target's architecture.
+  o feature #2 : DipyDoc's version = 27 ('version' tag, 'id' tag)
+    - added error constants to dipydoc.* and improved messages in DipyDoc::diagnosis()
 
 [TRAVAIL COURANT]
 - lecture des notes (vérifier la qualité de chaque 'note')
   [ description ou name ? unifier ] +   [ description ou informations ? unifier ]
-  [ certains codes d'erreurs sont à définir par des constantes+diagnosis pour guider l'utilisateur néophypte : tout le monde n'a pas envie d'ouvrir More details !]
   [ faudrait p'tête tr() certains chaînes ]
-  [ DOCTYPE ??? ]
   [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
   [ si text::filename est empty, déclencher une erreur : cela signifie que la balise <text> n'a pas été lue]
 
@@ -108,7 +109,6 @@ feature #1 : new constants for the build defining the target's architecture.
 - [ui] surlignage -> traduction
 - [ui] icône "mute"
 - [win] installateur Windows (cf mail de ~)
-- [dipydoc] <version>5</version> + <identifiant>ABC</identifiant> (le dernier pour que on puisse passer d'un texte à l'autre, std::map)
 - créer des branches (ui, dipydoc) mais avant régler la structure de l'ui (multitabs, plusieurs dipydocs...)
 - [ui] -/+ taille du texte : click-droit et menu contextuel ? barre d'outils en base de l'écran ?
 - renommer MXE MXE_Qt5_1
