@@ -150,29 +150,6 @@ inline void DipyDocLettrine::clear(void) {
 
 /*______________________________________________________________________________
 
-  LevelDetails class
-
-  This class is used to create the "levels" attribute of DipyDoc.
-
-______________________________________________________________________________*/
-struct LevelDetails {
-  QString    name;
-  TextFormat textformat;
-
-             // default constructor :
-             LevelDetails(void);
-
-             // constructor from a QString describing the level's details :
-             LevelDetails(QString&, QString&);
-};
-inline LevelDetails::LevelDetails(void) {
-  this->name = QString("");
-  this->textformat = TextFormat();
-}
-inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : name(_name), textformat(_strtextformat) {}
-
-/*______________________________________________________________________________
-
   DipyDocSourceText class
 
   This class is used to create an attribute of DipyDoc.
@@ -246,6 +223,29 @@ inline void DipyDocTranslation::clear(void) {
   this->informations = "";
   this->translations.clear();
 }
+
+/*______________________________________________________________________________
+
+  LevelDetails class
+
+  This class is used to create the "levels" attribute of DipyDoc.
+
+______________________________________________________________________________*/
+struct LevelDetails {
+  QString    name;
+  TextFormat textformat;
+
+             // default constructor :
+             LevelDetails(void);
+
+             // constructor from a QString describing the level's details :
+             LevelDetails(QString&, QString&);
+};
+inline LevelDetails::LevelDetails(void) {
+  this->name = QString("");
+  this->textformat = TextFormat();
+}
+inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : name(_name), textformat(_strtextformat) {}
 
 /*______________________________________________________________________________
 

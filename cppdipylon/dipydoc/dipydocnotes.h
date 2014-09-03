@@ -40,9 +40,14 @@
   ArrowTargetInANote class, part of the DipyDocNote class
 ______________________________________________________________________________*/
 struct ArrowTargetInANote {
-  QString textformatname = "";
+  QString type = "";
   PosInTextRanges final_position;
+
+  ArrowTargetInANote(const QString& _type, const PosInTextRanges& _final_position);
 };
+inline ArrowTargetInANote::ArrowTargetInANote(const QString& _type, const PosInTextRanges& _final_position) : \
+type(_type), final_position(_final_position) {
+}
 
 /*______________________________________________________________________________
 
@@ -53,7 +58,7 @@ struct DipyDocNote {
   PosInTextRanges                       posintextranges;
   QString                               text;
   QString                               textformatname;
-  std::map<QString, ArrowTargetInANote> arrows;
+  std::list<ArrowTargetInANote>         arrows;
 
                                         DipyDocNote(void);
                                         DipyDocNote(int, PosInTextRanges, QString, QString);
@@ -99,7 +104,7 @@ struct DipyDocNotes {
 
   MAP_Int2PosNote   map;
 
-  void              insert(int level, PosInTextRanges pos, DipyDocNote note);
+  std::pair<UMAP_PosNote::iterator, bool> insert(int level, PosInTextRanges pos, DipyDocNote note);
 
   void              clear(void);
   QString           repr(void);
