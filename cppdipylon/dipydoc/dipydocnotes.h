@@ -95,6 +95,8 @@ inline DipyDocNote& DipyDocNote::operator=(const DipyDocNote& other) {
 ______________________________________________________________________________*/
 
 typedef std::unordered_map<PosInTextRanges, DipyDocNote, PosInTextRangesHasher> UMAP_PosNote;
+typedef UMAP_PosNote::iterator UMAP_PosNoteI;
+typedef std::pair<UMAP_PosNoteI, bool> BOOL_UMAPPosNoteI;
 
 // (int)level -> (PosInTextRanges, DipyDocNote)
 typedef std::map<int, UMAP_PosNote> MAP_Int2PosNote;
@@ -102,13 +104,13 @@ typedef MAP_Int2PosNote::const_iterator MAP_Int2PosNoteCI;
 
 struct DipyDocNotes {
 
-  MAP_Int2PosNote   map;
+  MAP_Int2PosNote    map;
 
-  std::pair<UMAP_PosNote::iterator, bool> insert(int level, PosInTextRanges pos, DipyDocNote note);
+  BOOL_UMAPPosNoteI  insert(int level, PosInTextRanges pos, DipyDocNote note);
 
-  void              clear(void);
-  QString           repr(void);
-  std::size_t       size(void);
+  void               clear(void);
+  QString            repr(void);
+  std::size_t        size(void);
 };
 
 inline void DipyDocNotes::clear(void) {

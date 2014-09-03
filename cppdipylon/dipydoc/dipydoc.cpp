@@ -1216,11 +1216,11 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
          QString         text(xmlreader.text().toString());
 
          // this->notes[level][textranges] = DipyDocNote(...)
-         std::pair<UMAP_PosNote::iterator, bool> last_note = this->notes.insert(level,
-                                                                                textranges,
-                                                                       DipyDocNote(level, textranges, text, textformatname));
+         BOOL_UMAPPosNoteI last_note = this->notes.insert(level,
+                                                          textranges,
+                                                          DipyDocNote(level, textranges, text, textformatname));
          bool last_note_ok = last_note.second;
-         UMAP_PosNote::iterator last_note_iterator = last_note.first;
+         UMAP_PosNoteI last_note_iterator = last_note.first;
 
          while (xmlreader.readNextStartElement()) {
 

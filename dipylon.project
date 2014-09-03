@@ -85,7 +85,6 @@ SOMMAIRE
 feature #4 : check that notes' levels have been defined; check that notes' aspects have been defined.
 vérifier que note.arrows.type a précédemment été défini.
 // CONTINUE-%%%% à supprimer .???
-UMAP_PosNote::iterator : remplacer par typedef + vérifier que l'itérateur != .end() 
 
 [TRAVAIL COURANT]
 - ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
