@@ -47,6 +47,9 @@ QString DipyDocNote::repr(void) {
   res += "textformatname=" + this->textformatname;
   res += "; ";
 
+  res += "arrows' number=" + QString().setNum(this->arrows.size());
+  res += "; ";
+
   return res;
 }
 
@@ -78,13 +81,13 @@ QString DipyDocNotes::repr(void) {
 
         insert in map[level][pos] a 'note'.
 ______________________________________________________________________________*/
-void DipyDocNotes::insert(int level, PosInTextRanges pos, DipyDocNote note) {
+std::pair<UMAP_PosNote::iterator, bool> DipyDocNotes::insert(int level, PosInTextRanges pos, DipyDocNote note) {
   if (this->map.count(level) == 0) {
     UMAP_PosNote empty_map;
     this->map[level] = empty_map;
-    this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
+    return this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
   }
   else {
-    this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
+    return this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
   }
 }
