@@ -597,6 +597,7 @@ QString DipyDoc::get_xml_repr(void) const {
             (5.2) is audiorecord.audio2text correctly initialized ?
             (5.3) is translation correctly initialized ?
             (5.4) is the text's filename an empty string ?
+            (5.5) are the levels' number defined ?
         (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
@@ -742,6 +743,19 @@ void DipyDoc::init_from_xml(const QString& _path) {
   if (this->source_text.filename.length() == 0) {
     QString msg = "Empty text's filename";
     ok &= !this->error( msg );
+  }
+
+  /*............................................................................
+     (5.5) are the levels' number defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes.map) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    if (this->levels.find(note_by_level.first) == this->levels.end()) {
+      QString msg = "A note is defined with an unknown level; "
+                    "level=%i .";
+      ok = !this->error( msg.arg(QString().setNum(note_by_level.first)) );
+    }
   }
 
   /*............................................................................
@@ -1183,32 +1197,63 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
      notes
    */
    if (tokenname == "notes") {
+
      while (xmlreader.readNextStartElement()) {
 
        // notes::note
        if (xmlreader.name() == "note") {
          // notes::note::level
          int level = xmlreader.attributes().value("level").toString().toInt();
+
          // notes::note::textranges
          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
          ok &= !this->error(textranges, this->error_string(xmlreader),
                             QString("notes::note::textranges"));
          // notes::note::aspect
          QString         textformatname = xmlreader.attributes().value("aspect").toString();
-         // notes::note::text
-         QString         text(xmlreader.readElementText());
 
-         this->notes.insert(level,
-                            textranges,
-                            DipyDocNote(level, textranges, text, textformatname));
+         // notes::note's text
+         QString         text(xmlreader.text().toString());
 
+         // this->notes[level][textranges] = DipyDocNote(...)
+         BOOL_UMAPPosNoteI last_note = this->notes.insert(level,
+                                                          textranges,
+                                                          DipyDocNote(level, textranges, text, textformatname));
+         bool last_note_ok = last_note.second;
+         UMAP_PosNoteI last_note_iterator = last_note.first;
+
+         while (xmlreader.readNextStartElement()) {
+
+           // notes:note::arrows
+           if (xmlreader.name() == "arrows") {
+
+             // notes:note::arrows::name
+             QString type = xmlreader.attributes().value("type").toString();
+
+             PosInTextRanges target( xmlreader.attributes().value("target").toString() );
+             ok &= !this->error(target, this->error_string(xmlreader),
+                                QString("notes::note::arrows::name"));
+
+             if( last_note_ok == true ) {
+               /*
+                 since the 'last_note_inserted' really exists, let's add 'arrowtarget'
+                 to the 'arrows' attribute of the last note added to this->notes :
+               */
+               ArrowTargetInANote arrowtarget(type, target);
+               last_note_iterator->second.arrows.push_back(arrowtarget);
+             }
+
+             xmlreader.skipCurrentElement();
+             continue;
+           }
+         }
          continue;
        }
      }
-
      continue;
    }
  } // ... while (xmlreader.readNextStartElement())
+
  return ok;
 }
 

@@ -79,18 +79,17 @@ SOMMAIRE
 0.3.4 : all translations are included in the binary file; QMediaPlayer is now ok on Windows systems
 0.3.5 : DipyDoc's version = 25 (line-height+font-size), application's icon
 0.3.6 : 'mode' button, Dipydoc's version = 26 (arrows' aspect)
+0.3.7 : DipyDoc's version = 27 ('version' tag, 'id' tag)
+* 0.3.8  
 
-0.3.7 :
-  o feature #1 : new constants for the build defining the target's architecture.
-  o feature #2 : DipyDoc's version = 27 ('version' tag, 'id' tag)
-  
-QT_NO_CURSOR à définir comme constante de compilation (?)
+feature #4 : Dipydoc's 'notes' reading from the xml main file.
+feature #5 : Dipydoc's 'notes' writing to the xml main file.
+feature #5 : check that notes' levels have been defined; check that notes' aspects have been defined; check that notes.arrows.type had been defined
 
 [TRAVAIL COURANT]
-    - [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
-    - lecture des notes (vérifier la qualité de chaque 'note')
-      [ jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
-
+- ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
+- jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
+- fichier de config pour stocker fichiers ouverts (premier lancement, etc.) : QSettings [!!! définir nom entreprise+produit, cf notes importantes sur comment restaurer la taille de Mainwindow, note pour savoir quand lire/écrire les données, note sur intérêt de forcer l'usage du format INI, lire Platform.limitations]
 - justify ne fonctionne pas (au moins sur Linux)
 - unordered_map > map
 - [dipydoc] présenter les textes de façon correcte (gros caractères)
@@ -98,7 +97,7 @@ QT_NO_CURSOR à définir comme constante de compilation (?)
 - [ui] si zone de traduction horizontale, placer la traduction à la même hauteur que le le texte traduit.
 - [ui/tablette] bouton Menu (en haut à gauche ? un gros point ?)
 - build : Linux_static/Linux_dynamique/Win32static/Win64static/OSXstatic/IPadStatic/AndroidStatic
-- fichier de config pour stocker fichiers ouverts (premier lancement, etc.) : QSettings [!!! définir nom entreprise+produit, cf notes importantes sur comment restaurer la taille de Mainwindow, note pour savoir quand lire/écrire les données, note sur intérêt de forcer l'usage du format INI, lire Platform.limitations]
+
 - accès à la liste des dipydocs disponibles
 - [ui] splashscreen (Anne ? ou reprendre l'icône ?)
 - [ui/desktop] maximiser la fenêtre (au premier lancement, mettre à moitié de l'écran)
@@ -112,8 +111,6 @@ QT_NO_CURSOR à définir comme constante de compilation (?)
 - laisser la possibilité d'ouvrir plusieurs fois le même doc (!! à la clef dans le map : IDENTIFIANT+POS)
 - [ui] flèche gauche, flèche droite : passer d'un segment à l'autre (+first pos, +last pos)
 - remplace qDebug() vers une fonction warning() dont les messages seront émis par qDdebug() + stockés et pourront être affichés via un menu.
-- réécrire diagnosis en songeant à Mme Michu + vérifier que le message d'erreur véritable est + riche que celui donné à Mme Michu.
-- version XX de main.xml avec les notes
 - google/c++lint : les tests ne passent pas !
 - Menu : informations sur le dipydoc
 - click : karaoke.new start
@@ -157,6 +154,8 @@ o TARGET_IMAC
 
 o TARGET_DESKTOP
 o TARGET_NON_DESKTOP
+
+o QT_NO_CURSOR
 
 o QT_NO_DEBUG_OUTPUT
   no qDebug() output
