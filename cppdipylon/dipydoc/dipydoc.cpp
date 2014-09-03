@@ -1082,7 +1082,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
        }
      }
 
-     continue; // CONTINUE-%%%%
+     continue;
    }
 
    /*

@@ -82,9 +82,9 @@ SOMMAIRE
 0.3.7 : DipyDoc's version = 27 ('version' tag, 'id' tag)
 * 0.3.8  
 
-feature #4 : check that notes' levels have been defined; check that notes' aspects have been defined.
-vérifier que note.arrows.type a précédemment été défini.
-// CONTINUE-%%%% à supprimer .???
+feature #4 : Dipydoc's 'notes' reading from the xml main file.
+feature #5 : Dipydoc's 'notes' writing to the xml main file.
+feature #5 : check that notes' levels have been defined; check that notes' aspects have been defined; check that notes.arrows.type had been defined
 
 [TRAVAIL COURANT]
 - ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
