@@ -63,12 +63,15 @@ DipyDoc::DipyDoc(const QString& _path) {
 
   // let's open the text file :
   if( this->well_initialized() == true ) {
+    qDebug() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
     QFile src_file(this->source_text.filename);
     src_file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream src_file_stream(&src_file);
     src_file_stream.setCodec("UTF-8");
     this->source_text.text = src_file_stream.readAll();
   }
+
+  qDebug() << "(DipyDoc::DipyDoc) exit point";
 }
 
 /*______________________________________________________________________________
@@ -501,6 +504,43 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "  </arrows>\n";
 
   /*............................................................................
+    notes
+  ............................................................................*/
+  res += "\n";
+  res += "  <notes>\n";
+
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      QString new_line("    <note level=\"$LEVEL$\" "
+                       "textranges=\"$TEXTRANGES$\" "
+                       "srctext=\"$SRCTEXT$\" "
+                       "aspect=\"$ASPECT$\" "
+                       ">\n");
+      new_line.replace("$LEVEL$", QString().setNum(pos_and_note.second.level));
+      new_line.replace("$TEXTRANGES$", pos_and_note.first.repr());
+      new_line.replace("$SRCTEXT$", this->get_condensed_extracts_from_the_source_text(pos_and_note.first, 30));
+      new_line.replace("$ASPECT$", pos_and_note.second.textformatname);
+      res += new_line;
+
+      res += pos_and_note.second.text;
+
+      for (auto &arrow : pos_and_note.second.arrows) {
+        QString arrow_str("      <arrow target=\"$TARGET\">$TYPE$</arrow>\n");
+        arrow_str.replace("$TYPE$", arrow.type);
+        arrow_str.replace("$TARGET$", arrow.final_position.repr());
+        res += arrow_str;
+      }
+
+      res += "</note>\n";
+    }
+  }
+  res += "  </notes>\n";
+
+  /*............................................................................
     final line
   ............................................................................*/
   res += "\n";
@@ -636,6 +676,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
 
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
+  qDebug() << "(DipyDoc::init_from_xml) #3";
   QXmlStreamReader xmlreader;
   xmlreader.setDevice(&dipydoc_main_xml_file);
 
@@ -670,6 +711,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   /*............................................................................
     (4) secondary initializations
   ............................................................................*/
+  qDebug() << "(DipyDoc::init_from_xml) #4";
 
   /*............................................................................
     (4.1) initialization of "audiorecord.audio2text"
@@ -707,6 +749,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   /*............................................................................
     (5) checks
   ............................................................................*/
+  qDebug() << "(DipyDoc::init_from_xml) #5";
 
   /*............................................................................
     (5.1) is audiorecord.text2audio correctly initialized ?
@@ -748,7 +791,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   /*............................................................................
      (5.5) are the levels' number defined ?
   ............................................................................*/
-  for (auto &note_by_level : this->notes.map) {
+  for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
     // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
     if (this->levels.find(note_by_level.first) == this->levels.end()) {
@@ -858,6 +901,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
      // id's text
      this->id = xmlreader.readElementText();
+     this->id = this->id.trimmed();
 
      continue;
   }
@@ -891,6 +935,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
      // title's text
      this->title.text = xmlreader.readElementText();
+     this->title.text = this->title.text.trimmed();
 
      continue;
   }
@@ -913,6 +958,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
      // introduction's text
      this->introduction.text = xmlreader.readElementText();
+     this->introduction.text = this->introduction.text.trimmed();
 
      continue;
   }
@@ -996,6 +1042,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
            // aspect::sourceeditor's stylesheet
            if (xmlreader.name() == "stylesheet") {
              this->sourceeditor_stylesheet = xmlreader.readElementText();
+             this->sourceeditor_stylesheet = this->sourceeditor_stylesheet.trimmed();
              continue;
            }
            // aspect::sourceeditor's default_textformat
@@ -1022,6 +1069,7 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
            // aspect::commentaryeditor's stylesheet
            if (xmlreader.name() == "stylesheet") {
              this->commentaryeditor_stylesheet = xmlreader.readElementText();
+             this->commentaryeditor_stylesheet = this->commentaryeditor_stylesheet.trimmed();
              continue;
            }
            // aspect::commentaryeditor's textformat
@@ -1108,7 +1156,9 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
          // translation's text
          QString text(xmlreader.readElementText());
-         this->translation.translations[ textranges ] = xmlreader.readElementText();
+         text = text.trimmed();
+
+         this->translation.translations[ textranges ] = text;
 
          continue;
        }
@@ -1198,54 +1248,62 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
    */
    if (tokenname == "notes") {
 
-     while (xmlreader.readNextStartElement()) {
+     bool last_note_available = false;
+     UMAPPosNoteI_BOOL last_note;
 
+     while (xmlreader.readNextStartElement()) {
+       qDebug() << "~~~~~1" << xmlreader.lineNumber();
        // notes::note
        if (xmlreader.name() == "note") {
          // notes::note::level
          int level = xmlreader.attributes().value("level").toString().toInt();
-
          // notes::note::textranges
          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
          ok &= !this->error(textranges, this->error_string(xmlreader),
                             QString("notes::note::textranges"));
          // notes::note::aspect
          QString         textformatname = xmlreader.attributes().value("aspect").toString();
-
          // notes::note's text
-         QString         text(xmlreader.text().toString());
+         QString         text(xmlreader.readElementText());
+         text = text.trimmed();
+
+         qDebug() << "~~~~~2 note" << xmlreader.lineNumber() << level << text;
 
          // this->notes[level][textranges] = DipyDocNote(...)
-         BOOL_UMAPPosNoteI last_note = this->notes.insert(level,
-                                                          textranges,
-                                                          DipyDocNote(level, textranges, text, textformatname));
+         last_note = this->notes.insert(level,
+                                        textranges,
+                                        DipyDocNote(level, textranges, text, textformatname));
+         last_note_available = true;
+
+         continue;
+       }
+
+       if (xmlreader.name() == "arrow") {
+         // $$$$ vérifier que last_note_available est OK $$$$$
+         // sinon, erreur + dropper le reste de 'arrow'
+
+         // arrow(s) defined for the last note :
          bool last_note_ok = last_note.second;
          UMAP_PosNoteI last_note_iterator = last_note.first;
 
-         while (xmlreader.readNextStartElement()) {
+         // notes:note::arrows's type
+         QString type = xmlreader.readElementText();
+         type = type.trimmed();
 
-           // notes:note::arrows
-           if (xmlreader.name() == "arrows") {
+         // notes:note::arrows::target
+         PosInTextRanges target( xmlreader.attributes().value("target").toString() );
+         ok &= !this->error(target, this->error_string(xmlreader),
+                            QString("notes::note::arrows::target"));
+         qDebug() << "~~~~~4" << xmlreader.lineNumber() << type << target.repr() << last_note_available;
 
-             // notes:note::arrows::name
-             QString type = xmlreader.attributes().value("type").toString();
-
-             PosInTextRanges target( xmlreader.attributes().value("target").toString() );
-             ok &= !this->error(target, this->error_string(xmlreader),
-                                QString("notes::note::arrows::name"));
-
-             if( last_note_ok == true ) {
-               /*
-                 since the 'last_note_inserted' really exists, let's add 'arrowtarget'
-                 to the 'arrows' attribute of the last note added to this->notes :
-               */
-               ArrowTargetInANote arrowtarget(type, target);
-               last_note_iterator->second.arrows.push_back(arrowtarget);
-             }
-
-             xmlreader.skipCurrentElement();
-             continue;
-           }
+         if( (last_note_available == true) && (last_note_ok == true) ) {
+           //
+           // since the 'last_note_inserted' really exists, let's add 'arrowtarget'
+           //  to the 'arrows' attribute of the last note added to this->notes :
+           //
+           qDebug() << "~~~~~5" << xmlreader.lineNumber() << type << target.repr() << last_note_available;
+           ArrowTargetInANote arrowtarget(type, target);
+           last_note_iterator->second.arrows.push_back(arrowtarget);
          }
          continue;
        }
