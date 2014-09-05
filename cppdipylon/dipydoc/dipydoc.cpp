@@ -535,7 +535,7 @@ QString DipyDoc::get_xml_repr(void) const {
         res += arrow_str;
       }
 
-      res += "    </note>\n";
+      res += "</note>\n";
     }
   }
   res += "  </notes>\n";
