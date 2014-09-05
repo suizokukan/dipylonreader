@@ -273,8 +273,7 @@ QString DipyDoc::error_string(const QXmlStreamReader& xmlreader) {
         Return from this->source_text the extracts whose position is given
         in "positions".
 
-        o "maxlength" is the maximal length of each segment, not of the whole
-          string returned.
+        o "maxlength" is the maximal length of the whole string returned.
 ______________________________________________________________________________*/
 QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges positions, int maxlength) const {
   QString res;
@@ -282,18 +281,20 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
   for (auto &textrange : positions) {
     QString substring = this->source_text.text.mid(static_cast<int>(textrange.first),
                                                     static_cast<int>(textrange.second - textrange.first));
-
-    if (substring.length() > maxlength) {
-      int left_length = (maxlength / 2)-3;
-      int right_length = maxlength - left_length;
-      substring = substring.left(left_length) + "[…]" + substring.right(right_length);
-    }
     res += substring;
-    res += "//";
+    res += condensed_extracts_separator;
   }
 
-  // removing the last '//' :
-  res.chop(2);
+  // removing the last '//', if necessary :
+  if( positions.size() != 0 ) {
+    res.chop(strlen(condensed_extracts_separator));
+  }
+
+  if (res.length() > maxlength) {
+      int left_length = (maxlength / 2)-3;
+      int right_length = maxlength - left_length;
+      res = res.left(left_length) + "[…]" + res.right(right_length);
+  }
 
   return res;
 }
