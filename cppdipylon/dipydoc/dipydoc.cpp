@@ -655,7 +655,8 @@ QString DipyDoc::get_xml_repr(void) const {
             (5.2) is audiorecord.audio2text correctly initialized ?
             (5.3) is translation correctly initialized ?
             (5.4) is the text's filename an empty string ?
-            (5.5) are the levels' number defined ?
+            (5.5) are the notes' levels' number defined ?
+            (5.6) are the notes' aspects defined ?
         (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
@@ -807,7 +808,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-     (5.5) are the levels' number defined ?
+     (5.5) are the notes' levels' number defined ?
   ............................................................................*/
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
@@ -816,6 +817,24 @@ void DipyDoc::init_from_xml(const QString& _path) {
       QString msg = "A note is defined with an unknown level; "
                     "level=%i .";
       ok = !this->error( msg.arg(QString().setNum(note_by_level.first)) );
+    }
+  }
+
+  /*............................................................................
+     (5.6) are the notes' aspects defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      if ((pos_and_note.second.textformatname.size() != 0) && \
+          (this->textformats.find(pos_and_note.second.textformatname) == this->textformats.end())) {
+           QString msg = "A note is defined with an unknown textformat's name; "
+                         "textformat='%1' .";
+           ok = !this->error( msg.arg(pos_and_note.second.textformatname) );
+      }
     }
   }
 
