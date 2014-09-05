@@ -14,6 +14,7 @@ TRANSLATIONS = dipylon_French.ts
 #
 #_______________________________________________________________________________
 DEFINES += READANDWRITE
+DEFINES += ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
 
 QT += widgets
 QT += multimedia

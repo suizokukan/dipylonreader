@@ -55,6 +55,10 @@ SOMMAIRE
 [11.1] Windows
 [11.1.1] cross-compilation depuis Linux
 
+[12] command line
+     [12.1] arguments specific to the project
+     [12.2] Qt arguments
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -175,6 +179,9 @@ o CROSSCOMPILE_TO_WIN_USING_MXE
 
 o COMPILE_TO_32BITS_ARCHITECTURE
   compilation to a 32 architecture
+
+o ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
+  authorization to use the --load argument.
 
 ################################################################################
 [1.2] options choisies pour le projet
@@ -925,3 +932,19 @@ tentative de compiler depuis Windows :
 (3) il faut préciser au script où se trouve mingw : .\windows-build-qt-static.ps1 -MingwDir 'c:\Program Files (x86)\mingw-w64\i686-4.9.1-posix-dwarf-rt_v3-rev0\mingw32\bin'
 (4) le script ne parvient pas à télécharger de lui-même qt-everywhere-opensource-src-5.3.1.7z; télécharger ce fichier et le placer dans c:\Qt\Static\src
 
+################################################################################
+[12] command line
+################################################################################
+
+################################################################################
+[12.1] arguments specific to the project
+################################################################################
+
+--load dipydoc_name (only if ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE is defined)
+
+################################################################################
+[12.2] Qt arguments
+################################################################################
+
+confer http://qt-project.org/doc/qt-5/qapplication.html
+... -style, -stylesheet, -reverse, ...

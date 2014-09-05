@@ -208,6 +208,7 @@ int DipylonUI::go(int argc, char **argv) {
   /*
     Is there a dipydoc to load ?
   */
+  #ifdef ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
   QStringList args = QCoreApplication::arguments();
   // args.at(0) si nothing but the name of the application : we start with 1.
   for (int i = 1; i < args.size(); i++) {
@@ -218,6 +219,7 @@ int DipylonUI::go(int argc, char **argv) {
       }
     }
   }
+  #endif
 
   // main loop :
   return app.exec();
