@@ -40,6 +40,7 @@
 #include <QTextCharFormat>
 
 #include <map>
+#include <cstring>
 
 #include "./fixedparameters.h"
 #include "dipydoc/dipydocnotes.h"
@@ -325,9 +326,12 @@ friend class CommentaryEditor;
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
- // public constants ...........................................................
+  // public constants ...........................................................
   static const int     min_dipydocformat_version = 27;
   static const int     max_dipydocformat_version = 27;
+  // (see ::get_condensed_extracts_from_the_source_text() method) :
+  static const int     condensed_extracts_length = 30;
+  constexpr static const char*   condensed_extracts_separator = "//";
 
   /*
      INTERNALSTATE

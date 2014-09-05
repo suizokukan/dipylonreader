@@ -273,8 +273,7 @@ QString DipyDoc::error_string(const QXmlStreamReader& xmlreader) {
         Return from this->source_text the extracts whose position is given
         in "positions".
 
-        o "maxlength" is the maximal length of each segment, not of the whole
-          string returned.
+        o "maxlength" is the maximal length of the whole string returned.
 ______________________________________________________________________________*/
 QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges positions, int maxlength) const {
   QString res;
@@ -282,18 +281,20 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
   for (auto &textrange : positions) {
     QString substring = this->source_text.text.mid(static_cast<int>(textrange.first),
                                                     static_cast<int>(textrange.second - textrange.first));
-
-    if (substring.length() > maxlength) {
-      int left_length = (maxlength / 2)-3;
-      int right_length = maxlength - left_length;
-      substring = substring.left(left_length) + "[…]" + substring.right(right_length);
-    }
     res += substring;
-    res += "//";
+    res += condensed_extracts_separator;
   }
 
-  // removing the last '//' :
-  res.chop(2);
+  // removing the last '//', if necessary :
+  if( positions.size() != 0 ) {
+    res.chop(strlen(condensed_extracts_separator));
+  }
+
+  if (res.length() > maxlength) {
+      int left_length = (maxlength / 2)-3;
+      int right_length = maxlength - left_length;
+      res = res.left(left_length) + "[…]" + res.right(right_length);
+  }
 
   return res;
 }
@@ -422,7 +423,9 @@ QString DipyDoc::get_xml_repr(void) const {
         new_line.replace("$TEXTRANGE$", textranges.repr());
         PosInAudioRange posinaudiorange(this->audiorecord.text2audio[textranges]);
         new_line.replace("$AUDIORANGE$", posinaudiorange.repr());
-        new_line.replace("$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30));
+        new_line.replace("$TEXT$",
+                         this->get_condensed_extracts_from_the_source_text(textranges,
+                                                                           DipyDoc::condensed_extracts_length));
         res += new_line;
       }
     res += "  </audiorecord>\n";
@@ -451,7 +454,8 @@ QString DipyDoc::get_xml_repr(void) const {
     new_line.replace("$TEXTRANGE$",
                       textranges.repr());
     new_line.replace("$TEXT$",
-                      this->get_condensed_extracts_from_the_source_text(textranges, 30));
+                      this->get_condensed_extracts_from_the_source_text(textranges,
+                                                                        DipyDoc::condensed_extracts_length));
     res += new_line;
     res += this->translation.translations[ textranges ];
     res += "</segment>\n";
@@ -515,27 +519,41 @@ QString DipyDoc::get_xml_repr(void) const {
     for (auto &pos_and_note : note_by_level.second) {
       // pos_and_note.first : PosInTextRanges
       // pos_and_note.second : DipyDocNote
-      QString new_line("    <note level=\"$LEVEL$\" "
-                       "textranges=\"$TEXTRANGES$\" "
-                       "srctext=\"$SRCTEXT$\" "
-                       "aspect=\"$ASPECT$\" "
-                       ">\n");
+      QString new_line;
+      // we simplify the output string if no 'aspect' is defined :
+      if (pos_and_note.second.textformatname.size() > 0) {
+        new_line = QString("    <note level=\"$LEVEL$\" "
+                           "textranges=\"$TEXTRANGES$\" "
+                           "srctext=\"$SRCTEXT$\" "
+                           "aspect=\"$ASPECT$\" "
+                           ">\n");
+      } else {
+        new_line = QString("    <note level=\"$LEVEL$\" "
+                           "textranges=\"$TEXTRANGES$\" "
+                           "srctext=\"$SRCTEXT$\" "
+                           ">\n");
+      }
       new_line.replace("$LEVEL$", QString().setNum(pos_and_note.second.level));
       new_line.replace("$TEXTRANGES$", pos_and_note.first.repr());
-      new_line.replace("$SRCTEXT$", this->get_condensed_extracts_from_the_source_text(pos_and_note.first, 30));
+      new_line.replace("$SRCTEXT$",
+                       this->get_condensed_extracts_from_the_source_text(pos_and_note.first,
+                                                                         DipyDoc::condensed_extracts_length));
       new_line.replace("$ASPECT$", pos_and_note.second.textformatname);
       res += new_line;
 
       res += "      <text>" + pos_and_note.second.text + "</text>\n";
 
       for (auto &arrow : pos_and_note.second.arrows) {
-        QString arrow_str("      <arrow target=\"$TARGET\">$TYPE$</arrow>\n");
+        QString arrow_str("      <arrow target=\"$TARGET$\" srctext=\"$SRCTEXT$\">$TYPE$</arrow>\n");
         arrow_str.replace("$TYPE$", arrow.type);
         arrow_str.replace("$TARGET$", arrow.final_position.repr());
+        arrow_str.replace("$SRCTEXT$",
+                          this->get_condensed_extracts_from_the_source_text(arrow.final_position,
+                                                                            DipyDoc::condensed_extracts_length));
         res += arrow_str;
       }
 
-      res += "</note>\n";
+      res += "    </note>\n";
     }
   }
   res += "  </notes>\n";
@@ -637,7 +655,9 @@ QString DipyDoc::get_xml_repr(void) const {
             (5.2) is audiorecord.audio2text correctly initialized ?
             (5.3) is translation correctly initialized ?
             (5.4) is the text's filename an empty string ?
-            (5.5) are the levels' number defined ?
+            (5.5) are the notes' levels' number defined ?
+            (5.6) are the notes' aspects defined ?
+            (5.7) are the notes' arrows' types defined ?
         (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
@@ -789,7 +809,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-     (5.5) are the levels' number defined ?
+     (5.5) are the notes' levels' number defined ?
   ............................................................................*/
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
@@ -798,6 +818,43 @@ void DipyDoc::init_from_xml(const QString& _path) {
       QString msg = "A note is defined with an unknown level; "
                     "level=%i .";
       ok = !this->error( msg.arg(QString().setNum(note_by_level.first)) );
+    }
+  }
+
+  /*............................................................................
+     (5.6) are the notes' aspects defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      if ((pos_and_note.second.textformatname.size() != 0) && \
+          (this->textformats.find(pos_and_note.second.textformatname) == this->textformats.end())) {
+           QString msg = "A note is defined with an unknown textformat's name; "
+                         "textformat='%1' .";
+           ok = !this->error( msg.arg(pos_and_note.second.textformatname) );
+      }
+    }
+  }
+
+  /*............................................................................
+     (5.7) are the notes' arrows' types defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      for (auto &arrow_in_a_note : pos_and_note.second.arrows) {
+        if( this->arrows.find(arrow_in_a_note.type) == this->arrows.end() ) {
+           QString msg = "A note's arrow is defined with an unknown type; "
+                         "type='%1' .";
+           ok = !this->error( msg.arg(arrow_in_a_note.type) );
+        }
+      }
     }
   }
 
