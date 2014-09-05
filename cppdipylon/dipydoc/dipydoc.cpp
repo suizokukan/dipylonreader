@@ -422,7 +422,9 @@ QString DipyDoc::get_xml_repr(void) const {
         new_line.replace("$TEXTRANGE$", textranges.repr());
         PosInAudioRange posinaudiorange(this->audiorecord.text2audio[textranges]);
         new_line.replace("$AUDIORANGE$", posinaudiorange.repr());
-        new_line.replace("$TEXT$",  this->get_condensed_extracts_from_the_source_text(textranges, 30));
+        new_line.replace("$TEXT$",
+                         this->get_condensed_extracts_from_the_source_text(textranges,
+                                                                           DipyDoc::condensed_extracts_length));
         res += new_line;
       }
     res += "  </audiorecord>\n";
@@ -451,7 +453,8 @@ QString DipyDoc::get_xml_repr(void) const {
     new_line.replace("$TEXTRANGE$",
                       textranges.repr());
     new_line.replace("$TEXT$",
-                      this->get_condensed_extracts_from_the_source_text(textranges, 30));
+                      this->get_condensed_extracts_from_the_source_text(textranges,
+                                                                        DipyDoc::condensed_extracts_length));
     res += new_line;
     res += this->translation.translations[ textranges ];
     res += "</segment>\n";
@@ -522,7 +525,9 @@ QString DipyDoc::get_xml_repr(void) const {
                        ">\n");
       new_line.replace("$LEVEL$", QString().setNum(pos_and_note.second.level));
       new_line.replace("$TEXTRANGES$", pos_and_note.first.repr());
-      new_line.replace("$SRCTEXT$", this->get_condensed_extracts_from_the_source_text(pos_and_note.first, 30));
+      new_line.replace("$SRCTEXT$",
+                       this->get_condensed_extracts_from_the_source_text(pos_and_note.first,
+                                                                         DipyDoc::condensed_extracts_length));
       new_line.replace("$ASPECT$", pos_and_note.second.textformatname);
       res += new_line;
 
