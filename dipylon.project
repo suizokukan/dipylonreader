@@ -82,7 +82,6 @@ SOMMAIRE
 0.3.7 : DipyDoc's version = 27 ('version' tag, 'id' tag)
 * 0.3.8  
 
-feature #5 : Dipydoc's 'notes' writing to the xml main file. [*** manque arrows]
 constante '30' dans dipydoc.cpp
 
 typo : -  The binary file created by the compilation will BE copied into the builds/ folder

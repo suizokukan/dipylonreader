@@ -50,6 +50,11 @@ QString DipyDocNote::repr(void) {
   res += "arrows' number=" + QString().setNum(this->arrows.size());
   res += "; ";
 
+  for (auto &arrow : this->arrows) {
+    res += QString("\n    (arrow) type='%1' target=%2;").arg(arrow.type,
+                                                             arrow.final_position.repr());
+  }
+
   return res;
 }
 
@@ -69,7 +74,7 @@ QString DipyDocNotes::repr(void) {
       // pos_and_note.second : DipyDocNote
       res += "\n * level= " + QString().setNum(note_by_level.first) + "; " + \
              "ranges= " + pos_and_note.first.repr() + "; " + \
-             "note= " + pos_and_note.second.repr() + "; ";
+             "note= " + pos_and_note.second.repr();
     }
   }
   return res;

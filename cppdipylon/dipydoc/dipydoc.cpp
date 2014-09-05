@@ -526,7 +526,7 @@ QString DipyDoc::get_xml_repr(void) const {
       new_line.replace("$ASPECT$", pos_and_note.second.textformatname);
       res += new_line;
 
-      res += pos_and_note.second.text;
+      res += "      <text>" + pos_and_note.second.text + "</text>\n";
 
       for (auto &arrow : pos_and_note.second.arrows) {
         QString arrow_str("      <arrow target=\"$TARGET\">$TYPE$</arrow>\n");
@@ -535,7 +535,7 @@ QString DipyDoc::get_xml_repr(void) const {
         res += arrow_str;
       }
 
-      res += "</note>\n";
+      res += "    </note>\n";
     }
   }
   res += "  </notes>\n";
@@ -1248,11 +1248,11 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
    */
    if (tokenname == "notes") {
 
-     bool last_note_available = false;
      UMAPPosNoteI_BOOL last_note;
+     bool last_note_ok = false;
 
      while (xmlreader.readNextStartElement()) {
-       qDebug() << "~~~~~1" << xmlreader.lineNumber();
+
        // notes::note
        if (xmlreader.name() == "note") {
          // notes::note::level
@@ -1263,47 +1263,44 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
                             QString("notes::note::textranges"));
          // notes::note::aspect
          QString         textformatname = xmlreader.attributes().value("aspect").toString();
-         // notes::note's text
-         QString         text(xmlreader.readElementText());
-         text = text.trimmed();
-
-         qDebug() << "~~~~~2 note" << xmlreader.lineNumber() << level << text;
 
          // this->notes[level][textranges] = DipyDocNote(...)
+         // NB : the text will be initialized later, when the 'text' tag will be read (see infra)
          last_note = this->notes.insert(level,
                                         textranges,
-                                        DipyDocNote(level, textranges, text, textformatname));
-         last_note_available = true;
+                                        DipyDocNote(level, textranges, "???", textformatname));
+         last_note_ok = last_note.second;
 
-         continue;
-       }
+         // let's read the arrows linked to this note :
+         while (xmlreader.readNextStartElement()) {
+           if (xmlreader.name() == "text" ) {
+             // notes::note::text
+             QString text(xmlreader.readElementText());
+             text = text.trimmed();
 
-       if (xmlreader.name() == "arrow") {
-         // $$$$ vérifier que last_note_available est OK $$$$$
-         // sinon, erreur + dropper le reste de 'arrow'
+             // modifying the last note's text :
+             if( last_note_ok == true ) {
+               UMAP_PosNoteI last_note_iterator = last_note.first;
+               last_note_iterator->second.text = text;
+             }
+             continue;
+           }
+           if (xmlreader.name() == "arrow" ) {
+             // notes:note::arrow::target
+             PosInTextRanges target( xmlreader.attributes().value("target").toString() );
+             ok &= !this->error(target, this->error_string(xmlreader),
+                                QString("notes::note::arrows::target"));
+             // notes:note::arrow's type
+             QString type(xmlreader.readElementText());
+             type = type.trimmed();
 
-         // arrow(s) defined for the last note :
-         bool last_note_ok = last_note.second;
-         UMAP_PosNoteI last_note_iterator = last_note.first;
-
-         // notes:note::arrows's type
-         QString type = xmlreader.readElementText();
-         type = type.trimmed();
-
-         // notes:note::arrows::target
-         PosInTextRanges target( xmlreader.attributes().value("target").toString() );
-         ok &= !this->error(target, this->error_string(xmlreader),
-                            QString("notes::note::arrows::target"));
-         qDebug() << "~~~~~4" << xmlreader.lineNumber() << type << target.repr() << last_note_available;
-
-         if( (last_note_available == true) && (last_note_ok == true) ) {
-           //
-           // since the 'last_note_inserted' really exists, let's add 'arrowtarget'
-           //  to the 'arrows' attribute of the last note added to this->notes :
-           //
-           qDebug() << "~~~~~5" << xmlreader.lineNumber() << type << target.repr() << last_note_available;
-           ArrowTargetInANote arrowtarget(type, target);
-           last_note_iterator->second.arrows.push_back(arrowtarget);
+             // adding this arrow to the last note :
+             if( last_note_ok == true ) {
+               UMAP_PosNoteI last_note_iterator = last_note.first;
+               last_note_iterator->second.arrows.push_back(ArrowTargetInANote(type, target));;
+             }
+             continue;
+           }
          }
          continue;
        }
