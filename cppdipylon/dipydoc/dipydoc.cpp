@@ -657,6 +657,7 @@ QString DipyDoc::get_xml_repr(void) const {
             (5.4) is the text's filename an empty string ?
             (5.5) are the notes' levels' number defined ?
             (5.6) are the notes' aspects defined ?
+            (5.7) are the notes' arrows' types defined ?
         (6) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
@@ -834,6 +835,25 @@ void DipyDoc::init_from_xml(const QString& _path) {
            QString msg = "A note is defined with an unknown textformat's name; "
                          "textformat='%1' .";
            ok = !this->error( msg.arg(pos_and_note.second.textformatname) );
+      }
+    }
+  }
+
+  /*............................................................................
+     (5.7) are the notes' arrows' types defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      for (auto &arrow_in_a_note : pos_and_note.second.arrows) {
+        if( this->arrows.find(arrow_in_a_note.type) == this->arrows.end() ) {
+           QString msg = "A note's arrow is defined with an unknown type; "
+                         "type='%1' .";
+           ok = !this->error( msg.arg(arrow_in_a_note.type) );
+        }
       }
     }
   }
