@@ -34,10 +34,7 @@
   See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about
   "argc" and "argv".
 ______________________________________________________________________________*/
-DipylonUI::DipylonUI(int argc, char **argv) {
-  this->cmdline_argc = argc;
-  this->cmdline_argv = argv;
-
+DipylonUI::DipylonUI(void) {
   /*
      initialization of this->path_info :
 
@@ -102,7 +99,7 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
 
   DipylonUI::go() : UI creation + main loop
 ______________________________________________________________________________*/
-int DipylonUI::go(void) {
+int DipylonUI::go(int argc, char **argv) {
   qDebug() << "enter in DipylonUI::go()";
 
   /*
@@ -113,7 +110,7 @@ int DipylonUI::go(void) {
   QApplication::setDesktopSettingsAware(true);
 
   // general settings :
-  QApplication app(this->cmdline_argc, this->cmdline_argv);
+  QApplication app(argc, argv);
   app.setOrganizationName(fixedparameters::organization_name);
   app.setOrganizationDomain(fixedparameters::organization_domain);
   app.setApplicationName(fixedparameters::application_name);
@@ -207,6 +204,22 @@ int DipylonUI::go(void) {
   QFontDatabase qfontdatabase;
   qDebug() << "list of the available fonts' families : " \
            << qfontdatabase.families().join("; ");
+
+  /*
+    Is there a dipydoc to load ?
+  */
+  #ifdef ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
+  QStringList args = QCoreApplication::arguments();
+  // args.at(0) si nothing but the name of the application : we start with 1.
+  for (int i = 1; i < args.size(); i++) {
+    if (i + 1 != argc) {
+      if (args.at(i) == "--load") {
+        // let's open what lies in args.at(i+1), after the "--load" parameter :
+        this->mainWin->loadDipyDoc( args.at(i+1) );
+      }
+    }
+  }
+  #endif
 
   // main loop :
   return app.exec();
