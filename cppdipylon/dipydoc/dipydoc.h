@@ -327,8 +327,8 @@ friend class CommentaryEditor;
   bool                 well_initialized(void) const;
 
   // public constants ...........................................................
-  static const int     min_dipydocformat_version = 27;
-  static const int     max_dipydocformat_version = 27;
+  static const int     min_dipydocformat_version = 28;
+  static const int     max_dipydocformat_version = 28;
   // (see ::get_condensed_extracts_from_the_source_text() method) :
   static const int     condensed_extracts_length = 30;
   constexpr static const char*   condensed_extracts_separator = "//";

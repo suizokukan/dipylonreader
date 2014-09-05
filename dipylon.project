@@ -90,7 +90,8 @@ SOMMAIRE
       o added to DipyDoc class the constant condensed_extracts_length
 
 *0.3.9 :
-DipyDoc 28 aspect > textformat
+      - (feature12) DipyDoc 28 aspect > textformat
+      - (feature13) load the file specified in the command line
 
 [TRAVAIL COURANT]
 - ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
