@@ -535,13 +535,16 @@ QString DipyDoc::get_xml_repr(void) const {
       res += "      <text>" + pos_and_note.second.text + "</text>\n";
 
       for (auto &arrow : pos_and_note.second.arrows) {
-        QString arrow_str("      <arrow target=\"$TARGET\">$TYPE$</arrow>\n");
+        QString arrow_str("      <arrow target=\"$TARGET$\" srctext=\"$SRCTEXT$\">$TYPE$</arrow>\n");
         arrow_str.replace("$TYPE$", arrow.type);
         arrow_str.replace("$TARGET$", arrow.final_position.repr());
+        arrow_str.replace("$SRCTEXT$",
+                          this->get_condensed_extracts_from_the_source_text(arrow.final_position,
+                                                                            DipyDoc::condensed_extracts_length));
         res += arrow_str;
       }
 
-      res += "</note>\n";
+      res += "    </note>\n";
     }
   }
   res += "  </notes>\n";
