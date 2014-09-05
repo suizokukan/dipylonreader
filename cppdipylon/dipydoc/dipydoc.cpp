@@ -519,11 +519,20 @@ QString DipyDoc::get_xml_repr(void) const {
     for (auto &pos_and_note : note_by_level.second) {
       // pos_and_note.first : PosInTextRanges
       // pos_and_note.second : DipyDocNote
-      QString new_line("    <note level=\"$LEVEL$\" "
-                       "textranges=\"$TEXTRANGES$\" "
-                       "srctext=\"$SRCTEXT$\" "
-                       "aspect=\"$ASPECT$\" "
-                       ">\n");
+      QString new_line;
+      // we simplify the output string if no 'aspect' is defined :
+      if (pos_and_note.second.textformatname.size() > 0) {
+        new_line = QString("    <note level=\"$LEVEL$\" "
+                           "textranges=\"$TEXTRANGES$\" "
+                           "srctext=\"$SRCTEXT$\" "
+                           "aspect=\"$ASPECT$\" "
+                           ">\n");
+      } else {
+        new_line = QString("    <note level=\"$LEVEL$\" "
+                           "textranges=\"$TEXTRANGES$\" "
+                           "srctext=\"$SRCTEXT$\" "
+                           ">\n");
+      }
       new_line.replace("$LEVEL$", QString().setNum(pos_and_note.second.level));
       new_line.replace("$TEXTRANGES$", pos_and_note.first.repr());
       new_line.replace("$SRCTEXT$",
