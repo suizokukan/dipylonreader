@@ -33,7 +33,6 @@
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
-
   this->update_aspect_from_dipydoc_aspect_informations();
 }
 
@@ -47,8 +46,9 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
   text.
 ______________________________________________________________________________*/
 PosInText SourceEditor::corrected_cursor_position(void) const {
+  qDebug() << "~~~~~~~~~~~~~~~~~" << this->textCursor().position();
   return static_cast<PosInText>(this->textCursor().position()) - \
-    static_cast<PosInText>(this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text);
+         static_cast<PosInText>(this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text);
 }
 
 /*______________________________________________________________________________
@@ -280,23 +280,29 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
         SourceEditor::mousePressEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
+  QTextEdit::mousePressEvent(mouse_event);
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::mouseReleaseEvent()
+_____________________________________________________________________________*/
+void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   DipylonUI& ui = this->current_dipylonui;
 
   PosInText cursor_position = this->corrected_cursor_position();
-
-  qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cursor_position;
 
   switch (ui.reading_mode) {
 
     case DipylonUI::READINGMODE_KARAOKE: {
       switch (ui.reading_mode_details) {
         //......................................................................
-        // [1.1] KARAOKE + ON PAUSE
-        //       KARAOKE + STOP
+        // KARAOKE + ON PAUSE
+        // KARAOKE + STOP
         case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE:
         case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP : {
 
-          // where are the characters linked to "cur.position()" ?
+          // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
           PosInTextRanges pos_in_text = found_position.first;
 
@@ -316,6 +322,17 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
           }
           break;
         }
+        //......................................................................
+        // KARAOKE + PLAYING
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING : {
+          // where are the characters linked to "cursor_position" ?
+          PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
+          PairOfPosInAudio pos_in_audio = found_position.second;
+
+          // we jump to the beginning of the audio gap (pos_in_audio.first, pos_in_audio.second) :
+          ui.mainWin->audio_player->setPosition(pos_in_audio.first);
+          break;
+        }
         default : {
           break;
         }
@@ -329,26 +346,18 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
     }
   }
 
-  QTextEdit::mousePressEvent(mouse_event);
-}
-
-/*______________________________________________________________________________
-
-        SourceEditor::mouseReleaseEvent()
-_____________________________________________________________________________*/
-void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
+    /*
     QTextCursor cur = this->textCursor();
 
     qDebug() << "SourceEditor::mouseReleaseEvent" << "pos=" << cur.position();
-
     if (cur.hasSelection()) {
       QString selected_txt = cur.selectedText();
       PosInText x0 = static_cast<PosInText>(cur.selectionStart());
       PosInText x1 = static_cast<PosInText>(cur.selectionEnd());
       qDebug() << "SourceEditor::mouseReleaseEvent; selection=" << x0 << "-" << x1;
      }
-
-    QTextEdit::mouseReleaseEvent(mouse_event);
+    */
+  QTextEdit::mouseReleaseEvent(mouse_event);
 }
 
 /*______________________________________________________________________________
@@ -360,6 +369,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   sur QPen : http://qt-project.org/doc/qt-4.8/qpen.html
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
+  /*
   // starting point :
   QTextCursor current_posintext_pos = this->textCursor();
   QPoint current_xy_pos = this->mapFromGlobal(QCursor().pos());
@@ -399,6 +409,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   p.drawRect(x1-1, y1-1, 2, 2);
 
   this->update();
+  */
 
   // arrow head :
   /*  const double cos = -0.707; //0.866;
