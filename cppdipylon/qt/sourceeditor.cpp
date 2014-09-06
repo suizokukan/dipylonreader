@@ -360,6 +360,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   sur QPen : http://qt-project.org/doc/qt-4.8/qpen.html
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
+  /*
   // starting point :
   QTextCursor current_posintext_pos = this->textCursor();
   QPoint current_xy_pos = this->mapFromGlobal(QCursor().pos());
@@ -399,6 +400,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   p.drawRect(x1-1, y1-1, 2, 2);
 
   this->update();
+  */
 
   // arrow head :
   /*  const double cos = -0.707; //0.866;
