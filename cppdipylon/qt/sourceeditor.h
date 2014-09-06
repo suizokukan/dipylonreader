@@ -56,17 +56,18 @@ class SourceEditor : public QTextEdit {
 
  public:
     explicit SourceEditor(DipylonUI&);
-    void load_text(const DipyDocSourceText&);
-    void modify_the_text_format(PosInTextRanges&);
-    void reset_all_text_format_to_default(void);
-    void set_the_appearance(void);
-    void update_aspect_from_dipydoc_aspect_informations(void);
+    PosInText corrected_cursor_position(void) const;
+    void      load_text(const DipyDocSourceText&);
+    void      modify_the_text_format(PosInTextRanges&);
+    void      reset_all_text_format_to_default(void);
+    void      set_the_appearance(void);
+    void      update_aspect_from_dipydoc_aspect_informations(void);
 
  protected:
-    void keyReleaseEvent(QKeyEvent* keyboard_event);
-    void mouseReleaseEvent(QMouseEvent* mouse_event);
-    void mousePressEvent(QMouseEvent* mouse_event);
-    void paintEvent(QPaintEvent* ev);
+    void      keyReleaseEvent(QKeyEvent* keyboard_event);
+    void      mouseReleaseEvent(QMouseEvent* mouse_event);
+    void      mousePressEvent(QMouseEvent* mouse_event);
+    void      paintEvent(QPaintEvent* ev);
 
  private:
     // DipylonUI object linked to the editor :

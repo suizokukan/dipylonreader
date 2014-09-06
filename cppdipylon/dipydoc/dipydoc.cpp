@@ -1384,3 +1384,26 @@ QString DipyDoc::levels_repr(void) const {
     }
   return res;
 }
+
+/*______________________________________________________________________________
+
+   DipyDoc::text2audio_contains(PosInText pos)
+
+   return the text ranges and the audio positions (from, to) matching the
+   'pos' character.
+
+   If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
+   second (PairOfPosInAudio) being set to (0,0).
+________________________________________________________________________________*/
+PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
+  PosInTextRanges posintext = this->audiorecord.text2audio.contains(pos);
+
+  if (posintext.is_empty() == true) {
+    return PTRangesAND2PosAudio(posintext,
+                                PairOfPosInAudio(0,0));
+  }
+  else {
+    return PTRangesAND2PosAudio(posintext,
+                                this->audiorecord.text2audio[posintext]);
+  }
+}

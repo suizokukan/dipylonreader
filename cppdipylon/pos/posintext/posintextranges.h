@@ -87,6 +87,7 @@ class PosInTextRanges {
   VPairOfPosInTextCI end(void);
   std::size_t        get_hash(void);
   int                internal_state(void) const;
+  bool               is_empty(void) const;
   PosInText          max(void) const;
   PosInText          min(void) const;
   size_t             size(void) const;
@@ -217,6 +218,10 @@ inline std::size_t PosInTextRanges::get_hash(void) {
 
 inline int PosInTextRanges::internal_state(void) const {
   return this->_internal_state;
+}
+
+inline bool PosInTextRanges::is_empty(void) const {
+  return (this->vec.size() == 0);
 }
 
 inline size_t PosInTextRanges::size(void) const { return this->vec.size(); }

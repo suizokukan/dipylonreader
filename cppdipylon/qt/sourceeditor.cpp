@@ -39,7 +39,21 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
 
 /*______________________________________________________________________________
 
-        SourceEditor::keyReleaseEvent
+  SourceEditor::corrected_cursor_position()
+
+  Return the cursor position, "corrected" since the characters before the
+  text (=title, intro, ...) are not taken in account. E.g. if this function
+  returns 0, it means that the cursor is on the first character of the
+  text.
+______________________________________________________________________________*/
+PosInText SourceEditor::corrected_cursor_position(void) const {
+  return static_cast<PosInText>(this->textCursor().position()) - \
+    static_cast<PosInText>(this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text);
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::keyReleaseEvent()
 
         See http://qt-project.org/doc/qt-5/qt.html#Key-enum for the list of
         constants like "Qt::Key_Space".
@@ -203,7 +217,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
 /*______________________________________________________________________________
 
-        SourceEditor::modify_the_text_format
+        SourceEditor::modify_the_text_format()
 
         This function modify the appearence of the text BUT DOES NOT UPDATE
         the .modified_chars_hash attribute.
@@ -263,49 +277,64 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
 /*______________________________________________________________________________
 
-        SourceEditor::mousePressEvent
+        SourceEditor::mousePressEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
-    QTextCursor cur = this->textCursor();
+  DipylonUI& ui = this->current_dipylonui;
 
-    qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cur.position();
+  PosInText cursor_position = this->corrected_cursor_position();
 
-    //    //this->cursor.select(QTextCursor::WordUnderCursor);
-    //    PosInText x0 =  static_cast<PosInText>(cur.position());
-    //    qDebug() << "x0=" << x0;
-    /*
-  switch (this->current_dipylonui.reading_mode) {
+  qDebug() << "SourceEditor::mousePressEvent" << "pos=" << cursor_position;
+
+  switch (ui.reading_mode) {
 
     case DipylonUI::READINGMODE_KARAOKE: {
+      switch (ui.reading_mode_details) {
+        //......................................................................
+        // [1.1] KARAOKE + ON PAUSE
+        //       KARAOKE + STOP
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE:
+        case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP : {
 
-      cur.position()
+          // where are the characters linked to "cur.position()" ?
+          PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
+          PosInTextRanges pos_in_text = found_position.first;
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        (1) récupérer la position <p> dans le texte => cur.position()
-        (2) récupérer le segment audio <segA> correspondant à <p>.
-        (3) récupérer le segment dans le texte <segT> correspondant audit segment audio.
-        (4) modifier le format du texte de manière à ce que segA apparaisse en surbrillance.
-        (5) indiquer que l'on reprend la lecture en pause
+          std::size_t text_ranges_hash = pos_in_text.get_hash();
 
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
-      this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(*(this->current_dipylonui.icon_audio_play));
-      this->current_dipylonui.mainWin->audio_player->play();
+          // if the user has really click on another text's segment ...
+          if( text_ranges_hash != this->modified_chars_hash ) {
+            // ... we refresh the ui :
+
+            // the function modifies the appearence of such characters :
+            this->modify_the_text_format(pos_in_text);
+
+            // hash update :
+            this->modified_chars_hash = text_ranges_hash;
+
+            ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+          }
+          break;
+        }
+        default : {
+          break;
+        }
+      }
       break;
     }
 
-    // other reading mode
-    default: {
+    // other reading modes.
+    default : {
       break;
     }
   }
-    */
 
   QTextEdit::mousePressEvent(mouse_event);
 }
 
 /*______________________________________________________________________________
 
-        SourceEditor::mouseReleaseEvent
+        SourceEditor::mouseReleaseEvent()
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     QTextCursor cur = this->textCursor();
@@ -389,7 +418,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
 
 /*______________________________________________________________________________
 
-        SourceEditor::reset_all_text_format_to_default
+        SourceEditor::reset_all_text_format_to_default()
 
         This function resets the appearance of all the text.
 _____________________________________________________________________________*/
@@ -411,7 +440,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
 
 /*______________________________________________________________________________
 
-  SourceEditor::set_the_appearance
+  SourceEditor::set_the_appearance()
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
   this->setStyleSheet(current_dipylonui.current_dipydoc.sourceeditor_stylesheet);
@@ -419,7 +448,7 @@ void SourceEditor::set_the_appearance(void) {
 
 /*______________________________________________________________________________
 
-  SourceEditor::update_aspect_from_dipydoc_aspect_informations
+  SourceEditor::update_aspect_from_dipydoc_aspect_informations()
 ______________________________________________________________________________*/
 void SourceEditor::update_aspect_from_dipydoc_aspect_informations(void) {
   this->set_the_appearance();
