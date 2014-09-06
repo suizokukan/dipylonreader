@@ -60,16 +60,22 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
 
   known cases :
 
-  o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-  o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-  o [1.3] KARAOKE + UNDEFINED : nothing to do.
-  o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
+  [1] space
+    [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
+    [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
+    [1.3] KARAOKE + UNDEFINED : nothing to do.
+    [1.4] UNDEFINED reading mode -> KARAOKE + PLAYING
+  [2] arrows
+  [3] other keys
+
 ______________________________________________________________________________*/
 void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
   DipylonUI& ui = this->current_dipylonui;
   qDebug() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
 
   switch (keyboard_event->key()) {
+    //......................................................................
+    // [1] space
     case Qt::Key_Space : {
       switch (ui.reading_mode) {
         case DipylonUI::READINGMODE_KARAOKE: {
@@ -102,7 +108,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         }
 
         //..........................................................................
-        // [2] UNDEFINED reading mode -> KARAOKE + PLAYING
+        // [1.4] UNDEFINED reading mode -> KARAOKE + PLAYING
         default: {
             ui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
             ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
@@ -115,7 +121,34 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
       break;
     }
 
-    // other keys :
+    //......................................................................
+    // [2] arrows
+    case Qt::Key_Left :
+    case Qt::Key_Right : {
+      switch (ui.reading_mode) {
+        case DipylonUI::READINGMODE_KARAOKE: {
+          switch (ui.reading_mode_details) {
+            case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
+              break;
+            }
+            case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP :
+            case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE : {
+              break;
+            }
+            default : {
+              break;
+            }
+          }
+          break;
+        }
+        default : {
+          break;
+        }
+      }
+      break;
+    }
+
+    // [3] other keys :
     default : {
       break;
     }
