@@ -263,6 +263,9 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
 ________________________________________________________________________________*/
 void MainWindow::closing(void) {
   qDebug() << "MainWindow::closing";
+
+  qDebug() << "(MainWindow::closing) calling DipylonUI::write_settings()";
+  this->current_dipylonui.write_settings();
 }
 
 /*______________________________________________________________________________

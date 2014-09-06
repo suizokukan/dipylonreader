@@ -74,6 +74,7 @@ DipylonUI::~DipylonUI(void) {
   delete icon_audio_stop_unavailable;
   delete icon_readingmode_karaoke;
   delete icon_readingmode_grammar;
+
   qDebug() << "DipylonUI::~DipylonUI(#fin)";
 }
 
@@ -109,7 +110,7 @@ int DipylonUI::go(int argc, char **argv) {
   */
   QApplication::setDesktopSettingsAware(true);
 
-  // general settings :
+  // general parameters :
   QApplication app(argc, argv);
   app.setOrganizationName(fixedparameters::organization_name);
   app.setOrganizationDomain(fixedparameters::organization_domain);
@@ -206,7 +207,12 @@ int DipylonUI::go(int argc, char **argv) {
            << qfontdatabase.families().join("; ");
 
   /*
-    Is there a dipydoc to load ?
+    saved settings :
+  */
+  this->read_settings();
+
+  /*
+    Is there a dipydoc to load on the command line ?
   */
   #ifdef ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
   QStringList args = QCoreApplication::arguments();
@@ -223,4 +229,67 @@ int DipylonUI::go(int argc, char **argv) {
 
   // main loop :
   return app.exec();
+}
+
+/*______________________________________________________________________________
+
+  DipylonUI::read_settings() : read the settings and initialize the application's parameters
+
+______________________________________________________________________________*/
+void DipylonUI::read_settings(void) {
+
+  /*
+    By calling QSettings::setting() without any parameter, we initialize settings
+    with :
+        o QCoreApplication::organizationName
+        o QCoreApplication::organizationDomain,
+        o QCoreApplication::applicationName
+        ... all previously defined (see dipylonui.cpp)
+
+    (see http://qt-project.org/doc/qt-5/QSettings.html)
+  */
+  QSettings settings;
+
+  #ifdef ALLOW_RESIZING_THE_MAINWINDOW
+  this->mainWin->resize( settings.value("mainwindow/size",
+                                        QSize()).toSize() );
+  #endif
+
+  #ifdef ALLOW_MOVING_THE_MAINWINDOW
+  this->mainWin->move( settings.value("mainwindow/pos",
+                                      QPoint()).toPoint());
+  #endif
+
+  if( settings.value("mainwindow/fullscreen") == true  ) {
+    this->mainWin->showFullScreen();
+  }
+
+}
+
+/*______________________________________________________________________________
+
+  DipylonUI::write_settings() : write the settings
+______________________________________________________________________________*/
+void DipylonUI::write_settings(void) {
+  /*
+    By calling QSettings::setting() without any parameter, we initialize settings
+    with :
+        o QCoreApplication::organizationName
+        o QCoreApplication::organizationDomain,
+        o QCoreApplication::applicationName
+        ... all previously defined (see dipylonui.cpp)
+
+    (see http://qt-project.org/doc/qt-5/QSettings.html)
+  */
+  QSettings settings;
+
+  #ifdef ALLOW_RESIZING_THE_MAINWINDOW
+  settings.setValue("mainwindow/size", this->mainWin->size());
+  #endif
+
+  #ifdef ALLOW_MOVING_THE_MAINWINDOW
+  settings.setValue("mainwindow/pos", this->mainWin->pos());
+  #endif
+
+  settings.setValue("mainwindow/fullscreen", this->mainWin->isFullScreen());
 }
