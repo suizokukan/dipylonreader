@@ -21,7 +21,9 @@
 
     ❏Dipylon❏ : qt/dipylonui.h
 
-    Definition of the "user interface" : Dipylon, Settings classes
+    Definition of the "user interface".
+
+    o Dipylon class
 
 *******************************************************************************/
 
@@ -56,7 +58,6 @@ class DipylonUI {
   friend class CommentaryEditor;
 
  private:
-
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
