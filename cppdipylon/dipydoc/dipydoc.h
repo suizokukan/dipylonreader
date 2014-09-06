@@ -253,6 +253,9 @@ inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : nam
   DipyDoc class
 
 ______________________________________________________________________________*/
+typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
+
+
 class DipyDoc {
 friend class DipylonUI;
 friend class MainWindow;
@@ -320,6 +323,7 @@ friend class CommentaryEditor;
                        DipyDoc(void);
               explicit DipyDoc(const QString&);
   PosInTextRanges      audio2text_contains(PosInAudio pos) const;
+  PTRangesAND2PosAudio text2audio_contains(PosInText pos) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;
   void                 init_from_xml(const QString&);
