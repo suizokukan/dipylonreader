@@ -34,10 +34,7 @@
   See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about
   "argc" and "argv".
 ______________________________________________________________________________*/
-DipylonUI::DipylonUI(int argc, char **argv) {
-  this->cmdline_argc = argc;
-  this->cmdline_argv = argv;
-
+DipylonUI::DipylonUI(void) {
   /*
      initialization of this->path_info :
 
@@ -77,6 +74,7 @@ DipylonUI::~DipylonUI(void) {
   delete icon_audio_stop_unavailable;
   delete icon_readingmode_karaoke;
   delete icon_readingmode_grammar;
+
   qDebug() << "DipylonUI::~DipylonUI(#fin)";
 }
 
@@ -102,7 +100,7 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
 
   DipylonUI::go() : UI creation + main loop
 ______________________________________________________________________________*/
-int DipylonUI::go(void) {
+int DipylonUI::go(int argc, char **argv) {
   qDebug() << "enter in DipylonUI::go()";
 
   /*
@@ -112,8 +110,8 @@ int DipylonUI::go(void) {
   */
   QApplication::setDesktopSettingsAware(true);
 
-  // general settings :
-  QApplication app(this->cmdline_argc, this->cmdline_argv);
+  // general parameters :
+  QApplication app(argc, argv);
   app.setOrganizationName(fixedparameters::organization_name);
   app.setOrganizationDomain(fixedparameters::organization_domain);
   app.setApplicationName(fixedparameters::application_name);
@@ -208,6 +206,90 @@ int DipylonUI::go(void) {
   qDebug() << "list of the available fonts' families : " \
            << qfontdatabase.families().join("; ");
 
+  /*
+    saved settings :
+  */
+  this->read_settings();
+
+  /*
+    Is there a dipydoc to load on the command line ?
+  */
+  #ifdef ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
+  QStringList args = QCoreApplication::arguments();
+  // args.at(0) si nothing but the name of the application : we start with 1.
+  for (int i = 1; i < args.size(); i++) {
+    if (i + 1 != argc) {
+      if (args.at(i) == "--load") {
+        // let's open what lies in args.at(i+1), after the "--load" parameter :
+        this->mainWin->loadDipyDoc( args.at(i+1) );
+      }
+    }
+  }
+  #endif
+
   // main loop :
   return app.exec();
+}
+
+/*______________________________________________________________________________
+
+  DipylonUI::read_settings() : read the settings and initialize the application's parameters
+
+______________________________________________________________________________*/
+void DipylonUI::read_settings(void) {
+
+  /*
+    By calling QSettings::setting() without any parameter, we initialize settings
+    with :
+        o QCoreApplication::organizationName
+        o QCoreApplication::organizationDomain,
+        o QCoreApplication::applicationName
+        ... all previously defined (see dipylonui.cpp)
+
+    (see http://qt-project.org/doc/qt-5/QSettings.html)
+  */
+  QSettings settings;
+
+  #ifdef ALLOW_RESIZING_THE_MAINWINDOW
+  this->mainWin->resize( settings.value("mainwindow/size",
+                                        QSize()).toSize() );
+  #endif
+
+  #ifdef ALLOW_MOVING_THE_MAINWINDOW
+  this->mainWin->move( settings.value("mainwindow/pos",
+                                      QPoint()).toPoint());
+  #endif
+
+  if( settings.value("mainwindow/fullscreen") == true  ) {
+    this->mainWin->showFullScreen();
+  }
+
+}
+
+/*______________________________________________________________________________
+
+  DipylonUI::write_settings() : write the settings
+______________________________________________________________________________*/
+void DipylonUI::write_settings(void) {
+  /*
+    By calling QSettings::setting() without any parameter, we initialize settings
+    with :
+        o QCoreApplication::organizationName
+        o QCoreApplication::organizationDomain,
+        o QCoreApplication::applicationName
+        ... all previously defined (see dipylonui.cpp)
+
+    (see http://qt-project.org/doc/qt-5/QSettings.html)
+  */
+  QSettings settings;
+
+  #ifdef ALLOW_RESIZING_THE_MAINWINDOW
+  settings.setValue("mainwindow/size", this->mainWin->size());
+  #endif
+
+  #ifdef ALLOW_MOVING_THE_MAINWINDOW
+  settings.setValue("mainwindow/pos", this->mainWin->pos());
+  #endif
+
+  settings.setValue("mainwindow/fullscreen", this->mainWin->isFullScreen());
 }

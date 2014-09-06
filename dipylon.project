@@ -55,6 +55,10 @@ SOMMAIRE
 [11.1] Windows
 [11.1.1] cross-compilation depuis Linux
 
+[12] command line
+     [12.1] arguments specific to the project
+     [12.2] Qt arguments
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -80,6 +84,7 @@ SOMMAIRE
 0.3.5 : DipyDoc's version = 25 (line-height+font-size), application's icon
 0.3.6 : 'mode' button, Dipydoc's version = 26 (arrows' aspect)
 0.3.7 : DipyDoc's version = 27 ('version' tag, 'id' tag)
+
 0.3.8 : 
       o DipyDoc's version = 27 correcty read and written
       o DipyDoc::init_from_xml() now verifies that the notes' arrows' types are defined
@@ -89,13 +94,15 @@ SOMMAIRE
       o modified DipyDoc::get_condensed_extracts_from_the_source_text() : the separator is defined as a constant and the 'maxlength' parameter is applied to the whole returned string.
       o added to DipyDoc class the constant condensed_extracts_length
 
-*0.3.9 :
-DipyDoc 28 aspect > textformat
+0.3.9 :
+      o (feature12) DipyDoc's version 28 : 'aspect' > 'textformat'
+      o (feature13) --load argument on the command line.
+      o (feature14) QSettings is now used to restore the geometry of the main window
+      o (feature15) updated dipylon.project : fixed the names of the compilations's options
 
 [TRAVAIL COURANT]
 - ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
 - jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
-- fichier de config pour stocker fichiers ouverts (premier lancement, etc.) : QSettings [!!! définir nom entreprise+produit, cf notes importantes sur comment restaurer la taille de Mainwindow, note pour savoir quand lire/écrire les données, note sur intérêt de forcer l'usage du format INI, lire Platform.limitations]
 - justify ne fonctionne pas (au moins sur Linux)
 - unordered_map > map
 - [dipydoc] présenter les textes de façon correcte (gros caractères)
@@ -152,21 +159,12 @@ DipyDoc 28 aspect > textformat
 [1.1] options définies dans les .pro
 ################################################################################
 
-o TARGET_WIN
-o TARGET_LINUX
-o TARGET_OSX
-o TARGET_ANDROID
-o TARGET_IMAC
-
-o TARGET_DESKTOP
-o TARGET_NON_DESKTOP
-
 o QT_NO_CURSOR
 
 o QT_NO_DEBUG_OUTPUT
   no qDebug() output
   
-o DREADANDWRITE
+o READANDWRITE
   access to DipyDoc write functions
 
 o CROSSCOMPILE_TO_WIN_USING_MXE
@@ -174,6 +172,13 @@ o CROSSCOMPILE_TO_WIN_USING_MXE
 
 o COMPILE_TO_32BITS_ARCHITECTURE
   compilation to a 32 architecture
+
+o ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
+  authorization to use the --load argument.
+
+o ALLOW_RESIZING_THE_MAINWINDOW
+
+o ALLOW_MOVING_THE_MAINWINDOW
 
 ################################################################################
 [1.2] options choisies pour le projet
@@ -924,3 +929,19 @@ tentative de compiler depuis Windows :
 (3) il faut préciser au script où se trouve mingw : .\windows-build-qt-static.ps1 -MingwDir 'c:\Program Files (x86)\mingw-w64\i686-4.9.1-posix-dwarf-rt_v3-rev0\mingw32\bin'
 (4) le script ne parvient pas à télécharger de lui-même qt-everywhere-opensource-src-5.3.1.7z; télécharger ce fichier et le placer dans c:\Qt\Static\src
 
+################################################################################
+[12] command line
+################################################################################
+
+################################################################################
+[12.1] arguments specific to the project
+################################################################################
+
+--load dipydoc_name (only if ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE is defined)
+
+################################################################################
+[12.2] Qt arguments
+################################################################################
+
+confer http://qt-project.org/doc/qt-5/qapplication.html
+... -style, -stylesheet, -reverse, ...

@@ -263,6 +263,9 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
 ________________________________________________________________________________*/
 void MainWindow::closing(void) {
   qDebug() << "MainWindow::closing";
+
+  qDebug() << "(MainWindow::closing) calling DipylonUI::write_settings()";
+  this->current_dipylonui.write_settings();
 }
 
 /*______________________________________________________________________________
@@ -458,6 +461,7 @@ void MainWindow::documentWasModified() {
 
 ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
+
   qDebug() << "MainWindow::loadDipyDoc" << directoryName;
 
   #ifndef QT_NO_CURSOR
@@ -505,6 +509,36 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     setCurrentDipyDoc(directoryName);
     statusBar()->showMessage(tr("DipyDoc loaded"), 2000);
   }
+
+  /*
+    Let's initialize this->current_dipylonui.path_to_dipydocs :
+
+    It can't be set to "directoryName" since we don't want the user
+    looks into the current directory, full of the Dipydoc files
+    (main.xml, ...) : we need to place the user in the parent directory.
+  */
+  QDir parent_directory = QDir(directoryName);
+  if( parent_directory.cdUp() == true ) {
+    /*
+       Ok, we can go upper and set path_to_dipydocs to the parent
+       directory
+    */
+    this->current_dipylonui.path_to_dipydocs = parent_directory.absolutePath();
+  }
+  else {
+    /*
+      No, for some reasons the upper directory isn't readable : we
+      keep the current directory.
+    */
+    this->current_dipylonui.path_to_dipydocs = directoryName;
+  }
+
+  // default reading mode :
+  this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_GRAMMAR;
+  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_GRAMMAR;
+
+  // updating the UI :
+  this->update_icons();
 }
 
 /*______________________________________________________________________________
@@ -565,39 +599,8 @@ void MainWindow::open(void) {
                                                               QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (!directoryName.isEmpty()) {
-
       // loading the DipyDoc :
-      loadDipyDoc(directoryName);
-
-      /*
-        Let's initialize this->current_dipylonui.path_to_dipydocs :
-
-        It can't be set to "directoryName" since we don't want the user
-        looks into the current directory, full of the Dipydoc files
-        (main.xml, ...) : we need to place the user in the parent directory.
-      */
-      QDir parent_directory = QDir(directoryName);
-      if( parent_directory.cdUp() == true ) {
-        /*
-           Ok, we can go upper and set path_to_dipydocs to the parent
-           directory
-        */
-        this->current_dipylonui.path_to_dipydocs = parent_directory.absolutePath();
-      }
-      else {
-        /*
-          No, for some reasons the upper directory isn't readable : we
-          keep the current directory.
-        */
-        this->current_dipylonui.path_to_dipydocs = directoryName;
-      }
-
-      // default reading mode :
-      this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_GRAMMAR;
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_GRAMMAR;
-
-      // updating the UI :
-      this->update_icons();
+      this->loadDipyDoc(directoryName);
     }
   }
 }

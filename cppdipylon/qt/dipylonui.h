@@ -21,7 +21,7 @@
 
     ❏Dipylon❏ : qt/dipylonui.h
 
-    Definition of the "user interface".
+    Definition of the "user interface" : Dipylon, Settings classes
 
 *******************************************************************************/
 
@@ -50,14 +50,12 @@ typedef unsigned int ReadingModeDetails;
   DipylonUI class : a wrapper around the QApplication object.
 ________________________________________________________________________________*/
 class DipylonUI {
+  friend class Settings;
   friend class MainWindow;
   friend class SourceEditor;
   friend class CommentaryEditor;
 
  private:
-  // attributes used to initialize the QApplication constructor :
-  int         cmdline_argc = 0;
-  char**      cmdline_argv = nullptr;
 
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
@@ -110,12 +108,14 @@ class DipylonUI {
   ReadingMode        reading_mode = DipylonUI::READINGMODE_UNDEFINED;
   ReadingModeDetails reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
 
-                     DipylonUI(int argc, char **argv);
+                     DipylonUI(void);
                      ~DipylonUI(void);
   QString            get_translations_for(PosInText, PosInText) const;
-  int                go(void);
+  int                go(int argc, char **argv);
+  void               read_settings(void);
   void               set_content_of_the_commentary_editor(QString text);
   void               update_commentary_editor__translation_expected(PosInTextRanges&);
+  void               write_settings(void);
 };
 
 #endif  // CPPDIPYLON_QT_DIPYLONUI_H_

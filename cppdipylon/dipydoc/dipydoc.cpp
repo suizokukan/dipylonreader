@@ -520,12 +520,12 @@ QString DipyDoc::get_xml_repr(void) const {
       // pos_and_note.first : PosInTextRanges
       // pos_and_note.second : DipyDocNote
       QString new_line;
-      // we simplify the output string if no 'aspect' is defined :
+      // we simplify the output string if no 'textformatname' is defined :
       if (pos_and_note.second.textformatname.size() > 0) {
         new_line = QString("    <note level=\"$LEVEL$\" "
                            "textranges=\"$TEXTRANGES$\" "
                            "srctext=\"$SRCTEXT$\" "
-                           "aspect=\"$ASPECT$\" "
+                           "textformatname=\"$TEXTFORMATNAME$\" "
                            ">\n");
       } else {
         new_line = QString("    <note level=\"$LEVEL$\" "
@@ -538,7 +538,7 @@ QString DipyDoc::get_xml_repr(void) const {
       new_line.replace("$SRCTEXT$",
                        this->get_condensed_extracts_from_the_source_text(pos_and_note.first,
                                                                          DipyDoc::condensed_extracts_length));
-      new_line.replace("$ASPECT$", pos_and_note.second.textformatname);
+      new_line.replace("$TEXTFORMATNAME$", pos_and_note.second.textformatname);
       res += new_line;
 
       res += "      <text>" + pos_and_note.second.text + "</text>\n";
@@ -1318,8 +1318,8 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
          ok &= !this->error(textranges, this->error_string(xmlreader),
                             QString("notes::note::textranges"));
-         // notes::note::aspect
-         QString         textformatname = xmlreader.attributes().value("aspect").toString();
+         // notes::note::textformatname
+         QString         textformatname = xmlreader.attributes().value("textformatname").toString();
 
          // this->notes[level][textranges] = DipyDocNote(...)
          // NB : the text will be initialized later, when the 'text' tag will be read (see infra)

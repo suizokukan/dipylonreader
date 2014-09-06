@@ -37,8 +37,8 @@ ______________________________________________________________________________*/
 int main(int argc, char **argv) {
     Q_INIT_RESOURCE(dipylon);
 
-    DipylonUI myapp = DipylonUI(argc, argv);
-    int resvalue = myapp.go();
+    DipylonUI myapp = DipylonUI();
+    int resvalue = myapp.go(argc, argv);
 
     return resvalue;
 }
