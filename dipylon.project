@@ -158,21 +158,12 @@ SOMMAIRE
 [1.1] options définies dans les .pro
 ################################################################################
 
-o TARGET_WIN
-o TARGET_LINUX
-o TARGET_OSX
-o TARGET_ANDROID
-o TARGET_IMAC
-
-o TARGET_DESKTOP
-o TARGET_NON_DESKTOP
-
 o QT_NO_CURSOR
 
 o QT_NO_DEBUG_OUTPUT
   no qDebug() output
   
-o DREADANDWRITE
+o READANDWRITE
   access to DipyDoc write functions
 
 o CROSSCOMPILE_TO_WIN_USING_MXE
