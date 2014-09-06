@@ -94,8 +94,9 @@ SOMMAIRE
       o added to DipyDoc class the constant condensed_extracts_length
 
 *0.3.9 :
-      - (feature12) DipyDoc 28 aspect > textformat
-      - (feature13) load the file specified in the command line
+      o (feature12) DipyDoc's version 28 : 'aspect' > 'textformat'
+      o (feature13) --load argument on the command line.
+      - (feature14)
 
 [TRAVAIL COURANT]
 - ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
@@ -182,6 +183,10 @@ o COMPILE_TO_32BITS_ARCHITECTURE
 
 o ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
   authorization to use the --load argument.
+
+o ALLOW_RESIZING_THE_MAINWINDOW
+
+o ALLOW_MOVING_THE_MAINWINDOW
 
 ################################################################################
 [1.2] options choisies pour le projet
