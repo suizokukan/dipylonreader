@@ -39,10 +39,10 @@ namespace fixedparameters {
 
   see http://qt-project.org/doc/qt-5/qcoreapplication.html
 */
-static const QString organization_name   = "suizokukan's factory";
+static const QString organization_name   = "suizokukanfactory";
 static const QString organization_domain = "94.23.197.37";
-static const QString application_name    = "Dipylon";
-static const QString application_version = "0.3.8";
+static const QString application_name    = "dipylon";
+static const QString application_version = "0.3.9";
 static const QString application_style   = "CleanLooks";
 
 /*
