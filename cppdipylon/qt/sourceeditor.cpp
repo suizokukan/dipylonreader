@@ -46,7 +46,6 @@ SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) 
   text.
 ______________________________________________________________________________*/
 PosInText SourceEditor::corrected_cursor_position(void) const {
-  qDebug() << "~~~~~~~~~~~~~~~~~" << this->textCursor().position();
   return static_cast<PosInText>(this->textCursor().position()) - \
          static_cast<PosInText>(this->current_dipylonui.current_dipydoc.source_text.number_of_chars_before_source_text);
 }
@@ -267,12 +266,8 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
     QList<QTextEdit::ExtraSelection> selections;
 
     for (auto &x0x1 : this->modified_chars) {
-      cur.movePosition(QTextCursor::Start,
-                       QTextCursor::MoveAnchor);
-      cur.movePosition(QTextCursor::NextCharacter,
-                       QTextCursor::MoveAnchor, static_cast<int>(x0x1.first) + shift);
-      cur.movePosition(QTextCursor::NextCharacter,
-                       QTextCursor::KeepAnchor, static_cast<int>(x0x1.second));
+      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
       QTextEdit::ExtraSelection sel = { cur,
                                         dipydoc.sourceeditor_default_textformat.qtextcharformat() };
       selections.append(sel);
@@ -283,21 +278,10 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
     // ... and then we modify the new text's appearance :
     for (auto &x0x1 : positions) {
-      qDebug() << "SourceEditor::modify_the_text_format=" << \
-               static_cast<int>(x0x1.first) + shift << \
-               "-" << \
-               static_cast<int>(x0x1.second);
-
-      cur.movePosition(QTextCursor::Start,
-                       QTextCursor::MoveAnchor);
-      cur.movePosition(QTextCursor::NextCharacter,
-                       QTextCursor::MoveAnchor,
-                       static_cast<int>(x0x1.first) + shift);
-      cur.movePosition(QTextCursor::NextCharacter,
-                       QTextCursor::KeepAnchor,
-                       static_cast<int>(x0x1.second - x0x1.first));
+      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
       QTextEdit::ExtraSelection sel = { cur,
-                            dipydoc.sourceeditor_karaoke_textformat.qtextcharformat() };
+                                        dipydoc.sourceeditor_karaoke_textformat.qtextcharformat() };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
