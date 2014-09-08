@@ -474,7 +474,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
 
     // an error occurs :
     QMessageBox msgBox;
-    msgBox.setText( tr("Unable to load a (valid) DipyDoc from <b>") + directoryName + "</b> ." +\
+    msgBox.setText( tr("Unable to load any valid Dipydoc's document from <b>") + directoryName + "</b> ." +\
                     "<br/><br/>" + this->current_dipylonui.current_dipydoc.diagnosis() + \
                     "<br/><br/>" + tr("See more details below.") );
     this->current_dipylonui.current_dipydoc.err_messages.prepend( "internal state = " + \
