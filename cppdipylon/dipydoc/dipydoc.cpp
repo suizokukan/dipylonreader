@@ -1407,3 +1407,11 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
                                 this->audiorecord.text2audio[posintext]);
   }
 }
+
+/*______________________________________________________________________________
+
+   DipyDoc::translation_contains(PosInText x0, PosInText x1)
+________________________________________________________________________________*/
+PosInTextRanges DipyDoc::translation_contains(PosInText x0, PosInText x1) const {
+  return this->translation.translations.contains(x0, x1).toPosInTextRanges();
+}

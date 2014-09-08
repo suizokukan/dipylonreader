@@ -69,7 +69,7 @@ class PosInTextRanges {
     friend class PosInTextRangesHasher;
     friend class PosInText2Str;
     friend class PosInText2PosInAudio;
-
+    friend class VectorPosInTextRanges;
  public:
                      PosInTextRanges(void);
                      PosInTextRanges(const PosInTextRanges&);
@@ -81,10 +81,10 @@ class PosInTextRanges {
   bool               operator==(const PosInTextRanges& other) const;
   bool               operator!=(const PosInTextRanges& other) const;
 
-  VPairOfPosInTextCI begin(void);
+  VPairOfPosInTextCI begin(void) const;
   bool               contains(PosInText) const;
   bool               contains(PosInText, PosInText) const;
-  VPairOfPosInTextCI end(void);
+  VPairOfPosInTextCI end(void) const;
   std::size_t        get_hash(void);
   int                internal_state(void) const;
   bool               is_empty(void) const;
@@ -198,11 +198,11 @@ inline bool PosInTextRanges::operator!=(const PosInTextRanges& other) const {
   return !(this->operator==(other));
 }
 
-inline VPairOfPosInTextCI PosInTextRanges::begin(void) {
+inline VPairOfPosInTextCI PosInTextRanges::begin(void) const {
   return this->vec.begin();
 }
 
-inline VPairOfPosInTextCI PosInTextRanges::end(void) {
+inline VPairOfPosInTextCI PosInTextRanges::end(void) const {
   return this->vec.end();
 }
 

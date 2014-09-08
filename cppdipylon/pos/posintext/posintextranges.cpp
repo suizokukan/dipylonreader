@@ -98,8 +98,8 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::checks() : do some tests and modified _well_initialized and
-                              _internal_state if something's wrong.
+        PosInTextRanges::checks() : do some tests and modified _well_initialized
+                                    and _internal_state if something's wrong.
 
         tests :
             o if x0 >= x1 -> error, INTERNALSTATE::X0X1

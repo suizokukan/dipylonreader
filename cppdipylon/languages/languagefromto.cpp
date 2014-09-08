@@ -29,7 +29,7 @@
 
 /*______________________________________________________________________________
 
-  LanguangeFromTo::constructor from a "src" QString.
+  LanguageFromTo::constructor from a "src" QString.
 
   see the LANGUAGEFROMTO_FORMAT defined in languagefromto.h
 ________________________________________________________________________________*/
@@ -74,7 +74,7 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
 
 /*______________________________________________________________________________
 
-  LanguangeFromTo::clear()
+  LanguageFromTo::clear()
 ________________________________________________________________________________*/
 void LanguageFromTo::clear(void) {
   this->_well_initialized = false;
@@ -85,7 +85,7 @@ void LanguageFromTo::clear(void) {
 
 /*______________________________________________________________________________
 
-  LanguangeFromTo::repr()
+  LanguageFromTo::repr()
 
   Return a QString representation of this.
 ________________________________________________________________________________*/

@@ -26,10 +26,12 @@
 *******************************************************************************/
 
 #include "pos/posintext/vectorposintextranges.h"
+// $$$$
+#include <QDebug>
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::clear()
+        VectorPosInTextRanges::clear()
 ______________________________________________________________________________*/
 void VectorPosInTextRanges::clear(void) {
   this->vposintextranges.clear();
@@ -37,7 +39,7 @@ void VectorPosInTextRanges::clear(void) {
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::sort()
+        VectorPosInTextRanges::sort()
 ______________________________________________________________________________*/
 void VectorPosInTextRanges::sort(void) {
 
@@ -48,7 +50,7 @@ void VectorPosInTextRanges::sort(void) {
 
 /*______________________________________________________________________________
 
-        PosInTextRanges::repr : return a QString representation of this.
+        VectorPosInTextRanges::repr : return a QString representation of this.
 ______________________________________________________________________________*/
 QString VectorPosInTextRanges::repr(void) const {
 
@@ -63,5 +65,28 @@ QString VectorPosInTextRanges::repr(void) const {
   // removing the last MAIN_SEPARATOR character :
   res.chop(1);
 
+  return res;
+}
+
+/*______________________________________________________________________________
+
+        VectorPosInTextRanges::toPosInTextRanges
+
+        Return a unique PosInTextRanges agglomerating all the PosInTextRanges
+        objects stored in 'this'.
+______________________________________________________________________________*/
+PosInTextRanges VectorPosInTextRanges::toPosInTextRanges(void) const {
+  PosInTextRanges res;
+
+  for (auto &posintextranges : this->vposintextranges) {
+    for (auto &vpairofposintext: posintextranges) {
+      res.vec.push_back( vpairofposintext );
+    }
+  }
+
+  res._well_initialized = true;
+  res._internal_state = PosInTextRanges::INTERNALSTATE::OK;
+
+  res.checks();
   return res;
 }

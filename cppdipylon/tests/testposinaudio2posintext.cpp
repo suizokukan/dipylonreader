@@ -50,7 +50,7 @@ void TestPosInAudio2PosInText::test0(void) {
         { {{ {5,6}, {9,12} },},  {1750, 1790} },
         { {{ {15,16}, {19,112} },},  {1950, 1999} },
      };
-   PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio);
+   PosInAudio2PosInText audio2text(text2audio);
 
    QCOMPARE( audio2text.well_initialized() , true );
    QCOMPARE( audio2text.internal_state() , static_cast<int>(PosInText2PosInAudio::INTERNALSTATE::OK) );
@@ -67,7 +67,7 @@ void TestPosInAudio2PosInText::test1(void) {
         { {{ {5,6}, {9,12} },},  {1750, 1790} },
         { {{ {15,16}, {19,112} },},  {1950, 1999} },
      };
-   PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio);
+   PosInAudio2PosInText audio2text(text2audio);
 
    QCOMPARE( ((audio2text[ {1500, 1598} ].repr())), QString("1-2+3-4") );
    QCOMPARE( ((audio2text[ {1501, 1598} ].repr())), QString("") );
@@ -83,7 +83,7 @@ void TestPosInAudio2PosInText::test2(void) {
         { {{ {5,6}, {9,12} },},  {1750, 1790} },
         { {{ {15,16}, {19,112} },},  {1950, 1999} },
      };
-   PosInAudio2PosInText audio2text = PosInAudio2PosInText(text2audio);
+   PosInAudio2PosInText audio2text(text2audio);
 
    QCOMPARE( audio2text.contains(1500).repr(), QString("1-2+3-4") );
    QCOMPARE( audio2text.contains(1400).repr(), QString("") );

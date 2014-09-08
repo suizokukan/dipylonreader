@@ -64,7 +64,7 @@ typedef std::vector<PosInTextRanges>::const_iterator VPosInTextRangesCI;
 
 ______________________________________________________________________________*/
 struct VectorPosInTextRanges {
-        VPosInTextRanges vposintextranges;
+        VPosInTextRanges       vposintextranges;
 
                                VectorPosInTextRanges(void);
                                VectorPosInTextRanges(const VectorPosInTextRanges&);
@@ -73,9 +73,10 @@ struct VectorPosInTextRanges {
         VPosInTextRangesCI     begin(void) const;
         void                   clear(void);
         VPosInTextRangesCI     end(void) const;
+        QString                repr(void) const;
         std::size_t            size(void) const;
         void                   sort(void);
-        QString                repr(void) const;
+        PosInTextRanges        toPosInTextRanges(void) const;
 
         const char* MAIN_SEPARATOR = "/";
 

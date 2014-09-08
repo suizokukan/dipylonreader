@@ -306,7 +306,41 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   DipylonUI& ui = this->current_dipylonui;
+  QTextCursor cur = this->textCursor();
 
+  //............................................................................
+  if( cur.hasSelection() == true ) {
+
+    int shift = ui.current_dipydoc.source_text.number_of_chars_before_source_text;
+    PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
+    PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - shift);
+
+    // where are the characters linked to "x0-x1" ?
+    PosInTextRanges pos_in_text =  ui.current_dipydoc.translation_contains(x0, x1);
+
+    /*
+      we refresh the ui :
+    */
+    std::size_t text_ranges_hash = pos_in_text.get_hash();
+
+    // the function modifies the appearence of such characters :
+    this->modify_the_text_format(pos_in_text);
+
+    // hash update :
+    this->modified_chars_hash = text_ranges_hash;
+
+    ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+
+    /*
+      karaoke mode : stop
+    */
+    ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
+    ui.mainWin->update_icons();
+
+    return;
+  }
+
+  //............................................................................
   PosInText cursor_position = this->corrected_cursor_position();
 
   switch (ui.reading_mode) {
