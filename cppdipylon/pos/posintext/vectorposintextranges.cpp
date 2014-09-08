@@ -26,6 +26,8 @@
 *******************************************************************************/
 
 #include "pos/posintext/vectorposintextranges.h"
+// $$$$
+#include <QDebug>
 
 /*______________________________________________________________________________
 
@@ -82,7 +84,9 @@ PosInTextRanges VectorPosInTextRanges::toPosInTextRanges(void) const {
     }
   }
 
-  res.checks();
+  res._well_initialized = true;
+  res._internal_state = PosInTextRanges::INTERNALSTATE::OK;
 
+  res.checks();
   return res;
 }

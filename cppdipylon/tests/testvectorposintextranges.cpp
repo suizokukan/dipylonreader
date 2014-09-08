@@ -82,3 +82,32 @@ void TestVectorPosInTextRanges::test2(void)
   QCOMPARE( vposintextranges.size() == 5 , true );
   QCOMPARE( vposintextranges.repr(), QString("0-5+10-20/0-5+11-20/1-2+190-191/8-9+91-92/10-20+150-250"));
 }
+
+/*
+  test of the toPosInTextRanges()
+*/
+void TestVectorPosInTextRanges::test3(void)
+{
+  // no error, simple VectorPosInTextRanges transformed into PosInTextRanges :
+  VectorPosInTextRanges vposintextranges = \
+    VectorPosInTextRanges( std::vector<PosInTextRanges>( { PosInTextRanges( { {10,20}, {150,250} } ),
+                                                           PosInTextRanges( { {0,5}, {7, 8} } ),
+                                                       }));
+  vposintextranges.sort();
+
+  PosInTextRanges posintextranges = vposintextranges.toPosInTextRanges();
+  QCOMPARE( posintextranges.well_initialized() == true, true );
+  QCOMPARE( posintextranges.internal_state() == PosInTextRanges::INTERNALSTATE::OK, true );
+  QCOMPARE( posintextranges.size() == 4 , true );
+  QCOMPARE( posintextranges.repr(), QString("0-5+7-8+10-20+150-250"));
+
+  // error, overlapping segments :
+  vposintextranges = \
+    VectorPosInTextRanges( std::vector<PosInTextRanges>( { PosInTextRanges( { {10,20}, {150,250} } ),
+                                                           PosInTextRanges( { {800,900}, {4, 5} } ),
+                                                           PosInTextRanges( { {0,5}, {7, 8} } ),
+                                                       }));
+  posintextranges = vposintextranges.toPosInTextRanges();
+  QCOMPARE( posintextranges.well_initialized() == false, true );
+  QCOMPARE( posintextranges.internal_state() == PosInTextRanges::INTERNALSTATE::OVERLAPPING, true );
+}

@@ -1410,23 +1410,8 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
 
 /*______________________________________________________________________________
 
-   DipyDoc::text2audio_contains(PosInText x0, PosInText x1)
-
-   return the text ranges and the audio positions (from, to) matching the
-   characters x0 to x1.
-
-   If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
-   second (PairOfPosInAudio) being set to (0,0).
+   DipyDoc::translation_contains(PosInText x0, PosInText x1)
 ________________________________________________________________________________*/
-PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0, PosInText x1) const {
-  PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0, x1).toPosInTextRanges();
-
-  if (posintext.is_empty() == true) {
-    return PTRangesAND2PosAudio(posintext,
-                                PairOfPosInAudio(0,0));
-  }
-  else {
-    return PTRangesAND2PosAudio(posintext,
-                                this->audiorecord.text2audio[posintext]);
-  }
+PosInTextRanges DipyDoc::translation_contains(PosInText x0, PosInText x1) const {
+  return this->translation.translations.contains(x0, x1).toPosInTextRanges();
 }

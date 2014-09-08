@@ -311,12 +311,12 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   //............................................................................
   if( cur.hasSelection() == true ) {
 
-    PosInText x0 = static_cast<PosInText>(cur.selectionStart());
-    PosInText x1 = static_cast<PosInText>(cur.selectionEnd());
+    int shift = ui.current_dipydoc.source_text.number_of_chars_before_source_text;
+    PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
+    PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - shift);
 
     // where are the characters linked to "x0-x1" ?
-    PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(x0, x1);
-    PosInTextRanges pos_in_text = found_position.first;
+    PosInTextRanges pos_in_text =  ui.current_dipydoc.translation_contains(x0, x1);
 
     /*
       we refresh the ui :
