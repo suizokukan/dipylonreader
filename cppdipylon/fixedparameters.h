@@ -76,5 +76,10 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
                                                      "selection-background-color: red;";
 
 const QStringList known_doctypes = { QString("text"), };
+
+/*
+  splash screen
+*/
+static const int splashscreen_maximal_duration = 9000;
 }
 #endif

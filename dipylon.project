@@ -180,6 +180,8 @@ o ALLOW_RESIZING_THE_MAINWINDOW
 
 o ALLOW_MOVING_THE_MAINWINDOW
 
+o ALLOW_SPLASHSCREEN
+
 ################################################################################
 [1.2] options choisies pour le projet
 ################################################################################
