@@ -212,6 +212,14 @@ int DipylonUI::go(int argc, char **argv) {
   this->read_settings();
 
   /*
+    splash screen ?
+  */
+  QSplashScreen splashscreen( QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
+                              Qt::WindowStaysOnTopHint );
+  splashscreen.show();
+  QTimer::singleShot(80000, &splashscreen, SLOT(close()));
+
+  /*
     Is there a dipydoc to load on the command line ?
   */
   #ifdef ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE

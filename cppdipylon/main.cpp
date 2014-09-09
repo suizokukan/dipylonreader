@@ -27,8 +27,6 @@
 
 #include "qt/dipylonui.h"
 
-//$$$$$$$$$$
-
 /*______________________________________________________________________________
 
   Main entry point.
@@ -38,19 +36,6 @@
 ______________________________________________________________________________*/
 int main(int argc, char **argv) {
     Q_INIT_RESOURCE(dipylon);
-
-    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-  VectorPosInTextRanges vposintextranges = \
-    VectorPosInTextRanges( std::vector<PosInTextRanges>( { PosInTextRanges( { {10,20}, {150,250} } ),
-                                                           PosInTextRanges( { {0,5}, {11, 20} } ),
-                                                           PosInTextRanges( { {8, 9}, {91,92} } ),
-                                                           PosInTextRanges( { {1, 2}, {190,191} } ),
-                                                           PosInTextRanges( { {0,5}, {10, 20} } ),
-                                                       }));
-  vposintextranges.sort();
-
-  PosInTextRanges posintextranges = vposintextranges.toPosInTextRanges();
-    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
     DipylonUI myapp = DipylonUI();
     int resvalue = myapp.go(argc, argv);
