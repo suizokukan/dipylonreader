@@ -218,7 +218,7 @@ int DipylonUI::go(int argc, char **argv) {
   // this variable can't be defined in the following block and must be defined here :
   QSplashScreen splashscreen( QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
                               Qt::WindowStaysOnTopHint );
-  if (this->first_launch == true) {
+  if (this->first_launch == true || this->display_splashscreen == true) {
     splashscreen.show();
     QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
                        &splashscreen, SLOT(close()));
@@ -287,6 +287,10 @@ void DipylonUI::read_settings(void) {
     this->mainWin->showFullScreen();
   }
 
+  /*
+    display splashscreen ?
+  */
+  this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
 }
 
 /*______________________________________________________________________________
@@ -321,4 +325,10 @@ void DipylonUI::write_settings(void) {
   #endif
 
   settings.setValue("mainwindow/fullscreen", this->mainWin->isFullScreen());
+
+  /*
+    display splashscreen ?
+  */
+  settings.setValue("application/displaysplashscreen", this->display_splashscreen);
+
 }
