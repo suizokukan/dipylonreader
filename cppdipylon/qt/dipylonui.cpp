@@ -215,11 +215,14 @@ int DipylonUI::go(int argc, char **argv) {
     splash screen
   */
   #ifdef ALLOW_SPLASHSCREEN
+  // this variable can't be defined in the following block and must be defined here :
   QSplashScreen splashscreen( QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
                               Qt::WindowStaysOnTopHint );
-  splashscreen.show();
-  QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
-                     &splashscreen, SLOT(close()));
+  if (this->first_launch == true) {
+    splashscreen.show();
+    QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
+                       &splashscreen, SLOT(close()));
+  }
   #endif
 
   /*
@@ -244,7 +247,8 @@ int DipylonUI::go(int argc, char **argv) {
 
 /*______________________________________________________________________________
 
-  DipylonUI::read_settings() : read the settings and initialize the application's parameters
+  DipylonUI::read_settings() : read the settings and initialize the application's
+                               parameters
 
 ______________________________________________________________________________*/
 void DipylonUI::read_settings(void) {
@@ -261,6 +265,14 @@ void DipylonUI::read_settings(void) {
   */
   QSettings settings;
 
+  /*
+    first launch ?
+  */
+  this->first_launch = !settings.contains("application/firstlaunch");
+
+  /*
+    main window's geometry :
+  */
   #ifdef ALLOW_RESIZING_THE_MAINWINDOW
   this->mainWin->resize( settings.value("mainwindow/size",
                                         QSize()).toSize() );
@@ -293,6 +305,12 @@ void DipylonUI::write_settings(void) {
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
+
+  /*
+    If 'application/firstlaunch' is defined, it means that the program
+    has been launched, hence the boolean value set to 'false'.
+  */
+  settings.setValue("application/firstlaunch", false);
 
   #ifdef ALLOW_RESIZING_THE_MAINWINDOW
   settings.setValue("mainwindow/size", this->mainWin->size());

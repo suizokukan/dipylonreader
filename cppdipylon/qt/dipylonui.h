@@ -58,6 +58,9 @@ class DipylonUI {
   friend class CommentaryEditor;
 
  private:
+  // set to true if no 'settings' (see QSettings) can be read.
+  bool        first_launch;
+
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
