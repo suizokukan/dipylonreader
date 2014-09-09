@@ -58,6 +58,11 @@ class DipylonUI {
   friend class CommentaryEditor;
 
  private:
+  // set to true if no 'settings' (see QSettings) can be read.
+  bool        first_launch;
+  // display splash screen when the program has been launched ?
+  bool        display_splashscreen = fixedparameters::default__display_splashscreen;
+
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
