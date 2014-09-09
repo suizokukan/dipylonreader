@@ -216,19 +216,19 @@ int DipylonUI::go(int argc, char **argv) {
   */
   #ifdef ALLOW_SPLASHSCREEN
   // this variable can't be defined in the following block and must be defined here :
-  QSplashScreen splashscreen( QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
-                              Qt::WindowStaysOnTopHint );
-  if (this->first_launch == true || this->display_splashscreen == true) {
+  QSplashScreen splashscreen(QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
+                             Qt::WindowStaysOnTopHint);
 
+  if (this->first_launch == true || this->display_splashscreen == true) {
     QString msg("<span style=\"color:#223399\">" + \
                 QObject::tr("<b>Δίπυλον project</b> : Dipylon reader<br/>"
                             "- version %1 -<br/>"
                             "Dipydoc formats accepted : %2 to %3.<br/>"));
 
-    splashscreen.showMessage( msg.arg(fixedparameters::application_version,
-                                      QString().setNum(DipyDoc::min_dipydocformat_version),
-                                      QString().setNum(DipyDoc::max_dipydocformat_version)),
-                              Qt::AlignLeft);
+    splashscreen.showMessage(msg.arg(fixedparameters::application_version,
+                                     QString().setNum(DipyDoc::min_dipydocformat_version),
+                                     QString().setNum(DipyDoc::max_dipydocformat_version)),
+                             Qt::AlignLeft);
 
     splashscreen.show();
     QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
@@ -246,7 +246,7 @@ int DipylonUI::go(int argc, char **argv) {
     if (i + 1 != argc) {
       if (args.at(i) == "--load") {
         // let's open what lies in args.at(i+1), after the "--load" parameter :
-        this->mainWin->loadDipyDoc( args.at(i+1) );
+        this->mainWin->loadDipyDoc(args.at(i+1));
       }
     }
   }
@@ -263,7 +263,6 @@ int DipylonUI::go(int argc, char **argv) {
 
 ______________________________________________________________________________*/
 void DipylonUI::read_settings(void) {
-
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
@@ -285,16 +284,16 @@ void DipylonUI::read_settings(void) {
     main window's geometry :
   */
   #ifdef ALLOW_RESIZING_THE_MAINWINDOW
-  this->mainWin->resize( settings.value("mainwindow/size",
-                                        QSize()).toSize() );
+  this->mainWin->resize(settings.value("mainwindow/size",
+                                       QSize()).toSize());
   #endif
 
   #ifdef ALLOW_MOVING_THE_MAINWINDOW
-  this->mainWin->move( settings.value("mainwindow/pos",
-                                      QPoint()).toPoint());
+  this->mainWin->move(settings.value("mainwindow/pos",
+                                     QPoint()).toPoint());
   #endif
 
-  if( settings.value("mainwindow/fullscreen") == true  ) {
+  if (settings.value("mainwindow/fullscreen") == true) {
     this->mainWin->showFullScreen();
   }
 
@@ -341,5 +340,4 @@ void DipylonUI::write_settings(void) {
     display splashscreen ?
   */
   settings.setValue("application/displaysplashscreen", this->display_splashscreen);
-
 }
