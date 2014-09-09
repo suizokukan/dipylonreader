@@ -219,6 +219,17 @@ int DipylonUI::go(int argc, char **argv) {
   QSplashScreen splashscreen( QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
                               Qt::WindowStaysOnTopHint );
   if (this->first_launch == true || this->display_splashscreen == true) {
+
+    QString msg("<span style=\"color:#223399\">" + \
+                QObject::tr("<b>Δίπυλον project</b> : Dipylon reader<br/>"
+                            "- version %1 -<br/>"
+                            "Dipydoc formats accepted : %2 to %3.<br/>"));
+
+    splashscreen.showMessage( msg.arg(fixedparameters::application_version,
+                                      QString().setNum(DipyDoc::min_dipydocformat_version),
+                                      QString().setNum(DipyDoc::max_dipydocformat_version)),
+                              Qt::AlignLeft);
+
     splashscreen.show();
     QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
                        &splashscreen, SLOT(close()));
