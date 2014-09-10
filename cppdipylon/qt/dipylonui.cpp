@@ -186,6 +186,40 @@ int DipylonUI::go(int argc, char **argv) {
 
   // main window creation :
   this->mainWin = new MainWindow(*this);
+
+  /*
+    main window maximized ?
+
+    On Linux/X11, the ::showMaximized() method isn't ok, hence the tricks used
+    above.
+    see http://qt-project.org/doc/qt-5/application-windows.html#window-geometry
+  */
+  #ifdef ALLOW_MAXIMIZE_MAINWINDOW
+  qDebug() << "maximize the main window";
+
+  #ifdef MAXIMIZE_MAINWINDOW_TRUE_METHOD
+  if (this->first_launch == true) {
+    this->mainWin->showMaximized();
+  }
+  #endif
+
+  #ifdef MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+  if (this->first_launch == true) {
+    /*
+      Since the ::showMaximized() method doesn't work,
+      let's resize and move the main window "artistically" :
+    */
+    QSize size = QGuiApplication::primaryScreen()->size();
+    size.setWidth( size.width() / 2 );
+    size.setHeight( size.height() / 2 );
+    this->mainWin->move( (size.width() / 2), (size.height() / 2) );
+    this->mainWin->resize(size);
+  }
+  #endif
+
+  #endif
+
+  // the main window is displayed :
   this->mainWin->show();
 
   /*
