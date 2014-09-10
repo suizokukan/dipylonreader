@@ -41,7 +41,7 @@ namespace fixedparameters {
 */
 static const QString organization_name   = "suizokukanfactory";
 static const QString organization_domain = "94.23.197.37";
-static const QString application_name    = "dipylon";
+static const QString application_name    = "dipylonreader";
 static const QString application_version = "0.3.9";
 static const QString application_style   = "CleanLooks";
 
