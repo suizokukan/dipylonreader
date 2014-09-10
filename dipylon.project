@@ -182,6 +182,12 @@ o ALLOW_MOVING_THE_MAINWINDOW
 
 o ALLOW_SPLASHSCREEN
 
+o ALLOW_MAXIMIZE_MAINWINDOW
+  if you define ALLOW_MAXIMIZE_MAINWINDOW, please define of one the two following constants :
+
+  o MAXIMIZE_MAINWINDOW_TRUE_METHOD
+  o MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+
 ################################################################################
 [1.2] options choisies pour le projet
 ################################################################################
