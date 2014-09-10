@@ -38,6 +38,7 @@ QTPLUGIN += dsengine qtmedia_audioengine
 
 # Input
 HEADERS         +=  fixedparameters.h \
+                    debug/debug.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
                     languages/languages.h \
@@ -60,9 +61,10 @@ HEADERS         +=  fixedparameters.h \
                     qt/textformat.h
 
 SOURCES         +=  main.cpp \
-                    languages/languagefromto.cpp \
+                    debug/debug.cpp \
                     dipydoc/dipydoc.cpp \
                     dipydoc/dipydocnotes.cpp \
+                    languages/languagefromto.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
                     pos/posinaudio/posinaudiorange.cpp \
