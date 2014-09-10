@@ -59,6 +59,8 @@ SOMMAIRE
      [12.1] arguments specific to the project
      [12.2] Qt arguments
 
+[13] settings (=configuration file)
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -953,3 +955,14 @@ tentative de compiler depuis Windows :
 
 confer http://qt-project.org/doc/qt-5/qapplication.html
 ... -style, -stylesheet, -reverse, ...
+
+################################################################################
+[13] settings (=configuration file)
+################################################################################
+
+"application/firstlaunch" : (bool)
+"application/displaysplashscreen" : (bool)
+
+"mainwindow/size"       : @Size(960 540)
+"mainwindow/pos"        : @Point(480 270)
+"mainwindow/fullscreen" : (bool)
