@@ -26,7 +26,7 @@ QT += multimedia
 
 # Input
 HEADERS         +=  fixedparameters.h \
-                    debug/debug.h \
+                    debugmsg/debugmsg.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
                     languages/languages.h \
@@ -49,7 +49,6 @@ HEADERS         +=  fixedparameters.h \
                     qt/textformat.h
 
 SOURCES         +=  main.cpp \
-                    debug/debug.cpp \
                     dipydoc/dipydoc.cpp \
                     dipydoc/dipydocnotes.cpp \
                     languages/languagefromto.cpp \

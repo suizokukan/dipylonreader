@@ -19,24 +19,28 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : debug/debug.h
+    ❏Dipylon❏ : debugmsg/debugmsg.h
 
-    o Debug class
+    o DebugMsg class
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_DEBUG_DEBUG_H_
-#define CPPDIPYLON_DEBUG_DEBUG_H_
+#ifndef CPPDIPYLON_DEBUGMSG_DEBUGMSG_H_
+#define CPPDIPYLON_DEBUGMSG_DEBUGMSG_H_
 
-static QStringList debugmsg;
+//#include <QStringList>
+//static QStringList debugmsg;
 
-struct Debug {
-  Debug(void);
-  template<class T> Debug& operator<<(const T& m);
+struct DebugMsg {
+  DebugMsg(void);
+  template<class T> DebugMsg& operator<<(const T& m);
 };
 
-Debug::Debug(void) {}
-template<class T> inline Debug& Debug::operator<<(const T& parameter) {
+// constructor
+DebugMsg::DebugMsg(void) {}
+
+// DebugMsg::operator<<
+template<class T> inline DebugMsg& DebugMsg::operator<<(const T& parameter) {
   qDebug() << parameter;
   return *this;
 }

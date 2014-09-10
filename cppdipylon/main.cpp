@@ -26,6 +26,7 @@
 #include <QApplication>
 
 #include "qt/dipylonui.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -35,6 +36,8 @@
   and "argv".
 ______________________________________________________________________________*/
 int main(int argc, char **argv) {
+    DebugMsg() << "entry point; argc=" << argc << "; argv[0] =" << argv[0];
+
     Q_INIT_RESOURCE(dipylon);
 
     DipylonUI myapp = DipylonUI();
