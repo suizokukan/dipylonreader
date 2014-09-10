@@ -263,6 +263,8 @@ int DipylonUI::go(int argc, char **argv) {
 
 ______________________________________________________________________________*/
 void DipylonUI::read_settings(void) {
+  qDebug() << "DipylonUI::read_settings()";
+
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
@@ -281,28 +283,33 @@ void DipylonUI::read_settings(void) {
   this->first_launch = !settings.contains("application/firstlaunch");
 
   /*
-    main window's geometry :
+    we read the settings only if there are settings to be read :
   */
-  #ifdef ALLOW_RESIZING_THE_MAINWINDOW
-  qDebug() << "resize main window :" << settings.value("mainwindow/size", QSize()).toSize();
-  this->mainWin->resize(settings.value("mainwindow/size",
-                                       QSize()).toSize());
-  #endif
+  if (this->first_launch == false) {
+    /*
+      main window's geometry :
+    */
+    #ifdef ALLOW_RESIZING_THE_MAINWINDOW
+    qDebug() << "resize main window :" << settings.value("mainwindow/size", QSize()).toSize();
+    this->mainWin->resize(settings.value("mainwindow/size",
+                                         QSize()).toSize());
+    #endif
 
-  #ifdef ALLOW_MOVING_THE_MAINWINDOW
-  qDebug() << "move main window :" << settings.value("mainwindow/pos", QPoint()).toPoint();
-  this->mainWin->move(settings.value("mainwindow/pos",
-                                     QPoint()).toPoint());
-  #endif
+    #ifdef ALLOW_MOVING_THE_MAINWINDOW
+    qDebug() << "move main window :" << settings.value("mainwindow/pos", QPoint()).toPoint();
+    this->mainWin->move(settings.value("mainwindow/pos",
+                                       QPoint()).toPoint());
+    #endif
 
-  if (settings.value("mainwindow/fullscreen") == true) {
-    this->mainWin->showFullScreen();
+    if (settings.value("mainwindow/fullscreen") == true) {
+      this->mainWin->showFullScreen();
+    }
+
+    /*
+      display splashscreen ?
+    */
+    this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
   }
-
-  /*
-    display splashscreen ?
-  */
-  this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
 }
 
 /*______________________________________________________________________________
