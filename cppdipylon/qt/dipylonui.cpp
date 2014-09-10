@@ -175,6 +175,12 @@ int DipylonUI::go(int argc, char **argv) {
   this->icon_readingmode_grammar = new QIcon(":ressources/images/icons/readingmode_grammar.png");
 
   /*
+    Displaying some usefull informations
+  */
+  qDebug() << "QGuiApplication::primaryScreen()->name() =" << QGuiApplication::primaryScreen()->name();
+  qDebug() << "QGuiApplication::primaryScreen()->size() =" << QGuiApplication::primaryScreen()->size();
+
+  /*
      default reading mode
 
      This parameter will be set again when a file will be opended. But the UI needs
@@ -297,8 +303,6 @@ int DipylonUI::go(int argc, char **argv) {
 
 ______________________________________________________________________________*/
 void DipylonUI::read_settings(void) {
-  qDebug() << "DipylonUI::read_settings()";
-
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
@@ -310,6 +314,7 @@ void DipylonUI::read_settings(void) {
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
+  qDebug() << "DipylonUI::read_settings() from " << settings.fileName();
 
   /*
     first launch ?
@@ -362,6 +367,7 @@ void DipylonUI::write_settings(void) {
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
+  qDebug() << "DipylonUI::write_settings() to " << settings.fileName();
 
   /*
     If 'application/firstlaunch' is defined, it means that the program
