@@ -21,28 +21,65 @@
 
     ❏Dipylon❏ : debugmsg/debugmsg.h
 
+    o debug_messages : list of debug messages
     o DebugMsg class
+
+    Each call to DebugMsg() adds a message into 'debug_messages'.
+
+    code adapted from http://stackoverflow.com/questions/2179623
 
 *******************************************************************************/
 
 #ifndef CPPDIPYLON_DEBUGMSG_DEBUGMSG_H_
 #define CPPDIPYLON_DEBUGMSG_DEBUGMSG_H_
 
-//#include <QStringList>
-//static QStringList debugmsg;
+#include <QStringList>
 
-struct DebugMsg {
-  DebugMsg(void);
-  template<class T> DebugMsg& operator<<(const T& m);
+/*
+  even if, according to cpplint, "streams are highly discouraged", it seems
+  reasonnable to use them here.
+*/
+#include <iostream>  // NOLINT(readability/streams)
+#include <sstream>
+
+static QStringList debug_messages;
+
+/*______________________________________________________________________________
+
+  DebugMsg class : the main idea is to add the successive paramaters in a stream
+                   and to display this stream when the object is deleted.
+
+______________________________________________________________________________*/
+class DebugMsg {
+ public:
+                    DebugMsg(void);
+                    ~DebugMsg(void);
+
+                    DebugMsg& operator<<(const int& argument);
+  template<class T> DebugMsg& operator<<(const T& argument);
+
+ private:
+                    std::ostringstream stream;
 };
 
-// constructor
-DebugMsg::DebugMsg(void) {}
+DebugMsg::DebugMsg() {
+}
 
-// DebugMsg::operator<<
-template<class T> inline DebugMsg& DebugMsg::operator<<(const T& parameter) {
-  qDebug() << parameter;
+DebugMsg::~DebugMsg() {
+  std::cerr << stream.str() << std::endl;
+}
+
+DebugMsg& DebugMsg::operator<<(const int& argument) {
+  stream << argument;
+  debugmsg << QString().setNum(argument);
   return *this;
 }
 
-#endif
+template<class T> DebugMsg& DebugMsg::operator<<(const T& argument) {
+  stream << argument;
+  debugmsg << argument;
+  return *this;
+}
+
+
+#endif  // CPPDIPYLON_DEBUGMSG_DEBUGMSG_H_
