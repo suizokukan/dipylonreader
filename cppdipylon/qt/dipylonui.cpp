@@ -284,11 +284,13 @@ void DipylonUI::read_settings(void) {
     main window's geometry :
   */
   #ifdef ALLOW_RESIZING_THE_MAINWINDOW
+  qDebug() << "resize main window :" << settings.value("mainwindow/size", QSize()).toSize();
   this->mainWin->resize(settings.value("mainwindow/size",
                                        QSize()).toSize());
   #endif
 
   #ifdef ALLOW_MOVING_THE_MAINWINDOW
+  qDebug() << "move main window :" << settings.value("mainwindow/pos", QPoint()).toPoint();
   this->mainWin->move(settings.value("mainwindow/pos",
                                      QPoint()).toPoint());
   #endif

@@ -15,6 +15,9 @@ TRANSLATIONS = dipylon_French.ts
 #_______________________________________________________________________________
 DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
 DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
+DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
+DEFINES += ALLOW_MOVING_THE_MAINWINDOW
+DEFINES += ALLOW_SPLASHSCREEN
 
 #_______________________________________________________________________________
 #
