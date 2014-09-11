@@ -72,7 +72,8 @@ inline DebugMsg::DebugMsg() {
 }
 
 inline DebugMsg::~DebugMsg() {
-  std::cerr << stream.str() << std::endl;
+  //std::cerr << stream.str() << std::endl;
+  qDebug() << stream;
 }
 
 inline DebugMsg& DebugMsg::operator<<(const int& argument) {
