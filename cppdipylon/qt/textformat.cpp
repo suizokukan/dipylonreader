@@ -28,6 +28,7 @@
 *******************************************************************************/
 
 #include "textformat.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -296,8 +297,8 @@ int TextFormat::init_from_string(const QString& source_string) {
        continue;
     }
 
-    qDebug() << "TextFormat::init_from_string() : unknown keyword=" << keyword \
-             << "keyword.length()=" << keyword.length();
+    DebugMsg() << "TextFormat::init_from_string() : unknown keyword=" << keyword \
+               << "keyword.length()=" << keyword.length();
 
     res = TextFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
     this->_well_initialized = false;

@@ -28,6 +28,7 @@
 *******************************************************************************/
 
 #include "qt/arrowformat.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -160,7 +161,7 @@ int ArrowFormat::init_from_string(const QString& source_string) {
     if (keyword == "end-color:white")  { this->_endcolor = QColor(Qt::white);   continue;  }
     if (keyword == "end-color:yellow") { this->_endcolor = QColor(Qt::yellow);  continue;  }
 
-    qDebug() << "ArrowFormat::init_from_string(); unknown keyword=" << keyword;
+    DebugMsg() << "ArrowFormat::init_from_string(); unknown keyword=" << keyword;
     res = ArrowFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
     this->_well_initialized = false;
   }

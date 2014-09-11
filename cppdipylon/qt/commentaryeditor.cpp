@@ -26,6 +26,7 @@
 *******************************************************************************/
 
 #include "qt/commentaryeditor.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -88,7 +89,7 @@ void CommentaryEditor::update_content__translation_expected(const PosInTextRange
   o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
 ______________________________________________________________________________*/
 void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
-  qDebug() << "CommentaryEditor::keyReleaseEvent" << keyboard_event->key();
+  DebugMsg() << "CommentaryEditor::keyReleaseEvent" << keyboard_event->key();
 
   switch (keyboard_event->key()) {
     case Qt::Key_Space : {

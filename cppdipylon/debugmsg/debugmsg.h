@@ -34,6 +34,8 @@
 #define CPPDIPYLON_DEBUGMSG_DEBUGMSG_H_
 
 #include <QStringList>
+#include <QPoint>
+#include <QSize>
 
 /*
   even if, according to cpplint, "streams are highly discouraged", it seems
@@ -56,30 +58,80 @@ class DebugMsg {
                     ~DebugMsg(void);
 
                     DebugMsg& operator<<(const int& argument);
+                    DebugMsg& operator<<(const QString& argument);
+                    DebugMsg& operator<<(const bool& argument);
+                    DebugMsg& operator<<(const QPoint& argument);
+                    DebugMsg& operator<<(const QSize& argument);
   template<class T> DebugMsg& operator<<(const T& argument);
 
  private:
                     std::ostringstream stream;
 };
 
-DebugMsg::DebugMsg() {
+inline DebugMsg::DebugMsg() {
 }
 
-DebugMsg::~DebugMsg() {
+inline DebugMsg::~DebugMsg() {
   std::cerr << stream.str() << std::endl;
 }
 
-DebugMsg& DebugMsg::operator<<(const int& argument) {
+inline DebugMsg& DebugMsg::operator<<(const int& argument) {
   stream << argument;
-  debugmsg << QString().setNum(argument);
+  debug_messages << QString().setNum(argument);
   return *this;
 }
 
-template<class T> DebugMsg& DebugMsg::operator<<(const T& argument) {
-  stream << argument;
-  debugmsg << argument;
+inline DebugMsg& DebugMsg::operator<<(const QString& argument) {
+  stream << argument.toStdString();
+  debug_messages << argument;
   return *this;
 }
 
+inline DebugMsg& DebugMsg::operator<<(const bool& argument) {
+  if( argument == true ) {
+    stream << "true";
+    debug_messages << "true";
+  } else {
+    stream << "false";
+    debug_messages << "false";
+  }
+  return *this;
+}
+
+inline DebugMsg& DebugMsg::operator<<(const QPoint& argument) {
+   stream << "(" \
+          << argument.x() \
+          << "," \
+          << argument.y() \
+          << ")";
+
+   debug_messages << "(" \
+                  << QString().setNum(argument.x()) \
+                  << "," \
+                  << QString().setNum(argument.y()) \
+                  << ")";
+  return *this;
+}
+
+inline DebugMsg& DebugMsg::operator<<(const QSize& argument) {
+   stream << "(" \
+          << argument.width() \
+          << ","                                 \
+          << argument.height() \
+          << ")";
+
+   debug_messages << "(" \
+                  << QString().setNum(argument.width()) \
+                  << ","                                 \
+                  << QString().setNum(argument.height()) \
+                  << ")";
+  return *this;
+}
+
+template<class T> inline DebugMsg& DebugMsg::operator<<(const T& argument) {
+  stream << argument;
+  debug_messages << argument;
+  return *this;
+}
 
 #endif  // CPPDIPYLON_DEBUGMSG_DEBUGMSG_H_

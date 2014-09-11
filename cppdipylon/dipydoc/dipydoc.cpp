@@ -34,6 +34,7 @@
 *******************************************************************************/
 
 #include "dipydoc/dipydoc.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -46,13 +47,13 @@
 
 ______________________________________________________________________________*/
 DipyDoc::DipyDoc(const QString& _path) {
-  qDebug() << "DipyDoc::DipyDoc from " << _path;
+  DebugMsg() << "DipyDoc::DipyDoc from " << _path;
 
   this->clear();
 
   // does the path leads to the expected files ?
   if (this->check_path(_path) == false) {
-    qDebug() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
+    DebugMsg() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
     return;
@@ -63,7 +64,7 @@ DipyDoc::DipyDoc(const QString& _path) {
 
   // let's open the text file :
   if( this->well_initialized() == true ) {
-    qDebug() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
+    DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
     QFile src_file(this->source_text.filename);
     src_file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream src_file_stream(&src_file);
@@ -71,7 +72,7 @@ DipyDoc::DipyDoc(const QString& _path) {
     this->source_text.text = src_file_stream.readAll();
   }
 
-  qDebug() << "(DipyDoc::DipyDoc) exit point";
+  DebugMsg() << "(DipyDoc::DipyDoc) exit point";
 }
 
 /*______________________________________________________________________________
@@ -230,14 +231,14 @@ ________________________________________________________________________________
 bool DipyDoc::error(const QString& _msg) {
   QString msg(QString("An error occured by reading the main file : msg=\"%1\";.").arg(_msg));
   this->err_messages.append(msg);
-  qDebug() << msg;
+  DebugMsg() << msg;
 
   return true;  // since this function has been called, there must be an error !
 }
 bool DipyDoc::error(const QString& _msg, const QString& _error_string) {
   QString msg(QString("An error occured by reading the main file : msg=\"%1\"; error_string()=\"%2\".").arg(_msg, _error_string));
   this->err_messages.append(msg);
-  qDebug() << msg;
+  DebugMsg() << msg;
 
   return true;  // since this function has been called, there must be an error !
 }
@@ -249,7 +250,7 @@ template<class T> bool DipyDoc::error(const T& object, const QString& _error_str
   if (error_detected == true) {
     QString msg(QString("An error occured by reading the main file : error_string=\"%1\"; where=\"%2\".").arg(_error_string, where));
     this->err_messages.append(msg);
-    qDebug() << msg;
+    DebugMsg() << msg;
   }
 
   return error_detected;
@@ -662,7 +663,7 @@ QString DipyDoc::get_xml_repr(void) const {
 
 ______________________________________________________________________________*/
 void DipyDoc::init_from_xml(const QString& _path) {
-  qDebug() << "DipyDoc::init_from_xml() : entry point; path=" << _path;
+  DebugMsg() << "DipyDoc::init_from_xml() : entry point; path=" << _path;
 
   QString msg_error;
 
@@ -671,7 +672,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   ............................................................................*/
   this->clear();
 
-  qDebug() << "DipyDoc::init_from_xml" << "path=" << _path;
+  DebugMsg() << "DipyDoc::init_from_xml" << "path=" << _path;
 
   /*............................................................................
     (2) main file opening
@@ -696,7 +697,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
 
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
-  qDebug() << "(DipyDoc::init_from_xml) #3";
+  DebugMsg() << "(DipyDoc::init_from_xml) #3";
   QXmlStreamReader xmlreader;
   xmlreader.setDevice(&dipydoc_main_xml_file);
 
@@ -724,14 +725,14 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   if( ok == false ) {
-    qDebug() << "DipyDoc::init_from_xml() : exit #1";
+    DebugMsg() << "DipyDoc::init_from_xml() : exit #1";
     return;
   }
 
   /*............................................................................
     (4) secondary initializations
   ............................................................................*/
-  qDebug() << "(DipyDoc::init_from_xml) #4";
+  DebugMsg() << "(DipyDoc::init_from_xml) #4";
 
   /*............................................................................
     (4.1) initialization of "audiorecord.audio2text"
@@ -769,7 +770,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   /*............................................................................
     (5) checks
   ............................................................................*/
-  qDebug() << "(DipyDoc::init_from_xml) #5";
+  DebugMsg() << "(DipyDoc::init_from_xml) #5";
 
   /*............................................................................
     (5.1) is audiorecord.text2audio correctly initialized ?
@@ -864,21 +865,21 @@ void DipyDoc::init_from_xml(const QString& _path) {
   if( ok == false ) {
     this->_well_initialized = false;
     // _internal_state has been precedently set to NOT_CORRECTLY_INITIALIZED.
-    qDebug() << "DipyDoc::init_from_xml() : exit #2; something's wrong.";
+    DebugMsg() << "DipyDoc::init_from_xml() : exit #2; something's wrong.";
   }
   else {
     this->_well_initialized = true;
     this->_internal_state = DipyDoc::INTERNALSTATE::OK;
   }
-  qDebug() << "(DipyDoc::init_from_xml) levels=" << this->levels_repr();
+  DebugMsg() << "(DipyDoc::init_from_xml) levels=" << this->levels_repr();
 
-  qDebug() << "(DipyDoc::init_from_xml) arrows=" << this->arrows_repr();
+  DebugMsg() << "(DipyDoc::init_from_xml) arrows=" << this->arrows_repr();
 
-  qDebug() << "(DipyDoc::init_from_xml) notes=";
-  qDebug() << this->notes.repr();
+  DebugMsg() << "(DipyDoc::init_from_xml) notes=";
+  DebugMsg() << this->notes.repr();
 
-  qDebug() << "DipyDoc::init_from_xml" << \
-           "xml:this->_well_initialized = " << this->_well_initialized;
+  DebugMsg() << "DipyDoc::init_from_xml" << \
+                "xml:this->_well_initialized = " << this->_well_initialized;
 }
 
 /*______________________________________________________________________________
