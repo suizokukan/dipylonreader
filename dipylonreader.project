@@ -102,6 +102,14 @@ SOMMAIRE
       o (feature14) QSettings is now used to restore the geometry of the main window
       o (feature15) updated dipylon.project : fixed the names of the compilations's options
 
+0.4.0 :
+      o (feature20) "I click and you play where I have clicked'" is ok.
+      o (feature23) SourceEditor::mouseReleaseEvent() is ready to display the translation matching the string selected;
+      o (feature25, feature26) : a splashscreen can now be displayed
+      o (feature16, feature27, feature31) modified the application's and the organization's name in something more regular (no upper case, no ' character; modified the application's name in fixedparameters.h : 'dipylon' > 'dipylonreader; modified several file names : Dipylon > DipylonReader, modified all header files : Dipylon > DipylonReader
+      o (feature28, feature30) DebugMsg class, new compilation options : DEBUG_MESSAGES_TO_CERR and STORE_DEBUG_MESSAGES
+      + feature17, feature18, feature19, feature21, feature22, feature24, feature29, feature32.
+
 [TRAVAIL COURANT]
 - ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
 - jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
