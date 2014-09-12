@@ -66,9 +66,20 @@ class DebugMsg {
                     std::ostringstream stream;
 };
 
+/*______________________________________________________________________________
+
+  DebugMsg::DebugMsg : void constructor
+
+______________________________________________________________________________*/
 inline DebugMsg::DebugMsg() {
 }
 
+/*______________________________________________________________________________
+
+  DebugMsg::~DebugMsg : when the destructor is called, the error messages
+  are stored and displayed.
+
+______________________________________________________________________________*/
 inline DebugMsg::~DebugMsg() {
   #ifdef DEBUG_MESSAGES_TO_CERR
   std::cerr << stream.str() << std::endl;
@@ -84,6 +95,11 @@ inline DebugMsg::~DebugMsg() {
   qDebug() << QString::fromStdString(stream.str());
 }
 
+/*______________________________________________________________________________
+
+  DebugMsg::operator<<
+
+______________________________________________________________________________*/
 inline DebugMsg& DebugMsg::operator<<(const int& argument) {
   stream << argument;
   return *this;
