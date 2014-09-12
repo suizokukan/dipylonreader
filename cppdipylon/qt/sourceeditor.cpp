@@ -61,10 +61,10 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
   known cases :
 
   [1] space
-    [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-    [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-    [1.3] KARAOKE + UNDEFINED : nothing to do.
-    [1.4] UNDEFINED reading mode -> KARAOKE + PLAYING
+    [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+    [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+    [1.3] RLMODE + UNDEFINED : nothing to do.
+    [1.4] UNDEFINED reading mode -> RLMODE + PLAYING
   [2] arrows
   [3] other keys
 
@@ -78,27 +78,27 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     // [1] space
     case Qt::Key_Space : {
       switch (ui.reading_mode) {
-        case DipylonUI::READINGMODE_KARAOKE: {
+        case DipylonUI::READINGMODE_RLMODE: {
           switch (ui.reading_mode_details) {
             //......................................................................
-            // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
-              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+            // [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+            case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING: {
+              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE;
               ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_pause));
               ui.mainWin->audio_player->pause();
               break;
             }
 
             //......................................................................
-            // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
-              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            // [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+            case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
+              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
               ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_play));
               ui.mainWin->audio_player->play();
               break;
             }
 
-            // [1.3] KARAOKE + UNDEFINED : nothing to do.
+            // [1.3] RLMODE + UNDEFINED : nothing to do.
             default : {
               break;
             }
@@ -108,10 +108,10 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         }
 
         //..........................................................................
-        // [1.4] UNDEFINED reading mode -> KARAOKE + PLAYING
+        // [1.4] UNDEFINED reading mode -> RLMODE + PLAYING
         default: {
-            ui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
-            ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            ui.reading_mode = DipylonUI::READINGMODE_RLMODE;
+            ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
             ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_play));
             ui.mainWin->audio_player->play();
             break;
@@ -126,13 +126,13 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     case Qt::Key_Left :
     case Qt::Key_Right : {
       switch (ui.reading_mode) {
-        case DipylonUI::READINGMODE_KARAOKE: {
+        case DipylonUI::READINGMODE_RLMODE: {
           switch (ui.reading_mode_details) {
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
+            case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING: {
               break;
             }
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP :
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE : {
+            case DipylonUI::READINGMODEDETAIL_RLMODE_STOP :
+            case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE : {
               break;
             }
             default : {
@@ -258,7 +258,7 @@ _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->current_dipylonui.current_dipydoc;
 
-  if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
+  if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE) {
     int shift = dipydoc.source_text.number_of_chars_before_source_text;
 
     QTextCursor cur = this->textCursor();
@@ -282,7 +282,7 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
       cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
       cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
       QTextEdit::ExtraSelection sel = { cur,
-                                        dipydoc.sourceeditor_karaoke_textformat.qtextcharformat() };
+                                        dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
       selections.append(sel);
     }
     this->setExtraSelections(selections);
@@ -333,9 +333,9 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
 
     /*
-      karaoke mode : stop
+      rlmode mode : stop
     */
-    ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
+    ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
     ui.mainWin->update_icons();
 
     return;
@@ -346,13 +346,13 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
   switch (ui.reading_mode) {
 
-    case DipylonUI::READINGMODE_KARAOKE: {
+    case DipylonUI::READINGMODE_RLMODE: {
       switch (ui.reading_mode_details) {
         //......................................................................
-        // KARAOKE + ON PAUSE
-        // KARAOKE + STOP
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE:
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP : {
+        // RLMODE + ON PAUSE
+        // RLMODE + STOP
+        case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE:
+        case DipylonUI::READINGMODEDETAIL_RLMODE_STOP : {
 
           // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
@@ -375,8 +375,8 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
           break;
         }
         //......................................................................
-        // KARAOKE + PLAYING
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING : {
+        // RLMODE + PLAYING
+        case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING : {
           // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
           PairOfPosInAudio pos_in_audio = found_position.second;

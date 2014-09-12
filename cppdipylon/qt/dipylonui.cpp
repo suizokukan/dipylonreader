@@ -73,8 +73,8 @@ DipylonUI::~DipylonUI(void) {
   delete icon_audio_play_unavailable;
   delete icon_audio_stop;
   delete icon_audio_stop_unavailable;
-  delete icon_readingmode_karaoke;
-  delete icon_readingmode_grammar;
+  delete icon_readingmode_rlmode;
+  delete icon_readingmode_amode;
 
   DebugMsg() << "DipylonUI::~DipylonUI(#fin)";
 }
@@ -172,8 +172,8 @@ int DipylonUI::go(int argc, char **argv) {
   this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
   this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->icon_readingmode_karaoke = new QIcon(":ressources/images/icons/readingmode_karaoke.png");
-  this->icon_readingmode_grammar = new QIcon(":ressources/images/icons/readingmode_grammar.png");
+  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
+  this->icon_readingmode_amode = new QIcon(":ressources/images/icons/readingmode_amode.png");
 
   /*
     Displaying some usefull informations
@@ -187,9 +187,9 @@ int DipylonUI::go(int argc, char **argv) {
      This parameter will be set again when a file will be opended. But the UI needs
      this information for the display, e.g. the icons.
   */
-  this->reading_mode         = DipylonUI::READINGMODE::READINGMODE_GRAMMAR;
-  this->reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_GRAMMAR;
-  DebugMsg() << "now in GRAMMAR mode";
+  this->reading_mode         = DipylonUI::READINGMODE::READINGMODE_AMODE;
+  this->reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
+  DebugMsg() << "now in AMODE mode";
 
   // main window creation :
   this->mainWin = new MainWindow(*this);

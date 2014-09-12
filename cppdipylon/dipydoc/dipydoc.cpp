@@ -386,8 +386,8 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "      <stylesheet>$SOURCEEDITOR_STYLESHEET$</stylesheet>\n";
   res += "      <default_textformat>$SOURCEEDITOR_DEFAULTTEXTFORMAT$"
          "</default_textformat>\n";
-  res += "      <karaoke_textformat>$SOURCEEDITOR_KARAOKETEXTFORMAT$"
-         "</karaoke_textformat>\n";
+  res += "      <rlmode_textformat>$SOURCEEDITOR_RLMODETEXTFORMAT$"
+         "</rlmode_textformat>\n";
   res += "    </sourceeditor>\n";
 
   res += "    <commentaryeditor>\n";
@@ -600,8 +600,8 @@ QString DipyDoc::get_xml_repr(void) const {
                this->sourceeditor_stylesheet);
   res.replace("$SOURCEEDITOR_DEFAULTTEXTFORMAT$",
                this->sourceeditor_default_textformat.repr());
-  res.replace("$SOURCEEDITOR_KARAOKETEXTFORMAT$",
-               this->sourceeditor_karaoke_textformat.repr());
+  res.replace("$SOURCEEDITOR_RLMODETEXTFORMAT$",
+               this->sourceeditor_rlmode_textformat.repr());
   res.replace("$COMMENTARYEDITOR_STYLESHEET$",
                this->commentaryeditor_stylesheet);
   res.replace("$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$",
@@ -1110,11 +1110,11 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
                                 QString("aspect::sourceeditor::default_textformat"));
              continue;
            }
-           // aspect::sourceeditor's karaoke_textformat
-           if (xmlreader.name() == "karaoke_textformat") {
-             this->sourceeditor_karaoke_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->sourceeditor_karaoke_textformat, this->error_string(xmlreader),
-                                QString("aspect::sourceeditor::karaoke_textformat"));
+           // aspect::sourceeditor's rlmode_textformat
+           if (xmlreader.name() == "rlmode_textformat") {
+             this->sourceeditor_rlmode_textformat = TextFormat(xmlreader.readElementText());
+             ok &= !this->error(this->sourceeditor_rlmode_textformat, this->error_string(xmlreader),
+                                QString("aspect::sourceeditor::rlmode_textformat"));
              continue;
            }
          }

@@ -83,10 +83,10 @@ void CommentaryEditor::update_content__translation_expected(const PosInTextRange
 
   known cases :
 
-  o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-  o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-  o [1.3] KARAOKE + UNDEFINED : nothing to do.
-  o [2] UNDEFINED reading mode -> KARAOKE + PLAYING
+  o [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+  o [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+  o [1.3] RLMODE + UNDEFINED : nothing to do.
+  o [2] UNDEFINED reading mode -> RLMODE + PLAYING
 ______________________________________________________________________________*/
 void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
   DebugMsg() << "CommentaryEditor::keyReleaseEvent" << keyboard_event->key();
@@ -94,12 +94,12 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
   switch (keyboard_event->key()) {
     case Qt::Key_Space : {
       switch (this->current_dipylonui.reading_mode) {
-        case DipylonUI::READINGMODE_KARAOKE: {
+        case DipylonUI::READINGMODE_RLMODE: {
           switch (this->current_dipylonui.reading_mode_details) {
             //......................................................................
-            // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
-              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+            // [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+            case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING: {
+              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE;
 
               QIcon icon = *(this->current_dipylonui.icon_audio_pause);
               this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(icon);
@@ -109,9 +109,9 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
             }
 
             //......................................................................
-            // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
-              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            // [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+            case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
+              this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
 
               QIcon icon = *(this->current_dipylonui.icon_audio_play);
               this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(icon);
@@ -120,7 +120,7 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
               break;
             }
 
-            // [1.3] KARAOKE + UNDEFINED : nothing to do.
+            // [1.3] RLMODE + UNDEFINED : nothing to do.
             default : {
               break;
             }
@@ -130,10 +130,10 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         }
 
         //..........................................................................
-        // [2] UNDEFINED reading mode -> KARAOKE + PLAYING
+        // [2] UNDEFINED reading mode -> RLMODE + PLAYING
         default: {
-            this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
-            this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RLMODE;
+            this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
             this->current_dipylonui.mainWin->audiocontrols_playAct->setIcon(*(this->current_dipylonui.icon_audio_play));
             this->current_dipylonui.mainWin->audio_player->play();
             break;
