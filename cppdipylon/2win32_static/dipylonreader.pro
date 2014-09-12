@@ -39,7 +39,7 @@ QT += multimedia
 QTPLUGIN += dsengine qtmedia_audioengine
 
 # Input
-HEADERS         +=  fixedparameters.h \
+HEADERS         +=  ./fixedparameters.h \
                     debugmsg/debugmsg.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
@@ -62,7 +62,7 @@ HEADERS         +=  fixedparameters.h \
                     qt/sourceeditor.h \
                     qt/textformat.h
 
-SOURCES         +=  main.cpp \
+SOURCES         +=  ./main.cpp \
                     debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
                     dipydoc/dipydocnotes.cpp \
