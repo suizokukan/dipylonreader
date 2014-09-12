@@ -20,6 +20,8 @@ DEFINES += ALLOW_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_SPLASHSCREEN
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
 DEFINES += MAXIMIZE_MAINWINDOW_TRUE_METHOD
+DEFINES += STORE_DEBUG_MESSAGES
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 #_______________________________________________________________________________
 #
@@ -38,6 +40,7 @@ QTPLUGIN += dsengine qtmedia_audioengine
 
 # Input
 HEADERS         +=  fixedparameters.h \
+                    debugmsg/debugmsg.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
                     languages/languages.h \
@@ -60,9 +63,10 @@ HEADERS         +=  fixedparameters.h \
                     qt/textformat.h
 
 SOURCES         +=  main.cpp \
-                    languages/languagefromto.cpp \
+                    debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
                     dipydoc/dipydocnotes.cpp \
+                    languages/languagefromto.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
                     pos/posinaudio/posinaudiorange.cpp \

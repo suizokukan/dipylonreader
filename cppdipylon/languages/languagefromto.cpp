@@ -26,6 +26,7 @@
 *******************************************************************************/
 
 #include "languages/languagefromto.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -62,13 +63,13 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
   if ( languages::known_languages.find(this->_from) == known_languages_end ) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_FROMLANGUAGE;
-    qDebug() << "LanguageFromTo::LanguageFromTo() : unknown 'from' language = " << this->_from;
+    DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'from' language = " << this->_from;
   }
 
   if (languages::known_languages.find(this->_to) == known_languages_end) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_TOLANGUAGE;
-    qDebug() << "LanguageFromTo::LanguageFromTo() : unknown 'to' language = " << this->_to;
+    DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'to' language = " << this->_to;
   }
 }
 

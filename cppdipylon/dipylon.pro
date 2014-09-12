@@ -20,12 +20,16 @@ DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
 DEFINES += ALLOW_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
 DEFINES += MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+DEFINES += DEBUG_MESSAGES_TO_CERR
+DEFINES += STORE_DEBUG_MESSAGES
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 QT += widgets
 QT += multimedia
 
 # Input
 HEADERS         +=  fixedparameters.h \
+                    debugmsg/debugmsg.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
                     languages/languages.h \
@@ -48,9 +52,10 @@ HEADERS         +=  fixedparameters.h \
                     qt/textformat.h
 
 SOURCES         +=  main.cpp \
-                    languages/languagefromto.cpp \
+                    debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
                     dipydoc/dipydocnotes.cpp \
+                    languages/languagefromto.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
                     pos/posinaudio/posinaudiorange.cpp \

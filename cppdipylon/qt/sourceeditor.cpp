@@ -26,6 +26,7 @@
 *******************************************************************************/
 
 #include "qt/sourceeditor.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -70,7 +71,7 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
 ______________________________________________________________________________*/
 void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
   DipylonUI& ui = this->current_dipylonui;
-  qDebug() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
+  DebugMsg() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
 
   switch (keyboard_event->key()) {
     //......................................................................
@@ -400,12 +401,12 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     /*
     QTextCursor cur = this->textCursor();
 
-    qDebug() << "SourceEditor::mouseReleaseEvent" << "pos=" << cur.position();
+    DebugMsg() << "SourceEditor::mouseReleaseEvent" << "pos=" << cur.position();
     if (cur.hasSelection()) {
       QString selected_txt = cur.selectedText();
       PosInText x0 = static_cast<PosInText>(cur.selectionStart());
       PosInText x1 = static_cast<PosInText>(cur.selectionEnd());
-      qDebug() << "SourceEditor::mouseReleaseEvent; selection=" << x0 << "-" << x1;
+      DebugMsg() << "SourceEditor::mouseReleaseEvent; selection=" << x0 << "-" << x1;
      }
     */
   QTextEdit::mouseReleaseEvent(mouse_event);

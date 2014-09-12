@@ -33,6 +33,7 @@ class SourceEditor;
 #include "fixedparameters.h"
 #include "qt/sourceeditor.h"
 #include "qt/commentaryeditor.h"
+#include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/dipylonui.h"
 

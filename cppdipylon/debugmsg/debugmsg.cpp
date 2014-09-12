@@ -19,29 +19,12 @@
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : main.cpp
+    ❏Dipylon❏ : "debugmsg/debugmsg.h
+
+    See debugmsg.h for the documentation.
 
 *******************************************************************************/
 
-#include <QApplication>
-
-#include "qt/dipylonui.h"
 #include "debugmsg/debugmsg.h"
 
-/*______________________________________________________________________________
-
-  Main entry point.
-
-  See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about "argc"
-  and "argv".
-______________________________________________________________________________*/
-int main(int argc, char **argv) {
-    DebugMsg() << "entry point; argc=" << argc << "; argv[0] =" << argv[0];
-
-    Q_INIT_RESOURCE(dipylon);
-
-    DipylonUI myapp = DipylonUI();
-    int resvalue = myapp.go(argc, argv);
-
-    return resvalue;
-}
+QStringList DebugMsg::messages = QStringList();
