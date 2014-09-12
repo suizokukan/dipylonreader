@@ -70,8 +70,17 @@ inline DebugMsg::DebugMsg() {
 }
 
 inline DebugMsg::~DebugMsg() {
-  //std::cerr << stream.str() << std::endl;
+  #ifdef DEBUG_MESSAGES_TO_CERR
+  std::cerr << stream.str() << std::endl;
+  #endif
+
+  #ifdef STORE_DEBUG_MESSAGES
   DebugMsg::messages << QString::fromStdString(stream.str());
+  #endif
+
+  /*
+    use QT_NO_DEBUG_OUTPUT to allow/disallow the qDebug() output :
+  */
   qDebug() << QString::fromStdString(stream.str());
 }
 

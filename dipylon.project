@@ -190,6 +190,9 @@ o ALLOW_MAXIMIZE_MAINWINDOW
   o MAXIMIZE_MAINWINDOW_TRUE_METHOD
   o MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
 
+o DEBUG_MESSAGES_TO_CERR
+o STORE_DEBUG_MESSAGES
+
 ################################################################################
 [1.2] options choisies pour le projet
 ################################################################################
