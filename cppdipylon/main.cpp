@@ -38,7 +38,7 @@ ______________________________________________________________________________*/
 int main(int argc, char **argv) {
     DebugMsg() << "entry point; argc=" << argc << "; argv[0] =" << argv[0];
 
-    Q_INIT_RESOURCE(dipylon);
+    Q_INIT_RESOURCE(dipylonreader);
 
     DipylonUI myapp = DipylonUI();
     int resvalue = myapp.go(argc, argv);

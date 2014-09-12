@@ -1,16 +1,16 @@
 ######################################################################
-# Dipylon project : .pro file for Windows/32 bits/static with MXE
+# DipylonReader project : .pro file for Windows/32 bits/static with MXE
 ######################################################################
 
 TEMPLATE = app
-TARGET = dipylon
+TARGET = dipylonreader
 INCLUDEPATH += .
-RESOURCES        =  dipylon.qrc
-TRANSLATIONS = dipylon_French.ts
+RESOURCES        =  dipylonreader.qrc
+TRANSLATIONS = dipylonreader_French.ts
 
 #_______________________________________________________________________________
 #
-# compilation options : see dipylon.project for more informations
+# compilation options : see dipylonreader.project for more informations
 #
 #_______________________________________________________________________________
 DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
@@ -94,7 +94,7 @@ UI_DIR = build/
 #
 # see http://qt-project.org/doc/qt-5/appicon.html
 #_______________________________________________________________________________
-RC_FILE = dipylon.rc
+RC_FILE = dipylonreader.rc
 
 
 
