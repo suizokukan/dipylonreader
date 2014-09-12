@@ -462,7 +462,6 @@ void MainWindow::documentWasModified() {
 
 ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
-
   DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
   #ifndef QT_NO_CURSOR
@@ -480,7 +479,10 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
                     "<br/><br/>" + tr("See more details below.") );
     this->current_dipylonui.current_dipydoc.err_messages.prepend( "internal state = " + \
                                        QString().setNum(this->current_dipylonui.current_dipydoc.internal_state()) );
-    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.err_messages.join("\n\n") );
+
+    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.err_messages.join("\n\n") + \
+                            "\n\n\n*** internal debug message ***\n\n\n" + \
+                            DebugMsg::messages.join("\n") );
     msgBox.exec();
   }
   else {

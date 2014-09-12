@@ -61,6 +61,7 @@ HEADERS         +=  fixedparameters.h \
                     qt/textformat.h
 
 SOURCES         +=  main.cpp \
+                    debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
                     dipydoc/dipydocnotes.cpp \
                     languages/languagefromto.cpp \
