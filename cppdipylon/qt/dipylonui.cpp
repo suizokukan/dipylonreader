@@ -1,31 +1,32 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : qt/dipylonui.cpp
+    ❏DipylonReader❏ : qt/dipylonui.cpp
 
     See dipylonui.h for the documentation.
 
 *******************************************************************************/
 
 #include "qt/dipylonui.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -42,12 +43,12 @@ DipylonUI::DipylonUI(void) {
   */
   QFileInfo path_info = QFileInfo(fixedparameters::default__path_to_dipydocs);
   if (path_info.exists() == false || path_info.isFile()) {
-    qDebug() << "DipylonUI::DipylonUI" \
-             << "problem with the default path stored in fixedparameters.h, using the current directory." \
-             << " default path = " << fixedparameters::default__path_to_dipydocs \
-             << " (path_info.exists()=" << path_info.exists() \
-             << "path_info.isFile()=" << path_info.isFile() \
-             << ")";
+    DebugMsg() << "DipylonUI::DipylonUI" \
+               << "problem with the default path stored in fixedparameters.h, using the current directory." \
+               << " default path = " << fixedparameters::default__path_to_dipydocs \
+               << " (path_info.exists()=" << path_info.exists() \
+               << "path_info.isFile()=" << path_info.isFile() \
+               << ")";
     // problem with the default value, the program has to use the current directory :
     this->path_to_dipydocs = ".";
   } else {
@@ -60,7 +61,7 @@ DipylonUI::DipylonUI(void) {
   DipylonUI destructor
 ______________________________________________________________________________*/
 DipylonUI::~DipylonUI(void) {
-  qDebug() << "DipylonUI::~DipylonUI(#beginning)";
+  DebugMsg() << "DipylonUI::~DipylonUI(#beginning)";
   delete icon_new;
   delete icon_open;
   delete icon_save;
@@ -75,7 +76,7 @@ DipylonUI::~DipylonUI(void) {
   delete icon_readingmode_karaoke;
   delete icon_readingmode_grammar;
 
-  qDebug() << "DipylonUI::~DipylonUI(#fin)";
+  DebugMsg() << "DipylonUI::~DipylonUI(#fin)";
 }
 
 /*______________________________________________________________________________
@@ -101,7 +102,7 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
   DipylonUI::go() : UI creation + main loop
 ______________________________________________________________________________*/
 int DipylonUI::go(int argc, char **argv) {
-  qDebug() << "enter in DipylonUI::go()";
+  DebugMsg() << "enter in DipylonUI::go()";
 
   /*
     We want to use the system's standard settings.
@@ -120,7 +121,7 @@ int DipylonUI::go(int argc, char **argv) {
   // application's look :
   app.setStyle(fixedparameters::application_style);
   // application's icon :
-  app.setWindowIcon(QIcon(":/ressources/images/icons/dipylon_application_icon.png"));
+  app.setWindowIcon(QIcon(":/ressources/images/icons/application_icon.png"));
 
   /* i18n :
 
@@ -130,8 +131,8 @@ int DipylonUI::go(int argc, char **argv) {
      see http://qt-project.org/doc/qt-5/internationalization.html
   */
   QLocale local_system = QLocale::system();
-  qDebug() << "i18n : local_system.name()=" << local_system.name();  // language_COUNTRY
-  qDebug() << "i18n : local_system.language()=" << QLocale::languageToString(local_system.language());
+  DebugMsg() << "i18n : local_system.name()=" << local_system.name();  // language_COUNTRY
+  DebugMsg() << "i18n : local_system.language()=" << QLocale::languageToString(local_system.language());
 
   /*
      global i18n (translations written by Qt)
@@ -143,8 +144,8 @@ int DipylonUI::go(int argc, char **argv) {
   QTranslator qtTranslator;
   QString system_translations_filename("qt_" +QLocale::languageToString(local_system.language()));
   bool system_translations_res = qtTranslator.load(system_translations_filename, ":/i18n");
-  qDebug() << "i18n : loading " << system_translations_filename \
-           << "success=" << system_translations_res;
+  DebugMsg() << "i18n : loading " << system_translations_filename \
+             << "success=" << system_translations_res;
   app.installTranslator(&qtTranslator);
 
   /*
@@ -155,8 +156,8 @@ int DipylonUI::go(int argc, char **argv) {
   QTranslator dipylonTranslator;
   QString dipylon_translations_filename("dipylon_" + QLocale::languageToString(local_system.language()));
   bool dipylon_translations_res = dipylonTranslator.load(dipylon_translations_filename, ":/i18n");
-  qDebug() << "i18n : loading " << dipylon_translations_filename \
-           << "success=" << dipylon_translations_res;
+  DebugMsg() << "i18n : loading " << dipylon_translations_filename \
+             << "success=" << dipylon_translations_res;
   app.installTranslator(&dipylonTranslator);
 
   // creating the icons :
@@ -175,6 +176,12 @@ int DipylonUI::go(int argc, char **argv) {
   this->icon_readingmode_grammar = new QIcon(":ressources/images/icons/readingmode_grammar.png");
 
   /*
+    Displaying some usefull informations
+  */
+  DebugMsg() << "QGuiApplication::primaryScreen()->name() =" << QGuiApplication::primaryScreen()->name();
+  DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << QGuiApplication::primaryScreen()->size();
+
+  /*
      default reading mode
 
      This parameter will be set again when a file will be opended. But the UI needs
@@ -182,10 +189,44 @@ int DipylonUI::go(int argc, char **argv) {
   */
   this->reading_mode         = DipylonUI::READINGMODE::READINGMODE_GRAMMAR;
   this->reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_GRAMMAR;
-  qDebug() << "now in GRAMMAR mode";
+  DebugMsg() << "now in GRAMMAR mode";
 
   // main window creation :
   this->mainWin = new MainWindow(*this);
+
+  /*
+    main window maximized ?
+
+    On Linux/X11, the ::showMaximized() method isn't ok, hence the tricks used
+    above.
+    see http://qt-project.org/doc/qt-5/application-windows.html#window-geometry
+  */
+  #ifdef ALLOW_MAXIMIZE_MAINWINDOW
+  DebugMsg() << "maximize the main window";
+
+  #ifdef MAXIMIZE_MAINWINDOW_TRUE_METHOD
+  if (this->first_launch == true) {
+    this->mainWin->showMaximized();
+  }
+  #endif
+
+  #ifdef MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+  if (this->first_launch == true) {
+    /*
+      Since the ::showMaximized() method doesn't work,
+      let's resize and move the main window "artistically" :
+    */
+    QSize size = QGuiApplication::primaryScreen()->size();
+    size.setWidth( size.width() / 2 );
+    size.setHeight( size.height() / 2 );
+    this->mainWin->move( (size.width() / 2), (size.height() / 2) );
+    this->mainWin->resize(size);
+  }
+  #endif
+
+  #endif
+
+  // the main window is displayed :
   this->mainWin->show();
 
   /*
@@ -203,13 +244,38 @@ int DipylonUI::go(int argc, char **argv) {
     we display the list of the available fonts' families :
   */
   QFontDatabase qfontdatabase;
-  qDebug() << "list of the available fonts' families : " \
-           << qfontdatabase.families().join("; ");
+  DebugMsg() << "list of the available fonts' families : " \
+             << qfontdatabase.families().join("; ");
 
   /*
     saved settings :
   */
   this->read_settings();
+
+  /*
+    splash screen
+  */
+  #ifdef ALLOW_SPLASHSCREEN
+  // this variable can't be defined in the following block and must be defined here :
+  QSplashScreen splashscreen(QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
+                             Qt::WindowStaysOnTopHint);
+
+  if (this->first_launch == true || this->display_splashscreen == true) {
+    QString msg("<span style=\"color:#223399\">" + \
+                QObject::tr("<b>Δίπυλον project</b> : Dipylon reader<br/>"
+                            "- version %1 -<br/>"
+                            "Dipydoc formats accepted : %2 to %3.<br/>"));
+
+    splashscreen.showMessage(msg.arg(fixedparameters::application_version,
+                                     QString().setNum(DipyDoc::min_dipydocformat_version),
+                                     QString().setNum(DipyDoc::max_dipydocformat_version)),
+                             Qt::AlignLeft);
+
+    splashscreen.show();
+    QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
+                       &splashscreen, SLOT(close()));
+  }
+  #endif
 
   /*
     Is there a dipydoc to load on the command line ?
@@ -221,7 +287,7 @@ int DipylonUI::go(int argc, char **argv) {
     if (i + 1 != argc) {
       if (args.at(i) == "--load") {
         // let's open what lies in args.at(i+1), after the "--load" parameter :
-        this->mainWin->loadDipyDoc( args.at(i+1) );
+        this->mainWin->loadDipyDoc(args.at(i+1));
       }
     }
   }
@@ -233,11 +299,11 @@ int DipylonUI::go(int argc, char **argv) {
 
 /*______________________________________________________________________________
 
-  DipylonUI::read_settings() : read the settings and initialize the application's parameters
+  DipylonUI::read_settings() : read the settings and initialize the application's
+                               parameters
 
 ______________________________________________________________________________*/
 void DipylonUI::read_settings(void) {
-
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
@@ -249,21 +315,41 @@ void DipylonUI::read_settings(void) {
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
+  DebugMsg() << "DipylonUI::read_settings() from " << settings.fileName();
 
-  #ifdef ALLOW_RESIZING_THE_MAINWINDOW
-  this->mainWin->resize( settings.value("mainwindow/size",
-                                        QSize()).toSize() );
-  #endif
+  /*
+    first launch ?
+  */
+  this->first_launch = !settings.contains("application/firstlaunch");
 
-  #ifdef ALLOW_MOVING_THE_MAINWINDOW
-  this->mainWin->move( settings.value("mainwindow/pos",
-                                      QPoint()).toPoint());
-  #endif
+  /*
+    we read the settings only if there are settings to be read :
+  */
+  if (this->first_launch == false) {
+    /*
+      main window's geometry :
+    */
+    #ifdef ALLOW_RESIZING_THE_MAINWINDOW
+    DebugMsg() << "resize main window :" << settings.value("mainwindow/size", QSize()).toSize();
+    this->mainWin->resize(settings.value("mainwindow/size",
+                                         QSize()).toSize());
+    #endif
 
-  if( settings.value("mainwindow/fullscreen") == true  ) {
-    this->mainWin->showFullScreen();
+    #ifdef ALLOW_MOVING_THE_MAINWINDOW
+    DebugMsg() << "move main window :" << settings.value("mainwindow/pos", QPoint()).toPoint();
+    this->mainWin->move(settings.value("mainwindow/pos",
+                                       QPoint()).toPoint());
+    #endif
+
+    if (settings.value("mainwindow/fullscreen") == true) {
+      this->mainWin->showFullScreen();
+    }
+
+    /*
+      display splashscreen ?
+    */
+    this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
   }
-
 }
 
 /*______________________________________________________________________________
@@ -282,6 +368,13 @@ void DipylonUI::write_settings(void) {
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
+  DebugMsg() << "DipylonUI::write_settings() to " << settings.fileName();
+
+  /*
+    If 'application/firstlaunch' is defined, it means that the program
+    has been launched, hence the boolean value set to 'false'.
+  */
+  settings.setValue("application/firstlaunch", false);
 
   #ifdef ALLOW_RESIZING_THE_MAINWINDOW
   settings.setValue("mainwindow/size", this->mainWin->size());
@@ -292,4 +385,9 @@ void DipylonUI::write_settings(void) {
   #endif
 
   settings.setValue("mainwindow/fullscreen", this->mainWin->isFullScreen());
+
+  /*
+    display splashscreen ?
+  */
+  settings.setValue("application/displaysplashscreen", this->display_splashscreen);
 }

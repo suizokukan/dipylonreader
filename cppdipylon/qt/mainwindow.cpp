@@ -1,31 +1,32 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : qt/mainwindow.cpp
+    ❏DipylonReader❏ : qt/mainwindow.cpp
 
     see mainwindow.h for the dcumentation
 
 *******************************************************************************/
 
 #include "qt/mainwindow.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -180,7 +181,7 @@ void MainWindow::audiocontrols_play(void) {
 
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_stop(void) {
-  qDebug() << "MainWindow::audiocontrols_stop";
+  DebugMsg() << "MainWindow::audiocontrols_stop";
 
   // KARAOKE + ON PAUSE ? we set the icon from "pause" to "play".
   if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
@@ -241,7 +242,7 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
   Function called when the main window is closed.
 ______________________________________________________________________________*/
 void MainWindow::closeEvent(QCloseEvent *arg_event) {
-  qDebug() << "MainWindow::closeEvent";
+  DebugMsg() << "MainWindow::closeEvent";
 
   if (maybeSave()) {
       writeSettings();
@@ -262,9 +263,9 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
     see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 ________________________________________________________________________________*/
 void MainWindow::closing(void) {
-  qDebug() << "MainWindow::closing";
+  DebugMsg() << "MainWindow::closing";
 
-  qDebug() << "(MainWindow::closing) calling DipylonUI::write_settings()";
+  DebugMsg() << "(MainWindow::closing) calling DipylonUI::write_settings()";
   this->current_dipylonui.write_settings();
 }
 
@@ -461,8 +462,7 @@ void MainWindow::documentWasModified() {
 
 ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
-
-  qDebug() << "MainWindow::loadDipyDoc" << directoryName;
+  DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
   #ifndef QT_NO_CURSOR
   QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -474,12 +474,15 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
 
     // an error occurs :
     QMessageBox msgBox;
-    msgBox.setText( tr("Unable to load a (valid) DipyDoc from <b>") + directoryName + "</b> ." +\
+    msgBox.setText( tr("Unable to load any valid Dipydoc's document from <b>") + directoryName + "</b> ." +\
                     "<br/><br/>" + this->current_dipylonui.current_dipydoc.diagnosis() + \
                     "<br/><br/>" + tr("See more details below.") );
     this->current_dipylonui.current_dipydoc.err_messages.prepend( "internal state = " + \
                                        QString().setNum(this->current_dipylonui.current_dipydoc.internal_state()) );
-    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.err_messages.join("\n\n") );
+
+    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.err_messages.join("\n\n") + \
+                            "\n\n\n*** internal debug message ***\n\n\n" + \
+                            DebugMsg::messages.join("\n") );
     msgBox.exec();
   }
   else {
@@ -487,7 +490,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     this->load_text(this->current_dipylonui.current_dipydoc.source_text);
 
     if( this->current_dipylonui.current_dipydoc.audiorecord.found == true ) {
-      qDebug() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord.filename;
+      DebugMsg() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord.filename;
       this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord.filename));
     }
   }
@@ -618,20 +621,20 @@ void MainWindow::readingmodeAct_buttonpressed(void) {
       this->audiocontrols_stop();
       this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_GRAMMAR;
       this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_GRAMMAR;
-      qDebug() << "switched to GRAMMAR mode";
+      DebugMsg() << "switched to GRAMMAR mode";
       break;
     }
 
     case DipylonUI::READINGMODE_GRAMMAR: {
       this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
       this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
-      qDebug() << "switched to KARAOKE mode";
+      DebugMsg() << "switched to KARAOKE mode";
       break;
     }
 
     default : {
       this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
-      qDebug() << "switched to UNDEFINED mode";
+      DebugMsg() << "switched to UNDEFINED mode";
       break;
     }
   }

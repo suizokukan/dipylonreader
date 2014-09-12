@@ -1,25 +1,25 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : tests/testvectorposintextranges.cpp
+    ❏DipylonReader❏ : tests/testvectorposintextranges.cpp
 
     ⇨ tests for VectorPosInTextRanges objects.
 
@@ -81,4 +81,33 @@ void TestVectorPosInTextRanges::test2(void)
 
   QCOMPARE( vposintextranges.size() == 5 , true );
   QCOMPARE( vposintextranges.repr(), QString("0-5+10-20/0-5+11-20/1-2+190-191/8-9+91-92/10-20+150-250"));
+}
+
+/*
+  test of the toPosInTextRanges()
+*/
+void TestVectorPosInTextRanges::test3(void)
+{
+  // no error, simple VectorPosInTextRanges transformed into PosInTextRanges :
+  VectorPosInTextRanges vposintextranges = \
+    VectorPosInTextRanges( std::vector<PosInTextRanges>( { PosInTextRanges( { {10,20}, {150,250} } ),
+                                                           PosInTextRanges( { {0,5}, {7, 8} } ),
+                                                       }));
+  vposintextranges.sort();
+
+  PosInTextRanges posintextranges = vposintextranges.toPosInTextRanges();
+  QCOMPARE( posintextranges.well_initialized() == true, true );
+  QCOMPARE( posintextranges.internal_state() == PosInTextRanges::INTERNALSTATE::OK, true );
+  QCOMPARE( posintextranges.size() == 4 , true );
+  QCOMPARE( posintextranges.repr(), QString("0-5+7-8+10-20+150-250"));
+
+  // error, overlapping segments :
+  vposintextranges = \
+    VectorPosInTextRanges( std::vector<PosInTextRanges>( { PosInTextRanges( { {10,20}, {150,250} } ),
+                                                           PosInTextRanges( { {800,900}, {4, 5} } ),
+                                                           PosInTextRanges( { {0,5}, {7, 8} } ),
+                                                       }));
+  posintextranges = vposintextranges.toPosInTextRanges();
+  QCOMPARE( posintextranges.well_initialized() == false, true );
+  QCOMPARE( posintextranges.internal_state() == PosInTextRanges::INTERNALSTATE::OVERLAPPING, true );
 }

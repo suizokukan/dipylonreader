@@ -1,26 +1,46 @@
 ######################################################################
-# Dipylon project
+# DipylonReader project : .pro file for Windows/32 bits/static with MXE
 ######################################################################
 
 TEMPLATE = app
-TARGET = dipylon
+TARGET = dipylonreader
 INCLUDEPATH += .
-RESOURCES        =  dipylon.qrc
-TRANSLATIONS = dipylon_French.ts
+RESOURCES        =  dipylonreader.qrc
+TRANSLATIONS = dipylonreader_French.ts
 
 #_______________________________________________________________________________
 #
-# compilation options : see dipylon.project for more informations
+# compilation options : see dipylonreader.project for more informations
 #
 #_______________________________________________________________________________
-DEFINES += READANDWRITE
-DEFINES += ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
+DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
+DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
+DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
+DEFINES += ALLOW_MOVING_THE_MAINWINDOW
+DEFINES += ALLOW_SPLASHSCREEN
+DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
+DEFINES += MAXIMIZE_MAINWINDOW_TRUE_METHOD
+DEFINES += STORE_DEBUG_MESSAGES
+DEFINES += QT_NO_DEBUG_OUTPUT
+
+#_______________________________________________________________________________
+#
+# add this line if you want to see qDebug() messages
+#_______________________________________________________________________________
+CONFIG += console
+
+
 
 QT += widgets
 QT += multimedia
 
+# on Windows, in order to use QMediaPlayer, add the following line :
+# (see http://lists.gnu.org/archive/html/mingw-cross-env-list/2013-06/msg00027.html)
+QTPLUGIN += dsengine qtmedia_audioengine
+
 # Input
-HEADERS         +=  fixedparameters.h \
+HEADERS         +=  ./fixedparameters.h \
+                    debugmsg/debugmsg.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
                     languages/languages.h \
@@ -42,10 +62,11 @@ HEADERS         +=  fixedparameters.h \
                     qt/sourceeditor.h \
                     qt/textformat.h
 
-SOURCES         +=  main.cpp \
-                    languages/languagefromto.cpp \
+SOURCES         +=  ./main.cpp \
+                    debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
                     dipydoc/dipydocnotes.cpp \
+                    languages/languagefromto.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
                     pos/posinaudio/posinaudiorange.cpp \
@@ -67,9 +88,19 @@ MOC_DIR = build/
 RCC_DIR = build/
 UI_DIR = build/
 
-QMAKE_CFLAGS     += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wunused-value -Werror
+#_______________________________________________________________________________
+#
+# .rc file used to add the desktop icon to the application
+#
+# see http://qt-project.org/doc/qt-5/appicon.html
+#_______________________________________________________________________________
+RC_FILE = dipylonreader.rc
 
-QMAKE_CXXFLAGS   += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wunused-value -Werror
+
+
+QMAKE_CFLAGS     += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wunused-value
+
+QMAKE_CXXFLAGS   += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wunused-value
 
 #target.path = $$[QT_INSTALL_EXAMPLES]/widgets/mainwindows/application
 #INSTALLS += target

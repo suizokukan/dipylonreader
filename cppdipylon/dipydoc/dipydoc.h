@@ -1,25 +1,25 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : dipydoc/dipydoc.h
+    ❏DipylonReader❏ : dipydoc/dipydoc.h
 
     A "Dipylon document" is a text, its translation and its annotations.
 
@@ -253,6 +253,9 @@ inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : nam
   DipyDoc class
 
 ______________________________________________________________________________*/
+typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
+
+
 class DipyDoc {
 friend class DipylonUI;
 friend class MainWindow;
@@ -320,6 +323,8 @@ friend class CommentaryEditor;
                        DipyDoc(void);
               explicit DipyDoc(const QString&);
   PosInTextRanges      audio2text_contains(PosInAudio pos) const;
+  PTRangesAND2PosAudio text2audio_contains(PosInText pos) const;
+  PosInTextRanges      translation_contains(PosInText x0, PosInText x1) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;
   void                 init_from_xml(const QString&);

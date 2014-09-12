@@ -1,25 +1,25 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : fixedparameters.h
+    ❏DipylonReader❏ : fixedparameters.h
 
     Fixed parameters used throughout the program.
 
@@ -39,10 +39,10 @@ namespace fixedparameters {
 
   see http://qt-project.org/doc/qt-5/qcoreapplication.html
 */
-static const QString organization_name   = "suizokukan's factory";
+static const QString organization_name   = "suizokukanfactory";
 static const QString organization_domain = "94.23.197.37";
-static const QString application_name    = "Dipylon";
-static const QString application_version = "0.3.8";
+static const QString application_name    = "dipylonreader";
+static const QString application_version = "0.4.0";
 static const QString application_style   = "CleanLooks";
 
 /*
@@ -76,5 +76,11 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
                                                      "selection-background-color: red;";
 
 const QStringList known_doctypes = { QString("text"), };
+
+/*
+  splash screen
+*/
+static const int splashscreen_maximal_duration = 9000;
+static const bool default__display_splashscreen = true;
 }
 #endif

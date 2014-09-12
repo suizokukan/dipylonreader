@@ -22,16 +22,16 @@ cd temp__build_linux64_dynamic/
 echo "== now in temp__build_linux64_dynamic/"
 
 echo "== removing the binary in builds/"
-rm -f ../../builds/dipylon_linux_64bits_dynamic
+rm -f ../../builds/dipylonreader_linux_64bits_dynamic
 
 echo "== calling qmake"
-qmake-qt5 -makefile dipylon.pro
+qmake-qt5 -makefile dipylonreader.pro
 
 echo "== calling make"
 make
 
 echo "== copying the binary into the builds/ folder"
-cp ./build/dipylon ../../builds/dipylon_linux_64bits_dynamic
+cp ./build/dipylonreader ../../builds/dipylonreader_linux_64bits_dynamic
 
 echo "== now in ./"
 cd ..

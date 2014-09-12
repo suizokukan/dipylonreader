@@ -1,25 +1,25 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : pos/posintext/posintextranges.h
+    ❏DipylonReader❏ : pos/posintext/posintextranges.h
 
     ⇨ Use PosInTextRanges objects to store a list of (PosInText)integers.
       A PosInTextRanges object can be initialized from a QString (see POSINTEXTRANGES_STR infra).
@@ -69,7 +69,7 @@ class PosInTextRanges {
     friend class PosInTextRangesHasher;
     friend class PosInText2Str;
     friend class PosInText2PosInAudio;
-
+    friend class VectorPosInTextRanges;
  public:
                      PosInTextRanges(void);
                      PosInTextRanges(const PosInTextRanges&);
@@ -81,12 +81,13 @@ class PosInTextRanges {
   bool               operator==(const PosInTextRanges& other) const;
   bool               operator!=(const PosInTextRanges& other) const;
 
-  VPairOfPosInTextCI begin(void);
+  VPairOfPosInTextCI begin(void) const;
   bool               contains(PosInText) const;
   bool               contains(PosInText, PosInText) const;
-  VPairOfPosInTextCI end(void);
+  VPairOfPosInTextCI end(void) const;
   std::size_t        get_hash(void);
   int                internal_state(void) const;
+  bool               is_empty(void) const;
   PosInText          max(void) const;
   PosInText          min(void) const;
   size_t             size(void) const;
@@ -197,11 +198,11 @@ inline bool PosInTextRanges::operator!=(const PosInTextRanges& other) const {
   return !(this->operator==(other));
 }
 
-inline VPairOfPosInTextCI PosInTextRanges::begin(void) {
+inline VPairOfPosInTextCI PosInTextRanges::begin(void) const {
   return this->vec.begin();
 }
 
-inline VPairOfPosInTextCI PosInTextRanges::end(void) {
+inline VPairOfPosInTextCI PosInTextRanges::end(void) const {
   return this->vec.end();
 }
 
@@ -217,6 +218,10 @@ inline std::size_t PosInTextRanges::get_hash(void) {
 
 inline int PosInTextRanges::internal_state(void) const {
   return this->_internal_state;
+}
+
+inline bool PosInTextRanges::is_empty(void) const {
+  return (this->vec.size() == 0);
 }
 
 inline size_t PosInTextRanges::size(void) const { return this->vec.size(); }

@@ -1,25 +1,25 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : qt/arrowformat.cpp
+    ❏DipylonReader❏ : qt/arrowformat.cpp
 
     See arrowformat.h for the documentation
 
@@ -28,6 +28,7 @@
 *******************************************************************************/
 
 #include "qt/arrowformat.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -160,7 +161,7 @@ int ArrowFormat::init_from_string(const QString& source_string) {
     if (keyword == "end-color:white")  { this->_endcolor = QColor(Qt::white);   continue;  }
     if (keyword == "end-color:yellow") { this->_endcolor = QColor(Qt::yellow);  continue;  }
 
-    qDebug() << "ArrowFormat::init_from_string(); unknown keyword=" << keyword;
+    DebugMsg() << "ArrowFormat::init_from_string(); unknown keyword=" << keyword;
     res = ArrowFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
     this->_well_initialized = false;
   }

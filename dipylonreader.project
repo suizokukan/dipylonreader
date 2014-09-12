@@ -59,6 +59,8 @@ SOMMAIRE
      [12.1] arguments specific to the project
      [12.2] Qt arguments
 
+[13] settings (=configuration file)
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -99,6 +101,14 @@ SOMMAIRE
       o (feature13) --load argument on the command line.
       o (feature14) QSettings is now used to restore the geometry of the main window
       o (feature15) updated dipylon.project : fixed the names of the compilations's options
+
+0.4.0 :
+      o (feature20) "I click and you play where I have clicked'" is ok.
+      o (feature23) SourceEditor::mouseReleaseEvent() is ready to display the translation matching the string selected;
+      o (feature25, feature26) : a splashscreen can now be displayed
+      o (feature16, feature27, feature31) modified the application's and the organization's name in something more regular (no upper case, no ' character; modified the application's name in fixedparameters.h : 'dipylon' > 'dipylonreader; modified several file names : Dipylon > DipylonReader, modified all header files : Dipylon > DipylonReader
+      o (feature28, feature30) DebugMsg class, new compilation options : DEBUG_MESSAGES_TO_CERR and STORE_DEBUG_MESSAGES
+      + feature17, feature18, feature19, feature21, feature22, feature24, feature29, feature32.
 
 [TRAVAIL COURANT]
 - ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
@@ -179,6 +189,17 @@ o ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
 o ALLOW_RESIZING_THE_MAINWINDOW
 
 o ALLOW_MOVING_THE_MAINWINDOW
+
+o ALLOW_SPLASHSCREEN
+
+o ALLOW_MAXIMIZE_MAINWINDOW
+  if you define ALLOW_MAXIMIZE_MAINWINDOW, please define of one the two following constants :
+
+  o MAXIMIZE_MAINWINDOW_TRUE_METHOD
+  o MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+
+o DEBUG_MESSAGES_TO_CERR
+o STORE_DEBUG_MESSAGES
 
 ################################################################################
 [1.2] options choisies pour le projet
@@ -945,3 +966,14 @@ tentative de compiler depuis Windows :
 
 confer http://qt-project.org/doc/qt-5/qapplication.html
 ... -style, -stylesheet, -reverse, ...
+
+################################################################################
+[13] settings (=configuration file)
+################################################################################
+
+"application/firstlaunch" : (bool)
+"application/displaysplashscreen" : (bool)
+
+"mainwindow/size"       : @Size(960 540)
+"mainwindow/pos"        : @Point(480 270)
+"mainwindow/fullscreen" : (bool)

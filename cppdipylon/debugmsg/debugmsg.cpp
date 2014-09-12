@@ -19,45 +19,12 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : tests/testposinaudioranges.h
+    ❏DipylonReader❏ : "debugmsg/debugmsg.h
 
-    ⇨ tests for PosInAudioRange objects.
+    See debugmsg.h for the documentation.
 
-*********************************************************************************/
+*******************************************************************************/
 
-#ifndef TESTPOSINAUDIORANGE_H
-#define TESTPOSINAUDIORANGE_H
+#include "debugmsg/debugmsg.h"
 
-#include "../pos/posinaudio/posinaudiorange.h"
-
-#include <QTest>
-#include <QString>
-
-/*______________________________________________________________________________
-
-        TestPosInAudioRange class : test of PosInAudioRange module.
-
-______________________________________________________________________________*/
-class TestPosInAudioRange: public QObject
-{
-    Q_OBJECT
-
-private slots:
-
-  void test0(void);
-  void test1(void);
-  void test2(void);
-  void test3a(void);
-  void test3b(void);
-  void test3c(void);
-  void test3d(void);
-  void test3e(void);
-  void test4a(void);
-  void test4b(void);
-  void test5a(void);
-  void test5b(void);
-  void test5c(void);
-  void test5d(void);
-};
-
-#endif
+QStringList DebugMsg::messages = QStringList();

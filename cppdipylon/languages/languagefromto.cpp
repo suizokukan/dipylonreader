@@ -1,35 +1,36 @@
 /*******************************************************************************
 
-    Dipylon Copyright (C) 2008 Xavier Faure
+    DipylonReader Copyright (C) 2008 Xavier Faure
     Contact: faure dot epistulam dot mihi dot scripsisti at orange dot fr
 
-    This file is part of Dipylon.
-    Dipylon is free software: you can redistribute it and/or modify
+    This file is part of DipylonReader.
+    DipylonReader is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Dipylon is distributed in the hope that it will be useful,
+    DipylonReader is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Dipylon.  If not, see <http://www.gnu.org/licenses/>.
+    along with DipylonReader.  If not, see <http://www.gnu.org/licenses/>.
 
     ____________________________________________________________________________
 
-    ❏Dipylon❏ : languages/languagefromto.cpp
+    ❏DipylonReader❏ : languages/languagefromto.cpp
 
     See languagefromto.h for the documentation
 
 *******************************************************************************/
 
 #include "languages/languagefromto.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
-  LanguangeFromTo::constructor from a "src" QString.
+  LanguageFromTo::constructor from a "src" QString.
 
   see the LANGUAGEFROMTO_FORMAT defined in languagefromto.h
 ________________________________________________________________________________*/
@@ -62,19 +63,19 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
   if ( languages::known_languages.find(this->_from) == known_languages_end ) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_FROMLANGUAGE;
-    qDebug() << "LanguageFromTo::LanguageFromTo() : unknown 'from' language = " << this->_from;
+    DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'from' language = " << this->_from;
   }
 
   if (languages::known_languages.find(this->_to) == known_languages_end) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_TOLANGUAGE;
-    qDebug() << "LanguageFromTo::LanguageFromTo() : unknown 'to' language = " << this->_to;
+    DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'to' language = " << this->_to;
   }
 }
 
 /*______________________________________________________________________________
 
-  LanguangeFromTo::clear()
+  LanguageFromTo::clear()
 ________________________________________________________________________________*/
 void LanguageFromTo::clear(void) {
   this->_well_initialized = false;
@@ -85,7 +86,7 @@ void LanguageFromTo::clear(void) {
 
 /*______________________________________________________________________________
 
-  LanguangeFromTo::repr()
+  LanguageFromTo::repr()
 
   Return a QString representation of this.
 ________________________________________________________________________________*/
