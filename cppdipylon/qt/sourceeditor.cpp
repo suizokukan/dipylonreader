@@ -259,83 +259,62 @@ _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->current_dipylonui.current_dipydoc;
 
-  /*
-    [1] rmode
-  */
-  if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RMODE) {
-    int shift = dipydoc.source_text.number_of_chars_before_source_text;
+  switch( this->current_dipylonui.reading_mode ) {
 
-    QTextCursor cur = this->textCursor();
+    /*
+      rmode, rlmode
+    */
+    case DipylonUI::READINGMODE_RMODE :
+    case DipylonUI::READINGMODE_RLMODE : {
+      int shift = dipydoc.source_text.number_of_chars_before_source_text;
 
-    // first we set the ancient modified text's appearance to "default" :
-    QList<QTextEdit::ExtraSelection> selections;
+      QTextCursor cur = this->textCursor();
 
-    for (auto &x0x1 : this->modified_chars) {
-      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-      QTextEdit::ExtraSelection sel = { cur,
-                                        dipydoc.sourceeditor_default_textformat.qtextcharformat() };
-      selections.append(sel);
+      // first we set the ancient modified text's appearance to "default" :
+      QList<QTextEdit::ExtraSelection> selections;
+
+      for (auto &x0x1 : this->modified_chars) {
+        cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+        cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+        QTextEdit::ExtraSelection sel = { cur,
+                                          dipydoc.sourceeditor_default_textformat.qtextcharformat() };
+        selections.append(sel);
+      }
+      this->setExtraSelections(selections);
+
+      selections.clear();
+
+      // ... and then we modify the new text's appearance :
+      for (auto &x0x1 : positions) {
+        cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+        cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+
+        QTextEdit::ExtraSelection sel;
+        if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RMODE) {
+          sel = { cur,
+                  dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
+        }
+        if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE) {
+          sel = { cur,
+                  dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
+        }
+
+        selections.append(sel);
+      }
+      this->setExtraSelections(selections);
+
+      this->modified_chars = positions;
+
+      cur.clearSelection();
+
+      break;
     }
-    this->setExtraSelections(selections);
 
-    selections.clear();
-
-    // ... and then we modify the new text's appearance :
-    for (auto &x0x1 : positions) {
-      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-      QTextEdit::ExtraSelection sel = { cur,
-                                        dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
-      selections.append(sel);
+    default : {
+      break;
     }
-    this->setExtraSelections(selections);
-
-    this->modified_chars = positions;
-
-    cur.clearSelection();
-
-    return;
   }
 
-  /*
-    [2] rlmode
-  */
-  if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE) {
-    int shift = dipydoc.source_text.number_of_chars_before_source_text;
-
-    QTextCursor cur = this->textCursor();
-
-    // first we set the ancient modified text's appearance to "default" :
-    QList<QTextEdit::ExtraSelection> selections;
-
-    for (auto &x0x1 : this->modified_chars) {
-      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-      QTextEdit::ExtraSelection sel = { cur,
-                                        dipydoc.sourceeditor_default_textformat.qtextcharformat() };
-      selections.append(sel);
-    }
-    this->setExtraSelections(selections);
-
-    selections.clear();
-
-    // ... and then we modify the new text's appearance :
-    for (auto &x0x1 : positions) {
-      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-      QTextEdit::ExtraSelection sel = { cur,
-                                        dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
-      selections.append(sel);
-    }
-    this->setExtraSelections(selections);
-
-    this->modified_chars = positions;
-
-    cur.clearSelection();
-
-    return;
-  }
 }
 
 /*______________________________________________________________________________
