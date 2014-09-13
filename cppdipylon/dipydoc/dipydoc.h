@@ -324,6 +324,7 @@ friend class CommentaryEditor;
               explicit DipyDoc(const QString&);
   PosInTextRanges      audio2text_contains(PosInAudio pos) const;
   PTRangesAND2PosAudio text2audio_contains(PosInText pos) const;
+  PosInTextRanges      translation_contains(PosInText pos) const;
   PosInTextRanges      translation_contains(PosInText x0, PosInText x1) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;

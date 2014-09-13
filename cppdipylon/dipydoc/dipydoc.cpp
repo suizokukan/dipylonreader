@@ -1411,7 +1411,20 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
 
 /*______________________________________________________________________________
 
+   DipyDoc::translation_contains(PosInText pos)
+________________________________________________________________________________*/
+PosInTextRanges DipyDoc::translation_contains(PosInText pos) const {
+  return this->translation.translations.contains(pos);
+}
+
+/*______________________________________________________________________________
+
    DipyDoc::translation_contains(PosInText x0, PosInText x1)
+
+     This function returns a PosInTextRanges object although the
+   PosInText2Str::contains(x0,x1) method returns a vector : this vector is
+   transformed into a PosInTextRanges object thanks to the
+   VectorPosInTextRanges::toPosInTextRanges() method.
 ________________________________________________________________________________*/
 PosInTextRanges DipyDoc::translation_contains(PosInText x0, PosInText x1) const {
   return this->translation.translations.contains(x0, x1).toPosInTextRanges();

@@ -259,6 +259,48 @@ _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->current_dipylonui.current_dipydoc;
 
+  /*
+    [1] rmode
+  */
+  if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RMODE) {
+    int shift = dipydoc.source_text.number_of_chars_before_source_text;
+
+    QTextCursor cur = this->textCursor();
+
+    // first we set the ancient modified text's appearance to "default" :
+    QList<QTextEdit::ExtraSelection> selections;
+
+    for (auto &x0x1 : this->modified_chars) {
+      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+      QTextEdit::ExtraSelection sel = { cur,
+                                        dipydoc.sourceeditor_default_textformat.qtextcharformat() };
+      selections.append(sel);
+    }
+    this->setExtraSelections(selections);
+
+    selections.clear();
+
+    // ... and then we modify the new text's appearance :
+    for (auto &x0x1 : positions) {
+      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+      QTextEdit::ExtraSelection sel = { cur,
+                                        dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
+      selections.append(sel);
+    }
+    this->setExtraSelections(selections);
+
+    this->modified_chars = positions;
+
+    cur.clearSelection();
+
+    return;
+  }
+
+  /*
+    [2] rlmode
+  */
   if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE) {
     int shift = dipydoc.source_text.number_of_chars_before_source_text;
 
@@ -291,6 +333,8 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
     this->modified_chars = positions;
 
     cur.clearSelection();
+
+    return;
   }
 }
 
@@ -304,11 +348,12 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
 
   switch( ui.reading_mode_details ) {
     case DipylonUI::READINGMODEDETAIL_RMODE : {
-      PosInText cursor_position = this->corrected_cursor_position();
+      QTextCursor cur = this->cursorForPosition(mouse_event->pos());
+      int shift = ui.current_dipydoc.source_text.number_of_chars_before_source_text;
+      PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
       // where are the characters linked to "cursor_position" ?
-      PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
-      PosInTextRanges pos_in_text = found_position.first;
+      PosInTextRanges pos_in_text = ui.current_dipydoc.translation_contains(cursor_position);
 
       std::size_t text_ranges_hash = pos_in_text.get_hash();
 
@@ -333,7 +378,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
     }
   }
 
-  QTextEdit::mousePressEvent(mouse_event);
+  QTextEdit::mouseMoveEvent(mouse_event);
 }
 
 /*______________________________________________________________________________
