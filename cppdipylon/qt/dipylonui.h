@@ -77,6 +77,7 @@ class DipylonUI {
   QIcon*      icon_audio_play_unavailable = nullptr;
   QIcon*      icon_audio_stop = nullptr;
   QIcon*      icon_audio_stop_unavailable = nullptr;
+  QIcon*      icon_readingmode_rmode = nullptr;
   QIcon*      icon_readingmode_rlmode = nullptr;
   QIcon*      icon_readingmode_amode = nullptr;
 
@@ -92,23 +93,28 @@ class DipylonUI {
     o READINGMODE_UNDEFINED : no reading mode defined
       o READINGMODEDETAIL_UNDEFINED
 
-    o READINGMODEDETAIL_AMODE : AMODE only, no sound
+    o READINGMODEDETAIL_AMODE : "analyse" mode
 
-    o READINGMODE_RLMODE : audio record
+    o READINGMODE_RMODE : "read" mode
+      o READINGMODEDETAIL_RLMODE
+
+    o READINGMODE_RLMODE : "read and listen" mode
       o READINGMODEDETAIL_RLMODE_PLAYING
       o READINGMODEDETAIL_RLMODE_ONPAUSE
   */
   enum READINGMODE : ReadingMode {
     READINGMODE_UNDEFINED = 0,
-    READINGMODE_RLMODE    = 1,
-    READINGMODE_AMODE     = 2,
+    READINGMODE_RMODE     = 1,
+    READINGMODE_RLMODE    = 2,
+    READINGMODE_AMODE     = 3,
   };
   enum READINGMODEDETAILS : ReadingModeDetails {
       READINGMODEDETAIL_UNDEFINED      = 0,
-      READINGMODEDETAIL_RLMODE_PLAYING = 0x1000,
-      READINGMODEDETAIL_RLMODE_ONPAUSE = 0x1001,
-      READINGMODEDETAIL_RLMODE_STOP    = 0x1002,
-      READINGMODEDETAIL_AMODE          = 0x2000,
+      READINGMODEDETAIL_RMODE          = 0x1000,
+      READINGMODEDETAIL_RLMODE_PLAYING = 0x2000,
+      READINGMODEDETAIL_RLMODE_ONPAUSE = 0x2001,
+      READINGMODEDETAIL_RLMODE_STOP    = 0x2002,
+      READINGMODEDETAIL_AMODE          = 0x3000,
   };
 
   ReadingMode        reading_mode = DipylonUI::READINGMODE_UNDEFINED;
