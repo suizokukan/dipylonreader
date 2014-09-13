@@ -292,7 +292,7 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
         QTextEdit::ExtraSelection sel;
         if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RMODE) {
           sel = { cur,
-                  dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
+                  dipydoc.sourceeditor_rmode_textformat.qtextcharformat() };
         }
         if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE) {
           sel = { cur,

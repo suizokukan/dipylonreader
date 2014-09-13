@@ -278,6 +278,7 @@ friend class CommentaryEditor;
   // sourceeditor.aspect :
   QString              sourceeditor_stylesheet;
   TextFormat           sourceeditor_default_textformat;
+  TextFormat           sourceeditor_rmode_textformat;
   TextFormat           sourceeditor_rlmode_textformat;
   // commentaryeditor.aspect :
   QString              commentaryeditor_stylesheet;
@@ -333,8 +334,8 @@ friend class CommentaryEditor;
   bool                 well_initialized(void) const;
 
   // public constants ...........................................................
-  static const int     min_dipydocformat_version = 29;
-  static const int     max_dipydocformat_version = 29;
+  static const int     min_dipydocformat_version = 30;
+  static const int     max_dipydocformat_version = 30;
   // (see ::get_condensed_extracts_from_the_source_text() method) :
   static const int     condensed_extracts_length = 30;
   constexpr static const char*   condensed_extracts_separator = "//";

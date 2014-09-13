@@ -386,6 +386,8 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "      <stylesheet>$SOURCEEDITOR_STYLESHEET$</stylesheet>\n";
   res += "      <default_textformat>$SOURCEEDITOR_DEFAULTTEXTFORMAT$"
          "</default_textformat>\n";
+  res += "      <rmode_textformat>$SOURCEEDITOR_RMODETEXTFORMAT$"
+         "</rmode_textformat>\n";
   res += "      <rlmode_textformat>$SOURCEEDITOR_RLMODETEXTFORMAT$"
          "</rlmode_textformat>\n";
   res += "    </sourceeditor>\n";
@@ -600,6 +602,8 @@ QString DipyDoc::get_xml_repr(void) const {
                this->sourceeditor_stylesheet);
   res.replace("$SOURCEEDITOR_DEFAULTTEXTFORMAT$",
                this->sourceeditor_default_textformat.repr());
+  res.replace("$SOURCEEDITOR_RMODETEXTFORMAT$",
+               this->sourceeditor_rmode_textformat.repr());
   res.replace("$SOURCEEDITOR_RLMODETEXTFORMAT$",
                this->sourceeditor_rlmode_textformat.repr());
   res.replace("$COMMENTARYEDITOR_STYLESHEET$",
@@ -1108,6 +1112,13 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
              this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
              ok &= !this->error(this->sourceeditor_default_textformat, this->error_string(xmlreader),
                                 QString("aspect::sourceeditor::default_textformat"));
+             continue;
+           }
+           // aspect::sourceeditor's rmode_textformat
+           if (xmlreader.name() == "rmode_textformat") {
+             this->sourceeditor_rmode_textformat = TextFormat(xmlreader.readElementText());
+             ok &= !this->error(this->sourceeditor_rmode_textformat, this->error_string(xmlreader),
+                                QString("aspect::sourceeditor::rmode_textformat"));
              continue;
            }
            // aspect::sourceeditor's rlmode_textformat
