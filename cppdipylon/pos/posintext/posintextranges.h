@@ -82,8 +82,8 @@ class PosInTextRanges {
   bool               operator!=(const PosInTextRanges& other) const;
 
   VPairOfPosInTextCI begin(void) const;
-  bool               contains(PosInText) const;
-  bool               contains(PosInText, PosInText) const;
+  bool               contains(PosInText x0) const;
+  bool               contains(PosInText x0, PosInText x1) const;
   VPairOfPosInTextCI end(void) const;
   std::size_t        get_hash(void);
   int                internal_state(void) const;

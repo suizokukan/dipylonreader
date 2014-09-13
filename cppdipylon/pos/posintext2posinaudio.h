@@ -90,8 +90,8 @@ class PosInText2PosInAudio {
   PosInText2PosInAudio&   operator=(const PosInText2PosInAudio&);
 
   UMAP_Text2AudioCI       begin(void) const;
-  PosInTextRanges         contains(PosInText) const;
-  VectorPosInTextRanges   contains(PosInText, PosInText) const;
+  PosInTextRanges         contains(PosInText x0) const;
+  VectorPosInTextRanges   contains(PosInText x0, PosInText x1) const;
   void                    clear(void);
   UMAP_Text2AudioCI       end(void) const;
   int                     internal_state(void) const;

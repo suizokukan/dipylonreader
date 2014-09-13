@@ -74,20 +74,20 @@ void PosInAudio2PosInText::clear(void) {
 
 /*______________________________________________________________________________
 
-        PosInAudio2PosInText::contains(PosInAudioRange pos)
+        PosInAudio2PosInText::contains(PosInAudioRange x0)
 
        search the first PosInAudioRange in "this" so that
-       pair.first <= pos <= pair.second
+       pair.first <= x0 <= pair.second
 
        This function returns a PosInTextRanges. The result is an
-       empty PosInTextRanges if indexes in "this" do not contain "pos".
+       empty PosInTextRanges if indexes in "this" do not contain "x0".
 
 _____________________________________________________________________________*/
-PosInTextRanges PosInAudio2PosInText::contains(PosInAudio pos) const {
+PosInTextRanges PosInAudio2PosInText::contains(PosInAudio x0) const {
   PosInTextRanges res = PosInTextRanges();
 
   for (auto &i : this->map) {
-    if ( (i.first.pair.first <= pos) && (pos <= i.first.pair.second) ) {
+    if ( (i.first.pair.first <= x0) && (x0 <= i.first.pair.second) ) {
       // ok, the searched PosInAudioRange has been found and can be returned :
       return i.second;
     }
