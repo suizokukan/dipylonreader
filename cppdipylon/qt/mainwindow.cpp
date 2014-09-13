@@ -781,16 +781,19 @@ void MainWindow::update_icons(void) {
 
     case DipylonUI::READINGMODE_RLMODE: {
       this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rlmode) );
+      qDebug() << "########RL";
       break;
     }
 
     case DipylonUI::READINGMODE_RMODE: {
       this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rmode) );
+      qDebug() << "########R";
       break;
     }
 
     case DipylonUI::READINGMODE_AMODE: {
       this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_amode) );
+      qDebug() << "########A";
       break;
     }
 

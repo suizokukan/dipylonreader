@@ -34,6 +34,7 @@
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
+  this->setMouseTracking(true);
   this->update_aspect_from_dipydoc_aspect_informations();
 }
 
@@ -295,6 +296,48 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 
 /*______________________________________________________________________________
 
+        SourceEditor::mouseMoveEvent()
+______________________________________________________________________________*/
+void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
+
+  DipylonUI& ui = this->current_dipylonui;
+
+  switch( ui.reading_mode_details ) {
+    case DipylonUI::READINGMODEDETAIL_RMODE : {
+      PosInText cursor_position = this->corrected_cursor_position();
+
+      // where are the characters linked to "cursor_position" ?
+      PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
+      PosInTextRanges pos_in_text = found_position.first;
+
+      std::size_t text_ranges_hash = pos_in_text.get_hash();
+
+      // if the user is really on another text's segment ...
+      if( text_ranges_hash != this->modified_chars_hash ) {
+        // ... we refresh the ui :
+
+        // the function modifies the appearence of such characters :
+        this->modify_the_text_format(pos_in_text);
+
+        // hash update :
+        this->modified_chars_hash = text_ranges_hash;
+
+        ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+      }
+
+      break;
+    }
+
+    default : {
+      break;
+    }
+  }
+
+  QTextEdit::mousePressEvent(mouse_event);
+}
+
+/*______________________________________________________________________________
+
         SourceEditor::mousePressEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
@@ -304,19 +347,24 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
 /*______________________________________________________________________________
 
         SourceEditor::mouseReleaseEvent()
+
+        (1) with selection
+        (2) without selection
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   DipylonUI& ui = this->current_dipylonui;
   QTextCursor cur = this->textCursor();
 
-  //............................................................................
+  /*............................................................................
+    (1) with selection
+  ............................................................................*/
   if( cur.hasSelection() == true ) {
 
     int shift = ui.current_dipydoc.source_text.number_of_chars_before_source_text;
     PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
     PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - shift);
 
-    // where are the characters linked to "x0-x1" ?
+    // where are the characters in the translations linked to "x0-x1" ?
     PosInTextRanges pos_in_text =  ui.current_dipydoc.translation_contains(x0, x1);
 
     /*
@@ -341,7 +389,9 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     return;
   }
 
-  //............................................................................
+  /*............................................................................
+    (2) without selection
+  ............................................................................*/
   PosInText cursor_position = this->corrected_cursor_position();
 
   switch (ui.reading_mode) {
@@ -398,17 +448,6 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     }
   }
 
-    /*
-    QTextCursor cur = this->textCursor();
-
-    DebugMsg() << "SourceEditor::mouseReleaseEvent" << "pos=" << cur.position();
-    if (cur.hasSelection()) {
-      QString selected_txt = cur.selectedText();
-      PosInText x0 = static_cast<PosInText>(cur.selectionStart());
-      PosInText x1 = static_cast<PosInText>(cur.selectionEnd());
-      DebugMsg() << "SourceEditor::mouseReleaseEvent; selection=" << x0 << "-" << x1;
-     }
-    */
   QTextEdit::mouseReleaseEvent(mouse_event);
 }
 

@@ -16,27 +16,27 @@ mkdir -p ../builds
 echo "== filling temp__build_linux64_dynamic/"
 rm -f temp__build_linux64_dynamic/build/qrc_*.cpp
 rm -f temp__build_linux64_dynamic/build/moc_*.cpp
-rm -f temp__build_linux64_dynamic/build/dipylon
+rm -f temp__build_linux64_dynamic/build/dipylonreader
 rsync -a . temp__build_linux64_dynamic/ --exclude temp__build_linux64_dynamic/
 
 cd temp__build_linux64_dynamic/
 echo "== now in temp__build_linux64_dynamic/"
 
 echo "== removing the binary in builds/ folder"
-rm -f ../../builds/dipylon_linux_64bits_dynamic
+rm -f ../../builds/dipylonreader_linux_64bits_dynamic
 
 echo "== calling qmake"
-qmake-qt5 -project dipylon.pro
+qmake-qt5 -makefile dipylonreader.pro
 
 echo "== calling make"
 make
 
 echo "== copying the binary into the builds/ folder"
-cp ./build/dipylon ../../builds/dipylon_linux_64bits_dynamic
+cp ./build/dipylonreader ../../builds/dipylonreader_linux_64bits_dynamic
 
 echo "== now in ./"
 cd ..
 
 echo "== launching the binary"
-../builds/dipylon_linux_64bits_dynamic
+../builds/dipylonreader_linux_64bits_dynamic
 

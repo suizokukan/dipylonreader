@@ -173,9 +173,9 @@ int DipylonUI::go(int argc, char **argv) {
   this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
   this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->icon_readingmode_rmode = new QIcon(":ressources/images/icons/readingmode_rmode.png");
+  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
   this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
-  this->icon_readingmode_amode = new QIcon(":ressources/images/icons/readingmode_amode.png");
+  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
 
   /*
     Displaying some usefull informations

@@ -65,6 +65,7 @@ class SourceEditor : public QTextEdit {
 
  protected:
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
+    void      mouseMoveEvent(QMouseEvent* mouse_event);
     void      mouseReleaseEvent(QMouseEvent* mouse_event);
     void      mousePressEvent(QMouseEvent* mouse_event);
     void      paintEvent(QPaintEvent* ev);
