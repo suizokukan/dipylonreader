@@ -103,8 +103,7 @@ void MainWindow::about() {
         o [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
         o [1.3] RLMODE + STOP -> RLMODE + PLAYING
         o [1.4] RLMODE + UNDEFINED : nothing to do.
-  o [2] amode
-  o [3] undefined, default
+  o [2] other modes
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_play(void) {
   switch (this->current_dipylonui.reading_mode ) {
@@ -140,7 +139,7 @@ void MainWindow::audiocontrols_play(void) {
           break;
         }
 
-        // [1.4] default
+        // [1.4] RLMODE + UNDEFINED
         default : {
           break;
         }
@@ -150,18 +149,8 @@ void MainWindow::audiocontrols_play(void) {
     }
 
     /*
-      amode
+      [2] other modes
     */
-    case DipylonUI::READINGMODE_AMODE: {
-      break;
-    }
-
-    /*
-      undefined, default
-    */
-    case DipylonUI::READINGMODE_UNDEFINED: {
-      break;
-    }
     default: {
         break;
     }
@@ -537,8 +526,8 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   }
 
   // default reading mode :
-  this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_AMODE;
-  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
+  this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_RMODE;
+  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
 
   // updating the UI :
   this->update_icons();
@@ -613,9 +602,18 @@ void MainWindow::open(void) {
   MainWindow::readingmodeAct_buttonpressed()
 
   connected to readingmodeAct::triggered()
+
+  implement the [... amode -> ] rmode -> rlmode -> amode [ -> rmode ... ] shift.
 ______________________________________________________________________________*/
 void MainWindow::readingmodeAct_buttonpressed(void) {
   switch (this->current_dipylonui.reading_mode ) {
+
+    case DipylonUI::READINGMODE_RMODE: {
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RLMODE;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
+      DebugMsg() << "switched to RMODE mode";
+      break;
+    }
 
     case DipylonUI::READINGMODE_RLMODE: {
       this->audiocontrols_stop();
@@ -626,8 +624,8 @@ void MainWindow::readingmodeAct_buttonpressed(void) {
     }
 
     case DipylonUI::READINGMODE_AMODE: {
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RLMODE;
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RMODE;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RMODE;
       DebugMsg() << "switched to RLMODE mode";
       break;
     }
@@ -783,6 +781,11 @@ void MainWindow::update_icons(void) {
 
     case DipylonUI::READINGMODE_RLMODE: {
       this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rlmode) );
+      break;
+    }
+
+    case DipylonUI::READINGMODE_RMODE: {
+      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rmode) );
       break;
     }
 
