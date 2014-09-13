@@ -1399,16 +1399,16 @@ QString DipyDoc::levels_repr(void) const {
 
 /*______________________________________________________________________________
 
-   DipyDoc::text2audio_contains(PosInText pos)
+   DipyDoc::text2audio_contains(PosInText x0)
 
    return the text ranges and the audio positions (from, to) matching the
-   'pos' character.
+   'x0' character.
 
    If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
    second (PairOfPosInAudio) being set to (0,0).
 ________________________________________________________________________________*/
-PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
-  PosInTextRanges posintext = this->audiorecord.text2audio.contains(pos);
+PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
+  PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0);
 
   if (posintext.is_empty() == true) {
     return PTRangesAND2PosAudio(posintext,
@@ -1422,10 +1422,10 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
 
 /*______________________________________________________________________________
 
-   DipyDoc::translation_contains(PosInText pos)
+   DipyDoc::translation_contains(PosInText x0)
 ________________________________________________________________________________*/
-PosInTextRanges DipyDoc::translation_contains(PosInText pos) const {
-  return this->translation.translations.contains(pos);
+PosInTextRanges DipyDoc::translation_contains(PosInText x0) const {
+  return this->translation.translations.contains(x0);
 }
 
 /*______________________________________________________________________________
