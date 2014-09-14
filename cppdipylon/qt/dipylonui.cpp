@@ -82,6 +82,14 @@ DipylonUI::~DipylonUI(void) {
 
 /*______________________________________________________________________________
 
+  DipylonUI::at_least_one_dipydoc_has_been_loaded()
+______________________________________________________________________________*/
+bool DipylonUI::at_least_one_dipydoc_has_been_loaded(void) const {
+  return this->current_dipydoc.well_initialized();
+}
+
+/*______________________________________________________________________________
+
   DipylonUI::get_translations_for() : return a QString with the translations
                                       matching the positions x0 to x1 in the
                                       source text.

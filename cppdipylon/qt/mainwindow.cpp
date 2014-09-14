@@ -773,6 +773,22 @@ void MainWindow::setCurrentDipyDoc(const QString &directoryName) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
+
+  /*............................................................................
+    a special case : no Dipydoc.
+  ............................................................................*/
+  if( this->current_dipylonui.at_least_one_dipydoc_has_been_loaded() == false ) {
+    this->readingmodeAct->setVisible(false);
+    this->audiocontrols_playAct->setVisible(false);
+    this->audiocontrols_stopAct->setVisible(false);
+    return;
+  }
+
+  /*............................................................................
+    normal case : more than one Dipydoc has been loaded.
+  ............................................................................*/
+  this->readingmodeAct->setVisible(true);
+
   /*
     "reading mode" icon :
   */
