@@ -257,7 +257,7 @@ typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
 
 
 class DipyDoc {
-friend class DipylonUI;
+friend class UI;
 friend class MainWindow;
 friend class SourceEditor;
 friend class CommentaryEditor;

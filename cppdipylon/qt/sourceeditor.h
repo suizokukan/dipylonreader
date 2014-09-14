@@ -36,26 +36,26 @@
 #include <vector>
 
 #include "dipydoc/dipydoc.h"
-#include "qt/dipylonui.h"
+#include "qt/ui.h"
 #include "qt/textformat.h"
 #include "qt/blockformat.h"
 #include "pos/posintext/posintext.h"
 
 
-class DipylonUI;
+class UI;
 
 /*______________________________________________________________________________
 
   SourceEditor class
 ______________________________________________________________________________*/
 class SourceEditor : public QTextEdit {
-  friend class DipylonUI;
+  friend class UI;
   friend class MainWindow;
 
     Q_OBJECT
 
  public:
-    explicit SourceEditor(DipylonUI&);
+    explicit SourceEditor(UI&);
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);
     void      modify_the_text_format(PosInTextRanges&);
@@ -71,8 +71,8 @@ class SourceEditor : public QTextEdit {
     void      paintEvent(QPaintEvent* ev);
 
  private:
-    // DipylonUI object linked to the editor :
-    DipylonUI& current_dipylonui;
+    // UI object linked to the editor :
+    UI& ui;
 
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :

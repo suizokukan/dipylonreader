@@ -19,16 +19,16 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/dipylonui.h
+    ❏DipylonReader❏ : qt/ui.h
 
     Definition of the "user interface".
 
-    o DipylonUI class
+    o UI class
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_DIPYLONUI_H_
-#define CPPDIPYLON_QT_DIPYLONUI_H_
+#ifndef CPPDIPYLON_QT_UI_H_
+#define CPPDIPYLON_QT_UI_H_
 
 #include <QApplication>
 #include <QString>
@@ -49,9 +49,9 @@ typedef unsigned int ReadingModeDetails;
 
 /*______________________________________________________________________________
 
-  DipylonUI class : a wrapper around the QApplication object.
+  UI class : a wrapper around the QApplication object.
 ________________________________________________________________________________*/
-class DipylonUI {
+class UI {
   friend class Settings;
   friend class MainWindow;
   friend class SourceEditor;
@@ -81,7 +81,7 @@ class DipylonUI {
   QIcon*      icon_readingmode_rlmode = nullptr;
   QIcon*      icon_readingmode_amode = nullptr;
 
-  // path to the DipyDocs : the initial value is initialized by DipylonUI's constructor.
+  // path to the DipyDocs : the initial value is initialized by UI's constructor.
   QString     path_to_dipydocs;
 
   MainWindow* mainWin = nullptr;
@@ -117,11 +117,11 @@ class DipylonUI {
       READINGMODEDETAIL_AMODE          = 0x3000,
   };
 
-  ReadingMode        reading_mode = DipylonUI::READINGMODE_UNDEFINED;
-  ReadingModeDetails reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
+  ReadingMode        reading_mode = UI::READINGMODE_UNDEFINED;
+  ReadingModeDetails reading_mode_details = UI::READINGMODEDETAIL_UNDEFINED;
 
-                     DipylonUI(void);
-                     ~DipylonUI(void);
+                     UI(void);
+                     ~UI(void);
   bool               at_least_one_dipydoc_has_been_loaded(void) const;
   QString            get_translations_for(PosInText, PosInText) const;
   int                go(int argc, char **argv);
@@ -131,4 +131,4 @@ class DipylonUI {
   void               write_settings(void);
 };
 
-#endif  // CPPDIPYLON_QT_DIPYLONUI_H_
+#endif  // CPPDIPYLON_QT_UI_H_
