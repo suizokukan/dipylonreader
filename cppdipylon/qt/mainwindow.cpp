@@ -232,13 +232,7 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
 ______________________________________________________________________________*/
 void MainWindow::closeEvent(QCloseEvent *arg_event) {
   DebugMsg() << "MainWindow::closeEvent";
-
-  if (maybeSave()) {
-      writeSettings();
-      arg_event->accept();
-  } else {
-      arg_event->ignore();
-  }
+  arg_event->accept();
 }
 
 /*______________________________________________________________________________
@@ -263,14 +257,6 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions() {
-    newAct = new QAction( *(this->ui.icon_new),
-                          tr("&New"),
-                          this);
-    newAct->setShortcuts(QKeySequence::New);
-    newAct->setStatusTip(tr("Create a new file"));
-    connect(newAct, &QAction::triggered,
-            this, &MainWindow::newFile);
-
     openAct = new QAction( *(this->ui.icon_open),
                            tr("&Open"),
                            this);
@@ -278,20 +264,6 @@ void MainWindow::createActions() {
     openAct->setStatusTip(tr("Open an existing DipyDoc"));
     connect(openAct, &QAction::triggered,
             this, &MainWindow::open);
-
-    saveAct = new QAction( *(this->ui.icon_save),
-                           tr("&Save"),
-                           this);
-    saveAct->setShortcuts(QKeySequence::Save);
-    saveAct->setStatusTip(tr("Save the document to disk"));
-    connect(saveAct, &QAction::triggered,
-            this, &MainWindow::save);
-
-    saveAsAct = new QAction(tr("Save &As..."), this);
-    saveAsAct->setShortcuts(QKeySequence::SaveAs);
-    saveAsAct->setStatusTip(tr("Save the document under a new name"));
-    connect(saveAsAct, &QAction::triggered,
-            this, &MainWindow::saveAs);
 
     #ifdef READANDWRITE
     saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
@@ -384,10 +356,7 @@ void MainWindow::createActions() {
 ______________________________________________________________________________*/
 void MainWindow::createMenus() {
   fileMenu = menuBar()->addMenu(tr("&File"));
-  fileMenu->addAction(newAct);
   fileMenu->addAction(openAct);
-  fileMenu->addAction(saveAct);
-  fileMenu->addAction(saveAsAct);
   #ifdef READANDWRITE
   fileMenu->addAction(saveMainFileOfADipyDocAsAct);
   #endif
@@ -420,9 +389,7 @@ void MainWindow::createStatusBar() {
 ______________________________________________________________________________*/
 void MainWindow::createToolBars() {
     this->fileToolBar = addToolBar(tr("File"));
-    this->fileToolBar->addAction(this->newAct);
     this->fileToolBar->addAction(this->openAct);
-    this->fileToolBar->addAction(this->saveAct);
 
     this->editToolBar = addToolBar(tr("Edit"));
     this->editToolBar->addAction(this->cutAct);
@@ -544,56 +511,18 @@ void MainWindow::load_text(const DipyDocSourceText& source_text)  {
 
 /*______________________________________________________________________________
 
-  MainWindow::maybeSave
-
- http://qt-project.org/doc/qt-5/qtwidgets-mainwindows-application-example.html
-
-The maybeSave() function is called to save pending changes. If there are pending changes, it pops up a QMessageBox giving the user to save the document. The options are QMessageBox::Yes, QMessageBox::No, and QMessageBox::Cancel. The Yes button is made the default button (the button that is invoked when the user presses Return) using the QMessageBox::Default flag; the Cancel button is made the escape button (the button that is invoked when the user presses Esc) using the QMessageBox::Escape flag.
-
-The maybeSave() function returns true in all cases, except when the user clicks Cancel. The caller must check the return value and stop whatever it was doing if the return value is false.
-______________________________________________________________________________*/
-bool MainWindow::maybeSave() {
-    if (source_editor->document()->isModified()) {
-        QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, tr("Application"),
-                     tr("The document has been modified.\n"
-                        "Do you want to save your changes?"),
-                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-        if (ret == QMessageBox::Save)
-            return save();
-        else if (ret == QMessageBox::Cancel)
-            return false;
-    }
-    return true;
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::newFile
-_____________________________________________________________________________*/
-void MainWindow::newFile() {
-  if (maybeSave()) {
-      source_editor->clear();
-      setCurrentDipyDoc("");
-  }
-}
-
-/*______________________________________________________________________________
-
   MainWindow::open
 ______________________________________________________________________________*/
 void MainWindow::open(void) {
 
-  if (maybeSave()) {
-    QString directoryName = QFileDialog::getExistingDirectory(this,
-                                                              QObject::tr("Open a DipyDoc directory"),
-                                                              this->ui.path_to_dipydocs,
-                                                              QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+  QString directoryName = QFileDialog::getExistingDirectory(this,
+                                                            QObject::tr("Open a DipyDoc directory"),
+                                                            this->ui.path_to_dipydocs,
+                                                            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    if (!directoryName.isEmpty()) {
-      // loading the DipyDoc :
-      this->loadDipyDoc(directoryName);
-    }
+  if (!directoryName.isEmpty()) {
+    // loading the DipyDoc :
+    this->loadDipyDoc(directoryName);
   }
 }
 
@@ -650,64 +579,6 @@ void MainWindow::readSettings() {
   QSize _size = settings.value("size", QSize(400, 400)).toSize();
   resize(_size);
   move(_pos);
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::save
-______________________________________________________________________________*/
-bool MainWindow::save() {
-  if (curFile.isEmpty()) {
-      return saveAs();
-  } else {
-      return saveFile(curFile);
-  }
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::saveAs
-______________________________________________________________________________*/
-bool MainWindow::saveAs() {
-    QFileDialog dialog(this);
-    dialog.setWindowModality(Qt::WindowModal);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    dialog.exec();
-    QStringList files = dialog.selectedFiles();
-
-    if (files.isEmpty())
-        return false;
-
-    return saveFile(files.at(0));
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::saveFile
-
-________________________________________________________________________________*/
-bool MainWindow::saveFile(const QString &fileName) {
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
-                             tr("Cannot write file %1:\n%2.")
-                             .arg(fileName)
-                             .arg(file.errorString()));
-        return false;
-    }
-
-    QTextStream out(&file);
-#ifndef QT_NO_CURSOR
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-#endif
-    out << source_editor->toPlainText();
-#ifndef QT_NO_CURSOR
-    QApplication::restoreOverrideCursor();
-#endif
-
-    setCurrentDipyDoc(fileName);
-    statusBar()->showMessage(tr("File saved"), 2000);
-    return true;
 }
 
 /*______________________________________________________________________________
