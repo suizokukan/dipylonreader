@@ -72,7 +72,7 @@ class PosInAudio2PosInText {
   PosInAudio2PosInText&   operator=(const PosInAudio2PosInText&);
 
   void                    clear(void);
-  PosInTextRanges         contains(PosInAudio) const;
+  PosInTextRanges         contains(PosInAudio x0) const;
   int                     internal_state(void) const;
   size_t                  size(void) const;
   bool                    well_initialized(void) const;

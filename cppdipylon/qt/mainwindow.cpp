@@ -98,49 +98,48 @@ void MainWindow::about() {
 
   known cases :
 
-  o [1] karaoke
-        o [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-        o [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-        o [1.3] KARAOKE + STOP -> KARAOKE + PLAYING
-        o [1.4] KARAOKE + UNDEFINED : nothing to do.
-  o [2] grammar
-  o [3] undefined, default
+  o [1] rlmode
+        o [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+        o [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+        o [1.3] RLMODE + STOP -> RLMODE + PLAYING
+        o [1.4] RLMODE + UNDEFINED : nothing to do.
+  o [2] other modes
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_play(void) {
   switch (this->current_dipylonui.reading_mode ) {
 
     /*
-      [1] karaoke
+      [1] rlmode
     */
-    case DipylonUI::READINGMODE_KARAOKE: {
+    case DipylonUI::READINGMODE_RLMODE: {
 
       switch (this->current_dipylonui.reading_mode_details ) {
 
-        // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+        // [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+        case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE;
           this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
           this->audio_player->pause();
           break;
         }
 
-        // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+        // [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+        case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
           this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
           this->audio_player->play();
           break;
         }
 
-        // [1.3] KARAOKE + STOP -> KARAOKE + PLAYING
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+        // [1.3] RLMODE + STOP -> RLMODE + PLAYING
+        case DipylonUI::READINGMODEDETAIL_RLMODE_STOP: {
+          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
           this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
           this->audio_player->play();
           break;
         }
 
-        // [1.4] default
+        // [1.4] RLMODE + UNDEFINED
         default : {
           break;
         }
@@ -150,18 +149,8 @@ void MainWindow::audiocontrols_play(void) {
     }
 
     /*
-      grammar
+      [2] other modes
     */
-    case DipylonUI::READINGMODE_GRAMMAR: {
-      break;
-    }
-
-    /*
-      undefined, default
-    */
-    case DipylonUI::READINGMODE_UNDEFINED: {
-      break;
-    }
     default: {
         break;
     }
@@ -176,21 +165,21 @@ void MainWindow::audiocontrols_play(void) {
   Function connected to this->audiocontrols_stopAct::triggered()
 
   o stop the sound
-  o set the mode's detail to READINGMODEDETAIL_KARAOKE_STOP
+  o set the mode's detail to READINGMODEDETAIL_RLMODE_STOP
   o set the source editor's text format to "default".
 
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_stop(void) {
   DebugMsg() << "MainWindow::audiocontrols_stop";
 
-  // KARAOKE + ON PAUSE ? we set the icon from "pause" to "play".
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
-      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE ) {
+  // RLMODE + ON PAUSE ? we set the icon from "pause" to "play".
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE &&
+      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE ) {
 
     this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
   }
 
-  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
+  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
 
   audio_player->stop();
 
@@ -204,10 +193,10 @@ void MainWindow::audiocontrols_stop(void) {
 ________________________________________________________________________________*/
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
-  /* KARAOKE + PLAYING :
+  /* RLMODE + PLAYING :
    */
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
-      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING ) {
+  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE &&
+      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING ) {
 
       // where are the characters linked to "arg_pos" ?
       PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
@@ -228,8 +217,8 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
   }
 
   /*
-    this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE &&
-    this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE
+    this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE &&
+    this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE
 
     -> nothing to do.
   */
@@ -367,7 +356,7 @@ void MainWindow::createActions() {
     connect(source_editor, &QTextEdit::copyAvailable,
             copyAct, &QAction::setEnabled);
 
-    this->readingmodeAct = new QAction( *(this->current_dipylonui.icon_readingmode_karaoke),
+    this->readingmodeAct = new QAction( *(this->current_dipylonui.icon_readingmode_rlmode),
                                  tr("change the mode"),
                                  this);
     this->readingmodeAct->setStatusTip(tr("change the mode"));
@@ -537,8 +526,8 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   }
 
   // default reading mode :
-  this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_GRAMMAR;
-  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_GRAMMAR;
+  this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_RMODE;
+  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
 
   // updating the UI :
   this->update_icons();
@@ -613,22 +602,31 @@ void MainWindow::open(void) {
   MainWindow::readingmodeAct_buttonpressed()
 
   connected to readingmodeAct::triggered()
+
+  implement the [... amode -> ] rmode -> rlmode -> amode [ -> rmode ... ] shift.
 ______________________________________________________________________________*/
 void MainWindow::readingmodeAct_buttonpressed(void) {
   switch (this->current_dipylonui.reading_mode ) {
 
-    case DipylonUI::READINGMODE_KARAOKE: {
-      this->audiocontrols_stop();
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_GRAMMAR;
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_GRAMMAR;
-      DebugMsg() << "switched to GRAMMAR mode";
+    case DipylonUI::READINGMODE_RMODE: {
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RLMODE;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
+      DebugMsg() << "switched to RMODE mode";
       break;
     }
 
-    case DipylonUI::READINGMODE_GRAMMAR: {
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
-      DebugMsg() << "switched to KARAOKE mode";
+    case DipylonUI::READINGMODE_RLMODE: {
+      this->audiocontrols_stop();
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_AMODE;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_AMODE;
+      DebugMsg() << "switched to AMODE mode";
+      break;
+    }
+
+    case DipylonUI::READINGMODE_AMODE: {
+      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RMODE;
+      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RMODE;
+      DebugMsg() << "switched to RLMODE mode";
       break;
     }
 
@@ -776,18 +774,44 @@ void MainWindow::setCurrentDipyDoc(const QString &directoryName) {
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
 
+  /*............................................................................
+    a special case : no Dipydoc.
+  ............................................................................*/
+  if( this->current_dipylonui.at_least_one_dipydoc_has_been_loaded() == false ) {
+    this->readingmodeAct->setVisible(false);
+    this->audiocontrols_playAct->setVisible(false);
+    this->audiocontrols_stopAct->setVisible(false);
+    return;
+  }
+
+  /*............................................................................
+    normal case : more than one Dipydoc has been loaded.
+  ............................................................................*/
+  this->readingmodeAct->setVisible(true);
+
   /*
     "reading mode" icon :
   */
   switch (this->current_dipylonui.reading_mode ) {
 
-    case DipylonUI::READINGMODE_KARAOKE: {
-      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_karaoke) );
+    case DipylonUI::READINGMODE_RLMODE: {
+      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rlmode) );
+      // removing remaining commentary's content :
+      this->commentary_editor->clear();
       break;
     }
 
-    case DipylonUI::READINGMODE_GRAMMAR: {
-      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_grammar) );
+    case DipylonUI::READINGMODE_RMODE: {
+      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rmode) );
+      // removing remaining commentary's content :
+      this->commentary_editor->clear();
+      break;
+    }
+
+    case DipylonUI::READINGMODE_AMODE: {
+      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_amode) );
+      // removing remaining commentary's content :
+      this->commentary_editor->clear();
       break;
     }
 
@@ -799,12 +823,12 @@ void MainWindow::update_icons(void) {
   /*
     "audio controls" icons :
   */
-  if (this->current_dipylonui.reading_mode != DipylonUI::READINGMODE_KARAOKE ||
+  if (this->current_dipylonui.reading_mode != DipylonUI::READINGMODE_RLMODE ||
       this->current_dipylonui.current_dipydoc.well_initialized() == false ||
       (this->current_dipylonui.current_dipydoc.well_initialized() == true and
        this->current_dipylonui.current_dipydoc.audiorecord.found == false)) {
     /*
-       No karaoke mode or no current DipyDoc or no audio in the current DipyDoc :
+       No rlmode mode or no current DipyDoc or no audio in the current DipyDoc :
     */
     this->audiocontrols_playAct->setVisible(false);
     this->audiocontrols_playAct->setEnabled(false);

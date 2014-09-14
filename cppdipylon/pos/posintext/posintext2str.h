@@ -79,8 +79,8 @@ class PosInText2Str {
 
   std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator begin(void) const;
   void                  clear(void);
-  PosInTextRanges       contains(PosInText) const;
-  VectorPosInTextRanges contains(PosInText, PosInText) const;
+  PosInTextRanges       contains(PosInText x0) const;
+  VectorPosInTextRanges contains(PosInText x0, PosInText x1) const;
   std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator end(void) const;
   int                   internal_state(void) const;
   size_t                size(void) const;

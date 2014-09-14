@@ -386,8 +386,10 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "      <stylesheet>$SOURCEEDITOR_STYLESHEET$</stylesheet>\n";
   res += "      <default_textformat>$SOURCEEDITOR_DEFAULTTEXTFORMAT$"
          "</default_textformat>\n";
-  res += "      <karaoke_textformat>$SOURCEEDITOR_KARAOKETEXTFORMAT$"
-         "</karaoke_textformat>\n";
+  res += "      <rmode_textformat>$SOURCEEDITOR_RMODETEXTFORMAT$"
+         "</rmode_textformat>\n";
+  res += "      <rlmode_textformat>$SOURCEEDITOR_RLMODETEXTFORMAT$"
+         "</rlmode_textformat>\n";
   res += "    </sourceeditor>\n";
 
   res += "    <commentaryeditor>\n";
@@ -600,8 +602,10 @@ QString DipyDoc::get_xml_repr(void) const {
                this->sourceeditor_stylesheet);
   res.replace("$SOURCEEDITOR_DEFAULTTEXTFORMAT$",
                this->sourceeditor_default_textformat.repr());
-  res.replace("$SOURCEEDITOR_KARAOKETEXTFORMAT$",
-               this->sourceeditor_karaoke_textformat.repr());
+  res.replace("$SOURCEEDITOR_RMODETEXTFORMAT$",
+               this->sourceeditor_rmode_textformat.repr());
+  res.replace("$SOURCEEDITOR_RLMODETEXTFORMAT$",
+               this->sourceeditor_rlmode_textformat.repr());
   res.replace("$COMMENTARYEDITOR_STYLESHEET$",
                this->commentaryeditor_stylesheet);
   res.replace("$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$",
@@ -1110,11 +1114,18 @@ bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlread
                                 QString("aspect::sourceeditor::default_textformat"));
              continue;
            }
-           // aspect::sourceeditor's karaoke_textformat
-           if (xmlreader.name() == "karaoke_textformat") {
-             this->sourceeditor_karaoke_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->sourceeditor_karaoke_textformat, this->error_string(xmlreader),
-                                QString("aspect::sourceeditor::karaoke_textformat"));
+           // aspect::sourceeditor's rmode_textformat
+           if (xmlreader.name() == "rmode_textformat") {
+             this->sourceeditor_rmode_textformat = TextFormat(xmlreader.readElementText());
+             ok &= !this->error(this->sourceeditor_rmode_textformat, this->error_string(xmlreader),
+                                QString("aspect::sourceeditor::rmode_textformat"));
+             continue;
+           }
+           // aspect::sourceeditor's rlmode_textformat
+           if (xmlreader.name() == "rlmode_textformat") {
+             this->sourceeditor_rlmode_textformat = TextFormat(xmlreader.readElementText());
+             ok &= !this->error(this->sourceeditor_rlmode_textformat, this->error_string(xmlreader),
+                                QString("aspect::sourceeditor::rlmode_textformat"));
              continue;
            }
          }
@@ -1388,16 +1399,16 @@ QString DipyDoc::levels_repr(void) const {
 
 /*______________________________________________________________________________
 
-   DipyDoc::text2audio_contains(PosInText pos)
+   DipyDoc::text2audio_contains(PosInText x0)
 
    return the text ranges and the audio positions (from, to) matching the
-   'pos' character.
+   'x0' character.
 
    If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
    second (PairOfPosInAudio) being set to (0,0).
 ________________________________________________________________________________*/
-PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
-  PosInTextRanges posintext = this->audiorecord.text2audio.contains(pos);
+PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
+  PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0);
 
   if (posintext.is_empty() == true) {
     return PTRangesAND2PosAudio(posintext,
@@ -1411,7 +1422,20 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText pos) const {
 
 /*______________________________________________________________________________
 
+   DipyDoc::translation_contains(PosInText x0)
+________________________________________________________________________________*/
+PosInTextRanges DipyDoc::translation_contains(PosInText x0) const {
+  return this->translation.translations.contains(x0);
+}
+
+/*______________________________________________________________________________
+
    DipyDoc::translation_contains(PosInText x0, PosInText x1)
+
+     This function returns a PosInTextRanges object although the
+   PosInText2Str::contains(x0,x1) method returns a vector : this vector is
+   transformed into a PosInTextRanges object thanks to the
+   VectorPosInTextRanges::toPosInTextRanges() method.
 ________________________________________________________________________________*/
 PosInTextRanges DipyDoc::translation_contains(PosInText x0, PosInText x1) const {
   return this->translation.translations.contains(x0, x1).toPosInTextRanges();

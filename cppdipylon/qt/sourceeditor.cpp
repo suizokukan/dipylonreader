@@ -34,6 +34,7 @@
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
   this->setReadOnly(true);
+  this->setMouseTracking(true);
   this->update_aspect_from_dipydoc_aspect_informations();
 }
 
@@ -61,10 +62,10 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
   known cases :
 
   [1] space
-    [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-    [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-    [1.3] KARAOKE + UNDEFINED : nothing to do.
-    [1.4] UNDEFINED reading mode -> KARAOKE + PLAYING
+    [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+    [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+    [1.3] RLMODE + UNDEFINED : nothing to do.
+    [1.4] UNDEFINED reading mode -> RLMODE + PLAYING
   [2] arrows
   [3] other keys
 
@@ -78,27 +79,27 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     // [1] space
     case Qt::Key_Space : {
       switch (ui.reading_mode) {
-        case DipylonUI::READINGMODE_KARAOKE: {
+        case DipylonUI::READINGMODE_RLMODE: {
           switch (ui.reading_mode_details) {
             //......................................................................
-            // [1.1] KARAOKE + PLAYING -> KARAOKE + ON PAUSE
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
-              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE;
+            // [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
+            case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING: {
+              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE;
               ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_pause));
               ui.mainWin->audio_player->pause();
               break;
             }
 
             //......................................................................
-            // [1.2] KARAOKE + ON PAUSE -> KARAOKE + PLAYING
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE: {
-              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            // [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
+            case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
+              ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
               ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_play));
               ui.mainWin->audio_player->play();
               break;
             }
 
-            // [1.3] KARAOKE + UNDEFINED : nothing to do.
+            // [1.3] RLMODE + UNDEFINED : nothing to do.
             default : {
               break;
             }
@@ -108,10 +109,10 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         }
 
         //..........................................................................
-        // [1.4] UNDEFINED reading mode -> KARAOKE + PLAYING
+        // [1.4] UNDEFINED reading mode -> RLMODE + PLAYING
         default: {
-            ui.reading_mode = DipylonUI::READINGMODE_KARAOKE;
-            ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING;
+            ui.reading_mode = DipylonUI::READINGMODE_RLMODE;
+            ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
             ui.mainWin->audiocontrols_playAct->setIcon(*(ui.icon_audio_play));
             ui.mainWin->audio_player->play();
             break;
@@ -126,13 +127,13 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     case Qt::Key_Left :
     case Qt::Key_Right : {
       switch (ui.reading_mode) {
-        case DipylonUI::READINGMODE_KARAOKE: {
+        case DipylonUI::READINGMODE_RLMODE: {
           switch (ui.reading_mode_details) {
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING: {
+            case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING: {
               break;
             }
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP :
-            case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE : {
+            case DipylonUI::READINGMODEDETAIL_RLMODE_STOP :
+            case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE : {
               break;
             }
             default : {
@@ -258,39 +259,105 @@ _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->current_dipylonui.current_dipydoc;
 
-  if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_KARAOKE) {
-    int shift = dipydoc.source_text.number_of_chars_before_source_text;
+  switch( this->current_dipylonui.reading_mode ) {
 
-    QTextCursor cur = this->textCursor();
+    /*
+      rmode, rlmode
+    */
+    case DipylonUI::READINGMODE_RMODE :
+    case DipylonUI::READINGMODE_RLMODE : {
+      int shift = dipydoc.source_text.number_of_chars_before_source_text;
 
-    // first we set the ancient modified text's appearance to "default" :
-    QList<QTextEdit::ExtraSelection> selections;
+      QTextCursor cur = this->textCursor();
 
-    for (auto &x0x1 : this->modified_chars) {
-      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-      QTextEdit::ExtraSelection sel = { cur,
-                                        dipydoc.sourceeditor_default_textformat.qtextcharformat() };
-      selections.append(sel);
+      // first we set the ancient modified text's appearance to "default" :
+      QList<QTextEdit::ExtraSelection> selections;
+
+      for (auto &x0x1 : this->modified_chars) {
+        cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+        cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+        QTextEdit::ExtraSelection sel = { cur,
+                                          dipydoc.sourceeditor_default_textformat.qtextcharformat() };
+        selections.append(sel);
+      }
+      this->setExtraSelections(selections);
+
+      selections.clear();
+
+      // ... and then we modify the new text's appearance :
+      for (auto &x0x1 : positions) {
+        cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+        cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+
+        QTextEdit::ExtraSelection sel;
+        if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RMODE) {
+          sel = { cur,
+                  dipydoc.sourceeditor_rmode_textformat.qtextcharformat() };
+        }
+        if (this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE) {
+          sel = { cur,
+                  dipydoc.sourceeditor_rlmode_textformat.qtextcharformat() };
+        }
+
+        selections.append(sel);
+      }
+      this->setExtraSelections(selections);
+
+      this->modified_chars = positions;
+
+      cur.clearSelection();
+
+      break;
     }
-    this->setExtraSelections(selections);
 
-    selections.clear();
-
-    // ... and then we modify the new text's appearance :
-    for (auto &x0x1 : positions) {
-      cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-      cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-      QTextEdit::ExtraSelection sel = { cur,
-                                        dipydoc.sourceeditor_karaoke_textformat.qtextcharformat() };
-      selections.append(sel);
+    default : {
+      break;
     }
-    this->setExtraSelections(selections);
-
-    this->modified_chars = positions;
-
-    cur.clearSelection();
   }
+
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::mouseMoveEvent()
+______________________________________________________________________________*/
+void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
+
+  DipylonUI& ui = this->current_dipylonui;
+
+  switch( ui.reading_mode_details ) {
+    case DipylonUI::READINGMODEDETAIL_RMODE : {
+      QTextCursor cur = this->cursorForPosition(mouse_event->pos());
+      int shift = ui.current_dipydoc.source_text.number_of_chars_before_source_text;
+      PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
+
+      // where are the characters linked to "cursor_position" ?
+      PosInTextRanges pos_in_text = ui.current_dipydoc.translation_contains(cursor_position);
+
+      std::size_t text_ranges_hash = pos_in_text.get_hash();
+
+      // if the user is really on another text's segment ...
+      if( text_ranges_hash != this->modified_chars_hash ) {
+        // ... we refresh the ui :
+
+        // the function modifies the appearence of such characters :
+        this->modify_the_text_format(pos_in_text);
+
+        // hash update :
+        this->modified_chars_hash = text_ranges_hash;
+
+        ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+      }
+
+      break;
+    }
+
+    default : {
+      break;
+    }
+  }
+
+  QTextEdit::mouseMoveEvent(mouse_event);
 }
 
 /*______________________________________________________________________________
@@ -304,19 +371,24 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
 /*______________________________________________________________________________
 
         SourceEditor::mouseReleaseEvent()
+
+        (1) with selection
+        (2) without selection
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   DipylonUI& ui = this->current_dipylonui;
   QTextCursor cur = this->textCursor();
 
-  //............................................................................
+  /*............................................................................
+    (1) with selection
+  ............................................................................*/
   if( cur.hasSelection() == true ) {
 
     int shift = ui.current_dipydoc.source_text.number_of_chars_before_source_text;
     PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
     PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - shift);
 
-    // where are the characters linked to "x0-x1" ?
+    // where are the characters in the translations linked to "x0-x1" ?
     PosInTextRanges pos_in_text =  ui.current_dipydoc.translation_contains(x0, x1);
 
     /*
@@ -333,26 +405,28 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
 
     /*
-      karaoke mode : stop
+      rlmode mode : stop
     */
-    ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_KARAOKE_STOP;
+    ui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
     ui.mainWin->update_icons();
 
     return;
   }
 
-  //............................................................................
+  /*............................................................................
+    (2) without selection
+  ............................................................................*/
   PosInText cursor_position = this->corrected_cursor_position();
 
   switch (ui.reading_mode) {
 
-    case DipylonUI::READINGMODE_KARAOKE: {
+    case DipylonUI::READINGMODE_RLMODE: {
       switch (ui.reading_mode_details) {
         //......................................................................
-        // KARAOKE + ON PAUSE
-        // KARAOKE + STOP
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_ONPAUSE:
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_STOP : {
+        // RLMODE + ON PAUSE
+        // RLMODE + STOP
+        case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE:
+        case DipylonUI::READINGMODEDETAIL_RLMODE_STOP : {
 
           // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
@@ -375,8 +449,8 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
           break;
         }
         //......................................................................
-        // KARAOKE + PLAYING
-        case DipylonUI::READINGMODEDETAIL_KARAOKE_PLAYING : {
+        // RLMODE + PLAYING
+        case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING : {
           // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = ui.current_dipydoc.text2audio_contains(cursor_position);
           PairOfPosInAudio pos_in_audio = found_position.second;
@@ -398,17 +472,6 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     }
   }
 
-    /*
-    QTextCursor cur = this->textCursor();
-
-    DebugMsg() << "SourceEditor::mouseReleaseEvent" << "pos=" << cur.position();
-    if (cur.hasSelection()) {
-      QString selected_txt = cur.selectedText();
-      PosInText x0 = static_cast<PosInText>(cur.selectionStart());
-      PosInText x1 = static_cast<PosInText>(cur.selectionEnd());
-      DebugMsg() << "SourceEditor::mouseReleaseEvent; selection=" << x0 << "-" << x1;
-     }
-    */
   QTextEdit::mouseReleaseEvent(mouse_event);
 }
 
