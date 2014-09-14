@@ -79,7 +79,7 @@ private slots:
     void readingmodeAct_buttonpressed(void);
 
 private:
-    UI& current_ui;
+    UI& ui;
 
     void    createActions();
     void    createMenus();

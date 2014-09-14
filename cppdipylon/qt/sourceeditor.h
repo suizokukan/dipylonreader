@@ -72,7 +72,7 @@ class SourceEditor : public QTextEdit {
 
  private:
     // UI object linked to the editor :
-    UI& current_ui;
+    UI& ui;
 
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :

@@ -58,7 +58,7 @@ friend class MainWindow;
 
  private:
     // UI object linked to the editor :
-    UI& current_ui;
+    UI& ui;
 
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();

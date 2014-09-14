@@ -33,7 +33,7 @@
   CommentaryEditor constructor
 
 ______________________________________________________________________________*/
-CommentaryEditor::CommentaryEditor(UI& ui) : current_ui(ui) {
+CommentaryEditor::CommentaryEditor(UI& _ui) : ui(_ui) {
   this->setReadOnly(true);
 
   this->update_aspect_from_dipydoc_aspect_informations();
@@ -44,7 +44,7 @@ CommentaryEditor::CommentaryEditor(UI& ui) : current_ui(ui) {
   CommentaryEditor::set_the_appearance
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_appearance(void) {
-  this->setStyleSheet(current_ui.current_dipydoc.commentaryeditor_stylesheet);
+  this->setStyleSheet(ui.current_dipydoc.commentaryeditor_stylesheet);
 }
 
 /*______________________________________________________________________________
@@ -54,7 +54,7 @@ void CommentaryEditor::set_the_appearance(void) {
   Initialize this->format_text_*
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_text_formats(void) {
-  this->format_text = current_ui.current_dipydoc.commentaryeditor_textformat.qtextcharformat();
+  this->format_text = ui.current_dipydoc.commentaryeditor_textformat.qtextcharformat();
 }
 
 /*______________________________________________________________________________
@@ -66,7 +66,7 @@ void CommentaryEditor::update_content__translation_expected(const PosInTextRange
   PosInText x0 = posintext.min();
   PosInText x1 = posintext.max();
 
-  QString matching_translations = this->current_ui.get_translations_for(x0, x1);
+  QString matching_translations = this->ui.get_translations_for(x0, x1);
 
   this->clear();
   QTextCursor cur = this->textCursor();
@@ -93,30 +93,30 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
 
   switch (keyboard_event->key()) {
     case Qt::Key_Space : {
-      switch (this->current_ui.reading_mode) {
+      switch (this->ui.reading_mode) {
         case UI::READINGMODE_RLMODE: {
-          switch (this->current_ui.reading_mode_details) {
+          switch (this->ui.reading_mode_details) {
             //......................................................................
             // [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
             case UI::READINGMODEDETAIL_RLMODE_PLAYING: {
-              this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_ONPAUSE;
+              this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_ONPAUSE;
 
-              QIcon icon = *(this->current_ui.icon_audio_pause);
-              this->current_ui.mainWin->audiocontrols_playAct->setIcon(icon);
+              QIcon icon = *(this->ui.icon_audio_pause);
+              this->ui.mainWin->audiocontrols_playAct->setIcon(icon);
 
-              this->current_ui.mainWin->audio_player->pause();
+              this->ui.mainWin->audio_player->pause();
               break;
             }
 
             //......................................................................
             // [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
             case UI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
-              this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
+              this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
 
-              QIcon icon = *(this->current_ui.icon_audio_play);
-              this->current_ui.mainWin->audiocontrols_playAct->setIcon(icon);
+              QIcon icon = *(this->ui.icon_audio_play);
+              this->ui.mainWin->audiocontrols_playAct->setIcon(icon);
 
-              this->current_ui.mainWin->audio_player->play();
+              this->ui.mainWin->audio_player->play();
               break;
             }
 
@@ -132,10 +132,10 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         //..........................................................................
         // [2] UNDEFINED reading mode -> RLMODE + PLAYING
         default: {
-            this->current_ui.reading_mode = UI::READINGMODE_RLMODE;
-            this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
-            this->current_ui.mainWin->audiocontrols_playAct->setIcon(*(this->current_ui.icon_audio_play));
-            this->current_ui.mainWin->audio_player->play();
+            this->ui.reading_mode = UI::READINGMODE_RLMODE;
+            this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
+            this->ui.mainWin->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
+            this->ui.mainWin->audio_player->play();
             break;
         }
       }
