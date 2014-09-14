@@ -30,7 +30,7 @@
 
 #include <QTextEdit>
 
-#include "qt/dipylonui.h"
+#include "qt/ui.h"
 
 class DipylonUI;
 

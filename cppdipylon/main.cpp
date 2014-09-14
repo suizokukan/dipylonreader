@@ -25,7 +25,7 @@
 
 #include <QApplication>
 
-#include "qt/dipylonui.h"
+#include "qt/ui.h"
 #include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________

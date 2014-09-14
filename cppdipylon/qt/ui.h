@@ -19,7 +19,7 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/dipylonui.h
+    ❏DipylonReader❏ : qt/ui.h
 
     Definition of the "user interface".
 
@@ -27,8 +27,8 @@
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_DIPYLONUI_H_
-#define CPPDIPYLON_QT_DIPYLONUI_H_
+#ifndef CPPDIPYLON_QT_UI_H_
+#define CPPDIPYLON_QT_UI_H_
 
 #include <QApplication>
 #include <QString>
@@ -131,4 +131,4 @@ class DipylonUI {
   void               write_settings(void);
 };
 
-#endif  // CPPDIPYLON_QT_DIPYLONUI_H_
+#endif  // CPPDIPYLON_QT_UI_H_

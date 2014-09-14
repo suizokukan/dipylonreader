@@ -19,13 +19,13 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/dipylonui.cpp
+    ❏DipylonReader❏ : qt/ui.cpp
 
-    See dipylonui.h for the documentation.
+    See ui.h for the documentation.
 
 *******************************************************************************/
 
-#include "qt/dipylonui.h"
+#include "qt/ui.h"
 #include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________

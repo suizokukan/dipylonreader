@@ -36,7 +36,7 @@
 #include <vector>
 
 #include "dipydoc/dipydoc.h"
-#include "qt/dipylonui.h"
+#include "qt/ui.h"
 #include "qt/textformat.h"
 #include "qt/blockformat.h"
 #include "pos/posintext/posintext.h"
