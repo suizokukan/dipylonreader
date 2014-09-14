@@ -122,6 +122,7 @@ class DipylonUI {
 
                      DipylonUI(void);
                      ~DipylonUI(void);
+  bool               at_least_one_dipydoc_has_been_loaded(void) const;
   QString            get_translations_for(PosInText, PosInText) const;
   int                go(int argc, char **argv);
   void               read_settings(void);
