@@ -796,16 +796,22 @@ void MainWindow::update_icons(void) {
 
     case DipylonUI::READINGMODE_RLMODE: {
       this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rlmode) );
+      // removing remaining commentary's content :
+      this->commentary_editor->clear();
       break;
     }
 
     case DipylonUI::READINGMODE_RMODE: {
       this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rmode) );
+      // removing remaining commentary's content :
+      this->commentary_editor->clear();
       break;
     }
 
     case DipylonUI::READINGMODE_AMODE: {
       this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_amode) );
+      // removing remaining commentary's content :
+      this->commentary_editor->clear();
       break;
     }
 
