@@ -110,56 +110,11 @@ SOMMAIRE
       o (feature28, feature30) DebugMsg class, new compilation options : DEBUG_MESSAGES_TO_CERR and STORE_DEBUG_MESSAGES
       + feature17, feature18, feature19, feature21, feature22, feature24, feature29, feature32.
 
-[TRAVAIL COURANT]
-- ???? [ui] si pas de mode grammaire[/karaoke] disponible, ne pas affiche l'icône
-- jusque là, DipyDocTranslation n'avait pas de found : en tenir compte pour afficher les icônes]
-- justify ne fonctionne pas (au moins sur Linux)
-- unordered_map > map
-- [dipydoc] présenter les textes de façon correcte (gros caractères)
-- [ui] faire pivoter les fenêtres : bouton ou dragable (cf QDockWidget)
-- [ui] si zone de traduction horizontale, placer la traduction à la même hauteur que le le texte traduit.
-- [ui/tablette] bouton Menu (en haut à gauche ? un gros point ?)
-- build : Linux_static/Linux_dynamique/Win32static/Win64static/OSXstatic/IPadStatic/AndroidStatic
-
-- accès à la liste des dipydocs disponibles
-- [ui] splashscreen (Anne ? ou reprendre l'icône ?)
-- [ui/desktop] maximiser la fenêtre (au premier lancement, mettre à moitié de l'écran)
-- constantes de compilation : DESKTOP/NONDESKTOP, puis DESKTOP_LINUX, DESKTOP_WIN32_STATIC, ... etc.
-- [ui] surlignage -> traduction
-- [ui] icône "mute"
-- [win] installateur Windows (cf mail de ~)
-- créer des branches (ui, dipydoc) mais avant régler la structure de l'ui (multitabs, plusieurs dipydocs...)
-- [ui] -/+ taille du texte : click-droit et menu contextuel ? barre d'outils en base de l'écran ?
-- renommer MXE MXE_Qt5_1
-- laisser la possibilité d'ouvrir plusieurs fois le même doc (!! à la clef dans le map : IDENTIFIANT+POS)
-- [ui] flèche gauche, flèche droite : passer d'un segment à l'autre (+first pos, +last pos)
-- remplace qDebug() vers une fonction warning() dont les messages seront émis par qDdebug() + stockés et pourront être affichés via un menu.
-- google/c++lint : les tests ne passent pas !
-- Menu : informations sur le dipydoc
-- click : karaoke.new start
-- segfault avec ALT+F4
-- système de warnings (ex : pas possible de charger la bonne i18n), accessible par le menu avec tous les warnings apparaissant.
-
-[A FAIRE]
-- réécrire les .sh en script python + inclure un numéro de build.
-- afficher dans un menu la liste des Dypidocs disponibles
-- compilation statique pour Linux
-- cross-comp > Mac
-- dans ... , vérifier que "number", "name" existent :
-
-      if( name == "level" ) {
-        current_division = DIPYDOCDIV_INSIDE_LEVEL;
-        int     level_number = xmlreader.attributes().value("number").toString().toInt();
-        QString level_name = xmlreader.attributes().value("name").toString();
-        this->levels[ level_number ] = level_name;
-        continue;
-      }
-
-[PEUT-ETRE]
-- plusieurs documents ouverts simultanément
-- travail sur image
-- vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
-- fichier de configuration (Linux : ~/.dipylon, ...)
+0.4.1 :
+      o (feature40) flush commentary's content when the reading mode changes.
+      o (feature38) 'readingmodeAct' icon is not displayed anymore if no Dipydoc has been loaded : I added the DipylonUI::at_least_one_dipydoc_has_been_loaded() method which should be rewritten when the project accept several dipydocs opened.
+      o (feature35) The third reading mode ('read mode') has been defined, allowing to display the translation on the fly, when the mouse hovers over an extract. The UI has been updated and the Dipydoc's format slightly amended (version #30). 
+      o + feature39, feature37, feature36, feature34, feature33
 
 ################################################################################
 [1] options de compilation
