@@ -30,12 +30,12 @@
 
 /*______________________________________________________________________________
 
-  DipylonUI constructor : the real initialization is the go() method.
+  UI constructor : the real initialization is the go() method.
 
   See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about
   "argc" and "argv".
 ______________________________________________________________________________*/
-DipylonUI::DipylonUI(void) {
+UI::UI(void) {
   /*
      initialization of this->path_info :
 
@@ -43,7 +43,7 @@ DipylonUI::DipylonUI(void) {
   */
   QFileInfo path_info = QFileInfo(fixedparameters::default__path_to_dipydocs);
   if (path_info.exists() == false || path_info.isFile()) {
-    DebugMsg() << "DipylonUI::DipylonUI" \
+    DebugMsg() << "UI::UI" \
                << "problem with the default path stored in fixedparameters.h, using the current directory." \
                << " default path = " << fixedparameters::default__path_to_dipydocs \
                << " (path_info.exists()=" << path_info.exists() \
@@ -58,10 +58,10 @@ DipylonUI::DipylonUI(void) {
 
 /*______________________________________________________________________________
 
-  DipylonUI destructor
+  UI destructor
 ______________________________________________________________________________*/
-DipylonUI::~DipylonUI(void) {
-  DebugMsg() << "DipylonUI::~DipylonUI(#beginning)";
+UI::~UI(void) {
+  DebugMsg() << "UI::~UI(#beginning)";
   delete icon_new;
   delete icon_open;
   delete icon_save;
@@ -77,24 +77,24 @@ DipylonUI::~DipylonUI(void) {
   delete icon_readingmode_rlmode;
   delete icon_readingmode_amode;
 
-  DebugMsg() << "DipylonUI::~DipylonUI(#fin)";
+  DebugMsg() << "UI::~UI(#fin)";
 }
 
 /*______________________________________________________________________________
 
-  DipylonUI::at_least_one_dipydoc_has_been_loaded()
+  UI::at_least_one_dipydoc_has_been_loaded()
 ______________________________________________________________________________*/
-bool DipylonUI::at_least_one_dipydoc_has_been_loaded(void) const {
+bool UI::at_least_one_dipydoc_has_been_loaded(void) const {
   return this->current_dipydoc.well_initialized();
 }
 
 /*______________________________________________________________________________
 
-  DipylonUI::get_translations_for() : return a QString with the translations
+  UI::get_translations_for() : return a QString with the translations
                                       matching the positions x0 to x1 in the
                                       source text.
 ______________________________________________________________________________*/
-QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
+QString UI::get_translations_for(PosInText x0, PosInText x1) const {
   VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.translations.contains(x0, x1);
 
   QStringList strlist_of_translations;
@@ -108,10 +108,10 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
 
 /*______________________________________________________________________________
 
-  DipylonUI::go() : UI creation + main loop
+  UI::go() : UI creation + main loop
 ______________________________________________________________________________*/
-int DipylonUI::go(int argc, char **argv) {
-  DebugMsg() << "enter in DipylonUI::go()";
+int UI::go(int argc, char **argv) {
+  DebugMsg() << "enter in UI::go()";
 
   /*
     We want to use the system's standard settings.
@@ -197,8 +197,8 @@ int DipylonUI::go(int argc, char **argv) {
      This parameter will be set again when a file will be opended. But the UI needs
      this information for the display, e.g. the icons.
   */
-  this->reading_mode         = DipylonUI::READINGMODE::READINGMODE_AMODE;
-  this->reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
+  this->reading_mode         = UI::READINGMODE::READINGMODE_AMODE;
+  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
   DebugMsg() << "now in AMODE mode";
 
   // main window creation :
@@ -306,23 +306,23 @@ int DipylonUI::go(int argc, char **argv) {
 
 /*______________________________________________________________________________
 
-  DipylonUI::read_settings() : read the settings and initialize the application's
+  UI::read_settings() : read the settings and initialize the application's
                                parameters
 
 ______________________________________________________________________________*/
-void DipylonUI::read_settings(void) {
+void UI::read_settings(void) {
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
         o QCoreApplication::organizationName
         o QCoreApplication::organizationDomain,
         o QCoreApplication::applicationName
-        ... all previously defined (see dipylonui.cpp)
+        ... all previously defined (see ui.cpp)
 
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
-  DebugMsg() << "DipylonUI::read_settings() from " << settings.fileName();
+  DebugMsg() << "UI::read_settings() from " << settings.fileName();
 
   /*
     first launch ?
@@ -361,21 +361,21 @@ void DipylonUI::read_settings(void) {
 
 /*______________________________________________________________________________
 
-  DipylonUI::write_settings() : write the settings
+  UI::write_settings() : write the settings
 ______________________________________________________________________________*/
-void DipylonUI::write_settings(void) {
+void UI::write_settings(void) {
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
         o QCoreApplication::organizationName
         o QCoreApplication::organizationDomain,
         o QCoreApplication::applicationName
-        ... all previously defined (see dipylonui.cpp)
+        ... all previously defined (see ui.cpp)
 
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
-  DebugMsg() << "DipylonUI::write_settings() to " << settings.fileName();
+  DebugMsg() << "UI::write_settings() to " << settings.fileName();
 
   /*
     If 'application/firstlaunch' is defined, it means that the program

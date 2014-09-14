@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
     Q_INIT_RESOURCE(dipylonreader);
 
-    DipylonUI myapp = DipylonUI();
+    UI myapp = UI();
     int resvalue = myapp.go(argc, argv);
 
     return resvalue;

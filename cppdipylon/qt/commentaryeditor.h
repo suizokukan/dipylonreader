@@ -32,7 +32,7 @@
 
 #include "qt/ui.h"
 
-class DipylonUI;
+class UI;
 
 /*______________________________________________________________________________
 
@@ -40,13 +40,13 @@ class DipylonUI;
 ______________________________________________________________________________*/
 
 class CommentaryEditor : public QTextEdit {
-friend class DipylonUI;
+friend class UI;
 friend class MainWindow;
 
     Q_OBJECT
 
  public:
-    explicit CommentaryEditor(DipylonUI&);
+    explicit CommentaryEditor(UI&);
 
     void set_the_appearance(void);
     void set_the_text_formats(void);
@@ -57,8 +57,8 @@ friend class MainWindow;
     void keyReleaseEvent(QKeyEvent* keyboard_event);
 
  private:
-    // DipylonUI object linked to the editor :
-    DipylonUI& current_dipylonui;
+    // UI object linked to the editor :
+    UI& current_ui;
 
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();

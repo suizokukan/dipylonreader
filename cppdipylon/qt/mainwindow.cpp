@@ -33,13 +33,13 @@
   MainWindow::constructor
 
 ______________________________________________________________________________*/
-MainWindow::MainWindow(DipylonUI& dipylonui) : current_dipylonui(dipylonui) {
+MainWindow::MainWindow(UI& ui) : current_ui(ui) {
     this->main_splitter = new QSplitter(this);
     this->main_splitter->setOrientation( Qt::Vertical );
     this->setCentralWidget(main_splitter);
 
-    this->source_editor = new SourceEditor(this->current_dipylonui);
-    this->commentary_editor = new CommentaryEditor(this->current_dipylonui);
+    this->source_editor = new SourceEditor(this->current_ui);
+    this->commentary_editor = new CommentaryEditor(this->current_ui);
     this->main_splitter->addWidget(this->source_editor);
     this->main_splitter->addWidget(this->commentary_editor);
 
@@ -106,35 +106,35 @@ void MainWindow::about() {
   o [2] other modes
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_play(void) {
-  switch (this->current_dipylonui.reading_mode ) {
+  switch (this->current_ui.reading_mode ) {
 
     /*
       [1] rlmode
     */
-    case DipylonUI::READINGMODE_RLMODE: {
+    case UI::READINGMODE_RLMODE: {
 
-      switch (this->current_dipylonui.reading_mode_details ) {
+      switch (this->current_ui.reading_mode_details ) {
 
         // [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
-        case DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE;
-          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_pause) );
+        case UI::READINGMODEDETAIL_RLMODE_PLAYING: {
+          this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_ONPAUSE;
+          this->audiocontrols_playAct->setIcon( *(this->current_ui.icon_audio_pause) );
           this->audio_player->pause();
           break;
         }
 
         // [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
-        case DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+        case UI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
+          this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
+          this->audiocontrols_playAct->setIcon( *(this->current_ui.icon_audio_play) );
           this->audio_player->play();
           break;
         }
 
         // [1.3] RLMODE + STOP -> RLMODE + PLAYING
-        case DipylonUI::READINGMODEDETAIL_RLMODE_STOP: {
-          this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+        case UI::READINGMODEDETAIL_RLMODE_STOP: {
+          this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
+          this->audiocontrols_playAct->setIcon( *(this->current_ui.icon_audio_play) );
           this->audio_player->play();
           break;
         }
@@ -173,13 +173,13 @@ void MainWindow::audiocontrols_stop(void) {
   DebugMsg() << "MainWindow::audiocontrols_stop";
 
   // RLMODE + ON PAUSE ? we set the icon from "pause" to "play".
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE &&
-      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE ) {
+  if( this->current_ui.reading_mode == UI::READINGMODE_RLMODE &&
+      this->current_ui.reading_mode_details == UI::READINGMODEDETAIL_RLMODE_ONPAUSE ) {
 
-    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+    this->audiocontrols_playAct->setIcon( *(this->current_ui.icon_audio_play) );
   }
 
-  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
+  this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_STOP;
 
   audio_player->stop();
 
@@ -195,11 +195,11 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
 
   /* RLMODE + PLAYING :
    */
-  if( this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE &&
-      this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_RLMODE_PLAYING ) {
+  if( this->current_ui.reading_mode == UI::READINGMODE_RLMODE &&
+      this->current_ui.reading_mode_details == UI::READINGMODEDETAIL_RLMODE_PLAYING ) {
 
       // where are the characters linked to "arg_pos" ?
-      PosInTextRanges text_ranges = this->current_dipylonui.current_dipydoc.audio2text_contains( arg_pos );
+      PosInTextRanges text_ranges = this->current_ui.current_dipydoc.audio2text_contains( arg_pos );
       std::size_t text_ranges_hash = text_ranges.get_hash();
 
       if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
@@ -210,15 +210,15 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
         // hash update :
         this->source_editor->modified_chars_hash = text_ranges_hash;
 
-        this->current_dipylonui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
+        this->current_ui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
       }
 
       return;
   }
 
   /*
-    this->current_dipylonui.reading_mode == DipylonUI::READINGMODE_RLMODE &&
-    this->current_dipylonui.reading_mode_details == DipylonUI::READINGMODEDETAIL_RLMODE_ONPAUSE
+    this->current_ui.reading_mode == UI::READINGMODE_RLMODE &&
+    this->current_ui.reading_mode_details == UI::READINGMODEDETAIL_RLMODE_ONPAUSE
 
     -> nothing to do.
   */
@@ -254,8 +254,8 @@ ________________________________________________________________________________
 void MainWindow::closing(void) {
   DebugMsg() << "MainWindow::closing";
 
-  DebugMsg() << "(MainWindow::closing) calling DipylonUI::write_settings()";
-  this->current_dipylonui.write_settings();
+  DebugMsg() << "(MainWindow::closing) calling UI::write_settings()";
+  this->current_ui.write_settings();
 }
 
 /*______________________________________________________________________________
@@ -263,7 +263,7 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions() {
-    newAct = new QAction( *(this->current_dipylonui.icon_new),
+    newAct = new QAction( *(this->current_ui.icon_new),
                           tr("&New"),
                           this);
     newAct->setShortcuts(QKeySequence::New);
@@ -271,7 +271,7 @@ void MainWindow::createActions() {
     connect(newAct, &QAction::triggered,
             this, &MainWindow::newFile);
 
-    openAct = new QAction( *(this->current_dipylonui.icon_open),
+    openAct = new QAction( *(this->current_ui.icon_open),
                            tr("&Open"),
                            this);
     openAct->setShortcuts(QKeySequence::Open);
@@ -279,7 +279,7 @@ void MainWindow::createActions() {
     connect(openAct, &QAction::triggered,
             this, &MainWindow::open);
 
-    saveAct = new QAction( *(this->current_dipylonui.icon_save),
+    saveAct = new QAction( *(this->current_ui.icon_save),
                            tr("&Save"),
                            this);
     saveAct->setShortcuts(QKeySequence::Save);
@@ -306,7 +306,7 @@ void MainWindow::createActions() {
     connect(exitAct, &QAction::triggered,
             this, &MainWindow::close);
 
-    cutAct = new QAction( *(this->current_dipylonui.icon_cut),
+    cutAct = new QAction( *(this->current_ui.icon_cut),
                           tr("Cu&t"),
                           this);
     cutAct->setShortcuts(QKeySequence::Cut);
@@ -315,7 +315,7 @@ void MainWindow::createActions() {
     connect(cutAct, &QAction::triggered,
             source_editor, &QTextEdit::cut);
 
-    copyAct = new QAction( *(this->current_dipylonui.icon_copy),
+    copyAct = new QAction( *(this->current_ui.icon_copy),
                            tr("&Copy"),
                            this);
     copyAct->setShortcuts(QKeySequence::Copy);
@@ -324,7 +324,7 @@ void MainWindow::createActions() {
     connect(copyAct, &QAction::triggered,
             source_editor, &QTextEdit::copy);
 
-    pasteAct = new QAction( *(this->current_dipylonui.icon_paste),
+    pasteAct = new QAction( *(this->current_ui.icon_paste),
                             tr("&Paste"),
                             this);
     pasteAct->setShortcuts(QKeySequence::Paste);
@@ -356,21 +356,21 @@ void MainWindow::createActions() {
     connect(source_editor, &QTextEdit::copyAvailable,
             copyAct, &QAction::setEnabled);
 
-    this->readingmodeAct = new QAction( *(this->current_dipylonui.icon_readingmode_rlmode),
+    this->readingmodeAct = new QAction( *(this->current_ui.icon_readingmode_rlmode),
                                  tr("change the mode"),
                                  this);
     this->readingmodeAct->setStatusTip(tr("change the mode"));
     connect(this->readingmodeAct, &QAction::triggered,
             this, &MainWindow::readingmodeAct_buttonpressed);
 
-    this->audiocontrols_playAct = new QAction( *(this->current_dipylonui.icon_audio_play),
+    this->audiocontrols_playAct = new QAction( *(this->current_ui.icon_audio_play),
                                                tr("play"),
                                                this);
     this->audiocontrols_playAct->setStatusTip(tr("play..."));
     connect(this->audiocontrols_playAct, &QAction::triggered,
             this, &MainWindow::audiocontrols_play);
 
-    this->audiocontrols_stopAct = new QAction( *(this->current_dipylonui.icon_audio_stop),
+    this->audiocontrols_stopAct = new QAction( *(this->current_ui.icon_audio_stop),
                                                tr("stop"),
                                                this);
     this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
@@ -457,30 +457,30 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   QApplication::setOverrideCursor(Qt::WaitCursor);
   #endif
 
-  this->current_dipylonui.current_dipydoc = DipyDoc(directoryName);
+  this->current_ui.current_dipydoc = DipyDoc(directoryName);
 
-  if( this->current_dipylonui.current_dipydoc.well_initialized() == false ) {
+  if( this->current_ui.current_dipydoc.well_initialized() == false ) {
 
     // an error occurs :
     QMessageBox msgBox;
     msgBox.setText( tr("Unable to load any valid Dipydoc's document from <b>") + directoryName + "</b> ." +\
-                    "<br/><br/>" + this->current_dipylonui.current_dipydoc.diagnosis() + \
+                    "<br/><br/>" + this->current_ui.current_dipydoc.diagnosis() + \
                     "<br/><br/>" + tr("See more details below.") );
-    this->current_dipylonui.current_dipydoc.err_messages.prepend( "internal state = " + \
-                                       QString().setNum(this->current_dipylonui.current_dipydoc.internal_state()) );
+    this->current_ui.current_dipydoc.err_messages.prepend( "internal state = " + \
+                                       QString().setNum(this->current_ui.current_dipydoc.internal_state()) );
 
-    msgBox.setDetailedText( this->current_dipylonui.current_dipydoc.err_messages.join("\n\n") + \
+    msgBox.setDetailedText( this->current_ui.current_dipydoc.err_messages.join("\n\n") + \
                             "\n\n\n*** internal debug message ***\n\n\n" + \
                             DebugMsg::messages.join("\n") );
     msgBox.exec();
   }
   else {
     // no error, let's load the DipyDoc :
-    this->load_text(this->current_dipylonui.current_dipydoc.source_text);
+    this->load_text(this->current_ui.current_dipydoc.source_text);
 
-    if( this->current_dipylonui.current_dipydoc.audiorecord.found == true ) {
-      DebugMsg() << "loading audiofile" << this->current_dipylonui.current_dipydoc.audiorecord.filename;
-      this->audio_player->setMedia(QUrl::fromLocalFile(this->current_dipylonui.current_dipydoc.audiorecord.filename));
+    if( this->current_ui.current_dipydoc.audiorecord.found == true ) {
+      DebugMsg() << "loading audiofile" << this->current_ui.current_dipydoc.audiorecord.filename;
+      this->audio_player->setMedia(QUrl::fromLocalFile(this->current_ui.current_dipydoc.audiorecord.filename));
     }
   }
 
@@ -488,7 +488,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   QApplication::restoreOverrideCursor();
   #endif
 
-  if( this->current_dipylonui.current_dipydoc.well_initialized() == true ) {
+  if( this->current_ui.current_dipydoc.well_initialized() == true ) {
 
     // update source editor aspect :
     this->source_editor->update_aspect_from_dipydoc_aspect_informations();
@@ -503,7 +503,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   }
 
   /*
-    Let's initialize this->current_dipylonui.path_to_dipydocs :
+    Let's initialize this->current_ui.path_to_dipydocs :
 
     It can't be set to "directoryName" since we don't want the user
     looks into the current directory, full of the Dipydoc files
@@ -515,19 +515,19 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
        Ok, we can go upper and set path_to_dipydocs to the parent
        directory
     */
-    this->current_dipylonui.path_to_dipydocs = parent_directory.absolutePath();
+    this->current_ui.path_to_dipydocs = parent_directory.absolutePath();
   }
   else {
     /*
       No, for some reasons the upper directory isn't readable : we
       keep the current directory.
     */
-    this->current_dipylonui.path_to_dipydocs = directoryName;
+    this->current_ui.path_to_dipydocs = directoryName;
   }
 
   // default reading mode :
-  this->current_dipylonui.reading_mode         = DipylonUI::READINGMODE::READINGMODE_RMODE;
-  this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
+  this->current_ui.reading_mode         = UI::READINGMODE::READINGMODE_RMODE;
+  this->current_ui.reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
 
   // updating the UI :
   this->update_icons();
@@ -587,7 +587,7 @@ void MainWindow::open(void) {
   if (maybeSave()) {
     QString directoryName = QFileDialog::getExistingDirectory(this,
                                                               QObject::tr("Open a DipyDoc directory"),
-                                                              this->current_dipylonui.path_to_dipydocs,
+                                                              this->current_ui.path_to_dipydocs,
                                                               QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (!directoryName.isEmpty()) {
@@ -606,32 +606,32 @@ void MainWindow::open(void) {
   implement the [... amode -> ] rmode -> rlmode -> amode [ -> rmode ... ] shift.
 ______________________________________________________________________________*/
 void MainWindow::readingmodeAct_buttonpressed(void) {
-  switch (this->current_dipylonui.reading_mode ) {
+  switch (this->current_ui.reading_mode ) {
 
-    case DipylonUI::READINGMODE_RMODE: {
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RLMODE;
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RLMODE_STOP;
+    case UI::READINGMODE_RMODE: {
+      this->current_ui.reading_mode = UI::READINGMODE_RLMODE;
+      this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_STOP;
       DebugMsg() << "switched to RMODE mode";
       break;
     }
 
-    case DipylonUI::READINGMODE_RLMODE: {
+    case UI::READINGMODE_RLMODE: {
       this->audiocontrols_stop();
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_AMODE;
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_AMODE;
+      this->current_ui.reading_mode = UI::READINGMODE_AMODE;
+      this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_AMODE;
       DebugMsg() << "switched to AMODE mode";
       break;
     }
 
-    case DipylonUI::READINGMODE_AMODE: {
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_RMODE;
-      this->current_dipylonui.reading_mode_details = DipylonUI::READINGMODEDETAIL_RMODE;
+    case UI::READINGMODE_AMODE: {
+      this->current_ui.reading_mode = UI::READINGMODE_RMODE;
+      this->current_ui.reading_mode_details = UI::READINGMODEDETAIL_RMODE;
       DebugMsg() << "switched to RLMODE mode";
       break;
     }
 
     default : {
-      this->current_dipylonui.reading_mode = DipylonUI::READINGMODE_UNDEFINED;
+      this->current_ui.reading_mode = UI::READINGMODE_UNDEFINED;
       DebugMsg() << "switched to UNDEFINED mode";
       break;
     }
@@ -740,7 +740,7 @@ bool MainWindow::saveMainFileOfADipyDocAs() {
 #ifndef QT_NO_CURSOR
     QApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-    out << this->current_dipylonui.current_dipydoc.get_xml_repr();
+    out << this->current_ui.current_dipydoc.get_xml_repr();
 #ifndef QT_NO_CURSOR
     QApplication::restoreOverrideCursor();
 #endif
@@ -777,7 +777,7 @@ void MainWindow::update_icons(void) {
   /*............................................................................
     a special case : no Dipydoc.
   ............................................................................*/
-  if( this->current_dipylonui.at_least_one_dipydoc_has_been_loaded() == false ) {
+  if( this->current_ui.at_least_one_dipydoc_has_been_loaded() == false ) {
     this->readingmodeAct->setVisible(false);
     this->audiocontrols_playAct->setVisible(false);
     this->audiocontrols_stopAct->setVisible(false);
@@ -792,24 +792,24 @@ void MainWindow::update_icons(void) {
   /*
     "reading mode" icon :
   */
-  switch (this->current_dipylonui.reading_mode ) {
+  switch (this->current_ui.reading_mode ) {
 
-    case DipylonUI::READINGMODE_RLMODE: {
-      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rlmode) );
+    case UI::READINGMODE_RLMODE: {
+      this->readingmodeAct->setIcon( *(this->current_ui.icon_readingmode_rlmode) );
       // removing remaining commentary's content :
       this->commentary_editor->clear();
       break;
     }
 
-    case DipylonUI::READINGMODE_RMODE: {
-      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_rmode) );
+    case UI::READINGMODE_RMODE: {
+      this->readingmodeAct->setIcon( *(this->current_ui.icon_readingmode_rmode) );
       // removing remaining commentary's content :
       this->commentary_editor->clear();
       break;
     }
 
-    case DipylonUI::READINGMODE_AMODE: {
-      this->readingmodeAct->setIcon( *(this->current_dipylonui.icon_readingmode_amode) );
+    case UI::READINGMODE_AMODE: {
+      this->readingmodeAct->setIcon( *(this->current_ui.icon_readingmode_amode) );
       // removing remaining commentary's content :
       this->commentary_editor->clear();
       break;
@@ -823,22 +823,22 @@ void MainWindow::update_icons(void) {
   /*
     "audio controls" icons :
   */
-  if (this->current_dipylonui.reading_mode != DipylonUI::READINGMODE_RLMODE ||
-      this->current_dipylonui.current_dipydoc.well_initialized() == false ||
-      (this->current_dipylonui.current_dipydoc.well_initialized() == true and
-       this->current_dipylonui.current_dipydoc.audiorecord.found == false)) {
+  if (this->current_ui.reading_mode != UI::READINGMODE_RLMODE ||
+      this->current_ui.current_dipydoc.well_initialized() == false ||
+      (this->current_ui.current_dipydoc.well_initialized() == true and
+       this->current_ui.current_dipydoc.audiorecord.found == false)) {
     /*
        No rlmode mode or no current DipyDoc or no audio in the current DipyDoc :
     */
     this->audiocontrols_playAct->setVisible(false);
     this->audiocontrols_playAct->setEnabled(false);
     // we refresh the icon to display it using only shades of gray :
-    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+    this->audiocontrols_playAct->setIcon( *(this->current_ui.icon_audio_play) );
 
     this->audiocontrols_stopAct->setVisible(false);
     this->audiocontrols_stopAct->setEnabled(false);
     // we refresh the icon to display it using only shades of gray :
-    this->audiocontrols_stopAct->setIcon( *(this->current_dipylonui.icon_audio_stop) );
+    this->audiocontrols_stopAct->setIcon( *(this->current_ui.icon_audio_stop) );
   }
   else {
     /*
@@ -847,12 +847,12 @@ void MainWindow::update_icons(void) {
     this->audiocontrols_playAct->setVisible(true);
     this->audiocontrols_playAct->setEnabled(true);
     // we refresh the icon to display it in colors :
-    this->audiocontrols_playAct->setIcon( *(this->current_dipylonui.icon_audio_play) );
+    this->audiocontrols_playAct->setIcon( *(this->current_ui.icon_audio_play) );
 
     this->audiocontrols_stopAct->setVisible(true);
     this->audiocontrols_stopAct->setEnabled(true);
     // we refresh the icon to display it in colors :
-    this->audiocontrols_stopAct->setIcon( *(this->current_dipylonui.icon_audio_stop) );
+    this->audiocontrols_stopAct->setIcon( *(this->current_ui.icon_audio_stop) );
   }
 }
 
