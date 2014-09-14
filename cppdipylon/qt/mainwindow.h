@@ -71,10 +71,7 @@ private slots:
     void audio_position_changed(PosInAudio);
     void closing(void);
     void documentWasModified();
-    void newFile();
     void open();
-    bool save();
-    bool saveAs();
     bool saveMainFileOfADipyDocAs();
     void readingmodeAct_buttonpressed(void);
 
@@ -86,9 +83,7 @@ private:
     void    createStatusBar();
     void    createToolBars();
     void    loadDipyDoc(const QString&);
-    bool    maybeSave();
     void    readSettings();
-    bool    saveFile(const QString &fileName);
     void    setCurrentDipyDoc(const QString&);
     void    update_icons(void);
     void    writeSettings();
@@ -101,10 +96,7 @@ private:
     QMenu     *fileMenu = nullptr;
     QMenu     *editMenu = nullptr;
     QMenu     *helpMenu = nullptr;
-    QAction   *newAct = nullptr;
     QAction   *openAct = nullptr;
-    QAction   *saveAct = nullptr;
-    QAction   *saveAsAct = nullptr;
     QAction   *saveMainFileOfADipyDocAsAct = nullptr;
     QAction   *exitAct = nullptr;
     QAction   *cutAct = nullptr;
