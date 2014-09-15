@@ -66,7 +66,7 @@ DipyDoc::DipyDoc(const QString& _path) {
   this->read_menu_name(_path);
 
   // let's open the main file :
-  this->init_from_xml(_path);
+  this->read_mainfile(_path);
 
   // let's open the text file :
   if( this->well_initialized() == true ) {
@@ -645,7 +645,7 @@ QString DipyDoc::get_xml_repr(void) const {
 
 /*______________________________________________________________________________
 
-        DipyDoc::init_from_xml()
+        DipyDoc::read_mainfile()
 
         Initialize "this" from the main xml file stored in "_path".
 
@@ -673,12 +673,12 @@ QString DipyDoc::get_xml_repr(void) const {
         (5) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
-void DipyDoc::init_from_xml(const QString& _path) {
-  DebugMsg() << "DipyDoc::init_from_xml() : entry point; path=" << _path;
+void DipyDoc::read_mainfile(const QString& _path) {
+  DebugMsg() << "DipyDoc::read_mainfile() : entry point; path=" << _path;
 
   QString msg_error;
 
-  DebugMsg() << "DipyDoc::init_from_xml" << "path=" << _path;
+  DebugMsg() << "DipyDoc::read_mainfile" << "path=" << _path;
 
   /*............................................................................
     (1) main file opening
@@ -702,7 +702,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
 
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::init_from_xml) #3";
+  DebugMsg() << "(DipyDoc::read_mainfile) #3";
   QXmlStreamReader xmlreader;
   xmlreader.setDevice(&dipydoc_main_xml_file);
 
@@ -713,9 +713,9 @@ void DipyDoc::init_from_xml(const QString& _path) {
       /*
          ok, it's a DipyDoc file : let's read and check its first token
       */
-      if (this->init_from_xml__read_first_token(xmlreader) == true) {
+      if (this->read_mainfile__read_first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
-        ok = this->init_from_xml__read_the_rest_of_the_file(xmlreader);
+        ok = this->read_mainfile__read_the_rest_of_the_file(xmlreader);
       }
     }
     else {
@@ -728,14 +728,14 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   if( ok == false ) {
-    DebugMsg() << "DipyDoc::init_from_xml() : exit #1";
+    DebugMsg() << "DipyDoc::read_mainfile() : exit #1";
     return;
   }
 
   /*............................................................................
     (3) secondary initializations
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::init_from_xml) #4";
+  DebugMsg() << "(DipyDoc::read_mainfile) #4";
 
   /*............................................................................
     (3.1) initialization of "audiorecord.audio2text"
@@ -773,7 +773,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   /*............................................................................
     (4) checks
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::init_from_xml) #5";
+  DebugMsg() << "(DipyDoc::read_mainfile) #5";
 
   /*............................................................................
     (4.1) is audiorecord.text2audio correctly initialized ?
@@ -868,29 +868,29 @@ void DipyDoc::init_from_xml(const QString& _path) {
   if( ok == false ) {
     this->_well_initialized = false;
     // _internal_state has been precedently set to NOT_CORRECTLY_INITIALIZED.
-    DebugMsg() << "DipyDoc::init_from_xml() : exit #2; something's wrong.";
+    DebugMsg() << "DipyDoc::read_mainfile() : exit #2; something's wrong.";
   }
 
-  DebugMsg() << "(DipyDoc::init_from_xml) levels=" << this->levels_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile) levels=" << this->levels_repr();
 
-  DebugMsg() << "(DipyDoc::init_from_xml) arrows=" << this->arrows_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile) arrows=" << this->arrows_repr();
 
-  DebugMsg() << "(DipyDoc::init_from_xml) notes=";
+  DebugMsg() << "(DipyDoc::read_mainfile) notes=";
   DebugMsg() << this->notes.repr();
 
-  DebugMsg() << "DipyDoc::init_from_xml" << \
+  DebugMsg() << "DipyDoc::read_mainfile" << \
                 "this->_well_initialized = " << this->_well_initialized;
 }
 
 /*______________________________________________________________________________
 
-  DipyDoc::init_from_xml__read_first_token()
+  DipyDoc::read_mainfile__read_first_token()
 
   read the first token and initializes the object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::init_from_xml__read_first_token(QXmlStreamReader& xmlreader) {
+bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
 
   bool ok = true;
 
@@ -939,13 +939,13 @@ bool DipyDoc::init_from_xml__read_first_token(QXmlStreamReader& xmlreader) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::init_from_xml__read_the_rest_of_the_file()
+  DipyDoc::read_mainfile__read_the_rest_of_the_file()
 
   read everything but the first token and initializes the object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlreader) {
+bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlreader) {
 
  bool ok = true;
 
