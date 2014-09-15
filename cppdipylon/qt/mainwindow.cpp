@@ -84,10 +84,17 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
   MainWindow::about
 ______________________________________________________________________________*/
 void MainWindow::about() {
-   QMessageBox::about(this, tr("About Application"),
-            tr("The <b>Application</b> example demonstrates how to "
-               "write modern GUI applications using Qt, with a menu bar, "
-               "toolbars, and a status bar."));
+    QMessageBox msgBox(;
+    msgBox.setText(QString( tr("DipylonReader %1, a software by suizokukan.").arg(fixedparameters::application_version)));
+
+    #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+    msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
+                            this->ui.current_dipydoc.err_messages.join("\n\n") + \
+                            "\n\n\n*** internal debug message ***\n\n\n" + \
+                            DebugMsg::messages.join("\n") );
+    #endif
+
+    msgBox.exec();
 }
 
 /*______________________________________________________________________________
