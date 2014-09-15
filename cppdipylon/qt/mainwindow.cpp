@@ -283,17 +283,6 @@ void MainWindow::createActions() {
     connect(aboutAct, &QAction::triggered,
             this, &MainWindow::about);
 
-    aboutQtAct = new QAction(tr("About &Qt"), this);
-    aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-    #ifdef CROSSCOMPILE_TO_WIN_USING_MXE
-    // old signals style with SIGNAL and SLOT :
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
-    #else
-    // new signals style :
-    connect(aboutQtAct, &QAction::triggered,
-            qApp, &QApplication::aboutQt);
-    #endif
-
     this->readingmodeAct = new QAction( *(this->ui.icon_readingmode_rlmode),
                                  tr("change the mode"),
                                  this);
@@ -333,7 +322,6 @@ void MainWindow::createMenus() {
 
   helpMenu = menuBar()->addMenu(tr("&Help"));
   helpMenu->addAction(aboutAct);
-  helpMenu->addAction(aboutQtAct);
 }
 
 /*______________________________________________________________________________

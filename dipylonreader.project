@@ -132,9 +132,6 @@ o QT_NO_DEBUG_OUTPUT
 o READANDWRITE
   access to DipyDoc write functions
 
-o CROSSCOMPILE_TO_WIN_USING_MXE
-  some particularities bound to MXE/Qt
-
 o COMPILE_TO_32BITS_ARCHITECTURE
   compilation to a 32 architecture
 
