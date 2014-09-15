@@ -99,9 +99,6 @@ private:
     QAction   *openAct = nullptr;
     QAction   *saveMainFileOfADipyDocAsAct = nullptr;
     QAction   *exitAct = nullptr;
-    QAction   *cutAct = nullptr;
-    QAction   *copyAct = nullptr;
-    QAction   *pasteAct = nullptr;
     QAction   *aboutAct = nullptr;
     QAction   *aboutQtAct = nullptr;
 

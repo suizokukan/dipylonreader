@@ -278,33 +278,6 @@ void MainWindow::createActions() {
     connect(exitAct, &QAction::triggered,
             this, &MainWindow::close);
 
-    cutAct = new QAction( *(this->ui.icon_cut),
-                          tr("Cu&t"),
-                          this);
-    cutAct->setShortcuts(QKeySequence::Cut);
-    cutAct->setStatusTip(tr("Cut the current selection's contents to the "
-                            "clipboard"));
-    connect(cutAct, &QAction::triggered,
-            source_editor, &QTextEdit::cut);
-
-    copyAct = new QAction( *(this->ui.icon_copy),
-                           tr("&Copy"),
-                           this);
-    copyAct->setShortcuts(QKeySequence::Copy);
-    copyAct->setStatusTip(tr("Copy the current selection's contents to the "
-                             "clipboard"));
-    connect(copyAct, &QAction::triggered,
-            source_editor, &QTextEdit::copy);
-
-    pasteAct = new QAction( *(this->ui.icon_paste),
-                            tr("&Paste"),
-                            this);
-    pasteAct->setShortcuts(QKeySequence::Paste);
-    pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
-                              "selection"));
-    connect(pasteAct, &QAction::triggered,
-            source_editor, &QTextEdit::paste);
-
     aboutAct = new QAction(tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the application's About box"));
     connect(aboutAct, &QAction::triggered,
@@ -320,13 +293,6 @@ void MainWindow::createActions() {
     connect(aboutQtAct, &QAction::triggered,
             qApp, &QApplication::aboutQt);
     #endif
-
-    cutAct->setEnabled(false);
-    copyAct->setEnabled(false);
-    connect(source_editor, &QTextEdit::copyAvailable,
-            cutAct, &QAction::setEnabled);
-    connect(source_editor, &QTextEdit::copyAvailable,
-            copyAct, &QAction::setEnabled);
 
     this->readingmodeAct = new QAction( *(this->ui.icon_readingmode_rlmode),
                                  tr("change the mode"),
@@ -363,11 +329,6 @@ void MainWindow::createMenus() {
   fileMenu->addSeparator();
   fileMenu->addAction(exitAct);
 
-  editMenu = menuBar()->addMenu(tr("&Edit"));
-  editMenu->addAction(cutAct);
-  editMenu->addAction(copyAct);
-  editMenu->addAction(pasteAct);
-
   menuBar()->addSeparator();
 
   helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -390,11 +351,6 @@ ______________________________________________________________________________*/
 void MainWindow::createToolBars() {
     this->fileToolBar = addToolBar(tr("File"));
     this->fileToolBar->addAction(this->openAct);
-
-    this->editToolBar = addToolBar(tr("Edit"));
-    this->editToolBar->addAction(this->cutAct);
-    this->editToolBar->addAction(this->copyAct);
-    this->editToolBar->addAction(this->pasteAct);
 
     this->modecontrolToolBar = addToolBar(tr("AudioControls"));
     this->modecontrolToolBar->addAction(this->readingmodeAct);
