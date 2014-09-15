@@ -84,7 +84,7 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
   MainWindow::about
 ______________________________________________________________________________*/
 void MainWindow::about() {
-    QMessageBox msgBox(;
+    QMessageBox msgBox;
     msgBox.setText(QString( tr("DipylonReader %1, a software by suizokukan.").arg(fixedparameters::application_version)));
 
     #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM

@@ -271,6 +271,8 @@ friend class CommentaryEditor;
   QString              main_filename_with_fullpath;
 
   // general informations :
+  QString              menu_name;
+
   QString              id;
   int                  version;
   int                  dipydocformat_version;
@@ -318,6 +320,7 @@ friend class CommentaryEditor;
   bool                   init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlreader);
   bool                   init_from_xml__read_first_token(QXmlStreamReader& xmlreader);
   QString                levels_repr(void) const;
+  void                   read_menu_name(const QString& _path);
 
  // public methods .............................................................
  public:
@@ -363,6 +366,8 @@ friend class CommentaryEditor;
 
   // name of the main file in a dipydoc directory :
   constexpr static const char*   MAIN_FILENAME = "main.xml";
+  // name of the 'menu name' file  in a dipydoc directory :
+  constexpr static const char*   MENUNAME_FILENAME = "menuname";
 };
 
 inline DipyDoc::DipyDoc(void) {
