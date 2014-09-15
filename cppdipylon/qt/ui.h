@@ -38,6 +38,7 @@
 #include "./fixedparameters.h"
 #include "qt/mainwindow.h"
 #include "dipydoc/dipydoc.h"
+#include "dipydoc/menunames.h"
 
 class MainWindow;
 
@@ -79,6 +80,9 @@ class UI {
 
   // path to the DipyDocs : the initial value is initialized by UI's constructor.
   QString     path_to_dipydocs;
+
+  // menu names available :
+  MenuNames   available_menu_names;
 
   MainWindow* mainWin = nullptr;
 

@@ -44,6 +44,7 @@ HEADERS         +=  ./fixedparameters.h \
                     debugmsg/debugmsg.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
+                    dipydoc/menunames.h \
                     languages/languages.h \
                     languages/languagefromto.h \
                     pos/posintext2posinaudio.h \

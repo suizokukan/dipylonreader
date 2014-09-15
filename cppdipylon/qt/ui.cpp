@@ -54,6 +54,12 @@ UI::UI(void) {
   } else {
     this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
   }
+
+  /*
+    initialization of this->available_menu_names
+  */
+  this->available_menu_names = MenuNames(this->path_to_dipydocs);
+  DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
 }
 
 /*______________________________________________________________________________

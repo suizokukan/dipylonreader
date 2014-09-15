@@ -43,6 +43,7 @@
 #include <cstring>
 
 #include "./fixedparameters.h"
+#include "dipydoc/menunames.h"
 #include "dipydoc/dipydocnotes.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
@@ -363,11 +364,6 @@ friend class CommentaryEditor;
     THE_GIVENPATH_DOES_NOT_EXIST = -4,
     THE_GIVENPATH_IS_NOT_A_DIRECTORY = -5,
   };
-
-  // name of the main file in a dipydoc directory :
-  constexpr static const char*   MAIN_FILENAME = "main.xml";
-  // name of the 'menu name' file  in a dipydoc directory :
-  constexpr static const char*   MENUNAME_FILENAME = "menuname";
 };
 
 inline DipyDoc::DipyDoc(void) {

@@ -82,5 +82,10 @@ const QStringList known_doctypes = { QString("text"), };
 */
 static const int splashscreen_maximal_duration = 9000;
 static const bool default__display_splashscreen = true;
+
+// name of the main file in a dipydoc directory :
+constexpr static const char*   DIPYDOC__MAIN_FILENAME = "main.xml";
+// name of the 'menu name' file  in a dipydoc directory :
+constexpr static const char*   DIPYDOC__MENUNAME_FILENAME = "menuname";
 }
 #endif

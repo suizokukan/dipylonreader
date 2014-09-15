@@ -128,10 +128,10 @@ bool DipyDoc::check_path(const QString& _path) {
   }
 
   // does the main file exist ?
-  QFileInfo main_info = QFileInfo(_path + "/" + this->MAIN_FILENAME);
+  QFileInfo main_info = QFileInfo(_path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME);
   if (main_info.exists() == false) {
     QString msg(QString("An error occured while opening the main file : "
-                        "the main file files %1 doesn't exist in %2.").arg(this->MAIN_FILENAME, _path));
+                        "the main file files %1 doesn't exist in %2.").arg(fixedparameters::DIPYDOC__MAIN_FILENAME, _path));
     this->error(msg);
     return false;
   }
@@ -684,7 +684,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
     (1) main file opening
   ............................................................................*/
   this->path = _path;
-  this->main_filename_with_fullpath = _path + "/" + this->MAIN_FILENAME;
+  this->main_filename_with_fullpath = _path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
 
   if (!dipydoc_main_xml_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -1407,22 +1407,7 @@ QString DipyDoc::levels_repr(void) const {
 ________________________________________________________________________________*/
 void DipyDoc::read_menu_name(const QString& _path) {
 
-  QString filename(_path + "/" + this->MENUNAME_FILENAME);
-  QFile menuname_file(filename);
-
-  // is the "menu name" file available ?
-  if (!menuname_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    QString msg("An error occurs while opening the menuname file '%1'.");
-    this->error(msg.arg(filename));
-
-    this->_well_initialized = false;
-    this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
-    return;
-  }
-
-  // initialization of this->menu_name :
-  this->menu_name = menuname_file.readLine();
-  this->menu_name = this->menu_name.trimmed();
+  this->menu_name = MenuNames::read_menu_name_from_a_file_within_a_directory(_path);
 
   // is the "menu name" empty ?
   if (this->menu_name.size() == 0) {
@@ -1434,7 +1419,7 @@ void DipyDoc::read_menu_name(const QString& _path) {
     return;
   }
 
-  DebugMsg() << "menu name = " << this->menu_name;
+  DebugMsg() << "(DipyDoc::read_menu_name) menu name = " << this->menu_name;
 }
 
 /*______________________________________________________________________________
