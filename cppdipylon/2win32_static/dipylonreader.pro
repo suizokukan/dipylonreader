@@ -22,6 +22,7 @@ DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
 DEFINES += MAXIMIZE_MAINWINDOW_TRUE_METHOD
 DEFINES += STORE_DEBUG_MESSAGES
 DEFINES += QT_NO_DEBUG_OUTPUT
+DEFINES += DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
 
 #_______________________________________________________________________________
 #
@@ -43,6 +44,7 @@ HEADERS         +=  ./fixedparameters.h \
                     debugmsg/debugmsg.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocnotes.h \
+                    dipydoc/menunames.h \
                     languages/languages.h \
                     languages/languagefromto.h \
                     pos/posintext2posinaudio.h \
@@ -56,7 +58,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/arrowformat.h \
                     qt/blockformat.h \
                     qt/commentaryeditor.h \
-                    qt/dipylonui.h \	
+                    qt/ui.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
                     qt/sourceeditor.h \
@@ -76,7 +78,7 @@ SOURCES         +=  ./main.cpp \
                     qt/arrowformat.cpp \
                     qt/blockformat.cpp \
                     qt/commentaryeditor.cpp \
-                    qt/dipylonui.cpp \
+                    qt/ui.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/sourceeditor.cpp \

@@ -19,16 +19,16 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/dipylonui.h
+    ❏DipylonReader❏ : qt/ui.h
 
     Definition of the "user interface".
 
-    o DipylonUI class
+    o UI class
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_DIPYLONUI_H_
-#define CPPDIPYLON_QT_DIPYLONUI_H_
+#ifndef CPPDIPYLON_QT_UI_H_
+#define CPPDIPYLON_QT_UI_H_
 
 #include <QApplication>
 #include <QString>
@@ -38,6 +38,7 @@
 #include "./fixedparameters.h"
 #include "qt/mainwindow.h"
 #include "dipydoc/dipydoc.h"
+#include "dipydoc/menunames.h"
 
 class MainWindow;
 
@@ -49,9 +50,9 @@ typedef unsigned int ReadingModeDetails;
 
 /*______________________________________________________________________________
 
-  DipylonUI class : a wrapper around the QApplication object.
+  UI class : a wrapper around the QApplication object.
 ________________________________________________________________________________*/
-class DipylonUI {
+class UI {
   friend class Settings;
   friend class MainWindow;
   friend class SourceEditor;
@@ -66,12 +67,9 @@ class DipylonUI {
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
-  QIcon*      icon_new = nullptr;
+  QIcon*      icon_app = nullptr;
   QIcon*      icon_open = nullptr;
   QIcon*      icon_save = nullptr;
-  QIcon*      icon_cut = nullptr;
-  QIcon*      icon_copy = nullptr;
-  QIcon*      icon_paste = nullptr;
   QIcon*      icon_audio_pause = nullptr;
   QIcon*      icon_audio_play = nullptr;
   QIcon*      icon_audio_play_unavailable = nullptr;
@@ -81,8 +79,11 @@ class DipylonUI {
   QIcon*      icon_readingmode_rlmode = nullptr;
   QIcon*      icon_readingmode_amode = nullptr;
 
-  // path to the DipyDocs : the initial value is initialized by DipylonUI's constructor.
+  // path to the DipyDocs : the initial value is initialized by UI's constructor.
   QString     path_to_dipydocs;
+
+  // menu names available :
+  MenuNames   available_menu_names;
 
   MainWindow* mainWin = nullptr;
 
@@ -117,11 +118,11 @@ class DipylonUI {
       READINGMODEDETAIL_AMODE          = 0x3000,
   };
 
-  ReadingMode        reading_mode = DipylonUI::READINGMODE_UNDEFINED;
-  ReadingModeDetails reading_mode_details = DipylonUI::READINGMODEDETAIL_UNDEFINED;
+  ReadingMode        reading_mode = UI::READINGMODE_UNDEFINED;
+  ReadingModeDetails reading_mode_details = UI::READINGMODEDETAIL_UNDEFINED;
 
-                     DipylonUI(void);
-                     ~DipylonUI(void);
+                     UI(void);
+                     ~UI(void);
   bool               at_least_one_dipydoc_has_been_loaded(void) const;
   QString            get_translations_for(PosInText, PosInText) const;
   int                go(int argc, char **argv);
@@ -131,4 +132,4 @@ class DipylonUI {
   void               write_settings(void);
 };
 
-#endif  // CPPDIPYLON_QT_DIPYLONUI_H_
+#endif  // CPPDIPYLON_QT_UI_H_

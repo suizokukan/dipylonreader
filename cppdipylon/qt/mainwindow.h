@@ -35,7 +35,7 @@ class SourceEditor;
 #include "qt/commentaryeditor.h"
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
-#include "qt/dipylonui.h"
+#include "qt/ui.h"
 
 #include <QMediaPlayer>
 #include <QMainWindow>
@@ -45,19 +45,19 @@ class SourceEditor;
 class QAction;
 class QMenu;
 class QSplitter;
-class DipylonUI;
+class UI;
 class CommentaryEditor;
 
 class MainWindow : public QMainWindow
 {
-friend class DipylonUI;
+friend class UI;
 friend class SourceEditor;
 friend class CommentaryEditor;
 
     Q_OBJECT
 
 public:
-    MainWindow(DipylonUI&);
+    MainWindow(UI&);
 
     void load_text(const DipyDocSourceText& source_text);
 
@@ -71,24 +71,21 @@ private slots:
     void audio_position_changed(PosInAudio);
     void closing(void);
     void documentWasModified();
-    void newFile();
     void open();
-    bool save();
-    bool saveAs();
     bool saveMainFileOfADipyDocAs();
     void readingmodeAct_buttonpressed(void);
 
 private:
-    DipylonUI& current_dipylonui;
+    UI& ui;
 
+    void    add_open_menu(void);
     void    createActions();
     void    createMenus();
     void    createStatusBar();
     void    createToolBars();
     void    loadDipyDoc(const QString&);
-    bool    maybeSave();
+    void    load_a_dipydoc_from_a_qaction(void);
     void    readSettings();
-    bool    saveFile(const QString &fileName);
     void    setCurrentDipyDoc(const QString&);
     void    update_icons(void);
     void    writeSettings();
@@ -99,17 +96,11 @@ private:
     QString          curFile;
 
     QMenu     *fileMenu = nullptr;
-    QMenu     *editMenu = nullptr;
+    QMenu     *openMenu = nullptr;
     QMenu     *helpMenu = nullptr;
-    QAction   *newAct = nullptr;
     QAction   *openAct = nullptr;
-    QAction   *saveAct = nullptr;
-    QAction   *saveAsAct = nullptr;
     QAction   *saveMainFileOfADipyDocAsAct = nullptr;
     QAction   *exitAct = nullptr;
-    QAction   *cutAct = nullptr;
-    QAction   *copyAct = nullptr;
-    QAction   *pasteAct = nullptr;
     QAction   *aboutAct = nullptr;
     QAction   *aboutQtAct = nullptr;
 

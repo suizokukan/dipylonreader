@@ -19,23 +19,26 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/dipylonui.cpp
+    ❏DipylonReader❏ : qt/ui.cpp
 
-    See dipylonui.h for the documentation.
+    See ui.h for the documentation.
 
 *******************************************************************************/
 
-#include "qt/dipylonui.h"
+#include "qt/ui.h"
 #include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
-  DipylonUI constructor : the real initialization is the go() method.
+  UI constructor : the real initialization is the go() method.
 
   See http://qt-project.org/doc/qt-5/qapplication.html#QApplication about
   "argc" and "argv".
 ______________________________________________________________________________*/
-DipylonUI::DipylonUI(void) {
+UI::UI(void) {
+  DebugMsg() << "UI::UI() : enter";
+  DebugMsg() << "Qt version : " << QT_VERSION_STR;
+
   /*
      initialization of this->path_info :
 
@@ -43,7 +46,7 @@ DipylonUI::DipylonUI(void) {
   */
   QFileInfo path_info = QFileInfo(fixedparameters::default__path_to_dipydocs);
   if (path_info.exists() == false || path_info.isFile()) {
-    DebugMsg() << "DipylonUI::DipylonUI" \
+    DebugMsg() << "UI::UI" \
                << "problem with the default path stored in fixedparameters.h, using the current directory." \
                << " default path = " << fixedparameters::default__path_to_dipydocs \
                << " (path_info.exists()=" << path_info.exists() \
@@ -54,20 +57,24 @@ DipylonUI::DipylonUI(void) {
   } else {
     this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
   }
+
+  /*
+    initialization of this->available_menu_names
+  */
+  this->available_menu_names = MenuNames(this->path_to_dipydocs);
+  DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
+
+  DebugMsg() << "UI::UI() : exit";
 }
 
 /*______________________________________________________________________________
 
-  DipylonUI destructor
+  UI destructor
 ______________________________________________________________________________*/
-DipylonUI::~DipylonUI(void) {
-  DebugMsg() << "DipylonUI::~DipylonUI(#beginning)";
-  delete icon_new;
+UI::~UI(void) {
+  DebugMsg() << "UI::~UI(#beginning)";
   delete icon_open;
   delete icon_save;
-  delete icon_cut;
-  delete icon_copy;
-  delete icon_paste;
   delete icon_audio_pause;
   delete icon_audio_play;
   delete icon_audio_play_unavailable;
@@ -77,24 +84,24 @@ DipylonUI::~DipylonUI(void) {
   delete icon_readingmode_rlmode;
   delete icon_readingmode_amode;
 
-  DebugMsg() << "DipylonUI::~DipylonUI(#fin)";
+  DebugMsg() << "UI::~UI(#fin)";
 }
 
 /*______________________________________________________________________________
 
-  DipylonUI::at_least_one_dipydoc_has_been_loaded()
+  UI::at_least_one_dipydoc_has_been_loaded()
 ______________________________________________________________________________*/
-bool DipylonUI::at_least_one_dipydoc_has_been_loaded(void) const {
+bool UI::at_least_one_dipydoc_has_been_loaded(void) const {
   return this->current_dipydoc.well_initialized();
 }
 
 /*______________________________________________________________________________
 
-  DipylonUI::get_translations_for() : return a QString with the translations
+  UI::get_translations_for() : return a QString with the translations
                                       matching the positions x0 to x1 in the
                                       source text.
 ______________________________________________________________________________*/
-QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
+QString UI::get_translations_for(PosInText x0, PosInText x1) const {
   VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.translations.contains(x0, x1);
 
   QStringList strlist_of_translations;
@@ -108,10 +115,10 @@ QString DipylonUI::get_translations_for(PosInText x0, PosInText x1) const {
 
 /*______________________________________________________________________________
 
-  DipylonUI::go() : UI creation + main loop
+  UI::go() : UI creation + main loop
 ______________________________________________________________________________*/
-int DipylonUI::go(int argc, char **argv) {
-  DebugMsg() << "enter in DipylonUI::go()";
+int UI::go(int argc, char **argv) {
+  DebugMsg() << "enter in UI::go()";
 
   /*
     We want to use the system's standard settings.
@@ -129,8 +136,21 @@ int DipylonUI::go(int argc, char **argv) {
 
   // application's look :
   app.setStyle(fixedparameters::application_style);
+
+  // creating the icons :
+  this->icon_app = new QIcon(":/ressources/images/icons/application_icon.png");
+  this->icon_open = new QIcon(":ressources/images/icons/open.png");
+  this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
+  this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
+  this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
+  this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
+  this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
+  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
+  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
+  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
+
   // application's icon :
-  app.setWindowIcon(QIcon(":/ressources/images/icons/application_icon.png"));
+  app.setWindowIcon(*icon_app);
 
   /* i18n :
 
@@ -169,22 +189,6 @@ int DipylonUI::go(int argc, char **argv) {
              << "success=" << dipylon_translations_res;
   app.installTranslator(&dipylonTranslator);
 
-  // creating the icons :
-  this->icon_new  = new QIcon(":ressources/images/icons/new.png");
-  this->icon_open = new QIcon(":ressources/images/icons/open.png");
-  this->icon_save = new QIcon(":ressources/images/icons/save.png");
-  this->icon_cut  = new QIcon(":ressources/images/icons/cut.png");
-  this->icon_copy = new QIcon(":ressources/images/icons/copy.png");
-  this->icon_paste = new QIcon(":ressources/images/icons/paste.png");
-  this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
-  this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
-  this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
-  this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
-  this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
-  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
-  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
-
   /*
     Displaying some usefull informations
   */
@@ -197,8 +201,8 @@ int DipylonUI::go(int argc, char **argv) {
      This parameter will be set again when a file will be opended. But the UI needs
      this information for the display, e.g. the icons.
   */
-  this->reading_mode         = DipylonUI::READINGMODE::READINGMODE_AMODE;
-  this->reading_mode_details = DipylonUI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
+  this->reading_mode         = UI::READINGMODE::READINGMODE_AMODE;
+  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
   DebugMsg() << "now in AMODE mode";
 
   // main window creation :
@@ -271,15 +275,12 @@ int DipylonUI::go(int argc, char **argv) {
                              Qt::WindowStaysOnTopHint);
 
   if (this->first_launch == true || this->display_splashscreen == true) {
-    QString msg("<span style=\"color:#223399\">" + \
-                QObject::tr("<b>Δίπυλον project</b> : Dipylon reader<br/>"
-                            "- version %1 -<br/>"
-                            "Dipydoc formats accepted : %2 to %3.<br/>"));
+    QString msg("<span style=\"color:#000000\">" + \
+                QObject::tr("<b>Δίπυλον project</b> : Dipylon Reader<br/>"
+                            "- version %1 -<br/>"));
 
     splashscreen.showMessage(msg.arg(fixedparameters::application_version,
-                                     QString().setNum(DipyDoc::min_dipydocformat_version),
-                                     QString().setNum(DipyDoc::max_dipydocformat_version)),
-                             Qt::AlignLeft);
+                             Qt::AlignLeft));
 
     splashscreen.show();
     QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
@@ -309,23 +310,23 @@ int DipylonUI::go(int argc, char **argv) {
 
 /*______________________________________________________________________________
 
-  DipylonUI::read_settings() : read the settings and initialize the application's
+  UI::read_settings() : read the settings and initialize the application's
                                parameters
 
 ______________________________________________________________________________*/
-void DipylonUI::read_settings(void) {
+void UI::read_settings(void) {
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
         o QCoreApplication::organizationName
         o QCoreApplication::organizationDomain,
         o QCoreApplication::applicationName
-        ... all previously defined (see dipylonui.cpp)
+        ... all previously defined (see ui.cpp)
 
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
-  DebugMsg() << "DipylonUI::read_settings() from " << settings.fileName();
+  DebugMsg() << "UI::read_settings() from " << settings.fileName();
 
   /*
     first launch ?
@@ -364,21 +365,21 @@ void DipylonUI::read_settings(void) {
 
 /*______________________________________________________________________________
 
-  DipylonUI::write_settings() : write the settings
+  UI::write_settings() : write the settings
 ______________________________________________________________________________*/
-void DipylonUI::write_settings(void) {
+void UI::write_settings(void) {
   /*
     By calling QSettings::setting() without any parameter, we initialize settings
     with :
         o QCoreApplication::organizationName
         o QCoreApplication::organizationDomain,
         o QCoreApplication::applicationName
-        ... all previously defined (see dipylonui.cpp)
+        ... all previously defined (see ui.cpp)
 
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
-  DebugMsg() << "DipylonUI::write_settings() to " << settings.fileName();
+  DebugMsg() << "UI::write_settings() to " << settings.fileName();
 
   /*
     If 'application/firstlaunch' is defined, it means that the program

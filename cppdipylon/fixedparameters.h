@@ -42,7 +42,7 @@ namespace fixedparameters {
 static const QString organization_name   = "suizokukanfactory";
 static const QString organization_domain = "94.23.197.37";
 static const QString application_name    = "dipylonreader";
-static const QString application_version = "0.4.1";
+static const QString application_version = "0.4.2";
 static const QString application_style   = "CleanLooks";
 
 /*
@@ -82,5 +82,13 @@ const QStringList known_doctypes = { QString("text"), };
 */
 static const int splashscreen_maximal_duration = 9000;
 static const bool default__display_splashscreen = true;
+
+// name of the main file in a dipydoc directory :
+constexpr static const char*   DIPYDOC__MAIN_FILENAME = "main.xml";
+// name of the 'menu name' file  in a dipydoc directory :
+constexpr static const char*   DIPYDOC__MENUNAME_FILENAME = "menuname";
+
+// constant used to limit the number of items displayed in submenu 'open' :
+static const int maximum_number_of_items_in_submenu_open = 10;
 }
 #endif
