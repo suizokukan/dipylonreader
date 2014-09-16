@@ -38,12 +38,17 @@
   with a QString parameter searches in the default path to find every 'menu name'
   file.
 ______________________________________________________________________________*/
+typedef std::map<QString, QString> MAP_STR2STR;
+typedef std::map<QString, QString>::const_iterator MAP_STR2STR_CI;
+
 struct MenuNames {
   // menu name -> directory's name (full path).
-  std::map<QString, QString> menuname_to_directory;
+  MAP_STR2STR    menuname_to_directory;
 
                  MenuNames(void);
                  MenuNames(const QString& path);
+  MAP_STR2STR_CI begin(void) const;
+  MAP_STR2STR_CI end(void) const;
   static QString read_menu_name_from_a_file_within_a_directory(const QString& path);
          QString repr(void) const;
 };
@@ -72,6 +77,17 @@ inline MenuNames::MenuNames(const QString& path) {
       }
     }
   }
+}
+
+/*______________________________________________________________________________
+
+  MenuNames::begin(), MenuNames::end()
+________________________________________________________________________________*/
+inline MAP_STR2STR_CI MenuNames::begin(void) const {
+  return this->menuname_to_directory.begin();
+}
+inline MAP_STR2STR_CI MenuNames::end(void) const {
+  return this->menuname_to_directory.end();
 }
 
 /*______________________________________________________________________________

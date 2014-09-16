@@ -99,6 +99,31 @@ void MainWindow::about() {
 
 /*______________________________________________________________________________
 
+  MainWindow::add_open_menu
+
+  Add a sub-menu to 'file menu'.
+______________________________________________________________________________*/
+void MainWindow::add_open_menu(void) {
+  delete this->openMenu;
+
+  this->openMenu = fileMenu->addMenu(tr("&Open"));
+  for( auto &item : this->ui.available_menu_names ) {
+
+    QAction* newAction = new QAction( *(this->ui.icon_open),
+                                      item.first,
+                                      this );
+    newAction->setData(item.second);
+
+    this->openMenu->addAction(newAction);
+    connect(newAction, &QAction::triggered,
+            this, &MainWindow::load_a_dipydoc_from_a_qaction);
+  }
+  openMenu->addSeparator()->setText(tr("choose another folder"));
+  openMenu->addAction(openAct);
+}
+
+/*______________________________________________________________________________
+
   MainWindow::audiocontrols_play()
 
   Function connected to this->audiocontrols_playAct::triggered()
@@ -318,7 +343,8 @@ void MainWindow::createActions() {
 ______________________________________________________________________________*/
 void MainWindow::createMenus() {
   fileMenu = menuBar()->addMenu(tr("&File"));
-  fileMenu->addAction(openAct);
+  this->add_open_menu();
+
   #ifdef READANDWRITE
   fileMenu->addAction(saveMainFileOfADipyDocAsAct);
   #endif
@@ -359,6 +385,18 @@ void MainWindow::createToolBars() {
 ______________________________________________________________________________*/
 void MainWindow::documentWasModified() {
     setWindowModified(source_editor->document()->isModified());
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::load_a_dipydoc_from_a_qaction
+
+  Load a Dipydoc from a QAction with the path stored in the internal data.
+______________________________________________________________________________*/
+void MainWindow::load_a_dipydoc_from_a_qaction(void) {
+  QAction* action = qobject_cast<QAction*>(this->sender());
+  this->loadDipyDoc( action->data().toString() );
+  delete action;
 }
 
 /*______________________________________________________________________________
