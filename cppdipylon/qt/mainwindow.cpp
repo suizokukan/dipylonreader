@@ -84,7 +84,7 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
   MainWindow::about
 ______________________________________________________________________________*/
 void MainWindow::about() {
-    QMessageBox msgBox(;
+    QMessageBox msgBox;
     msgBox.setText(QString( tr("DipylonReader %1, a software by suizokukan.").arg(fixedparameters::application_version)));
 
     #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
@@ -95,6 +95,49 @@ void MainWindow::about() {
     #endif
 
     msgBox.exec();
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::add_open_menu
+
+  Add a sub-menu to 'file menu' with the available dipydocs.
+______________________________________________________________________________*/
+void MainWindow::add_open_menu(void) {
+  delete this->openMenu;
+
+  this->openMenu = fileMenu->addMenu(tr("&Open"));
+  int number_of_items = 0;
+  for( auto &item : this->ui.available_menu_names ) {
+    number_of_items++;
+
+    if(number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
+      QAction* newAction = new QAction( *this->ui.icon_app,
+                                        item.first,
+                                        this );
+      /*
+         see MainWindow::load_a_dipydoc_from_a_qaction() for the format of the
+         internal data.
+      */
+      newAction->setData(item.second);
+
+      this->openMenu->addAction(newAction);
+      connect(newAction, &QAction::triggered,
+              this, &MainWindow::load_a_dipydoc_from_a_qaction);
+    }
+    else {
+      break;
+    }
+  }
+
+  if (this->ui.available_menu_names.size() <= fixedparameters::maximum_number_of_items_in_submenu_open) {
+    openMenu->addSeparator()->setText(tr("choose other files :"));
+    openMenu->addAction(openAct);
+  } else {
+    openMenu->addSeparator()->setText(tr("(...)"));
+    openMenu->addSeparator()->setText(tr("choose other files :"));
+    openMenu->addAction(openAct);
+  }
 }
 
 /*______________________________________________________________________________
@@ -265,7 +308,7 @@ void MainWindow::closing(void) {
 ______________________________________________________________________________*/
 void MainWindow::createActions() {
     openAct = new QAction( *(this->ui.icon_open),
-                           tr("&Open"),
+                           tr("Open"),
                            this);
     openAct->setShortcuts(QKeySequence::Open);
     openAct->setStatusTip(tr("Open an existing DipyDoc"));
@@ -318,7 +361,8 @@ void MainWindow::createActions() {
 ______________________________________________________________________________*/
 void MainWindow::createMenus() {
   fileMenu = menuBar()->addMenu(tr("&File"));
-  fileMenu->addAction(openAct);
+  this->add_open_menu();
+
   #ifdef READANDWRITE
   fileMenu->addAction(saveMainFileOfADipyDocAsAct);
   #endif
@@ -359,6 +403,17 @@ void MainWindow::createToolBars() {
 ______________________________________________________________________________*/
 void MainWindow::documentWasModified() {
     setWindowModified(source_editor->document()->isModified());
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::load_a_dipydoc_from_a_qaction
+
+  Load a Dipydoc from a QAction with the path stored in the internal data.
+______________________________________________________________________________*/
+void MainWindow::load_a_dipydoc_from_a_qaction(void) {
+  QAction* action = qobject_cast<QAction*>(this->sender());
+  this->loadDipyDoc( action->data().toString() );
 }
 
 /*______________________________________________________________________________

@@ -78,11 +78,13 @@ private slots:
 private:
     UI& ui;
 
+    void    add_open_menu(void);
     void    createActions();
     void    createMenus();
     void    createStatusBar();
     void    createToolBars();
     void    loadDipyDoc(const QString&);
+    void    load_a_dipydoc_from_a_qaction(void);
     void    readSettings();
     void    setCurrentDipyDoc(const QString&);
     void    update_icons(void);
@@ -94,7 +96,7 @@ private:
     QString          curFile;
 
     QMenu     *fileMenu = nullptr;
-    QMenu     *editMenu = nullptr;
+    QMenu     *openMenu = nullptr;
     QMenu     *helpMenu = nullptr;
     QAction   *openAct = nullptr;
     QAction   *saveMainFileOfADipyDocAsAct = nullptr;

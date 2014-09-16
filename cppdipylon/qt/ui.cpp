@@ -54,6 +54,12 @@ UI::UI(void) {
   } else {
     this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
   }
+
+  /*
+    initialization of this->available_menu_names
+  */
+  this->available_menu_names = MenuNames(this->path_to_dipydocs);
+  DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
 }
 
 /*______________________________________________________________________________
@@ -125,8 +131,21 @@ int UI::go(int argc, char **argv) {
 
   // application's look :
   app.setStyle(fixedparameters::application_style);
+
+  // creating the icons :
+  this->icon_app = new QIcon(":/ressources/images/icons/application_icon.png");
+  this->icon_open = new QIcon(":ressources/images/icons/open.png");
+  this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
+  this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
+  this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
+  this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
+  this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
+  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
+  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
+  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
+
   // application's icon :
-  app.setWindowIcon(QIcon(":/ressources/images/icons/application_icon.png"));
+  app.setWindowIcon(*icon_app);
 
   /* i18n :
 
@@ -164,17 +183,6 @@ int UI::go(int argc, char **argv) {
   DebugMsg() << "i18n : loading " << dipylon_translations_filename \
              << "success=" << dipylon_translations_res;
   app.installTranslator(&dipylonTranslator);
-
-  // creating the icons :
-  this->icon_open = new QIcon(":ressources/images/icons/open.png");
-  this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
-  this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
-  this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
-  this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
-  this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
-  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
-  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
 
   /*
     Displaying some usefull informations

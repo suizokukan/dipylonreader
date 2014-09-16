@@ -43,6 +43,7 @@
 #include <cstring>
 
 #include "./fixedparameters.h"
+#include "dipydoc/menunames.h"
 #include "dipydoc/dipydocnotes.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
@@ -271,6 +272,8 @@ friend class CommentaryEditor;
   QString              main_filename_with_fullpath;
 
   // general informations :
+  QString              menu_name;
+
   QString              id;
   int                  version;
   int                  dipydocformat_version;
@@ -315,9 +318,10 @@ friend class CommentaryEditor;
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
   QString                error_string(const QXmlStreamReader& xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
-  bool                   init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlreader);
-  bool                   init_from_xml__read_first_token(QXmlStreamReader& xmlreader);
+  bool                   read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlreader);
+  bool                   read_mainfile__read_first_token(QXmlStreamReader& xmlreader);
   QString                levels_repr(void) const;
+  void                   read_menu_name(const QString& _path);
 
  // public methods .............................................................
  public:
@@ -329,7 +333,7 @@ friend class CommentaryEditor;
   PosInTextRanges      translation_contains(PosInText x0, PosInText x1) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;
-  void                 init_from_xml(const QString&);
+  void                 read_mainfile(const QString&);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
 
@@ -360,9 +364,6 @@ friend class CommentaryEditor;
     THE_GIVENPATH_DOES_NOT_EXIST = -4,
     THE_GIVENPATH_IS_NOT_A_DIRECTORY = -5,
   };
-
-  // name of the main file in a dipydoc directory :
-  constexpr static const char*   MAIN_FILENAME = "main.xml";
 };
 
 inline DipyDoc::DipyDoc(void) {

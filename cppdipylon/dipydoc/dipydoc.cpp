@@ -51,6 +51,9 @@ DipyDoc::DipyDoc(const QString& _path) {
 
   this->clear();
 
+  this->_well_initialized = true;
+  this->_internal_state = DipyDoc::INTERNALSTATE::OK;
+
   // does the path leads to the expected files ?
   if (this->check_path(_path) == false) {
     DebugMsg() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
@@ -59,8 +62,11 @@ DipyDoc::DipyDoc(const QString& _path) {
     return;
   }
 
+  // let's read the 'menuname' file :
+  this->read_menu_name(_path);
+
   // let's open the main file :
-  this->init_from_xml(_path);
+  this->read_mainfile(_path);
 
   // let's open the text file :
   if( this->well_initialized() == true ) {
@@ -122,10 +128,10 @@ bool DipyDoc::check_path(const QString& _path) {
   }
 
   // does the main file exist ?
-  QFileInfo main_info = QFileInfo(_path + "/" + this->MAIN_FILENAME);
+  QFileInfo main_info = QFileInfo(_path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME);
   if (main_info.exists() == false) {
     QString msg(QString("An error occured while opening the main file : "
-                        "the main file files %1 doesn't exist in %2.").arg(this->MAIN_FILENAME, _path));
+                        "the main file files %1 doesn't exist in %2.").arg(fixedparameters::DIPYDOC__MAIN_FILENAME, _path));
     this->error(msg);
     return false;
   }
@@ -229,14 +235,14 @@ QString DipyDoc::diagnosis(void) const {
 ________________________________________________________________________________*/
 // minimal functions :
 bool DipyDoc::error(const QString& _msg) {
-  QString msg(QString("An error occured by reading the main file : msg=\"%1\";.").arg(_msg));
+  QString msg(QString("#ERROR# An error occured by reading the main file : msg=\"%1\";.").arg(_msg));
   this->err_messages.append(msg);
   DebugMsg() << msg;
 
   return true;  // since this function has been called, there must be an error !
 }
 bool DipyDoc::error(const QString& _msg, const QString& _error_string) {
-  QString msg(QString("An error occured by reading the main file : msg=\"%1\"; error_string()=\"%2\".").arg(_msg, _error_string));
+  QString msg(QString("#ERROR# An error occured by reading the main file : msg=\"%1\"; error_string()=\"%2\".").arg(_msg, _error_string));
   this->err_messages.append(msg);
   DebugMsg() << msg;
 
@@ -248,7 +254,7 @@ template<class T> bool DipyDoc::error(const T& object, const QString& _error_str
   bool error_detected = !object.well_initialized();
 
   if (error_detected == true) {
-    QString msg(QString("An error occured by reading the main file : error_string=\"%1\"; where=\"%2\".").arg(_error_string, where));
+    QString msg(QString("#ERROR# An error occured by reading the main file : error_string=\"%1\"; where=\"%2\".").arg(_error_string, where));
     this->err_messages.append(msg);
     DebugMsg() << msg;
   }
@@ -639,54 +645,49 @@ QString DipyDoc::get_xml_repr(void) const {
 
 /*______________________________________________________________________________
 
-        DipyDoc::init_from_xml()
+        DipyDoc::read_mainfile()
 
-        Initialize "this" from the file(s) stored in "_path" and return a (bool)success.
+        Initialize "this" from the main xml file stored in "_path".
+
         This method doesn't check if "path" is valid : see the ::check_path()
         method for this.
 
-        Initialize this->_well_initialized, this->_internal_state .
+        Initialize this->_well_initialized, this->_internal_state if an error
+        occurs.
 
         Fill "err_messages" with human-readable messages.
 
-        (1) clear "this"
-        (2) main file opening
-        (3) xml reading : main file reading
-        (4) secondary initializations
-            (4.1) initialization of "audiorecord.audio2text"
-            (4.2) "number_of_chars_before_source_text" is not initialized here
-        (5) checks
-            (5.1) is audiorecord.text2audio correctly initialized ?
-            (5.2) is audiorecord.audio2text correctly initialized ?
-            (5.3) is translation correctly initialized ?
-            (5.4) is the text's filename an empty string ?
-            (5.5) are the notes' levels' number defined ?
-            (5.6) are the notes' aspects defined ?
-            (5.7) are the notes' arrows' types defined ?
-        (6) initializaton of _well_initialized
+        (1) main file opening
+        (2) xml reading : main file reading
+        (3) secondary initializations
+            (3.1) initialization of "audiorecord.audio2text"
+            (3.2) "number_of_chars_before_source_text" is not initialized here
+        (4) checks
+            (4.1) is audiorecord.text2audio correctly initialized ?
+            (4.2) is audiorecord.audio2text correctly initialized ?
+            (4.3) is translation correctly initialized ?
+            (4.4) is the text's filename an empty string ?
+            (4.5) are the notes' levels' number defined ?
+            (4.6) are the notes' aspects defined ?
+            (4.7) are the notes' arrows' types defined ?
+        (5) initializaton of _well_initialized
 
 ______________________________________________________________________________*/
-void DipyDoc::init_from_xml(const QString& _path) {
-  DebugMsg() << "DipyDoc::init_from_xml() : entry point; path=" << _path;
+void DipyDoc::read_mainfile(const QString& _path) {
+  DebugMsg() << "DipyDoc::read_mainfile() : entry point; path=" << _path;
 
   QString msg_error;
 
-  /*............................................................................
-    (1) clear "this"
-  ............................................................................*/
-  this->clear();
-
-  DebugMsg() << "DipyDoc::init_from_xml" << "path=" << _path;
+  DebugMsg() << "DipyDoc::read_mainfile" << "path=" << _path;
 
   /*............................................................................
-    (2) main file opening
+    (1) main file opening
   ............................................................................*/
   this->path = _path;
-  this->main_filename_with_fullpath = _path + "/" + this->MAIN_FILENAME;
+  this->main_filename_with_fullpath = _path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
 
   if (!dipydoc_main_xml_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-
     QString msg("An error occurs while opening the main file, named '%1'");
 
     this->error(msg.arg(this->main_filename_with_fullpath));
@@ -697,26 +698,24 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-    (3) xml reading : main file reading
+    (2) xml reading : main file reading
 
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::init_from_xml) #3";
+  DebugMsg() << "(DipyDoc::read_mainfile) #3";
   QXmlStreamReader xmlreader;
   xmlreader.setDevice(&dipydoc_main_xml_file);
 
   bool ok = false;
-  this->_well_initialized = false;
-  this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
 
   if (xmlreader.readNextStartElement()) {
     if (xmlreader.name() == "dipydoc") {
       /*
          ok, it's a DipyDoc file : let's read and check its first token
       */
-      if (this->init_from_xml__read_first_token(xmlreader) == true) {
+      if (this->read_mainfile__read_first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
-        ok = this->init_from_xml__read_the_rest_of_the_file(xmlreader);
+        ok = this->read_mainfile__read_the_rest_of_the_file(xmlreader);
       }
     }
     else {
@@ -729,17 +728,19 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   if( ok == false ) {
-    DebugMsg() << "DipyDoc::init_from_xml() : exit #1";
+    DebugMsg() << "DipyDoc::read_mainfile() : exit #1";
+    this->_well_initialized = false;
+    this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
     return;
   }
 
   /*............................................................................
-    (4) secondary initializations
+    (3) secondary initializations
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::init_from_xml) #4";
+  DebugMsg() << "(DipyDoc::read_mainfile) #4";
 
   /*............................................................................
-    (4.1) initialization of "audiorecord.audio2text"
+    (3.1) initialization of "audiorecord.audio2text"
   ............................................................................*/
   if (this->audiorecord.found == true) {
     this->audiorecord.audio2text = PosInAudio2PosInText(this->audiorecord.text2audio);
@@ -749,7 +750,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-    (4.2) "number_of_chars_before_source_text" is not initialized here
+    (3.2) "number_of_chars_before_source_text" is not initialized here
 
     The first attempt to compute "number_of_chars_before_source_text was doubtfull :
 
@@ -772,12 +773,12 @@ void DipyDoc::init_from_xml(const QString& _path) {
   ............................................................................*/
 
   /*............................................................................
-    (5) checks
+    (4) checks
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::init_from_xml) #5";
+  DebugMsg() << "(DipyDoc::read_mainfile) #5";
 
   /*............................................................................
-    (5.1) is audiorecord.text2audio correctly initialized ?
+    (4.1) is audiorecord.text2audio correctly initialized ?
   ............................................................................*/
   if (this->audiorecord.found == true && \
       this->audiorecord.text2audio.well_initialized() == false) {
@@ -787,7 +788,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-    (5.2) is audio2text correctly initialized ?
+    (4.2) is audio2text correctly initialized ?
   ............................................................................*/
   if (this->audiorecord.found == true && \
       this->audiorecord.audio2text.well_initialized() == false) {
@@ -797,7 +798,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-    (5.3) is translation correctly initialized ?
+    (4.3) is translation correctly initialized ?
   ............................................................................*/
   if (this->translation.translations.well_initialized() == false) {
     QString msg = "translation.translations isn't correctly initialized"
@@ -806,7 +807,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-    (5.4) is the text's filename an empty string ?
+    (4.4) is the text's filename an empty string ?
   ............................................................................*/
   if (this->source_text.filename.length() == 0) {
     QString msg = "Empty text's filename";
@@ -814,7 +815,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-     (5.5) are the notes' levels' number defined ?
+    (4.5) are the notes' levels' number defined ?
   ............................................................................*/
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
@@ -827,7 +828,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-     (5.6) are the notes' aspects defined ?
+    (4.6) are the notes' aspects defined ?
   ............................................................................*/
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
@@ -845,7 +846,7 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-     (5.7) are the notes' arrows' types defined ?
+    (4.7) are the notes' arrows' types defined ?
   ............................................................................*/
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
@@ -864,37 +865,34 @@ void DipyDoc::init_from_xml(const QString& _path) {
   }
 
   /*............................................................................
-    (6) initializaton of _well_initialized and of _internal_state.
+    (5) initializaton of _well_initialized and of _internal_state.
   ............................................................................*/
   if( ok == false ) {
     this->_well_initialized = false;
     // _internal_state has been precedently set to NOT_CORRECTLY_INITIALIZED.
-    DebugMsg() << "DipyDoc::init_from_xml() : exit #2; something's wrong.";
+    DebugMsg() << "DipyDoc::read_mainfile() : exit #2; something's wrong.";
   }
-  else {
-    this->_well_initialized = true;
-    this->_internal_state = DipyDoc::INTERNALSTATE::OK;
-  }
-  DebugMsg() << "(DipyDoc::init_from_xml) levels=" << this->levels_repr();
 
-  DebugMsg() << "(DipyDoc::init_from_xml) arrows=" << this->arrows_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile) levels=" << this->levels_repr();
 
-  DebugMsg() << "(DipyDoc::init_from_xml) notes=";
+  DebugMsg() << "(DipyDoc::read_mainfile) arrows=" << this->arrows_repr();
+
+  DebugMsg() << "(DipyDoc::read_mainfile) notes=";
   DebugMsg() << this->notes.repr();
 
-  DebugMsg() << "DipyDoc::init_from_xml" << \
-                "xml:this->_well_initialized = " << this->_well_initialized;
+  DebugMsg() << "DipyDoc::read_mainfile" << \
+                "this->_well_initialized = " << this->_well_initialized;
 }
 
 /*______________________________________________________________________________
 
-  DipyDoc::init_from_xml__read_first_token()
+  DipyDoc::read_mainfile__read_first_token()
 
   read the first token and initializes the object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::init_from_xml__read_first_token(QXmlStreamReader& xmlreader) {
+bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
 
   bool ok = true;
 
@@ -916,7 +914,7 @@ bool DipyDoc::init_from_xml__read_first_token(QXmlStreamReader& xmlreader) {
                          QString().setNum(this->max_dipydocformat_version)),
                  this->error_string(xmlreader) );
 
-  ok &= dipydoc_version_ok;
+    ok &= dipydoc_version_ok;
   }
 
   /*
@@ -943,13 +941,13 @@ bool DipyDoc::init_from_xml__read_first_token(QXmlStreamReader& xmlreader) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::init_from_xml__read_the_rest_of_the_file()
+  DipyDoc::read_mainfile__read_the_rest_of_the_file()
 
   read everything but the first token and initializes the object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::init_from_xml__read_the_rest_of_the_file(QXmlStreamReader& xmlreader) {
+bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlreader) {
 
  bool ok = true;
 
@@ -1395,6 +1393,35 @@ QString DipyDoc::levels_repr(void) const {
                                                                 level.second.textformat.repr());
     }
   return res;
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::read_menu_name
+
+        Initialize "this->menu_name" from the "menu name" file.
+
+        This method doesn't check if "path" is valid : see the ::check_path()
+        method for this.
+
+        Initialize this->_well_initialized, this->_internal_state if an error
+        occurs.
+________________________________________________________________________________*/
+void DipyDoc::read_menu_name(const QString& _path) {
+
+  this->menu_name = MenuNames::read_menu_name_from_a_file_within_a_directory(_path);
+
+  // is the "menu name" empty ?
+  if (this->menu_name.size() == 0) {
+    QString msg("Empty menu name are not allowed.");
+    this->error(msg);
+
+    this->_well_initialized = false;
+    this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
+    return;
+  }
+
+  DebugMsg() << "(DipyDoc::read_menu_name) menu name = " << this->menu_name;
 }
 
 /*______________________________________________________________________________
