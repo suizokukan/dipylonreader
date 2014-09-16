@@ -67,6 +67,7 @@ class UI {
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
+  QIcon*      icon_app = nullptr;
   QIcon*      icon_open = nullptr;
   QIcon*      icon_save = nullptr;
   QIcon*      icon_audio_pause = nullptr;

@@ -101,7 +101,7 @@ void MainWindow::about() {
 
   MainWindow::add_open_menu
 
-  Add a sub-menu to 'file menu'.
+  Add a sub-menu to 'file menu' with the available dipydocs.
 ______________________________________________________________________________*/
 void MainWindow::add_open_menu(void) {
   delete this->openMenu;
@@ -109,16 +109,22 @@ void MainWindow::add_open_menu(void) {
   this->openMenu = fileMenu->addMenu(tr("&Open"));
   for( auto &item : this->ui.available_menu_names ) {
 
-    QAction* newAction = new QAction( *(this->ui.icon_open),
+    QAction* newAction = new QAction( *this->ui.icon_app,
                                       item.first,
                                       this );
+
+    /*
+       see MainWindow::load_a_dipydoc_from_a_qaction() for the format of the
+       internal data.
+    */
     newAction->setData(item.second);
 
     this->openMenu->addAction(newAction);
     connect(newAction, &QAction::triggered,
             this, &MainWindow::load_a_dipydoc_from_a_qaction);
   }
-  openMenu->addSeparator()->setText(tr("choose another folder"));
+  openMenu->addSeparator()->setText(tr("choose other files"));
+  //openMenu->addSection(tr("choose other files"));
   openMenu->addAction(openAct);
 }
 
@@ -290,7 +296,7 @@ void MainWindow::closing(void) {
 ______________________________________________________________________________*/
 void MainWindow::createActions() {
     openAct = new QAction( *(this->ui.icon_open),
-                           tr("&Open"),
+                           tr("Open"),
                            this);
     openAct->setShortcuts(QKeySequence::Open);
     openAct->setStatusTip(tr("Open an existing DipyDoc"));
@@ -396,7 +402,6 @@ ______________________________________________________________________________*/
 void MainWindow::load_a_dipydoc_from_a_qaction(void) {
   QAction* action = qobject_cast<QAction*>(this->sender());
   this->loadDipyDoc( action->data().toString() );
-  delete action;
 }
 
 /*______________________________________________________________________________

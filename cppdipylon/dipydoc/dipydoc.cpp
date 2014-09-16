@@ -729,6 +729,8 @@ void DipyDoc::read_mainfile(const QString& _path) {
 
   if( ok == false ) {
     DebugMsg() << "DipyDoc::read_mainfile() : exit #1";
+    this->_well_initialized = false;
+    this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
     return;
   }
 
@@ -912,7 +914,7 @@ bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
                          QString().setNum(this->max_dipydocformat_version)),
                  this->error_string(xmlreader) );
 
-  ok &= dipydoc_version_ok;
+    ok &= dipydoc_version_ok;
   }
 
   /*
