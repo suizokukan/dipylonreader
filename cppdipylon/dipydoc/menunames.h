@@ -51,6 +51,7 @@ struct MenuNames {
   MAP_STR2STR_CI end(void) const;
   static QString read_menu_name_from_a_file_within_a_directory(const QString& path);
          QString repr(void) const;
+     std::size_t size(void) const;
 };
 
 /*______________________________________________________________________________
@@ -123,6 +124,14 @@ inline QString MenuNames::repr(void) const {
   }
 
   return resl.join("\n");
+}
+
+/*______________________________________________________________________________
+
+  MenuNames::size
+________________________________________________________________________________*/
+inline std::size_t MenuNames::size(void) const {
+  return this->menuname_to_directory.size();
 }
 
 #endif  // CPPDIPYLON_DIPYDOC_MENUNAMES_H_

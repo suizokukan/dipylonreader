@@ -87,5 +87,8 @@ static const bool default__display_splashscreen = true;
 constexpr static const char*   DIPYDOC__MAIN_FILENAME = "main.xml";
 // name of the 'menu name' file  in a dipydoc directory :
 constexpr static const char*   DIPYDOC__MENUNAME_FILENAME = "menuname";
+
+// constant used to limit the number of items displayed in submenu 'open' :
+static const int maximum_number_of_items_in_submenu_open = 10;
 }
 #endif

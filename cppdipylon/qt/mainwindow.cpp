@@ -107,25 +107,37 @@ void MainWindow::add_open_menu(void) {
   delete this->openMenu;
 
   this->openMenu = fileMenu->addMenu(tr("&Open"));
+  int number_of_items = 0;
   for( auto &item : this->ui.available_menu_names ) {
+    number_of_items++;
 
-    QAction* newAction = new QAction( *this->ui.icon_app,
-                                      item.first,
-                                      this );
+    if(number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
+      QAction* newAction = new QAction( *this->ui.icon_app,
+                                        item.first,
+                                        this );
+      /*
+         see MainWindow::load_a_dipydoc_from_a_qaction() for the format of the
+         internal data.
+      */
+      newAction->setData(item.second);
 
-    /*
-       see MainWindow::load_a_dipydoc_from_a_qaction() for the format of the
-       internal data.
-    */
-    newAction->setData(item.second);
-
-    this->openMenu->addAction(newAction);
-    connect(newAction, &QAction::triggered,
-            this, &MainWindow::load_a_dipydoc_from_a_qaction);
+      this->openMenu->addAction(newAction);
+      connect(newAction, &QAction::triggered,
+              this, &MainWindow::load_a_dipydoc_from_a_qaction);
+    }
+    else {
+      break;
+    }
   }
-  openMenu->addSeparator()->setText(tr("choose other files"));
-  //openMenu->addSection(tr("choose other files"));
-  openMenu->addAction(openAct);
+
+  if (this->ui.available_menu_names.size() <= fixedparameters::maximum_number_of_items_in_submenu_open) {
+    openMenu->addSeparator()->setText(tr("choose other files :"));
+    openMenu->addAction(openAct);
+  } else {
+    openMenu->addSeparator()->setText(tr("(...)"));
+    openMenu->addSeparator()->setText(tr("choose other files :"));
+    openMenu->addAction(openAct);
+  }
 }
 
 /*______________________________________________________________________________
