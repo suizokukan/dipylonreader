@@ -906,7 +906,7 @@ bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
 
   if( dipydoc_version_ok == false ) {
     QString msg("wrong version's format : "
-                "we should have %1 %2 %3, i.e. "
+                "we should have %1 <= %2 <= %3, i.e. "
                 "(min. version <= current version <= max. version)");
     this->_internal_state = DipyDoc::INTERNALSTATE::INCORRECT_VERSION_OF_THE_DIPYDOC;
     this->error( msg.arg(QString().setNum(this->min_dipydocformat_version),
