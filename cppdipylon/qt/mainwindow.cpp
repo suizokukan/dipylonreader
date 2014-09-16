@@ -439,10 +439,11 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     msgBox.setText( tr("Unable to load any valid Dipydoc's document from <b>") + directoryName + "</b> ." +\
                     "<br/><br/>" + this->ui.current_dipydoc.diagnosis() + \
                     "<br/><br/>" + tr("See more details below.") );
-    this->ui.current_dipydoc.err_messages.prepend( "internal state = " + \
-                                       QString().setNum(this->ui.current_dipydoc.internal_state()) );
 
-    msgBox.setDetailedText( this->ui.current_dipydoc.err_messages.join("\n\n") + \
+    msgBox.setDetailedText( "internal state = " + \
+                            QString().setNum(this->ui.current_dipydoc.internal_state()) + \
+                            "\n\n" + \
+                            this->ui.current_dipydoc.err_messages.join("\n\n") + \
                             "\n\n\n*** internal debug message ***\n\n\n" + \
                             DebugMsg::messages.join("\n") );
     msgBox.exec();
