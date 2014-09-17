@@ -36,6 +36,9 @@
   "argc" and "argv".
 ______________________________________________________________________________*/
 UI::UI(void) {
+  DebugMsg() << "UI::UI() : enter";
+  DebugMsg() << "Qt version : " << QT_VERSION_STR;
+
   /*
      initialization of this->path_info :
 
@@ -60,6 +63,8 @@ UI::UI(void) {
   */
   this->available_menu_names = MenuNames(this->path_to_dipydocs);
   DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
+
+  DebugMsg() << "UI::UI() : exit";
 }
 
 /*______________________________________________________________________________

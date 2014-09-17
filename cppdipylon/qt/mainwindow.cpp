@@ -105,8 +105,25 @@ void MainWindow::about() {
 ______________________________________________________________________________*/
 void MainWindow::add_open_menu(void) {
   delete this->openMenu;
-
   this->openMenu = fileMenu->addMenu(tr("&Open"));
+
+  /*
+    special case : no dipydoc could be found.
+  */
+  if( this->ui.available_menu_names.size() == 0) {
+    QAction* emptyAction = new QAction( *this->ui.icon_app,
+                                        "(No Dipydoc could be found)",
+                                        this );
+    this->openMenu->addAction(emptyAction);
+
+    openMenu->addSeparator();
+    this->openMenu->addAction(openAct);
+    return;
+  }
+
+  /*
+    normal case : at least of dipydoc was found.
+  */
   int number_of_items = 0;
   for( auto &item : this->ui.available_menu_names ) {
     number_of_items++;
