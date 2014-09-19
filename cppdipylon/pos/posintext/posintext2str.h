@@ -30,7 +30,7 @@
 
 #include <QString>
 
-#include <unordered_map>
+#include <map>
 #include <utility>
 
 #include "pos/posintext/posintext.h"
@@ -57,11 +57,14 @@ struct IntegersAndAString {
   PosInText2Str class : basically, a map PosInTextRanges -> QString .
 
 ________________________________________________________________________________*/
+typedef std::map<PosInTextRanges, QString> MAP_PosText2QString;
+typedef MAP_PosText2QString::const_iterator MAP_PosText2QStringCI;
+
 class PosInText2Str {
     friend class DipyDoc;
 
  private:
-  std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher> map;
+  MAP_PosText2QString    map;
   int                    _internal_state;
   bool                   _well_initialized;
 
@@ -77,11 +80,11 @@ class PosInText2Str {
   const QString &       operator[](const PosInTextRanges key) const;
   PosInText2Str&        operator=(const PosInText2Str&);
 
-  std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator begin(void) const;
+  MAP_PosText2QStringCI begin(void) const;
   void                  clear(void);
   PosInTextRanges       contains(PosInText x0) const;
   VectorPosInTextRanges contains(PosInText x0, PosInText x1) const;
-  std::unordered_map<PosInTextRanges, QString, PosInTextRangesHasher>::const_iterator end(void) const;
+  MAP_PosText2QStringCI end(void) const;
   int                   internal_state(void) const;
   size_t                size(void) const;
   bool                  well_initialized(void) const;
@@ -145,15 +148,11 @@ inline const QString& PosInText2Str::operator[](const PosInTextRanges key) const
   return this->map.at(key);
 }
 
-inline std::unordered_map<PosInTextRanges,
-                          QString,
-                          PosInTextRangesHasher>::const_iterator PosInText2Str::begin(void) const {
+inline MAP_PosText2QStringCI PosInText2Str::begin(void) const {
   return this->map.begin();
 }
 
-inline std::unordered_map<PosInTextRanges,
-                          QString,
-                          PosInTextRangesHasher>::const_iterator PosInText2Str::end(void) const {
+inline MAP_PosText2QStringCI PosInText2Str::end(void) const {
   return this->map.end();
 }
 

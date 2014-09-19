@@ -343,3 +343,90 @@ void TestPosInTextRanges::test10_minmax(void)
   QCOMPARE( g2.min() , static_cast<unsigned int>( MAXIMAL_POSINTEXT ) );
   QCOMPARE( g2.max() , static_cast<unsigned int>( MINIMAL_POSINTEXT ) );
 }
+
+/*
+  A PosInTextRanges object is created with ill-sorted keys -> error
+*/
+void TestPosInTextRanges::test11a(void)
+{
+  const QString& str = QString("49-89+1-3");
+  PosInTextRanges g(str);
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::NOT_SORTED) );
+}
+
+/*
+  A PosInTextRanges object is created with ill-sorted keys -> error
+*/
+void TestPosInTextRanges::test11b(void)
+{
+  const QString& str = QString("10-30+121-300+2-5");
+  PosInTextRanges g(str);
+  QCOMPARE( g.well_initialized() , false );
+  QCOMPARE( g.internal_state() , static_cast<int>(PosInTextRanges::INTERNALSTATE::NOT_SORTED) );
+}
+
+/*
+  testing the < operator.
+*/
+void TestPosInTextRanges::test12a(void)
+{
+  const QString& str1 = QString("94-95+97-98+101-105");
+  PosInTextRanges g1(str1);
+  const QString& str2 = QString("94-95+97-98+101-105");
+  PosInTextRanges g2(str2);
+
+  QCOMPARE( g1<g2 , false );
+}
+
+/*
+  testing the < operator.
+*/
+void TestPosInTextRanges::test12b(void)
+{
+  const QString& str1 = QString("94-95+97-98+101-105");
+  PosInTextRanges g1(str1);
+  const QString& str2 = QString("94-95+97-98+102-105");
+  PosInTextRanges g2(str2);
+
+  QCOMPARE( g1<g2 , true );
+}
+
+/*
+  testing the < operator.
+*/
+void TestPosInTextRanges::test12c(void)
+{
+  const QString& str1 = QString("94-95+97-98+102-105");
+  PosInTextRanges g1(str1);
+  const QString& str2 = QString("94-95+97-98+101-105");
+  PosInTextRanges g2(str2);
+
+  QCOMPARE( g1<g2 , false );
+}
+
+/*
+  testing the < operator.
+*/
+void TestPosInTextRanges::test12d(void)
+{
+  const QString& str1 = QString("94-95+97-98+102-105");
+  PosInTextRanges g1(str1);
+  const QString& str2 = QString("93-95+97-98+102-105");
+  PosInTextRanges g2(str2);
+
+  QCOMPARE( g1<g2 , false );
+}
+
+/*
+  testing the < operator.
+*/
+void TestPosInTextRanges::test12e(void)
+{
+  const QString& str1 = QString("93-95+97-98+102-105");
+  PosInTextRanges g1(str1);
+  const QString& str2 = QString("94-95+97-98+102-105");
+  PosInTextRanges g2(str2);
+
+  QCOMPARE( g1<g2 , true );
+}
