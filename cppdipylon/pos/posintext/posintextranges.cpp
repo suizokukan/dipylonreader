@@ -104,10 +104,11 @@ PosInTextRanges::PosInTextRanges(const QString& src_qstring) {
         tests :
             o if x0 >= x1 -> error, INTERNALSTATE::X0X1
             o if one range overlaps another one, error -> INTERNALSTATE::OVERLAPPING
+            o if the first numbers are not sorted, error -> INTERNALSTATE::NOT_SORTED
 ______________________________________________________________________________*/
 void PosInTextRanges::checks(void) {
   /*
-        X0X1 test :
+    X0X1 test :
   */
   // i is a std::vector < std::pair<PosInText, PosInText> >
   for (auto &i : vec) {
@@ -119,7 +120,7 @@ void PosInTextRanges::checks(void) {
   }
 
   /*
-         overlapping test :
+    overlapping test :
   */
   // i, j are std::vector < std::pair<PosInText, PosInText> >
   for (auto &i : vec) {
@@ -133,6 +134,19 @@ void PosInTextRanges::checks(void) {
         }
       }
     }
+  }
+
+  /*
+    first numbers well sorted ?
+  */
+  PosInText last_value = 0;
+  for (auto &i : vec) {
+    if(i.first < last_value) {
+      this->_well_initialized = false;
+      this->_internal_state = PosInTextRanges::INTERNALSTATE::NOT_SORTED;
+      return;
+    }
+    last_value = i.first;
   }
 }
 
@@ -247,28 +261,4 @@ QString PosInTextRanges::repr(void) const {
   res.chop(1);
 
   return res;
-}
-
-/*##############################################################################
-
-        PosInTextRangesHasher
-
- ##############################################################################*/
-
-/*______________________________________________________________________________
-
-        PosInTextRangesHasher::operator()
-
-        from a David Schwartz idea (http://stackoverflow.com/questions/23859844)
-
-______________________________________________________________________________*/
-std::size_t PosInTextRangesHasher::operator()(const PosInTextRanges& k) const {
-  std::size_t hash = 0;
-
-  for (auto &i : k.vec) {
-    hash_combine(hash, i.first);
-    hash_combine(hash, i.second);
-  }
-
-  return hash;
 }

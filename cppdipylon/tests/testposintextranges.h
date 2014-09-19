@@ -65,6 +65,13 @@ private slots:
   void test9a(void);
   void test9b(void);
   void test10_minmax(void);
+  void test11a(void);
+  void test11b(void);
+  void test12a(void);
+  void test12b(void);
+  void test12c(void);
+  void test12d(void);
+  void test12e(void);
 };
 
 #endif
