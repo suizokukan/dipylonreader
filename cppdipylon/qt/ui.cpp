@@ -36,7 +36,7 @@
   "argc" and "argv".
 ______________________________________________________________________________*/
 UI::UI(void) {
-  DebugMsg() << "UI::UI() : enter";
+  DebugMsg() << "UI::UI() : entry point";
   DebugMsg() << "Qt version : " << QT_VERSION_STR;
 
   /*
@@ -64,7 +64,7 @@ UI::UI(void) {
   this->available_menu_names = MenuNames(this->path_to_dipydocs);
   DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
 
-  DebugMsg() << "UI::UI() : exit";
+  DebugMsg() << "UI::UI() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -98,8 +98,8 @@ bool UI::at_least_one_dipydoc_has_been_loaded(void) const {
 /*______________________________________________________________________________
 
   UI::get_translations_for() : return a QString with the translations
-                                      matching the positions x0 to x1 in the
-                                      source text.
+                               matching the positions x0 to x1 in the
+                               source text.
 ______________________________________________________________________________*/
 QString UI::get_translations_for(PosInText x0, PosInText x1) const {
   VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.translations.contains(x0, x1);

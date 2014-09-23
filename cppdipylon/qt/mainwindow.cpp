@@ -668,7 +668,7 @@ void MainWindow::setCurrentDipyDoc(const QString &directoryName) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
-
+  DebugMsg() << "MainWindow::update_icons";
   /*............................................................................
     a special case : no Dipydoc.
   ............................................................................*/
@@ -691,22 +691,16 @@ void MainWindow::update_icons(void) {
 
     case UI::READINGMODE_RLMODE: {
       this->readingmodeAct->setIcon( *(this->ui.icon_readingmode_rlmode) );
-      // removing remaining commentary's content :
-      this->commentary_editor->clear();
       break;
     }
 
     case UI::READINGMODE_RMODE: {
       this->readingmodeAct->setIcon( *(this->ui.icon_readingmode_rmode) );
-      // removing remaining commentary's content :
-      this->commentary_editor->clear();
       break;
     }
 
     case UI::READINGMODE_AMODE: {
       this->readingmodeAct->setIcon( *(this->ui.icon_readingmode_amode) );
-      // removing remaining commentary's content :
-      this->commentary_editor->clear();
       break;
     }
 

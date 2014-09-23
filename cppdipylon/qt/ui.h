@@ -87,6 +87,9 @@ class UI {
 
   MainWindow* mainWin = nullptr;
 
+  // if set to true, protect the commentary zone to be modified.
+  bool        selected_text_and_blocked_commentaries = false;
+
  public:
   /*
     READINGMODE, READINGMODEDETAILS :
