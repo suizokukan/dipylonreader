@@ -227,7 +227,7 @@ int UI::go(int argc, char **argv) {
   #ifdef MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
   if (this->first_launch == true) {
     /*
-      Since the ::showMaximized() method doesn't work,
+      Since the ::showMaximized() method doesn't work on X11,
       let's resize and move the main window "artistically" :
     */
     QSize size = QGuiApplication::primaryScreen()->size();
@@ -273,6 +273,10 @@ int UI::go(int argc, char **argv) {
   // this variable can't be defined in the following block and must be defined here :
   QSplashScreen splashscreen(QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
                              Qt::WindowStaysOnTopHint);
+
+  // let's center the splashscreen exactly with the main window :
+  splashscreen.move( this->mainWin->x() + (this->mainWin->width() / 2)  - (splashscreen.width() / 2),
+                     this->mainWin->y() + (this->mainWin->height() / 2) - (splashscreen.width() / 2) );
 
   if (this->first_launch == true || this->display_splashscreen == true) {
     QString msg("<span style=\"color:#000000\">" + \
