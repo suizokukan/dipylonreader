@@ -332,6 +332,14 @@ void MainWindow::createActions() {
     connect(openAct, &QAction::triggered,
             this, &MainWindow::open);
 
+    downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
+                                   tr("Download demo Dipydocs"),
+                                   this);
+    downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
+    connect(downloaddemoAct, &QAction::triggered,
+            this, &MainWindow::download_dipydocs_demo);
+
+
     #ifdef READANDWRITE
     saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
     saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
@@ -380,6 +388,10 @@ void MainWindow::createMenus() {
   fileMenu = menuBar()->addMenu(tr("&File"));
   this->add_open_menu();
 
+  this->fileMenu->addSeparator();
+
+  this->fileMenu->addAction(downloaddemoAct);
+
   #ifdef READANDWRITE
   fileMenu->addAction(saveMainFileOfADipyDocAsAct);
   #endif
@@ -420,6 +432,13 @@ void MainWindow::createToolBars() {
 ______________________________________________________________________________*/
 void MainWindow::documentWasModified() {
     setWindowModified(source_editor->document()->isModified());
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::download_dipydocs_demo
+______________________________________________________________________________*/
+void MainWindow::download_dipydocs_demo(void) {
 }
 
 /*______________________________________________________________________________

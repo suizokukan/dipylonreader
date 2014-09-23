@@ -83,6 +83,7 @@ UI::~UI(void) {
   delete icon_readingmode_rmode;
   delete icon_readingmode_rlmode;
   delete icon_readingmode_amode;
+  delete icon_downloaddemo;
 
   DebugMsg() << "UI::~UI(#fin)";
 }
@@ -148,6 +149,7 @@ int UI::go(int argc, char **argv) {
   this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
   this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
   this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
+  this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
 
   // application's icon :
   app.setWindowIcon(*icon_app);

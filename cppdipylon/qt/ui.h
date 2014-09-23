@@ -70,6 +70,7 @@ class UI {
   QIcon*      icon_app = nullptr;
   QIcon*      icon_open = nullptr;
   QIcon*      icon_save = nullptr;
+  QIcon*      icon_downloaddemo = nullptr;
   QIcon*      icon_audio_pause = nullptr;
   QIcon*      icon_audio_play = nullptr;
   QIcon*      icon_audio_play_unavailable = nullptr;

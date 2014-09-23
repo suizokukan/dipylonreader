@@ -83,6 +83,7 @@ private:
     void    createMenus();
     void    createStatusBar();
     void    createToolBars();
+    void    download_dipydocs_demo(void);
     void    loadDipyDoc(const QString&);
     void    load_a_dipydoc_from_a_qaction(void);
     void    readSettings();
@@ -99,6 +100,7 @@ private:
     QMenu     *openMenu = nullptr;
     QMenu     *helpMenu = nullptr;
     QAction   *openAct = nullptr;
+    QAction   *downloaddemoAct = nullptr;
     QAction   *saveMainFileOfADipyDocAsAct = nullptr;
     QAction   *exitAct = nullptr;
     QAction   *aboutAct = nullptr;
