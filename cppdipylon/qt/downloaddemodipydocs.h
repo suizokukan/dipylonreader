@@ -53,6 +53,7 @@ class DownloadDemoDipydocs : public QObject {
 
 public:
                               DownloadDemoDipydocs(const UI&);
+                             ~DownloadDemoDipydocs(void);
        bool                   cancel_tasks = false;
        bool                   still_waiting = false;
        QUrl                   summary_url;
@@ -61,6 +62,8 @@ private:
        QUrl                   current_datafile_to_be_downloaded__url;
        QString                current_datafile_to_be_downloaded__disk;
        QStringList            downloaded_titles;
+       QFile*                 current_file = nullptr;
+       QNetworkReply*         current_reply = nullptr;
        std::map<QString, int> filenames_and_sizes;
        int                    number_of_bytes_to_be_downloaded = 0;
 
@@ -73,6 +76,7 @@ private:
        void                   cancel(void);
        void                   download_data_finished(QNetworkReply*);
        void                   download_summary_finished(QNetworkReply*);
+       void                   readyRead(void);
 };
 
 #endif  // CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_

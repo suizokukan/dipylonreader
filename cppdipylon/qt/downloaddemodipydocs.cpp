@@ -61,7 +61,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
                            QObject::tr("Abort installation"),
                            0, 1000);
   connect(&progress, SIGNAL(canceled()),
-          this, SLOT(cancel()));
+          this,      SLOT(cancel()));
   progress.setWindowModality(Qt::WindowModal);
 
   /* ...........................................................................
@@ -140,7 +140,10 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
     this->current_datafile_to_be_downloaded__disk = this->get_data_filename_fullpath(filename_and_size.first);
     this->current_datafile_to_be_downloaded__url = this->get_data_url(filename_and_size.first);
 
-    ui.network_manager->get(QNetworkRequest(this->current_datafile_to_be_downloaded__url));
+    this->current_reply = ui.network_manager->get(QNetworkRequest(this->current_datafile_to_be_downloaded__url));
+
+    QObject::connect(this->current_reply, &QNetworkReply::readyRead,
+                     this,                &DownloadDemoDipydocs::readyRead);
 
     this->still_waiting = true;
     while( (this->still_waiting==true) && (this->cancel_tasks==false) ) {
@@ -148,6 +151,10 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
     }
 
     if(this->cancel_tasks == true) {
+      QObject::disconnect(this->current_reply, &QNetworkReply::readyRead,
+                          this,                &DownloadDemoDipydocs::readyRead);
+      delete this->current_reply;
+      this->current_reply = nullptr;
       break;
     } else {
       // update the progress bar :
@@ -158,11 +165,15 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
         this->downloaded_titles.append(dirname);
       }
     }
+
+    QObject::disconnect(this->current_reply, &QNetworkReply::readyRead,
+                        this,                &DownloadDemoDipydocs::readyRead);
+    delete this->current_reply;
+    this->current_reply = nullptr;
   }
 
   QObject::disconnect(ui.network_manager, &QNetworkAccessManager::finished,
                       this,               &DownloadDemoDipydocs::download_data_finished);
-
 
   /* ...........................................................................
      (4) success message
@@ -173,6 +184,15 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
   msgBox.exec();
 
   DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : exit point";
+}
+
+/*______________________________________________________________________________
+
+  DownloadDemoDipydocs::destructor.
+______________________________________________________________________________*/
+DownloadDemoDipydocs::~DownloadDemoDipydocs(void) {
+  delete this->current_file;
+  delete this->current_reply;
 }
 
 /*______________________________________________________________________________
@@ -223,18 +243,21 @@ void DownloadDemoDipydocs::download_data_finished(QNetworkReply* reply) {
       }
     }
 
-    // writing the file :
-    QFile* file = new QFile(this->current_datafile_to_be_downloaded__disk);
-    if (!file->open(QIODevice::WriteOnly)) {
+    // opening the file :
+    delete this->current_file;
+    this->current_file = nullptr;
+
+    this->current_file = new QFile(this->current_datafile_to_be_downloaded__disk);
+    if (!this->current_file->open(QIODevice::WriteOnly)) {
         QMessageBox msgBox;
         msgBox.setText(QObject::tr("The program can't write the new demonstration Dipydoc's on disk. See details below."));
         msgBox.setDetailedText(QString("Can't fill the "
                                        "following file : %1").arg(this->current_datafile_to_be_downloaded__disk));
         msgBox.exec();
         this->cancel();
+        delete this->current_file;
+        this->current_file = nullptr;
     }
-    file->write(reply->readAll());
-    delete file;
   }
 
   this->still_waiting = false;
@@ -319,6 +342,19 @@ QUrl DownloadDemoDipydocs::get_data_url(const QString& filename) const {
 ______________________________________________________________________________*/
 QString DownloadDemoDipydocs::get_data_filename_fullpath(const QString& filename) const {
   return fixedparameters::default__path_to_dipydocs + "/" + filename;
+}
+
+/*______________________________________________________________________________
+
+  DownloadDemoDipydocs::readyRead
+
+  This function is called when some data have been downloaded : we write
+  this data in the current file.
+______________________________________________________________________________*/
+void DownloadDemoDipydocs::readyRead(void) {
+  if (this->current_file != nullptr) {
+    this->current_file->write(this->current_reply->readAll());
+  }
 }
 
 /*______________________________________________________________________________
