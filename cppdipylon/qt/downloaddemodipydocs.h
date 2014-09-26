@@ -31,10 +31,6 @@
 #ifndef CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_
 #define CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_
 
-#include "fixedparameters.h"
-#include "debugmsg/debugmsg.h"
-#include "qt/ui.h"
-
 #include <QProgressDialog>
 #include <QDir>
 #include <QString>
@@ -43,22 +39,28 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
+#include <map>
+
+#include "./fixedparameters.h"
+#include "./debugmsg/debugmsg.h"
+#include "qt/ui.h"
+
+
 /*______________________________________________________________________________
 
   DownloadDemoDipydocs class
 ________________________________________________________________________________*/
 class DownloadDemoDipydocs : public QObject {
-
     Q_OBJECT
 
-public:
-                              DownloadDemoDipydocs(const UI&);
+ public:
+                     explicit DownloadDemoDipydocs(const UI&);
                              ~DownloadDemoDipydocs(void);
        bool                   cancel_tasks = false;
        bool                   still_waiting = false;
        QUrl                   summary_url;
 
-private:
+ private:
        QUrl                   current_datafile_to_be_downloaded__url;
        QString                current_datafile_to_be_downloaded__disk;
        QStringList            downloaded_titles;
@@ -72,10 +74,11 @@ private:
        void                   set_summary_url(void);
 
  signals:
- public slots:
+
+ public slots:  // NOLINT(whitespace/indent)
        void                   cancel(void);
-       void                   download_data_finished(QNetworkReply*);
-       void                   download_summary_finished(QNetworkReply*);
+       void                   download_data_finished(QNetworkReply* reply);
+       void                   download_summary_finished(QNetworkReply* reply);
        void                   readyRead(void);
 };
 
