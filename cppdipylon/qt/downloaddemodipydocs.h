@@ -62,14 +62,15 @@ private:
        int     number_of_bytes_to_be_downloaded = 0;
        QUrl    current_datafile_to_be_downloaded__url;
        QString current_datafile_to_be_downloaded__disk;
+       QStringList downloaded_titles;
 
-  void cancel(void);
   void set_summary_url(void);
   QUrl get_data_url(const QString& filename) const;
   QString get_data_filename_fullpath(const QString& filename) const;
 
  signals:
 public slots:
+  void cancel(void);
   void download_summary__replyFinished(QNetworkReply*);
   void download_data__replyFinished(QNetworkReply*);
 };

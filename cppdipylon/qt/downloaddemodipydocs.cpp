@@ -35,7 +35,7 @@
 
      (1) erase old files
      (2) download summary file
-     (3) download data files
+     (3) download & install data files
      (4) success message
 ________________________________________________________________________________*/
 DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
@@ -66,22 +66,25 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
                     fixedparameters::DEMODIPYDOCS__REGEX_FOR_DIRECTORIES_NAME,
                     QDir::Name,
                     QDir::Dirs );
+  bool ok = true;
 
   for( QString &directory : path.entryList() ) {
     if( (directory != ".") && (directory != "..") ) {
       QString directory_with_full_path = path.absolutePath() + "/" + directory;
       DebugMsg() << "(MainWindow::download_dipydocs_demo) erasing recursively" << directory_with_full_path;
-      // ok &= path.removeRecursively(directory_with_full_path);
-      //if(ok == false) {
-      //  // $$$ pas d'accès : problème de droit ???
-      // }
+
+      QDir path_to_be_erased(directory_with_full_path);
+      ok &= path_to_be_erased.removeRecursively();
+      if(ok == false) {
+        // $$$ pas d'accès : problème de droit ???
+      }
     }
   }
 
   /* ...........................................................................
      (2) download summary file,
      initialize this->filenames_and_sizes and this->number_of_bytes_to_be_downloaded
-   ...........................................................................*/
+  ............................................................................*/
   progress.setLabelText(QObject::tr("contacting the download site..."));
   progress.setValue(2);
 
@@ -103,8 +106,8 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
   }
 
   /* ...........................................................................
-     (3) download data files
-   ...........................................................................*/
+     (3) download & install data files
+  ............................................................................*/
   // update the progress bar : new maximum value.
   progress.setMaximum(this->number_of_bytes_to_be_downloaded);
 
@@ -119,7 +122,6 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
     this->current_datafile_to_be_downloaded__disk = this->get_data_filename_fullpath(filename_and_size.first);
     this->current_datafile_to_be_downloaded__url = this->get_data_url(filename_and_size.first);
 
-    DebugMsg() << "DOWNLOADING " << this->current_datafile_to_be_downloaded__url.toString();
     ui.network_manager->get(QNetworkRequest(this->current_datafile_to_be_downloaded__url));
 
     this->still_waiting = true;
@@ -132,6 +134,11 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
     } else {
       // update the progress bar :
       progress.setValue( progress.value() + filename_and_size.second );
+      // let's add this new title to this->downloaded_titles :
+      QString dirname = QFileInfo(filename_and_size.first).dir().path();
+      if(this->downloaded_titles.contains(dirname) == false) {
+        this->downloaded_titles.append(dirname);
+      }
     }
   }
 
@@ -141,9 +148,10 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
 
   /* ...........................................................................
      (4) success message
-   ...........................................................................*/
+  ............................................................................*/
   QMessageBox msgBox;
   msgBox.setText(QString(tr("Demonstration Dipydocs have been successfully downloaded.")));
+  msgBox.setDetailedText(this->downloaded_titles.join("\n"));
   msgBox.exec();
 
   DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : exit point";
@@ -183,9 +191,24 @@ void DownloadDemoDipydocs::download_data__replyFinished(QNetworkReply* reply) {
   }
   // let's write on disk this->current_datafile_to_be_downloaded__disk :
   else {
+
+    // if the directory where this->current_datafile_to_be_downloaded__disk
+    // should be stored doesn't exist, we create it :
+    QDir new_d = QFileInfo(this->current_datafile_to_be_downloaded__disk).dir();
+    DebugMsg() << "#############" << new_d.absolutePath();
+
+    if( new_d.exists() == false ) {
+      DebugMsg() << "DownloadDemoDipydocs::download_data__replyFinished : creating " << new_d.absolutePath();
+      if(new_d.mkpath(new_d.absolutePath()) == false) {
+        // $$$ erreur : droit d'accès ?
+        DebugMsg() << "##### ERROR : mkdir " << new_d.absolutePath();
+      }
+    }
+
     QFile* file = new QFile(this->current_datafile_to_be_downloaded__disk);
     if (!file->open(QIODevice::WriteOnly)) {
       // $$$ erreur : impossible d'écrire le fichier : pb de droit d'accès ?
+      DebugMsg() << "#####ERROR write###" << this->current_datafile_to_be_downloaded__disk;
     }
     // $$$ utiliser plutôt la technique employée ici : http://www.bogotobogo.com/Qt/Qt5_QNetworkRequest_Http_File_Download.php
     // $$$ cf HttpDownload::httpReadyRead()
