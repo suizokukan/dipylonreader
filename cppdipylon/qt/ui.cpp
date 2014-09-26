@@ -285,11 +285,11 @@ int UI::go(int argc, char **argv) {
 
   if (this->first_launch == true || this->display_splashscreen == true) {
     QString msg("<span style=\"color:#000000\">" + \
-                QObject::tr("<b>Δίπυλον project</b> : Dipylon Reader<br/>"
-                            "- version %1 -<br/>"));
+                QObject::tr("<b>%1</b> - version %2 -"));
 
-    splashscreen.showMessage(msg.arg(fixedparameters::application_version,
-                             Qt::AlignLeft));
+    splashscreen.showMessage(msg.arg(fixedparameters::application_name_for_the_user,
+                                     fixedparameters::application_version),
+                             Qt::AlignLeft);
 
     splashscreen.show();
     QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,

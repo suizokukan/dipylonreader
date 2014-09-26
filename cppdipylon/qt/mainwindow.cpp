@@ -96,7 +96,18 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
 ______________________________________________________________________________*/
 void MainWindow::about() {
     QMessageBox msgBox;
-    msgBox.setText(QString( tr("DipylonReader %1, a software by suizokukan.").arg(fixedparameters::application_version)));
+    msgBox.setTextFormat(Qt::RichText);
+    msgBox.setText(QString( tr("<b>%1</b> %2, "
+                               "a software by %3.<br/><br/>"
+                               "  This program is covered by the <b>%4</b> "
+                               "(<a href='%5'>%5</a>) license : "
+                               "checkout the code of the project at the following "
+                               "<a href='%6'>adress</a>.").arg(fixedparameters::application_name_for_the_user,
+                                                               fixedparameters::application_version,
+                                                               fixedparameters::CODESOURCE_AUTHOR,
+                                                               fixedparameters::CODESOURCE_LICENSE,
+                                                               fixedparameters::CODESOURCE_LICENSE_ADRESS,
+                                                               fixedparameters::CODESOURCE_ADRESS)));
 
     #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
     msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
