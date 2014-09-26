@@ -34,6 +34,15 @@
 
 namespace fixedparameters {
 
+// code source :
+constexpr static const char*   CODESOURCE_ADRESS = "http://github.com/suizokukan/dipylonreader/";
+// code source's author :
+constexpr static const char*   CODESOURCE_AUTHOR = "Xavier Faure";
+// license's name :
+constexpr static const char*   CODESOURCE_LICENSE = "GPLv3";
+// license's adress :
+constexpr static const char*   CODESOURCE_LICENSE_ADRESS= "http://www.gnu.org/copyleft/gpl.html";
+
 /*
   data used to initialize the QApplication object.
 
@@ -42,6 +51,7 @@ namespace fixedparameters {
 static const QString organization_name   = "suizokukanfactory";
 static const QString organization_domain = "94.23.197.37";
 static const QString application_name    = "dipylonreader";
+static const QString application_name_for_the_user = "DipylonReader";
 static const QString application_version = "0.4.3";
 static const QString application_style   = "CleanLooks";
 
