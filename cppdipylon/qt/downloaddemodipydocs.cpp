@@ -56,12 +56,15 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
 
   /* ...........................................................................
      (0) progress dialog
+
+     the real maximum value will be set later, when the summary file will
+     be read.
    ...........................................................................*/
   QProgressDialog progress(QObject::tr("Download demo Dipydocs"),
                            QObject::tr("Abort installation"),
-                           0, 1000);
-  connect(&progress, SIGNAL(canceled()),
-          this,      SLOT(cancel()));
+                           0, 100);
+  connect(&progress, &QProgressDialog::canceled,
+          this,      &DownloadDemoDipydocs::cancel);
   progress.setWindowModality(Qt::WindowModal);
 
   /* ...........................................................................
@@ -111,6 +114,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
 
   ui.network_manager->get(QNetworkRequest(this->summary_url));
 
+  // event loop :
   this->still_waiting = true;
   while( (this->still_waiting==true) && (this->cancel_tasks==false) ) {
     QApplication::processEvents();
@@ -133,7 +137,6 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
                    this,               &DownloadDemoDipydocs::download_data_finished);
 
   for(auto &filename_and_size : this->filenames_and_sizes) {
-
     // we fill this->current_datafile_to_be_downloaded__* so that the
     // DownloadDemoDipydocs::download_data_finished slot will know
     // which file to write.
@@ -145,16 +148,17 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
     QObject::connect(this->current_reply, &QNetworkReply::readyRead,
                      this,                &DownloadDemoDipydocs::readyRead);
 
+    // event loop :
     this->still_waiting = true;
     while( (this->still_waiting==true) && (this->cancel_tasks==false) ) {
       QApplication::processEvents();
     }
 
     if(this->cancel_tasks == true) {
-      QObject::disconnect(this->current_reply, &QNetworkReply::readyRead,
-                          this,                &DownloadDemoDipydocs::readyRead);
-      delete this->current_reply;
-      this->current_reply = nullptr;
+      // process has been stoped :
+      if(this->current_reply->isRunning() == true) {
+        this->current_reply->abort();
+      }
       break;
     } else {
       // update the progress bar :
@@ -165,11 +169,9 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
         this->downloaded_titles.append(dirname);
       }
     }
-
-    QObject::disconnect(this->current_reply, &QNetworkReply::readyRead,
-                        this,                &DownloadDemoDipydocs::readyRead);
-    delete this->current_reply;
-    this->current_reply = nullptr;
+    if(this->current_reply->isRunning() == true) {
+      this->current_reply->abort();
+    }
   }
 
   QObject::disconnect(ui.network_manager, &QNetworkAccessManager::finished,
@@ -192,7 +194,6 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
 ______________________________________________________________________________*/
 DownloadDemoDipydocs::~DownloadDemoDipydocs(void) {
   delete this->current_file;
-  delete this->current_reply;
 }
 
 /*______________________________________________________________________________
@@ -236,16 +237,15 @@ void DownloadDemoDipydocs::download_data_finished(QNetworkReply* reply) {
 
       if(new_d.mkpath(new_d.absolutePath()) == false) {
         QMessageBox msgBox;
-        msgBox.setText(QObject::tr("The program can't write the new demonstration Dipydoc's on disk. See details below."));
+        msgBox.setText(QObject::tr("The program can't write the new demonstration Dipydoc's on disk. "
+                                   "See details below."));
         msgBox.setDetailedText(QString("Can't create the following directory : %1").arg(new_d.absolutePath()));
         msgBox.exec();
         this->cancel();
       }
     }
-
     // opening the file :
     delete this->current_file;
-    this->current_file = nullptr;
 
     this->current_file = new QFile(this->current_datafile_to_be_downloaded__disk);
     if (!this->current_file->open(QIODevice::WriteOnly)) {
@@ -259,7 +259,6 @@ void DownloadDemoDipydocs::download_data_finished(QNetworkReply* reply) {
         this->current_file = nullptr;
     }
   }
-
   this->still_waiting = false;
   reply->deleteLater();
 }

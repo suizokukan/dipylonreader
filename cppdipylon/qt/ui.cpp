@@ -61,7 +61,7 @@ UI::UI(void) {
   /*
     initialization of this->available_menu_names
   */
-  this->available_menu_names = MenuNames(this->path_to_dipydocs);
+  this->read_menu_names();
   DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
 
   DebugMsg() << "UI::UI() : exit point";
@@ -370,6 +370,16 @@ void UI::read_settings(void) {
     */
     this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
   }
+}
+
+/*______________________________________________________________________________
+
+  UI::read_menu_names
+
+  Initialize this->available_menu_names.
+______________________________________________________________________________*/
+void UI::read_menu_names(void) {
+  this->available_menu_names = MenuNames(this->path_to_dipydocs);
 }
 
 /*______________________________________________________________________________

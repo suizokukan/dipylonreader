@@ -144,6 +144,7 @@ class UI {
   bool               at_least_one_dipydoc_has_been_loaded(void) const;
   QString            get_translations_for(PosInText, PosInText) const;
   int                go(int argc, char **argv);
+  void               read_menu_names(void);
   void               read_settings(void);
   void               set_content_of_the_commentary_editor(QString text);
   void               update_commentary_editor__translation_expected(PosInTextRanges&);

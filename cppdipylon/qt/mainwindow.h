@@ -79,12 +79,12 @@ private slots:
 private:
     UI& ui;
 
-    void    add_open_menu(void);
     void    createActions();
     void    createMenus();
     void    createStatusBar();
     void    createToolBars();
     void    download_dipydocs_demo(void);
+    void    fill_open_menu(void);
     void    loadDipyDoc(const QString&);
     void    load_a_dipydoc_from_a_qaction(void);
     void    readSettings();
