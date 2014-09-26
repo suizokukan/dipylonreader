@@ -31,7 +31,12 @@
 
   DownloadDemoDipydocs::DownloadDemoDipydocs
 
-  Class' constructor.
+  Class constructor.
+
+     (1) erase old files
+     (2) download summary file
+     (3) download data files
+     (4) success message
 ________________________________________________________________________________*/
 DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
   DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : entry point";
@@ -41,19 +46,18 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
 
   if( ui.network_manager->networkAccessible() != QNetworkAccessManager::NetworkAccessibility::Accessible ) {
     // $$$ pas de réseau $$$
-    DebugMsg() << "############ pas de réseau !!!!!";
     return;
   }
 
   QProgressDialog progress(QObject::tr("Download demo Dipydocs"),
-                           QObject::tr("Abort Copy"),
+                           QObject::tr("Abort installation"),
                            0, 1000);
   connect(&progress, SIGNAL(canceled()),
           this, SLOT(cancel()));
   progress.setWindowModality(Qt::WindowModal);
 
   /* ...........................................................................
-     erase old files :
+     (1) erase old files
    ...........................................................................*/
   progress.setLabelText(QObject::tr("removing old files..."));
   progress.setValue(1);
@@ -75,7 +79,8 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
   }
 
   /* ...........................................................................
-     download summary file :
+     (2) download summary file,
+     initialize this->filenames_and_sizes and this->number_of_bytes_to_be_downloaded
    ...........................................................................*/
   progress.setLabelText(QObject::tr("contacting the download site..."));
   progress.setValue(2);
@@ -90,39 +95,58 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
     QApplication::processEvents();
   }
 
+  QObject::disconnect(ui.network_manager, &QNetworkAccessManager::finished,
+                      this,               &DownloadDemoDipydocs::download_summary__replyFinished);
+
+  if( this->cancel_tasks == true ) {
+    return;
+  }
+
+  /* ...........................................................................
+     (3) download data files
+   ...........................................................................*/
+  // update the progress bar : new maximum value.
+  progress.setMaximum(this->number_of_bytes_to_be_downloaded);
+
+  QObject::connect(ui.network_manager, &QNetworkAccessManager::finished,
+                   this,               &DownloadDemoDipydocs::download_data__replyFinished);
+
+  for(auto &filename_and_size : this->filenames_and_sizes) {
+
+    // we fill this->current_datafile_to_be_downloaded__* so that the
+    // DownloadDemoDipydocs::download_data__replyFinished slot will know
+    // which file to write.
+    this->current_datafile_to_be_downloaded__disk = this->get_data_filename_fullpath(filename_and_size.first);
+    this->current_datafile_to_be_downloaded__url = this->get_data_url(filename_and_size.first);
+
+    DebugMsg() << "DOWNLOADING " << this->current_datafile_to_be_downloaded__url.toString();
+    ui.network_manager->get(QNetworkRequest(this->current_datafile_to_be_downloaded__url));
+
+    this->still_waiting = true;
+    while( (this->still_waiting==true) && (this->cancel_tasks==false) ) {
+      QApplication::processEvents();
+    }
+
+    if(this->cancel_tasks == true) {
+      break;
+    } else {
+      // update the progress bar :
+      progress.setValue( progress.value() + filename_and_size.second );
+    }
+  }
+
+  QObject::disconnect(ui.network_manager, &QNetworkAccessManager::finished,
+                      this,               &DownloadDemoDipydocs::download_data__replyFinished);
+
+
+  /* ...........................................................................
+     (4) success message
+   ...........................................................................*/
+  QMessageBox msgBox;
+  msgBox.setText(QString(tr("Demonstration Dipydocs have been successfully downloaded.")));
+  msgBox.exec();
+
   DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : exit point";
-}
-
-/*______________________________________________________________________________
-
-  DownloadDemoDipydocs::download_summary__replyFinished
-
-  Function called when downloading the summary file is over.
-______________________________________________________________________________*/
-void DownloadDemoDipydocs::download_summary__replyFinished(QNetworkReply* reply) {
-  DebugMsg() << "DownloadDemoDipydocs::download_summary__replyFinished() : entry point";
-
-  if(reply->error()) {
-    DebugMsg() << "DownloadDemoDipydocs::download_summary__replyFinished() : ERROR :" << reply->errorString();
-
-    QMessageBox msgBox;
-    msgBox.setText(QString(tr("The source site could not be reached : is the network ok ? Check out details below.")));
-    msgBox.setDetailedText( QString("Trying to reach %1.\n\nSystem error=\n%2").arg(this->summary_url.toString(),
-                                                                                    reply->errorString()));
-    msgBox.exec();
-  }
-  else {
-    DebugMsg() << reply->header(QNetworkRequest::ContentTypeHeader).toString();
-    DebugMsg() << reply->header(QNetworkRequest::LastModifiedHeader).toDateTime().toString();
-    DebugMsg() << reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();
-    DebugMsg() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    DebugMsg() << reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-    DebugMsg() << QString(reply->readAll());
-  }
-  this->still_waiting = false;
-  reply->deleteLater();
-
-  DebugMsg() << "DownloadDemoDipydocs::download_summary__replyFinished() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -137,17 +161,128 @@ void DownloadDemoDipydocs::cancel(void) {
 
 /*______________________________________________________________________________
 
+  DownloadDemoDipydocs::download_data__replyFinished
+
+  Write on disk the data file named this->current_datafile_to_be_downloaded__disk.
+
+  Function called when downloading the data file is over.
+______________________________________________________________________________*/
+void DownloadDemoDipydocs::download_data__replyFinished(QNetworkReply* reply) {
+  // an error occurs :
+  if(reply->error()) {
+    DebugMsg() << "DownloadDemoDipydocs::download_data__replyFinished() : ERROR :" << reply->errorString();
+
+    QMessageBox msgBox;
+    msgBox.setText(QString(tr("The source site could not be reached : is the network ok ? Check out details below.")));
+    msgBox.setDetailedText( QString("Trying to reach %1.\n\n"
+                                    "System error=\n%2").arg(this->current_datafile_to_be_downloaded__url.toString(),
+                                                             reply->errorString()));
+    msgBox.exec();
+
+    this->cancel();
+  }
+  // let's write on disk this->current_datafile_to_be_downloaded__disk :
+  else {
+    QFile* file = new QFile(this->current_datafile_to_be_downloaded__disk);
+    if (!file->open(QIODevice::WriteOnly)) {
+      // $$$ erreur : impossible d'écrire le fichier : pb de droit d'accès ?
+    }
+    // $$$ utiliser plutôt la technique employée ici : http://www.bogotobogo.com/Qt/Qt5_QNetworkRequest_Http_File_Download.php
+    // $$$ cf HttpDownload::httpReadyRead()
+    file->write(reply->readAll());
+    delete file;
+  }
+
+  this->still_waiting = false;
+  reply->deleteLater();
+}
+
+/*______________________________________________________________________________
+
+  DownloadDemoDipydocs::download_summary__replyFinished
+
+  Download the summary file, read it and initialize this->filenames_and_sizes
+  and this->number_of_bytes_to_be_downloaded.
+
+  See the documentation for the summary file's format.
+
+  Function called when downloading the summary file is over.
+______________________________________________________________________________*/
+void DownloadDemoDipydocs::download_summary__replyFinished(QNetworkReply* reply) {
+  // an error occurs :
+  if(reply->error()) {
+    DebugMsg() << "DownloadDemoDipydocs::download_summary__replyFinished() : ERROR :" << reply->errorString();
+
+    QMessageBox msgBox;
+    msgBox.setText(QString(tr("The source site could not be reached : is the network ok ? Check out details below.")));
+    msgBox.setDetailedText( QString("Trying to reach %1.\n\nSystem error=\n%2").arg(this->summary_url.toString(),
+                                                                                    reply->errorString()));
+    msgBox.exec();
+
+    this->cancel();
+  }
+  // let's fill this->filenames_and_sizes and this->number_of_bytes_to_be_downloaded :
+  else {
+    this->filenames_and_sizes.clear();
+    this->number_of_bytes_to_be_downloaded = 0;
+
+    QStringList lines = QString(reply->readAll()).split("\n");
+    for(auto &line : lines) {
+      if( line.trimmed().size() != 0 ) {
+        QStringList filename_and_size = line.split(fixedparameters::DEMODIPYDOCS__SUMMARY_SEP);
+        if(filename_and_size.size() != 2) {
+          // $$$$ erreur : mauvaise ligne dans summary.
+          this->cancel();
+          break;
+        } else {
+          this->filenames_and_sizes[filename_and_size[0]] = filename_and_size[1].toInt();
+          this->number_of_bytes_to_be_downloaded += filename_and_size[1].toInt();
+        }
+      }
+    }
+  }
+
+  this->still_waiting = false;
+  reply->deleteLater();
+}
+
+/*______________________________________________________________________________
+
   DownloadDemoDipydocs::set_summary_url()
 
-  Set this->summary_url
+  Set this->summary_url, the URL of the expected summary file.
 ______________________________________________________________________________*/
 void DownloadDemoDipydocs::set_summary_url(void) {
-  QString str(QString(fixedparameters::DEMODIPYDOCS__SOURCE_SITE) + \
-              "/" + \
-              QString(fixedparameters::application_version) + \
+  QString str(QString(fixedparameters::DEMODIPYDOCS__SOURCE_SITE).arg(QString(fixedparameters::application_version)) + \
              "/" + \
               QString(fixedparameters::DEMODIPYDOCS__SUMMARY_FILENAME));
   this->summary_url.setUrl( str );
 
   DebugMsg() << "(DownloadDemoDipydocs::set_summary_url) this->summary_url=" << this->summary_url.toString();
+}
+
+/*______________________________________________________________________________
+
+  DownloadDemoDipydocs::get_data_url()
+
+  Return the url corresponding to a filename.
+
+  E.g. transform "main.xml" into "94.23.197.37/dipylonreader/freedipydocs/0.4.2/ogg/main.xml"
+______________________________________________________________________________*/
+QUrl DownloadDemoDipydocs::get_data_url(const QString& filename) const {
+  return QUrl( QString(fixedparameters::DEMODIPYDOCS__SOURCE_SITE).arg(QString(fixedparameters::application_version)) + \
+               "/" + \
+               filename );
+}
+
+/*______________________________________________________________________________
+
+  DownloadDemoDipydocs::get_data_filename_fullpath
+
+  Return the fullpath of the file 'filename'.
+
+  E.g. transform "Ovide/main.xml" into "/home/suizokukan/dipydocs/Ovide/main.xml"
+______________________________________________________________________________*/
+QString DownloadDemoDipydocs::get_data_filename_fullpath(const QString& filename) const {
+  return fixedparameters::default__path_to_dipydocs + "/" + filename;
 }

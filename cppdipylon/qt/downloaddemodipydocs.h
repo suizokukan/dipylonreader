@@ -38,6 +38,7 @@
 #include <QProgressDialog>
 #include <QDir>
 #include <QString>
+#include <QStringList>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -56,11 +57,21 @@ public:
        bool still_waiting = false;
        QUrl summary_url;
 
+private:
+               std::map<QString, int> filenames_and_sizes;
+       int     number_of_bytes_to_be_downloaded = 0;
+       QUrl    current_datafile_to_be_downloaded__url;
+       QString current_datafile_to_be_downloaded__disk;
+
+  void cancel(void);
+  void set_summary_url(void);
+  QUrl get_data_url(const QString& filename) const;
+  QString get_data_filename_fullpath(const QString& filename) const;
+
  signals:
 public slots:
   void download_summary__replyFinished(QNetworkReply*);
-  void cancel(void);
-  void set_summary_url(void);
+  void download_data__replyFinished(QNetworkReply*);
 };
 
 #endif  // CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_

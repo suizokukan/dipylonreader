@@ -95,18 +95,20 @@ static const int maximum_number_of_items_in_submenu_open = 10;
   Demonstration's Dipydocs :
 */
 
-// source site :
-#ifdef DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
-constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/ogg";
-#elif  DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
-constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/mp3";
+// source site with '%1' for the version string.
+#if defined DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
+constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/freedipydocs/%1/ogg";
+#elif defined DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
+constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/freedipydocs/%1/mp3";
 #else
-constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/ogg";
+constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/freedipydocs/%1/ogg";
 #endif
 
 // regex used to detect 'demo' dipydocs's names :
 constexpr static const char* DEMODIPYDOCS__REGEX_FOR_DIRECTORIES_NAME = "_demo_*";
 // name of the summary file :
 constexpr static const char* DEMODIPYDOCS__SUMMARY_FILENAME = "summary";
+// separatator characters in the summary file :
+constexpr static const char* DEMODIPYDOCS__SUMMARY_SEP = " :: ";
 }
 #endif
