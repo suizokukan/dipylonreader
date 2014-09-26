@@ -61,7 +61,7 @@ UI::UI(void) {
   /*
     initialization of this->available_menu_names
   */
-  this->available_menu_names = MenuNames(this->path_to_dipydocs);
+  this->read_menu_names();
   DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
 
   DebugMsg() << "UI::UI() : exit point";
@@ -73,16 +73,20 @@ UI::UI(void) {
 ______________________________________________________________________________*/
 UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
-  delete icon_open;
-  delete icon_save;
-  delete icon_audio_pause;
-  delete icon_audio_play;
-  delete icon_audio_play_unavailable;
-  delete icon_audio_stop;
-  delete icon_audio_stop_unavailable;
-  delete icon_readingmode_rmode;
-  delete icon_readingmode_rlmode;
-  delete icon_readingmode_amode;
+
+  delete this->network_manager;
+
+  delete this->icon_open;
+  delete this->icon_save;
+  delete this->icon_audio_pause;
+  delete this->icon_audio_play;
+  delete this->icon_audio_play_unavailable;
+  delete this->icon_audio_stop;
+  delete this->icon_audio_stop_unavailable;
+  delete this->icon_readingmode_rmode;
+  delete this->icon_readingmode_rlmode;
+  delete this->icon_readingmode_amode;
+  delete this->icon_downloaddemo;
 
   DebugMsg() << "UI::~UI(#fin)";
 }
@@ -148,6 +152,7 @@ int UI::go(int argc, char **argv) {
   this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
   this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
   this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
+  this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
 
   // application's icon :
   app.setWindowIcon(*icon_app);
@@ -365,6 +370,16 @@ void UI::read_settings(void) {
     */
     this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
   }
+}
+
+/*______________________________________________________________________________
+
+  UI::read_menu_names
+
+  Initialize this->available_menu_names.
+______________________________________________________________________________*/
+void UI::read_menu_names(void) {
+  this->available_menu_names = MenuNames(this->path_to_dipydocs);
 }
 
 /*______________________________________________________________________________

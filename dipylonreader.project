@@ -61,6 +61,8 @@ SOMMAIRE
 
 [13] settings (=configuration file)
 
+[14] source site for demo DipyDocs
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -163,6 +165,9 @@ o DEBUG_MESSAGES_TO_CERR
 o STORE_DEBUG_MESSAGES
 
 o DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+
+o DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
+o DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 
 ################################################################################
 [1.2] options choisies pour le projet
@@ -944,3 +949,12 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 "mainwindow/size"       : @Size(960 540)
 "mainwindow/pos"        : @Point(480 270)
 "mainwindow/fullscreen" : (bool)
+
+################################################################################
+[14] source site for demo DipyDocs
+################################################################################
+summary file :
+o  name = 'summary'
+o  filename :: size (SPACE::SPACE, 4 characters)
+o  \n at the end of the lines
+o  separator in directory/filename : '/' (NOT '\')

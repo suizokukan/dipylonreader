@@ -21,7 +21,7 @@
 
     ❏DipylonReader❏ : qt/mainwindow.cpp
 
-    see mainwindow.h for the dcumentation
+    see mainwindow.h for the documentation
 
 *******************************************************************************/
 
@@ -34,6 +34,8 @@
 
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
+  DebugMsg() << "MainWindow::MainWindow() : entry point";
+
     this->main_splitter = new QSplitter(this);
     this->main_splitter->setOrientation( Qt::Vertical );
     this->setCentralWidget(main_splitter);
@@ -77,6 +79,15 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
 
     setCurrentDipyDoc("");
     setUnifiedTitleAndToolBarOnMac(true);
+
+  /*
+    initialization of the network manager :
+  */
+  this->ui.network_manager = new QNetworkAccessManager();
+  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
+             << static_cast<int>(this->ui.network_manager->networkAccessible());
+
+  DebugMsg() << "MainWindow::MainWindow() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -95,66 +106,6 @@ void MainWindow::about() {
     #endif
 
     msgBox.exec();
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::add_open_menu
-
-  Add a sub-menu to 'file menu' with the available dipydocs.
-______________________________________________________________________________*/
-void MainWindow::add_open_menu(void) {
-  delete this->openMenu;
-  this->openMenu = fileMenu->addMenu(tr("&Open"));
-
-  /*
-    special case : no dipydoc could be found.
-  */
-  if( this->ui.available_menu_names.size() == 0) {
-    QAction* emptyAction = new QAction( *this->ui.icon_app,
-                                        "(No Dipydoc could be found)",
-                                        this );
-    this->openMenu->addAction(emptyAction);
-
-    openMenu->addSeparator();
-    this->openMenu->addAction(openAct);
-    return;
-  }
-
-  /*
-    normal case : at least of dipydoc was found.
-  */
-  int number_of_items = 0;
-  for( auto &item : this->ui.available_menu_names ) {
-    number_of_items++;
-
-    if(number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-      QAction* newAction = new QAction( *this->ui.icon_app,
-                                        item.first,
-                                        this );
-      /*
-         see MainWindow::load_a_dipydoc_from_a_qaction() for the format of the
-         internal data.
-      */
-      newAction->setData(item.second);
-
-      this->openMenu->addAction(newAction);
-      connect(newAction, &QAction::triggered,
-              this, &MainWindow::load_a_dipydoc_from_a_qaction);
-    }
-    else {
-      break;
-    }
-  }
-
-  if (this->ui.available_menu_names.size() <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-    openMenu->addSeparator()->setText(tr("choose other files :"));
-    openMenu->addAction(openAct);
-  } else {
-    openMenu->addSeparator()->setText(tr("(...)"));
-    openMenu->addSeparator()->setText(tr("choose other files :"));
-    openMenu->addAction(openAct);
-  }
 }
 
 /*______________________________________________________________________________
@@ -332,6 +283,14 @@ void MainWindow::createActions() {
     connect(openAct, &QAction::triggered,
             this, &MainWindow::open);
 
+    downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
+                                   tr("Download demo Dipydocs"),
+                                   this);
+    downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
+    connect(downloaddemoAct, &QAction::triggered,
+            this, &MainWindow::download_dipydocs_demo);
+
+
     #ifdef READANDWRITE
     saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
     saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
@@ -377,8 +336,14 @@ void MainWindow::createActions() {
   MainWindow::createMenus
 ______________________________________________________________________________*/
 void MainWindow::createMenus() {
-  fileMenu = menuBar()->addMenu(tr("&File"));
-  this->add_open_menu();
+  this->fileMenu = menuBar()->addMenu(tr("&File"));
+  this->openMenu = fileMenu->addMenu(tr("&Open"));
+
+  this->fill_open_menu();
+
+  this->fileMenu->addSeparator();
+
+  this->fileMenu->addAction(downloaddemoAct);
 
   #ifdef READANDWRITE
   fileMenu->addAction(saveMainFileOfADipyDocAsAct);
@@ -420,6 +385,87 @@ void MainWindow::createToolBars() {
 ______________________________________________________________________________*/
 void MainWindow::documentWasModified() {
     setWindowModified(source_editor->document()->isModified());
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::download_dipydocs_demo
+
+  This function removes old demo files, then download and install the new ones.
+______________________________________________________________________________*/
+void MainWindow::download_dipydocs_demo(void) {
+  // using the DownloadDemoDipydocs class to download the files :
+  DownloadDemoDipydocs d(this->ui);
+
+  // update menu names :
+  this->ui.read_menu_names();
+  this->fill_open_menu();
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::fill_open_menu
+
+  Fill the Open menu with the available dipydocs.
+______________________________________________________________________________*/
+void MainWindow::fill_open_menu(void) {
+
+  /*
+    let's clear the menu content :
+  */
+  this->openMenu->clear();
+
+  /*
+    special case : no dipydoc could be found.
+  */
+  if( this->ui.available_menu_names.size() == 0) {
+    QAction* emptyAction = new QAction( *this->ui.icon_app,
+                                        "(No Dipydoc could be found)",
+                                        this );
+    this->openMenu->addAction(emptyAction);
+
+    openMenu->addSeparator();
+    this->openMenu->addAction(openAct);
+    return;
+  }
+
+  /*
+    normal case : at least one dipydoc was found.
+  */
+  int number_of_items = 0;
+  for( auto &item : this->ui.available_menu_names ) {
+    number_of_items++;
+
+    if(number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
+      QAction* newAction = new QAction( *this->ui.icon_app,
+                                        item.first,
+                                        this );
+      /*
+         see MainWindow::load_a_dipydoc_from_a_qaction() for the format of the
+         internal data.
+      */
+      newAction->setData(item.second);
+
+      this->openMenu->addAction(newAction);
+      connect(newAction, &QAction::triggered,
+              this, &MainWindow::load_a_dipydoc_from_a_qaction);
+    }
+    else {
+      break;
+    }
+  }
+
+  /*
+    we add the "open other file(s)" element :
+  */
+  if (this->ui.available_menu_names.size() <= fixedparameters::maximum_number_of_items_in_submenu_open) {
+    openMenu->addSeparator()->setText(tr("choose other files :"));
+    openMenu->addAction(openAct);
+  } else {
+    openMenu->addSeparator()->setText(tr("(...)"));
+    openMenu->addSeparator()->setText(tr("choose other files :"));
+    openMenu->addAction(openAct);
+  }
 }
 
 /*______________________________________________________________________________

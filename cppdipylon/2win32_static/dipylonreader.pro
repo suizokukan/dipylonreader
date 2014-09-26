@@ -23,6 +23,7 @@ DEFINES += MAXIMIZE_MAINWINDOW_TRUE_METHOD
 DEFINES += STORE_DEBUG_MESSAGES
 DEFINES += QT_NO_DEBUG_OUTPUT
 DEFINES += DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+DEFINES += DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 
 #_______________________________________________________________________________
 #
@@ -62,7 +63,8 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
                     qt/sourceeditor.h \
-                    qt/textformat.h
+                    qt/textformat.h \
+                    qt/downloaddemodipydocs.h
 
 SOURCES         +=  ./main.cpp \
                     debugmsg/debugmsg.cpp \
@@ -82,7 +84,8 @@ SOURCES         +=  ./main.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/sourceeditor.cpp \
-                    qt/textformat.cpp
+                    qt/textformat.cpp \
+                    qt/downloaddemodipydocs.cpp
 
 DESTDIR = build/
 OBJECTS_DIR = build/
