@@ -73,17 +73,20 @@ UI::UI(void) {
 ______________________________________________________________________________*/
 UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
-  delete icon_open;
-  delete icon_save;
-  delete icon_audio_pause;
-  delete icon_audio_play;
-  delete icon_audio_play_unavailable;
-  delete icon_audio_stop;
-  delete icon_audio_stop_unavailable;
-  delete icon_readingmode_rmode;
-  delete icon_readingmode_rlmode;
-  delete icon_readingmode_amode;
-  delete icon_downloaddemo;
+
+  delete this->network_manager;
+
+  delete this->icon_open;
+  delete this->icon_save;
+  delete this->icon_audio_pause;
+  delete this->icon_audio_play;
+  delete this->icon_audio_play_unavailable;
+  delete this->icon_audio_stop;
+  delete this->icon_audio_stop_unavailable;
+  delete this->icon_readingmode_rmode;
+  delete this->icon_readingmode_rlmode;
+  delete this->icon_readingmode_amode;
+  delete this->icon_downloaddemo;
 
   DebugMsg() << "UI::~UI(#fin)";
 }

@@ -164,6 +164,9 @@ o STORE_DEBUG_MESSAGES
 
 o DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
 
+o USE_OGG_VERSION_OF_DIPYDOCS
+o USE_MP3_VERSION_OF_DIPYDOCS
+
 ################################################################################
 [1.2] options choisies pour le projet
 ################################################################################

@@ -34,6 +34,9 @@
 #include <QString>
 #include <QTranslator>
 #include <QFontDatabase>
+#include <QObject>
+#include <QNetworkAccessManager>
+
 
 #include "./fixedparameters.h"
 #include "qt/mainwindow.h"
@@ -57,8 +60,19 @@ class UI {
   friend class MainWindow;
   friend class SourceEditor;
   friend class CommentaryEditor;
+  friend class DownloadDemoDipydocs;
+
+ public:
+  /* unique network manager of the program :
+
+     o initialized by MainWindow::MainWindow() since this object has to be
+     initialized inside the event loop.
+     o destroyed by ~UI
+  */
+  QNetworkAccessManager* network_manager = nullptr;
 
  private:
+
   // set to true if no 'settings' (see QSettings) can be read.
   bool        first_launch;
   // display splash screen when the program has been launched ?

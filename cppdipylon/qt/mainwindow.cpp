@@ -21,7 +21,7 @@
 
     ❏DipylonReader❏ : qt/mainwindow.cpp
 
-    see mainwindow.h for the dcumentation
+    see mainwindow.h for the documentation
 
 *******************************************************************************/
 
@@ -34,6 +34,8 @@
 
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
+  DebugMsg() << "MainWindow::MainWindow() : entry point";
+
     this->main_splitter = new QSplitter(this);
     this->main_splitter->setOrientation( Qt::Vertical );
     this->setCentralWidget(main_splitter);
@@ -77,6 +79,15 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
 
     setCurrentDipyDoc("");
     setUnifiedTitleAndToolBarOnMac(true);
+
+  /*
+    initialization of the network manager :
+  */
+  this->ui.network_manager = new QNetworkAccessManager();
+  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
+             << static_cast<int>(this->ui.network_manager->networkAccessible());
+
+  DebugMsg() << "MainWindow::MainWindow() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -437,8 +448,11 @@ void MainWindow::documentWasModified() {
 /*______________________________________________________________________________
 
   MainWindow::download_dipydocs_demo
+
+  This function removes old demo files, then download and install the new ones.
 ______________________________________________________________________________*/
 void MainWindow::download_dipydocs_demo(void) {
+  DownloadDemoDipydocs d(this->ui);
 }
 
 /*______________________________________________________________________________

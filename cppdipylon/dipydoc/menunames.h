@@ -68,7 +68,7 @@ inline MenuNames::MenuNames(const QString& path) {
   this->menuname_to_directory.clear();
 
   QDir dipydocs_path(path);
-  dipydocs_path.setFilter( QDir::AllDirs );
+  dipydocs_path.setFilter( QDir::Dirs );
 
   for( auto &directory_name: dipydocs_path.entryList()) {
     if ( (directory_name != ".") && (directory_name != "..") ) {

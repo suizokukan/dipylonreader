@@ -36,6 +36,7 @@ class SourceEditor;
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/ui.h"
+#include "qt/downloaddemodipydocs.h"
 
 #include <QMediaPlayer>
 #include <QMainWindow>
