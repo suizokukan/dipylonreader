@@ -61,6 +61,8 @@ SOMMAIRE
 
 [13] settings (=configuration file)
 
+[14] source site for demo DipyDocs
+
 ################################################################################
 [0] travail en cours
 ################################################################################
@@ -125,6 +127,20 @@ SOMMAIRE
         Dipydoc and add them to this submenu.
       o + feature47, feature48, feature49
 
+0.4.3 :
+o feature54 : DownloadDemoDipydocs class : download and remove demonstration 
+              DipyDocs.
+o feature53 : Splashscreen is now centered with the main window.
+o feature52 : Fixed a bug in the way the UI updated the commentary zone : this
+              zone can now be updated only if a specific flag (bool 
+              UI::selected_text_and_blocked_commentaries) is set to false. This
+              flag is set to true if, in RMODE, a portion of text has been 
+              selected.
+o feature51 : The PosInTextRanges class doesn't use an unordered_map anymore but
+              a map, allowing to store sorted keys.
+o feature50 : (MainWindow::add_open_menu) added a special display to 
+              "File>Open>" if no Dipydoc could be found.
+
 ################################################################################
 [1] options de compilation
 ################################################################################
@@ -163,6 +179,9 @@ o DEBUG_MESSAGES_TO_CERR
 o STORE_DEBUG_MESSAGES
 
 o DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+
+o DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
+o DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 
 ################################################################################
 [1.2] options choisies pour le projet
@@ -944,3 +963,12 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 "mainwindow/size"       : @Size(960 540)
 "mainwindow/pos"        : @Point(480 270)
 "mainwindow/fullscreen" : (bool)
+
+################################################################################
+[14] source site for demo DipyDocs
+################################################################################
+summary file :
+o  name = 'summary'
+o  filename :: size (SPACE::SPACE, 4 characters)
+o  \n at the end of the lines
+o  separator in directory/filename : '/' (NOT '\')

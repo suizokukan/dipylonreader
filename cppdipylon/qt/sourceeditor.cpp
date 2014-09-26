@@ -321,47 +321,42 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
-  switch( this->ui.reading_mode_details ) {
-    case UI::READINGMODEDETAIL_RMODE : {
-      QTextCursor cur = this->cursorForPosition(mouse_event->pos());
-      int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;
-      PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
-      // where are the characters linked to "cursor_position" ?
-      PosInTextRanges pos_in_text = this->ui.current_dipydoc.translation_contains(cursor_position);
+  if( this->ui.selected_text_and_blocked_commentaries == false ) {
 
-      std::size_t text_ranges_hash = pos_in_text.get_hash();
+    switch( this->ui.reading_mode_details ) {
+      case UI::READINGMODEDETAIL_RMODE : {
+        QTextCursor cur = this->cursorForPosition(mouse_event->pos());
+        int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;
+        PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
-      // if the user is really on another text's segment ...
-      if( text_ranges_hash != this->modified_chars_hash ) {
-        // ... we refresh the ui :
+        // where are the characters linked to "cursor_position" ?
+        PosInTextRanges pos_in_text = this->ui.current_dipydoc.translation_contains(cursor_position);
 
-        // the function modifies the appearence of such characters :
-        this->modify_the_text_format(pos_in_text);
+        std::size_t text_ranges_hash = pos_in_text.get_hash();
 
-        // hash update :
-        this->modified_chars_hash = text_ranges_hash;
+        // if the user is really on another text's segment ...
+        if( text_ranges_hash != this->modified_chars_hash ) {
+          // ... we refresh the ui :
 
-        this->ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+          // the function modifies the appearence of such characters :
+          this->modify_the_text_format(pos_in_text);
+
+          // hash update :
+          this->modified_chars_hash = text_ranges_hash;
+
+          this->ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+        }
+
+        break;
       }
 
-      break;
-    }
-
-    default : {
-      break;
+      default : {
+        break;
+      }
     }
   }
-
   QTextEdit::mouseMoveEvent(mouse_event);
-}
-
-/*______________________________________________________________________________
-
-        SourceEditor::mousePressEvent()
-______________________________________________________________________________*/
-void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
-  QTextEdit::mousePressEvent(mouse_event);
 }
 
 /*______________________________________________________________________________
@@ -373,11 +368,15 @@ void SourceEditor::mousePressEvent(QMouseEvent* mouse_event) {
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   QTextCursor cur = this->textCursor();
+  DebugMsg() << "SourceEditor::mouseReleaseEvent";
 
   /*............................................................................
-    (1) with selection
+    (1) RMODE + selection
   ............................................................................*/
-  if( cur.hasSelection() == true ) {
+  if(this->ui.reading_mode_details==UI::READINGMODEDETAIL_RMODE &&
+     cur.hasSelection() == true) {
+
+    DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
     int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;
     PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
@@ -385,6 +384,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
     // where are the characters in the translations linked to "x0-x1" ?
     PosInTextRanges pos_in_text =  this->ui.current_dipydoc.translation_contains(x0, x1);
+    DebugMsg() << "... pos_in_text=" << pos_in_text.repr();
 
     /*
       we refresh the ui :
@@ -397,15 +397,18 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     // hash update :
     this->modified_chars_hash = text_ranges_hash;
 
+    this->ui.selected_text_and_blocked_commentaries = false;
     this->ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+    this->ui.selected_text_and_blocked_commentaries = true;
 
-    /*
-      rlmode mode : stop
-    */
-    this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_STOP;
     this->ui.mainWin->update_icons();
 
     return;
+  }
+
+  // no selection ? we don't protect anymore the commentary zone :
+  if( cur.hasSelection() == false ) {
+    this->ui.selected_text_and_blocked_commentaries = false;
   }
 
   /*............................................................................

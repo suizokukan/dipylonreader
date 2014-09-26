@@ -86,9 +86,9 @@ QString DipyDocNotes::repr(void) {
 
         insert in map[level][pos] a 'note'.
 ______________________________________________________________________________*/
-UMAPPosNoteI_BOOL DipyDocNotes::insert(int level, PosInTextRanges pos, DipyDocNote note) {
+MAPPosNoteI_BOOL DipyDocNotes::insert(int level, PosInTextRanges pos, DipyDocNote note) {
   if (this->map.count(level) == 0) {
-    UMAP_PosNote empty_map;
+    MAP_PosNote empty_map;
     this->map[level] = empty_map;
     return this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
   }

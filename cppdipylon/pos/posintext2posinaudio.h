@@ -38,18 +38,18 @@
 #define CPPDIPYLON_POS_POSINTEXT2POSINAUDIO_H_
 
 #include <utility>
-#include <unordered_map>
+#include <map>
 
 #include "pos/posintext/posintextranges.h"
 #include "pos/posintext/vectorposintextranges.h"
 #include "pos/posinaudio/posinaudio.h"
 
-/* type of the unordered_map used by the PosInText2PosInAudio class :
+/* type of the map used by the PosInText2PosInAudio class :
 
    PosInTextRanges -> PairOfPosInAudio
 */
-typedef std::unordered_map<PosInTextRanges, PairOfPosInAudio, PosInTextRangesHasher> UMAP_Text2Audio;
-typedef UMAP_Text2Audio::const_iterator UMAP_Text2AudioCI;
+typedef std::map<PosInTextRanges, PairOfPosInAudio> MAP_Text2Audio;
+typedef MAP_Text2Audio::const_iterator MAP_Text2AudioCI;
 
 /*______________________________________________________________________________
 
@@ -73,7 +73,7 @@ class PosInText2PosInAudio {
   friend class PosInAudio2PosInText;
 
  private:
-  UMAP_Text2Audio map;
+  MAP_Text2Audio          map;
   int                     _internal_state;
   bool                    _well_initialized;
 
@@ -89,11 +89,11 @@ class PosInText2PosInAudio {
   const PairOfPosInAudio& operator[](const PosInTextRanges key) const;
   PosInText2PosInAudio&   operator=(const PosInText2PosInAudio&);
 
-  UMAP_Text2AudioCI       begin(void) const;
+  MAP_Text2AudioCI        begin(void) const;
   PosInTextRanges         contains(PosInText x0) const;
   VectorPosInTextRanges   contains(PosInText x0, PosInText x1) const;
   void                    clear(void);
-  UMAP_Text2AudioCI       end(void) const;
+  MAP_Text2AudioCI        end(void) const;
   int                     internal_state(void) const;
   size_t                  size(void) const;
   bool                    well_initialized(void) const;
@@ -158,11 +158,11 @@ inline const PairOfPosInAudio& PosInText2PosInAudio::operator[](const PosInTextR
   return this->map.at(key);
 }
 
-inline UMAP_Text2AudioCI PosInText2PosInAudio::begin(void) const {
+inline MAP_Text2AudioCI PosInText2PosInAudio::begin(void) const {
   return this->map.begin();
 }
 
-inline UMAP_Text2AudioCI PosInText2PosInAudio::end(void) const {
+inline MAP_Text2AudioCI PosInText2PosInAudio::end(void) const {
   return this->map.end();
 }
 

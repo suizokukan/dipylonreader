@@ -36,6 +36,7 @@ class SourceEditor;
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/ui.h"
+#include "qt/downloaddemodipydocs.h"
 
 #include <QMediaPlayer>
 #include <QMainWindow>
@@ -78,11 +79,12 @@ private slots:
 private:
     UI& ui;
 
-    void    add_open_menu(void);
     void    createActions();
     void    createMenus();
     void    createStatusBar();
     void    createToolBars();
+    void    download_dipydocs_demo(void);
+    void    fill_open_menu(void);
     void    loadDipyDoc(const QString&);
     void    load_a_dipydoc_from_a_qaction(void);
     void    readSettings();
@@ -99,6 +101,7 @@ private:
     QMenu     *openMenu = nullptr;
     QMenu     *helpMenu = nullptr;
     QAction   *openAct = nullptr;
+    QAction   *downloaddemoAct = nullptr;
     QAction   *saveMainFileOfADipyDocAsAct = nullptr;
     QAction   *exitAct = nullptr;
     QAction   *aboutAct = nullptr;

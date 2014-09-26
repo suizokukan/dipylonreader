@@ -30,7 +30,6 @@
 
 #include <QString>
 
-#include <unordered_map>
 #include <map>
 
 #include "pos/posintext/posintextranges.h"
@@ -94,12 +93,12 @@ inline DipyDocNote& DipyDocNote::operator=(const DipyDocNote& other) {
 
 ______________________________________________________________________________*/
 
-typedef std::unordered_map<PosInTextRanges, DipyDocNote, PosInTextRangesHasher> UMAP_PosNote;
-typedef UMAP_PosNote::iterator UMAP_PosNoteI;
-typedef std::pair<UMAP_PosNoteI, bool> UMAPPosNoteI_BOOL;
+typedef std::map<PosInTextRanges, DipyDocNote> MAP_PosNote;
+typedef MAP_PosNote::iterator MAP_PosNoteI;
+typedef std::pair<MAP_PosNoteI, bool> MAPPosNoteI_BOOL;
 
 // (int)level -> (PosInTextRanges, DipyDocNote)
-typedef std::map<int, UMAP_PosNote> MAP_Int2PosNote;
+typedef std::map<int, MAP_PosNote> MAP_Int2PosNote;
 typedef MAP_Int2PosNote::const_iterator MAP_Int2PosNoteCI;
 
 struct DipyDocNotes {
@@ -108,7 +107,7 @@ struct DipyDocNotes {
 
   MAP_Int2PosNoteCI  begin(void) const;
   MAP_Int2PosNoteCI  end(void) const;
-  UMAPPosNoteI_BOOL  insert(int level, PosInTextRanges pos, DipyDocNote note);
+  MAPPosNoteI_BOOL   insert(int level, PosInTextRanges pos, DipyDocNote note);
 
   void               clear(void);
   QString            repr(void);

@@ -34,6 +34,9 @@
 #include <QString>
 #include <QTranslator>
 #include <QFontDatabase>
+#include <QObject>
+#include <QNetworkAccessManager>
+
 
 #include "./fixedparameters.h"
 #include "qt/mainwindow.h"
@@ -57,8 +60,19 @@ class UI {
   friend class MainWindow;
   friend class SourceEditor;
   friend class CommentaryEditor;
+  friend class DownloadDemoDipydocs;
+
+ public:
+  /* unique network manager of the program :
+
+     o initialized by MainWindow::MainWindow() since this object has to be
+     initialized inside the event loop.
+     o destroyed by ~UI
+  */
+  QNetworkAccessManager* network_manager = nullptr;
 
  private:
+
   // set to true if no 'settings' (see QSettings) can be read.
   bool        first_launch;
   // display splash screen when the program has been launched ?
@@ -70,6 +84,7 @@ class UI {
   QIcon*      icon_app = nullptr;
   QIcon*      icon_open = nullptr;
   QIcon*      icon_save = nullptr;
+  QIcon*      icon_downloaddemo = nullptr;
   QIcon*      icon_audio_pause = nullptr;
   QIcon*      icon_audio_play = nullptr;
   QIcon*      icon_audio_play_unavailable = nullptr;
@@ -86,6 +101,9 @@ class UI {
   MenuNames   available_menu_names;
 
   MainWindow* mainWin = nullptr;
+
+  // if set to true, protect the commentary zone to be modified.
+  bool        selected_text_and_blocked_commentaries = false;
 
  public:
   /*
@@ -126,6 +144,7 @@ class UI {
   bool               at_least_one_dipydoc_has_been_loaded(void) const;
   QString            get_translations_for(PosInText, PosInText) const;
   int                go(int argc, char **argv);
+  void               read_menu_names(void);
   void               read_settings(void);
   void               set_content_of_the_commentary_editor(QString text);
   void               update_commentary_editor__translation_expected(PosInTextRanges&);

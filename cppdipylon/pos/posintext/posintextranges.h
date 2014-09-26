@@ -37,12 +37,18 @@
 
     ⇨ overlapping is forbidden : "0-1+1-2" is ok, not "0-1+0-2", not "46-49+48-52"
 
+    ⇨ the first keys must be sorted so that the key N must be equal or small than the key N+1 :
+      "10-11+12-13" is ok, not "12-13+10-11"
+
+PosInTextRanges
+
     ⇨ POSINTEXTRANGES_STR format : "45-97", "45-97+123-136+999-1001", ...
         o no spaces allowed
         o overlapping is forbidden (vide  supra)
         o MAIN_SEPARATOR, SECONDARY_SEPARATOR : only one character.
         o at least one range must be defined (no empty string)
         o x0 must be < x1 (no "45-22", no "45-45")
+        o first keys must be sorted.
 
 *******************************************************************************/
 
@@ -66,7 +72,6 @@
   wrapper around "vec", a vector of pair of <PosInText, PosInText>
 ________________________________________________________________________________*/
 class PosInTextRanges {
-    friend class PosInTextRangesHasher;
     friend class PosInText2Str;
     friend class PosInText2PosInAudio;
     friend class VectorPosInTextRanges;
@@ -80,6 +85,7 @@ class PosInTextRanges {
                      PosInTextRanges& operator=(const PosInTextRanges&);
   bool               operator==(const PosInTextRanges& other) const;
   bool               operator!=(const PosInTextRanges& other) const;
+  bool               operator<(const PosInTextRanges& other) const;
 
   VPairOfPosInTextCI begin(void) const;
   bool               contains(PosInText x0) const;
@@ -117,6 +123,7 @@ class PosInTextRanges {
     X0X1 = -4,
     EMPTY = -5,
     OVERLAPPING = -6,
+    NOT_SORTED = -7,
   };
 
  private:
@@ -198,6 +205,27 @@ inline bool PosInTextRanges::operator!=(const PosInTextRanges& other) const {
   return !(this->operator==(other));
 }
 
+inline bool PosInTextRanges::operator<(const PosInTextRanges& other) const {
+  bool res = false;
+
+  std::size_t i = 0;
+  std::size_t this_size = this->size();
+  std::size_t other_size = other.size();
+
+  while(true) {
+    if( (i >= this_size) || (i >= other_size) ) {
+      break;
+    }
+    if(this->vec[i].first < other.vec[i].first) {
+      res = true;
+      break;
+    }
+    ++i;
+  }
+
+  return res;
+}
+
 inline VPairOfPosInTextCI PosInTextRanges::begin(void) const {
   return this->vec.begin();
 }
@@ -229,13 +257,5 @@ inline size_t PosInTextRanges::size(void) const { return this->vec.size(); }
 inline bool PosInTextRanges::well_initialized(void) const {
   return this->_well_initialized;
 }
-
-/*______________________________________________________________________________
-
-  PosInTextRangesHasher
-________________________________________________________________________________*/
-struct PosInTextRangesHasher {
-  std::size_t operator()(const PosInTextRanges& k) const;
-};
 
 #endif  // CPPDIPYLON_POS_POSINTEXT_POSINTEXTRANGES_H_

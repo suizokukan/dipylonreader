@@ -318,7 +318,6 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
 ______________________________________________________________________________*/
 QString DipyDoc::get_xml_repr(void) const {
   QString res;
-  VectorPosInTextRanges list_of_posintextranges;
 
   /*............................................................................
     header
@@ -412,31 +411,29 @@ QString DipyDoc::get_xml_repr(void) const {
   ............................................................................*/
   if (this->audiorecord.found == true) {
     res += "\n";
-    list_of_posintextranges.clear();
+
     res += "  <audiorecord \n"
            "        description=\"$AUDIORECORDNAME$\" \n"
            "        filename=\"$AUDIORECORDFILENAME$\" \n"
            "        informations=\"$AUDIORECORDINFORMATIONS$\" \n"
            "  >\n";
 
-      for (auto &textrange : this->audiorecord.text2audio) {
-        list_of_posintextranges.vposintextranges.push_back(textrange.first);
-      }
-      list_of_posintextranges.sort();
-      for (auto &textranges : list_of_posintextranges.vposintextranges) {
-        QString new_line("    <segment "
-                         "textranges=\"$TEXTRANGE$\" "
-                         "audiorange=\"$AUDIORANGE$\" "
-                         "srctext=\"$TEXT$\" "
-                         "/>\n");
-        new_line.replace("$TEXTRANGE$", textranges.repr());
-        PosInAudioRange posinaudiorange(this->audiorecord.text2audio[textranges]);
-        new_line.replace("$AUDIORANGE$", posinaudiorange.repr());
-        new_line.replace("$TEXT$",
-                         this->get_condensed_extracts_from_the_source_text(textranges,
-                                                                           DipyDoc::condensed_extracts_length));
-        res += new_line;
-      }
+    for (auto &textranges_and_pairofposinaudio : this->audiorecord.text2audio) {
+      PosInTextRanges textranges = textranges_and_pairofposinaudio.first;
+
+      QString new_line("    <segment "
+                       "textranges=\"$TEXTRANGE$\" "
+                       "audiorange=\"$AUDIORANGE$\" "
+                       "srctext=\"$TEXT$\" "
+                       "/>\n");
+      new_line.replace("$TEXTRANGE$", textranges.repr());
+      PosInAudioRange posinaudiorange(this->audiorecord.text2audio[textranges]);
+      new_line.replace("$AUDIORANGE$", posinaudiorange.repr());
+      new_line.replace("$TEXT$",
+                       this->get_condensed_extracts_from_the_source_text(textranges,
+                                                                         DipyDoc::condensed_extracts_length));
+      res += new_line;
+    }
     res += "  </audiorecord>\n";
   }
 
@@ -444,17 +441,15 @@ QString DipyDoc::get_xml_repr(void) const {
      translation : the functions reads through this->translation.translations with sorted keys.
   ............................................................................*/
   res += "\n";
-  list_of_posintextranges.clear();
+
   res += "  <translation \n"
          "        description=\"$TRANSLATIONNAME$\" \n"
          "        informations=\"$TRANSLATIONINFORMATIONS$\" \n"
          "  >\n";
-  for (auto &textrange : this->translation.translations) {
-    list_of_posintextranges.vposintextranges.push_back(textrange.first);
-  }
-  list_of_posintextranges.sort();
 
-  for (auto &textranges : list_of_posintextranges.vposintextranges) {
+  for (auto &textranges_and_qstring : this->translation.translations) {
+    PosInTextRanges textranges = textranges_and_qstring.first;
+
     QString new_line("    <segment "
                      "textranges=\"$TEXTRANGE$\" "
                      "srctext=\"$TEXT$\""
@@ -1315,7 +1310,7 @@ bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlread
    */
    if (tokenname == "notes") {
 
-     UMAPPosNoteI_BOOL last_note;
+     MAPPosNoteI_BOOL last_note;
      bool last_note_ok = false;
 
      while (xmlreader.readNextStartElement()) {
@@ -1347,7 +1342,7 @@ bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
              // modifying the last note's text :
              if( last_note_ok == true ) {
-               UMAP_PosNoteI last_note_iterator = last_note.first;
+               MAP_PosNoteI last_note_iterator = last_note.first;
                last_note_iterator->second.text = text;
              }
              continue;
@@ -1363,7 +1358,7 @@ bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlread
 
              // adding this arrow to the last note :
              if( last_note_ok == true ) {
-               UMAP_PosNoteI last_note_iterator = last_note.first;
+               MAP_PosNoteI last_note_iterator = last_note.first;
                last_note_iterator->second.arrows.push_back(ArrowTargetInANote(type, target));;
              }
              continue;

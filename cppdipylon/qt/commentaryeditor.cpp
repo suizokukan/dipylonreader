@@ -39,7 +39,7 @@ CommentaryEditor::CommentaryEditor(UI& _ui) : ui(_ui) {
   this->update_aspect_from_dipydoc_aspect_informations();
 }
 
-/*______________________________________________________________________________
+/*_____________________________________________________________________________
 
   CommentaryEditor::set_the_appearance
 ______________________________________________________________________________*/
@@ -61,17 +61,21 @@ void CommentaryEditor::set_the_text_formats(void) {
 
   CommentaryEditor::update_content__translation_expected
 
+  only if ui.selected_text_and_blocked_commentaries is false.
 ______________________________________________________________________________*/
 void CommentaryEditor::update_content__translation_expected(const PosInTextRanges& posintext) {
-  PosInText x0 = posintext.min();
-  PosInText x1 = posintext.max();
 
-  QString matching_translations = this->ui.get_translations_for(x0, x1);
+  if( this->ui.selected_text_and_blocked_commentaries == false ) {
+    PosInText x0 = posintext.min();
+    PosInText x1 = posintext.max();
 
-  this->clear();
-  QTextCursor cur = this->textCursor();
-  cur.setCharFormat(this->format_text);
-  cur.insertText(matching_translations);
+    QString matching_translations = this->ui.get_translations_for(x0, x1);
+
+    this->clear();
+    QTextCursor cur = this->textCursor();
+    cur.setCharFormat(this->format_text);
+    cur.insertText(matching_translations);
+  }
 }
 
 /*______________________________________________________________________________

@@ -55,9 +55,11 @@
   object by reversing the keys and the values.
 
 ________________________________________________________________________________*/
+typedef std::unordered_map<PosInAudioRange, PosInTextRanges, PosInAudioRangeHasher> UMAP_PosAudio2PosText;
+
 class PosInAudio2PosInText {
  private:
-  std::unordered_map<PosInAudioRange, PosInTextRanges, PosInAudioRangeHasher> map;
+  UMAP_PosAudio2PosText   map;
   int                     _internal_state;
   bool                    _well_initialized;
 

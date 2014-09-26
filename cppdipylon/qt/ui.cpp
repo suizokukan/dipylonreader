@@ -36,7 +36,7 @@
   "argc" and "argv".
 ______________________________________________________________________________*/
 UI::UI(void) {
-  DebugMsg() << "UI::UI() : enter";
+  DebugMsg() << "UI::UI() : entry point";
   DebugMsg() << "Qt version : " << QT_VERSION_STR;
 
   /*
@@ -61,10 +61,10 @@ UI::UI(void) {
   /*
     initialization of this->available_menu_names
   */
-  this->available_menu_names = MenuNames(this->path_to_dipydocs);
+  this->read_menu_names();
   DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
 
-  DebugMsg() << "UI::UI() : exit";
+  DebugMsg() << "UI::UI() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -73,16 +73,20 @@ UI::UI(void) {
 ______________________________________________________________________________*/
 UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
-  delete icon_open;
-  delete icon_save;
-  delete icon_audio_pause;
-  delete icon_audio_play;
-  delete icon_audio_play_unavailable;
-  delete icon_audio_stop;
-  delete icon_audio_stop_unavailable;
-  delete icon_readingmode_rmode;
-  delete icon_readingmode_rlmode;
-  delete icon_readingmode_amode;
+
+  delete this->network_manager;
+
+  delete this->icon_open;
+  delete this->icon_save;
+  delete this->icon_audio_pause;
+  delete this->icon_audio_play;
+  delete this->icon_audio_play_unavailable;
+  delete this->icon_audio_stop;
+  delete this->icon_audio_stop_unavailable;
+  delete this->icon_readingmode_rmode;
+  delete this->icon_readingmode_rlmode;
+  delete this->icon_readingmode_amode;
+  delete this->icon_downloaddemo;
 
   DebugMsg() << "UI::~UI(#fin)";
 }
@@ -98,8 +102,8 @@ bool UI::at_least_one_dipydoc_has_been_loaded(void) const {
 /*______________________________________________________________________________
 
   UI::get_translations_for() : return a QString with the translations
-                                      matching the positions x0 to x1 in the
-                                      source text.
+                               matching the positions x0 to x1 in the
+                               source text.
 ______________________________________________________________________________*/
 QString UI::get_translations_for(PosInText x0, PosInText x1) const {
   VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.translations.contains(x0, x1);
@@ -148,6 +152,7 @@ int UI::go(int argc, char **argv) {
   this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
   this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
   this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
+  this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
 
   // application's icon :
   app.setWindowIcon(*icon_app);
@@ -227,7 +232,7 @@ int UI::go(int argc, char **argv) {
   #ifdef MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
   if (this->first_launch == true) {
     /*
-      Since the ::showMaximized() method doesn't work,
+      Since the ::showMaximized() method doesn't work on X11,
       let's resize and move the main window "artistically" :
     */
     QSize size = QGuiApplication::primaryScreen()->size();
@@ -273,6 +278,10 @@ int UI::go(int argc, char **argv) {
   // this variable can't be defined in the following block and must be defined here :
   QSplashScreen splashscreen(QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
                              Qt::WindowStaysOnTopHint);
+
+  // let's center the splashscreen exactly with the main window :
+  splashscreen.move( this->mainWin->x() + (this->mainWin->width() / 2)  - (splashscreen.width() / 2),
+                     this->mainWin->y() + (this->mainWin->height() / 2) - (splashscreen.width() / 2) );
 
   if (this->first_launch == true || this->display_splashscreen == true) {
     QString msg("<span style=\"color:#000000\">" + \
@@ -361,6 +370,16 @@ void UI::read_settings(void) {
     */
     this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
   }
+}
+
+/*______________________________________________________________________________
+
+  UI::read_menu_names
+
+  Initialize this->available_menu_names.
+______________________________________________________________________________*/
+void UI::read_menu_names(void) {
+  this->available_menu_names = MenuNames(this->path_to_dipydocs);
 }
 
 /*______________________________________________________________________________
