@@ -52,27 +52,27 @@ class DownloadDemoDipydocs : public QObject {
     Q_OBJECT
 
 public:
-       DownloadDemoDipydocs(const UI&);
-       bool cancel_tasks = false;
-       bool still_waiting = false;
-       QUrl summary_url;
+                              DownloadDemoDipydocs(const UI&);
+       bool                   cancel_tasks = false;
+       bool                   still_waiting = false;
+       QUrl                   summary_url;
 
 private:
-               std::map<QString, int> filenames_and_sizes;
-       int     number_of_bytes_to_be_downloaded = 0;
-       QUrl    current_datafile_to_be_downloaded__url;
-       QString current_datafile_to_be_downloaded__disk;
-       QStringList downloaded_titles;
+       QUrl                   current_datafile_to_be_downloaded__url;
+       QString                current_datafile_to_be_downloaded__disk;
+       QStringList            downloaded_titles;
+       std::map<QString, int> filenames_and_sizes;
+       int                    number_of_bytes_to_be_downloaded = 0;
 
-  void set_summary_url(void);
-  QUrl get_data_url(const QString& filename) const;
-  QString get_data_filename_fullpath(const QString& filename) const;
+       QString                get_data_filename_fullpath(const QString& filename) const;
+       QUrl                   get_data_url(const QString& filename) const;
+       void                   set_summary_url(void);
 
  signals:
-public slots:
-  void cancel(void);
-  void download_summary__replyFinished(QNetworkReply*);
-  void download_data__replyFinished(QNetworkReply*);
+ public slots:
+       void                   cancel(void);
+       void                   download_data_finished(QNetworkReply*);
+       void                   download_summary_finished(QNetworkReply*);
 };
 
 #endif  // CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_
