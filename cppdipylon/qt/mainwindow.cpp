@@ -28,6 +28,8 @@
 #include "qt/mainwindow.h"
 #include "debugmsg/debugmsg.h"
 
+#include <QToolBar>
+
 /*______________________________________________________________________________
 
   MainWindow::constructor
@@ -35,6 +37,8 @@
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
   DebugMsg() << "MainWindow::MainWindow() : entry point";
+
+  QToolBar* toolbarz = new QToolBar(this);
 
     this->main_splitter = new QSplitter(this);
     this->main_splitter->setOrientation( Qt::Vertical );
@@ -44,6 +48,7 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
     this->commentary_editor = new CommentaryEditor(this->ui);
     this->main_splitter->addWidget(this->source_editor);
     this->main_splitter->addWidget(this->commentary_editor);
+    this->main_splitter->addWidget( toolbarz );
 
     this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
 
@@ -51,6 +56,8 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
     this->createMenus();
     this->createToolBars();
     this->createStatusBar();
+
+    toolbarz->addAction(this->openAct);
 
     this->readSettings();
 

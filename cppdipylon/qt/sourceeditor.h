@@ -35,12 +35,12 @@
 #include <QList>
 #include <vector>
 
+#include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
+#include "pos/posintext/posintext.h"
 #include "qt/ui.h"
 #include "qt/textformat.h"
 #include "qt/blockformat.h"
-#include "pos/posintext/posintext.h"
-
 
 class UI;
 
