@@ -53,6 +53,8 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
                     qt/sourceeditor.h \
+                    qt/sourcetoolbar.h \
+                    qt/sourcezone.h \
                     qt/textformat.h \
                     qt/downloaddemodipydocs.h
 
@@ -74,6 +76,8 @@ SOURCES         +=  ./main.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/sourceeditor.cpp \
+                    qt/sourcetoolbar.cpp \
+                    qt/sourcezone.cpp \
                     qt/textformat.cpp \
                     qt/downloaddemodipydocs.cpp
 

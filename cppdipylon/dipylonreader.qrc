@@ -7,11 +7,7 @@
 
     <file>ressources/images/splashscreen/splashscreen.png</file>
 
-    <file>ressources/images/icons/copy.png</file>
-    <file>ressources/images/icons/cut.png</file>
     <file>ressources/images/icons/open.png</file>
-    <file>ressources/images/icons/paste.png</file>
-    <file>ressources/images/icons/save.png</file>
 
     <file>ressources/images/icons/readingmode_rmode.png</file>
     <file>ressources/images/icons/readingmode_rlmode.png</file>
@@ -22,5 +18,10 @@
     <file>ressources/images/icons/audio_stop.png</file>
 
     <file>ressources/images/icons/downloaddemo.png</file>
+
+    <file>ressources/images/icons/textminus.png</file>
+    <file>ressources/images/icons/textplus.png</file>
+
+    <file>ressources/images/icons/hidetoolbars.png</file>
 </qresource>
 </RCC>

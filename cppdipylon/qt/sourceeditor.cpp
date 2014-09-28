@@ -32,9 +32,11 @@
   SourceEditor constructor
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(UI& _ui) : ui(_ui) {
+  DebugMsg() << "SourceEditor::SourceEditor() : entry point";
   this->setReadOnly(true);
   this->setMouseTracking(true);
   this->update_aspect_from_dipydoc_aspect_informations();
+  DebugMsg() << "SourceEditor::SourceEditor() : exit point";
 }
 
 /*______________________________________________________________________________

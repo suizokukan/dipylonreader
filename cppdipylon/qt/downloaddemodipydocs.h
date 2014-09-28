@@ -31,20 +31,22 @@
 #ifndef CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_
 #define CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_
 
-#include <QProgressDialog>
 #include <QDir>
+#include <QMessageBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QProgressDialog>
 #include <QString>
 #include <QStringList>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
 
 #include <map>
 
 #include "./fixedparameters.h"
-#include "./debugmsg/debugmsg.h"
+#include "debugmsg/debugmsg.h"
 #include "qt/ui.h"
 
+class UI;
 
 /*______________________________________________________________________________
 

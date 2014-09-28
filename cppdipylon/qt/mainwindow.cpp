@@ -26,9 +26,6 @@
 *******************************************************************************/
 
 #include "qt/mainwindow.h"
-#include "debugmsg/debugmsg.h"
-
-#include <QToolBar>
 
 /*______________________________________________________________________________
 
@@ -36,65 +33,6 @@
 
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
-  DebugMsg() << "MainWindow::MainWindow() : entry point";
-
-  QToolBar* toolbarz = new QToolBar(this);
-
-    this->main_splitter = new QSplitter(this);
-    this->main_splitter->setOrientation( Qt::Vertical );
-    this->setCentralWidget(main_splitter);
-
-    this->source_editor = new SourceEditor(this->ui);
-    this->commentary_editor = new CommentaryEditor(this->ui);
-    this->main_splitter->addWidget(this->source_editor);
-    this->main_splitter->addWidget(this->commentary_editor);
-    this->main_splitter->addWidget( toolbarz );
-
-    this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
-
-    this->createActions();
-    this->createMenus();
-    this->createToolBars();
-    this->createStatusBar();
-
-    toolbarz->addAction(this->openAct);
-
-    this->readSettings();
-
-    // let's update the icons' appearence :
-    this->update_icons();
-
-    // signal : the document has been modified.
-    connect( this->source_editor->document(), &QTextDocument::contentsChanged,
-             this, &MainWindow::documentWasModified);
-
-    /*
-      audio_player initialization
-
-      http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
-    */
-    this->audio_player = new QMediaPlayer(this);
-
-    /*
-       signal : the position in the audio record has been changed.
-    */
-    connect( this->audio_player, &QMediaPlayer::positionChanged,
-             this, &MainWindow::audio_position_changed );
-
-    this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
-    this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
-
-    setCurrentDipyDoc("");
-    setUnifiedTitleAndToolBarOnMac(true);
-
-  /*
-    initialization of the network manager :
-  */
-  this->ui.network_manager = new QNetworkAccessManager();
-  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
-             << static_cast<int>(this->ui.network_manager->networkAccessible());
-
-  DebugMsg() << "MainWindow::MainWindow() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -293,60 +231,108 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions() {
-    openAct = new QAction( *(this->ui.icon_open),
-                           tr("Open"),
-                           this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing DipyDoc"));
-    connect(openAct, &QAction::triggered,
-            this, &MainWindow::open);
 
-    downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
-                                   tr("Download demo Dipydocs"),
-                                   this);
-    downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
-    connect(downloaddemoAct, &QAction::triggered,
-            this, &MainWindow::download_dipydocs_demo);
+  /*
+    aboutAct
+  */
+  aboutAct = new QAction(tr("&About"), this);
+  aboutAct->setStatusTip(tr("Show the application's About box"));
+  connect(aboutAct, &QAction::triggered,
+          this, &MainWindow::about);
 
+  /*
+    audiocontrols_playAct
+  */
+  this->audiocontrols_playAct = new QAction( *(this->ui.icon_audio_play),
+                                             tr("play"),
+                                             this);
+  this->audiocontrols_playAct->setStatusTip(tr("play..."));
+  connect(this->audiocontrols_playAct, &QAction::triggered,
+          this, &MainWindow::audiocontrols_play);
 
-    #ifdef READANDWRITE
-    saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
-    saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
-    connect(saveMainFileOfADipyDocAsAct, &QAction::triggered,
-            this, &MainWindow::saveMainFileOfADipyDocAs);
-    #endif
+  /*
+    audiocontrols_stopAct
+  */
+  this->audiocontrols_stopAct = new QAction( *(this->ui.icon_audio_stop),
+                                             tr("stop"),
+                                             this);
+  this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
+  connect(this->audiocontrols_stopAct, &QAction::triggered,
+          this, &MainWindow::audiocontrols_stop);
 
-    exitAct = new QAction(tr("E&xit"), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    exitAct->setStatusTip(tr("Exit the application"));
-    connect(exitAct, &QAction::triggered,
-            this, &MainWindow::close);
-
-    aboutAct = new QAction(tr("&About"), this);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, &QAction::triggered,
-            this, &MainWindow::about);
-
-    this->readingmodeAct = new QAction( *(this->ui.icon_readingmode_rlmode),
-                                 tr("change the mode"),
+  /*
+    downloaddemoAct
+  */
+  downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
+                                 tr("Download demo Dipydocs"),
                                  this);
-    this->readingmodeAct->setStatusTip(tr("change the mode"));
-    connect(this->readingmodeAct, &QAction::triggered,
-            this, &MainWindow::readingmodeAct_buttonpressed);
+  downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
+  connect(downloaddemoAct, &QAction::triggered,
+          this, &MainWindow::download_dipydocs_demo);
 
-    this->audiocontrols_playAct = new QAction( *(this->ui.icon_audio_play),
-                                               tr("play"),
-                                               this);
-    this->audiocontrols_playAct->setStatusTip(tr("play..."));
-    connect(this->audiocontrols_playAct, &QAction::triggered,
-            this, &MainWindow::audiocontrols_play);
+  /*
+    exitAct
+  */
+  exitAct = new QAction(tr("E&xit"), this);
+  exitAct->setShortcuts(QKeySequence::Quit);
+  exitAct->setStatusTip(tr("Exit the application"));
+  connect(exitAct, &QAction::triggered,
+          this, &MainWindow::close);
 
-    this->audiocontrols_stopAct = new QAction( *(this->ui.icon_audio_stop),
-                                               tr("stop"),
-                                               this);
-    this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
-    connect(this->audiocontrols_stopAct, &QAction::triggered,
-            this, &MainWindow::audiocontrols_stop);
+  /*
+    hidetoolbarsAct
+  */
+  this->hidetoolbarsAct = new QAction( *(this->ui.icon_hide_toolbars),
+                                       tr("hide toolbars"),
+                                       this);
+  this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
+
+  /*
+    openAct
+  */
+  openAct = new QAction( *(this->ui.icon_open),
+                         tr("Open"),
+                         this);
+  openAct->setShortcuts(QKeySequence::Open);
+  openAct->setStatusTip(tr("Open an existing DipyDoc"));
+  connect(openAct, &QAction::triggered,
+          this, &MainWindow::open);
+
+  /*
+    readingmodeAct
+  */
+  this->readingmodeAct = new QAction( *(this->ui.icon_readingmode_rlmode),
+                                      tr("change the mode"),
+                                      this);
+  this->readingmodeAct->setStatusTip(tr("change the mode"));
+  connect(this->readingmodeAct, &QAction::triggered,
+          this, &MainWindow::readingmodeAct_buttonpressed);
+
+  /*
+    saveMainFileOfADipyDocAsAct
+  */
+  #ifdef READANDWRITE
+  saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
+  saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
+  connect(saveMainFileOfADipyDocAsAct, &QAction::triggered,
+          this, &MainWindow::saveMainFileOfADipyDocAs);
+  #endif
+
+  /*
+    textminusAct
+  */
+  this->textminusAct = new QAction( *(this->ui.icon_textminus),
+                                    tr("--- TEXT $$$"),
+                                    this);
+  this->textminusAct->setStatusTip(tr("TEXT $$$ -"));
+
+  /*
+    textplusAct
+  */
+  this->textplusAct = new QAction( *(this->ui.icon_textplus),
+                                    tr("+++ TEXT $$$"),
+                                    this);
+  this->textplusAct->setStatusTip(tr("TEXT $$$ +"));
 }
 
 /*______________________________________________________________________________
@@ -385,16 +371,12 @@ void MainWindow::createStatusBar() {
 
 /*______________________________________________________________________________
 
-  MainWindow::createToolBars
+  MainWindow::createMainToolBars
 ______________________________________________________________________________*/
-void MainWindow::createToolBars() {
-    this->fileToolBar = addToolBar(tr("File"));
-    this->fileToolBar->addAction(this->openAct);
-
-    this->modecontrolToolBar = addToolBar(tr("AudioControls"));
-    this->modecontrolToolBar->addAction(this->readingmodeAct);
-    this->modecontrolToolBar->addAction(this->audiocontrols_playAct);
-    this->modecontrolToolBar->addAction(this->audiocontrols_stopAct);
+void MainWindow::createMainToolBars() {
+    this->unique_toolbar = addToolBar(tr("unique toolbar"));
+    this->unique_toolbar->addAction(this->openAct);
+    this->unique_toolbar->addAction(this->hidetoolbarsAct);
 }
 
 /*______________________________________________________________________________
@@ -484,6 +466,72 @@ void MainWindow::fill_open_menu(void) {
     openMenu->addSeparator()->setText(tr("choose other files :"));
     openMenu->addAction(openAct);
   }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::init()
+______________________________________________________________________________*/
+void MainWindow::init(void) {
+  DebugMsg() << "MainWindow::init() : entry point";
+
+  /*
+       The actions created by the the call to createActions() method are
+       required by the rest of this function :
+  */
+  this->createActions();
+
+  this->main_splitter = new QSplitter(this);
+  this->main_splitter->setOrientation(Qt::Vertical);
+  this->setCentralWidget(main_splitter);
+
+  this->source_zone = new SourceZone(this->ui);
+  this->commentary_editor = new CommentaryEditor(this->ui);
+  this->main_splitter->addWidget(this->source_zone);
+  this->main_splitter->addWidget(this->commentary_editor);
+
+  this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
+
+  this->createMenus();
+  this->createMainToolBars();
+  this->createStatusBar();
+
+  this->readSettings();
+
+  // let's update the icons' appearence :
+  this->update_icons();
+
+  // signal : the document has been modified.
+  connect( this->source_editor->document(), &QTextDocument::contentsChanged,
+           this, &MainWindow::documentWasModified);
+
+  /*
+    audio_player initialization
+
+    http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
+  */
+  this->audio_player = new QMediaPlayer(this);
+
+  /*
+     signal : the position in the audio record has been changed.
+  */
+  connect( this->audio_player, &QMediaPlayer::positionChanged,
+           this, &MainWindow::audio_position_changed );
+
+  this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
+  this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
+
+  this->setCurrentDipyDoc("");
+  this->setUnifiedTitleAndToolBarOnMac(true);
+
+  /*
+    initialization of the network manager :
+  */
+  this->ui.network_manager = new QNetworkAccessManager();
+  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
+             << static_cast<int>(this->ui.network_manager->networkAccessible());
+
+  DebugMsg() << "MainWindow::exit() : entry point";
 }
 
 /*______________________________________________________________________________

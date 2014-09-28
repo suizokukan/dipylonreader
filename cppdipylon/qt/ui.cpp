@@ -26,7 +26,6 @@
 *******************************************************************************/
 
 #include "qt/ui.h"
-#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -74,19 +73,24 @@ ______________________________________________________________________________*/
 UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
 
+  // QNetworkAccessManager object :
   delete this->network_manager;
 
-  delete this->icon_open;
-  delete this->icon_save;
+  // icons :
   delete this->icon_audio_pause;
   delete this->icon_audio_play;
   delete this->icon_audio_play_unavailable;
   delete this->icon_audio_stop;
   delete this->icon_audio_stop_unavailable;
-  delete this->icon_readingmode_rmode;
-  delete this->icon_readingmode_rlmode;
-  delete this->icon_readingmode_amode;
   delete this->icon_downloaddemo;
+  delete this->icon_hide_toolbars;
+  delete this->icon_open;
+  delete this->icon_readingmode_amode;
+  delete this->icon_readingmode_rlmode;
+  delete this->icon_readingmode_rmode;
+  delete this->icon_save;
+  delete this->icon_textminus;
+  delete this->icon_textplus;
 
   DebugMsg() << "UI::~UI(#fin)";
 }
@@ -143,16 +147,19 @@ int UI::go(int argc, char **argv) {
 
   // creating the icons :
   this->icon_app = new QIcon(":/ressources/images/icons/application_icon.png");
-  this->icon_open = new QIcon(":ressources/images/icons/open.png");
   this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
   this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
   this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
   this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
-  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
-  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
   this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
+  this->icon_hide_toolbars = new QIcon(":ressources/images/icons/hidetoolbars.png");
+  this->icon_open = new QIcon(":ressources/images/icons/open.png");
+  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
+  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
+  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
+  this->icon_textminus = new QIcon(":ressources/images/icons/textminus.png");
+  this->icon_textplus = new QIcon(":ressources/images/icons/textplus.png");
 
   // application's icon :
   app.setWindowIcon(*icon_app);
@@ -212,11 +219,12 @@ int UI::go(int argc, char **argv) {
 
   // main window creation :
   this->mainWin = new MainWindow(*this);
+  this->mainWin->init();
 
   /*
     main window maximized ?
 
-    On Linux/X11, the ::showMaximized() method isn't ok, hence the tricks used
+    On Linux/X11, the ::showMaximized() method doesn't work, hence the tricks used
     above.
     see http://qt-project.org/doc/qt-5/application-windows.html#window-geometry
   */

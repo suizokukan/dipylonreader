@@ -38,9 +38,9 @@
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "pos/posintext/posintext.h"
-#include "qt/ui.h"
-#include "qt/textformat.h"
 #include "qt/blockformat.h"
+#include "qt/textformat.h"
+#include "qt/ui.h"
 
 class UI;
 
@@ -55,7 +55,7 @@ class SourceEditor : public QTextEdit {
     Q_OBJECT
 
  public:
-    explicit SourceEditor(UI&);
+    explicit  SourceEditor(UI&);
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);
     void      modify_the_text_format(PosInTextRanges&);
