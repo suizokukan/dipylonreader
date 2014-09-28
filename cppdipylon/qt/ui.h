@@ -59,6 +59,8 @@ typedef unsigned int ReadingModeDetails;
 ________________________________________________________________________________*/
 class UI {
   friend class CommentaryEditor;
+  friend class CommentaryToolBar;
+  friend class CommentaryZone;
   friend class DownloadDemoDipydocs;
   friend class MainWindow;
   friend class Settings;

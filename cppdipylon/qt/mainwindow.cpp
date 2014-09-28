@@ -301,7 +301,7 @@ void MainWindow::createActions() {
   /*
     readingmode_aAct
   */
-  this->readingmode_aAct = new QAction( *(this->ui.icon_readingmode_amode),
+  this->readingmode_aAct = new QAction( *(this->ui.icon_readingmode_amode_on),
                                         tr("change the mode$$$rl"),
                                         this);
   this->readingmode_aAct->setStatusTip(tr("change the mode to 'analyse'"));
@@ -309,24 +309,24 @@ void MainWindow::createActions() {
           this, &MainWindow::readingmode_aAct__buttonpressed);
 
   /*
+    readingmode_lAct
+  */
+  this->readingmode_lAct = new QAction( *(this->ui.icon_readingmode_lmode_on),
+                                        tr("change the mode$$$rl"),
+                                        this);
+  this->readingmode_lAct->setStatusTip(tr("change the mode to 'read & listen'"));
+  connect(this->readingmode_lAct, &QAction::triggered,
+          this, &MainWindow::readingmode_lAct__buttonpressed);
+
+  /*
     readingmode_rAct
   */
-  this->readingmode_rAct = new QAction( *(this->ui.icon_readingmode_rmode),
+  this->readingmode_rAct = new QAction( *(this->ui.icon_readingmode_rmode_on),
                                         tr("change the mode$$$r"),
                                         this);
   this->readingmode_rAct->setStatusTip(tr("change the mode to 'read'"));
   connect(this->readingmode_rAct, &QAction::triggered,
           this, &MainWindow::readingmode_rAct__buttonpressed);
-
-  /*
-    readingmode_rlAct
-  */
-  this->readingmode_rlAct = new QAction( *(this->ui.icon_readingmode_lmode),
-                                         tr("change the mode$$$rl"),
-                                         this);
-  this->readingmode_rlAct->setStatusTip(tr("change the mode to 'read & listen'"));
-  connect(this->readingmode_rlAct, &QAction::triggered,
-          this, &MainWindow::readingmode_rlAct__buttonpressed);
 
   /*
     saveMainFileOfADipyDocAsAct
@@ -506,9 +506,9 @@ void MainWindow::init(void) {
   this->setCentralWidget(main_splitter);
 
   this->source_zone = new SourceZone(this->ui);
-  this->commentary_editor = new CommentaryEditor(this->ui);
+  this->commentary_zone = new CommentaryZone(this->ui);
   this->main_splitter->addWidget(this->source_zone);
-  this->main_splitter->addWidget(this->commentary_editor);
+  this->main_splitter->addWidget(this->commentary_zone);
 
   this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
 
@@ -654,6 +654,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
 
   // updating the UI :
   this->ui.mainWin->source_toolbar->show();
+  this->ui.mainWin->commentary_toolbar->show();
   this->update_icons();
 }
 
@@ -710,11 +711,11 @@ void MainWindow::readingmode_rAct__buttonpressed(void) {
 
 /*______________________________________________________________________________
 
-  MainWindow::readingmode_rlAct__buttonpressed()
+  MainWindow::readingmode_lAct__buttonpressed()
 
-  connected to readingmode_rlAct::triggered()
+  connected to readingmode_lAct::triggered()
 ______________________________________________________________________________*/
-void MainWindow::readingmode_rlAct__buttonpressed(void) {
+void MainWindow::readingmode_lAct__buttonpressed(void) {
   this->ui.reading_mode = UI::READINGMODE_LMODE;
   this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_STOP;
   DebugMsg() << "switched to LMODE mode";
@@ -803,6 +804,7 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if( this->ui.at_least_one_dipydoc_has_been_loaded() == false ) {
     this->ui.mainWin->source_toolbar->hide();
+    this->ui.mainWin->commentary_toolbar->hide();
     return;
   }
 
@@ -811,32 +813,32 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
 
   /*
-    "reading mode" icon :
+    "reading mode" icons :
   */
   switch (this->ui.reading_mode ) {
 
+    case UI::READINGMODE_AMODE: {
+      this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_on) );
+      this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
+      this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
+      this->audiocontrols_playAct->setEnabled(false);
+      this->audiocontrols_stopAct->setEnabled(false);
+      break;
+    }
+
     case UI::READINGMODE_LMODE: {
-      this->readingmode_aAct->setEnabled(false);
-      this->readingmode_rAct->setEnabled(false);
-      this->readingmode_rlAct->setEnabled(true);
+      this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
+      this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
+      this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_on) );
       this->audiocontrols_playAct->setEnabled(true);
       this->audiocontrols_stopAct->setEnabled(true);
       break;
     }
 
     case UI::READINGMODE_RMODE: {
-      this->readingmode_aAct->setEnabled(false);
-      this->readingmode_rAct->setEnabled(true);
-      this->readingmode_rlAct->setEnabled(false);
-      this->audiocontrols_playAct->setEnabled(false);
-      this->audiocontrols_stopAct->setEnabled(false);
-      break;
-    }
-
-    case UI::READINGMODE_AMODE: {
-      this->readingmode_aAct->setEnabled(true);
-      this->readingmode_rAct->setEnabled(false);
-      this->readingmode_rlAct->setEnabled(false);
+      this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
+      this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_on) );
+      this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
       this->audiocontrols_playAct->setEnabled(false);
       this->audiocontrols_stopAct->setEnabled(false);
       break;
@@ -848,7 +850,7 @@ void MainWindow::update_icons(void) {
   }
 
   /*
-    "audio controls" icons :
+    "audio control" icons :
   */
   if (this->ui.reading_mode != UI::READINGMODE_LMODE ||
       this->ui.current_dipydoc.well_initialized() == false ||

@@ -19,33 +19,42 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcetoolbar.cpp
+    ❏DipylonReader❏ : qt/commentaryzone.h
 
-    See sourcetoolbar.h for the documentation.
+    o CommentaryZone class
 
 *******************************************************************************/
 
-#include "qt/sourcetoolbar.h"
+#ifndef CPPDIPYLON_QT_COMMENTARYZONE_H_
+#define CPPDIPYLON_QT_COMMENTARYZONE_H_
+
+#include <QFrame>
+#include <QHBoxLayout>
+
+#include "debugmsg/debugmsg.h"
+#include "qt/commentaryeditor.h"
+#include "qt/commentarytoolbar.h"
+#include "qt/ui.h"
+
+class MainWindow;
 
 /*______________________________________________________________________________
 
-  SourceToolBar::constructor
+  CommentaryZone class
 ______________________________________________________________________________*/
-SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
-  DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
+class CommentaryZone : public QFrame {
+friend MainWindow;
 
-  this->setOrientation(Qt::Vertical);
+    Q_OBJECT
 
-  this->addAction(this->ui.mainWin->readingmode_rAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_lAct);
-  this->addAction(this->ui.mainWin->audiocontrols_playAct);
-  this->addAction(this->ui.mainWin->audiocontrols_stopAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_aAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->textplusAct);
-  this->addAction(this->ui.mainWin->textminusAct);
+ private:
+ // UI object linked to the editor :
+ UI& ui;
+ // object's layout :
+ QLayout* layout = nullptr;
 
-  DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
-}
+ public:
+  CommentaryZone(UI& _ui);
+};
+
+#endif  // CPPDIPYLON_QT_COMMENTARYZONE_H_

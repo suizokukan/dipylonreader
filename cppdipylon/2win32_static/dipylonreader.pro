@@ -59,6 +59,8 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/arrowformat.h \
                     qt/blockformat.h \
                     qt/commentaryeditor.h \
+                    qt/commentarytoolbar.h \
+                    qt/commentaryzone.h \
                     qt/ui.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
@@ -82,6 +84,8 @@ SOURCES         +=  ./main.cpp \
                     qt/arrowformat.cpp \
                     qt/blockformat.cpp \
                     qt/commentaryeditor.cpp \
+                    qt/commentarytoolbar.cpp \
+                    qt/commentaryzone.cpp \
                     qt/ui.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \

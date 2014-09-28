@@ -19,33 +19,35 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcetoolbar.cpp
+    ❏DipylonReader❏ : qt/commentarytoolbar.h
 
-    See sourcetoolbar.h for the documentation.
+    o CommentaryToolBar class
 
 *******************************************************************************/
 
-#include "qt/sourcetoolbar.h"
+#ifndef CPPDIPYLON_QT_COMMENTARYTOOLBAR_H_
+#define CPPDIPYLON_QT_COMMENTARYTOOLBAR_H_
+
+#include <QToolBar>
+
+#include "debugmsg/debugmsg.h"
+#include "qt/ui.h"
+
+class UI;
 
 /*______________________________________________________________________________
 
-  SourceToolBar::constructor
+  CommentaryToolBar class
 ______________________________________________________________________________*/
-SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
-  DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
+class CommentaryToolBar : public QToolBar {
 
-  this->setOrientation(Qt::Vertical);
+    Q_OBJECT
 
-  this->addAction(this->ui.mainWin->readingmode_rAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_lAct);
-  this->addAction(this->ui.mainWin->audiocontrols_playAct);
-  this->addAction(this->ui.mainWin->audiocontrols_stopAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_aAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->textplusAct);
-  this->addAction(this->ui.mainWin->textminusAct);
+ private:
+ // UI object linked to the editor :
+ UI& ui;
 
-  DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
-}
+ public:
+  CommentaryToolBar(UI& _ui);
+};
+#endif  // CPPDIPYLON_QT_COMMENTARYTOOLBAR_H_

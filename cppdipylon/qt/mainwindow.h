@@ -32,6 +32,7 @@
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/commentaryeditor.h"
+#include "qt/commentaryzone.h"
 #include "qt/downloaddemodipydocs.h"
 #include "qt/sourceeditor.h"
 #include "qt/sourcezone.h"
@@ -54,6 +55,8 @@ class UI;
 class MainWindow : public QMainWindow
 {
 friend class CommentaryEditor;
+friend class CommentaryToolBar;
+friend class CommentaryZone;
 friend class SourceEditor;
 friend class SourceToolBar;
 friend class SourceZone;
@@ -80,7 +83,7 @@ private slots:
     bool saveMainFileOfADipyDocAs(void);
     void readingmode_aAct__buttonpressed(void);
     void readingmode_rAct__buttonpressed(void);
-    void readingmode_rlAct__buttonpressed(void);
+    void readingmode_lAct__buttonpressed(void);
 
 private:
     UI& ui;
@@ -99,13 +102,15 @@ private:
     void    update_icons(void);
     void    writeSettings(void);
 
-    QFrame*          source_zone = nullptr;
-    SourceEditor*    source_editor = nullptr;
-    QToolBar*        source_toolbar = nullptr;
+    QFrame*           commentary_zone = nullptr;
+    CommentaryEditor* commentary_editor = nullptr;
+    QToolBar*         commentary_toolbar = nullptr;
+    QFrame*           source_zone = nullptr;
+    SourceEditor*     source_editor = nullptr;
+    QToolBar*         source_toolbar = nullptr;
 
-    CommentaryEditor *commentary_editor = nullptr;
-    QSplitter        *main_splitter = nullptr;
-    QString          curFile;
+    QSplitter*        main_splitter = nullptr;
+    QString           curFile;
 
     QMenu     *fileMenu = nullptr;
     QMenu     *openMenu = nullptr;
@@ -122,7 +127,7 @@ private:
 
     QAction*  readingmode_aAct = nullptr;
     QAction*  readingmode_rAct = nullptr;
-    QAction*  readingmode_rlAct = nullptr;
+    QAction*  readingmode_lAct = nullptr;
     QAction*  audiocontrols_playAct = nullptr;
     QAction*  audiocontrols_stopAct = nullptr;
 

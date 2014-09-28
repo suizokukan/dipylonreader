@@ -19,33 +19,25 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcetoolbar.cpp
+    ❏DipylonReader❏ : qt/commentarytoolbar.cpp
 
-    See sourcetoolbar.h for the documentation.
+    See commentarytoolbar.h for the documentation.
 
 *******************************************************************************/
 
-#include "qt/sourcetoolbar.h"
+#include "qt/commentarytoolbar.h"
 
 /*______________________________________________________________________________
 
-  SourceToolBar::constructor
+  CommentaryToolBar::constructor
 ______________________________________________________________________________*/
-SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
-  DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
+CommentaryToolBar::CommentaryToolBar(UI& _ui) : ui(_ui) {
+  DebugMsg() << "CommentaryToolBar::CommentaryToolBar : entry point";
 
   this->setOrientation(Qt::Vertical);
 
-  this->addAction(this->ui.mainWin->readingmode_rAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_lAct);
-  this->addAction(this->ui.mainWin->audiocontrols_playAct);
-  this->addAction(this->ui.mainWin->audiocontrols_stopAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_aAct);
-  this->addSeparator();
   this->addAction(this->ui.mainWin->textplusAct);
   this->addAction(this->ui.mainWin->textminusAct);
 
-  DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
+  DebugMsg() << "CommentaryToolBar::CommentaryToolBar : exit point";
 }

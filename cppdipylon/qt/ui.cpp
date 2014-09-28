@@ -158,9 +158,12 @@ int UI::go(int argc, char **argv) {
   this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
   this->icon_hide_toolbars = new QIcon(":ressources/images/icons/hidetoolbars.png");
   this->icon_open = new QIcon(":ressources/images/icons/open.png");
-  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
-  this->icon_readingmode_lmode = new QIcon(":ressources/images/icons/readingmode_lmode.png");
-  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
+  this->icon_readingmode_amode_off = new QIcon(":ressources/images/icons/readingmode_amode_off.png");
+  this->icon_readingmode_amode_on  = new QIcon(":ressources/images/icons/readingmode_amode_on.png");
+  this->icon_readingmode_lmode_off = new QIcon(":ressources/images/icons/readingmode_lmode_off.png");
+  this->icon_readingmode_lmode_on  = new QIcon(":ressources/images/icons/readingmode_lmode_on.png");
+  this->icon_readingmode_rmode_off = new QIcon(":ressources/images/icons/readingmode_rmode_off.png");
+  this->icon_readingmode_rmode_on  = new QIcon(":ressources/images/icons/readingmode_rmode_on.png");
   this->icon_textminus = new QIcon(":ressources/images/icons/textminus.png");
   this->icon_textplus = new QIcon(":ressources/images/icons/textplus.png");
 

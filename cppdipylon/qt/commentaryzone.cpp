@@ -19,33 +19,32 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcetoolbar.cpp
+    ❏DipylonReader❏ : qt/commentaryzone.cpp
 
-    See sourcetoolbar.h for the documentation.
+    See commentaryzone.h for the documentation.
 
 *******************************************************************************/
 
-#include "qt/sourcetoolbar.h"
+#include "qt/commentaryzone.h"
 
 /*______________________________________________________________________________
 
-  SourceToolBar::constructor
+  CommentaryZone::constructor
 ______________________________________________________________________________*/
-SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
-  DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
+CommentaryZone::CommentaryZone(UI& _ui) : ui(_ui) {
+  DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
 
-  this->setOrientation(Qt::Vertical);
+  DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
+  this->ui.mainWin->commentary_editor = new CommentaryEditor(this->ui);
 
-  this->addAction(this->ui.mainWin->readingmode_rAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_lAct);
-  this->addAction(this->ui.mainWin->audiocontrols_playAct);
-  this->addAction(this->ui.mainWin->audiocontrols_stopAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_aAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->textplusAct);
-  this->addAction(this->ui.mainWin->textminusAct);
+  DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
+  this->ui.mainWin->commentary_toolbar = new CommentaryToolBar(this->ui);
 
-  DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
+  this->layout = new QHBoxLayout();
+  this->layout->addWidget(this->ui.mainWin->commentary_editor);
+  this->layout->addWidget(this->ui.mainWin->commentary_toolbar);
+
+  this->setLayout(this->layout);
+
+  DebugMsg() << "CommentaryZone::CommentaryZone : exit point";
 }
