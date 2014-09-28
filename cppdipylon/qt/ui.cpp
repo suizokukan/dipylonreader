@@ -85,9 +85,12 @@ UI::~UI(void) {
   delete this->icon_downloaddemo;
   delete this->icon_hide_toolbars;
   delete this->icon_open;
-  delete this->icon_readingmode_amode;
-  delete this->icon_readingmode_rlmode;
-  delete this->icon_readingmode_rmode;
+  delete this->icon_readingmode_amode_off;
+  delete this->icon_readingmode_amode_on;
+  delete this->icon_readingmode_lmode_off;
+  delete this->icon_readingmode_lmode_on;
+  delete this->icon_readingmode_rmode_off;
+  delete this->icon_readingmode_rmode_on;
   delete this->icon_save;
   delete this->icon_textminus;
   delete this->icon_textplus;
@@ -156,7 +159,7 @@ int UI::go(int argc, char **argv) {
   this->icon_hide_toolbars = new QIcon(":ressources/images/icons/hidetoolbars.png");
   this->icon_open = new QIcon(":ressources/images/icons/open.png");
   this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
-  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
+  this->icon_readingmode_lmode = new QIcon(":ressources/images/icons/readingmode_lmode.png");
   this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
   this->icon_textminus = new QIcon(":ressources/images/icons/textminus.png");
   this->icon_textplus = new QIcon(":ressources/images/icons/textplus.png");
@@ -213,9 +216,9 @@ int UI::go(int argc, char **argv) {
      This parameter will be set again when a file will be opended. But the UI needs
      this information for the display, e.g. the icons.
   */
-  this->reading_mode         = UI::READINGMODE::READINGMODE_AMODE;
-  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
-  DebugMsg() << "now in AMODE mode";
+  this->reading_mode         = UI::READINGMODE::READINGMODE_RMODE;
+  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
+  DebugMsg() << "now in RMODE mode";
 
   // main window creation :
   this->mainWin = new MainWindow(*this);

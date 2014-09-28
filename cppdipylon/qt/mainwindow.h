@@ -78,7 +78,9 @@ private slots:
     void documentWasModified(void);
     void open(void);
     bool saveMainFileOfADipyDocAs(void);
-    void readingmodeAct_buttonpressed(void);
+    void readingmode_aAct__buttonpressed(void);
+    void readingmode_rAct__buttonpressed(void);
+    void readingmode_rlAct__buttonpressed(void);
 
 private:
     UI& ui;
@@ -118,7 +120,9 @@ private:
     QAction*   textminusAct = nullptr;
     QAction*   textplusAct = nullptr;
 
-    QAction*  readingmodeAct = nullptr;
+    QAction*  readingmode_aAct = nullptr;
+    QAction*  readingmode_rAct = nullptr;
+    QAction*  readingmode_rlAct = nullptr;
     QAction*  audiocontrols_playAct = nullptr;
     QAction*  audiocontrols_stopAct = nullptr;
 

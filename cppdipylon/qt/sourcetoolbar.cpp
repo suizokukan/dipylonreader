@@ -36,14 +36,16 @@ SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
 
   this->setOrientation(Qt::Vertical);
 
-  this->addAction(this->ui.mainWin->readingmodeAct);
+  this->addAction(this->ui.mainWin->readingmode_rAct);
+  this->addSeparator();
+  this->addAction(this->ui.mainWin->readingmode_rlAct);
   this->addAction(this->ui.mainWin->audiocontrols_playAct);
   this->addAction(this->ui.mainWin->audiocontrols_stopAct);
   this->addSeparator();
+  this->addAction(this->ui.mainWin->readingmode_aAct);
+  this->addSeparator();
   this->addAction(this->ui.mainWin->textplusAct);
   this->addAction(this->ui.mainWin->textminusAct);
-
-  this->setFloatable(true);
 
   DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
 }

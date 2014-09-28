@@ -393,8 +393,8 @@ QString DipyDoc::get_xml_repr(void) const {
          "</default_textformat>\n";
   res += "      <rmode_textformat>$SOURCEEDITOR_RMODETEXTFORMAT$"
          "</rmode_textformat>\n";
-  res += "      <rlmode_textformat>$SOURCEEDITOR_RLMODETEXTFORMAT$"
-         "</rlmode_textformat>\n";
+  res += "      <lmode_textformat>$SOURCEEDITOR_LMODETEXTFORMAT$"
+         "</lmode_textformat>\n";
   res += "    </sourceeditor>\n";
 
   res += "    <commentaryeditor>\n";
@@ -605,8 +605,8 @@ QString DipyDoc::get_xml_repr(void) const {
                this->sourceeditor_default_textformat.repr());
   res.replace("$SOURCEEDITOR_RMODETEXTFORMAT$",
                this->sourceeditor_rmode_textformat.repr());
-  res.replace("$SOURCEEDITOR_RLMODETEXTFORMAT$",
-               this->sourceeditor_rlmode_textformat.repr());
+  res.replace("$SOURCEEDITOR_LMODETEXTFORMAT$",
+               this->sourceeditor_lmode_textformat.repr());
   res.replace("$COMMENTARYEDITOR_STYLESHEET$",
                this->commentaryeditor_stylesheet);
   res.replace("$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$",
@@ -1114,11 +1114,11 @@ bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlread
                                 QString("aspect::sourceeditor::rmode_textformat"));
              continue;
            }
-           // aspect::sourceeditor's rlmode_textformat
-           if (xmlreader.name() == "rlmode_textformat") {
-             this->sourceeditor_rlmode_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->sourceeditor_rlmode_textformat, this->error_string(xmlreader),
-                                QString("aspect::sourceeditor::rlmode_textformat"));
+           // aspect::sourceeditor's lmode_textformat
+           if (xmlreader.name() == "lmode_textformat") {
+             this->sourceeditor_lmode_textformat = TextFormat(xmlreader.readElementText());
+             ok &= !this->error(this->sourceeditor_lmode_textformat, this->error_string(xmlreader),
+                                QString("aspect::sourceeditor::lmode_textformat"));
              continue;
            }
          }
