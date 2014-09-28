@@ -261,6 +261,22 @@ void MainWindow::createActions() {
           this, &MainWindow::audiocontrols_stop);
 
   /*
+    commentary_textminusAct
+  */
+  this->commentary_textminusAct = new QAction( *(this->ui.icon_textminus),
+                                               tr("--- TEXT $$$"),
+                                               this);
+  this->commentary_textminusAct->setStatusTip(tr("TEXT $$$ -"));
+
+  /*
+    commentary_textplusAct
+  */
+  this->commentary_textplusAct = new QAction( *(this->ui.icon_textplus),
+                                               tr("--- TEXT $$$"),
+                                               this);
+  this->commentary_textplusAct->setStatusTip(tr("TEXT $$$ -"));
+
+  /*
     downloaddemoAct
   */
   downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
@@ -339,20 +355,20 @@ void MainWindow::createActions() {
   #endif
 
   /*
-    textminusAct
+    source_textminusAct
   */
-  this->textminusAct = new QAction( *(this->ui.icon_textminus),
-                                    tr("--- TEXT $$$"),
-                                    this);
-  this->textminusAct->setStatusTip(tr("TEXT $$$ -"));
+  this->source_textminusAct = new QAction( *(this->ui.icon_textminus),
+                                           tr("--- TEXT $$$"),
+                                           this);
+  this->source_textminusAct->setStatusTip(tr("TEXT $$$ -"));
 
   /*
-    textplusAct
+    source_textplusAct
   */
-  this->textplusAct = new QAction( *(this->ui.icon_textplus),
-                                    tr("+++ TEXT $$$"),
-                                    this);
-  this->textplusAct->setStatusTip(tr("TEXT $$$ +"));
+  this->source_textplusAct = new QAction( *(this->ui.icon_textplus),
+                                          tr("--- TEXT $$$"),
+                                          this);
+  this->source_textplusAct->setStatusTip(tr("TEXT $$$ -"));
 }
 
 /*______________________________________________________________________________

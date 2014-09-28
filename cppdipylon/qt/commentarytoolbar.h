@@ -47,6 +47,10 @@ class CommentaryToolBar : public QToolBar {
  // UI object linked to the editor :
  UI& ui;
 
+ private slots:
+   void textminusAct__buttonpressed(void);
+   void textplusAct__buttonpressed(void);
+
  public:
   CommentaryToolBar(UI& _ui);
 };

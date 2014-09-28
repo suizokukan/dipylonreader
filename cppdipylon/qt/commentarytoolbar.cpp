@@ -36,8 +36,28 @@ CommentaryToolBar::CommentaryToolBar(UI& _ui) : ui(_ui) {
 
   this->setOrientation(Qt::Vertical);
 
-  this->addAction(this->ui.mainWin->textplusAct);
-  this->addAction(this->ui.mainWin->textminusAct);
+  this->addAction(this->ui.mainWin->commentary_textplusAct);
+  this->addAction(this->ui.mainWin->commentary_textminusAct);
+
+  QObject::connect(this->ui.mainWin->commentary_textminusAct, &QAction::triggered,
+                   this,                                      &CommentaryToolBar::textminusAct__buttonpressed);
+  QObject::connect(this->ui.mainWin->commentary_textplusAct,  &QAction::triggered,
+                   this,                                      &CommentaryToolBar::textplusAct__buttonpressed);
 
   DebugMsg() << "CommentaryToolBar::CommentaryToolBar : exit point";
+}
+
+/*______________________________________________________________________________
+
+  CommentaryToolBar::textminusAct__buttonpressed
+______________________________________________________________________________*/
+void CommentaryToolBar::textminusAct__buttonpressed(void) {
+  DebugMsg() << "CommentaryToolBar::textminusAct__buttonpressed";
+}
+/*______________________________________________________________________________
+
+  CommentaryToolBar::textplusAct__buttonpressed
+______________________________________________________________________________*/
+void CommentaryToolBar::textplusAct__buttonpressed(void) {
+  DebugMsg() << "CommentaryToolBar::textplusAct__buttonpressed";
 }

@@ -117,13 +117,15 @@ private:
     QMenu     *helpMenu = nullptr;
 
     QAction*   aboutAct = nullptr;
+    QAction*   commentary_textminusAct = nullptr;
+    QAction*   commentary_textplusAct = nullptr;
     QAction*   downloaddemoAct = nullptr;
     QAction*   exitAct = nullptr;
     QAction*   hidetoolbarsAct = nullptr;
     QAction*   openAct = nullptr;
     QAction*   saveMainFileOfADipyDocAsAct = nullptr;
-    QAction*   textminusAct = nullptr;
-    QAction*   textplusAct = nullptr;
+    QAction*   source_textminusAct = nullptr;
+    QAction*   source_textplusAct = nullptr;
 
     QAction*  readingmode_aAct = nullptr;
     QAction*  readingmode_rAct = nullptr;

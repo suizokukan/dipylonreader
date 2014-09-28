@@ -44,8 +44,28 @@ SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
   this->addSeparator();
   this->addAction(this->ui.mainWin->readingmode_aAct);
   this->addSeparator();
-  this->addAction(this->ui.mainWin->textplusAct);
-  this->addAction(this->ui.mainWin->textminusAct);
+  this->addAction(this->ui.mainWin->source_textplusAct);
+  this->addAction(this->ui.mainWin->source_textminusAct);
+
+  QObject::connect(this->ui.mainWin->source_textminusAct, &QAction::triggered,
+                   this,                                  &SourceToolBar::textminusAct__buttonpressed);
+  QObject::connect(this->ui.mainWin->source_textplusAct,  &QAction::triggered,
+                   this,                                  &SourceToolBar::textplusAct__buttonpressed);
 
   DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
+}
+
+/*______________________________________________________________________________
+
+  SourceToolBar::textminusAct__buttonpressed
+______________________________________________________________________________*/
+void SourceToolBar::textminusAct__buttonpressed(void) {
+  DebugMsg() << "SourceToolBar::textminusAct__buttonpressed";
+}
+/*______________________________________________________________________________
+
+  SourceToolBar::textplusAct__buttonpressed
+______________________________________________________________________________*/
+void SourceToolBar::textplusAct__buttonpressed(void) {
+  DebugMsg() << "SourceToolBar::textplusAct__buttonpressed";
 }

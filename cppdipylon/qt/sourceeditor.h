@@ -33,6 +33,7 @@
 #include <QTextEdit>
 #include <QTextCharFormat>
 #include <QList>
+
 #include <vector>
 
 #include "debugmsg/debugmsg.h"
@@ -67,7 +68,7 @@ class SourceEditor : public QTextEdit {
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
     void      mouseMoveEvent(QMouseEvent* mouse_event);
     void      mouseReleaseEvent(QMouseEvent* mouse_event);
-    void      paintEvent(QPaintEvent* ev);
+    void      paintEvent(QPaintEvent* event);
 
  private:
     // UI object linked to the editor :
