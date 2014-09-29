@@ -183,6 +183,8 @@ o DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
 o DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
 o DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 
+o NO_STATUS_BAR
+
 ################################################################################
 [1.2] options choisies pour le projet
 ################################################################################

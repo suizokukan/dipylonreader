@@ -33,6 +33,9 @@
 
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
+#ifdef NO_STATUS_BAR
+  this->setStatusBar(0);
+#endif
 }
 
 /*______________________________________________________________________________
@@ -404,7 +407,9 @@ void MainWindow::createMenus() {
   MainWindow::createStatusBar
 ______________________________________________________________________________*/
 void MainWindow::createStatusBar() {
-    statusBar()->showMessage(tr("Ready"));
+#ifndef NO_STATUS_BAR
+  statusBar()->showMessage(tr("Ready"));
+#endif
 }
 
 /*______________________________________________________________________________
@@ -533,7 +538,9 @@ void MainWindow::init(void) {
 
   this->createMenus();
   this->createMainToolBars();
+  #ifndef NO_STATUS_BAR
   this->createStatusBar();
+  #endif
 
   this->readSettings();
 
@@ -637,7 +644,9 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     // update the rest of the UI :
     this->update_icons();
     setCurrentDipyDoc(directoryName);
+    #ifndef NO_STATUS_BAR
     statusBar()->showMessage(tr("DipyDoc loaded"), 2000);
+    #endif
   }
 
   /*
@@ -785,7 +794,9 @@ bool MainWindow::saveMainFileOfADipyDocAs() {
 #endif
 
     setCurrentDipyDoc(fileName);
+    #ifndef NO_STATUS_BAR
     statusBar()->showMessage(tr("File saved"), 2000);
+    #endif
     return true;
 }
 
