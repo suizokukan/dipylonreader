@@ -63,8 +63,8 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& ui) {
   QProgressDialog progress(QObject::tr("Download demo Dipydocs"),
                            QObject::tr("Abort installation"),
                            0, 100);
-  connect(&progress, &QProgressDialog::canceled,
-          this,      &DownloadDemoDipydocs::cancel);
+  QObject::connect(&progress, &QProgressDialog::canceled,
+                   this,      &DownloadDemoDipydocs::cancel);
   progress.setWindowModality(Qt::WindowModal);
 
   /* ...........................................................................

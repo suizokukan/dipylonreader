@@ -237,8 +237,8 @@ void MainWindow::createActions() {
   */
   aboutAct = new QAction(tr("&About"), this);
   aboutAct->setStatusTip(tr("Show the application's About box"));
-  connect(aboutAct, &QAction::triggered,
-          this, &MainWindow::about);
+  QObject::connect(aboutAct, &QAction::triggered,
+                   this,     &MainWindow::about);
 
   /*
     audiocontrols_playAct
@@ -247,8 +247,8 @@ void MainWindow::createActions() {
                                              tr("play"),
                                              this);
   this->audiocontrols_playAct->setStatusTip(tr("play..."));
-  connect(this->audiocontrols_playAct, &QAction::triggered,
-          this, &MainWindow::audiocontrols_play);
+  QObject::connect(this->audiocontrols_playAct, &QAction::triggered,
+                   this,                        &MainWindow::audiocontrols_play);
 
   /*
     audiocontrols_stopAct
@@ -257,8 +257,8 @@ void MainWindow::createActions() {
                                              tr("stop"),
                                              this);
   this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
-  connect(this->audiocontrols_stopAct, &QAction::triggered,
-          this, &MainWindow::audiocontrols_stop);
+  QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
+                   this,                        &MainWindow::audiocontrols_stop);
 
   /*
     commentary_textminusAct
@@ -283,8 +283,8 @@ void MainWindow::createActions() {
                                  tr("Download demo Dipydocs"),
                                  this);
   downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
-  connect(downloaddemoAct, &QAction::triggered,
-          this, &MainWindow::download_dipydocs_demo);
+  QObject::connect(downloaddemoAct, &QAction::triggered,
+                   this,            &MainWindow::download_dipydocs_demo);
 
   /*
     exitAct
@@ -292,8 +292,8 @@ void MainWindow::createActions() {
   exitAct = new QAction(tr("E&xit"), this);
   exitAct->setShortcuts(QKeySequence::Quit);
   exitAct->setStatusTip(tr("Exit the application"));
-  connect(exitAct, &QAction::triggered,
-          this, &MainWindow::close);
+  QObject::connect(exitAct, &QAction::triggered,
+                   this,    &MainWindow::close);
 
   /*
     hidetoolbarsAct
@@ -302,8 +302,8 @@ void MainWindow::createActions() {
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
-  connect(hidetoolbarsAct, &QAction::triggered,
-          this,            &MainWindow::hidetoolbarsAct__buttonPressed);
+  QObject::connect(hidetoolbarsAct, &QAction::triggered,
+                   this,            &MainWindow::hidetoolbarsAct__buttonPressed);
 
   /*
     openAct
@@ -313,8 +313,8 @@ void MainWindow::createActions() {
                          this);
   openAct->setShortcuts(QKeySequence::Open);
   openAct->setStatusTip(tr("Open an existing DipyDoc"));
-  connect(openAct, &QAction::triggered,
-          this, &MainWindow::open);
+  QObject::connect(openAct, &QAction::triggered,
+                   this,    &MainWindow::open);
 
   /*
     readingmode_aAct
@@ -323,8 +323,8 @@ void MainWindow::createActions() {
                                         tr("change the mode$$$rl"),
                                         this);
   this->readingmode_aAct->setStatusTip(tr("change the mode to 'analyse'"));
-  connect(this->readingmode_aAct, &QAction::triggered,
-          this, &MainWindow::readingmode_aAct__buttonpressed);
+  QObject::connect(this->readingmode_aAct, &QAction::triggered,
+                   this,                   &MainWindow::readingmode_aAct__buttonpressed);
 
   /*
     readingmode_lAct
@@ -333,8 +333,8 @@ void MainWindow::createActions() {
                                         tr("change the mode$$$rl"),
                                         this);
   this->readingmode_lAct->setStatusTip(tr("change the mode to 'read & listen'"));
-  connect(this->readingmode_lAct, &QAction::triggered,
-          this, &MainWindow::readingmode_lAct__buttonpressed);
+  QObject::connect(this->readingmode_lAct, &QAction::triggered,
+                   this,                   &MainWindow::readingmode_lAct__buttonpressed);
 
   /*
     readingmode_rAct
@@ -343,8 +343,8 @@ void MainWindow::createActions() {
                                         tr("change the mode$$$r"),
                                         this);
   this->readingmode_rAct->setStatusTip(tr("change the mode to 'read'"));
-  connect(this->readingmode_rAct, &QAction::triggered,
-          this, &MainWindow::readingmode_rAct__buttonpressed);
+  QObject::connect(this->readingmode_rAct, &QAction::triggered,
+                   this,                   &MainWindow::readingmode_rAct__buttonpressed);
 
   /*
     saveMainFileOfADipyDocAsAct
@@ -352,8 +352,8 @@ void MainWindow::createActions() {
   #ifdef READANDWRITE
   saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
   saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
-  connect(saveMainFileOfADipyDocAsAct, &QAction::triggered,
-          this, &MainWindow::saveMainFileOfADipyDocAs);
+  QObject::connect(saveMainFileOfADipyDocAsAct, &QAction::triggered,
+                   this,                        &MainWindow::saveMainFileOfADipyDocAs);
   #endif
 
   /*
@@ -485,8 +485,8 @@ void MainWindow::fill_open_menu(void) {
       newAction->setData(item.second);
 
       this->openMenu->addAction(newAction);
-      connect(newAction, &QAction::triggered,
-              this, &MainWindow::load_a_dipydoc_from_a_qaction);
+      QObject::connect(newAction, &QAction::triggered,
+                       this,      &MainWindow::load_a_dipydoc_from_a_qaction);
     }
     else {
       break;
@@ -549,8 +549,8 @@ void MainWindow::init(void) {
   this->update_icons();
 
   // signal : the document has been modified.
-  connect( this->source_editor->document(), &QTextDocument::contentsChanged,
-           this, &MainWindow::documentWasModified);
+  QObject::connect( this->source_editor->document(), &QTextDocument::contentsChanged,
+                    this,                            &MainWindow::documentWasModified);
 
   /*
     audio_player initialization
@@ -562,8 +562,8 @@ void MainWindow::init(void) {
   /*
      signal : the position in the audio record has been changed.
   */
-  connect( this->audio_player, &QMediaPlayer::positionChanged,
-           this, &MainWindow::audio_position_changed );
+  QObject::connect( this->audio_player, &QMediaPlayer::positionChanged,
+                    this,               &MainWindow::audio_position_changed );
 
   this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
   this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
