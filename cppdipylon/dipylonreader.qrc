@@ -25,6 +25,7 @@
     <file>ressources/images/icons/textminus.png</file>
     <file>ressources/images/icons/textplus.png</file>
 
-    <file>ressources/images/icons/hidetoolbars.png</file>
+    <file>ressources/images/icons/hidetoolbars_off.png</file>
+    <file>ressources/images/icons/hidetoolbars_on.png</file>
 </qresource>
 </RCC>

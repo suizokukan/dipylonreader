@@ -83,7 +83,8 @@ UI::~UI(void) {
   delete this->icon_audio_stop;
   delete this->icon_audio_stop_unavailable;
   delete this->icon_downloaddemo;
-  delete this->icon_hide_toolbars;
+  delete this->icon_hide_toolbars_off;
+  delete this->icon_hide_toolbars_on;
   delete this->icon_open;
   delete this->icon_readingmode_amode_off;
   delete this->icon_readingmode_amode_on;
@@ -156,7 +157,8 @@ int UI::go(int argc, char **argv) {
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
   this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
   this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
-  this->icon_hide_toolbars = new QIcon(":ressources/images/icons/hidetoolbars.png");
+  this->icon_hide_toolbars_off = new QIcon(":ressources/images/icons/hidetoolbars_off.png");
+  this->icon_hide_toolbars_on = new QIcon(":ressources/images/icons/hidetoolbars_on.png");
   this->icon_open = new QIcon(":ressources/images/icons/open.png");
   this->icon_readingmode_amode_off = new QIcon(":ressources/images/icons/readingmode_amode_off.png");
   this->icon_readingmode_amode_on  = new QIcon(":ressources/images/icons/readingmode_amode_on.png");

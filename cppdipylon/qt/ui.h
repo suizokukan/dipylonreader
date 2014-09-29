@@ -100,7 +100,8 @@ class UI {
   QIcon*      icon_audio_stop = nullptr;
   QIcon*      icon_audio_stop_unavailable = nullptr;
   QIcon*      icon_downloaddemo = nullptr;
-  QIcon*      icon_hide_toolbars = nullptr;
+  QIcon*      icon_hide_toolbars_off = nullptr;
+  QIcon*      icon_hide_toolbars_on = nullptr;
   QIcon*      icon_open = nullptr;
   QIcon*      icon_readingmode_amode_off = nullptr;
   QIcon*      icon_readingmode_amode_on  = nullptr;

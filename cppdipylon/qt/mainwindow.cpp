@@ -298,7 +298,7 @@ void MainWindow::createActions() {
   /*
     hidetoolbarsAct
   */
-  this->hidetoolbarsAct = new QAction( *(this->ui.icon_hide_toolbars),
+  this->hidetoolbarsAct = new QAction( *(this->ui.icon_hide_toolbars_on),
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
@@ -830,7 +830,7 @@ void MainWindow::update_icons(void) {
     a special case : no Dipydoc.
   ............................................................................*/
   if( this->ui.at_least_one_dipydoc_has_been_loaded() == false ) {
-    this->ui.mainWin->hidetoolbarsAct->setVisible(false);
+    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_off) );
     this->ui.mainWin->source_toolbar->hide();
     this->ui.mainWin->commentary_toolbar->hide();
     return;
@@ -846,7 +846,7 @@ void MainWindow::update_icons(void) {
     this->ui.mainWin->source_toolbar->hide();
     this->ui.mainWin->commentary_toolbar->hide();
 
-    this->ui.mainWin->hidetoolbarsAct->setVisible(true);
+    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_off) );
   }
   else {
     /*
@@ -860,9 +860,7 @@ void MainWindow::update_icons(void) {
     }
 
     // hidetoolbars button is visible :
-    if(this->ui.mainWin->hidetoolbarsAct->isVisible() == false ) {
-      this->ui.mainWin->hidetoolbarsAct->setVisible(true);
-    }
+    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_on) );
 
     /*
       source zone.toolbar.readingmode_icons :
