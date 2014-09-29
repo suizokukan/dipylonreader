@@ -134,7 +134,7 @@ private:
     QAction*  audiocontrols_playAct = nullptr;
     QAction*  audiocontrols_stopAct = nullptr;
 
-    QToolBar  *unique_toolbar = nullptr;
+    QToolBar  *mainwintoolbar = nullptr;
     QToolBar  *editToolBar = nullptr;
     QToolBar  *modecontrolToolBar = nullptr;
 

@@ -412,9 +412,9 @@ void MainWindow::createStatusBar() {
   MainWindow::createMainToolBars
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars() {
-    this->unique_toolbar = addToolBar(tr("unique toolbar"));
-    this->unique_toolbar->addAction(this->openAct);
-    this->unique_toolbar->addAction(this->hidetoolbarsAct);
+    this->mainwintoolbar = addToolBar(tr("unique toolbar"));
+    this->mainwintoolbar->addAction(this->openAct);
+    this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 }
 
 /*______________________________________________________________________________
