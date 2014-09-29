@@ -74,9 +74,11 @@ UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
 
   // QNetworkAccessManager object :
+  DebugMsg() << "... delete this->network_manager";
   delete this->network_manager;
 
   // icons :
+  DebugMsg() << "... delete icons";
   delete this->icon_audio_pause;
   delete this->icon_audio_play;
   delete this->icon_audio_play_unavailable;
