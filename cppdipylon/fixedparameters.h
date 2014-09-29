@@ -35,13 +35,13 @@
 namespace fixedparameters {
 
 // code source :
-constexpr static const char*   CODESOURCE_ADRESS = "http://github.com/suizokukan/dipylonreader/";
+constexpr static const char*   CODESOURCE_ADDRESS = "http://github.com/suizokukan/dipylonreader/";
 // code source's author :
 constexpr static const char*   CODESOURCE_AUTHOR = "Xavier Faure";
 // license's name :
 constexpr static const char*   CODESOURCE_LICENSE = "GPLv3";
-// license's adress :
-constexpr static const char*   CODESOURCE_LICENSE_ADRESS= "http://www.gnu.org/copyleft/gpl.html";
+// license's address :
+constexpr static const char*   CODESOURCE_LICENSE_ADDRESS= "http://www.gnu.org/copyleft/gpl.html";
 
 /*
   data used to initialize the QApplication object.

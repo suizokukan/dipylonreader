@@ -47,12 +47,12 @@ void MainWindow::about() {
                                "  This program is covered by the <b>%4</b> "
                                "(<a href='%5'>%5</a>) license : "
                                "checkout the code of the project at the following "
-                               "<a href='%6'>adress</a>.").arg(fixedparameters::application_name_for_the_user,
-                                                               fixedparameters::application_version,
-                                                               fixedparameters::CODESOURCE_AUTHOR,
-                                                               fixedparameters::CODESOURCE_LICENSE,
-                                                               fixedparameters::CODESOURCE_LICENSE_ADRESS,
-                                                               fixedparameters::CODESOURCE_ADRESS)));
+                               "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
+                                                                fixedparameters::application_version,
+                                                                fixedparameters::CODESOURCE_AUTHOR,
+                                                                fixedparameters::CODESOURCE_LICENSE,
+                                                                fixedparameters::CODESOURCE_LICENSE_ADDRESS,
+                                                                fixedparameters::CODESOURCE_ADDRESS)));
 
     #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
     msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
