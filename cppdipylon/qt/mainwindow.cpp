@@ -419,14 +419,6 @@ void MainWindow::createMainToolBars() {
 
 /*______________________________________________________________________________
 
-  MainWindow::documentWasModified
-______________________________________________________________________________*/
-void MainWindow::documentWasModified() {
-    setWindowModified(source_editor->document()->isModified());
-}
-
-/*______________________________________________________________________________
-
   MainWindow::download_dipydocs_demo
 
   This function removes old demo files, then download and install the new ones.
@@ -547,10 +539,6 @@ void MainWindow::init(void) {
 
   // let's update the icons' appearence :
   this->update_icons();
-
-  // signal : the document has been modified.
-  QObject::connect( this->source_editor->document(), &QTextDocument::contentsChanged,
-                    this,                            &MainWindow::documentWasModified);
 
   /*
     audio_player initialization

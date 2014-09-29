@@ -78,7 +78,6 @@ private slots:
     void audiocontrols_stop(void);
     void audio_position_changed(PosInAudio);
     void closing(void);
-    void documentWasModified(void);
     void hidetoolbarsAct__buttonPressed(void);
     void open(void);
     bool saveMainFileOfADipyDocAs(void);
