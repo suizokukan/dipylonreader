@@ -79,10 +79,16 @@ class UI {
 
  private:
 
+  /*
+    settings :
+
+    see UI::read_settings() and UI::write_settings()
+  */
   // set to true if no 'settings' (see QSettings) can be read.
   bool        first_launch;
   // display splash screen when the program has been launched ?
   bool        display_splashscreen = fixedparameters::default__display_splashscreen;
+  bool        visible_toolbars = fixedparameters::default__visible_toolbars;
 
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();

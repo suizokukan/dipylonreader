@@ -302,6 +302,8 @@ void MainWindow::createActions() {
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
+  connect(hidetoolbarsAct, &QAction::triggered,
+          this,            &MainWindow::hidetoolbarsAct__buttonPressed);
 
   /*
     openAct
@@ -502,6 +504,15 @@ void MainWindow::fill_open_menu(void) {
     openMenu->addSeparator()->setText(tr("choose other files :"));
     openMenu->addAction(openAct);
   }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::hidetoolbarsAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::hidetoolbarsAct__buttonPressed(void) {
+  this->ui.visible_toolbars = !this->ui.visible_toolbars;
+  this->update_icons();
 }
 
 /*______________________________________________________________________________
@@ -819,6 +830,7 @@ void MainWindow::update_icons(void) {
     a special case : no Dipydoc.
   ............................................................................*/
   if( this->ui.at_least_one_dipydoc_has_been_loaded() == false ) {
+    this->ui.mainWin->hidetoolbarsAct->setVisible(false);
     this->ui.mainWin->source_toolbar->hide();
     this->ui.mainWin->commentary_toolbar->hide();
     return;
@@ -827,73 +839,98 @@ void MainWindow::update_icons(void) {
   /*............................................................................
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
-
-  /*
-    "reading mode" icons :
-  */
-  switch (this->ui.reading_mode ) {
-
-    case UI::READINGMODE_AMODE: {
-      this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_on) );
-      this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
-      this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
-      this->audiocontrols_playAct->setEnabled(false);
-      this->audiocontrols_stopAct->setEnabled(false);
-      break;
-    }
-
-    case UI::READINGMODE_LMODE: {
-      this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
-      this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
-      this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_on) );
-      this->audiocontrols_playAct->setEnabled(true);
-      this->audiocontrols_stopAct->setEnabled(true);
-      break;
-    }
-
-    case UI::READINGMODE_RMODE: {
-      this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
-      this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_on) );
-      this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
-      this->audiocontrols_playAct->setEnabled(false);
-      this->audiocontrols_stopAct->setEnabled(false);
-      break;
-    }
-
-    default : {
-      break;
-    }
-  }
-
-  /*
-    "audio control" icons :
-  */
-  if (this->ui.reading_mode != UI::READINGMODE_LMODE ||
-      this->ui.current_dipydoc.well_initialized() == false ||
-      (this->ui.current_dipydoc.well_initialized() == true and
-       this->ui.current_dipydoc.audiorecord.found == false)) {
+  if(this->ui.visible_toolbars == false) {
     /*
-       No lmode mode or no current DipyDoc or no audio in the current DipyDoc :
+      invisible toolbars :
     */
-    this->audiocontrols_playAct->setEnabled(false);
-    // we refresh the icon to display it using only shades of gray :
-    this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+    this->ui.mainWin->source_toolbar->hide();
+    this->ui.mainWin->commentary_toolbar->hide();
 
-    this->audiocontrols_stopAct->setEnabled(false);
-    // we refresh the icon to display it using only shades of gray :
-    this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    this->ui.mainWin->hidetoolbarsAct->setVisible(true);
   }
   else {
     /*
-       the current DipyDoc is ok and contains an audio record :
+       visible toolbars :
     */
-    this->audiocontrols_playAct->setEnabled(true);
-    // we refresh the icon to display it in colors :
-    this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
 
-    this->audiocontrols_stopAct->setEnabled(true);
-    // we refresh the icon to display it in colors :
-    this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    // toolbars are visible :
+    if(this->ui.visible_toolbars == true and this->ui.mainWin->source_toolbar->isVisible() == false) {
+      this->ui.mainWin->source_toolbar->show();
+      this->ui.mainWin->commentary_toolbar->show();
+    }
+
+    // hidetoolbars button is visible :
+    if(this->ui.mainWin->hidetoolbarsAct->isVisible() == false ) {
+      this->ui.mainWin->hidetoolbarsAct->setVisible(true);
+    }
+
+    /*
+      source zone.toolbar.readingmode_icons :
+    */
+    switch (this->ui.reading_mode ) {
+
+      case UI::READINGMODE_AMODE: {
+        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_on) );
+        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
+        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
+        this->audiocontrols_playAct->setEnabled(false);
+        this->audiocontrols_stopAct->setEnabled(false);
+        break;
+      }
+
+      case UI::READINGMODE_LMODE: {
+        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
+        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
+        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_on) );
+        this->audiocontrols_playAct->setEnabled(true);
+        this->audiocontrols_stopAct->setEnabled(true);
+        break;
+      }
+
+      case UI::READINGMODE_RMODE: {
+        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
+        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_on) );
+        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
+        this->audiocontrols_playAct->setEnabled(false);
+        this->audiocontrols_stopAct->setEnabled(false);
+        break;
+      }
+
+      default : {
+        break;
+      }
+    }
+
+    /*
+      source zone.toolbar.audiocontrol_icons :
+    */
+    if (this->ui.reading_mode != UI::READINGMODE_LMODE ||
+        this->ui.current_dipydoc.well_initialized() == false ||
+        (this->ui.current_dipydoc.well_initialized() == true and
+         this->ui.current_dipydoc.audiorecord.found == false)) {
+      /*
+         No lmode mode or no current DipyDoc or no audio in the current DipyDoc :
+      */
+      this->audiocontrols_playAct->setEnabled(false);
+      // we refresh the icon to display it using only shades of gray :
+      this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+
+      this->audiocontrols_stopAct->setEnabled(false);
+      // we refresh the icon to display it using only shades of gray :
+      this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    }
+    else {
+      /*
+        the current DipyDoc is ok and contains an audio record :
+      */
+      this->audiocontrols_playAct->setEnabled(true);
+      // we refresh the icon to display it in colors :
+      this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+
+      this->audiocontrols_stopAct->setEnabled(true);
+      // we refresh the icon to display it in colors :
+      this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    }
   }
 }
 

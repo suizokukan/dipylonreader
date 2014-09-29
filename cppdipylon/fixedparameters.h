@@ -88,10 +88,13 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
 const QStringList known_doctypes = { QString("text"), };
 
 /*
-  splash screen
+  settings
 */
+// splash screen
 static const int splashscreen_maximal_duration = 9000;
 static const bool default__display_splashscreen = true;
+// toolbars
+static const bool default__visible_toolbars = true;
 
 // name of the main file in a dipydoc directory :
 constexpr static const char*   DIPYDOC__MAIN_FILENAME = "main.xml";

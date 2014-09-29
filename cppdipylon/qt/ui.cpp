@@ -334,8 +334,7 @@ int UI::go(int argc, char **argv) {
 /*______________________________________________________________________________
 
   UI::read_settings() : read the settings and initialize the application's
-                               parameters
-
+                        parameters
 ______________________________________________________________________________*/
 void UI::read_settings(void) {
   /*
@@ -383,6 +382,11 @@ void UI::read_settings(void) {
       display splashscreen ?
     */
     this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
+
+    /*
+      visible toolbars ?
+    */
+    this->visible_toolbars = settings.value("mainwindow/visible_toolbars") == true;
   }
 }
 
@@ -434,4 +438,10 @@ void UI::write_settings(void) {
     display splashscreen ?
   */
   settings.setValue("application/displaysplashscreen", this->display_splashscreen);
+
+  /*
+    visible toolbars ?
+  */
+  settings.setValue("mainwindow/visible_toolbars", this->visible_toolbars);
+
 }
