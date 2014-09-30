@@ -34,6 +34,8 @@ ______________________________________________________________________________*/
 CommentaryToolBar::CommentaryToolBar(UI& _ui) : ui(_ui) {
   DebugMsg() << "CommentaryToolBar::CommentaryToolBar : entry point";
 
+  this->setObjectName("commentary zone::toolbar");
+
   this->setOrientation(Qt::Vertical);
 
   this->addAction(this->ui.mainWin->commentary_textplusAct);
