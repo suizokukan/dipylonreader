@@ -302,7 +302,7 @@ int UI::go(int argc, char **argv) {
                      this->mainWin->y() + (this->mainWin->height() / 2) - (splashscreen.width() / 2) );
 
   if (this->first_launch == true || this->display_splashscreen == true) {
-    QString msg("<span style=\"color:#000000\">" + \
+    QString msg(QString("<span style=\"color:#000000\">") + \
                 QObject::tr("<b>%1</b> - version %2 -"));
 
     splashscreen.showMessage(msg.arg(fixedparameters::application_name_for_the_user,

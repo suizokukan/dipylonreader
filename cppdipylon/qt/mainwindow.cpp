@@ -45,12 +45,12 @@ ______________________________________________________________________________*/
 void MainWindow::about() {
     QMessageBox msgBox;
     msgBox.setTextFormat(Qt::RichText);
-    msgBox.setText(QString( tr("<b>%1</b> %2, "
-                               "a software by %3.<br/><br/>"
-                               "  This program is covered by the <b>%4</b> "
-                               "(<a href='%5'>%5</a>) license : "
-                               "checkout the code of the project at the following "
-                               "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
+    msgBox.setText(QString( QObject::tr("<b>%1</b> %2, "
+                                        "a software by %3.<br/><br/>"
+                                        "  This program is covered by the <b>%4</b> "
+                                        "(<a href='%5'>%5</a>) license : "
+                                        "checkout the code of the project at the following "
+                                        "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
                                                                 fixedparameters::application_version,
                                                                 fixedparameters::CODESOURCE_AUTHOR,
                                                                 fixedparameters::CODESOURCE_LICENSE,

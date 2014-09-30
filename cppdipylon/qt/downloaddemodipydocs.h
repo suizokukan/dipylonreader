@@ -63,6 +63,8 @@ class DownloadDemoDipydocs : public QObject {
        QUrl                   summary_url;
 
  private:
+       const UI&              ui;
+
        QUrl                   current_datafile_to_be_downloaded__url;
        QString                current_datafile_to_be_downloaded__disk;
        QStringList            downloaded_titles;
