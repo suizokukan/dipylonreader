@@ -33,6 +33,7 @@
 
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
+  this->setObjectName("main window");
 #ifdef NO_STATUS_BAR
   this->setStatusBar(0);
 #endif
@@ -417,7 +418,8 @@ void MainWindow::createStatusBar() {
   MainWindow::createMainToolBars
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars() {
-    this->mainwintoolbar = addToolBar(tr("unique toolbar"));
+    this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
+    this->mainwintoolbar.setObjectName("main window::main toolbar");
     this->mainwintoolbar->addAction(this->openAct);
     this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 }

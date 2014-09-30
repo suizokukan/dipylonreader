@@ -34,6 +34,8 @@ ______________________________________________________________________________*/
 SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
   DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
 
+  this->setObjectName("source zone::toolbar");
+
   this->setOrientation(Qt::Vertical);
 
   this->addAction(this->ui.mainWin->readingmode_rAct);

@@ -33,6 +33,9 @@
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(UI& _ui) : ui(_ui) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
+
+  this->setObjectName("source zone::editor");
+
   this->setReadOnly(true);
   this->setMouseTracking(true);
   this->update_aspect_from_dipydoc_aspect_informations();
