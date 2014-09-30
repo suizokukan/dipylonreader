@@ -65,14 +65,15 @@ class DownloadDemoDipydocs : public QObject {
  private:
        const UI&              ui;
 
-       QUrl                   current_datafile_to_be_downloaded__url;
        QString                current_datafile_to_be_downloaded__disk;
+       QUrl                   current_datafile_to_be_downloaded__url;
        QStringList            downloaded_titles;
        QFile*                 current_file = nullptr;
        QNetworkReply*         current_reply = nullptr;
        std::map<QString, int> filenames_and_sizes;
        int                    number_of_bytes_to_be_downloaded = 0;
 
+       void                   create_path_to_the_file(const QString& filename);
        QString                get_data_filename_fullpath(const QString& filename) const;
        QUrl                   get_data_url(const QString& filename) const;
        void                   set_summary_url(void);
