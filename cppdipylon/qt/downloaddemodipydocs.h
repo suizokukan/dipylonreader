@@ -31,20 +31,22 @@
 #ifndef CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_
 #define CPPDIPYLON_QT_DOWNLOADDEMODIPYDOCS_H_
 
-#include <QProgressDialog>
 #include <QDir>
+#include <QMessageBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QProgressDialog>
 #include <QString>
 #include <QStringList>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
 
 #include <map>
 
 #include "./fixedparameters.h"
-#include "./debugmsg/debugmsg.h"
+#include "debugmsg/debugmsg.h"
 #include "qt/ui.h"
 
+class UI;
 
 /*______________________________________________________________________________
 
@@ -61,6 +63,8 @@ class DownloadDemoDipydocs : public QObject {
        QUrl                   summary_url;
 
  private:
+       const UI&              ui;
+
        QUrl                   current_datafile_to_be_downloaded__url;
        QString                current_datafile_to_be_downloaded__disk;
        QStringList            downloaded_titles;

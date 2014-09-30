@@ -393,8 +393,8 @@ QString DipyDoc::get_xml_repr(void) const {
          "</default_textformat>\n";
   res += "      <rmode_textformat>$SOURCEEDITOR_RMODETEXTFORMAT$"
          "</rmode_textformat>\n";
-  res += "      <rlmode_textformat>$SOURCEEDITOR_RLMODETEXTFORMAT$"
-         "</rlmode_textformat>\n";
+  res += "      <lmode_textformat>$SOURCEEDITOR_LMODETEXTFORMAT$"
+         "</lmode_textformat>\n";
   res += "    </sourceeditor>\n";
 
   res += "    <commentaryeditor>\n";
@@ -605,8 +605,8 @@ QString DipyDoc::get_xml_repr(void) const {
                this->sourceeditor_default_textformat.repr());
   res.replace("$SOURCEEDITOR_RMODETEXTFORMAT$",
                this->sourceeditor_rmode_textformat.repr());
-  res.replace("$SOURCEEDITOR_RLMODETEXTFORMAT$",
-               this->sourceeditor_rlmode_textformat.repr());
+  res.replace("$SOURCEEDITOR_LMODETEXTFORMAT$",
+               this->sourceeditor_lmode_textformat.repr());
   res.replace("$COMMENTARYEDITOR_STYLESHEET$",
                this->commentaryeditor_stylesheet);
   res.replace("$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$",
@@ -678,6 +678,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (1) main file opening
   ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile) #1";
   this->path = _path;
   this->main_filename_with_fullpath = _path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
@@ -697,7 +698,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
 
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #3";
+  DebugMsg() << "(DipyDoc::read_mainfile) #2";
   QXmlStreamReader xmlreader;
   xmlreader.setDevice(&dipydoc_main_xml_file);
 
@@ -711,15 +712,22 @@ void DipyDoc::read_mainfile(const QString& _path) {
       if (this->read_mainfile__read_first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
         ok = this->read_mainfile__read_the_rest_of_the_file(xmlreader);
+        DebugMsg() << "(DipyDoc::read_mainfile) #2(a)" << ok;
       }
     }
     else {
       /*
-         not a DipyDoc file :
+         not a DipyDoc file (?) :
       */
       this->error( "This isn't a DipyDoc file : incorrect first token.", this->error_string(xmlreader) );
       ok = false;
     }
+  } else {
+    /*
+       not a DipyDoc file (?) :
+    */
+    this->error( "This isn't a DipyDoc file : nothing to read.", this->error_string(xmlreader) );
+    ok = false;
   }
 
   if( ok == false ) {
@@ -732,7 +740,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (3) secondary initializations
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #4";
+  DebugMsg() << "(DipyDoc::read_mainfile) #3";
 
   /*............................................................................
     (3.1) initialization of "audiorecord.audio2text"
@@ -770,7 +778,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (4) checks
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #5";
+  DebugMsg() << "(DipyDoc::read_mainfile) #4";
 
   /*............................................................................
     (4.1) is audiorecord.text2audio correctly initialized ?
@@ -862,6 +870,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (5) initializaton of _well_initialized and of _internal_state.
   ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile) #5";
   if( ok == false ) {
     this->_well_initialized = false;
     // _internal_state has been precedently set to NOT_CORRECTLY_INITIALIZED.
@@ -943,7 +952,7 @@ bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
   return a bool (=success)
 ______________________________________________________________________________*/
 bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlreader) {
-
+ DebugMsg() << "(DipyDoc::read_mainfile__read_the_rest_of_the_file) : entry point";
  bool ok = true;
 
  while (xmlreader.readNextStartElement()) {
@@ -1114,11 +1123,11 @@ bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlread
                                 QString("aspect::sourceeditor::rmode_textformat"));
              continue;
            }
-           // aspect::sourceeditor's rlmode_textformat
-           if (xmlreader.name() == "rlmode_textformat") {
-             this->sourceeditor_rlmode_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->sourceeditor_rlmode_textformat, this->error_string(xmlreader),
-                                QString("aspect::sourceeditor::rlmode_textformat"));
+           // aspect::sourceeditor's lmode_textformat
+           if (xmlreader.name() == "lmode_textformat") {
+             this->sourceeditor_lmode_textformat = TextFormat(xmlreader.readElementText());
+             ok &= !this->error(this->sourceeditor_lmode_textformat, this->error_string(xmlreader),
+                                QString("aspect::sourceeditor::lmode_textformat"));
              continue;
            }
          }
@@ -1371,6 +1380,7 @@ bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlread
    }
  } // ... while (xmlreader.readNextStartElement())
 
+ DebugMsg() << "(DipyDoc::read_mainfile__read_the_rest_of_the_file) : exit point" << ok;
  return ok;
 }
 

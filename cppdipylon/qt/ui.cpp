@@ -26,7 +26,6 @@
 *******************************************************************************/
 
 #include "qt/ui.h"
-#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -74,19 +73,30 @@ ______________________________________________________________________________*/
 UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
 
+  // QNetworkAccessManager object :
+  DebugMsg() << "... delete this->network_manager";
   delete this->network_manager;
 
-  delete this->icon_open;
-  delete this->icon_save;
+  // icons :
+  DebugMsg() << "... delete icons";
   delete this->icon_audio_pause;
   delete this->icon_audio_play;
   delete this->icon_audio_play_unavailable;
   delete this->icon_audio_stop;
   delete this->icon_audio_stop_unavailable;
-  delete this->icon_readingmode_rmode;
-  delete this->icon_readingmode_rlmode;
-  delete this->icon_readingmode_amode;
   delete this->icon_downloaddemo;
+  delete this->icon_hide_toolbars_off;
+  delete this->icon_hide_toolbars_on;
+  delete this->icon_open;
+  delete this->icon_readingmode_amode_off;
+  delete this->icon_readingmode_amode_on;
+  delete this->icon_readingmode_lmode_off;
+  delete this->icon_readingmode_lmode_on;
+  delete this->icon_readingmode_rmode_off;
+  delete this->icon_readingmode_rmode_on;
+  delete this->icon_save;
+  delete this->icon_textminus;
+  delete this->icon_textplus;
 
   DebugMsg() << "UI::~UI(#fin)";
 }
@@ -143,16 +153,23 @@ int UI::go(int argc, char **argv) {
 
   // creating the icons :
   this->icon_app = new QIcon(":/ressources/images/icons/application_icon.png");
-  this->icon_open = new QIcon(":ressources/images/icons/open.png");
   this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
   this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
   this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
   this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
   this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->icon_readingmode_rmode  = new QIcon(":ressources/images/icons/readingmode_rmode.png");
-  this->icon_readingmode_rlmode = new QIcon(":ressources/images/icons/readingmode_rlmode.png");
-  this->icon_readingmode_amode  = new QIcon(":ressources/images/icons/readingmode_amode.png");
   this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
+  this->icon_hide_toolbars_off = new QIcon(":ressources/images/icons/hidetoolbars_off.png");
+  this->icon_hide_toolbars_on = new QIcon(":ressources/images/icons/hidetoolbars_on.png");
+  this->icon_open = new QIcon(":ressources/images/icons/open.png");
+  this->icon_readingmode_amode_off = new QIcon(":ressources/images/icons/readingmode_amode_off.png");
+  this->icon_readingmode_amode_on  = new QIcon(":ressources/images/icons/readingmode_amode_on.png");
+  this->icon_readingmode_lmode_off = new QIcon(":ressources/images/icons/readingmode_lmode_off.png");
+  this->icon_readingmode_lmode_on  = new QIcon(":ressources/images/icons/readingmode_lmode_on.png");
+  this->icon_readingmode_rmode_off = new QIcon(":ressources/images/icons/readingmode_rmode_off.png");
+  this->icon_readingmode_rmode_on  = new QIcon(":ressources/images/icons/readingmode_rmode_on.png");
+  this->icon_textminus = new QIcon(":ressources/images/icons/textminus.png");
+  this->icon_textplus = new QIcon(":ressources/images/icons/textplus.png");
 
   // application's icon :
   app.setWindowIcon(*icon_app);
@@ -206,17 +223,18 @@ int UI::go(int argc, char **argv) {
      This parameter will be set again when a file will be opended. But the UI needs
      this information for the display, e.g. the icons.
   */
-  this->reading_mode         = UI::READINGMODE::READINGMODE_AMODE;
-  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_AMODE;
-  DebugMsg() << "now in AMODE mode";
+  this->reading_mode         = UI::READINGMODE::READINGMODE_RMODE;
+  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
+  DebugMsg() << "now in RMODE mode";
 
   // main window creation :
   this->mainWin = new MainWindow(*this);
+  this->mainWin->init();
 
   /*
     main window maximized ?
 
-    On Linux/X11, the ::showMaximized() method isn't ok, hence the tricks used
+    On Linux/X11, the ::showMaximized() method doesn't work, hence the tricks used
     above.
     see http://qt-project.org/doc/qt-5/application-windows.html#window-geometry
   */
@@ -284,7 +302,7 @@ int UI::go(int argc, char **argv) {
                      this->mainWin->y() + (this->mainWin->height() / 2) - (splashscreen.width() / 2) );
 
   if (this->first_launch == true || this->display_splashscreen == true) {
-    QString msg("<span style=\"color:#000000\">" + \
+    QString msg(QString("<span style=\"color:#000000\">") + \
                 QObject::tr("<b>%1</b> - version %2 -"));
 
     splashscreen.showMessage(msg.arg(fixedparameters::application_name_for_the_user,
@@ -320,8 +338,7 @@ int UI::go(int argc, char **argv) {
 /*______________________________________________________________________________
 
   UI::read_settings() : read the settings and initialize the application's
-                               parameters
-
+                        parameters
 ______________________________________________________________________________*/
 void UI::read_settings(void) {
   /*
@@ -369,6 +386,11 @@ void UI::read_settings(void) {
       display splashscreen ?
     */
     this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
+
+    /*
+      visible toolbars ?
+    */
+    this->visible_toolbars = settings.value("mainwindow/visible_toolbars") == true;
   }
 }
 
@@ -420,4 +442,10 @@ void UI::write_settings(void) {
     display splashscreen ?
   */
   settings.setValue("application/displaysplashscreen", this->display_splashscreen);
+
+  /*
+    visible toolbars ?
+  */
+  settings.setValue("mainwindow/visible_toolbars", this->visible_toolbars);
+
 }

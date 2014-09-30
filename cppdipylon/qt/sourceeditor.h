@@ -33,14 +33,15 @@
 #include <QTextEdit>
 #include <QTextCharFormat>
 #include <QList>
+
 #include <vector>
 
+#include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
-#include "qt/ui.h"
-#include "qt/textformat.h"
-#include "qt/blockformat.h"
 #include "pos/posintext/posintext.h"
-
+#include "qt/blockformat.h"
+#include "qt/textformat.h"
+#include "qt/ui.h"
 
 class UI;
 
@@ -55,7 +56,7 @@ class SourceEditor : public QTextEdit {
     Q_OBJECT
 
  public:
-    explicit SourceEditor(UI&);
+    explicit  SourceEditor(UI&);
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);
     void      modify_the_text_format(PosInTextRanges&);
@@ -67,7 +68,7 @@ class SourceEditor : public QTextEdit {
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
     void      mouseMoveEvent(QMouseEvent* mouse_event);
     void      mouseReleaseEvent(QMouseEvent* mouse_event);
-    void      paintEvent(QPaintEvent* ev);
+    void      paintEvent(QPaintEvent* event);
 
  private:
     // UI object linked to the editor :

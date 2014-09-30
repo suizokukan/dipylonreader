@@ -31,22 +31,24 @@
 #define CPPDIPYLON_QT_UI_H_
 
 #include <QApplication>
+#include <QFontDatabase>
+#include <QNetworkAccessManager>
+#include <QObject>
 #include <QString>
 #include <QTranslator>
-#include <QFontDatabase>
-#include <QObject>
-#include <QNetworkAccessManager>
-
 
 #include "./fixedparameters.h"
-#include "qt/mainwindow.h"
+#include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "dipydoc/menunames.h"
+#include "qt/mainwindow.h"
 
 class MainWindow;
 
 /*
   reading mode type
+
+  see UI::READINGMODE and UI::READINGMODEDETAILS for the values.
 */
 typedef unsigned int ReadingMode;
 typedef unsigned int ReadingModeDetails;
@@ -56,11 +58,15 @@ typedef unsigned int ReadingModeDetails;
   UI class : a wrapper around the QApplication object.
 ________________________________________________________________________________*/
 class UI {
-  friend class Settings;
-  friend class MainWindow;
-  friend class SourceEditor;
   friend class CommentaryEditor;
+  friend class CommentaryToolBar;
+  friend class CommentaryZone;
   friend class DownloadDemoDipydocs;
+  friend class MainWindow;
+  friend class Settings;
+  friend class SourceEditor;
+  friend class SourceToolBar;
+  friend class SourceZone;
 
  public:
   /* unique network manager of the program :
@@ -73,26 +79,39 @@ class UI {
 
  private:
 
+  /*
+    settings :
+
+    see UI::read_settings() and UI::write_settings()
+  */
   // set to true if no 'settings' (see QSettings) can be read.
   bool        first_launch;
   // display splash screen when the program has been launched ?
   bool        display_splashscreen = fixedparameters::default__display_splashscreen;
+  bool        visible_toolbars = fixedparameters::default__visible_toolbars;
 
   // current document displayed in the source zone :
   DipyDoc     current_dipydoc = DipyDoc();
 
   QIcon*      icon_app = nullptr;
-  QIcon*      icon_open = nullptr;
-  QIcon*      icon_save = nullptr;
-  QIcon*      icon_downloaddemo = nullptr;
   QIcon*      icon_audio_pause = nullptr;
   QIcon*      icon_audio_play = nullptr;
   QIcon*      icon_audio_play_unavailable = nullptr;
   QIcon*      icon_audio_stop = nullptr;
   QIcon*      icon_audio_stop_unavailable = nullptr;
-  QIcon*      icon_readingmode_rmode = nullptr;
-  QIcon*      icon_readingmode_rlmode = nullptr;
-  QIcon*      icon_readingmode_amode = nullptr;
+  QIcon*      icon_downloaddemo = nullptr;
+  QIcon*      icon_hide_toolbars_off = nullptr;
+  QIcon*      icon_hide_toolbars_on = nullptr;
+  QIcon*      icon_open = nullptr;
+  QIcon*      icon_readingmode_amode_off = nullptr;
+  QIcon*      icon_readingmode_amode_on  = nullptr;
+  QIcon*      icon_readingmode_lmode_off = nullptr;
+  QIcon*      icon_readingmode_lmode_on  = nullptr;
+  QIcon*      icon_readingmode_rmode_off = nullptr;
+  QIcon*      icon_readingmode_rmode_on  = nullptr;
+  QIcon*      icon_save = nullptr;
+  QIcon*      icon_textminus = nullptr;
+  QIcon*      icon_textplus = nullptr;
 
   // path to the DipyDocs : the initial value is initialized by UI's constructor.
   QString     path_to_dipydocs;
@@ -115,24 +134,24 @@ class UI {
     o READINGMODEDETAIL_AMODE : "analyse" mode
 
     o READINGMODE_RMODE : "read" mode
-      o READINGMODEDETAIL_RLMODE
+      o READINGMODEDETAIL_LMODE
 
-    o READINGMODE_RLMODE : "read and listen" mode
-      o READINGMODEDETAIL_RLMODE_PLAYING
-      o READINGMODEDETAIL_RLMODE_ONPAUSE
+    o READINGMODE_LMODE : "read and listen" mode
+      o READINGMODEDETAIL_LMODE_PLAYING
+      o READINGMODEDETAIL_LMODE_ONPAUSE
   */
   enum READINGMODE : ReadingMode {
     READINGMODE_UNDEFINED = 0,
     READINGMODE_RMODE     = 1,
-    READINGMODE_RLMODE    = 2,
+    READINGMODE_LMODE    = 2,
     READINGMODE_AMODE     = 3,
   };
   enum READINGMODEDETAILS : ReadingModeDetails {
       READINGMODEDETAIL_UNDEFINED      = 0,
       READINGMODEDETAIL_RMODE          = 0x1000,
-      READINGMODEDETAIL_RLMODE_PLAYING = 0x2000,
-      READINGMODEDETAIL_RLMODE_ONPAUSE = 0x2001,
-      READINGMODEDETAIL_RLMODE_STOP    = 0x2002,
+      READINGMODEDETAIL_LMODE_PLAYING  = 0x2000,
+      READINGMODEDETAIL_LMODE_ONPAUSE  = 0x2001,
+      READINGMODEDETAIL_LMODE_STOP     = 0x2002,
       READINGMODEDETAIL_AMODE          = 0x3000,
   };
 

@@ -13,18 +13,18 @@ TRANSLATIONS = dipylonreader_French.ts
 # compilation options : see dipylonreader.project for more informations
 #
 #_______________________________________________________________________________
-DEFINES += READANDWRITE
 DEFINES += ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
 DEFINES += ALLOW_SPLASHSCREEN
 DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
 DEFINES += ALLOW_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
-DEFINES += MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
 DEFINES += DEBUG_MESSAGES_TO_CERR
-DEFINES += STORE_DEBUG_MESSAGES
-DEFINES += QT_NO_DEBUG_OUTPUT
 DEFINES += DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
 DEFINES += DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
+DEFINES += MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+DEFINES += READANDWRITE
+DEFINES += STORE_DEBUG_MESSAGES
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 QT += network
 QT += widgets
@@ -49,10 +49,14 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/arrowformat.h \
                     qt/blockformat.h \
                     qt/commentaryeditor.h \
+                    qt/commentarytoolbar.h \
+                    qt/commentaryzone.h \
                     qt/ui.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
                     qt/sourceeditor.h \
+                    qt/sourcetoolbar.h \
+                    qt/sourcezone.h \
                     qt/textformat.h \
                     qt/downloaddemodipydocs.h
 
@@ -70,10 +74,14 @@ SOURCES         +=  ./main.cpp \
                     qt/arrowformat.cpp \
                     qt/blockformat.cpp \
                     qt/commentaryeditor.cpp \
+                    qt/commentarytoolbar.cpp \
+                    qt/commentaryzone.cpp \
                     qt/ui.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/sourceeditor.cpp \
+                    qt/sourcetoolbar.cpp \
+                    qt/sourcezone.cpp \
                     qt/textformat.cpp \
                     qt/downloaddemodipydocs.cpp
 

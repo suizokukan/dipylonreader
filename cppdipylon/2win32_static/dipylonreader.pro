@@ -13,17 +13,17 @@ TRANSLATIONS = dipylonreader_French.ts
 # compilation options : see dipylonreader.project for more informations
 #
 #_______________________________________________________________________________
-DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
-DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
-DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
-DEFINES += ALLOW_MOVING_THE_MAINWINDOW
-DEFINES += ALLOW_SPLASHSCREEN
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
+DEFINES += ALLOW_MOVING_THE_MAINWINDOW
+DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
+DEFINES += ALLOW_SPLASHSCREEN
+DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
+DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
+DEFINES += DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+DEFINES += DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 DEFINES += MAXIMIZE_MAINWINDOW_TRUE_METHOD
 DEFINES += STORE_DEBUG_MESSAGES
 DEFINES += QT_NO_DEBUG_OUTPUT
-DEFINES += DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
-DEFINES += DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 
 #_______________________________________________________________________________
 #
@@ -59,10 +59,14 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/arrowformat.h \
                     qt/blockformat.h \
                     qt/commentaryeditor.h \
+                    qt/commentarytoolbar.h \
+                    qt/commentaryzone.h \
                     qt/ui.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
-                    qt/sourceeditor.h \
+                    qt/sourceeditor.h \ 
+                    qt/sourcetoolbar.h \
+                    qt/sourcezone.h \  
                     qt/textformat.h \
                     qt/downloaddemodipydocs.h
 
@@ -80,10 +84,14 @@ SOURCES         +=  ./main.cpp \
                     qt/arrowformat.cpp \
                     qt/blockformat.cpp \
                     qt/commentaryeditor.cpp \
+                    qt/commentarytoolbar.cpp \
+                    qt/commentaryzone.cpp \
                     qt/ui.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/sourceeditor.cpp \
+                    qt/sourcetoolbar.cpp \
+                    qt/sourcezone.cpp \
                     qt/textformat.cpp \
                     qt/downloaddemodipydocs.cpp
 

@@ -26,7 +26,6 @@
 *******************************************************************************/
 
 #include "qt/mainwindow.h"
-#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -34,60 +33,9 @@
 
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
-  DebugMsg() << "MainWindow::MainWindow() : entry point";
-
-    this->main_splitter = new QSplitter(this);
-    this->main_splitter->setOrientation( Qt::Vertical );
-    this->setCentralWidget(main_splitter);
-
-    this->source_editor = new SourceEditor(this->ui);
-    this->commentary_editor = new CommentaryEditor(this->ui);
-    this->main_splitter->addWidget(this->source_editor);
-    this->main_splitter->addWidget(this->commentary_editor);
-
-    this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
-
-    this->createActions();
-    this->createMenus();
-    this->createToolBars();
-    this->createStatusBar();
-
-    this->readSettings();
-
-    // let's update the icons' appearence :
-    this->update_icons();
-
-    // signal : the document has been modified.
-    connect( this->source_editor->document(), &QTextDocument::contentsChanged,
-             this, &MainWindow::documentWasModified);
-
-    /*
-      audio_player initialization
-
-      http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
-    */
-    this->audio_player = new QMediaPlayer(this);
-
-    /*
-       signal : the position in the audio record has been changed.
-    */
-    connect( this->audio_player, &QMediaPlayer::positionChanged,
-             this, &MainWindow::audio_position_changed );
-
-    this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
-    this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
-
-    setCurrentDipyDoc("");
-    setUnifiedTitleAndToolBarOnMac(true);
-
-  /*
-    initialization of the network manager :
-  */
-  this->ui.network_manager = new QNetworkAccessManager();
-  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
-             << static_cast<int>(this->ui.network_manager->networkAccessible());
-
-  DebugMsg() << "MainWindow::MainWindow() : exit point";
+#ifdef NO_STATUS_BAR
+  this->setStatusBar(0);
+#endif
 }
 
 /*______________________________________________________________________________
@@ -97,17 +45,17 @@ ______________________________________________________________________________*/
 void MainWindow::about() {
     QMessageBox msgBox;
     msgBox.setTextFormat(Qt::RichText);
-    msgBox.setText(QString( tr("<b>%1</b> %2, "
-                               "a software by %3.<br/><br/>"
-                               "  This program is covered by the <b>%4</b> "
-                               "(<a href='%5'>%5</a>) license : "
-                               "checkout the code of the project at the following "
-                               "<a href='%6'>adress</a>.").arg(fixedparameters::application_name_for_the_user,
-                                                               fixedparameters::application_version,
-                                                               fixedparameters::CODESOURCE_AUTHOR,
-                                                               fixedparameters::CODESOURCE_LICENSE,
-                                                               fixedparameters::CODESOURCE_LICENSE_ADRESS,
-                                                               fixedparameters::CODESOURCE_ADRESS)));
+    msgBox.setText(QString( QObject::tr("<b>%1</b> %2, "
+                                        "a software by %3.<br/><br/>"
+                                        "  This program is covered by the <b>%4</b> "
+                                        "(<a href='%5'>%5</a>) license : "
+                                        "checkout the code of the project at the following "
+                                        "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
+                                                                fixedparameters::application_version,
+                                                                fixedparameters::CODESOURCE_AUTHOR,
+                                                                fixedparameters::CODESOURCE_LICENSE,
+                                                                fixedparameters::CODESOURCE_LICENSE_ADDRESS,
+                                                                fixedparameters::CODESOURCE_ADDRESS)));
 
     #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
     msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
@@ -127,48 +75,48 @@ void MainWindow::about() {
 
   known cases :
 
-  o [1] rlmode
-        o [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
-        o [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
-        o [1.3] RLMODE + STOP -> RLMODE + PLAYING
-        o [1.4] RLMODE + UNDEFINED : nothing to do.
+  o [1] lmode
+        o [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
+        o [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
+        o [1.3] LMODE + STOP -> LMODE + PLAYING
+        o [1.4] LMODE + UNDEFINED : nothing to do.
   o [2] other modes
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_play(void) {
   switch (this->ui.reading_mode ) {
 
     /*
-      [1] rlmode
+      [1] lmode
     */
-    case UI::READINGMODE_RLMODE: {
+    case UI::READINGMODE_LMODE: {
 
       switch (this->ui.reading_mode_details ) {
 
-        // [1.1] RLMODE + PLAYING -> RLMODE + ON PAUSE
-        case UI::READINGMODEDETAIL_RLMODE_PLAYING: {
-          this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_ONPAUSE;
+        // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
+        case UI::READINGMODEDETAIL_LMODE_PLAYING: {
+          this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_ONPAUSE;
           this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_pause) );
           this->audio_player->pause();
           break;
         }
 
-        // [1.2] RLMODE + ON PAUSE -> RLMODE + PLAYING
-        case UI::READINGMODEDETAIL_RLMODE_ONPAUSE: {
-          this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
+        // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
+        case UI::READINGMODEDETAIL_LMODE_ONPAUSE: {
+          this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
           this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
           this->audio_player->play();
           break;
         }
 
-        // [1.3] RLMODE + STOP -> RLMODE + PLAYING
-        case UI::READINGMODEDETAIL_RLMODE_STOP: {
-          this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_PLAYING;
+        // [1.3] LMODE + STOP -> LMODE + PLAYING
+        case UI::READINGMODEDETAIL_LMODE_STOP: {
+          this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
           this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
           this->audio_player->play();
           break;
         }
 
-        // [1.4] RLMODE + UNDEFINED
+        // [1.4] LMODE + UNDEFINED
         default : {
           break;
         }
@@ -194,21 +142,21 @@ void MainWindow::audiocontrols_play(void) {
   Function connected to this->audiocontrols_stopAct::triggered()
 
   o stop the sound
-  o set the mode's detail to READINGMODEDETAIL_RLMODE_STOP
+  o set the mode's detail to READINGMODEDETAIL_LMODE_STOP
   o set the source editor's text format to "default".
 
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_stop(void) {
   DebugMsg() << "MainWindow::audiocontrols_stop";
 
-  // RLMODE + ON PAUSE ? we set the icon from "pause" to "play".
-  if( this->ui.reading_mode == UI::READINGMODE_RLMODE &&
-      this->ui.reading_mode_details == UI::READINGMODEDETAIL_RLMODE_ONPAUSE ) {
+  // LMODE + ON PAUSE ? we set the icon from "pause" to "play".
+  if( this->ui.reading_mode == UI::READINGMODE_LMODE &&
+      this->ui.reading_mode_details == UI::READINGMODEDETAIL_LMODE_ONPAUSE ) {
 
     this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
   }
 
-  this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_STOP;
+  this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_STOP;
 
   audio_player->stop();
 
@@ -222,10 +170,10 @@ void MainWindow::audiocontrols_stop(void) {
 ________________________________________________________________________________*/
 void MainWindow::audio_position_changed(qint64 arg_pos) {
 
-  /* RLMODE + PLAYING :
+  /* LMODE + PLAYING :
    */
-  if( this->ui.reading_mode == UI::READINGMODE_RLMODE &&
-      this->ui.reading_mode_details == UI::READINGMODEDETAIL_RLMODE_PLAYING ) {
+  if( this->ui.reading_mode == UI::READINGMODE_LMODE &&
+      this->ui.reading_mode_details == UI::READINGMODEDETAIL_LMODE_PLAYING ) {
 
       // where are the characters linked to "arg_pos" ?
       PosInTextRanges text_ranges = this->ui.current_dipydoc.audio2text_contains( arg_pos );
@@ -246,8 +194,8 @@ void MainWindow::audio_position_changed(qint64 arg_pos) {
   }
 
   /*
-    this->ui.reading_mode == UI::READINGMODE_RLMODE &&
-    this->ui.reading_mode_details == UI::READINGMODEDETAIL_RLMODE_ONPAUSE
+    this->ui.reading_mode == UI::READINGMODE_LMODE &&
+    this->ui.reading_mode_details == UI::READINGMODEDETAIL_LMODE_ONPAUSE
 
     -> nothing to do.
   */
@@ -286,60 +234,146 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions() {
-    openAct = new QAction( *(this->ui.icon_open),
-                           tr("Open"),
-                           this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing DipyDoc"));
-    connect(openAct, &QAction::triggered,
-            this, &MainWindow::open);
 
-    downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
-                                   tr("Download demo Dipydocs"),
-                                   this);
-    downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
-    connect(downloaddemoAct, &QAction::triggered,
-            this, &MainWindow::download_dipydocs_demo);
+  /*
+    aboutAct
+  */
+  aboutAct = new QAction(tr("&About"), this);
+  aboutAct->setStatusTip(tr("Show the application's About box"));
+  QObject::connect(aboutAct, &QAction::triggered,
+                   this,     &MainWindow::about);
 
+  /*
+    audiocontrols_playAct
+  */
+  this->audiocontrols_playAct = new QAction( *(this->ui.icon_audio_play),
+                                             tr("play"),
+                                             this);
+  this->audiocontrols_playAct->setStatusTip(tr("play..."));
+  QObject::connect(this->audiocontrols_playAct, &QAction::triggered,
+                   this,                        &MainWindow::audiocontrols_play);
 
-    #ifdef READANDWRITE
-    saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
-    saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
-    connect(saveMainFileOfADipyDocAsAct, &QAction::triggered,
-            this, &MainWindow::saveMainFileOfADipyDocAs);
-    #endif
+  /*
+    audiocontrols_stopAct
+  */
+  this->audiocontrols_stopAct = new QAction( *(this->ui.icon_audio_stop),
+                                             tr("stop"),
+                                             this);
+  this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
+  QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
+                   this,                        &MainWindow::audiocontrols_stop);
 
-    exitAct = new QAction(tr("E&xit"), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    exitAct->setStatusTip(tr("Exit the application"));
-    connect(exitAct, &QAction::triggered,
-            this, &MainWindow::close);
+  /*
+    commentary_textminusAct
+  */
+  this->commentary_textminusAct = new QAction( *(this->ui.icon_textminus),
+                                               tr("--- TEXT $$$"),
+                                               this);
+  this->commentary_textminusAct->setStatusTip(tr("TEXT $$$ -"));
 
-    aboutAct = new QAction(tr("&About"), this);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, &QAction::triggered,
-            this, &MainWindow::about);
+  /*
+    commentary_textplusAct
+  */
+  this->commentary_textplusAct = new QAction( *(this->ui.icon_textplus),
+                                               tr("--- TEXT $$$"),
+                                               this);
+  this->commentary_textplusAct->setStatusTip(tr("TEXT $$$ -"));
 
-    this->readingmodeAct = new QAction( *(this->ui.icon_readingmode_rlmode),
-                                 tr("change the mode"),
+  /*
+    downloaddemoAct
+  */
+  downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
+                                 tr("Download demo Dipydocs"),
                                  this);
-    this->readingmodeAct->setStatusTip(tr("change the mode"));
-    connect(this->readingmodeAct, &QAction::triggered,
-            this, &MainWindow::readingmodeAct_buttonpressed);
+  downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
+  QObject::connect(downloaddemoAct, &QAction::triggered,
+                   this,            &MainWindow::download_dipydocs_demo);
 
-    this->audiocontrols_playAct = new QAction( *(this->ui.icon_audio_play),
-                                               tr("play"),
-                                               this);
-    this->audiocontrols_playAct->setStatusTip(tr("play..."));
-    connect(this->audiocontrols_playAct, &QAction::triggered,
-            this, &MainWindow::audiocontrols_play);
+  /*
+    exitAct
+  */
+  exitAct = new QAction(tr("E&xit"), this);
+  exitAct->setShortcuts(QKeySequence::Quit);
+  exitAct->setStatusTip(tr("Exit the application"));
+  QObject::connect(exitAct, &QAction::triggered,
+                   this,    &MainWindow::close);
 
-    this->audiocontrols_stopAct = new QAction( *(this->ui.icon_audio_stop),
-                                               tr("stop"),
-                                               this);
-    this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
-    connect(this->audiocontrols_stopAct, &QAction::triggered,
-            this, &MainWindow::audiocontrols_stop);
+  /*
+    hidetoolbarsAct
+  */
+  this->hidetoolbarsAct = new QAction( *(this->ui.icon_hide_toolbars_on),
+                                       tr("hide toolbars"),
+                                       this);
+  this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
+  QObject::connect(hidetoolbarsAct, &QAction::triggered,
+                   this,            &MainWindow::hidetoolbarsAct__buttonPressed);
+
+  /*
+    openAct
+  */
+  openAct = new QAction( *(this->ui.icon_open),
+                         tr("Open"),
+                         this);
+  openAct->setShortcuts(QKeySequence::Open);
+  openAct->setStatusTip(tr("Open an existing DipyDoc"));
+  QObject::connect(openAct, &QAction::triggered,
+                   this,    &MainWindow::open);
+
+  /*
+    readingmode_aAct
+  */
+  this->readingmode_aAct = new QAction( *(this->ui.icon_readingmode_amode_on),
+                                        tr("change the mode$$$rl"),
+                                        this);
+  this->readingmode_aAct->setStatusTip(tr("change the mode to 'analyse'"));
+  QObject::connect(this->readingmode_aAct, &QAction::triggered,
+                   this,                   &MainWindow::readingmode_aAct__buttonpressed);
+
+  /*
+    readingmode_lAct
+  */
+  this->readingmode_lAct = new QAction( *(this->ui.icon_readingmode_lmode_on),
+                                        tr("change the mode$$$rl"),
+                                        this);
+  this->readingmode_lAct->setStatusTip(tr("change the mode to 'read & listen'"));
+  QObject::connect(this->readingmode_lAct, &QAction::triggered,
+                   this,                   &MainWindow::readingmode_lAct__buttonpressed);
+
+  /*
+    readingmode_rAct
+  */
+  this->readingmode_rAct = new QAction( *(this->ui.icon_readingmode_rmode_on),
+                                        tr("change the mode$$$r"),
+                                        this);
+  this->readingmode_rAct->setStatusTip(tr("change the mode to 'read'"));
+  QObject::connect(this->readingmode_rAct, &QAction::triggered,
+                   this,                   &MainWindow::readingmode_rAct__buttonpressed);
+
+  /*
+    saveMainFileOfADipyDocAsAct
+  */
+  #ifdef READANDWRITE
+  saveMainFileOfADipyDocAsAct = new QAction(tr("Save DipyDoc's main file as..."), this);
+  saveMainFileOfADipyDocAsAct->setStatusTip(tr("Save DipyDoc's main file as"));
+  QObject::connect(saveMainFileOfADipyDocAsAct, &QAction::triggered,
+                   this,                        &MainWindow::saveMainFileOfADipyDocAs);
+  #endif
+
+  /*
+    source_textminusAct
+  */
+  this->source_textminusAct = new QAction( *(this->ui.icon_textminus),
+                                           tr("--- TEXT $$$"),
+                                           this);
+  this->source_textminusAct->setStatusTip(tr("TEXT $$$ -"));
+
+  /*
+    source_textplusAct
+  */
+  this->source_textplusAct = new QAction( *(this->ui.icon_textplus),
+                                          tr("--- TEXT $$$"),
+                                          this);
+  this->source_textplusAct->setStatusTip(tr("TEXT $$$ -"));
 }
 
 /*______________________________________________________________________________
@@ -373,29 +407,19 @@ void MainWindow::createMenus() {
   MainWindow::createStatusBar
 ______________________________________________________________________________*/
 void MainWindow::createStatusBar() {
-    statusBar()->showMessage(tr("Ready"));
+#ifndef NO_STATUS_BAR
+  statusBar()->showMessage(tr("Ready"));
+#endif
 }
 
 /*______________________________________________________________________________
 
-  MainWindow::createToolBars
+  MainWindow::createMainToolBars
 ______________________________________________________________________________*/
-void MainWindow::createToolBars() {
-    this->fileToolBar = addToolBar(tr("File"));
-    this->fileToolBar->addAction(this->openAct);
-
-    this->modecontrolToolBar = addToolBar(tr("AudioControls"));
-    this->modecontrolToolBar->addAction(this->readingmodeAct);
-    this->modecontrolToolBar->addAction(this->audiocontrols_playAct);
-    this->modecontrolToolBar->addAction(this->audiocontrols_stopAct);
-}
-
-/*______________________________________________________________________________
-
-  MainWindow::documentWasModified
-______________________________________________________________________________*/
-void MainWindow::documentWasModified() {
-    setWindowModified(source_editor->document()->isModified());
+void MainWindow::createMainToolBars() {
+    this->mainwintoolbar = addToolBar(tr("unique toolbar"));
+    this->mainwintoolbar->addAction(this->openAct);
+    this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 }
 
 /*______________________________________________________________________________
@@ -458,8 +482,8 @@ void MainWindow::fill_open_menu(void) {
       newAction->setData(item.second);
 
       this->openMenu->addAction(newAction);
-      connect(newAction, &QAction::triggered,
-              this, &MainWindow::load_a_dipydoc_from_a_qaction);
+      QObject::connect(newAction, &QAction::triggered,
+                       this,      &MainWindow::load_a_dipydoc_from_a_qaction);
     }
     else {
       break;
@@ -477,6 +501,79 @@ void MainWindow::fill_open_menu(void) {
     openMenu->addSeparator()->setText(tr("choose other files :"));
     openMenu->addAction(openAct);
   }
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::hidetoolbarsAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::hidetoolbarsAct__buttonPressed(void) {
+  this->ui.visible_toolbars = !this->ui.visible_toolbars;
+  this->update_icons();
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::init()
+______________________________________________________________________________*/
+void MainWindow::init(void) {
+  DebugMsg() << "MainWindow::init() : entry point";
+
+  /*
+       The actions created by the the call to createActions() method are
+       required by the rest of this function :
+  */
+  this->createActions();
+
+  this->main_splitter = new QSplitter(this);
+  this->main_splitter->setOrientation(Qt::Vertical);
+  this->setCentralWidget(main_splitter);
+
+  this->source_zone = new SourceZone(this->ui);
+  this->commentary_zone = new CommentaryZone(this->ui);
+  this->main_splitter->addWidget(this->source_zone);
+  this->main_splitter->addWidget(this->commentary_zone);
+
+  this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
+
+  this->createMenus();
+  this->createMainToolBars();
+  #ifndef NO_STATUS_BAR
+  this->createStatusBar();
+  #endif
+
+  this->readSettings();
+
+  // let's update the icons' appearence :
+  this->update_icons();
+
+  /*
+    audio_player initialization
+
+    http://qt-project.org/doc/qt-5/qmediaplayer.html#seekable-prop
+  */
+  this->audio_player = new QMediaPlayer(this);
+
+  /*
+     signal : the position in the audio record has been changed.
+  */
+  QObject::connect( this->audio_player, &QMediaPlayer::positionChanged,
+                    this,               &MainWindow::audio_position_changed );
+
+  this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
+  this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
+
+  this->setCurrentDipyDoc("");
+  this->setUnifiedTitleAndToolBarOnMac(true);
+
+  /*
+    initialization of the network manager :
+  */
+  this->ui.network_manager = new QNetworkAccessManager();
+  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
+             << static_cast<int>(this->ui.network_manager->networkAccessible());
+
+  DebugMsg() << "MainWindow::exit() : entry point";
 }
 
 /*______________________________________________________________________________
@@ -547,7 +644,9 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     // update the rest of the UI :
     this->update_icons();
     setCurrentDipyDoc(directoryName);
+    #ifndef NO_STATUS_BAR
     statusBar()->showMessage(tr("DipyDoc loaded"), 2000);
+    #endif
   }
 
   /*
@@ -578,6 +677,8 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   this->ui.reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
 
   // updating the UI :
+  this->ui.mainWin->source_toolbar->show();
+  this->ui.mainWin->commentary_toolbar->show();
   this->update_icons();
 }
 
@@ -595,7 +696,6 @@ void MainWindow::load_text(const DipyDocSourceText& source_text)  {
   MainWindow::open
 ______________________________________________________________________________*/
 void MainWindow::open(void) {
-
   QString directoryName = QFileDialog::getExistingDirectory(this,
                                                             QObject::tr("Open a DipyDoc directory"),
                                                             this->ui.path_to_dipydocs,
@@ -609,44 +709,40 @@ void MainWindow::open(void) {
 
 /*______________________________________________________________________________
 
-  MainWindow::readingmodeAct_buttonpressed()
+  MainWindow::readingmode_aAct__buttonpressed()
 
-  connected to readingmodeAct::triggered()
-
-  implement the [... amode -> ] rmode -> rlmode -> amode [ -> rmode ... ] shift.
+  connected to readingmode_aAct::triggered()
 ______________________________________________________________________________*/
-void MainWindow::readingmodeAct_buttonpressed(void) {
-  switch (this->ui.reading_mode ) {
+void MainWindow::readingmode_aAct__buttonpressed(void) {
+  this->ui.reading_mode = UI::READINGMODE_AMODE;
+  this->ui.reading_mode_details = UI::READINGMODEDETAIL_AMODE;
+  DebugMsg() << "switched to AMODE mode";
+  this->update_icons();
+}
 
-    case UI::READINGMODE_RMODE: {
-      this->ui.reading_mode = UI::READINGMODE_RLMODE;
-      this->ui.reading_mode_details = UI::READINGMODEDETAIL_RLMODE_STOP;
-      DebugMsg() << "switched to RMODE mode";
-      break;
-    }
+/*______________________________________________________________________________
 
-    case UI::READINGMODE_RLMODE: {
-      this->audiocontrols_stop();
-      this->ui.reading_mode = UI::READINGMODE_AMODE;
-      this->ui.reading_mode_details = UI::READINGMODEDETAIL_AMODE;
-      DebugMsg() << "switched to AMODE mode";
-      break;
-    }
+  MainWindow::readingmode_rAct__buttonpressed()
 
-    case UI::READINGMODE_AMODE: {
-      this->ui.reading_mode = UI::READINGMODE_RMODE;
-      this->ui.reading_mode_details = UI::READINGMODEDETAIL_RMODE;
-      DebugMsg() << "switched to RLMODE mode";
-      break;
-    }
+  connected to readingmode_rAct::triggered()
+______________________________________________________________________________*/
+void MainWindow::readingmode_rAct__buttonpressed(void) {
+  this->ui.reading_mode = UI::READINGMODE_RMODE;
+  this->ui.reading_mode_details = UI::READINGMODEDETAIL_RMODE;
+  DebugMsg() << "switched to RMODE mode";
+  this->update_icons();
+}
 
-    default : {
-      this->ui.reading_mode = UI::READINGMODE_UNDEFINED;
-      DebugMsg() << "switched to UNDEFINED mode";
-      break;
-    }
-  }
+/*______________________________________________________________________________
 
+  MainWindow::readingmode_lAct__buttonpressed()
+
+  connected to readingmode_lAct::triggered()
+______________________________________________________________________________*/
+void MainWindow::readingmode_lAct__buttonpressed(void) {
+  this->ui.reading_mode = UI::READINGMODE_LMODE;
+  this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_STOP;
+  DebugMsg() << "switched to LMODE mode";
   this->update_icons();
 }
 
@@ -698,7 +794,9 @@ bool MainWindow::saveMainFileOfADipyDocAs() {
 #endif
 
     setCurrentDipyDoc(fileName);
+    #ifndef NO_STATUS_BAR
     statusBar()->showMessage(tr("File saved"), 2000);
+    #endif
     return true;
 }
 
@@ -725,80 +823,111 @@ void MainWindow::setCurrentDipyDoc(const QString &directoryName) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
-  DebugMsg() << "MainWindow::update_icons";
+  DebugMsg() << "MainWindow::update_icons" << this->ui.reading_mode;
+
   /*............................................................................
     a special case : no Dipydoc.
   ............................................................................*/
   if( this->ui.at_least_one_dipydoc_has_been_loaded() == false ) {
-    this->readingmodeAct->setVisible(false);
-    this->audiocontrols_playAct->setVisible(false);
-    this->audiocontrols_stopAct->setVisible(false);
+    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_off) );
+    this->ui.mainWin->source_toolbar->hide();
+    this->ui.mainWin->commentary_toolbar->hide();
     return;
   }
 
   /*............................................................................
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
-  this->readingmodeAct->setVisible(true);
-
-  /*
-    "reading mode" icon :
-  */
-  switch (this->ui.reading_mode ) {
-
-    case UI::READINGMODE_RLMODE: {
-      this->readingmodeAct->setIcon( *(this->ui.icon_readingmode_rlmode) );
-      break;
-    }
-
-    case UI::READINGMODE_RMODE: {
-      this->readingmodeAct->setIcon( *(this->ui.icon_readingmode_rmode) );
-      break;
-    }
-
-    case UI::READINGMODE_AMODE: {
-      this->readingmodeAct->setIcon( *(this->ui.icon_readingmode_amode) );
-      break;
-    }
-
-    default : {
-      break;
-    }
-  }
-
-  /*
-    "audio controls" icons :
-  */
-  if (this->ui.reading_mode != UI::READINGMODE_RLMODE ||
-      this->ui.current_dipydoc.well_initialized() == false ||
-      (this->ui.current_dipydoc.well_initialized() == true and
-       this->ui.current_dipydoc.audiorecord.found == false)) {
+  if(this->ui.visible_toolbars == false) {
     /*
-       No rlmode mode or no current DipyDoc or no audio in the current DipyDoc :
+      invisible toolbars :
     */
-    this->audiocontrols_playAct->setVisible(false);
-    this->audiocontrols_playAct->setEnabled(false);
-    // we refresh the icon to display it using only shades of gray :
-    this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+    this->ui.mainWin->source_toolbar->hide();
+    this->ui.mainWin->commentary_toolbar->hide();
 
-    this->audiocontrols_stopAct->setVisible(false);
-    this->audiocontrols_stopAct->setEnabled(false);
-    // we refresh the icon to display it using only shades of gray :
-    this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_off) );
   }
   else {
     /*
-       the current DipyDoc is ok and contains an audio record :
+       visible toolbars :
     */
-    this->audiocontrols_playAct->setVisible(true);
-    this->audiocontrols_playAct->setEnabled(true);
-    // we refresh the icon to display it in colors :
-    this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
 
-    this->audiocontrols_stopAct->setVisible(true);
-    this->audiocontrols_stopAct->setEnabled(true);
-    // we refresh the icon to display it in colors :
-    this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    // toolbars are visible :
+    if(this->ui.visible_toolbars == true and this->ui.mainWin->source_toolbar->isVisible() == false) {
+      this->ui.mainWin->source_toolbar->show();
+      this->ui.mainWin->commentary_toolbar->show();
+    }
+
+    // hidetoolbars button is visible :
+    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_on) );
+
+    /*
+      source zone.toolbar.readingmode_icons :
+    */
+    switch (this->ui.reading_mode ) {
+
+      case UI::READINGMODE_AMODE: {
+        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_on) );
+        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
+        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
+        this->audiocontrols_playAct->setEnabled(false);
+        this->audiocontrols_stopAct->setEnabled(false);
+        break;
+      }
+
+      case UI::READINGMODE_LMODE: {
+        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
+        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
+        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_on) );
+        this->audiocontrols_playAct->setEnabled(true);
+        this->audiocontrols_stopAct->setEnabled(true);
+        break;
+      }
+
+      case UI::READINGMODE_RMODE: {
+        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
+        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_on) );
+        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
+        this->audiocontrols_playAct->setEnabled(false);
+        this->audiocontrols_stopAct->setEnabled(false);
+        break;
+      }
+
+      default : {
+        break;
+      }
+    }
+
+    /*
+      source zone.toolbar.audiocontrol_icons :
+    */
+    if (this->ui.reading_mode != UI::READINGMODE_LMODE ||
+        this->ui.current_dipydoc.well_initialized() == false ||
+        (this->ui.current_dipydoc.well_initialized() == true and
+         this->ui.current_dipydoc.audiorecord.found == false)) {
+      /*
+         No lmode mode or no current DipyDoc or no audio in the current DipyDoc :
+      */
+      this->audiocontrols_playAct->setEnabled(false);
+      // we refresh the icon to display it using only shades of gray :
+      this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+
+      this->audiocontrols_stopAct->setEnabled(false);
+      // we refresh the icon to display it using only shades of gray :
+      this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    }
+    else {
+      /*
+        the current DipyDoc is ok and contains an audio record :
+      */
+      this->audiocontrols_playAct->setEnabled(true);
+      // we refresh the icon to display it in colors :
+      this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+
+      this->audiocontrols_stopAct->setEnabled(true);
+      // we refresh the icon to display it in colors :
+      this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+    }
   }
 }
 
