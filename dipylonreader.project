@@ -1,21 +1,20 @@
 ################################################################################
 ################################################################################
 #                                                                              #
-#                          (free) Dipylon Reader                               #
+#                          Dipylon Reader                                      #
 #                                                                              #
 ################################################################################
 
 
 ################################################################################
-SOMMAIRE
+SUMMARY
 ################################################################################
 
-[0] travail en cours
+[0] roadmap
 
-[1] options de compilation
-    [1.1] options définies dans les .pro
-    [1.2] options choisies pour le projet
-    [1.3] article à propos des options de compilation
+[1] compilation options
+    [1.1] options defined in .pro files
+    [1.2] details about some compilation options
 
 [2] style de code
     [2.0] conventions
@@ -49,83 +48,21 @@ SOMMAIRE
 
 [9] DipyDoc files
 
-[10] pour chaque version du projet...
+[10] autres plateformes
+[10.1] Windows
+[10.1.1] cross-compilation depuis Linux
 
-[11] autres plateformes
-[11.1] Windows
-[11.1.1] cross-compilation depuis Linux
-
-[12] command line
+[11] command line
      [12.1] arguments specific to the project
      [12.2] Qt arguments
 
-[13] settings (=configuration file)
+[12] settings (=configuration file)
 
-[14] source site for demo DipyDocs
+[13] source site for demo DipyDocs
 
 ################################################################################
-[0] travail en cours
+[0] roadmap
 ################################################################################
-
-0.1.9 : basic UI
-0.2.0 : karaoke mode
-0.2.1 : XML read/write
-0.2.2 : open DipyDoc / save DipyDoc main file
-0.2.3 : karaoke mode with the translations displayed in the commentary zone
-0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
-0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
-0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
-0.2.7 : DipyDoc's version = 21 (lettrine format)
-0.2.8 : DipyDoc's version = 22 (text reading direction)
-0.2.9 : l'affichage du texte tient compte du décalage induit par l'affichage du
-        titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
-        a été modifié.
-0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
-0.3.1 : cross-compilation vers Windows
-0.3.2 : DipyDoc's version = 23 (document's type)
-0.3.3 : DipyDoc's version = 24 (fonts)
-0.3.4 : all translations are included in the binary file; QMediaPlayer is now ok on Windows systems
-0.3.5 : DipyDoc's version = 25 (line-height+font-size), application's icon
-0.3.6 : 'mode' button, Dipydoc's version = 26 (arrows' aspect)
-0.3.7 : DipyDoc's version = 27 ('version' tag, 'id' tag)
-
-0.3.8 : 
-      o DipyDoc's version = 27 correcty read and written
-      o DipyDoc::init_from_xml() now verifies that the notes' arrows' types are defined
-      o DipyDoc::init_from_xml() now verifies that the notes' textformatname have been defined
-      o modified DipyDoc::get_xml_repr() : improved readibility of the 'note(s)' tags
-      o DipyDoc::get_xml_repr() : added a 'srctext' tag when writing the xml
-      o modified DipyDoc::get_condensed_extracts_from_the_source_text() : the separator is defined as a constant and the 'maxlength' parameter is applied to the whole returned string.
-      o added to DipyDoc class the constant condensed_extracts_length
-
-0.3.9 :
-      o (feature12) DipyDoc's version 28 : 'aspect' > 'textformat'
-      o (feature13) --load argument on the command line.
-      o (feature14) QSettings is now used to restore the geometry of the main window
-      o (feature15) updated dipylon.project : fixed the names of the compilations's options
-
-0.4.0 :
-      o (feature20) "I click and you play where I have clicked'" is ok.
-      o (feature23) SourceEditor::mouseReleaseEvent() is ready to display the translation matching the string selected;
-      o (feature25, feature26) : a splashscreen can now be displayed
-      o (feature16, feature27, feature31) modified the application's and the organization's name in something more regular (no upper case, no ' character; modified the application's name in fixedparameters.h : 'dipylon' > 'dipylonreader; modified several file names : Dipylon > DipylonReader, modified all header files : Dipylon > DipylonReader
-      o (feature28, feature30) DebugMsg class, new compilation options : DEBUG_MESSAGES_TO_CERR and STORE_DEBUG_MESSAGES
-      + feature17, feature18, feature19, feature21, feature22, feature24, feature29, feature32.
-
-0.4.1 :
-      o (feature40) flush commentary's content when the reading mode changes.
-      o (feature38) 'readingmodeAct' icon is not displayed anymore if no Dipydoc has been loaded : I added the DipylonUI::at_least_one_dipydoc_has_been_loaded() method which should be rewritten when the project accept several dipydocs opened.
-      o (feature35) The third reading mode ('read mode') has been defined, allowing to display the translation on the fly, when the mouse hovers over an extract. The UI has been updated and the Dipydoc's format slightly amended (version #30). 
-      o + feature39, feature37, feature36, feature34, feature33
-
-0.4.2 :
-      o feature41, feature42 : new splashscreen, new application's icon.
-      o feature43, feature44, feature45 : the UI has been cleaned up : no more useless icons.
-      o feature46 : Each Dipydoc folder now contains a 'menuname' file : in this
-        file, a unique line gives the name of the Dipydoc that appear in the 
-        submenu 'File>Open'. The UI serches in the default folder all the available
-        Dipydoc and add them to this submenu.
-      o + feature47, feature48, feature49
 
 0.4.3 :
 o feature54 : DownloadDemoDipydocs class : download and remove demonstration 
@@ -141,13 +78,101 @@ o feature51 : The PosInTextRanges class doesn't use an unordered_map anymore but
 o feature50 : (MainWindow::add_open_menu) added a special display to 
               "File>Open>" if no Dipydoc could be found.
 
+0.4.2 :
+      o feature41, feature42 : new splashscreen, new application's icon.
+      o feature43, feature44, feature45 : the UI has been cleaned up : no more useless icons.
+      o feature46 : Each Dipydoc folder now contains a 'menuname' file : in this
+        file, a unique line gives the name of the Dipydoc that appear in the 
+        submenu 'File>Open'. The UI serches in the default folder all the available
+        Dipydoc and add them to this submenu.
+      o + feature47, feature48, feature49
+
+0.4.1 :
+      o (feature40) flush commentary's content when the reading mode changes.
+      o (feature38) 'readingmodeAct' icon is not displayed anymore if no Dipydoc has been loaded : I added the DipylonUI::at_least_one_dipydoc_has_been_loaded() method which should be rewritten when the project accept several dipydocs opened.
+      o (feature35) The third reading mode ('read mode') has been defined, allowing to display the translation on the fly, when the mouse hovers over an extract. The UI has been updated and the Dipydoc's format slightly amended (version #30). 
+      o + feature39, feature37, feature36, feature34, feature33
+
+0.4.0 :
+      o (feature20) "I click and you play where I have clicked'" is ok.
+      o (feature23) SourceEditor::mouseReleaseEvent() is ready to display the translation matching the string selected;
+      o (feature25, feature26) : a splashscreen can now be displayed
+      o (feature16, feature27, feature31) modified the application's and the organization's name in something more regular (no upper case, no ' character; modified the application's name in fixedparameters.h : 'dipylon' > 'dipylonreader; modified several file names : Dipylon > DipylonReader, modified all header files : Dipylon > DipylonReader
+      o (feature28, feature30) DebugMsg class, new compilation options : DEBUG_MESSAGES_TO_CERR and STORE_DEBUG_MESSAGES
+      + feature17, feature18, feature19, feature21, feature22, feature24, feature29, feature32.
+
+0.3.9 :
+      o (feature12) DipyDoc's version 28 : 'aspect' > 'textformat'
+      o (feature13) --load argument on the command line.
+      o (feature14) QSettings is now used to restore the geometry of the main window
+      o (feature15) updated dipylon.project : fixed the names of the compilations's options
+
+0.3.8 : 
+      o DipyDoc's version = 27 correcty read and written
+      o DipyDoc::init_from_xml() now verifies that the notes' arrows' types are defined
+      o DipyDoc::init_from_xml() now verifies that the notes' textformatname have been defined
+      o modified DipyDoc::get_xml_repr() : improved readibility of the 'note(s)' tags
+      o DipyDoc::get_xml_repr() : added a 'srctext' tag when writing the xml
+      o modified DipyDoc::get_condensed_extracts_from_the_source_text() : the separator is defined as a constant and the 'maxlength' parameter is applied to the whole returned string.
+      o added to DipyDoc class the constant condensed_extracts_length
+
+
+0.3.7 : DipyDoc's version = 27 ('version' tag, 'id' tag)
+0.3.6 : 'mode' button, Dipydoc's version = 26 (arrows' aspect)
+0.3.5 : DipyDoc's version = 25 (line-height+font-size), application's icon
+0.3.4 : all translations are included in the binary file; QMediaPlayer is now ok on Windows systems
+0.3.3 : DipyDoc's version = 24 (fonts)
+0.3.2 : DipyDoc's version = 23 (document's type)
+0.3.1 : cross-compilation vers Windows
+0.3.0 : les couleurs peuvent être déclarées en hexadécimal. le build est créé dans le répertoire build/ . Beaucoup de corrections dues à cpplint.
+0.2.9 : l'affichage du texte tient compte du décalage induit par l'affichage du
+        titre, de l'introduction et de la lettrine. Le sens de "aspectratio"
+        a été modifié.
+0.2.8 : DipyDoc's version = 22 (text reading direction)
+0.2.7 : DipyDoc's version = 21 (lettrine format)
+0.2.6 : DipyDoc's version = 20 (block audiorecord optionnel)
+0.2.5 : DipyDoc's version = 19 (title, introduction + block format)
+0.2.4 : DipyDoc's version = 16 + first attempt to display an arrow.
+0.2.3 : karaoke mode with the translations displayed in the commentary zone
+0.2.2 : open DipyDoc / save DipyDoc main file
+0.2.1 : XML read/write
+0.2.0 : karaoke mode
+0.1.9 : basic UI
+
 ################################################################################
-[1] options de compilation
+[1] compilation options
 ################################################################################
 
 ################################################################################
-[1.1] options définies dans les .pro
+[1.1] options defined in .pro files
 ################################################################################
+
+o ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
+  authorization to use the --load argument.
+
+o ALLOW_MAXIMIZE_MAINWINDOW
+  if you define ALLOW_MAXIMIZE_MAINWINDOW, please define of one the two following constants :
+
+  o MAXIMIZE_MAINWINDOW_TRUE_METHOD
+  o MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+
+o ALLOW_MOVING_THE_MAINWINDOW
+
+o ALLOW_RESIZING_THE_MAINWINDOW
+
+o ALLOW_SPLASHSCREEN
+
+o COMPILE_TO_32BITS_ARCHITECTURE
+  compilation to a 32 architecture
+
+o DEBUG_MESSAGES_TO_CERR
+
+o DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+
+o DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
+o DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
+
+o NO_STATUS_BAR
 
 o QT_NO_CURSOR
 
@@ -157,45 +182,10 @@ o QT_NO_DEBUG_OUTPUT
 o READANDWRITE
   access to DipyDoc write functions
 
-o COMPILE_TO_32BITS_ARCHITECTURE
-  compilation to a 32 architecture
-
-o ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
-  authorization to use the --load argument.
-
-o ALLOW_RESIZING_THE_MAINWINDOW
-
-o ALLOW_MOVING_THE_MAINWINDOW
-
-o ALLOW_SPLASHSCREEN
-
-o ALLOW_MAXIMIZE_MAINWINDOW
-  if you define ALLOW_MAXIMIZE_MAINWINDOW, please define of one the two following constants :
-
-  o MAXIMIZE_MAINWINDOW_TRUE_METHOD
-  o MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
-
-o DEBUG_MESSAGES_TO_CERR
 o STORE_DEBUG_MESSAGES
 
-o DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
-
-o DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
-o DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
-
-o NO_STATUS_BAR
-
 ################################################################################
-[1.2] options choisies pour le projet
-################################################################################
-
-Voir l'article en [1.2] : presque toutes les options en ont été reprises :
-o l'option "-Wmissing-declarations" a été abandonnée car elle entrait en conflit avec le code automatiquement généré par Qt.
-
-options du projet : voir dipylon.sh
-
-################################################################################
-[1.3] article à propos des options de compilation
+[1.2] details about some compilation options
 
 http://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800
 ################################################################################
@@ -900,23 +890,14 @@ main.xml, version 31 :
 </dipydoc>
 
 ################################################################################
-[10] pour chaque version du projet...
-################################################################################
-
-* activer/désactiver QT_NO_CURSOR
-* activer/désactiver QT_NO_DEBUG_OUTPUT
-* activer/désactiver READANDWRITE (si activé, cela autorise l'enregistrement des DipyDoc)
-* (i18n) mettre à jour *.ts
-
-################################################################################
-[11] autres plateformes
+[10] autres plateformes
 ################################################################################
 
 http://qt-project.org/doc/qt-5/android-support.html
 
-[11.1] Windows
+[10.1] Windows
 
-[11.1.1] cross-compilation depuis Linux
+[10.1.1] cross-compilation depuis Linux
 
  o utilisation de MXE : http://mxe.cc/
  o pré-requis : http://mxe.cc/#requirements
@@ -940,24 +921,24 @@ tentative de compiler depuis Windows :
 (4) le script ne parvient pas à télécharger de lui-même qt-everywhere-opensource-src-5.3.1.7z; télécharger ce fichier et le placer dans c:\Qt\Static\src
 
 ################################################################################
-[12] command line
+[11] command line
 ################################################################################
 
 ################################################################################
-[12.1] arguments specific to the project
+[11.1] arguments specific to the project
 ################################################################################
 
 --load dipydoc_name (only if ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE is defined)
 
 ################################################################################
-[12.2] Qt arguments
+[11.2] Qt arguments
 ################################################################################
 
 confer http://qt-project.org/doc/qt-5/qapplication.html
 ... -style, -stylesheet, -reverse, ...
 
 ################################################################################
-[13] settings (=configuration file)
+[12] settings (=configuration file)
 ################################################################################
 
 "application/firstlaunch" : (bool)
@@ -966,12 +947,17 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 "mainwindow/size"       : @Size(960 540)
 "mainwindow/pos"        : @Point(480 270)
 "mainwindow/fullscreen" : (bool)
+"mainwindow/visible_toolbars" : (bool)
 
 ################################################################################
-[14] source site for demo DipyDocs
+[13] source site for demo DipyDocs
 ################################################################################
 summary file :
 o  name = 'summary'
-o  filename :: size (SPACE::SPACE, 4 characters)
+o  filename :: size (SPACE::SPACE, 4 characters) :: (sha1)HEXDIGEST
 o  \n at the end of the lines
 o  separator in directory/filename : '/' (NOT '\')
+
+e.g. :
+
+_demo_Ovide_Métamorphoses_I_452_465__lat_fra/P.png :: 46408 :: (sha1)da39a3ee5e6b4b0d3255bfef95601890afd80709

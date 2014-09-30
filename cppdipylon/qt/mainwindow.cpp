@@ -419,7 +419,7 @@ void MainWindow::createStatusBar() {
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars() {
     this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
-    this->mainwintoolbar.setObjectName("main window::main toolbar");
+    this->mainwintoolbar->setObjectName("main window::main toolbar");
     this->mainwintoolbar->addAction(this->openAct);
     this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 }

@@ -333,7 +333,7 @@ void DownloadDemoDipydocs::download_summary_finished(QNetworkReply* reply) {
     for (auto &line : lines) {
       if (line.trimmed().size() != 0) {
         QStringList filename_and_size = line.split(fixedparameters::DEMODIPYDOCS__SUMMARY_SEP);
-        if (filename_and_size.size() != 2) {
+        if (filename_and_size.size() != 3) {
           QMessageBox msgBox;
           msgBox.setText(QObject::tr("Wrong . See details below."));
           msgBox.setDetailedText(QString("Ill-formed line in the summary "
