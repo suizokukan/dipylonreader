@@ -44,8 +44,8 @@
 
 *******************************************************************************/
 
-#ifndef TEXTFORMAT_H
-#define TEXTFORMAT_H
+#ifndef CPPDIPYLON_QT_TEXTFORMAT_H_
+#define CPPDIPYLON_QT_TEXTFORMAT_H_
 
 #include <QTextCharFormat>
 #include <QString>
@@ -59,9 +59,7 @@
 
 ______________________________________________________________________________*/
 class TextFormat {
-
-private:
-
+ private:
   QTextCharFormat      _qtextcharformat;
   QString              _repr;
   bool                 _well_initialized;
@@ -69,7 +67,7 @@ private:
 
   constexpr static const char* SEPARATOR = ";";
 
-public:
+ public:
                          TextFormat(void);
                          TextFormat(const QString&);
 
@@ -127,4 +125,4 @@ inline bool TextFormat::well_initialized(void) const {
   return this->_well_initialized;
 }
 
-#endif
+#endif  // CPPDIPYLON_QT_TEXTFORMAT_H

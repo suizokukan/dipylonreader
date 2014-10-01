@@ -30,7 +30,9 @@
 
 #include <QString>
 
+#include <list>
 #include <map>
+#include <utility>
 
 #include "pos/posintext/posintextranges.h"
 
@@ -71,7 +73,10 @@ inline DipyDocNote::DipyDocNote(void) {
   this->textformatname = QString("");
   this->arrows.clear();
 }
-inline DipyDocNote::DipyDocNote(int _level, PosInTextRanges _posintextranges, QString _text, QString _textformatname) : \
+inline DipyDocNote::DipyDocNote(int _level,
+                                PosInTextRanges _posintextranges,
+                                QString _text,
+                                QString _textformatname) : \
 level(_level), posintextranges(_posintextranges), text(_text), textformatname(_textformatname) {
 }
 inline DipyDocNote& DipyDocNote::operator=(const DipyDocNote& other) {
@@ -102,7 +107,6 @@ typedef std::map<int, MAP_PosNote> MAP_Int2PosNote;
 typedef MAP_Int2PosNote::const_iterator MAP_Int2PosNoteCI;
 
 struct DipyDocNotes {
-
   MAP_Int2PosNote    map;
 
   MAP_Int2PosNoteCI  begin(void) const;
@@ -129,4 +133,4 @@ inline std::size_t DipyDocNotes::size(void) {
   return this->map.size();
 }
 
-#endif  // CPPDIPYLON_DIPYDOC_NOTES_H_
+#endif  // CPPDIPYLON_DIPYDOC_DIPYDOCNOTES_H_

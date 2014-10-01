@@ -219,7 +219,13 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
 
   from the doc of QCoreApplication::exec:
 
-    We recommend that you connect clean-up code to the aboutToQuit() signal, instead of putting it in your application's main() function because on some platforms the QCoreApplication::exec() call may not return. For example, on Windows when the user logs off, the system terminates the process after Qt closes all top-level windows. Hence, there is no guarantee that the application will have time to exit its event loop and execute code at the end of the main() function after the QCoreApplication::exec() call.
+      We recommend that you connect clean-up code to the aboutToQuit() signal,
+    instead of putting it in your application's main() function because on some
+    platforms the QCoreApplication::exec() call may not return. For example,
+    on Windows when the user logs off, the system terminates the process after
+    Qt closes all top-level windows. Hence, there is no guarantee that the
+    application will have time to exit its event loop and execute code at the
+    end of the main() function after the QCoreApplication::exec() call.
 
     see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 ________________________________________________________________________________*/
@@ -891,19 +897,18 @@ void MainWindow::update_icons(void) {
     */
 
     // toolbars are visible :
-    if(this->ui.visible_toolbars == true and this->ui.mainWin->source_toolbar->isVisible() == false) {
+    if (this->ui.visible_toolbars == true && this->ui.mainWin->source_toolbar->isVisible() == false) {
       this->ui.mainWin->source_toolbar->show();
       this->ui.mainWin->commentary_toolbar->show();
     }
 
     // hidetoolbars button is visible :
-    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_on) );
+    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_on));
 
     /*
       source zone.toolbar.readingmode_icons :
     */
-    switch (this->ui.reading_mode ) {
-
+    switch (this->ui.reading_mode) {
       case UI::READINGMODE_AMODE: {
         this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_on) );
         this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
@@ -914,18 +919,18 @@ void MainWindow::update_icons(void) {
       }
 
       case UI::READINGMODE_LMODE: {
-        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
-        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
-        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_on) );
+        this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_off));
+        this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_off));
+        this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_on));
         this->audiocontrols_playAct->setEnabled(true);
         this->audiocontrols_stopAct->setEnabled(true);
         break;
       }
 
       case UI::READINGMODE_RMODE: {
-        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_off) );
-        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_on) );
-        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
+        this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_off));
+        this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_on));
+        this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_off));
         this->audiocontrols_playAct->setEnabled(false);
         this->audiocontrols_stopAct->setEnabled(false);
         break;
@@ -941,30 +946,29 @@ void MainWindow::update_icons(void) {
     */
     if (this->ui.reading_mode != UI::READINGMODE_LMODE ||
         this->ui.current_dipydoc.well_initialized() == false ||
-        (this->ui.current_dipydoc.well_initialized() == true and
+        (this->ui.current_dipydoc.well_initialized() == true &&
          this->ui.current_dipydoc.audiorecord.found == false)) {
       /*
          No lmode mode or no current DipyDoc or no audio in the current DipyDoc :
       */
       this->audiocontrols_playAct->setEnabled(false);
       // we refresh the icon to display it using only shades of gray :
-      this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+      this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
 
       this->audiocontrols_stopAct->setEnabled(false);
       // we refresh the icon to display it using only shades of gray :
-      this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
-    }
-    else {
+      this->audiocontrols_stopAct->setIcon(*(this->ui.icon_audio_stop));
+    } else {
       /*
         the current DipyDoc is ok and contains an audio record :
       */
       this->audiocontrols_playAct->setEnabled(true);
       // we refresh the icon to display it in colors :
-      this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+      this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
 
       this->audiocontrols_stopAct->setEnabled(true);
       // we refresh the icon to display it in colors :
-      this->audiocontrols_stopAct->setIcon( *(this->ui.icon_audio_stop) );
+      this->audiocontrols_stopAct->setIcon(*(this->ui.icon_audio_stop));
     }
   }
 }

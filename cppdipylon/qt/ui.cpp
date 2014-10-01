@@ -256,9 +256,9 @@ int UI::go(int argc, char **argv) {
       let's resize and move the main window "artistically" :
     */
     QSize size = QGuiApplication::primaryScreen()->size();
-    size.setWidth( size.width() / 2 );
-    size.setHeight( size.height() / 2 );
-    this->mainWin->move( (size.width() / 2), (size.height() / 2) );
+    size.setWidth(size.width() / 2);
+    size.setHeight(size.height() / 2);
+    this->mainWin->move((size.width() / 2), (size.height() / 2));
     this->mainWin->resize(size);
   }
   #endif
@@ -300,8 +300,8 @@ int UI::go(int argc, char **argv) {
                              Qt::WindowStaysOnTopHint);
 
   // let's center the splashscreen exactly with the main window :
-  splashscreen.move( this->mainWin->x() + (this->mainWin->width() / 2)  - (splashscreen.width() / 2),
-                     this->mainWin->y() + (this->mainWin->height() / 2) - (splashscreen.width() / 2) );
+  splashscreen.move(this->mainWin->x() + (this->mainWin->width() / 2)  - (splashscreen.width() / 2),
+                    this->mainWin->y() + (this->mainWin->height() / 2) - (splashscreen.width() / 2));
 
   if (this->first_launch == true || this->display_splashscreen == true) {
     QString msg(QString("<span style=\"color:#000000\">") + \
@@ -449,5 +449,4 @@ void UI::write_settings(void) {
     visible toolbars ?
   */
   settings.setValue("mainwindow/visible_toolbars", this->visible_toolbars);
-
 }

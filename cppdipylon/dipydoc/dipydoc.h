@@ -41,6 +41,7 @@
 
 #include <map>
 #include <cstring>
+#include <utility>
 
 #include "./fixedparameters.h"
 #include "dipydoc/menunames.h"
@@ -318,12 +319,12 @@ friend class CommentaryEditor;
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
   QString                error_string(const QXmlStreamReader& xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
-  bool                   read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlreader);
-  bool                   read_mainfile__read_first_token(QXmlStreamReader& xmlreader);
+  bool                   read_mainfile__first_token(QXmlStreamReader& xmlreader);  // NOLINT(runtime/references)
+  bool                   read_mainfile__rest(QXmlStreamReader& xmlreader);   // NOLINT(runtime/references)
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
 
- // public methods .............................................................
+  // public methods .............................................................
  public:
                        DipyDoc(void);
               explicit DipyDoc(const QString&);

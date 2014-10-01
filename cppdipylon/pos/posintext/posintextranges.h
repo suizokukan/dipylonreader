@@ -78,7 +78,7 @@ class PosInTextRanges {
  public:
                      PosInTextRanges(void);
                      PosInTextRanges(const PosInTextRanges&);
-                     PosInTextRanges(const QString&);
+            explicit PosInTextRanges(const QString&);
                      PosInTextRanges(std::initializer_list< std::pair<PosInText, PosInText> >);
                      PosInTextRanges(std::vector< std::pair<PosInText, PosInText> >);
                      ~PosInTextRanges(void);
@@ -212,11 +212,11 @@ inline bool PosInTextRanges::operator<(const PosInTextRanges& other) const {
   std::size_t this_size = this->size();
   std::size_t other_size = other.size();
 
-  while(true) {
-    if( (i >= this_size) || (i >= other_size) ) {
+  while (true) {
+    if ((i >= this_size) || (i >= other_size)) {
       break;
     }
-    if(this->vec[i].first < other.vec[i].first) {
+    if (this->vec[i].first < other.vec[i].first) {
       res = true;
       break;
     }
