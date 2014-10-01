@@ -88,6 +88,7 @@ UI::~UI(void) {
   delete this->icon_hide_toolbars_off;
   delete this->icon_hide_toolbars_on;
   delete this->icon_open;
+  delete this->icon_popup_mainmenu;
   delete this->icon_readingmode_amode_off;
   delete this->icon_readingmode_amode_on;
   delete this->icon_readingmode_lmode_off;
@@ -162,6 +163,7 @@ int UI::go(int argc, char **argv) {
   this->icon_hide_toolbars_off = new QIcon(":ressources/images/icons/hidetoolbars_off.png");
   this->icon_hide_toolbars_on = new QIcon(":ressources/images/icons/hidetoolbars_on.png");
   this->icon_open = new QIcon(":ressources/images/icons/open.png");
+  this->icon_popup_mainmenu = new QIcon(":ressources/images/icons/popup_mainmenu.png");
   this->icon_readingmode_amode_off = new QIcon(":ressources/images/icons/readingmode_amode_off.png");
   this->icon_readingmode_amode_on  = new QIcon(":ressources/images/icons/readingmode_amode_on.png");
   this->icon_readingmode_lmode_off = new QIcon(":ressources/images/icons/readingmode_lmode_off.png");

@@ -335,7 +335,7 @@ void DownloadDemoDipydocs::download_summary_finished(QNetworkReply* reply) {
         QStringList filename_and_size = line.split(fixedparameters::DEMODIPYDOCS__SUMMARY_SEP);
         if (filename_and_size.size() != 3) {
           QMessageBox msgBox;
-          msgBox.setText(QObject::tr("Wrong . See details below."));
+          msgBox.setText(QObject::tr("Files available on the source site are corrupted. See details below."));
           msgBox.setDetailedText(QString("Ill-formed line in the summary "
                                          "file '%1' : '%2'").arg(this->summary_url.toString(),
                                                                  filename_and_size[0]));

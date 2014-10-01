@@ -27,5 +27,7 @@
 
     <file>ressources/images/icons/hidetoolbars_off.png</file>
     <file>ressources/images/icons/hidetoolbars_on.png</file>
+
+    <file>ressources/images/icons/popup_mainmenu.png</file>
 </qresource>
 </RCC>
