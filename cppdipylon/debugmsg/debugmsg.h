@@ -111,7 +111,7 @@ inline DebugMsg& DebugMsg::operator<<(const QString& argument) {
 }
 
 inline DebugMsg& DebugMsg::operator<<(const bool& argument) {
-  if( argument == true ) {
+  if (argument == true) {
     stream << "true";
   } else {
     stream << "false";
@@ -120,20 +120,20 @@ inline DebugMsg& DebugMsg::operator<<(const bool& argument) {
 }
 
 inline DebugMsg& DebugMsg::operator<<(const QPoint& argument) {
-   stream << "(" \
-          << argument.x() \
-          << "," \
-          << argument.y() \
-          << ")";
+  stream << "(" \
+         << argument.x() \
+         << "," \
+         << argument.y() \
+         << ")";
   return *this;
 }
 
 inline DebugMsg& DebugMsg::operator<<(const QSize& argument) {
-   stream << "(" \
-          << argument.width() \
-          << ","                                 \
-          << argument.height() \
-          << ")";
+  stream << "(" \
+         << argument.width() \
+         << "," \
+         << argument.height() \
+         << ")";
   return *this;
 }
 

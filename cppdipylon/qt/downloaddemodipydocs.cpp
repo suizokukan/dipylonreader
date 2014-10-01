@@ -161,7 +161,8 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui) : ui(_ui) {
       this->current_file = nullptr;
       break;
     } else {
-      this->current_reply = this->ui.network_manager->get(QNetworkRequest(this->current_datafile_to_be_downloaded__url));
+      this->current_reply = \
+        this->ui.network_manager->get(QNetworkRequest(this->current_datafile_to_be_downloaded__url));
 
       QObject::connect(this->current_reply, &QNetworkReply::readyRead,
                        this,                &DownloadDemoDipydocs::readyRead);
@@ -199,10 +200,13 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui) : ui(_ui) {
   /* ...........................................................................
      (4) success message
   ............................................................................*/
-  if( this->cancel_tasks == false) {
+  if (this->cancel_tasks == false) {
     QMessageBox msgBox;
     msgBox.setText(QString(tr("Demonstration Dipydocs have been successfully downloaded.")));
-    msgBox.setDetailedText("Dipydoc(s) now stored in " + this->ui.path_to_dipydocs + " :\n\n" + this->downloaded_titles.join("\n"));
+    msgBox.setDetailedText("Dipydoc(s) now stored in " + \
+                           this->ui.path_to_dipydocs + \
+                           " :\n\n" + \
+                           this->downloaded_titles.join("\n"));
     msgBox.exec();
   }
 
@@ -230,7 +234,7 @@ void DownloadDemoDipydocs::cancel(void) {
 
   this->cancel_tasks = true;
 
-  if( this->current_file != nullptr ) {
+  if (this->current_file != nullptr) {
     this->current_file->close();
     this->current_file->remove();
   }

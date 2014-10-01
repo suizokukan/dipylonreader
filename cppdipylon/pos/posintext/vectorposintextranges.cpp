@@ -26,8 +26,8 @@
 *******************************************************************************/
 
 #include "pos/posintext/vectorposintextranges.h"
-// $$$$
-#include <QDebug>
+
+#include <algorithm>
 
 /*______________________________________________________________________________
 
@@ -42,10 +42,9 @@ void VectorPosInTextRanges::clear(void) {
         VectorPosInTextRanges::sort()
 ______________________________________________________________________________*/
 void VectorPosInTextRanges::sort(void) {
-
-  std::sort( this->vposintextranges.begin(),
-             this->vposintextranges.end(),
-             VectorPosInTextRangesCMP(this) );
+  std::sort(this->vposintextranges.begin(),
+            this->vposintextranges.end(),
+            VectorPosInTextRangesCMP(this));
 }
 
 /*______________________________________________________________________________
@@ -53,11 +52,10 @@ void VectorPosInTextRanges::sort(void) {
         VectorPosInTextRanges::repr : return a QString representation of this.
 ______________________________________________________________________________*/
 QString VectorPosInTextRanges::repr(void) const {
-
   QString res = QString("");
 
   // i is an iterator over PosInTextRanges objects :
-  for(auto &i : this->vposintextranges) {
+  for (auto &i : this->vposintextranges) {
     res += i.repr();
     res += this->MAIN_SEPARATOR;
   }
@@ -79,8 +77,8 @@ PosInTextRanges VectorPosInTextRanges::toPosInTextRanges(void) const {
   PosInTextRanges res;
 
   for (auto &posintextranges : this->vposintextranges) {
-    for (auto &vpairofposintext: posintextranges) {
-      res.vec.push_back( vpairofposintext );
+    for (auto &vpairofposintext : posintextranges) {
+      res.vec.push_back(vpairofposintext);
     }
   }
 

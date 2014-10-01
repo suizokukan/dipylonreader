@@ -48,13 +48,13 @@ friend MainWindow;
     Q_OBJECT
 
  private:
- // UI object linked to the editor :
- UI& ui;
- // object's layout :
- QLayout* layout = nullptr;
+  // UI object linked to the editor :
+  UI& ui;
+  // object's layout :
+  QLayout* layout = nullptr;
 
  public:
-  CommentaryZone(UI& _ui);
+   CommentaryZone(UI& _ui);
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYZONE_H_

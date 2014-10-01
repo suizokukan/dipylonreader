@@ -262,8 +262,7 @@ _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->ui.current_dipydoc;
 
-  switch( this->ui.reading_mode ) {
-
+  switch (this->ui.reading_mode) {
     /*
       rmode, lmode
     */
@@ -317,7 +316,6 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
       break;
     }
   }
-
 }
 
 /*______________________________________________________________________________
@@ -325,10 +323,9 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
+  if (this->ui.selected_text_and_blocked_commentaries == false) {
 
-  if( this->ui.selected_text_and_blocked_commentaries == false ) {
-
-    switch( this->ui.reading_mode_details ) {
+    switch(this->ui.reading_mode_details) {
       case UI::READINGMODEDETAIL_RMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
         int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;
@@ -340,7 +337,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
         std::size_t text_ranges_hash = pos_in_text.get_hash();
 
         // if the user is really on another text's segment ...
-        if( text_ranges_hash != this->modified_chars_hash ) {
+        if (text_ranges_hash != this->modified_chars_hash) {
           // ... we refresh the ui :
 
           // the function modifies the appearence of such characters :
@@ -377,9 +374,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   /*............................................................................
     (1) RMODE + selection
   ............................................................................*/
-  if(this->ui.reading_mode_details==UI::READINGMODEDETAIL_RMODE &&
-     cur.hasSelection() == true) {
-
+  if (this->ui.reading_mode_details = =UI::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
     DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
     int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;
@@ -411,7 +406,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   }
 
   // no selection ? we don't protect anymore the commentary zone :
-  if( cur.hasSelection() == false ) {
+  if (cur.hasSelection() == false) {
     this->ui.selected_text_and_blocked_commentaries = false;
   }
 
@@ -421,7 +416,6 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   PosInText cursor_position = this->corrected_cursor_position();
 
   switch (this->ui.reading_mode) {
-
     case UI::READINGMODE_LMODE: {
       switch (this->ui.reading_mode_details) {
         //......................................................................
@@ -429,7 +423,6 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
         // LMODE + STOP
         case UI::READINGMODEDETAIL_LMODE_ONPAUSE:
         case UI::READINGMODEDETAIL_LMODE_STOP : {
-
           // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = this->ui.current_dipydoc.text2audio_contains(cursor_position);
           PosInTextRanges pos_in_text = found_position.first;
@@ -437,7 +430,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
           std::size_t text_ranges_hash = pos_in_text.get_hash();
 
           // if the user has really click on another text's segment ...
-          if( text_ranges_hash != this->modified_chars_hash ) {
+          if (text_ranges_hash != this->modified_chars_hash) {
             // ... we refresh the ui :
 
             // the function modifies the appearence of such characters :

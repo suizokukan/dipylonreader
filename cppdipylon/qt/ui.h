@@ -78,7 +78,6 @@ class UI {
   QNetworkAccessManager* network_manager = nullptr;
 
  private:
-
   /*
     settings :
 
