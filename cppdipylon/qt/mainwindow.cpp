@@ -323,12 +323,14 @@ void MainWindow::createActions() {
   /*
     popup_mainmenuAct
   */
+  #ifndef NO_MAIN_POPUPMENU
   popup_mainmenuAct = new QAction( *(this->ui.icon_popup_mainmenu),
                          tr("Popup_Mainmenu$$$"),
                          this);
   popup_mainmenuAct->setStatusTip(tr("Popup_Main$$$"));
   QObject::connect(this->popup_mainmenuAct, &QAction::triggered,
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
+  #endif
 
   /*
     readingmode_aAct
@@ -421,6 +423,7 @@ void MainWindow::createMenus() {
   /*
     main popup menu :
   */
+  #ifndef NO_MAIN_POPUPMENU
   this->mainpopupmenu = new QMenu();
   this->mainpopupmenu->addMenu(this->openMenu);
   this->mainpopupmenu->addAction(downloaddemoAct);
@@ -430,6 +433,7 @@ void MainWindow::createMenus() {
   this->mainpopupmenu->addSeparator();
   this->mainpopupmenu->addAction(exitAct);
   this->mainpopupmenu->addAction(aboutAct);
+  #endif
 }
 
 /*______________________________________________________________________________
@@ -449,7 +453,9 @@ ______________________________________________________________________________*/
 void MainWindow::createMainToolBars() {
     this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
     this->mainwintoolbar->setObjectName("main window::main toolbar");
+    #ifndef NO_MAIN_POPUPMENU
     this->mainwintoolbar->addAction(this->popup_mainmenuAct);
+    #endif
     this->mainwintoolbar->addAction(this->openAct);
     this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 }
@@ -972,7 +978,6 @@ void MainWindow::writeSettings() {
     settings.setValue("pos", pos());
     settings.setValue("size", size());
 }
-
 
 /*______________________________________________________________________________
 
