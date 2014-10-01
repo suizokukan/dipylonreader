@@ -103,6 +103,7 @@ class UI {
   QIcon*      icon_hide_toolbars_off = nullptr;
   QIcon*      icon_hide_toolbars_on = nullptr;
   QIcon*      icon_open = nullptr;
+  QIcon*      icon_popup_mainmenu = nullptr;
   QIcon*      icon_readingmode_amode_off = nullptr;
   QIcon*      icon_readingmode_amode_on  = nullptr;
   QIcon*      icon_readingmode_lmode_off = nullptr;

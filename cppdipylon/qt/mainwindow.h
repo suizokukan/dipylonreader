@@ -80,10 +80,11 @@ private slots:
     void closing(void);
     void hidetoolbarsAct__buttonPressed(void);
     void open(void);
-    bool saveMainFileOfADipyDocAs(void);
+    void popup_mainmenuAct__buttonPressed(void);
     void readingmode_aAct__buttonpressed(void);
     void readingmode_rAct__buttonpressed(void);
     void readingmode_lAct__buttonpressed(void);
+    bool saveMainFileOfADipyDocAs(void);
 
 private:
     UI& ui;
@@ -115,6 +116,7 @@ private:
     QMenu     *fileMenu = nullptr;
     QMenu     *openMenu = nullptr;
     QMenu     *helpMenu = nullptr;
+    QMenu     *mainpopupmenu = nullptr;
 
     QAction*   aboutAct = nullptr;
     QAction*   commentary_textminusAct = nullptr;
@@ -123,6 +125,7 @@ private:
     QAction*   exitAct = nullptr;
     QAction*   hidetoolbarsAct = nullptr;
     QAction*   openAct = nullptr;
+    QAction*   popup_mainmenuAct = nullptr;
     QAction*   saveMainFileOfADipyDocAsAct = nullptr;
     QAction*   source_textminusAct = nullptr;
     QAction*   source_textplusAct = nullptr;

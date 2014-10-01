@@ -321,6 +321,16 @@ void MainWindow::createActions() {
                    this,    &MainWindow::open);
 
   /*
+    popup_mainmenuAct
+  */
+  popup_mainmenuAct = new QAction( *(this->ui.icon_popup_mainmenu),
+                         tr("Popup_Mainmenu$$$"),
+                         this);
+  popup_mainmenuAct->setStatusTip(tr("Popup_Main$$$"));
+  QObject::connect(this->popup_mainmenuAct, &QAction::triggered,
+                   this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
+
+  /*
     readingmode_aAct
   */
   this->readingmode_aAct = new QAction( *(this->ui.icon_readingmode_amode_on),
@@ -380,8 +390,14 @@ void MainWindow::createActions() {
 /*______________________________________________________________________________
 
   MainWindow::createMenus
+
+  o  main menu
+  o  main popup menu
 ______________________________________________________________________________*/
 void MainWindow::createMenus() {
+  /*
+    main menu :
+  */
   this->fileMenu = menuBar()->addMenu(tr("&File"));
   this->openMenu = fileMenu->addMenu(tr("&Open"));
 
@@ -401,6 +417,19 @@ void MainWindow::createMenus() {
 
   helpMenu = menuBar()->addMenu(tr("&Help"));
   helpMenu->addAction(aboutAct);
+
+  /*
+    main popup menu :
+  */
+  this->mainpopupmenu = new QMenu();
+  this->mainpopupmenu->addMenu(this->openMenu);
+  this->mainpopupmenu->addAction(downloaddemoAct);
+  #ifdef READANDWRITE
+  this->mainpopupmenu->addAction(saveMainFileOfADipyDocAsAct);
+  #endif
+  this->mainpopupmenu->addSeparator();
+  this->mainpopupmenu->addAction(exitAct);
+  this->mainpopupmenu->addAction(aboutAct);
 }
 
 /*______________________________________________________________________________
@@ -420,6 +449,7 @@ ______________________________________________________________________________*/
 void MainWindow::createMainToolBars() {
     this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
     this->mainwintoolbar->setObjectName("main window::main toolbar");
+    this->mainwintoolbar->addAction(this->popup_mainmenuAct);
     this->mainwintoolbar->addAction(this->openAct);
     this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 }
@@ -941,4 +971,13 @@ void MainWindow::writeSettings() {
     QSettings settings("QtProject", "Application Example");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
+}
+
+
+/*______________________________________________________________________________
+
+  MainWindow::popup_mainmenuAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::popup_mainmenuAct__buttonPressed(void) {
+  this->mainpopupmenu->popup(QCursor::pos());
 }
