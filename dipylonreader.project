@@ -13,10 +13,10 @@ SUMMARY
 [0] roadmap
 
 [1] compilation options
-    [1.1] options defined in .pro files
+    [1.1] options defined in .pro files 
     [1.2] details about some compilation options
 
-[2] style de code
+[2] coding style
     [2.0] conventions
     [2.1] range-based for loop
     [2.2] nullptr
@@ -247,11 +247,11 @@ Warnings that are absent:
     -Wzero-as-null-pointer-constant and -Wuseless-cast are GCC-4.7-only warnings, which I will add when I transition to GCC 4.7.
 
 ################################################################################
-[2] style de code
+[2] coding style
 ################################################################################
 
 [2.0] conventions
-* les pointeurs doivent être déclarés initialiés à null_ptr
+* les pointeurs doivent être déclarés initialiés à nullptr
 
 suivre Google/c++lint / http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
 python2 ~/projets/cpplint.py --linelength=120 main.cpp
