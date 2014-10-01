@@ -1,0 +1,503 @@
+./debugmsg/debugmsg.h:114:  Missing space before ( in if(  [whitespace/parens] [5]
+./debugmsg/debugmsg.h:123:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./debugmsg/debugmsg.h:132:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+Done processing ./debugmsg/debugmsg.h
+Total errors found: 3
+Done processing ./debugmsg/debugmsg.cpp
+Total errors found: 0
+./dipydoc/menunames.h:49:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./dipydoc/menunames.h:71:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/menunames.h:71:  Extra space before )  [whitespace/parens] [2]
+./dipydoc/menunames.h:73:  Missing space around colon in range-based for loop  [whitespace/forcolon] [2]
+./dipydoc/menunames.h:73:  Missing space before ( in for(  [whitespace/parens] [5]
+./dipydoc/menunames.h:73:  Mismatching spaces inside () in for  [whitespace/parens] [5]
+./dipydoc/menunames.h:112:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/menunames.h:122:  Missing space before ( in for(  [whitespace/parens] [5]
+./dipydoc/menunames.h:123:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/menunames.h:42:  Add #include <map> for map<>  [build/include_what_you_use] [4]
+Done processing ./dipydoc/menunames.h
+Total errors found: 10
+./dipydoc/dipydoc.cpp:72:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:134:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./dipydoc/dipydoc.cpp:245:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./dipydoc/dipydoc.cpp:257:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./dipydoc/dipydoc.cpp:296:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:718:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./dipydoc/dipydoc.cpp:718:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./dipydoc/dipydoc.cpp:722:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:729:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:733:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:790:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:800:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:809:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:817:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:817:  Extra space before )  [whitespace/parens] [2]
+./dipydoc/dipydoc.cpp:829:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:846:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:861:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:864:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:874:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:899:  Is this a non-const reference? If so, make const or use a pointer: QXmlStreamReader& xmlreader  [runtime/references] [2]
+./dipydoc/dipydoc.cpp:900:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:911:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:916:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:928:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:928:  Extra space before )  [whitespace/parens] [2]
+./dipydoc/dipydoc.cpp:937:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:939:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:954:  Is this a non-const reference? If so, make const or use a pointer: QXmlStreamReader& xmlreader  [runtime/references] [2]
+./dipydoc/dipydoc.cpp:955:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:956:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:958:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:959:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:964:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:965:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:978:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:979:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:989:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1010:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1033:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1046:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:1066:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1071:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1072:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1085:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:1099:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1101:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1104:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1138:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1158:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1163:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1164:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1183:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1186:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1205:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1210:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1211:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1219:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1222:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1239:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1244:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1246:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1262:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1267:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1269:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1290:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1295:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1297:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1303:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:1315:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1320:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1321:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1326:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1347:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1353:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1359:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1361:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:1369:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1380:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1381:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1381:  At least two spaces is best between code and comments  [whitespace/comments] [2]
+./dipydoc/dipydoc.cpp:1383:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1384:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.cpp:1416:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydoc.cpp:1447:  Missing space after ,  [whitespace/comma] [3]
+./dipydoc/dipydoc.cpp:1449:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./dipydoc/dipydoc.cpp:1449:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+Done processing ./dipydoc/dipydoc.cpp
+Total errors found: 87
+./dipydoc/dipydoc.h:321:  Is this a non-const reference? If so, make const or use a pointer: QXmlStreamReader& xmlreader  [runtime/references] [2]
+./dipydoc/dipydoc.h:322:  Is this a non-const reference? If so, make const or use a pointer: QXmlStreamReader& xmlreader  [runtime/references] [2]
+./dipydoc/dipydoc.h:326:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./dipydoc/dipydoc.h:257:  Add #include <utility> for pair<>  [build/include_what_you_use] [4]
+Done processing ./dipydoc/dipydoc.h
+Total errors found: 4
+./dipydoc/dipydocnotes.h:132:  #endif line should be "#endif  // CPPDIPYLON_DIPYDOC_DIPYDOCNOTES_H_"  [build/header_guard] [5]
+./dipydoc/dipydocnotes.h:74:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./dipydoc/dipydocnotes.h:105:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./dipydoc/dipydocnotes.h:98:  Add #include <utility> for pair<>  [build/include_what_you_use] [4]
+./dipydoc/dipydocnotes.h:60:  Add #include <list> for list<>  [build/include_what_you_use] [4]
+Done processing ./dipydoc/dipydocnotes.h
+Total errors found: 5
+./dipydoc/dipydocnotes.cpp:95:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./dipydoc/dipydocnotes.cpp:95:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./dipydoc/dipydocnotes.cpp:96:  Add #include <utility> for pair<>  [build/include_what_you_use] [4]
+Done processing ./dipydoc/dipydocnotes.cpp
+Total errors found: 3
+./languages/languages.h:54:  Namespace should be terminated with "// namespace languages"  [readability/namespace] [5]
+Done processing ./languages/languages.h
+Total errors found: 1
+Done processing ./languages/languagefromto.cpp
+Total errors found: 0
+Done processing ./languages/languagefromto.h
+Total errors found: 0
+./misc/hash.h:37:  Is this a non-const reference? If so, make const or use a pointer: std::size_t& seed  [runtime/references] [2]
+Done processing ./misc/hash.h
+Total errors found: 1
+Done processing ./pos/posinaudio2posintext.h
+Total errors found: 0
+Done processing ./pos/posinaudio2posintext.cpp
+Total errors found: 0
+Done processing ./pos/posintext2posinaudio.cpp
+Total errors found: 0
+Done processing ./pos/posintext2posinaudio.h
+Total errors found: 0
+Skipping input './pos/vectorposintextranges.h': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posintextranges.cpp': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posintext2str.h': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posintext.h': Can't open for reading
+Total errors found: 0
+Skipping input './pos/vectorposintextranges.cpp': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posintext2str.cpp': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posintextranges.h': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posinaudiorange.h': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posinaudiorange.cpp': Can't open for reading
+Total errors found: 0
+Skipping input './pos/posinaudio.h': Can't open for reading
+Total errors found: 0
+Done processing ./pos/posinaudio/posinaudiorange.h
+Total errors found: 0
+Done processing ./pos/posinaudio/posinaudiorange.cpp
+Total errors found: 0
+Done processing ./pos/posinaudio/posinaudio.h
+Total errors found: 0
+./pos/posintext/vectorposintextranges.h:71:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./pos/posintext/vectorposintextranges.h:89:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Done processing ./pos/posintext/vectorposintextranges.h
+Total errors found: 2
+./pos/posintext/posintextranges.cpp:144:  Missing space before ( in if(  [whitespace/parens] [5]
+Done processing ./pos/posintext/posintextranges.cpp
+Total errors found: 1
+Done processing ./pos/posintext/posintext2str.h
+Total errors found: 0
+Done processing ./pos/posintext/posintext.h
+Total errors found: 0
+./pos/posintext/vectorposintextranges.cpp:45:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./pos/posintext/vectorposintextranges.cpp:46:  Extra space after ( in function call  [whitespace/parens] [4]
+./pos/posintext/vectorposintextranges.cpp:56:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./pos/posintext/vectorposintextranges.cpp:60:  Missing space before ( in for(  [whitespace/parens] [5]
+./pos/posintext/vectorposintextranges.cpp:82:  Missing space around colon in range-based for loop  [whitespace/forcolon] [2]
+./pos/posintext/vectorposintextranges.cpp:83:  Extra space after ( in function call  [whitespace/parens] [4]
+./pos/posintext/vectorposintextranges.cpp:83:  Extra space before )  [whitespace/parens] [2]
+./pos/posintext/vectorposintextranges.cpp:46:  Add #include <algorithm> for sort  [build/include_what_you_use] [4]
+Done processing ./pos/posintext/vectorposintextranges.cpp
+Total errors found: 8
+./pos/posintext/posintext2str.cpp:46:  Missing space before ( in for(  [whitespace/parens] [5]
+./pos/posintext/posintext2str.cpp:47:  { should almost always be at the end of the previous line  [whitespace/braces] [4]
+./pos/posintext/posintext2str.cpp:49:  Missing space before ( in if(  [whitespace/parens] [5]
+./pos/posintext/posintext2str.cpp:79:  { should almost always be at the end of the previous line  [whitespace/braces] [4]
+./pos/posintext/posintext2str.cpp:81:  Missing space before ( in for(  [whitespace/parens] [5]
+./pos/posintext/posintext2str.cpp:82:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./pos/posintext/posintext2str.cpp:84:  Missing space before ( in if(  [whitespace/parens] [5]
+./pos/posintext/posintext2str.cpp:104:  { should almost always be at the end of the previous line  [whitespace/braces] [4]
+./pos/posintext/posintext2str.cpp:108:  Missing space before ( in for(  [whitespace/parens] [5]
+./pos/posintext/posintext2str.cpp:110:  Missing space before ( in if(  [whitespace/parens] [5]
+./pos/posintext/posintext2str.cpp:112:  Extra space after ( in function call  [whitespace/parens] [4]
+./pos/posintext/posintext2str.cpp:112:  Extra space before )  [whitespace/parens] [2]
+./pos/posintext/posintext2str.cpp:105:  Add #include <vector> for vector<>  [build/include_what_you_use] [4]
+Done processing ./pos/posintext/posintext2str.cpp
+Total errors found: 13
+./pos/posintext/posintextranges.h:81:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./pos/posintext/posintextranges.h:215:  Missing space before ( in while(  [whitespace/parens] [5]
+./pos/posintext/posintextranges.h:216:  Missing space before ( in if(  [whitespace/parens] [5]
+./pos/posintext/posintextranges.h:219:  Missing space before ( in if(  [whitespace/parens] [5]
+Done processing ./pos/posintext/posintextranges.h
+Total errors found: 4
+./qt/commentarytoolbar.h:43:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/commentarytoolbar.h:47:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentarytoolbar.h:48:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentarytoolbar.h:50:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentarytoolbar.h:51:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentarytoolbar.h:52:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentarytoolbar.h:55:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+./qt/commentarytoolbar.h:55:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Done processing ./qt/commentarytoolbar.h
+Total errors found: 8
+./qt/blockformat.cpp:58:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/blockformat.cpp:69:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/blockformat.cpp:70:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/blockformat.cpp:74:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./qt/blockformat.cpp:85:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+Done processing ./qt/blockformat.cpp
+Total errors found: 5
+./qt/commentaryeditor.cpp:68:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/commentaryeditor.cpp:69:  Missing space before ( in if(  [whitespace/parens] [5]
+Done processing ./qt/commentaryeditor.cpp
+Total errors found: 2
+./qt/arrowformat.cpp:59:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/arrowformat.cpp:70:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:71:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/arrowformat.cpp:74:  Missing spaces around >  [whitespace/operators] [3]
+./qt/arrowformat.cpp:74:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:87:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:88:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/arrowformat.cpp:91:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:105:  Missing space before {  [whitespace/braces] [5]
+./qt/arrowformat.cpp:114:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:115:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/arrowformat.cpp:118:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:132:  Missing space before {  [whitespace/braces] [5]
+./qt/arrowformat.cpp:141:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:142:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/arrowformat.cpp:145:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/arrowformat.cpp:159:  Missing space before {  [whitespace/braces] [5]
+Done processing ./qt/arrowformat.cpp
+Total errors found: 17
+./qt/textformat.cpp:30:  Include the directory when naming .h files  [build/include] [4]
+./qt/textformat.cpp:61:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/textformat.cpp:78:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:78:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./qt/textformat.cpp:85:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:86:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:89:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:90:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:90:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:102:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:103:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:106:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:107:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:116:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:116:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./qt/textformat.cpp:117:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:122:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:127:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:131:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:135:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:139:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:143:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:147:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:151:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:168:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:169:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:172:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:173:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:182:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:186:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:190:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:194:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:198:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:202:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:206:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:210:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:214:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:230:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:231:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:234:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:235:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:244:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:244:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:248:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:248:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:252:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:252:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:256:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:256:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:260:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:260:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:264:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:264:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:268:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:268:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:272:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:272:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:276:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:276:  Extra space before )  [whitespace/parens] [2]
+Done processing ./qt/textformat.cpp
+Total errors found: 59
+Done processing ./qt/commentaryeditor.h
+Total errors found: 0
+./qt/sourcezone.h:51:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcezone.h:52:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcezone.h:53:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcezone.h:54:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcezone.h:57:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+./qt/sourcezone.h:57:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Done processing ./qt/sourcezone.h
+Total errors found: 6
+./qt/sourcetoolbar.h:41:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/sourcetoolbar.h:45:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcetoolbar.h:46:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcetoolbar.h:48:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcetoolbar.h:49:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcetoolbar.h:50:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/sourcetoolbar.h:53:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+./qt/sourcetoolbar.h:53:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Done processing ./qt/sourcetoolbar.h
+Total errors found: 8
+./qt/downloaddemodipydocs.cpp:164:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./qt/downloaddemodipydocs.cpp:202:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/downloaddemodipydocs.cpp:202:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./qt/downloaddemodipydocs.cpp:205:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./qt/downloaddemodipydocs.cpp:233:  Missing space before ( in if(  [whitespace/parens] [5]
+Done processing ./qt/downloaddemodipydocs.cpp
+Total errors found: 5
+Done processing ./qt/sourceeditor.h
+Total errors found: 0
+Done processing ./qt/posintextframeformat.h
+Total errors found: 0
+./qt/ui.h:81:  Do not leave a blank line after "private:"  [whitespace/blank_line] [3]
+Done processing ./qt/ui.h
+Total errors found: 1
+./qt/commentaryzone.h:51:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentaryzone.h:52:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentaryzone.h:53:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentaryzone.h:54:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+./qt/commentaryzone.h:57:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+./qt/commentaryzone.h:57:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Done processing ./qt/commentaryzone.h
+Total errors found: 6
+Done processing ./qt/downloaddemodipydocs.h
+Total errors found: 0
+./qt/sourceeditor.cpp:262:  Is this a non-const reference? If so, make const or use a pointer: PosInTextRanges& positions  [runtime/references] [2]
+./qt/sourceeditor.cpp:265:  Missing space before ( in switch(  [whitespace/parens] [5]
+./qt/sourceeditor.cpp:266:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/sourceeditor.cpp:320:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
+./qt/sourceeditor.cpp:328:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/sourceeditor.cpp:329:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/sourceeditor.cpp:330:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/sourceeditor.cpp:331:  Missing space before ( in switch(  [whitespace/parens] [5]
+./qt/sourceeditor.cpp:343:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/sourceeditor.cpp:380:  Missing spaces around ==  [whitespace/operators] [3]
+./qt/sourceeditor.cpp:380:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/sourceeditor.cpp:382:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/sourceeditor.cpp:414:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/sourceeditor.cpp:424:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/sourceeditor.cpp:432:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/sourceeditor.cpp:440:  Missing space before ( in if(  [whitespace/parens] [5]
+Done processing ./qt/sourceeditor.cpp
+Total errors found: 16
+Done processing ./qt/commentarytoolbar.cpp
+Total errors found: 0
+Done processing ./qt/arrowformat.h
+Total errors found: 0
+Done processing ./qt/blockformat.h
+Total errors found: 0
+./qt/textformat.h:47:  #ifndef header guard has wrong style, please use: CPPDIPYLON_QT_TEXTFORMAT_H_  [build/header_guard] [5]
+./qt/textformat.h:130:  #endif line should be "#endif  // CPPDIPYLON_QT_TEXTFORMAT_H_"  [build/header_guard] [5]
+./qt/textformat.h:62:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/textformat.h:63:  private: should be indented +1 space inside class TextFormat  [whitespace/indent] [3]
+./qt/textformat.h:64:  Do not leave a blank line after "private:"  [whitespace/blank_line] [3]
+./qt/textformat.h:72:  public: should be indented +1 space inside class TextFormat  [whitespace/indent] [3]
+./qt/textformat.h:74:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Done processing ./qt/textformat.h
+Total errors found: 7
+Done processing ./qt/sourcetoolbar.cpp
+Total errors found: 0
+./qt/mainwindow.h:28:  #ifndef header guard has wrong style, please use: CPPDIPYLON_QT_MAINWINDOW_H_  [build/header_guard] [5]
+./qt/mainwindow.h:146:  #endif line should be "#endif  // CPPDIPYLON_QT_MAINWINDOW_H_"  [build/header_guard] [5]
+./qt/mainwindow.h:41:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
+./qt/mainwindow.h:42:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
+./qt/mainwindow.h:43:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
+./qt/mainwindow.h:44:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
+./qt/mainwindow.h:45:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
+./qt/mainwindow.h:46:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
+./qt/mainwindow.h:56:  { should almost always be at the end of the previous line  [whitespace/braces] [4]
+./qt/mainwindow.h:67:  public: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
+./qt/mainwindow.h:68:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./qt/mainwindow.h:72:  protected: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
+./qt/mainwindow.h:75:  private slots: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
+./qt/mainwindow.h:89:  private: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
+Done processing ./qt/mainwindow.h
+Total errors found: 14
+./qt/mainwindow.cpp:49:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:62:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:87:  Mismatching spaces inside () in switch  [whitespace/parens] [5]
+./qt/mainwindow.cpp:88:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:93:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:94:  Mismatching spaces inside () in switch  [whitespace/parens] [5]
+./qt/mainwindow.cpp:95:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:99:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:107:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:115:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:135:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
+./qt/mainwindow.cpp:154:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:156:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:157:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:173:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:176:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:178:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:180:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:180:  Extra space before )  [whitespace/parens] [2]
+./qt/mainwindow.cpp:183:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:184:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:238:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:485:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:494:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:494:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./qt/mainwindow.cpp:497:  Extra space before )  [whitespace/parens] [2]
+./qt/mainwindow.cpp:509:  Missing space before ( in for(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:512:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:515:  Extra space before )  [whitespace/parens] [2]
+./qt/mainwindow.cpp:526:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:526:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:575:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:575:  Extra space before )  [whitespace/parens] [2]
+./qt/mainwindow.cpp:598:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:599:  Extra space before )  [whitespace/parens] [2]
+./qt/mainwindow.cpp:625:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:644:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:645:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:648:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:652:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:660:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:660:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:664:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:674:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:675:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:698:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:705:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:705:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:740:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./qt/mainwindow.cpp:869:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:870:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:879:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:886:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:888:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:888:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:894:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:894:  Use operator && instead of and  [readability/alt_tokens] [2]
+./qt/mainwindow.cpp:900:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:905:  Mismatching spaces inside () in switch  [whitespace/parens] [5]
+./qt/mainwindow.cpp:906:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:908:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:909:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:910:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:917:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:918:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:919:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:926:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:927:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:928:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:944:  Use operator && instead of and  [readability/alt_tokens] [2]
+./qt/mainwindow.cpp:951:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:955:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:957:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:957:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:963:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:967:  Extra space after ( in function call  [whitespace/parens] [4]
+Done processing ./qt/mainwindow.cpp
+Total errors found: 76
+./qt/posintextframeformat.cpp:64:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/posintextframeformat.cpp:64:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+Done processing ./qt/posintextframeformat.cpp
+Total errors found: 2
+Done processing ./qt/commentaryzone.cpp
+Total errors found: 0
+Done processing ./qt/sourcezone.cpp
+Total errors found: 0
+./qt/ui.cpp:259:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/ui.cpp:259:  Extra space before )  [whitespace/parens] [2]
+./qt/ui.cpp:260:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/ui.cpp:260:  Extra space before )  [whitespace/parens] [2]
+./qt/ui.cpp:261:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/ui.cpp:303:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/ui.cpp:452:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
+Done processing ./qt/ui.cpp
+Total errors found: 7
