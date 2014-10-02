@@ -62,6 +62,12 @@ friend class MainWindow;
 
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();
+
+    int      zoom_value = 0;
+
+    void     zoom_in(void);
+    void     zoom_out(void);
+    void     set_zoom_value(const signed int value);
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYEDITOR_H_

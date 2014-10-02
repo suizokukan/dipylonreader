@@ -80,22 +80,6 @@ int TextFormat::init_from_string(const QString& source_string) {
     }
 
     /*
-      font-size
-    */
-    if( keyword.startsWith("font-size:") == true ) {
-      QString str_value = keyword.right( keyword.length() - QString("font-size:").length() );
-      bool ok;
-      int value = str_value.toInt(&ok, 10);
-      if( ok == true ) {
-        this->_qtextcharformat.setFontPointSize( value );
-      } else {
-        res = TextFormat::INTERNALSTATE::WRONG_DECIMAL_VALUE_FOR_FONTSIZE;
-        this->_well_initialized = false;
-      }
-      continue;
-    }
-
-    /*
       background colors
     */
     // background color with hexadecimal value ?

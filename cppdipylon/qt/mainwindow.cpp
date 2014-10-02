@@ -588,7 +588,23 @@ void MainWindow::init(void) {
 
   this->readSettings();
 
-  // let's update the icons' appearence :
+  /*
+    signals between the editors and the toolbars :
+  */
+  QObject::connect(this->ui.mainWin->source_textminusAct,     &QAction::triggered,
+                   this->ui.mainWin->source_editor,           &SourceEditor::zoom_out);
+  QObject::connect(this->ui.mainWin->source_textplusAct,      &QAction::triggered,
+                   this->ui.mainWin->source_editor,           &SourceEditor::zoom_in);
+
+  QObject::connect(this->ui.mainWin->commentary_textminusAct, &QAction::triggered,
+                   this->ui.mainWin->commentary_editor,       &CommentaryEditor::zoom_out);
+  QObject::connect(this->ui.mainWin->commentary_textplusAct,  &QAction::triggered,
+                   this->ui.mainWin->commentary_editor,       &CommentaryEditor::zoom_in);
+
+
+  /*
+    let's update the icons' appearence :
+  */
   this->update_icons();
 
   /*
@@ -719,6 +735,26 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   // default reading mode :
   this->ui.reading_mode         = UI::READINGMODE::READINGMODE_RMODE;
   this->ui.reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
+
+  /*
+    zoom values for this document :
+  */
+  QSettings settings;
+  QString setting_name;
+
+  setting_name = QString("text/%1/sourceeditor/zoomvalue").arg(this->ui.current_dipydoc.qsettings_name);
+  if (settings.contains(setting_name) == true) {
+    this->source_editor->set_zoom_value(settings.value(setting_name).toInt());
+  } else {
+    this->source_editor->set_zoom_value(fixedparameters::default__zoom_value);
+  }
+
+  setting_name = QString("text/%1/commentaryeditor/zoomvalue").arg(this->ui.current_dipydoc.qsettings_name);
+  if (settings.contains(setting_name) == true) {
+    this->commentary_editor->set_zoom_value(settings.value(setting_name).toInt());
+  } else {
+    this->commentary_editor->set_zoom_value(fixedparameters::default__zoom_value);
+  }
 
   // updating the UI :
   this->ui.mainWin->source_toolbar->show();
@@ -867,7 +903,7 @@ void MainWindow::setCurrentDipyDoc(const QString &directoryName) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
-  DebugMsg() << "MainWindow::update_icons" << this->ui.reading_mode;
+  DebugMsg() << "MainWindow::update_icons; ui.reading_mode=" << this->ui.reading_mode;
 
   /*............................................................................
     a special case : no Dipydoc.

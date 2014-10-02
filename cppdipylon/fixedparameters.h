@@ -87,6 +87,9 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
 
 const QStringList known_doctypes = { QString("text"), };
 
+// default zoom value for both editors :
+const int default__zoom_value = 1;
+
 /*
   settings
 */

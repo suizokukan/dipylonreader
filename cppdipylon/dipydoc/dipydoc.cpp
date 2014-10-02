@@ -65,6 +65,9 @@ DipyDoc::DipyDoc(const QString& _path) {
   // let's read the 'menuname' file :
   this->read_menu_name(_path);
 
+  // let's initialize the qsettings' name :
+  this->set_qsettings_name();
+
   // let's open the main file :
   this->read_mainfile(_path);
 
@@ -1432,6 +1435,21 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
     return PTRangesAND2PosAudio(posintext,
                                 this->audiorecord.text2audio[posintext]);
   }
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::set_qsettings_name()
+
+   Initialize this->qsettings_name from this->menu_name
+
+   See http://qt-project.org/doc/qt-5/QSettings.html for a list of limitations
+   due to platform limitations.
+________________________________________________________________________________*/
+void DipyDoc::set_qsettings_name(void) {
+  this->qsettings_name = this->menu_name;
+  this->qsettings_name.replace("\\", "_");
+  this->qsettings_name.replace("/", "_");
 }
 
 /*______________________________________________________________________________

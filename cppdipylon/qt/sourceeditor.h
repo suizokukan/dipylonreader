@@ -81,6 +81,12 @@ class SourceEditor : public QTextEdit {
     #else
     std::size_t modified_chars_hash = 0x123456789;
     #endif
+
+    int      zoom_value = 0;
+
+    void     zoom_in(void);
+    void     zoom_out(void);
+    void     set_zoom_value(const signed int value);
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEEDITOR_H_
