@@ -31,7 +31,7 @@
 
   SourceEditor constructor
 ______________________________________________________________________________*/
-SourceEditor::SourceEditor(UI& _ui) : ui(_ui) {
+SourceEditor::SourceEditor(UI& _ui) : TextEditor(_ui) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   this->setObjectName("source zone::editor");
@@ -258,7 +258,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 
         This function modify the appearence of the text BUT DOES NOT UPDATE
         the .modified_chars_hash attribute.
-_____________________________________________________________________________*/
+7_____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->ui.current_dipydoc;
 
@@ -374,7 +374,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   /*............................................................................
     (1) RMODE + selection
   ............................................................................*/
-  if (this->ui.reading_mode_details = =UI::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
+  if (this->ui.reading_mode_details == UI::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
     DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
     int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;

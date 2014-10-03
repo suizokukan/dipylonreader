@@ -33,7 +33,7 @@
   CommentaryEditor constructor
 
 ______________________________________________________________________________*/
-CommentaryEditor::CommentaryEditor(UI& _ui) : ui(_ui) {
+CommentaryEditor::CommentaryEditor(UI& _ui) : TextEditor(_ui) {
   this->setObjectName("commentary zone::editor");
 
   this->setReadOnly(true);

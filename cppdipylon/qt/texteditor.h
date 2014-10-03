@@ -19,35 +19,43 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcetoolbar.cpp
+    ❏DipylonReader❏ : qt/texteditor.h
 
-    See sourcetoolbar.h for the documentation.
+    Parent class of CommentaryEditor and SourceEditor.
 
 *******************************************************************************/
 
-#include "qt/sourcetoolbar.h"
+#ifndef CPPDIPYLON_QT_TEXTEDITOR_H_
+#define CPPDIPYLON_QT_TEXTEDITOR_H_
+
+#include <QTextEdit>
+
+class UI;
 
 /*______________________________________________________________________________
 
-  SourceToolBar::constructor
+  TextEditor class
 ______________________________________________________________________________*/
-SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
-  DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
+class TextEditor : public QTextEdit {
+friend class CommentaryEditor;
+friend class MainWindow;
+friend class SourceEditor;
+friend class UI;
 
-  this->setObjectName("source zone::toolbar");
+    Q_OBJECT
 
-  this->setOrientation(Qt::Vertical);
+ public:
+    explicit  TextEditor(UI& _ui);
 
-  this->addAction(this->ui.mainWin->readingmode_rAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_lAct);
-  this->addAction(this->ui.mainWin->audiocontrols_playAct);
-  this->addAction(this->ui.mainWin->audiocontrols_stopAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_aAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->source_textplusAct);
-  this->addAction(this->ui.mainWin->source_textminusAct);
+ private:
+    // UI object linked to the editor :
+    UI& ui;
 
-  DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
-}
+    int      zoom_value = 0;
+
+    void     zoom_in(void);
+    void     zoom_out(void);
+    void     set_zoom_value(const signed int value);
+};
+
+#endif  // CPPDIPYLON_QT_TEXTEDITOR_H_

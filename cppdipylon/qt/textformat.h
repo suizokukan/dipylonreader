@@ -40,7 +40,6 @@
 		o "underlinecolor:xxx" with "xxx"=black/blue/cyan/gray/green/magenta/red/white/yellow or #RRGGBB
 		o "underlinestyle:xxx" with "xxx"=dashline, dotline, singleline, waveline or #RRGGBB
                 o "font-family:xxx" with xxx being a string of characters
-                o "font-size:xxx" with xxx being an integer
 
 *******************************************************************************/
 
@@ -89,7 +88,6 @@ class TextFormat {
      o WRONG_HEX_VALUE_FOR_BACKGROUND_COLORS : wrong hexadecimal value given after the "background-color" keyword.
      o WRONG_HEX_VALUE_FOR_FOREGROUND_COLORS : wrong hexadecimal value given after the "color" keyword.
      o WRONG_HEX_VALUE_FOR_UNDERLINE_COLORS : wrong hexadecimal value given after the "underlinecolor" keyword.
-     o WRONG_DECIMAL_VALUE_FOR_FONTSIZE : wrong decimal value given after the "font-size" keyword.
   */
   enum INTERNALSTATE : int {
     OK = 0,
@@ -98,7 +96,6 @@ class TextFormat {
     WRONG_HEX_VALUE_FOR_UNDERLINE_COLORS = -3,
     WRONG_HEX_VALUE_FOR_FOREGROUND_COLORS = -4,
     WRONG_HEX_VALUE_FOR_BACKGROUND_COLORS = -5,
-    WRONG_DECIMAL_VALUE_FOR_FONTSIZE = -6,
   };
 };
 

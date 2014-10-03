@@ -19,35 +19,51 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcetoolbar.cpp
+    ❏DipylonReader❏ : qt/texteeditor.cpp
 
-    See sourcetoolbar.h for the documentation.
+    See texteeditor.h for the documentation.
 
 *******************************************************************************/
 
-#include "qt/sourcetoolbar.h"
+#include "qt/texteditor.h"
 
 /*______________________________________________________________________________
 
-  SourceToolBar::constructor
+  TextEditor::TextEditor()
+
+  class constructor
 ______________________________________________________________________________*/
-SourceToolBar::SourceToolBar(UI& _ui) : ui(_ui) {
-  DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
+TextEditor::TextEditor(UI& _ui) : ui(_ui){
+}
 
-  this->setObjectName("source zone::toolbar");
+/*______________________________________________________________________________
 
-  this->setOrientation(Qt::Vertical);
+  TextEditor::set_zoom_value
+______________________________________________________________________________*/
+void TextEditor::set_zoom_value(const signed int value) {
+  this->zoom_value = value;
 
-  this->addAction(this->ui.mainWin->readingmode_rAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_lAct);
-  this->addAction(this->ui.mainWin->audiocontrols_playAct);
-  this->addAction(this->ui.mainWin->audiocontrols_stopAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_aAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->source_textplusAct);
-  this->addAction(this->ui.mainWin->source_textminusAct);
+  if (value > 0) {
+    this->zoomIn(value);
+  } else {
+    this->zoomOut(-value);
+  }
+}
 
-  DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
+/*______________________________________________________________________________
+
+  TextEditor::zoom_in()
+______________________________________________________________________________*/
+void TextEditor::zoom_in(void) {
+  this->zoom_value += 1;
+  this->zoomIn(1);
+}
+
+/*______________________________________________________________________________
+
+  TextEditor::zoom_out()
+______________________________________________________________________________*/
+void TextEditor::zoom_out(void) {
+  this->zoom_value -= 1;
+  this->zoomOut(1);
 }
