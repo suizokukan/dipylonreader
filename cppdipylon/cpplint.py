@@ -8,9 +8,10 @@
 ################################################################################
 #
 # This script analyses the files of the project and stores the result in 
-# the 'cpplint_py__output' file.
+# the output file.
 # 
 ################################################################################
+# version 3 (2014.10.03) : display total errors found.
 # version 2 (2014.10.01) : improved the way the target files are found so that
 #                          there's no doubloon left.
 # version 1 (2014.10.01) : first version to be committed.
@@ -19,6 +20,8 @@
 import os
 
 invoking_cpplint = "python2 ~/projets/cpplint.py --linelength=120"
+
+output_filename = 'cpplint_py__output'
 
 paths_to_be_analyzed = ('debugmsg', 
                         'dipydoc', 
@@ -38,7 +41,7 @@ def ossystem(arg):
 # (0) cleaning output files
 ################################################################################
 ossystem("rm -f cpplint_py__tmp")
-ossystem("rm -f cpplint_py__output")
+ossystem("rm -f "+output_filename)
 
 ################################################################################
 # (1) searching the directories to be analyzed.
@@ -61,10 +64,20 @@ for target_dir in target_directories:
                 ossystem("{0} \"{1}\" &>>cpplint_py__tmp".format(invoking_cpplint,
                                                                  root+"/"+_file))
 
-                ossystem("cat cpplint_py__tmp >> cpplint_py__output")
+                ossystem("cat cpplint_py__tmp >> "+output_filename)
                 ossystem("rm cpplint_py__tmp")
 
 ################################################################################
-# (3) cleaning output file(s)
+# (3) cleaning the temporary output file :
 ################################################################################
 ossystem("rm -f cpplint_py__tmp")
+
+################################################################################
+# (4) reading the main output file to count the errors
+################################################################################
+numerr = 0
+with open(output_filename, 'r') as outputfile:
+    for line in outputfile.readlines():
+        if line.startswith("Total errors found: "):
+            numerr += int(line[:-1].split("Total errors found: ")[1])
+print("total error founds : ", numerr)
