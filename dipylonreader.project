@@ -64,6 +64,15 @@ SUMMARY
 [0] roadmap
 ################################################################################
 
+0.4.4 (2014_10_03)
+o feature56, feature65 : added toolbars' buttons +/- : the zoom value is stored
+             in the qsettings file; TextEditor is now the mother class of
+             CommentaryEditor and of SourceEditor.
+o feature60, feature61 : added a popup menu to the UI.
+o feature62, feature67 : cpplint.py version 3
+o +feature66, feature64, feature63, feature58, feature59, feature57, feature55
+code quality : 175 errors according to cpplint.py
+
 0.4.3 :
 o feature54 : DownloadDemoDipydocs class : download and remove demonstration 
               DipyDocs.
