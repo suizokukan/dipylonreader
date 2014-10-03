@@ -43,7 +43,6 @@
 #ifndef CPPDIPYLON_QT_ARROWFORMAT_H_
 #define CPPDIPYLON_QT_ARROWFORMAT_H_
 
-#include <QDebug>
 #include <QColor>
 #include <QString>
 #include <QStringList>

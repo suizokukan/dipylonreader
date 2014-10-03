@@ -25,8 +25,6 @@
 
 #include <dipydoc/dipydocnotes.h>
 
-#include <QDebug>
-
 #include <utility>
 
 /*______________________________________________________________________________

@@ -46,10 +46,9 @@
 #ifndef CPPDIPYLON_QT_TEXTFORMAT_H_
 #define CPPDIPYLON_QT_TEXTFORMAT_H_
 
-#include <QTextCharFormat>
 #include <QString>
 #include <QStringList>
-#include <QDebug>
+#include <QTextCharFormat>
 
 /*______________________________________________________________________________
 
