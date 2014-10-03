@@ -61,7 +61,7 @@ int PosInTextFrameFormat::init_from_string(const QString& source_string) {
     // spaces are not taken in account :
     keyword.replace(" ", "");
 
-    if( keyword.length() == 0) {
+    if (keyword.length() == 0) {
       continue;
     }
 

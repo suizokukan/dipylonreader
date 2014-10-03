@@ -453,7 +453,7 @@ void UI::write_settings(void) {
   /*
     zoom value of the current text (if it has been loaded)
   */
-  if(this->current_dipydoc.well_initialized() == true) {
+  if (this->current_dipydoc.well_initialized() == true) {
     settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->current_dipydoc.qsettings_name),
                       this->mainWin->source_editor->zoom_value);
     settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->current_dipydoc.qsettings_name),
