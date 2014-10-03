@@ -50,16 +50,10 @@ Done processing ./pos/posinaudio/posinaudiorange.cpp
 Total errors found: 0
 Done processing ./pos/posinaudio/posinaudio.h
 Total errors found: 0
-./qt/commentarytoolbar.h:43:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/commentarytoolbar.h:47:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/commentarytoolbar.h:48:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
 ./qt/commentarytoolbar.h:50:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/commentarytoolbar.h:51:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/commentarytoolbar.h:52:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/commentarytoolbar.h:55:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
-./qt/commentarytoolbar.h:55:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./qt/commentarytoolbar.h:50:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 Done processing ./qt/commentarytoolbar.h
-Total errors found: 8
+Total errors found: 2
 ./qt/blockformat.cpp:58:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
 ./qt/blockformat.cpp:69:  Missing space before ( in if(  [whitespace/parens] [5]
 ./qt/blockformat.cpp:70:  Extra space after ( in function call  [whitespace/parens] [4]
@@ -94,43 +88,46 @@ Total errors found: 17
 ./qt/textformat.cpp:61:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
 ./qt/textformat.cpp:78:  Missing space before ( in if(  [whitespace/parens] [5]
 ./qt/textformat.cpp:78:  Mismatching spaces inside () in if  [whitespace/parens] [5]
-./qt/textformat.cpp:85:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:86:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:89:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:90:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:90:  Extra space before )  [whitespace/parens] [2]
-./qt/textformat.cpp:102:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:103:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:106:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:107:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:116:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:116:  Mismatching spaces inside () in if  [whitespace/parens] [5]
-./qt/textformat.cpp:117:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:122:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:86:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:87:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:90:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:91:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:100:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:100:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+./qt/textformat.cpp:101:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:106:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:111:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:115:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:119:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:123:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:127:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:131:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:135:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:139:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:143:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:147:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:151:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:168:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:169:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:172:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:173:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:152:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:153:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:156:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:157:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:166:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:170:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:174:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:178:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:182:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:186:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:190:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:194:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:198:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:202:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:206:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:210:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:214:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:230:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:231:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:234:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:235:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:214:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:215:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:218:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/textformat.cpp:219:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:228:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:228:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:232:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:232:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:236:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:236:  Extra space before )  [whitespace/parens] [2]
+./qt/textformat.cpp:240:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/textformat.cpp:240:  Extra space before )  [whitespace/parens] [2]
 ./qt/textformat.cpp:244:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:244:  Extra space before )  [whitespace/parens] [2]
 ./qt/textformat.cpp:248:  Extra space after ( in function call  [whitespace/parens] [4]
@@ -141,16 +138,8 @@ Total errors found: 17
 ./qt/textformat.cpp:256:  Extra space before )  [whitespace/parens] [2]
 ./qt/textformat.cpp:260:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:260:  Extra space before )  [whitespace/parens] [2]
-./qt/textformat.cpp:264:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:264:  Extra space before )  [whitespace/parens] [2]
-./qt/textformat.cpp:268:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:268:  Extra space before )  [whitespace/parens] [2]
-./qt/textformat.cpp:272:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:272:  Extra space before )  [whitespace/parens] [2]
-./qt/textformat.cpp:276:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:276:  Extra space before )  [whitespace/parens] [2]
 Done processing ./qt/textformat.cpp
-Total errors found: 59
+Total errors found: 54
 Done processing ./qt/commentaryeditor.h
 Total errors found: 0
 ./qt/sourcezone.h:51:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
@@ -164,13 +153,10 @@ Total errors found: 6
 ./qt/sourcetoolbar.h:41:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
 ./qt/sourcetoolbar.h:45:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
 ./qt/sourcetoolbar.h:46:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcetoolbar.h:48:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcetoolbar.h:49:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcetoolbar.h:50:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcetoolbar.h:53:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
-./qt/sourcetoolbar.h:53:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./qt/sourcetoolbar.h:49:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+./qt/sourcetoolbar.h:49:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 Done processing ./qt/sourcetoolbar.h
-Total errors found: 8
+Total errors found: 5
 Done processing ./qt/downloaddemodipydocs.cpp
 Total errors found: 0
 Done processing ./qt/sourceeditor.h
@@ -191,14 +177,20 @@ Total errors found: 0
 ./qt/sourceeditor.cpp:328:  Missing space before ( in switch(  [whitespace/parens] [5]
 Done processing ./qt/sourceeditor.cpp
 Total errors found: 3
+./qt/texteditor.h:48:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+Done processing ./qt/texteditor.h
+Total errors found: 1
 Done processing ./qt/commentarytoolbar.cpp
 Total errors found: 0
 Done processing ./qt/arrowformat.h
 Total errors found: 0
+./qt/texteditor.cpp:36:  Missing space before {  [whitespace/braces] [5]
+Done processing ./qt/texteditor.cpp
+Total errors found: 1
 Done processing ./qt/blockformat.h
 Total errors found: 0
-./qt/textformat.h:128:  #endif line should be "#endif  // CPPDIPYLON_QT_TEXTFORMAT_H_"  [build/header_guard] [5]
-./qt/textformat.h:72:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./qt/textformat.h:125:  #endif line should be "#endif  // CPPDIPYLON_QT_TEXTFORMAT_H_"  [build/header_guard] [5]
+./qt/textformat.h:71:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 Done processing ./qt/textformat.h
 Total errors found: 2
 Done processing ./qt/sourcetoolbar.cpp
@@ -252,37 +244,35 @@ Total errors found: 14
 ./qt/mainwindow.cpp:532:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
 ./qt/mainwindow.cpp:581:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/mainwindow.cpp:581:  Extra space before )  [whitespace/parens] [2]
-./qt/mainwindow.cpp:604:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:605:  Extra space before )  [whitespace/parens] [2]
-./qt/mainwindow.cpp:631:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:650:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:651:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:654:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:658:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:666:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
-./qt/mainwindow.cpp:666:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
-./qt/mainwindow.cpp:670:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:680:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:681:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:704:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:711:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
-./qt/mainwindow.cpp:711:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
-./qt/mainwindow.cpp:746:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/mainwindow.cpp:875:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:876:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:885:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:892:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:894:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
-./qt/mainwindow.cpp:894:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
-./qt/mainwindow.cpp:913:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:914:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:915:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:620:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:621:  Extra space before )  [whitespace/parens] [2]
+./qt/mainwindow.cpp:647:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:666:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:667:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:670:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:674:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:682:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:682:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:686:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:696:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:697:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/mainwindow.cpp:720:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:727:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:727:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:782:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./qt/mainwindow.cpp:911:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:912:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:921:  Missing space before ( in if(  [whitespace/parens] [5]
+./qt/mainwindow.cpp:928:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:930:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
+./qt/mainwindow.cpp:930:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
+./qt/mainwindow.cpp:949:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:950:  Extra space after ( in function call  [whitespace/parens] [4]
+./qt/mainwindow.cpp:951:  Extra space after ( in function call  [whitespace/parens] [4]
 Done processing ./qt/mainwindow.cpp
 Total errors found: 58
-./qt/posintextframeformat.cpp:64:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/posintextframeformat.cpp:64:  Mismatching spaces inside () in if  [whitespace/parens] [5]
 Done processing ./qt/posintextframeformat.cpp
-Total errors found: 2
+Total errors found: 0
 Done processing ./qt/commentaryzone.cpp
 Total errors found: 0
 Done processing ./qt/sourcezone.cpp

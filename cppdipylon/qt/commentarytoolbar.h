@@ -40,14 +40,13 @@ class UI;
   CommentaryToolBar class
 ______________________________________________________________________________*/
 class CommentaryToolBar : public QToolBar {
-
     Q_OBJECT
 
  private:
- // UI object linked to the editor :
- UI& ui;
+  // UI object linked to the editor :
+  const UI& ui;
 
  public:
-  CommentaryToolBar(UI& _ui);
+   CommentaryToolBar(const UI& _ui);
 };
 #endif  // CPPDIPYLON_QT_COMMENTARYTOOLBAR_H_
