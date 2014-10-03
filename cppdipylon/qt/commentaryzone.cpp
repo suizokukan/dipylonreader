@@ -34,7 +34,7 @@ ______________________________________________________________________________*/
 CommentaryZone::CommentaryZone(UI& _ui) : ui(_ui) {
   DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
 
-  this->setObjectName("commentary zone");
+  this->setObjectName("commentary_zone");
 
   DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
   this->ui.mainWin->commentary_editor = new CommentaryEditor(this->ui);

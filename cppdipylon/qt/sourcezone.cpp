@@ -34,7 +34,8 @@ ______________________________________________________________________________*/
 SourceZone::SourceZone(UI& _ui) : ui(_ui) {
   DebugMsg() << "SourceZone::SourceZone : entry point";
 
-  this->setObjectName("source zone");
+  this->setObjectName("source_zone");
+  this->setStyleSheet("#source_zone {border: 0px; padding: 0px}");
 
   DebugMsg() << "SourceZone::SourceZone : creating SourceEditor object";
   this->ui.mainWin->source_editor = new SourceEditor(this->ui);

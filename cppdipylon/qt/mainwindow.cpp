@@ -33,7 +33,8 @@
 
 ______________________________________________________________________________*/
 MainWindow::MainWindow(UI& _ui) : ui(_ui) {
-  this->setObjectName("main window");
+  this->setObjectName("main_window");
+
 #ifdef NO_STATUS_BAR
   this->setStatusBar(0);
 #endif
@@ -458,7 +459,9 @@ void MainWindow::createStatusBar() {
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars() {
     this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
-    this->mainwintoolbar->setObjectName("main window::main toolbar");
+
+    this->mainwintoolbar->setObjectName("main_window__main_toolbar");
+
     #ifndef NO_MAIN_POPUPMENU
     this->mainwintoolbar->addAction(this->popup_mainmenuAct);
     #endif
@@ -570,6 +573,8 @@ void MainWindow::init(void) {
   this->createActions();
 
   this->main_splitter = new QSplitter(this);
+  this->main_splitter->setObjectName("mainwindow__splitter");
+  this->main_splitter->setStyleSheet("#mainwindow__splitter::handle:vertical {height: 5px;}");
   this->main_splitter->setOrientation(Qt::Vertical);
   this->setCentralWidget(main_splitter);
 

@@ -34,7 +34,7 @@ ______________________________________________________________________________*/
 SourceEditor::SourceEditor(UI& _ui) : TextEditor(_ui) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
-  this->setObjectName("source zone::editor");
+  this->setObjectName("source_zone__editor");
 
   this->setReadOnly(true);
   this->setMouseTracking(true);
