@@ -28,8 +28,6 @@
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 #define CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 
-#include <QDebug>
-
 #include <QFile>
 #include <QFileInfo>
 #include <QIODevice>
@@ -39,17 +37,17 @@
 #include <QTextStream>
 #include <QXmlStreamReader>
 
-#include <map>
 #include <cstring>
+#include <map>
 #include <utility>
 
 #include "./fixedparameters.h"
 #include "dipydoc/menunames.h"
 #include "dipydoc/dipydocnotes.h"
+#include "languages/languagefromto.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
-#include "languages/languagefromto.h"
 #include "qt/arrowformat.h"
 #include "qt/blockformat.h"
 #include "qt/posintextframeformat.h"

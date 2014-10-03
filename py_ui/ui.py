@@ -27,7 +27,7 @@ class Zone1(QtGui.QFrame):
 #        self.layout.addWidget(self.edit1)
 
         self.setObjectName("myObject");
-        self.setStyleSheet("#myObject { border: 0px solid green; padding: 0px}");
+        self.setStyleSheet("#myObject { border: 5px solid green; padding: 0px}");
 
         #self.setFrameStyle(QtGui.QFrame.NoFrame);
         #self.setLineWidth(0)

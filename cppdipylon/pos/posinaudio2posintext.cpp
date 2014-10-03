@@ -27,8 +27,6 @@
 
 #include "pos/posinaudio2posintext.h"
 
-#include <QDebug>
-
 /*______________________________________________________________________________
 
         PosInAudio2PosInText::PosInAudio2PosInText(const PosInText2PosInAudio)
