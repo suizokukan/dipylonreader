@@ -33,7 +33,7 @@
   CommentaryEditor constructor
 
 ______________________________________________________________________________*/
-CommentaryEditor::CommentaryEditor(UI& _ui) : ui(_ui) {
+CommentaryEditor::CommentaryEditor(UI& _ui) : TextEditor(_ui) {
   this->setObjectName("commentary zone::editor");
 
   this->setReadOnly(true);
@@ -159,41 +159,9 @@ void CommentaryEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
 
 /*______________________________________________________________________________
 
-  CommentaryEditor::set_zoom_value
-______________________________________________________________________________*/
-void CommentaryEditor::set_zoom_value(const signed int value) {
-  this->zoom_value = value;
-
-  if (value > 0) {
-    this->zoomIn(value);
-  } else {
-    this->zoomOut(-value);
-  }
-}
-
-/*______________________________________________________________________________
-
   CommentaryEditor::update_aspect_from_dipydoc_aspect_informations
 ______________________________________________________________________________*/
 void CommentaryEditor::update_aspect_from_dipydoc_aspect_informations(void) {
   this->set_the_text_formats();
   this->set_the_appearance();
-}
-
-/*______________________________________________________________________________
-
-  CommentaryEditor::zoom_in()
-______________________________________________________________________________*/
-void CommentaryEditor::zoom_in(void) {
-  this->zoom_value += 1;
-  this->zoomIn(1);
-}
-
-/*______________________________________________________________________________
-
-  CommentaryEditor::zoom_out()
-______________________________________________________________________________*/
-void CommentaryEditor::zoom_out(void) {
-  this->zoom_value -= 1;
-  this->zoomOut(1);
 }

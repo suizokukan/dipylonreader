@@ -19,46 +19,43 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/commentaryeditor.h
+    ❏DipylonReader❏ : qt/texteditor.h
 
-    Zone where the annotations are displayed.
+    Parent class of CommentaryEditor and SourceEditor.
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_COMMENTARYEDITOR_H_
-#define CPPDIPYLON_QT_COMMENTARYEDITOR_H_
+#ifndef CPPDIPYLON_QT_TEXTEDITOR_H_
+#define CPPDIPYLON_QT_TEXTEDITOR_H_
 
 #include <QTextEdit>
-
-#include "qt/texteditor.h"
-#include "qt/ui.h"
 
 class UI;
 
 /*______________________________________________________________________________
 
-  CommentaryEditor class
+  TextEditor class
 ______________________________________________________________________________*/
-class CommentaryEditor : public TextEditor {
+class TextEditor : public QTextEdit {
+friend class CommentaryEditor;
 friend class MainWindow;
+friend class SourceEditor;
 friend class UI;
 
     Q_OBJECT
 
  public:
-    explicit CommentaryEditor(UI&);
-
-    void set_the_appearance(void);
-    void set_the_text_formats(void);
-    void update_content__translation_expected(const PosInTextRanges&);
-    void update_aspect_from_dipydoc_aspect_informations(void);
-
- protected:
-    void keyReleaseEvent(QKeyEvent* keyboard_event);
+    explicit  TextEditor(UI& _ui);
 
  private:
-    // text formats, initialized by this->set_the_text_formats() :
-    QTextCharFormat format_text = QTextCharFormat();
+    // UI object linked to the editor :
+    UI& ui;
+
+    int      zoom_value = 0;
+
+    void     zoom_in(void);
+    void     zoom_out(void);
+    void     set_zoom_value(const signed int value);
 };
 
-#endif  // CPPDIPYLON_QT_COMMENTARYEDITOR_H_
+#endif  // CPPDIPYLON_QT_TEXTEDITOR_H_

@@ -31,7 +31,7 @@
 
   SourceEditor constructor
 ______________________________________________________________________________*/
-SourceEditor::SourceEditor(UI& _ui) : ui(_ui) {
+SourceEditor::SourceEditor(UI& _ui) : TextEditor(_ui) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   this->setObjectName("source zone::editor");
@@ -569,40 +569,8 @@ void SourceEditor::set_the_appearance(void) {
 
 /*______________________________________________________________________________
 
-  SourceEditor::set_zoom_value
-______________________________________________________________________________*/
-void SourceEditor::set_zoom_value(const signed int value) {
-  this->zoom_value = value;
-
-  if (value > 0) {
-    this->zoomIn(value);
-  } else {
-    this->zoomOut(-value);
-  }
-}
-
-/*______________________________________________________________________________
-
   SourceEditor::update_aspect_from_dipydoc_aspect_informations()
 ______________________________________________________________________________*/
 void SourceEditor::update_aspect_from_dipydoc_aspect_informations(void) {
   this->set_the_appearance();
-}
-
-/*______________________________________________________________________________
-
-  SourceEditor::zoom_in()
-______________________________________________________________________________*/
-void SourceEditor::zoom_in(void) {
-  this->zoom_value += 1;
-  this->zoomIn(1);
-}
-
-/*______________________________________________________________________________
-
-  SourceEditor::zoom_out()
-______________________________________________________________________________*/
-void SourceEditor::zoom_out(void) {
-  this->zoom_value -= 1;
-  this->zoomOut(1);
 }

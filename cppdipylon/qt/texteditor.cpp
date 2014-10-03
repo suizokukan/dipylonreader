@@ -19,46 +19,51 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/commentaryeditor.h
+    ❏DipylonReader❏ : qt/texteeditor.cpp
 
-    Zone where the annotations are displayed.
+    See texteeditor.h for the documentation.
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_COMMENTARYEDITOR_H_
-#define CPPDIPYLON_QT_COMMENTARYEDITOR_H_
-
-#include <QTextEdit>
-
 #include "qt/texteditor.h"
-#include "qt/ui.h"
-
-class UI;
 
 /*______________________________________________________________________________
 
-  CommentaryEditor class
+  TextEditor::TextEditor()
+
+  class constructor
 ______________________________________________________________________________*/
-class CommentaryEditor : public TextEditor {
-friend class MainWindow;
-friend class UI;
+TextEditor::TextEditor(UI& _ui) : ui(_ui){
+}
 
-    Q_OBJECT
+/*______________________________________________________________________________
 
- public:
-    explicit CommentaryEditor(UI&);
+  TextEditor::set_zoom_value
+______________________________________________________________________________*/
+void TextEditor::set_zoom_value(const signed int value) {
+  this->zoom_value = value;
 
-    void set_the_appearance(void);
-    void set_the_text_formats(void);
-    void update_content__translation_expected(const PosInTextRanges&);
-    void update_aspect_from_dipydoc_aspect_informations(void);
+  if (value > 0) {
+    this->zoomIn(value);
+  } else {
+    this->zoomOut(-value);
+  }
+}
 
- protected:
-    void keyReleaseEvent(QKeyEvent* keyboard_event);
+/*______________________________________________________________________________
 
- private:
-    // text formats, initialized by this->set_the_text_formats() :
-    QTextCharFormat format_text = QTextCharFormat();
-};
+  TextEditor::zoom_in()
+______________________________________________________________________________*/
+void TextEditor::zoom_in(void) {
+  this->zoom_value += 1;
+  this->zoomIn(1);
+}
 
-#endif  // CPPDIPYLON_QT_COMMENTARYEDITOR_H_
+/*______________________________________________________________________________
+
+  TextEditor::zoom_out()
+______________________________________________________________________________*/
+void TextEditor::zoom_out(void) {
+  this->zoom_value -= 1;
+  this->zoomOut(1);
+}
