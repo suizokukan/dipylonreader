@@ -34,7 +34,7 @@
 
 ______________________________________________________________________________*/
 CommentaryEditor::CommentaryEditor(UI& _ui) : TextEditor(_ui) {
-  this->setObjectName("commentary zone::editor");
+  this->setObjectName("commentary_zone__editor");
 
   this->setReadOnly(true);
   this->update_aspect_from_dipydoc_aspect_informations();
