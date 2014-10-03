@@ -24,7 +24,10 @@
 *******************************************************************************/
 
 #include <dipydoc/dipydocnotes.h>
+
 #include <QDebug>
+
+#include <utility>
 
 /*______________________________________________________________________________
 
@@ -91,8 +94,7 @@ MAPPosNoteI_BOOL DipyDocNotes::insert(int level, PosInTextRanges pos, DipyDocNot
     MAP_PosNote empty_map;
     this->map[level] = empty_map;
     return this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
-  }
-  else {
+  } else {
     return this->map[level].insert( std::pair<PosInTextRanges, DipyDocNote>(pos, note) );
   }
 }

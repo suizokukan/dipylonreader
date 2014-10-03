@@ -30,17 +30,18 @@
 
 #include <QDebug>
 
-#include <QString>
 #include <QFile>
 #include <QFileInfo>
 #include <QIODevice>
+#include <QObject>
+#include <QString>
+#include <QTextCharFormat>
 #include <QTextStream>
 #include <QXmlStreamReader>
-#include <QObject>
-#include <QTextCharFormat>
 
 #include <map>
 #include <cstring>
+#include <utility>
 
 #include "./fixedparameters.h"
 #include "dipydoc/menunames.h"
@@ -271,8 +272,15 @@ friend class CommentaryEditor;
   QString              path;
   QString              main_filename_with_fullpath;
 
-  // general informations :
+  /*
+     general informations :
+  */
+  // name displayed in the File>Open menu :
+  // initialized by ::read_menu_name()
   QString              menu_name;
+  // name used in the qsettings file :
+  // initialized by ::set_qsettings_name()
+  QString              qsettings_name;
 
   QString              id;
   int                  version;
@@ -282,7 +290,7 @@ friend class CommentaryEditor;
   QString              sourceeditor_stylesheet;
   TextFormat           sourceeditor_default_textformat;
   TextFormat           sourceeditor_rmode_textformat;
-  TextFormat           sourceeditor_rlmode_textformat;
+  TextFormat           sourceeditor_lmode_textformat;
   // commentaryeditor.aspect :
   QString              commentaryeditor_stylesheet;
   TextFormat           commentaryeditor_textformat;
@@ -318,12 +326,13 @@ friend class CommentaryEditor;
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
   QString                error_string(const QXmlStreamReader& xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
-  bool                   read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlreader);
-  bool                   read_mainfile__read_first_token(QXmlStreamReader& xmlreader);
+  bool                   read_mainfile__first_token(QXmlStreamReader& xmlreader);  // NOLINT(runtime/references)
+  bool                   read_mainfile__rest(QXmlStreamReader& xmlreader);   // NOLINT(runtime/references)
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
+  void                   set_qsettings_name(void);
 
- // public methods .............................................................
+  // public methods .............................................................
  public:
                        DipyDoc(void);
               explicit DipyDoc(const QString&);
@@ -338,9 +347,10 @@ friend class CommentaryEditor;
   bool                 well_initialized(void) const;
 
   // public constants ...........................................................
-  static const int     min_dipydocformat_version = 30;
-  static const int     max_dipydocformat_version = 30;
-  // (see ::get_condensed_extracts_from_the_source_text() method) :
+  static const int     min_dipydocformat_version = 32;
+  static const int     max_dipydocformat_version = 32;
+  // for the following constants, see
+  // the  get_condensed_extracts_from_the_source_text() method :
   static const int     condensed_extracts_length = 30;
   constexpr static const char*   condensed_extracts_separator = "//";
 

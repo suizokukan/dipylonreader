@@ -27,6 +27,8 @@
 
 #include "pos/posintext/posintext2str.h"
 
+#include <vector>
+
 /*______________________________________________________________________________
 
         PosInText2Str::checks() : do some tests and if something's wrong,
@@ -43,10 +45,9 @@ void PosInText2Str::checks(void) {
     are the PosInTextRanges objects ok ?
   */
   // i is an iterator over a pair<PosInTextRanges, QString> :
-  for(auto &i : this->map)
-  {
+  for (auto &i : this->map) {
     // i.irst is a PosInTextRanges object.
-    if( i.first._well_initialized == false ) {
+    if (i.first._well_initialized == false) {
       this->_well_initialized = false;
       this->_internal_state = PosInText2Str::INTERNALSTATE::BAD_POS_IN_TEXTRANGES;
       return;
@@ -75,13 +76,11 @@ void PosInText2Str::clear(void) {
        empty PosInTextRanges if indexes in "this" do not contain "x0".
 
 _____________________________________________________________________________*/
-PosInTextRanges PosInText2Str::contains(PosInText x0) const
-{
+PosInTextRanges PosInText2Str::contains(PosInText x0) const {
   // i is an iterator over a pair<PosInTextRanges, QString> :
-  for(auto &i : this->map) {
-
+  for (auto &i : this->map) {
     // i->first is a PosInTextRanges object.
-    if( i.first.contains(x0) == true ) {
+    if (i.first.contains(x0) == true) {
       // ok, the searched PosInTextRanges has been found and can be returned :
       return i.first;
     }
@@ -100,16 +99,15 @@ PosInTextRanges PosInText2Str::contains(PosInText x0) const
        vector if this do not contain "x0...x1"
 
 _____________________________________________________________________________*/
-VectorPosInTextRanges PosInText2Str::contains(PosInText x0, PosInText x1) const
-{
+VectorPosInTextRanges PosInText2Str::contains(PosInText x0, PosInText x1) const {
   std::vector<PosInTextRanges> res;
 
   // i is an iterator over a pair<PosInTextRanges, QString> :
-  for(auto &i : this->map) {
+  for (auto &i : this->map) {
     // i->first is a PosInTextRanges object.
-    if( i.first.contains(x0, x1) == true ) {
+    if (i.first.contains(x0, x1) == true) {
       // ok, the searched PosInTextRanges has been found :
-      res.push_back( i.first );
+      res.push_back(i.first);
     }
   }
 

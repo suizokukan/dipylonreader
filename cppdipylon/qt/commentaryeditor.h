@@ -30,6 +30,7 @@
 
 #include <QTextEdit>
 
+#include "qt/texteditor.h"
 #include "qt/ui.h"
 
 class UI;
@@ -38,10 +39,9 @@ class UI;
 
   CommentaryEditor class
 ______________________________________________________________________________*/
-
-class CommentaryEditor : public QTextEdit {
-friend class UI;
+class CommentaryEditor : public TextEditor {
 friend class MainWindow;
+friend class UI;
 
     Q_OBJECT
 
@@ -57,9 +57,6 @@ friend class MainWindow;
     void keyReleaseEvent(QKeyEvent* keyboard_event);
 
  private:
-    // UI object linked to the editor :
-    UI& ui;
-
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();
 };

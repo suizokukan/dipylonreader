@@ -141,7 +141,7 @@ void PosInTextRanges::checks(void) {
   */
   PosInText last_value = 0;
   for (auto &i : vec) {
-    if(i.first < last_value) {
+    if (i.first < last_value) {
       this->_well_initialized = false;
       this->_internal_state = PosInTextRanges::INTERNALSTATE::NOT_SORTED;
       return;

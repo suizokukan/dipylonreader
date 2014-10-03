@@ -34,6 +34,15 @@
 
 namespace fixedparameters {
 
+// code source :
+constexpr static const char*   CODESOURCE_ADDRESS = "http://github.com/suizokukan/dipylonreader/";
+// code source's author :
+constexpr static const char*   CODESOURCE_AUTHOR = "Xavier Faure";
+// license's name :
+constexpr static const char*   CODESOURCE_LICENSE = "GPLv3";
+// license's address :
+constexpr static const char*   CODESOURCE_LICENSE_ADDRESS= "http://www.gnu.org/copyleft/gpl.html";
+
 /*
   data used to initialize the QApplication object.
 
@@ -42,7 +51,8 @@ namespace fixedparameters {
 static const QString organization_name   = "suizokukanfactory";
 static const QString organization_domain = "94.23.197.37";
 static const QString application_name    = "dipylonreader";
-static const QString application_version = "0.4.3";
+static const QString application_name_for_the_user = "Dipylon-R";
+static const QString application_version = "0.4.4";
 static const QString application_style   = "CleanLooks";
 
 /*
@@ -77,11 +87,17 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
 
 const QStringList known_doctypes = { QString("text"), };
 
+// default zoom value for both editors :
+const int default__zoom_value = 1;
+
 /*
-  splash screen
+  settings
 */
+// splash screen
 static const int splashscreen_maximal_duration = 9000;
 static const bool default__display_splashscreen = true;
+// toolbars
+static const bool default__visible_toolbars = true;
 
 // name of the main file in a dipydoc directory :
 constexpr static const char*   DIPYDOC__MAIN_FILENAME = "main.xml";

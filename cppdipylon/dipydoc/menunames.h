@@ -23,11 +23,14 @@
 
     MenuNames class
 
+    This class allow to store the name of the different Dipydocs stored in a directory.
+
 *******************************************************************************/
 
 #ifndef CPPDIPYLON_DIPYDOC_MENUNAMES_H_
 #define CPPDIPYLON_DIPYDOC_MENUNAMES_H_
 
+#include <map>
 #include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
@@ -46,7 +49,7 @@ struct MenuNames {
   MAP_STR2STR    menuname_to_directory;
 
                  MenuNames(void);
-                 MenuNames(const QString& path);
+        explicit MenuNames(const QString& path);
   MAP_STR2STR_CI begin(void) const;
   MAP_STR2STR_CI end(void) const;
   static QString read_menu_name_from_a_file_within_a_directory(const QString& path);
@@ -68,9 +71,9 @@ inline MenuNames::MenuNames(const QString& path) {
   this->menuname_to_directory.clear();
 
   QDir dipydocs_path(path);
-  dipydocs_path.setFilter( QDir::Dirs );
+  dipydocs_path.setFilter(QDir::Dirs);
 
-  for( auto &directory_name: dipydocs_path.entryList()) {
+  for (auto &directory_name : dipydocs_path.entryList()) {
     if ( (directory_name != ".") && (directory_name != "..") ) {
       QString menuname(this->read_menu_name_from_a_file_within_a_directory(path + "/" + directory_name));
       if (menuname.size() != 0) {
@@ -109,7 +112,7 @@ inline QString MenuNames::read_menu_name_from_a_file_within_a_directory(const QS
     res = res.trimmed();
   }
 
- return res;
+  return res;
 }
 
 /*______________________________________________________________________________
@@ -119,8 +122,8 @@ ________________________________________________________________________________
 inline QString MenuNames::repr(void) const {
   QStringList resl;
 
-  for(auto &item : this->menuname_to_directory) {
-    resl.append( QString("'%1' -> '%2'").arg(item.first, item.second) );
+  for (auto &item : this->menuname_to_directory) {
+    resl.append(QString("'%1' -> '%2'").arg(item.first, item.second));
   }
 
   return resl.join("\n");

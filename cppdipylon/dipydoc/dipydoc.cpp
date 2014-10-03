@@ -65,11 +65,14 @@ DipyDoc::DipyDoc(const QString& _path) {
   // let's read the 'menuname' file :
   this->read_menu_name(_path);
 
+  // let's initialize the qsettings' name :
+  this->set_qsettings_name();
+
   // let's open the main file :
   this->read_mainfile(_path);
 
   // let's open the text file :
-  if( this->well_initialized() == true ) {
+  if (this->well_initialized() == true) {
     DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
     QFile src_file(this->source_text.filename);
     src_file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -131,7 +134,8 @@ bool DipyDoc::check_path(const QString& _path) {
   QFileInfo main_info = QFileInfo(_path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME);
   if (main_info.exists() == false) {
     QString msg(QString("An error occured while opening the main file : "
-                        "the main file files %1 doesn't exist in %2.").arg(fixedparameters::DIPYDOC__MAIN_FILENAME, _path));
+                        "the main file files %1 "
+                        "doesn't exist in %2.").arg(fixedparameters::DIPYDOC__MAIN_FILENAME, _path));
     this->error(msg);
     return false;
   }
@@ -242,7 +246,8 @@ bool DipyDoc::error(const QString& _msg) {
   return true;  // since this function has been called, there must be an error !
 }
 bool DipyDoc::error(const QString& _msg, const QString& _error_string) {
-  QString msg(QString("#ERROR# An error occured by reading the main file : msg=\"%1\"; error_string()=\"%2\".").arg(_msg, _error_string));
+  QString msg(QString("#ERROR# An error occured by reading the main file : "
+                      "msg=\"%1\"; error_string()=\"%2\".").arg(_msg, _error_string));
   this->err_messages.append(msg);
   DebugMsg() << msg;
 
@@ -254,7 +259,8 @@ template<class T> bool DipyDoc::error(const T& object, const QString& _error_str
   bool error_detected = !object.well_initialized();
 
   if (error_detected == true) {
-    QString msg(QString("#ERROR# An error occured by reading the main file : error_string=\"%1\"; where=\"%2\".").arg(_error_string, where));
+    QString msg(QString("#ERROR# An error occured by reading the main file : "
+                        "error_string=\"%1\"; where=\"%2\".").arg(_error_string, where));
     this->err_messages.append(msg);
     DebugMsg() << msg;
   }
@@ -293,7 +299,7 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
   }
 
   // removing the last '//', if necessary :
-  if( positions.size() != 0 ) {
+  if (positions.size() != 0) {
     res.chop(strlen(condensed_extracts_separator));
   }
 
@@ -393,8 +399,8 @@ QString DipyDoc::get_xml_repr(void) const {
          "</default_textformat>\n";
   res += "      <rmode_textformat>$SOURCEEDITOR_RMODETEXTFORMAT$"
          "</rmode_textformat>\n";
-  res += "      <rlmode_textformat>$SOURCEEDITOR_RLMODETEXTFORMAT$"
-         "</rlmode_textformat>\n";
+  res += "      <lmode_textformat>$SOURCEEDITOR_LMODETEXTFORMAT$"
+         "</lmode_textformat>\n";
   res += "    </sourceeditor>\n";
 
   res += "    <commentaryeditor>\n";
@@ -605,8 +611,8 @@ QString DipyDoc::get_xml_repr(void) const {
                this->sourceeditor_default_textformat.repr());
   res.replace("$SOURCEEDITOR_RMODETEXTFORMAT$",
                this->sourceeditor_rmode_textformat.repr());
-  res.replace("$SOURCEEDITOR_RLMODETEXTFORMAT$",
-               this->sourceeditor_rlmode_textformat.repr());
+  res.replace("$SOURCEEDITOR_LMODETEXTFORMAT$",
+               this->sourceeditor_lmode_textformat.repr());
   res.replace("$COMMENTARYEDITOR_STYLESHEET$",
                this->commentaryeditor_stylesheet);
   res.replace("$COMMENTARYEDITOR_DEFAULTTEXTFORMAT$",
@@ -678,6 +684,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (1) main file opening
   ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile) #1";
   this->path = _path;
   this->main_filename_with_fullpath = _path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
@@ -697,7 +704,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
 
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #3";
+  DebugMsg() << "(DipyDoc::read_mainfile) #2";
   QXmlStreamReader xmlreader;
   xmlreader.setDevice(&dipydoc_main_xml_file);
 
@@ -708,21 +715,27 @@ void DipyDoc::read_mainfile(const QString& _path) {
       /*
          ok, it's a DipyDoc file : let's read and check its first token
       */
-      if (this->read_mainfile__read_first_token(xmlreader) == true) {
+      if (this->read_mainfile__first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
-        ok = this->read_mainfile__read_the_rest_of_the_file(xmlreader);
+        ok = this->read_mainfile__rest(xmlreader);
+        DebugMsg() << "(DipyDoc::read_mainfile) #2(a)" << ok;
       }
-    }
-    else {
+    } else {
       /*
-         not a DipyDoc file :
+         not a DipyDoc file (?) :
       */
-      this->error( "This isn't a DipyDoc file : incorrect first token.", this->error_string(xmlreader) );
+      this->error("This isn't a DipyDoc file : incorrect first token.", this->error_string(xmlreader));
       ok = false;
     }
+  } else {
+    /*
+       not a DipyDoc file (?) :
+    */
+    this->error("This isn't a DipyDoc file : nothing to read.", this->error_string(xmlreader));
+    ok = false;
   }
 
-  if( ok == false ) {
+  if (ok == false) {
     DebugMsg() << "DipyDoc::read_mainfile() : exit #1";
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
@@ -732,7 +745,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (3) secondary initializations
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #4";
+  DebugMsg() << "(DipyDoc::read_mainfile) #3";
 
   /*............................................................................
     (3.1) initialization of "audiorecord.audio2text"
@@ -770,7 +783,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (4) checks
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #5";
+  DebugMsg() << "(DipyDoc::read_mainfile) #4";
 
   /*............................................................................
     (4.1) is audiorecord.text2audio correctly initialized ?
@@ -779,7 +792,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
       this->audiorecord.text2audio.well_initialized() == false) {
     QString msg = "text2audio isn't correctly initialized"
                   "PosInText2PosInAudio error message = %1.";
-    ok &= !this->error( msg.arg(QString().setNum(this->audiorecord.text2audio.internal_state()) ));
+    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.text2audio.internal_state())));
   }
 
   /*............................................................................
@@ -789,7 +802,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
       this->audiorecord.audio2text.well_initialized() == false) {
     QString msg = "audio2text isn't correctly initialized"
                   "PosInAudio2PosInText error message = %1.";
-    ok &= !this->error( msg.arg(QString().setNum(this->audiorecord.audio2text.internal_state()) ));
+    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.audio2text.internal_state())));
   }
 
   /*............................................................................
@@ -798,7 +811,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   if (this->translation.translations.well_initialized() == false) {
     QString msg = "translation.translations isn't correctly initialized"
                   "PosInText2Str error message = %1.";
-    ok &= !this->error( msg.arg(QString().setNum(this->translation.translations.internal_state()) ));
+    ok &= !this->error(msg.arg(QString().setNum(this->translation.translations.internal_state())));
   }
 
   /*............................................................................
@@ -806,7 +819,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   ............................................................................*/
   if (this->source_text.filename.length() == 0) {
     QString msg = "Empty text's filename";
-    ok &= !this->error( msg );
+    ok &= !this->error(msg);
   }
 
   /*............................................................................
@@ -818,7 +831,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
     if (this->levels.find(note_by_level.first) == this->levels.end()) {
       QString msg = "A note is defined with an unknown level; "
                     "level=%i .";
-      ok = !this->error( msg.arg(QString().setNum(note_by_level.first)) );
+      ok = !this->error(msg.arg(QString().setNum(note_by_level.first)));
     }
   }
 
@@ -835,7 +848,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
           (this->textformats.find(pos_and_note.second.textformatname) == this->textformats.end())) {
            QString msg = "A note is defined with an unknown textformat's name; "
                          "textformat='%1' .";
-           ok = !this->error( msg.arg(pos_and_note.second.textformatname) );
+           ok = !this->error(msg.arg(pos_and_note.second.textformatname));
       }
     }
   }
@@ -850,10 +863,10 @@ void DipyDoc::read_mainfile(const QString& _path) {
       // pos_and_note.first : PosInTextRanges
       // pos_and_note.second : DipyDocNote
       for (auto &arrow_in_a_note : pos_and_note.second.arrows) {
-        if( this->arrows.find(arrow_in_a_note.type) == this->arrows.end() ) {
+        if (this->arrows.find(arrow_in_a_note.type) == this->arrows.end()) {
            QString msg = "A note's arrow is defined with an unknown type; "
                          "type='%1' .";
-           ok = !this->error( msg.arg(arrow_in_a_note.type) );
+           ok = !this->error(msg.arg(arrow_in_a_note.type));
         }
       }
     }
@@ -862,7 +875,8 @@ void DipyDoc::read_mainfile(const QString& _path) {
   /*............................................................................
     (5) initializaton of _well_initialized and of _internal_state.
   ............................................................................*/
-  if( ok == false ) {
+  DebugMsg() << "(DipyDoc::read_mainfile) #5";
+  if (ok == false) {
     this->_well_initialized = false;
     // _internal_state has been precedently set to NOT_CORRECTLY_INITIALIZED.
     DebugMsg() << "DipyDoc::read_mainfile() : exit #2; something's wrong.";
@@ -881,14 +895,13 @@ void DipyDoc::read_mainfile(const QString& _path) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__read_first_token()
+  DipyDoc::read_mainfile__first_token()
 
   read the first token and initializes the object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
-
+bool DipyDoc::read_mainfile__first_token(QXmlStreamReader& xmlreader) {  // NOLINT(runtime/references)
   bool ok = true;
 
   /*
@@ -899,15 +912,15 @@ bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
   bool dipydoc_version_ok = (this->dipydocformat_version >= this->min_dipydocformat_version) && \
                             (this->dipydocformat_version <= this->max_dipydocformat_version);
 
-  if( dipydoc_version_ok == false ) {
+  if (dipydoc_version_ok == false) {
     QString msg("wrong version's format : "
                 "we should have %1 <= %2 <= %3, i.e. "
                 "(min. version <= current version <= max. version)");
     this->_internal_state = DipyDoc::INTERNALSTATE::INCORRECT_VERSION_OF_THE_DIPYDOC;
-    this->error( msg.arg(QString().setNum(this->min_dipydocformat_version),
-                         QString().setNum(this->dipydocformat_version),
-                         QString().setNum(this->max_dipydocformat_version)),
-                 this->error_string(xmlreader) );
+    this->error(msg.arg(QString().setNum(this->min_dipydocformat_version),
+                        QString().setNum(this->dipydocformat_version),
+                        QString().setNum(this->max_dipydocformat_version)),
+                 this->error_string(xmlreader));
 
     ok &= dipydoc_version_ok;
   }
@@ -916,7 +929,7 @@ bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
     let's read and check the languages :
   */
   this->languagefromto = LanguageFromTo(xmlreader.attributes().value("languages").toString());
-  bool languagesfromto_ok = !this->error( this->languagefromto, this->error_string(xmlreader), "dipydoc:first token" );
+  bool languagesfromto_ok = !this->error(this->languagefromto, this->error_string(xmlreader), "dipydoc:first token");
   ok &= languagesfromto_ok;
 
   /*
@@ -925,10 +938,10 @@ bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
   this->doctype = xmlreader.attributes().value("type").toString();
   bool doctype_is_ok = (fixedparameters::known_doctypes.indexOf(this->doctype) != -1);
 
-  if( doctype_is_ok == false ) {
+  if (doctype_is_ok == false) {
     QString msg("incorrect document's type : accepted document's types are : %1");
-    this->error( msg.arg( fixedparameters::known_doctypes.join(";")),
-                 this->error_string(xmlreader) );
+    this->error(msg.arg(fixedparameters::known_doctypes.join(";")),
+                this->error_string(xmlreader));
   }
   ok &= doctype_is_ok;
   return ok;
@@ -936,442 +949,426 @@ bool DipyDoc::read_mainfile__read_first_token(QXmlStreamReader& xmlreader) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__read_the_rest_of_the_file()
+  DipyDoc::read_mainfile__rest()
 
   read everything but the first token and initializes the object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__read_the_rest_of_the_file(QXmlStreamReader& xmlreader) {
+bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runtime/references)
+  DebugMsg() << "(DipyDoc::read_mainfile__rest) : entry point";
+  bool ok = true;
 
- bool ok = true;
+  while (xmlreader.readNextStartElement()) {
+    QString tokenname = xmlreader.name().toString();
 
- while (xmlreader.readNextStartElement()) {
-   QString tokenname = xmlreader.name().toString();
+    /*
+      id
+    */
+    if (xmlreader.name() == "id") {
+      // id's text
+      this->id = xmlreader.readElementText();
+      this->id = this->id.trimmed();
 
-   /*
-     id
-   */
-   if (xmlreader.name() == "id") {
+      continue;
+    }
 
-     // id's text
-     this->id = xmlreader.readElementText();
-     this->id = this->id.trimmed();
+    /*
+      version
 
-     continue;
-  }
+      = document's version [nothing to do with the format of the dipydoc file]
+    */
+    if (xmlreader.name() == "version") {
+      // version's text
+      this->version = xmlreader.readElementText().toInt();
 
-   /*
-     version
+      continue;
+    }
 
-     = document's version [nothing to do with the format of the dipydoc file]
-   */
-   if (xmlreader.name() == "version") {
+    /*
+      title
+    */
+    if (xmlreader.name() == "title") {
+      this->title.found = true;
 
-     // version's text
-     this->version = xmlreader.readElementText().toInt();
+      // title::textformat
+      this->title.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+      ok &= !this->error(this->title.textformat, this->error_string(xmlreader), QString("title:textformat"));
 
-     continue;
-  }
+      // title::blockformat
+      this->title.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+      ok &= !this->error(this->title.blockformat, this->error_string(xmlreader), QString("title:blockformat"));
 
-   /*
-     title
-   */
-   if (xmlreader.name() == "title") {
-     this->title.found = true;
+      // title's text
+      this->title.text = xmlreader.readElementText();
+      this->title.text = this->title.text.trimmed();
 
-     // title::textformat
-     this->title.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
-     ok &= !this->error(this->title.textformat, this->error_string(xmlreader), QString("title:textformat"));
+      continue;
+    }
 
-     // title::blockformat
-     this->title.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
-     ok &= !this->error(this->title.blockformat, this->error_string(xmlreader), QString("title:blockformat"));
+    /*
+      introduction
+    */
+    if (tokenname == "introduction") {
+      this->introduction.found = true;
 
-     // title's text
-     this->title.text = xmlreader.readElementText();
-     this->title.text = this->title.text.trimmed();
+      // introduction::textformat
+      this->introduction.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+      ok &= !this->error(this->introduction.textformat, this->error_string(xmlreader),
+                         QString("introduction:textformat"));
 
-     continue;
-  }
+      // introduction::blockformat
+      this->introduction.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+      ok &= !this->error(this->introduction.blockformat, this->error_string(xmlreader),
+                         QString("introduction:blockformat"));
 
-   /*
-     introduction
-   */
-   if (tokenname == "introduction") {
-     this->introduction.found = true;
+      // introduction's text
+      this->introduction.text = xmlreader.readElementText();
+      this->introduction.text = this->introduction.text.trimmed();
 
-     // introduction::textformat
-     this->introduction.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
-     ok &= !this->error(this->introduction.textformat, this->error_string(xmlreader),
-                        QString("introduction:textformat"));
+      continue;
+    }
 
-     // introduction::blockformat
-     this->introduction.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
-     ok &= !this->error(this->introduction.blockformat, this->error_string(xmlreader),
-                        QString("introduction:blockformat"));
+    /*
+      lettrine
+    */
+    if (tokenname == "lettrine") {
+      this->lettrine.found = true;
 
-     // introduction's text
-     this->introduction.text = xmlreader.readElementText();
-     this->introduction.text = this->introduction.text.trimmed();
+      // lettrine::positionintextframe
+      QString str_pos = xmlreader.attributes().value("positionintextframe").toString();
+      this->lettrine.position_in_text_frame = PosInTextFrameFormat(str_pos);
+      ok &= !this->error(this->lettrine.position_in_text_frame, this->error_string(xmlreader),
+                         QString("lettrine:posintextframe"));
 
-     continue;
-  }
-
-   /*
-     lettrine
-   */
-   if (tokenname == "lettrine") {
-     this->lettrine.found = true;
-
-     // lettrine::positionintextframe
-     QString str_pos = xmlreader.attributes().value("positionintextframe").toString();
-     this->lettrine.position_in_text_frame = PosInTextFrameFormat(str_pos);
-     ok &= !this->error(this->lettrine.position_in_text_frame, this->error_string(xmlreader),
-                        QString("lettrine:posintextframe"));
-
-     // lettrine::filename
-     this->lettrine.filename_with_fullpath = this->path + "/" + xmlreader.attributes().value("filename").toString();
-     QFile lettrinefile(this->lettrine.filename_with_fullpath);
-     if (!lettrinefile.open(QFile::ReadOnly)) {
-       QString msg( "An error occurs while reading the lettrine's file; "
+      // lettrine::filename
+      this->lettrine.filename_with_fullpath = this->path + "/" + xmlreader.attributes().value("filename").toString();
+      QFile lettrinefile(this->lettrine.filename_with_fullpath);
+      if (!lettrinefile.open(QFile::ReadOnly)) {
+        QString msg("An error occurs while reading the lettrine's file; "
                     "is the file missing ? "
                     "filename='%1'");
-       ok &= !this->error(msg.arg(this->lettrine.filename_with_fullpath), this->error_string(xmlreader));
-       this->lettrine.found = false;
-     } else {
-       this->lettrine.image = QImage(this->lettrine.filename_with_fullpath);
-     }
+        ok &= !this->error(msg.arg(this->lettrine.filename_with_fullpath), this->error_string(xmlreader));
+        this->lettrine.found = false;
+      } else {
+        this->lettrine.image = QImage(this->lettrine.filename_with_fullpath);
+      }
 
-     // lettrine::aspectratio
-     this->lettrine.aspectratio = xmlreader.attributes().value("aspectratio").toInt();
-     if (this->lettrine.aspectratio <= 0) {
-       QString msg("the aspect ratio found for the lettrine isn't correct; "
-                   "accepted values are integers greater than 0."
-                   "given aspectratio = %1.");
-       ok &= !this->error(msg.arg(QString().setNum(this->lettrine.aspectratio)), error_string(xmlreader));
-     }
+      // lettrine::aspectratio
+      this->lettrine.aspectratio = xmlreader.attributes().value("aspectratio").toInt();
+      if (this->lettrine.aspectratio <= 0) {
+        QString msg("the aspect ratio found for the lettrine isn't correct; "
+                    "accepted values are integers greater than 0."
+                    "given aspectratio = %1.");
+        ok &= !this->error(msg.arg(QString().setNum(this->lettrine.aspectratio)), error_string(xmlreader));
+      }
 
-     xmlreader.skipCurrentElement();
-     continue;
-   }
+      xmlreader.skipCurrentElement();
+      continue;
+    }
 
-   /*
-     text
-   */
-   if (tokenname == "text") {
+    /*
+      text
+    */
+    if (tokenname == "text") {
+      // text::blockformat
+      this->source_text.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+      ok &= !this->error(this->source_text.blockformat, this->error_string(xmlreader), QString("text:blockformat"));
 
-     // text::blockformat
-     this->source_text.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
-     ok &= !this->error(this->source_text.blockformat, this->error_string(xmlreader), QString("text:blockformat"));
+      // text::description
+      this->source_text.description = xmlreader.attributes().value("description").toString();
 
-     // text::description
-     this->source_text.description = xmlreader.attributes().value("description").toString();
+      // text::filename
+      this->source_text.filename = this->path + "/" + xmlreader.attributes().value("filename").toString();
 
-     // text::filename
-     this->source_text.filename = this->path + "/" + xmlreader.attributes().value("filename").toString();
-
-     QFile textfile(this->source_text.filename);
-     if (!textfile.open(QFile::ReadOnly)) {
-       ok &= !this->error( QString("Missing text file named '%1'.").arg(this->source_text.filename),
+      QFile textfile(this->source_text.filename);
+      if (!textfile.open(QFile::ReadOnly)) {
+        ok &= !this->error(QString("Missing text file named '%1'.").arg(this->source_text.filename),
                            error_string(xmlreader));
-     }
+      }
 
-     // text::informations
-     this->source_text.informations = xmlreader.attributes().value("informations").toString();
+      // text::informations
+      this->source_text.informations = xmlreader.attributes().value("informations").toString();
 
-     xmlreader.skipCurrentElement();
-     continue;
-  }
+      xmlreader.skipCurrentElement();
+      continue;
+    }
 
-   /*
-     aspect
-   */
-   if (tokenname == "aspect") {
-     while (xmlreader.readNextStartElement()) {
+    /*
+      aspect
+    */
+    if (tokenname == "aspect") {
+      while (xmlreader.readNextStartElement()) {
+        // aspect::sourceeditor
+        if (xmlreader.name() == "sourceeditor") {
+          while (xmlreader.readNextStartElement()) {
+            // aspect::sourceeditor's stylesheet
+            if (xmlreader.name() == "stylesheet") {
+              this->sourceeditor_stylesheet = xmlreader.readElementText();
+              this->sourceeditor_stylesheet = this->sourceeditor_stylesheet.trimmed();
+              continue;
+            }
+            // aspect::sourceeditor's default_textformat
+            if (xmlreader.name() == "default_textformat") {
+              this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
+              ok &= !this->error(this->sourceeditor_default_textformat, this->error_string(xmlreader),
+                                 QString("aspect::sourceeditor::default_textformat"));
+              continue;
+            }
+            // aspect::sourceeditor's rmode_textformat
+            if (xmlreader.name() == "rmode_textformat") {
+              this->sourceeditor_rmode_textformat = TextFormat(xmlreader.readElementText());
+              ok &= !this->error(this->sourceeditor_rmode_textformat, this->error_string(xmlreader),
+                                 QString("aspect::sourceeditor::rmode_textformat"));
+              continue;
+            }
+            // aspect::sourceeditor's lmode_textformat
+            if (xmlreader.name() == "lmode_textformat") {
+              this->sourceeditor_lmode_textformat = TextFormat(xmlreader.readElementText());
+              ok &= !this->error(this->sourceeditor_lmode_textformat, this->error_string(xmlreader),
+                                 QString("aspect::sourceeditor::lmode_textformat"));
+              continue;
+            }
+          }
+        }
 
-       // aspect::sourceeditor
-       if (xmlreader.name() == "sourceeditor") {
+        // aspect::commentaryeditor
+        if (xmlreader.name() == "commentaryeditor") {
+          while (xmlreader.readNextStartElement()) {
+            // aspect::commentaryeditor's stylesheet
+            if (xmlreader.name() == "stylesheet") {
+              this->commentaryeditor_stylesheet = xmlreader.readElementText();
+              this->commentaryeditor_stylesheet = this->commentaryeditor_stylesheet.trimmed();
+              continue;
+            }
+            // aspect::commentaryeditor's textformat
+            if (xmlreader.name() == "textformat") {
+              this->commentaryeditor_textformat = TextFormat(xmlreader.readElementText());
+              ok &= !this->error(this->commentaryeditor_textformat, this->error_string(xmlreader),
+                                 QString("aspect::commentaryeditor::textformat"));
+              continue;
+            }
+          }
+        }
+      }
 
-         while (xmlreader.readNextStartElement()) {
-           // aspect::sourceeditor's stylesheet
-           if (xmlreader.name() == "stylesheet") {
-             this->sourceeditor_stylesheet = xmlreader.readElementText();
-             this->sourceeditor_stylesheet = this->sourceeditor_stylesheet.trimmed();
-             continue;
-           }
-           // aspect::sourceeditor's default_textformat
-           if (xmlreader.name() == "default_textformat") {
-             this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->sourceeditor_default_textformat, this->error_string(xmlreader),
-                                QString("aspect::sourceeditor::default_textformat"));
-             continue;
-           }
-           // aspect::sourceeditor's rmode_textformat
-           if (xmlreader.name() == "rmode_textformat") {
-             this->sourceeditor_rmode_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->sourceeditor_rmode_textformat, this->error_string(xmlreader),
-                                QString("aspect::sourceeditor::rmode_textformat"));
-             continue;
-           }
-           // aspect::sourceeditor's rlmode_textformat
-           if (xmlreader.name() == "rlmode_textformat") {
-             this->sourceeditor_rlmode_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->sourceeditor_rlmode_textformat, this->error_string(xmlreader),
-                                QString("aspect::sourceeditor::rlmode_textformat"));
-             continue;
-           }
-         }
-       }
+      continue;
+    }
 
-       // aspect::commentaryeditor
-       if (xmlreader.name() == "commentaryeditor") {
+    /*
+      audiorecord
+    */
+    if (tokenname == "audiorecord") {
+      this->audiorecord.found = true;
+      // audiorecord::description
+      this->audiorecord.description = xmlreader.attributes().value("description").toString();
 
-         while (xmlreader.readNextStartElement()) {
-           // aspect::commentaryeditor's stylesheet
-           if (xmlreader.name() == "stylesheet") {
-             this->commentaryeditor_stylesheet = xmlreader.readElementText();
-             this->commentaryeditor_stylesheet = this->commentaryeditor_stylesheet.trimmed();
-             continue;
-           }
-           // aspect::commentaryeditor's textformat
-           if (xmlreader.name() == "textformat") {
-             this->commentaryeditor_textformat = TextFormat(xmlreader.readElementText());
-             ok &= !this->error(this->commentaryeditor_textformat, this->error_string(xmlreader),
-                                QString("aspect::commentaryeditor::textformat"));
-             continue;
-           }
-         }
-       }
-     }
+      // audiorecord::filename
+      this->audiorecord.filename = this->path + "/" + xmlreader.attributes().value("filename").toString();
 
-     continue;
-   }
+      QFile audiofile(this->audiorecord.filename);
+      if (!audiofile.open(QFile::ReadOnly)) {
+        ok = false;
+        this->error(QString("Can't open the audio record file named '%1'").arg(this->audiorecord.filename),
+                    error_string(xmlreader));
+      }
 
-   /*
-     audiorecord
-   */
-   if (tokenname == "audiorecord") {
+      // audiorecord::informations
+      this->audiorecord.informations = xmlreader.attributes().value("informations").toString();
 
-     this->audiorecord.found = true;
-     // audiorecord::description
-     this->audiorecord.description = xmlreader.attributes().value("description").toString();
+      while (xmlreader.readNextStartElement()) {
+        // audiorecord::segment
+        if (xmlreader.name() == "segment") {
+          // audiorecord::segment::textranges
+          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+          ok &= !this->error(textranges, this->error_string(xmlreader),
+                             QString("audiorecord::segment::textranges"));
 
-     // audiorecord::filename
-     this->audiorecord.filename = this->path + "/" + xmlreader.attributes().value("filename").toString();
+          // audiorecord::segment::audiorange
+          PosInAudioRange audiorange(xmlreader.attributes().value("audiorange").toString());
+          ok &= !this->error(audiorange, this->error_string(xmlreader),
+                             QString("audiorecord::segment::audiorange"));
 
-     QFile audiofile(this->audiorecord.filename);
-     if (!audiofile.open(QFile::ReadOnly)) {
-       ok = false;
-       this->error(QString("Can't open the audio record file named '%1'").arg(this->audiorecord.filename),
-                   error_string(xmlreader));
-     }
+          this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio(audiorange.first(), audiorange.second());
 
-     // audiorecord::informations
-     this->audiorecord.informations = xmlreader.attributes().value("informations").toString();
+          xmlreader.skipCurrentElement();
+          continue;
+        }
+      }
 
-     while (xmlreader.readNextStartElement()) {
+      continue;
+    }
 
-       // audiorecord::segment
-       if (xmlreader.name() == "segment") {
+    /*
+      translation
+    */
+    if (tokenname == "translation") {
+      this->translation.found = true;
+      // translation::informations
+      this->translation.informations = xmlreader.attributes().value("informations").toString();
+      // translation::description
+      this->translation.description = xmlreader.attributes().value("description").toString();
 
-         // audiorecord::segment::textranges
-         PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
-         ok &= !this->error(textranges, this->error_string(xmlreader),
-                            QString("audiorecord::segment::textranges"));
+      while (xmlreader.readNextStartElement()) {
+        // translation::segment
+        if (xmlreader.name() == "segment") {
+          // translation::segment::textranges
+          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+          ok &= !this->error(textranges, this->error_string(xmlreader),
+                             QString("translation::segment::textranges"));
 
-         // audiorecord::segment::audiorange
-         PosInAudioRange audiorange(xmlreader.attributes().value("audiorange").toString());
-         ok &= !this->error(audiorange, this->error_string(xmlreader),
-                            QString("audiorecord::segment::audiorange"));
+          // translation's text
+          QString text(xmlreader.readElementText());
+          text = text.trimmed();
 
-         this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio(audiorange.first(), audiorange.second());
+          this->translation.translations[ textranges ] = text;
 
-         xmlreader.skipCurrentElement();
-         continue;
-       }
-     }
+          continue;
+        }
+      }
 
-     continue;
-   }
+      continue;
+    }
 
-   /*
-     translation
-   */
-   if (tokenname == "translation") {
+    /*
+      textformats
+    */
+    if (tokenname == "textformats") {
+      while (xmlreader.readNextStartElement()) {
+        // textformats::textformat
+        if (xmlreader.name() == "textformat") {
+          // textformats::textformat::name
+          QString name = xmlreader.attributes().value("name").toString();
+          // textformats::textformat::aspect
+          QString aspect = xmlreader.attributes().value("aspect").toString();
 
-     this->translation.found = true;
-     // translation::informations
-     this->translation.informations = xmlreader.attributes().value("informations").toString();
-     // translation::description
-     this->translation.description = xmlreader.attributes().value("description").toString();
+          this->textformats[ name ] = aspect;
 
-     while (xmlreader.readNextStartElement()) {
+          xmlreader.skipCurrentElement();
+          continue;
+        }
+      }
 
-       // translation::segment
-       if (xmlreader.name() == "segment") {
+      continue;
+    }
 
-         // translation::segment::textranges
-         PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
-         ok &= !this->error(textranges, this->error_string(xmlreader),
-                            QString("translation::segment::textranges"));
+    /*
+      levels
+    */
+    if (tokenname == "levels") {
+      while (xmlreader.readNextStartElement()) {
+        // level::level
+        if (xmlreader.name() == "level") {
+          // levels::level::name
+          QString name = xmlreader.attributes().value("name").toString();
+          // levels::level::number
+          int number = xmlreader.attributes().value("number").toString().toInt();
+          // levels::level::textformat
+          QString textformat_str = xmlreader.attributes().value("textformat").toString();
+          TextFormat textformat(textformat_str);
+          ok &= !this->error(textformat, this->error_string(xmlreader),
+                             QString("levels::level::textformat"));
 
-         // translation's text
-         QString text(xmlreader.readElementText());
-         text = text.trimmed();
+          this->levels[ number ] = LevelDetails(name, textformat_str);
 
-         this->translation.translations[ textranges ] = text;
+          xmlreader.skipCurrentElement();
+          continue;
+        }
+      }
 
-         continue;
-       }
-     }
+      continue;
+    }
 
-     continue;
-   }
+    /*
+      arrows
+    */
+    if (tokenname == "arrows") {
+      while (xmlreader.readNextStartElement()) {
+        // arrows::arrow
+        if (xmlreader.name() == "arrow") {
+          // arrows::arrow::name
+          QString name = xmlreader.attributes().value("name").toString();
+          // arrows::arrow::arrowformat
+          ArrowFormat arrowformat(xmlreader.attributes().value("arrowformat").toString());
+          ok &= !this->error(arrowformat, this->error_string(xmlreader),
+                             QString("arrows::arrow::arrowformat"));
 
-   /*
-     textformats
-   */
-   if (tokenname == "textformats") {
-     while (xmlreader.readNextStartElement()) {
+          this->arrows[ name ] = arrowformat;
 
-       // textformats::textformat
-       if (xmlreader.name() == "textformat") {
-         // textformats::textformat::name
-         QString name = xmlreader.attributes().value("name").toString();
-         // textformats::textformat::aspect
-         QString aspect = xmlreader.attributes().value("aspect").toString();
+          xmlreader.skipCurrentElement();
+          continue;
+        }
+      }
 
-         this->textformats[ name ] = aspect;
+      continue;
+    }
 
-         xmlreader.skipCurrentElement();
-         continue;
-       }
-     }
+    /*
+      notes
+    */
+    if (tokenname == "notes") {
+      MAPPosNoteI_BOOL last_note;
+      bool last_note_ok = false;
 
-     continue;
-   }
+      while (xmlreader.readNextStartElement()) {
+        // notes::note
+        if (xmlreader.name() == "note") {
+          // notes::note::level
+          int level = xmlreader.attributes().value("level").toString().toInt();
+          // notes::note::textranges
+          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+          ok &= !this->error(textranges, this->error_string(xmlreader),
+                             QString("notes::note::textranges"));
+          // notes::note::textformatname
+          QString         textformatname = xmlreader.attributes().value("textformatname").toString();
 
-   /*
-     levels
-   */
-   if (tokenname == "levels") {
-     while (xmlreader.readNextStartElement()) {
+          // this->notes[level][textranges] = DipyDocNote(...)
+          // NB : the text will be initialized later, when the 'text' tag will be read (see infra)
+          last_note = this->notes.insert(level,
+                                         textranges,
+                                         DipyDocNote(level, textranges, "???", textformatname));
+          last_note_ok = last_note.second;
 
-       // level::level
-       if (xmlreader.name() == "level") {
-         // levels::level::name
-         QString name = xmlreader.attributes().value("name").toString();
-         // levels::level::number
-         int number = xmlreader.attributes().value("number").toString().toInt();
-         // levels::level::textformat
-         QString textformat_str = xmlreader.attributes().value("textformat").toString();
-         TextFormat textformat(textformat_str);
-         ok &= !this->error(textformat, this->error_string(xmlreader),
-                            QString("levels::level::textformat"));
+          // let's read the arrows linked to this note :
+          while (xmlreader.readNextStartElement()) {
+            if (xmlreader.name() == "text") {
+              // notes::note::text
+              QString text(xmlreader.readElementText());
+              text = text.trimmed();
 
-         this->levels[ number ] = LevelDetails(name, textformat_str);
+              // modifying the last note's text :
+              if (last_note_ok == true) {
+                MAP_PosNoteI last_note_iterator = last_note.first;
+                last_note_iterator->second.text = text;
+              }
+              continue;
+            }
+            if (xmlreader.name() == "arrow") {
+              // notes:note::arrow::target
+              PosInTextRanges target(xmlreader.attributes().value("target").toString());
+              ok &= !this->error(target, this->error_string(xmlreader),
+                                 QString("notes::note::arrows::target"));
+              // notes:note::arrow's type
+              QString type(xmlreader.readElementText());
+              type = type.trimmed();
 
-         xmlreader.skipCurrentElement();
-         continue;
-       }
-     }
+              // adding this arrow to the last note :
+              if (last_note_ok == true) {
+                MAP_PosNoteI last_note_iterator = last_note.first;
+                last_note_iterator->second.arrows.push_back(ArrowTargetInANote(type, target));;
+              }
+              continue;
+            }
+          }
+          continue;
+        }
+      }
+      continue;
+    }
+  }  // ... while (xmlreader.readNextStartElement())
 
-     continue;
-   }
-
-   /*
-     arrows
-   */
-   if (tokenname == "arrows") {
-     while (xmlreader.readNextStartElement()) {
-
-       // arrows::arrow
-       if (xmlreader.name() == "arrow") {
-         // arrows::arrow::name
-         QString name = xmlreader.attributes().value("name").toString();
-         // arrows::arrow::arrowformat
-         ArrowFormat arrowformat( xmlreader.attributes().value("arrowformat").toString() );
-         ok &= !this->error(arrowformat, this->error_string(xmlreader),
-                            QString("arrows::arrow::arrowformat"));
-
-         this->arrows[ name ] = arrowformat;
-
-         xmlreader.skipCurrentElement();
-         continue;
-       }
-     }
-
-     continue;
-   }
-
-   /*
-     notes
-   */
-   if (tokenname == "notes") {
-
-     MAPPosNoteI_BOOL last_note;
-     bool last_note_ok = false;
-
-     while (xmlreader.readNextStartElement()) {
-
-       // notes::note
-       if (xmlreader.name() == "note") {
-         // notes::note::level
-         int level = xmlreader.attributes().value("level").toString().toInt();
-         // notes::note::textranges
-         PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
-         ok &= !this->error(textranges, this->error_string(xmlreader),
-                            QString("notes::note::textranges"));
-         // notes::note::textformatname
-         QString         textformatname = xmlreader.attributes().value("textformatname").toString();
-
-         // this->notes[level][textranges] = DipyDocNote(...)
-         // NB : the text will be initialized later, when the 'text' tag will be read (see infra)
-         last_note = this->notes.insert(level,
-                                        textranges,
-                                        DipyDocNote(level, textranges, "???", textformatname));
-         last_note_ok = last_note.second;
-
-         // let's read the arrows linked to this note :
-         while (xmlreader.readNextStartElement()) {
-           if (xmlreader.name() == "text" ) {
-             // notes::note::text
-             QString text(xmlreader.readElementText());
-             text = text.trimmed();
-
-             // modifying the last note's text :
-             if( last_note_ok == true ) {
-               MAP_PosNoteI last_note_iterator = last_note.first;
-               last_note_iterator->second.text = text;
-             }
-             continue;
-           }
-           if (xmlreader.name() == "arrow" ) {
-             // notes:note::arrow::target
-             PosInTextRanges target( xmlreader.attributes().value("target").toString() );
-             ok &= !this->error(target, this->error_string(xmlreader),
-                                QString("notes::note::arrows::target"));
-             // notes:note::arrow's type
-             QString type(xmlreader.readElementText());
-             type = type.trimmed();
-
-             // adding this arrow to the last note :
-             if( last_note_ok == true ) {
-               MAP_PosNoteI last_note_iterator = last_note.first;
-               last_note_iterator->second.arrows.push_back(ArrowTargetInANote(type, target));;
-             }
-             continue;
-           }
-         }
-         continue;
-       }
-     }
-     continue;
-   }
- } // ... while (xmlreader.readNextStartElement())
-
- return ok;
+  DebugMsg() << "(DipyDoc::read_mainfile__rest) : exit point" << ok;
+  return ok;
 }
 
 /*______________________________________________________________________________
@@ -1403,7 +1400,6 @@ QString DipyDoc::levels_repr(void) const {
         occurs.
 ________________________________________________________________________________*/
 void DipyDoc::read_menu_name(const QString& _path) {
-
   this->menu_name = MenuNames::read_menu_name_from_a_file_within_a_directory(_path);
 
   // is the "menu name" empty ?
@@ -1434,12 +1430,26 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
 
   if (posintext.is_empty() == true) {
     return PTRangesAND2PosAudio(posintext,
-                                PairOfPosInAudio(0,0));
-  }
-  else {
+                                PairOfPosInAudio(0, 0));
+  } else {
     return PTRangesAND2PosAudio(posintext,
                                 this->audiorecord.text2audio[posintext]);
   }
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::set_qsettings_name()
+
+   Initialize this->qsettings_name from this->menu_name
+
+   See http://qt-project.org/doc/qt-5/QSettings.html for a list of limitations
+   due to platform limitations.
+________________________________________________________________________________*/
+void DipyDoc::set_qsettings_name(void) {
+  this->qsettings_name = this->menu_name;
+  this->qsettings_name.replace("\\", "_");
+  this->qsettings_name.replace("/", "_");
 }
 
 /*______________________________________________________________________________

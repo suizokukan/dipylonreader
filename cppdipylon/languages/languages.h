@@ -51,6 +51,6 @@ namespace languages {
       { QString("lat"), QString(QObject::tr("Latin")) },
       { QString("san"), QString(QObject::tr("Sanskrit")) },
     };
-}
+}  // namespace languages
 
 #endif  // CPPDIPYLON_LANGUAGES_LANGUAGES_H_

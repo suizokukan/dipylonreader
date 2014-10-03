@@ -28,19 +28,19 @@
 #ifndef CPPDIPYLON_QT_SOURCEEDITOR_H_
 #define CPPDIPYLON_QT_SOURCEEDITOR_H_
 
-#include <QDebug>
-
 #include <QTextEdit>
 #include <QTextCharFormat>
 #include <QList>
+
 #include <vector>
 
+#include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
-#include "qt/ui.h"
-#include "qt/textformat.h"
-#include "qt/blockformat.h"
 #include "pos/posintext/posintext.h"
-
+#include "qt/blockformat.h"
+#include "qt/texteditor.h"
+#include "qt/textformat.h"
+#include "qt/ui.h"
 
 class UI;
 
@@ -48,14 +48,15 @@ class UI;
 
   SourceEditor class
 ______________________________________________________________________________*/
-class SourceEditor : public QTextEdit {
-  friend class UI;
+class SourceEditor : public TextEditor {
   friend class MainWindow;
+  friend class UI;
 
     Q_OBJECT
 
  public:
-    explicit SourceEditor(UI&);
+    explicit  SourceEditor(UI&);
+
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);
     void      modify_the_text_format(PosInTextRanges&);
@@ -67,12 +68,9 @@ class SourceEditor : public QTextEdit {
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
     void      mouseMoveEvent(QMouseEvent* mouse_event);
     void      mouseReleaseEvent(QMouseEvent* mouse_event);
-    void      paintEvent(QPaintEvent* ev);
+    void      paintEvent(QPaintEvent* event);
 
  private:
-    // UI object linked to the editor :
-    UI& ui;
-
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE
