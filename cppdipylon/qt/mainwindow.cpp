@@ -799,6 +799,11 @@ void MainWindow::open(void) {
   connected to readingmode_aAct::triggered()
 ______________________________________________________________________________*/
 void MainWindow::readingmode_aAct__buttonpressed(void) {
+  // if necessary, the function cleans the "lmode" :
+  if (this->ui.reading_mode == UI::READINGMODE_LMODE) {
+    this->audiocontrols_stop();
+  }
+
   this->ui.reading_mode = UI::READINGMODE_AMODE;
   this->ui.reading_mode_details = UI::READINGMODEDETAIL_AMODE;
   DebugMsg() << "switched to AMODE mode";
@@ -812,6 +817,11 @@ void MainWindow::readingmode_aAct__buttonpressed(void) {
   connected to readingmode_rAct::triggered()
 ______________________________________________________________________________*/
 void MainWindow::readingmode_rAct__buttonpressed(void) {
+  // if necessary, the function cleans the "lmode" :
+  if (this->ui.reading_mode == UI::READINGMODE_LMODE) {
+    this->audiocontrols_stop();
+  }
+
   this->ui.reading_mode = UI::READINGMODE_RMODE;
   this->ui.reading_mode_details = UI::READINGMODEDETAIL_RMODE;
   DebugMsg() << "switched to RMODE mode";
