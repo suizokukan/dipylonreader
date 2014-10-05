@@ -50,40 +50,24 @@ Done processing ./pos/posinaudio/posinaudiorange.cpp
 Total errors found: 0
 Done processing ./pos/posinaudio/posinaudio.h
 Total errors found: 0
-./qt/commentarytoolbar.h:50:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/commentarytoolbar.h:50:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 Done processing ./qt/commentarytoolbar.h
-Total errors found: 2
-./qt/blockformat.cpp:68:  Mismatching spaces inside () in if  [whitespace/parens] [5]
+Total errors found: 0
 Done processing ./qt/blockformat.cpp
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/commentaryeditor.cpp
 Total errors found: 0
-./qt/arrowformat.cpp:73:  Missing spaces around >  [whitespace/operators] [3]
 Done processing ./qt/arrowformat.cpp
-Total errors found: 1
-./qt/textformat.cpp:99:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/textformat.cpp:99:  Mismatching spaces inside () in if  [whitespace/parens] [5]
-./qt/textformat.cpp:218:  Extra space after ( in function call  [whitespace/parens] [4]
+Total errors found: 0
 Done processing ./qt/textformat.cpp
-Total errors found: 3
+Total errors found: 0
 Done processing ./qt/commentaryeditor.h
 Total errors found: 0
-./qt/sourcezone.h:51:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcezone.h:52:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcezone.h:53:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcezone.h:54:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
 ./qt/sourcezone.h:57:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
-./qt/sourcezone.h:57:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 Done processing ./qt/sourcezone.h
-Total errors found: 6
-./qt/sourcetoolbar.h:41:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/sourcetoolbar.h:45:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcetoolbar.h:46:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/sourcetoolbar.h:49:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
-./qt/sourcetoolbar.h:49:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Total errors found: 1
+./qt/sourcetoolbar.h:48:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
 Done processing ./qt/sourcetoolbar.h
-Total errors found: 5
+Total errors found: 1
 Done processing ./qt/downloaddemodipydocs.cpp
 Total errors found: 0
 Done processing ./qt/sourceeditor.h
@@ -92,18 +76,14 @@ Done processing ./qt/posintextframeformat.h
 Total errors found: 0
 Done processing ./qt/ui.h
 Total errors found: 0
-./qt/commentaryzone.h:57:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
 ./qt/commentaryzone.h:57:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
-./qt/commentaryzone.h:57:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 Done processing ./qt/commentaryzone.h
-Total errors found: 3
+Total errors found: 1
 Done processing ./qt/downloaddemodipydocs.h
 Total errors found: 0
 ./qt/sourceeditor.cpp:262:  Is this a non-const reference? If so, make const or use a pointer: PosInTextRanges& positions  [runtime/references] [2]
-./qt/sourceeditor.cpp:327:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/sourceeditor.cpp:328:  Missing space before ( in switch(  [whitespace/parens] [5]
 Done processing ./qt/sourceeditor.cpp
-Total errors found: 3
+Total errors found: 1
 ./qt/texteditor.h:48:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
 Done processing ./qt/texteditor.h
 Total errors found: 1
@@ -111,15 +91,12 @@ Done processing ./qt/commentarytoolbar.cpp
 Total errors found: 0
 Done processing ./qt/arrowformat.h
 Total errors found: 0
-./qt/texteditor.cpp:36:  Missing space before {  [whitespace/braces] [5]
 Done processing ./qt/texteditor.cpp
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/blockformat.h
 Total errors found: 0
-./qt/textformat.h:124:  #endif line should be "#endif  // CPPDIPYLON_QT_TEXTFORMAT_H_"  [build/header_guard] [5]
-./qt/textformat.h:70:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 Done processing ./qt/textformat.h
-Total errors found: 2
+Total errors found: 0
 Done processing ./qt/sourcetoolbar.cpp
 Total errors found: 0
 ./qt/mainwindow.h:28:  #ifndef header guard has wrong style, please use: CPPDIPYLON_QT_MAINWINDOW_H_  [build/header_guard] [5]
@@ -134,7 +111,7 @@ Total errors found: 0
 ./qt/mainwindow.h:67:  public: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
 ./qt/mainwindow.h:68:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
 ./qt/mainwindow.h:72:  protected: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
-./qt/mainwindow.h:75:  private slots: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
+./qt/mainwindow.h:75:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
 ./qt/mainwindow.h:89:  private: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
 Done processing ./qt/mainwindow.h
 Total errors found: 14

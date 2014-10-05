@@ -38,14 +38,13 @@
   SourceToolBar class
 ______________________________________________________________________________*/
 class SourceToolBar : public QToolBar {
-
     Q_OBJECT
 
  private:
- // UI object linked to the editor :
- UI& ui;
+  // UI object linked to the editor :
+  UI& ui;
 
  public:
-  SourceToolBar(UI& _ui);
+  explicit SourceToolBar(UI& _ui);
 };
 #endif  // CPPDIPYLON_QT_SOURCETOOLBAR_H_

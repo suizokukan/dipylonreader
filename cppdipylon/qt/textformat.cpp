@@ -96,7 +96,7 @@ int TextFormat::init_from_string(const QString& source_string) {
     }
 
     // background colors with a keyword like "black", ... ?
-    if( keyword == "background-color:black") {
+    if (keyword == "background-color:black") {
       this->_qtextcharformat.setBackground(QBrush(Qt::black));
       continue;
     }
@@ -215,7 +215,7 @@ int TextFormat::init_from_string(const QString& source_string) {
       bool ok;
       int value = str_value.toInt(&ok, 16);
       if (ok == true) {
-        this->_qtextcharformat.setUnderlineColor( static_cast<unsigned int>(value) );
+        this->_qtextcharformat.setUnderlineColor(static_cast<unsigned int>(value));
       } else {
         res = TextFormat::INTERNALSTATE::WRONG_HEX_VALUE_FOR_UNDERLINE_COLORS;
         this->_well_initialized = false;

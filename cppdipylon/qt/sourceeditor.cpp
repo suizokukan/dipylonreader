@@ -324,8 +324,7 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
   if (this->ui.selected_text_and_blocked_commentaries == false) {
-
-    switch(this->ui.reading_mode_details) {
+    switch (this->ui.reading_mode_details) {
       case UI::READINGMODEDETAIL_RMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
         int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;

@@ -54,7 +54,7 @@ friend MainWindow;
   QLayout* layout = nullptr;
 
  public:
-   CommentaryZone(UI& _ui);
+  explicit CommentaryZone(UI& _ui);
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYZONE_H_

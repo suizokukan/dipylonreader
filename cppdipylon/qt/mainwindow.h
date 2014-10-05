@@ -72,7 +72,7 @@ public:
 protected:
     void closeEvent(QCloseEvent *event);
 
-private slots:
+ private slots:
     void about(void);
     void audiocontrols_play(void);
     void audiocontrols_stop(void);
