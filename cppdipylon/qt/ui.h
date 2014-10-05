@@ -34,6 +34,7 @@
 #include <QFontDatabase>
 #include <QNetworkAccessManager>
 #include <QObject>
+#include <QSplashScreen>
 #include <QString>
 #include <QTranslator>
 
@@ -124,6 +125,8 @@ class UI {
   // if set to true, protect the commentary zone to be modified.
   bool        selected_text_and_blocked_commentaries = false;
 
+  QSplashScreen* splashscreen = nullptr;
+
  public:
   /*
     READINGMODE, READINGMODEDETAILS :
@@ -160,9 +163,12 @@ class UI {
 
                      UI(void);
                      ~UI(void);
-  bool               at_least_one_dipydoc_has_been_loaded(void) const;
-  QString            get_translations_for(PosInText, PosInText) const;
   int                go(int argc, char **argv);
+
+ private:
+  bool               at_least_one_dipydoc_has_been_loaded(void) const;
+  void               display_the_splashscreen(const QString& text);
+  QString            get_translations_for(PosInText, PosInText) const;
   void               read_menu_names(void);
   void               read_settings(void);
   void               set_content_of_the_commentary_editor(QString text);

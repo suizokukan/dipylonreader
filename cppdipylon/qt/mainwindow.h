@@ -38,11 +38,12 @@
 #include "qt/sourcezone.h"
 #include "qt/ui.h"
 
-#include <QMediaPlayer>
-#include <QMainWindow>
-#include <QtWidgets>
 #include <QFile>
 #include <QFrame>
+#include <QMainWindow>
+#include <QMediaPlayer>
+#include <QtWidgets>
+#include <QTimer>
 #include <QToolBar>
 
 class CommentaryEditor;
