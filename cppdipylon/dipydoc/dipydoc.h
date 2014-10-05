@@ -322,10 +322,10 @@ friend class CommentaryEditor;
   bool                   error(const QString& msg);
   bool                   error(const QString& msg, const QString& error_string);
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
-  QString                error_string(const QXmlStreamReader& xmlreader);
+  QString                error_string(QXmlStreamReader* xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
-  bool                   read_mainfile__first_token(QXmlStreamReader& xmlreader);  // NOLINT(runtime/references)
-  bool                   read_mainfile__rest(QXmlStreamReader& xmlreader);   // NOLINT(runtime/references)
+  bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__rest(QXmlStreamReader* xmlreader);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_qsettings_name(void);
