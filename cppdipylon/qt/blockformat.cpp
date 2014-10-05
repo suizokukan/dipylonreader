@@ -65,7 +65,7 @@ int BlockFormat::init_from_string(const QString& source_string) {
     /*
       line-height
     */
-    if (keyword.startsWith("line-height:") == true ) {
+    if (keyword.startsWith("line-height:") == true) {
       QString str_value = keyword.right(keyword.length() - QString("line-height:").length());
 
       bool ok = true;

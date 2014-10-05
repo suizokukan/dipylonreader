@@ -70,7 +70,7 @@ int ArrowFormat::init_from_string(const QString& source_string) {
       QString str_value = keyword.right(keyword.length() - QString("thickness:").length());
       bool ok;
       int value = str_value.toInt(&ok, 10);
-      if ((ok == true) && (value>0)) {
+      if ((ok == true) && (value > 0)) {
         this->_thickness = value;
       } else {
         res = ArrowFormat::INTERNALSTATE::WRONG_DECIMAL_VALUE_FOR_THICKNESS;

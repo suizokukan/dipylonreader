@@ -67,7 +67,7 @@ class TextFormat {
 
  public:
                          TextFormat(void);
-                         TextFormat(const QString&);
+                explicit TextFormat(const QString&);
 
   int                    init_from_string(const QString&);
   int                    internal_state(void) const;
@@ -121,4 +121,4 @@ inline bool TextFormat::well_initialized(void) const {
   return this->_well_initialized;
 }
 
-#endif  // CPPDIPYLON_QT_TEXTFORMAT_H
+#endif  // CPPDIPYLON_QT_TEXTFORMAT_H_
