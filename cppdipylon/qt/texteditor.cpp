@@ -67,3 +67,22 @@ void TextEditor::zoom_out(void) {
   this->zoom_value -= 1;
   this->zoomOut(1);
 }
+
+/*______________________________________________________________________________
+
+  TextEditor::zoom_out()
+______________________________________________________________________________*/
+void TextEditor::wheelEvent(QWheelEvent * e) {
+  /*
+    CTRL + wheel -> zoom in/out and the function saves the new zoom value.
+  */
+  if (e->modifiers() == Qt::ControlModifier) {
+    if (e->delta() > 0) {
+      this->zoom_value += 1;
+      this->zoomIn(1);
+    } else {
+      this->zoom_value -= 1;
+      this->zoomOut(1);
+    }
+  }
+}
