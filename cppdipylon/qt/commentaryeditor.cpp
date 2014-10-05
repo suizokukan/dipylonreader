@@ -65,8 +65,7 @@ void CommentaryEditor::set_the_text_formats(void) {
   only if ui.selected_text_and_blocked_commentaries is false.
 ______________________________________________________________________________*/
 void CommentaryEditor::update_content__translation_expected(const PosInTextRanges& posintext) {
-
-  if( this->ui.selected_text_and_blocked_commentaries == false ) {
+  if (this->ui.selected_text_and_blocked_commentaries == false) {
     PosInText x0 = posintext.min();
     PosInText x1 = posintext.max();
 
