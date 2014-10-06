@@ -14,7 +14,7 @@ TRANSLATIONS = dipylonreader_French.ts
 #
 #_______________________________________________________________________________
 DEFINES += ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
-DEFINES += ALLOW_SPLASHSCREEN
+DEFINES += ALLOW_SPLASHSCREEN_AT_START
 DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
 DEFINES += ALLOW_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
@@ -55,6 +55,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/ui.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
+                    qt/presentationscreen.h \
                     qt/sourceeditor.h \
                     qt/sourcetoolbar.h \
                     qt/sourcezone.h \
@@ -81,6 +82,7 @@ SOURCES         +=  ./main.cpp \
                     qt/ui.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
+                    qt/presentationscreen.cpp \
                     qt/sourceeditor.cpp \
                     qt/sourcetoolbar.cpp \
                     qt/sourcezone.cpp \

@@ -34,6 +34,7 @@
 #include "qt/commentaryeditor.h"
 #include "qt/commentaryzone.h"
 #include "qt/downloaddemodipydocs.h"
+#include "qt/presentationscreen.h"
 #include "qt/sourceeditor.h"
 #include "qt/sourcezone.h"
 #include "qt/ui.h"

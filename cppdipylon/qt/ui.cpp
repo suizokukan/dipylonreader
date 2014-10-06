@@ -73,6 +73,9 @@ ______________________________________________________________________________*/
 UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
 
+  // PSLauncher object :
+  delete this->presentation_screen_launcher;
+
   // QNetworkAccessManager object :
   DebugMsg() << "... delete this->network_manager";
   delete this->network_manager;
@@ -102,40 +105,12 @@ UI::~UI(void) {
   DebugMsg() << "UI::~UI(#fin)";
 }
 
-
 /*______________________________________________________________________________
 
   UI::at_least_one_dipydoc_has_been_loaded()
 ______________________________________________________________________________*/
 bool UI::at_least_one_dipydoc_has_been_loaded(void) const {
   return this->current_dipydoc.well_initialized();
-}
-
-/*______________________________________________________________________________
-
-  UI::display_the_splashscreen()
-
-  Create dynamically a new splashscreen and display it.
-______________________________________________________________________________*/
-void UI::display_the_splashscreen(const QString& text) {
-  DebugMsg() << "UI::display_the_splashscreen : entry point";
-
-  this->splashscreen = new QSplashScreen(QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
-                                         Qt::WindowStaysOnTopHint);
-
-  // let's center the splashscreen exactly with the main window :
-  this->splashscreen->move(this->mainWin->x() + (this->mainWin->width() / 2)  - (this->splashscreen->width() / 2),
-                           this->mainWin->y() + (this->mainWin->height() / 2) - (this->splashscreen->width() / 2));
-
-  this->splashscreen->showMessage(text, Qt::AlignLeft);
-
-  this->splashscreen->show();
-
-  // the windows will be closed with a call to ::close_the_splashscreen()
-  QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
-                     splashscreen, SLOT(close()));
-
-  DebugMsg() << "UI::display_the_splashscreen : exit point";
 }
 
 /*______________________________________________________________________________
@@ -162,6 +137,8 @@ QString UI::get_translations_for(PosInText x0, PosInText x1) const {
 ______________________________________________________________________________*/
 int UI::go(int argc, char **argv) {
   DebugMsg() << "enter in UI::go()";
+
+  this->presentation_screen_launcher = new PSLauncher();
 
   /*
     We want to use the system's standard settings.
@@ -328,14 +305,15 @@ int UI::go(int argc, char **argv) {
   /*
     splash screen
   */
-  #ifdef ALLOW_SPLASHSCREEN
+  #ifdef ALLOW_SPLASHSCREEN_AT_START
   if (this->first_launch == true || this->display_splashscreen == true) {
-    // message displayed on the splash screen :
+    // message displayed on the presentation screen :
     QString msg(QString("<span style=\"color:#000000\">") + \
                 QObject::tr("<b>%1</b> - version %2 -"));
 
-    this->display_the_splashscreen(msg.arg(fixedparameters::application_name_for_the_user,
-                                           fixedparameters::application_version));
+    this->presentation_screen_launcher->launch(msg.arg(fixedparameters::application_name_for_the_user,
+                                                       fixedparameters::application_version),
+                                               this->mainWin->geometry());
   }
   #endif
 

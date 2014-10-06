@@ -45,7 +45,7 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
   MainWindow::about
 ______________________________________________________________________________*/
 void MainWindow::about(void) {
-  // splashscreen message :
+  // presentation screen message :
   QString msg = QString("<span style=\"color:#000000\">");
 
   msg += "\n\n";
@@ -62,7 +62,7 @@ void MainWindow::about(void) {
                                                               fixedparameters::CODESOURCE_LICENSE_ADDRESS,
                                                               fixedparameters::CODESOURCE_ADDRESS));
 
-  this->ui.display_the_splashscreen(msg);
+  this->ui.presentation_screen_launcher->launch(msg, this->geometry());
 }
 
 /*______________________________________________________________________________

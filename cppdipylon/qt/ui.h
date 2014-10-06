@@ -43,6 +43,7 @@
 #include "dipydoc/dipydoc.h"
 #include "dipydoc/menunames.h"
 #include "qt/mainwindow.h"
+#include "qt/presentationscreen.h"
 
 class MainWindow;
 
@@ -79,6 +80,12 @@ class UI {
   QNetworkAccessManager* network_manager = nullptr;
 
  private:
+
+  /*
+    unique PSLauncher object, used to display "splashscreens".
+  */
+  PSLauncher* presentation_screen_launcher = nullptr;
+
   /*
     settings :
 
