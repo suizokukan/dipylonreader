@@ -33,9 +33,6 @@
 #ifndef CPPDIPYLON_QT_PRESENTATIONSCREEN_H_
 #define CPPDIPYLON_QT_PRESENTATIONSCREEN_H_
 
-#include "./fixedparameters.h"
-#include "debugmsg/debugmsg.h"
-
 #include <QCloseEvent>
 #include <QHideEvent>
 #include <QObject>
@@ -45,6 +42,9 @@
 #include <QString>
 #include <QTimer>
 #include <Qt>
+
+#include "./fixedparameters.h"
+#include "debugmsg/debugmsg.h"
 
 class PresentationScreen;
 
@@ -57,7 +57,6 @@ class PresentationScreen;
   Use this class to display("launch() method") a PresentationScreen object.
 ______________________________________________________________________________*/
 class PSLauncher {
-
  public:
   // pointer to the current PresentationScreen object :
   PresentationScreen* presentation_screen = nullptr;
@@ -87,8 +86,8 @@ friend PSLauncher;
                            const QPixmap & _pixmap,
                            Qt::WindowFlags _f);
 
-private slots:
+ private slots:  //  NOLINT(whitespace/indent)
   void  hideEvent(QHideEvent*e);
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_PRESENTATIONSCREEN_H_

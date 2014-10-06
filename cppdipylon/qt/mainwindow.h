@@ -25,8 +25,16 @@
 
 *******************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CPPDIPYLON_QT_MAINWINDOW_H_
+#define CPPDIPYLON_QT_MAINWINDOW_H_
+
+#include <QFile>
+#include <QFrame>
+#include <QMainWindow>
+#include <QMediaPlayer>
+#include <QtWidgets>
+#include <QTimer>
+#include <QToolBar>
 
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
@@ -39,14 +47,6 @@
 #include "qt/sourcezone.h"
 #include "qt/ui.h"
 
-#include <QFile>
-#include <QFrame>
-#include <QMainWindow>
-#include <QMediaPlayer>
-#include <QtWidgets>
-#include <QTimer>
-#include <QToolBar>
-
 class CommentaryEditor;
 class QAction;
 class QMenu;
@@ -54,8 +54,7 @@ class QSplitter;
 class SourceEditor;
 class UI;
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
 friend class CommentaryEditor;
 friend class CommentaryToolBar;
 friend class CommentaryZone;
@@ -66,15 +65,15 @@ friend class UI;
 
     Q_OBJECT
 
-public:
-    MainWindow(UI&);
+ public:
+    explicit MainWindow(UI&);
 
     void load_text(const DipyDocSourceText& source_text);
 
-protected:
+ protected:
     void closeEvent(QCloseEvent *event);
 
- private slots:
+ private slots:  // NOLINT(whitespace/indent)
     void about(void);
     void audiocontrols_play(void);
     void audiocontrols_stop(void);
@@ -89,7 +88,7 @@ protected:
     void readingmode_lAct__buttonpressed(void);
     bool saveMainFileOfADipyDocAs(void);
 
-private:
+ private:
     UI& ui;
 
     void    createActions(void);
@@ -147,4 +146,4 @@ private:
     QMediaPlayer* audio_player = nullptr;
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_MAINWINDOW_H_
