@@ -54,6 +54,8 @@ Done processing ./qt/commentarytoolbar.h
 Total errors found: 0
 Done processing ./qt/blockformat.cpp
 Total errors found: 0
+Done processing ./qt/presentationscreen.h
+Total errors found: 0
 Done processing ./qt/commentaryeditor.cpp
 Total errors found: 0
 Done processing ./qt/arrowformat.cpp
@@ -81,10 +83,9 @@ Done processing ./qt/commentaryzone.h
 Total errors found: 1
 Done processing ./qt/downloaddemodipydocs.h
 Total errors found: 0
-./qt/sourceeditor.cpp:262:  Is this a non-const reference? If so, make const or use a pointer: PosInTextRanges& positions  [runtime/references] [2]
 Done processing ./qt/sourceeditor.cpp
-Total errors found: 1
-./qt/texteditor.h:48:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+Total errors found: 0
+./qt/texteditor.h:49:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
 Done processing ./qt/texteditor.h
 Total errors found: 1
 Done processing ./qt/commentarytoolbar.cpp
@@ -99,82 +100,12 @@ Done processing ./qt/textformat.h
 Total errors found: 0
 Done processing ./qt/sourcetoolbar.cpp
 Total errors found: 0
-./qt/mainwindow.h:28:  #ifndef header guard has wrong style, please use: CPPDIPYLON_QT_MAINWINDOW_H_  [build/header_guard] [5]
-./qt/mainwindow.h:146:  #endif line should be "#endif  // CPPDIPYLON_QT_MAINWINDOW_H_"  [build/header_guard] [5]
-./qt/mainwindow.h:41:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
-./qt/mainwindow.h:42:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
-./qt/mainwindow.h:43:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
-./qt/mainwindow.h:44:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
-./qt/mainwindow.h:45:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
-./qt/mainwindow.h:46:  Found C system header after other header. Should be: mainwindow.h, c system, c++ system, other.  [build/include_order] [4]
-./qt/mainwindow.h:56:  { should almost always be at the end of the previous line  [whitespace/braces] [4]
-./qt/mainwindow.h:67:  public: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
-./qt/mainwindow.h:68:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
-./qt/mainwindow.h:72:  protected: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
-./qt/mainwindow.h:75:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
-./qt/mainwindow.h:89:  private: should be indented +1 space inside class MainWindow  [whitespace/indent] [3]
 Done processing ./qt/mainwindow.h
-Total errors found: 14
-./qt/mainwindow.cpp:50:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:63:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:88:  Mismatching spaces inside () in switch  [whitespace/parens] [5]
-./qt/mainwindow.cpp:89:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:94:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:95:  Mismatching spaces inside () in switch  [whitespace/parens] [5]
-./qt/mainwindow.cpp:96:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:100:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:108:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:116:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:136:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
-./qt/mainwindow.cpp:155:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:157:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:158:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:174:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:177:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:179:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:181:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:181:  Extra space before )  [whitespace/parens] [2]
-./qt/mainwindow.cpp:184:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:185:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:245:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:494:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:503:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:503:  Mismatching spaces inside () in if  [whitespace/parens] [5]
-./qt/mainwindow.cpp:506:  Extra space before )  [whitespace/parens] [2]
-./qt/mainwindow.cpp:518:  Missing space before ( in for(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:521:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:524:  Extra space before )  [whitespace/parens] [2]
-./qt/mainwindow.cpp:535:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
-./qt/mainwindow.cpp:535:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
-./qt/mainwindow.cpp:586:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:586:  Extra space before )  [whitespace/parens] [2]
-./qt/mainwindow.cpp:625:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:626:  Extra space before )  [whitespace/parens] [2]
-./qt/mainwindow.cpp:652:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:671:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:672:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:675:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:679:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:687:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
-./qt/mainwindow.cpp:687:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
-./qt/mainwindow.cpp:691:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:701:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:702:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/mainwindow.cpp:725:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:732:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
-./qt/mainwindow.cpp:732:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
-./qt/mainwindow.cpp:787:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/mainwindow.cpp:916:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:917:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:926:  Missing space before ( in if(  [whitespace/parens] [5]
-./qt/mainwindow.cpp:933:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:935:  An else should appear on the same line as the preceding }  [whitespace/newline] [4]
-./qt/mainwindow.cpp:935:  If an else has a brace on one side, it should have it on both  [readability/braces] [5]
-./qt/mainwindow.cpp:954:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:955:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/mainwindow.cpp:956:  Extra space after ( in function call  [whitespace/parens] [4]
+Total errors found: 0
 Done processing ./qt/mainwindow.cpp
-Total errors found: 58
+Total errors found: 0
+Done processing ./qt/presentationscreen.cpp
+Total errors found: 0
 Done processing ./qt/posintextframeformat.cpp
 Total errors found: 0
 Done processing ./qt/commentaryzone.cpp

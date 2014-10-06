@@ -259,7 +259,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
         This function modify the appearence of the text BUT DOES NOT UPDATE
         the .modified_chars_hash attribute.
 7_____________________________________________________________________________*/
-void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
+void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->ui.current_dipydoc;
 
   switch (this->ui.reading_mode) {

@@ -80,7 +80,6 @@ class UI {
   QNetworkAccessManager* network_manager = nullptr;
 
  private:
-
   /*
     unique PSLauncher object, used to display "splashscreens".
   */

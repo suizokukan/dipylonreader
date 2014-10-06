@@ -59,7 +59,7 @@ class SourceEditor : public TextEditor {
 
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);
-    void      modify_the_text_format(PosInTextRanges&);
+    void      modify_the_text_format(const PosInTextRanges&);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);
     void      update_aspect_from_dipydoc_aspect_informations(void);
