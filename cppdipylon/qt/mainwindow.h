@@ -34,15 +34,17 @@
 #include "qt/commentaryeditor.h"
 #include "qt/commentaryzone.h"
 #include "qt/downloaddemodipydocs.h"
+#include "qt/presentationscreen.h"
 #include "qt/sourceeditor.h"
 #include "qt/sourcezone.h"
 #include "qt/ui.h"
 
-#include <QMediaPlayer>
-#include <QMainWindow>
-#include <QtWidgets>
 #include <QFile>
 #include <QFrame>
+#include <QMainWindow>
+#include <QMediaPlayer>
+#include <QtWidgets>
+#include <QTimer>
 #include <QToolBar>
 
 class CommentaryEditor;
@@ -79,6 +81,7 @@ protected:
     void audio_position_changed(PosInAudio);
     void closing(void);
     void hidetoolbarsAct__buttonPressed(void);
+    void internalmsgAct__buttonPressed(void);
     void open(void);
     void popup_mainmenuAct__buttonPressed(void);
     void readingmode_aAct__buttonpressed(void);
@@ -124,6 +127,7 @@ private:
     QAction*   downloaddemoAct = nullptr;
     QAction*   exitAct = nullptr;
     QAction*   hidetoolbarsAct = nullptr;
+    QAction*   internalmsgAct = nullptr;
     QAction*   openAct = nullptr;
     QAction*   popup_mainmenuAct = nullptr;
     QAction*   saveMainFileOfADipyDocAsAct = nullptr;

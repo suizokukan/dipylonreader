@@ -44,29 +44,25 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
 
   MainWindow::about
 ______________________________________________________________________________*/
-void MainWindow::about() {
-    QMessageBox msgBox;
-    msgBox.setTextFormat(Qt::RichText);
-    msgBox.setText(QString( QObject::tr("<b>%1</b> %2, "
-                                        "a software by %3.<br/><br/>"
-                                        "  This program is covered by the <b>%4</b> "
-                                        "(<a href='%5'>%5</a>) license : "
-                                        "checkout the code of the project at the following "
-                                        "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
-                                                                fixedparameters::application_version,
-                                                                fixedparameters::CODESOURCE_AUTHOR,
-                                                                fixedparameters::CODESOURCE_LICENSE,
-                                                                fixedparameters::CODESOURCE_LICENSE_ADDRESS,
-                                                                fixedparameters::CODESOURCE_ADDRESS)));
+void MainWindow::about(void) {
+  // presentation screen message :
+  QString msg = QString("<span style=\"color:#000000\">");
 
-    #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
-    msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
-                            this->ui.current_dipydoc.err_messages.join("\n\n") + \
-                            "\n\n\n*** internal debug message ***\n\n\n" + \
-                            DebugMsg::messages.join("\n") );
-    #endif
+  msg += "\n\n";
 
-    msgBox.exec();
+  msg += QString(QObject::tr("<b>%1</b> %2, "
+                             "a software by %3.<br/><br/>"
+                             "  This program is covered by the <b>%4</b> "
+                             "(<a href='%5'>%5</a>) license : "
+                             "checkout the code of the project at the following "
+                             "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
+                                                              fixedparameters::application_version,
+                                                              fixedparameters::CODESOURCE_AUTHOR,
+                                                              fixedparameters::CODESOURCE_LICENSE,
+                                                              fixedparameters::CODESOURCE_LICENSE_ADDRESS,
+                                                              fixedparameters::CODESOURCE_ADDRESS));
+
+  this->ui.presentation_screen_launcher.launch(msg, this->geometry());
 }
 
 /*______________________________________________________________________________
@@ -317,6 +313,16 @@ void MainWindow::createActions() {
                    this,            &MainWindow::hidetoolbarsAct__buttonPressed);
 
   /*
+    internalmsgAct
+  */
+  this->internalmsgAct = new QAction( *(this->ui.icon_app),
+                                       tr("internal messages"),
+                                       this);
+  this->internalmsgAct->setStatusTip(tr("internal messages"));
+  QObject::connect(internalmsgAct, &QAction::triggered,
+                   this,           &MainWindow::internalmsgAct__buttonPressed);
+
+  /*
     openAct
   */
   openAct = new QAction( *(this->ui.icon_open),
@@ -426,6 +432,10 @@ void MainWindow::createMenus() {
 
   helpMenu = menuBar()->addMenu(tr("&Help"));
   helpMenu->addAction(aboutAct);
+  #ifdef MENUACCESS_TO_INTERNAL_MESSAGES
+  menuBar()->addSeparator();
+  helpMenu->addAction(internalmsgAct);
+  #endif
 
   /*
     main popup menu :
@@ -640,6 +650,23 @@ void MainWindow::init(void) {
 
   DebugMsg() << "MainWindow::exit() : entry point";
 }
+
+/*______________________________________________________________________________
+
+  MainWindow::internalmsgAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::internalmsgAct__buttonPressed(void) {
+  QMessageBox msgBox;
+
+  msgBox.setText("Internal messages are used to debug the program. See details below.");
+
+  msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
+                          this->ui.current_dipydoc.err_messages.join("\n\n") + \
+                          "\n\n\n*** internal debug message ***\n\n\n" + \
+                          DebugMsg::messages.join("\n") );
+  msgBox.exec();
+}
+
 
 /*______________________________________________________________________________
 

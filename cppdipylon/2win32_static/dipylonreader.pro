@@ -16,10 +16,10 @@ TRANSLATIONS = dipylonreader_French.ts
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
 DEFINES += ALLOW_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
-DEFINES += ALLOW_SPLASHSCREEN
+DEFINES += ALLOW_SPLASHSCREEN_AT_START
 DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
 DEFINES += CROSSCOMPILE_TO_WIN_USING_MXE
-DEFINES += DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+DEFINES += MENUACCESS_TO_INTERNAL_MESSAGES
 DEFINES += DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 DEFINES += MAXIMIZE_MAINWINDOW_TRUE_METHOD
 DEFINES += NO_MAIN_POPUPMENU
@@ -65,6 +65,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/ui.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
+                    qt/presentationscreen.h \
                     qt/sourceeditor.h \ 
                     qt/sourcetoolbar.h \
                     qt/sourcezone.h \  
@@ -91,6 +92,7 @@ SOURCES         +=  ./main.cpp \
                     qt/ui.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
+                    qt/presentationscreen.cpp \
                     qt/sourceeditor.cpp \
                     qt/sourcetoolbar.cpp \
                     qt/sourcezone.cpp \
