@@ -37,6 +37,11 @@ PresentationScreen::PresentationScreen(bool* _the_launcher_is_busy,
                                        const QPixmap & _pixmap,
                                        Qt::WindowFlags _f) : QSplashScreen::QSplashScreen(_pixmap, _f),
                                                              the_launcher_is_busy(_the_launcher_is_busy) {
+  /*
+    I'm not sure if this line is required or not. Let's say it's a kind of
+    guardrail !
+  */
+  this->setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 /*______________________________________________________________________________
