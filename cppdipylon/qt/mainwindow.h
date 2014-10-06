@@ -81,6 +81,7 @@ protected:
     void audio_position_changed(PosInAudio);
     void closing(void);
     void hidetoolbarsAct__buttonPressed(void);
+    void internalmsgAct__buttonPressed(void);
     void open(void);
     void popup_mainmenuAct__buttonPressed(void);
     void readingmode_aAct__buttonpressed(void);
@@ -126,6 +127,7 @@ private:
     QAction*   downloaddemoAct = nullptr;
     QAction*   exitAct = nullptr;
     QAction*   hidetoolbarsAct = nullptr;
+    QAction*   internalmsgAct = nullptr;
     QAction*   openAct = nullptr;
     QAction*   popup_mainmenuAct = nullptr;
     QAction*   saveMainFileOfADipyDocAsAct = nullptr;

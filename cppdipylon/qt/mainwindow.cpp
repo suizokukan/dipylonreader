@@ -313,6 +313,16 @@ void MainWindow::createActions() {
                    this,            &MainWindow::hidetoolbarsAct__buttonPressed);
 
   /*
+    internalmsgAct
+  */
+  this->internalmsgAct = new QAction( *(this->ui.icon_app),
+                                       tr("internal messages"),
+                                       this);
+  this->internalmsgAct->setStatusTip(tr("internal messages"));
+  QObject::connect(internalmsgAct, &QAction::triggered,
+                   this,           &MainWindow::internalmsgAct__buttonPressed);
+
+  /*
     openAct
   */
   openAct = new QAction( *(this->ui.icon_open),
@@ -422,6 +432,10 @@ void MainWindow::createMenus() {
 
   helpMenu = menuBar()->addMenu(tr("&Help"));
   helpMenu->addAction(aboutAct);
+  #ifdef MENUACCESS_TO_INTERNAL_MESSAGES
+  menuBar()->addSeparator();
+  helpMenu->addAction(internalmsgAct);
+  #endif
 
   /*
     main popup menu :
@@ -636,6 +650,23 @@ void MainWindow::init(void) {
 
   DebugMsg() << "MainWindow::exit() : entry point";
 }
+
+/*______________________________________________________________________________
+
+  MainWindow::internalmsgAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::internalmsgAct__buttonPressed(void) {
+  QMessageBox msgBox;
+
+  msgBox.setText("Internal messages are used to debug the program. See details below.");
+
+  msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
+                          this->ui.current_dipydoc.err_messages.join("\n\n") + \
+                          "\n\n\n*** internal debug message ***\n\n\n" + \
+                          DebugMsg::messages.join("\n") );
+  msgBox.exec();
+}
+
 
 /*______________________________________________________________________________
 
