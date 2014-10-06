@@ -27,35 +27,63 @@
 
 #include "qt/presentationscreen.h"
 
-PresentationScreen::PresentationScreen(PSLauncher* _pslauncher,
-         const QPixmap & _pixmap,
-         Qt::WindowFlags _f) : QSplashScreen::QSplashScreen(_pixmap, _f), presentation_screen(_pslauncher) {
+/*______________________________________________________________________________
+
+        PresentationScreen::PresentationScreen()
+
+        PresentationScreen constructor.
+______________________________________________________________________________*/
+PresentationScreen::PresentationScreen(bool* _the_launcher_is_busy,
+                                       const QPixmap & _pixmap,
+                                       Qt::WindowFlags _f) : QSplashScreen::QSplashScreen(_pixmap, _f),
+                                                             the_launcher_is_busy(_the_launcher_is_busy) {
 }
 
+/*______________________________________________________________________________
+
+        PresentationScreen::hideEvent
+
+        It's the event called when the splash screen disappears (see Qt doc.)
+        The closeEvent is called after, when the qwidget has been deleted.
+
+        When this event is catched, the object is closed and the function
+        allows a new PresentationScreen to be displayed (see the the_launcher_is_busy
+        attribute).
+______________________________________________________________________________*/
 void PresentationScreen::hideEvent(QHideEvent* e) {
   DebugMsg() << "PresentationScreen::hideEvent";
   e->accept();
 
   this->close();
 
-  presentation_screen->busy = false;
+  // let's allow another future PresentationScreen :
+  *(this->the_launcher_is_busy) = false;
 }
 
-PSLauncher::PSLauncher(void) : splashscreen(nullptr), busy(false) {
+/*______________________________________________________________________________
+
+        PSLauncher::PSLauncher
+
+        PSLauncher constructor.
+______________________________________________________________________________*/
+PSLauncher::PSLauncher(void) : presentation_screen(nullptr), busy(false) {
 }
 
-PSLauncher::~PSLauncher(void) {
-}
+/*______________________________________________________________________________
 
+        PSLauncher::launch
+______________________________________________________________________________*/
 void PSLauncher::launch(const QString& text, const QRect& parent_geometry) {
+  // problem : a PresentationScreen object already exists :
   if (this->busy == true) {
-    DebugMsg() << "PSLauncher::display_a_presentation_screen() : error #1";
+    DebugMsg() << "PSLauncher::display_a_presentation_screen() : a PresentationScreen object already exists.";
     return;
   }
 
+  // normal case : let's display a new PresentationScreen object :
   this->busy = true;
 
-  this->splashscreen = new PresentationScreen(this,
+  this->presentation_screen = new PresentationScreen(&(this->busy),
                                               QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
                                               Qt::WindowStaysOnTopHint);
 
@@ -64,13 +92,13 @@ void PSLauncher::launch(const QString& text, const QRect& parent_geometry) {
   int parent_y = parent_geometry.y();
   int parent_width = parent_geometry.width();
   int parent_height = parent_geometry.height();
-  this->splashscreen->move(parent_x + (parent_width / 2)  - (this->splashscreen->width() / 2),
-                           parent_y + (parent_height / 2) - (this->splashscreen->height() / 2));
+  this->presentation_screen->move(parent_x + (parent_width / 2)  - (this->presentation_screen->width() / 2),
+                                  parent_y + (parent_height / 2) - (this->presentation_screen->height() / 2));
 
-  this->splashscreen->showMessage(text, Qt::AlignLeft);
+  this->presentation_screen->showMessage(text, Qt::AlignLeft);
 
-  this->splashscreen->show();
+  this->presentation_screen->show();
 
   QTimer::singleShot(fixedparameters::splashscreen_maximal_duration,
-                     splashscreen, SLOT(close()));
+                     this->presentation_screen, SLOT(close()));
 }

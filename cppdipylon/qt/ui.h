@@ -84,7 +84,7 @@ class UI {
   /*
     unique PSLauncher object, used to display "splashscreens".
   */
-  PSLauncher* presentation_screen_launcher = nullptr;
+  PSLauncher presentation_screen_launcher = PSLauncher();
 
   /*
     settings :

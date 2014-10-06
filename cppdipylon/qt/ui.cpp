@@ -73,9 +73,6 @@ ______________________________________________________________________________*/
 UI::~UI(void) {
   DebugMsg() << "UI::~UI(#beginning)";
 
-  // PSLauncher object :
-  delete this->presentation_screen_launcher;
-
   // QNetworkAccessManager object :
   DebugMsg() << "... delete this->network_manager";
   delete this->network_manager;
@@ -137,8 +134,6 @@ QString UI::get_translations_for(PosInText x0, PosInText x1) const {
 ______________________________________________________________________________*/
 int UI::go(int argc, char **argv) {
   DebugMsg() << "enter in UI::go()";
-
-  this->presentation_screen_launcher = new PSLauncher();
 
   /*
     We want to use the system's standard settings.
@@ -311,9 +306,9 @@ int UI::go(int argc, char **argv) {
     QString msg(QString("<span style=\"color:#000000\">") + \
                 QObject::tr("<b>%1</b> - version %2 -"));
 
-    this->presentation_screen_launcher->launch(msg.arg(fixedparameters::application_name_for_the_user,
-                                                       fixedparameters::application_version),
-                                               this->mainWin->geometry());
+    this->presentation_screen_launcher.launch(msg.arg(fixedparameters::application_name_for_the_user,
+                                                      fixedparameters::application_version),
+                                              this->mainWin->geometry());
   }
   #endif
 

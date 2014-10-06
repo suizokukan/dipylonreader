@@ -21,7 +21,12 @@
 
     ❏DipylonReader❏ : qt/presentationscreen.h
 
+    The unique instance of the PSLauncher class allows to displays one
+    splashscreen (not two or more). The QSplashScreen displayed is
+    a ScreenPresentation object.
+
     o PSLauncher class
+    o PresentationScreen class
 
 *******************************************************************************/
 
@@ -41,31 +46,49 @@
 #include <QTimer>
 #include <Qt>
 
+class PresentationScreen;
+
 /*______________________________________________________________________________
 
+  PSLauncher class
+
+  P[resentation]S[creen]Launcher
+
+  Use this class to display("launch() method") a PresentationScreen object.
 ______________________________________________________________________________*/
 class PSLauncher {
 
  public:
-  QSplashScreen* splashscreen = nullptr;
+  // pointer to the current PresentationScreen object :
+  PresentationScreen* presentation_screen = nullptr;
+  // is there already a PresentationScreen object displayed ?
   bool           busy = false;
 
  public:
                  PSLauncher(void);
-                ~PSLauncher(void);
   void           launch(const QString& text, const QRect& parent_geometry);
 };
 
+/*______________________________________________________________________________
+
+  PresentationScreen class
+
+  A PresentationScreen is displayed through a call to PSLauncher::launch().
+______________________________________________________________________________*/
 class PresentationScreen : public QSplashScreen {
 friend PSLauncher;
 
     Q_OBJECT
 
-  PSLauncher* presentation_screen = nullptr;
-  PresentationScreen(PSLauncher* _presentation_screen, const QPixmap & pixmap, Qt::WindowFlags f);
+  // may the launcher allow to display another PresentationScreen object ?
+  bool* the_launcher_is_busy = nullptr;
+
+        PresentationScreen(bool* _the_launcher_is_busy,
+                           const QPixmap & _pixmap,
+                           Qt::WindowFlags _f);
 
 private slots:
-  void hideEvent(QHideEvent*e);
+  void  hideEvent(QHideEvent*e);
 };
 
 #endif

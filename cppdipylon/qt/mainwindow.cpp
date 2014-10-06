@@ -62,7 +62,7 @@ void MainWindow::about(void) {
                                                               fixedparameters::CODESOURCE_LICENSE_ADDRESS,
                                                               fixedparameters::CODESOURCE_ADDRESS));
 
-  this->ui.presentation_screen_launcher->launch(msg, this->geometry());
+  this->ui.presentation_screen_launcher.launch(msg, this->geometry());
 }
 
 /*______________________________________________________________________________
