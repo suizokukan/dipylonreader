@@ -816,6 +816,7 @@ sous Linux : ./dipylon > output 2>&1
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
+version 33 : new format for summary files
 version 32 : no more 'font-size' in order to use QTextEditor::zoomIn(), QTextEditor::zoomOut() methods
 version 31 : 'rlmode' > 'lmode'
 version 30 : 'rmode_textformat'
