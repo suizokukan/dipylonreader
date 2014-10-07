@@ -265,6 +265,9 @@ friend class CommentaryEditor;
  private:
   bool                 _well_initialized;
   int                  _internal_state;
+  /*
+    "unspecified" or one of the strings defined in fixedparameters::known_doctypes.
+  */
   QString              doctype;
 
   QString              path;
@@ -325,7 +328,8 @@ friend class CommentaryEditor;
   QString                error_string(QXmlStreamReader* xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
-  bool                   read_mainfile__rest(QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__text(QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__text__init_and_check(void);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_qsettings_name(void);

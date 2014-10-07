@@ -23,14 +23,6 @@
 
     See dipydoc.h for the documentation
 
-    ____________________________________________________________________________
-
-    expected files :
-
-    o text file : a bunch of pure UTF-8/unicode text
-
-    o main file : see DIPYDOC_XMLFORMAT in the documentation
-
 *******************************************************************************/
 
 #include "dipydoc/dipydoc.h"
@@ -71,8 +63,8 @@ DipyDoc::DipyDoc(const QString& _path) {
   // let's open the main file :
   this->read_mainfile(_path);
 
-  // let's open the text file :
-  if (this->well_initialized() == true) {
+  // text document ? let's open the text file :
+  if (this->well_initialized() == true && this->doctype == QString("text") ) {
     DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
     QFile src_file(this->source_text.filename);
     src_file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -155,7 +147,7 @@ void DipyDoc::clear(void) {
   this->id = QString("default id");
   this->version = 0;
 
-  this->doctype = QString("");
+  this->doctype = QString("unspecified");
 
   this->path = QString("");
   this->main_filename_with_fullpath = QString("");
@@ -660,19 +652,7 @@ QString DipyDoc::get_xml_repr(void) const {
 
         (1) main file opening
         (2) xml reading : main file reading
-        (3) secondary initializations
-            (3.1) initialization of "audiorecord.audio2text"
-            (3.2) "number_of_chars_before_source_text" is not initialized here
-        (4) checks
-            (4.1) is audiorecord.text2audio correctly initialized ?
-            (4.2) is audiorecord.audio2text correctly initialized ?
-            (4.3) is translation correctly initialized ?
-            (4.4) is the text's filename an empty string ?
-            (4.5) are the notes' levels' number defined ?
-            (4.6) are the notes' aspects defined ?
-            (4.7) are the notes' arrows' types defined ?
-        (5) initializaton of _well_initialized
-
+        (3) initialization and checking
 ______________________________________________________________________________*/
 void DipyDoc::read_mainfile(const QString& _path) {
   DebugMsg() << "DipyDoc::read_mainfile() : entry point; path=" << _path;
@@ -717,19 +697,20 @@ void DipyDoc::read_mainfile(const QString& _path) {
       */
       if (this->read_mainfile__first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
-        ok = this->read_mainfile__rest(xmlreader);
-        DebugMsg() << "(DipyDoc::read_mainfile) #2(a)" << ok;
+        if (this->doctype == QString("text")) {
+            ok = this->read_mainfile__text(xmlreader);
+        }
       }
     } else {
       /*
-         not a DipyDoc file (?) :
+         not a DipyDoc file  :
       */
       this->error("This isn't a DipyDoc file : incorrect first token.", this->error_string(xmlreader));
       ok = false;
     }
   } else {
     /*
-       not a DipyDoc file (?) :
+       not a DipyDoc file :
     */
     this->error("This isn't a DipyDoc file : nothing to read.", this->error_string(xmlreader));
     ok = false;
@@ -745,153 +726,13 @@ void DipyDoc::read_mainfile(const QString& _path) {
   }
 
   /*............................................................................
-    (3) secondary initializations
+    (3) initialization and checking
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #3";
-
-  /*............................................................................
-    (3.1) initialization of "audiorecord.audio2text"
-  ............................................................................*/
-  if (this->audiorecord.found == true) {
-    this->audiorecord.audio2text = PosInAudio2PosInText(this->audiorecord.text2audio);
-  } else {
-    // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
-    this->audiorecord.audio2text.clear();
-  }
-
-  /*............................................................................
-    (3.2) "number_of_chars_before_source_text" is not initialized here
-
-    The first attempt to compute "number_of_chars_before_source_text was doubtfull :
-
-      this->source_text.number_of_chars_before_source_text = 0;
-      if (this->title.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->title.text.length();
-      }
-      if (this->introduction.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
-      }
-      if (this->lettrine.found == true) {
-        this->source_text.number_of_chars_before_source_text += 1;
-      }
-
-    ... the main problem was that it's difficult to know how is the lettrine's
-    image coded into the text. The result was ok but I can not trust this
-    code : how will Qt work on different architectures ? So I decided to ask
-    SourceEditor::load_text() to initialize "number_of_chars_before_source_text"
-    by simply incrementing a cursor's position as the document is filled.
-  ............................................................................*/
-
-  /*............................................................................
-    (4) checks
-  ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #4";
-
-  /*............................................................................
-    (4.1) is audiorecord.text2audio correctly initialized ?
-  ............................................................................*/
-  if (this->audiorecord.found == true && \
-      this->audiorecord.text2audio.well_initialized() == false) {
-    QString msg = "text2audio isn't correctly initialized"
-                  "PosInText2PosInAudio error message = %1.";
-    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.text2audio.internal_state())));
-  }
-
-  /*............................................................................
-    (4.2) is audio2text correctly initialized ?
-  ............................................................................*/
-  if (this->audiorecord.found == true && \
-      this->audiorecord.audio2text.well_initialized() == false) {
-    QString msg = "audio2text isn't correctly initialized"
-                  "PosInAudio2PosInText error message = %1.";
-    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.audio2text.internal_state())));
-  }
-
-  /*............................................................................
-    (4.3) is translation correctly initialized ?
-  ............................................................................*/
-  if (this->translation.translations.well_initialized() == false) {
-    QString msg = "translation.translations isn't correctly initialized"
-                  "PosInText2Str error message = %1.";
-    ok &= !this->error(msg.arg(QString().setNum(this->translation.translations.internal_state())));
-  }
-
-  /*............................................................................
-    (4.4) is the text's filename an empty string ?
-  ............................................................................*/
-  if (this->source_text.filename.length() == 0) {
-    QString msg = "Empty text's filename";
-    ok &= !this->error(msg);
-  }
-
-  /*............................................................................
-    (4.5) are the notes' levels' number defined ?
-  ............................................................................*/
-  for (auto &note_by_level : this->notes) {
-    // note_by_level.first : (int)level
-    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
-    if (this->levels.find(note_by_level.first) == this->levels.end()) {
-      QString msg = "A note is defined with an unknown level; "
-                    "level=%i .";
-      ok = !this->error(msg.arg(QString().setNum(note_by_level.first)));
-    }
-  }
-
-  /*............................................................................
-    (4.6) are the notes' aspects defined ?
-  ............................................................................*/
-  for (auto &note_by_level : this->notes) {
-    // note_by_level.first : (int)level
-    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
-    for (auto &pos_and_note : note_by_level.second) {
-      // pos_and_note.first : PosInTextRanges
-      // pos_and_note.second : DipyDocNote
-      if ((pos_and_note.second.textformatname.size() != 0) && \
-          (this->textformats.find(pos_and_note.second.textformatname) == this->textformats.end())) {
-           QString msg = "A note is defined with an unknown textformat's name; "
-                         "textformat='%1' .";
-           ok = !this->error(msg.arg(pos_and_note.second.textformatname));
-      }
-    }
-  }
-
-  /*............................................................................
-    (4.7) are the notes' arrows' types defined ?
-  ............................................................................*/
-  for (auto &note_by_level : this->notes) {
-    // note_by_level.first : (int)level
-    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
-    for (auto &pos_and_note : note_by_level.second) {
-      // pos_and_note.first : PosInTextRanges
-      // pos_and_note.second : DipyDocNote
-      for (auto &arrow_in_a_note : pos_and_note.second.arrows) {
-        if (this->arrows.find(arrow_in_a_note.type) == this->arrows.end()) {
-           QString msg = "A note's arrow is defined with an unknown type; "
-                         "type='%1' .";
-           ok = !this->error(msg.arg(arrow_in_a_note.type));
-        }
-      }
-    }
-  }
-
-  /*............................................................................
-    (5) initializaton of _well_initialized and of _internal_state.
-  ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #5";
-  if (ok == false) {
-    this->_well_initialized = false;
-    // _internal_state has been precedently set to NOT_CORRECTLY_INITIALIZED.
-    DebugMsg() << "DipyDoc::read_mainfile() : exit #2; something's wrong.";
+  if (this->doctype == QString("text")) {
+    ok &= this->read_mainfile__text__init_and_check();
   }
 
   delete xmlreader;
-
-  DebugMsg() << "(DipyDoc::read_mainfile) levels=" << this->levels_repr();
-
-  DebugMsg() << "(DipyDoc::read_mainfile) arrows=" << this->arrows_repr();
-
-  DebugMsg() << "(DipyDoc::read_mainfile) notes=";
-  DebugMsg() << this->notes.repr();
 
   DebugMsg() << "DipyDoc::read_mainfile" << \
                 "this->_well_initialized = " << this->_well_initialized;
@@ -953,14 +794,15 @@ bool DipyDoc::read_mainfile__first_token(QXmlStreamReader* xmlreader) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__rest()
+  DipyDoc::read_mainfile__text()
 
-  read everything but the first token and initializes the object.
+    for doctype='text', read everything but the first token and initializes the
+  object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__rest(QXmlStreamReader* xmlreader) {
-  DebugMsg() << "(DipyDoc::read_mainfile__rest) : entry point";
+bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
+  DebugMsg() << "(DipyDoc::read_mainfile__text) : entry point";
   bool ok = true;
 
   while (xmlreader->readNextStartElement()) {
@@ -1371,7 +1213,178 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader* xmlreader) {
     }
   }  // ... while (xmlreader->readNextStartElement())
 
-  DebugMsg() << "(DipyDoc::read_mainfile__rest) : exit point" << ok;
+  DebugMsg() << "(DipyDoc::read_mainfile__text) : exit point" << ok;
+  return ok;
+}
+
+/*______________________________________________________________________________
+
+  DipyDoc::read_mainfile__text__init_and_check()
+
+  Initialization and checking for "text" dipydoc.
+
+        (1) secondary initializations
+            (1.1) initialization of "audiorecord.audio2text"
+            (1.2) "number_of_chars_before_source_text" is not initialized here
+        (2) checks
+            (2.1) is audiorecord.text2audio correctly initialized ?
+            (2.2) is audiorecord.audio2text correctly initialized ?
+            (2.3) is translation correctly initialized ?
+            (2.4) is the text's filename an empty string ?
+            (2.5) are the notes' levels' number defined ?
+            (2.6) are the notes' aspects defined ?
+            (2.7) are the notes' arrows' types defined ?
+        (3) initializaton of _well_initialized
+
+________________________________________________________________________________*/
+bool DipyDoc::read_mainfile__text__init_and_check(void) {
+
+  bool ok = true;
+
+  /*............................................................................
+    (1) secondary initializations
+  ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #1";
+
+  /*............................................................................
+    (1.1) initialization of "audiorecord.audio2text"
+  ............................................................................*/
+  if (this->audiorecord.found == true) {
+    this->audiorecord.audio2text = PosInAudio2PosInText(this->audiorecord.text2audio);
+  } else {
+    // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
+    this->audiorecord.audio2text.clear();
+  }
+
+  /*............................................................................
+    (1.2) "number_of_chars_before_source_text" is not initialized here
+
+    The first attempt to compute "number_of_chars_before_source_text was doubtfull :
+
+      this->source_text.number_of_chars_before_source_text = 0;
+      if (this->title.found == true) {
+        this->source_text.number_of_chars_before_source_text += this->title.text.length();
+      }
+      if (this->introduction.found == true) {
+        this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
+      }
+      if (this->lettrine.found == true) {
+        this->source_text.number_of_chars_before_source_text += 1;
+      }
+
+    ... the main problem was that it's difficult to know how is the lettrine's
+    image coded into the text. The result was ok but I could not trust this
+    code : how will Qt work on different architectures ? So I decided to ask
+    SourceEditor::load_text() to initialize "number_of_chars_before_source_text"
+    by simply incrementing a cursor's position as the document is filled.
+  ............................................................................*/
+
+  /*............................................................................
+    (2) checks
+  ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #2";
+
+  /*............................................................................
+    (2.1) is audiorecord.text2audio correctly initialized ?
+  ............................................................................*/
+  if (this->audiorecord.found == true && \
+      this->audiorecord.text2audio.well_initialized() == false) {
+    QString msg = "text2audio isn't correctly initialized"
+                  "PosInText2PosInAudio error message = %1.";
+    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.text2audio.internal_state())));
+  }
+
+  /*............................................................................
+    (2.2) is audio2text correctly initialized ?
+  ............................................................................*/
+  if (this->audiorecord.found == true && \
+      this->audiorecord.audio2text.well_initialized() == false) {
+    QString msg = "audio2text isn't correctly initialized"
+                  "PosInAudio2PosInText error message = %1.";
+    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.audio2text.internal_state())));
+  }
+
+  /*............................................................................
+    (2.3) is translation correctly initialized ?
+  ............................................................................*/
+  if (this->translation.translations.well_initialized() == false) {
+    QString msg = "translation.translations isn't correctly initialized"
+                  "PosInText2Str error message = %1.";
+    ok &= !this->error(msg.arg(QString().setNum(this->translation.translations.internal_state())));
+  }
+
+  /*............................................................................
+    (2.4) is the text's filename an empty string ?
+  ............................................................................*/
+  if (this->source_text.filename.length() == 0) {
+    QString msg = "Empty text's filename";
+    ok &= !this->error(msg);
+  }
+
+  /*............................................................................
+    (2.5) are the notes' levels' number defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    if (this->levels.find(note_by_level.first) == this->levels.end()) {
+      QString msg = "A note is defined with an unknown level; "
+                    "level=%i .";
+      ok = !this->error(msg.arg(QString().setNum(note_by_level.first)));
+    }
+  }
+
+  /*............................................................................
+    (2.6) are the notes' aspects defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      if ((pos_and_note.second.textformatname.size() != 0) && \
+          (this->textformats.find(pos_and_note.second.textformatname) == this->textformats.end())) {
+           QString msg = "A note is defined with an unknown textformat's name; "
+                         "textformat='%1' .";
+           ok = !this->error(msg.arg(pos_and_note.second.textformatname));
+      }
+    }
+  }
+
+  /*............................................................................
+    (2.7) are the notes' arrows' types defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      for (auto &arrow_in_a_note : pos_and_note.second.arrows) {
+        if (this->arrows.find(arrow_in_a_note.type) == this->arrows.end()) {
+           QString msg = "A note's arrow is defined with an unknown type; "
+                         "type='%1' .";
+           ok = !this->error(msg.arg(arrow_in_a_note.type));
+        }
+      }
+    }
+  }
+
+  /*............................................................................
+    (3) initializaton of _well_initialized and of _internal_state.
+  ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #3";
+  if (ok == false) {
+    this->_well_initialized = false;
+    this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
+  }
+
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) levels=" << this->levels_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) arrows=" << this->arrows_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) notes="  << this->notes.repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
+
   return ok;
 }
 
