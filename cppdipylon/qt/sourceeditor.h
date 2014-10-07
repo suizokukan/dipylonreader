@@ -55,7 +55,7 @@ class SourceEditor : public TextEditor {
     Q_OBJECT
 
  public:
-    explicit  SourceEditor(UI&);
+    explicit  SourceEditor(UI& _ui, QWidget *_parent);
 
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);

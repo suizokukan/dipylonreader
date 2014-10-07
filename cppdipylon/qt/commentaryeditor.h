@@ -46,7 +46,7 @@ friend class UI;
     Q_OBJECT
 
  public:
-    explicit CommentaryEditor(UI&);
+    explicit CommentaryEditor(UI& _ui, QWidget *_parent);
 
     void set_the_appearance(void);
     void set_the_text_formats(void);

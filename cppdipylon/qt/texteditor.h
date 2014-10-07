@@ -46,7 +46,7 @@ friend class UI;
     Q_OBJECT
 
  public:
-    explicit  TextEditor(UI& _ui);
+    explicit  TextEditor(UI& _ui, QWidget *_parent);
 
  private:
     // UI object linked to the editor :

@@ -54,7 +54,7 @@ friend MainWindow;
   QLayout* layout = nullptr;
 
  public:
-  explicit SourceZone(UI& _ui);
+  explicit SourceZone(UI& _ui, QWidget *_parent);
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEZONE_H_

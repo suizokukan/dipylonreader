@@ -60,6 +60,8 @@ SUMMARY
 
 [12] settings (=configuration file)
 
+[13] UI's structure
+
 ################################################################################
 [0] roadmap
 ################################################################################
@@ -979,4 +981,22 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 
 "text/TEXTNAME/commentaryeditor/zoomvalue" : int
 "text/TEXTNAME/sourceeditor/zoomvalue" : int
+
+################################################################################
+[13] UI's structure
+################################################################################
+
+  UI::mainWin
+  |
+  \____> main_splitter : QSplitter object
+         |
+         \____> source_zone : SourceZone object
+                |
+                \___source_editor : SourceEditor object
+                \___source_toolbar : QToolBar object
+         |
+         \____> source_zone : CommentaryZone object
+                |
+                \___commentary_editor : CommentaryEditor object
+                \___commentary_toolbar : QToolBar object
 

@@ -35,7 +35,7 @@
 ______________________________________________________________________________*/
 PresentationScreen::PresentationScreen(bool* _the_launcher_is_busy,
                                        const QPixmap & _pixmap,
-                                       Qt::WindowFlags _f) : QSplashScreen::QSplashScreen(_pixmap, _f),
+                                       Qt::WindowFlags _f) : QSplashScreen(_pixmap, _f),
                                                              the_launcher_is_busy(_the_launcher_is_busy) {
   /*
     I'm not sure if this line is required or not. Let's say it's a kind of
@@ -89,8 +89,8 @@ void PSLauncher::launch(const QString& text, const QRect& parent_geometry) {
   this->busy = true;
 
   this->presentation_screen = new PresentationScreen(&(this->busy),
-                                              QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
-                                              Qt::WindowStaysOnTopHint);
+                                                     QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
+                                                     Qt::WindowStaysOnTopHint);
 
   // let's center the splashscreen exactly with the main window :
   int parent_x = parent_geometry.x();

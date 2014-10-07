@@ -66,7 +66,7 @@ friend class UI;
     Q_OBJECT
 
  public:
-    explicit MainWindow(UI&);
+    explicit MainWindow(UI& _ui, QWidget *_parent = 0);
 
     void load_text(const DipyDocSourceText& source_text);
 

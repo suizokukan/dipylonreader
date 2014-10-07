@@ -31,7 +31,7 @@
 
   CommentaryToolBar::constructor
 ______________________________________________________________________________*/
-CommentaryToolBar::CommentaryToolBar(const UI& _ui) : ui(_ui) {
+CommentaryToolBar::CommentaryToolBar(const UI& _ui, QWidget *_parent) : QToolBar(_parent), ui(_ui) {
   DebugMsg() << "CommentaryToolBar::CommentaryToolBar : entry point";
 
   this->setObjectName("commentary_zone__toolbar");

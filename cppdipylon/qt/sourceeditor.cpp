@@ -31,7 +31,7 @@
 
   SourceEditor constructor
 ______________________________________________________________________________*/
-SourceEditor::SourceEditor(UI& _ui) : TextEditor(_ui) {
+SourceEditor::SourceEditor(UI& _ui, QWidget *_parent) : TextEditor(_ui, _parent) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   this->setObjectName("source_zone__editor");
