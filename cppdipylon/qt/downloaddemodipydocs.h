@@ -56,7 +56,7 @@ class DownloadDemoDipydocs : public QObject {
     Q_OBJECT
 
  public:
-                     explicit DownloadDemoDipydocs(const UI&);
+                     explicit DownloadDemoDipydocs(const UI&, QWidget *_parent);
                              ~DownloadDemoDipydocs(void);
        bool                   cancel_tasks = false;
        bool                   still_waiting = false;

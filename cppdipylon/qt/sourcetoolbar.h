@@ -45,6 +45,6 @@ class SourceToolBar : public QToolBar {
   UI& ui;
 
  public:
-  explicit SourceToolBar(UI& _ui);
+  explicit SourceToolBar(UI& _ui, QWidget *_parent);
 };
 #endif  // CPPDIPYLON_QT_SOURCETOOLBAR_H_

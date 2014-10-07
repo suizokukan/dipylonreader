@@ -33,7 +33,7 @@
 
   class constructor
 ______________________________________________________________________________*/
-TextEditor::TextEditor(UI& _ui) : ui(_ui) {
+TextEditor::TextEditor(UI& _ui, QWidget *_parent) : QTextEdit(_parent), ui(_ui) {
 }
 
 /*______________________________________________________________________________

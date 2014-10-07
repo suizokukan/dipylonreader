@@ -47,6 +47,6 @@ class CommentaryToolBar : public QToolBar {
   const UI& ui;
 
  public:
-  explicit CommentaryToolBar(const UI& _ui);
+  explicit CommentaryToolBar(const UI& _ui, QWidget *_parent);
 };
 #endif  // CPPDIPYLON_QT_COMMENTARYTOOLBAR_H_

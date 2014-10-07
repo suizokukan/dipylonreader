@@ -39,7 +39,7 @@
      (3) download & install data files
      (4) success message
 ________________________________________________________________________________*/
-DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui) : ui(_ui) {
+DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QObject(_parent), ui(_ui) {
   DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : entry point";
 
   // setting this->summary_url :

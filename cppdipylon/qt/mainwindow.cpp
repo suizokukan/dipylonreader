@@ -32,7 +32,7 @@
   MainWindow::constructor
 
 ______________________________________________________________________________*/
-MainWindow::MainWindow(UI& _ui) : ui(_ui) {
+MainWindow::MainWindow(UI& _ui, QWidget *_parent) : QMainWindow(_parent), ui(_ui) {
   this->setObjectName("main_window");
 
 #ifdef NO_STATUS_BAR
@@ -478,7 +478,7 @@ void MainWindow::createMainToolBars() {
 ______________________________________________________________________________*/
 void MainWindow::download_dipydocs_demo(void) {
   // using the DownloadDemoDipydocs class to download the files :
-  DownloadDemoDipydocs d(this->ui);
+  DownloadDemoDipydocs d(this->ui, this);
 
   // update menu names :
   this->ui.read_menu_names();
@@ -577,8 +577,8 @@ void MainWindow::init(void) {
   this->main_splitter->setOrientation(Qt::Vertical);
   this->setCentralWidget(main_splitter);
 
-  this->source_zone = new SourceZone(this->ui);
-  this->commentary_zone = new CommentaryZone(this->ui);
+  this->source_zone = new SourceZone(this->ui, this);
+  this->commentary_zone = new CommentaryZone(this->ui, this);
   this->main_splitter->addWidget(this->source_zone);
   this->main_splitter->addWidget(this->commentary_zone);
 
