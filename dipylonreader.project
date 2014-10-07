@@ -967,6 +967,9 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 ################################################################################
 [13] source site for demo DipyDocs
 ################################################################################
+
+all the files and the directories must have a name made of the following characters : A-Z + a-z + 0-9 + '.' + '_'
+
 summary file :
 o  name = 'summary'
 o  filename :: size (SPACE::SPACE, 4 characters) :: (sha1)HEXDIGEST
@@ -975,4 +978,4 @@ o  separator in directory/filename : '/' (NOT '\')
 
 e.g. :
 
-_demo_Ovide_Métamorphoses_I_452_465__lat_fra/P.png :: 46408 :: (sha1)da39a3ee5e6b4b0d3255bfef95601890afd80709
+_demo_Ovide_Metamorphoses_I_452_465__lat_fra/P.png :: 46408 :: (sha1)da39a3ee5e6b4b0d3255bfef95601890afd80709
