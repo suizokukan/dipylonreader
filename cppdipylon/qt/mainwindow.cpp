@@ -577,8 +577,8 @@ void MainWindow::init(void) {
   this->main_splitter->setOrientation(Qt::Vertical);
   this->setCentralWidget(main_splitter);
 
-  this->source_zone = new SourceZone(this->ui, this);
-  this->commentary_zone = new CommentaryZone(this->ui, this);
+  this->source_zone = new SourceZone(this->ui, this->main_splitter);
+  this->commentary_zone = new CommentaryZone(this->ui, this->main_splitter);
   this->main_splitter->addWidget(this->source_zone);
   this->main_splitter->addWidget(this->commentary_zone);
 
