@@ -64,7 +64,7 @@ DipyDoc::DipyDoc(const QString& _path) {
   this->read_mainfile(_path);
 
   // text document ? let's open the text file :
-  if (this->well_initialized() == true && this->doctype == QString("text") ) {
+  if (this->well_initialized() == true && this->doctype == QString("text")) {
     DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
     QFile src_file(this->source_text.filename);
     src_file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -1238,7 +1238,6 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
 
 ________________________________________________________________________________*/
 bool DipyDoc::read_mainfile__text__init_and_check(void) {
-
   bool ok = true;
 
   /*............................................................................
