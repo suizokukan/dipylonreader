@@ -66,6 +66,14 @@ SUMMARY
 [0] roadmap
 ################################################################################
 
+0.4.5 (2014_10_08)
+o feature79 : Dipydocs format #33 (RECORD_EXT, summary files)
+o feature74 : added the TextEditor::wheelEvent() method so that zoom value is 
+  now stored even if it's modified with the mouse.
+o +feature83, feature82, feature81, feature80, feature78, feature77, feature76, 
+  feature75, feature72, feature71, feature70, feature69, feature68
+code quality : 9 errors, according to cpplint.py
+
 0.4.4 (2014_10_03)
 o feature56, feature65 : added toolbars' buttons +/- : the zoom value is stored
              in the qsettings file; TextEditor is now the mother class of
