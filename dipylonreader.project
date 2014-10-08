@@ -47,6 +47,8 @@ SUMMARY
 [8] debugging
 
 [9] DipyDoc files
+    [9.1] name convention
+    [9.2] DIPYDOC_XMLFORMAT
 
 [10] autres plateformes
 [10.1] Windows
@@ -58,11 +60,19 @@ SUMMARY
 
 [12] settings (=configuration file)
 
-[13] source site for demo DipyDocs
+[13] UI's structure
 
 ################################################################################
 [0] roadmap
 ################################################################################
+
+0.4.5 (2014_10_08)
+o feature79 : Dipydocs format #33 (RECORD_EXT, summary files)
+o feature74 : added the TextEditor::wheelEvent() method so that zoom value is 
+  now stored even if it's modified with the mouse.
+o +feature83, feature82, feature81, feature80, feature78, feature77, feature76, 
+  feature75, feature72, feature71, feature70, feature69, feature68
+code quality : 9 errors, according to cpplint.py
 
 0.4.4 (2014_10_03)
 o feature56, feature65 : added toolbars' buttons +/- : the zoom value is stored
@@ -168,14 +178,14 @@ o ALLOW_MOVING_THE_MAINWINDOW
 
 o ALLOW_RESIZING_THE_MAINWINDOW
 
-o ALLOW_SPLASHSCREEN
+o ALLOW_SPLASHSCREEN_AT_START
 
 o COMPILE_TO_32BITS_ARCHITECTURE
   compilation to a 32 architecture
 
 o DEBUG_MESSAGES_TO_CERR
 
-o DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
+o MENUACCESS_TO_INTERNAL_MESSAGES
 
 o DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
 o DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
@@ -813,9 +823,26 @@ sous Linux : ./dipylon > output 2>&1
 [9] DipyDoc files
 ################################################################################
 
+################################################################################
+[9.1] name convention
+################################################################################
+all the files and the directories must have a name made of the following characters : A-Z + a-z + 0-9 + '.' + '_'
+
+summary file :
+o  name = 'summary'
+o  filename :: size (SPACE::SPACE, 4 characters) :: (sha1)HEXDIGEST
+o  \n at the end of the lines
+o  separator in directory/filename : '/' (NOT '\')
+e.g. :
+_demo_Ovide_Metamorphoses_I_452_465__lat_fra/P.png :: 46408 :: (sha1)da39a3ee5e6b4b0d3255bfef95601890afd80709
+
+################################################################################
+[9.2] DIPYDOC_XMLFORMAT
+################################################################################
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
+version 33 : new format for summary files (+hash); in main.xml, record.ogg|.mp3 -> record.RECORD_EXT
 version 32 : no more 'font-size' in order to use QTextEditor::zoomIn(), QTextEditor::zoomOut() methods
 version 31 : 'rlmode' > 'lmode'
 version 30 : 'rmode_textformat'
@@ -842,11 +869,11 @@ version 10 : first format's version
 
 NB : "aspectratio" : entier divisant la taille de l'éditeur. Ex : s'il est égal à 3, la largeur représentera le tiers de la largeur de l'éditeur. La hauteur est également divisée de manière à garder la même proportion.
 
-main.xml, version 32 :
+Example :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<dipydoc dipydoc_version="32" languages="lat->fra" type="text">
+<dipydoc dipydoc_version="33" languages="lat->fra" type="text">
 
   <id>démo/Ovide/M/452-465/lat->fra<id/>
   <version>1</version>
@@ -964,14 +991,20 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 "text/TEXTNAME/sourceeditor/zoomvalue" : int
 
 ################################################################################
-[13] source site for demo DipyDocs
+[13] UI's structure
 ################################################################################
-summary file :
-o  name = 'summary'
-o  filename :: size (SPACE::SPACE, 4 characters) :: (sha1)HEXDIGEST
-o  \n at the end of the lines
-o  separator in directory/filename : '/' (NOT '\')
 
-e.g. :
+  UI::mainWin
+  |
+  \____> main_splitter : QSplitter object
+         |
+         \____> source_zone : SourceZone object
+                |
+                \___source_editor : SourceEditor object
+                \___source_toolbar : QToolBar object
+         |
+         \____> source_zone : CommentaryZone object
+                |
+                \___commentary_editor : CommentaryEditor object
+                \___commentary_toolbar : QToolBar object
 
-_demo_Ovide_Métamorphoses_I_452_465__lat_fra/P.png :: 46408 :: (sha1)da39a3ee5e6b4b0d3255bfef95601890afd80709

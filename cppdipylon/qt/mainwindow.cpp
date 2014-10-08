@@ -32,8 +32,9 @@
   MainWindow::constructor
 
 ______________________________________________________________________________*/
-MainWindow::MainWindow(UI& _ui) : ui(_ui) {
-  this->setObjectName("main window");
+MainWindow::MainWindow(UI& _ui, QWidget *_parent) : QMainWindow(_parent), ui(_ui) {
+  this->setObjectName("main_window");
+
 #ifdef NO_STATUS_BAR
   this->setStatusBar(0);
 #endif
@@ -43,29 +44,25 @@ MainWindow::MainWindow(UI& _ui) : ui(_ui) {
 
   MainWindow::about
 ______________________________________________________________________________*/
-void MainWindow::about() {
-    QMessageBox msgBox;
-    msgBox.setTextFormat(Qt::RichText);
-    msgBox.setText(QString( QObject::tr("<b>%1</b> %2, "
-                                        "a software by %3.<br/><br/>"
-                                        "  This program is covered by the <b>%4</b> "
-                                        "(<a href='%5'>%5</a>) license : "
-                                        "checkout the code of the project at the following "
-                                        "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
-                                                                fixedparameters::application_version,
-                                                                fixedparameters::CODESOURCE_AUTHOR,
-                                                                fixedparameters::CODESOURCE_LICENSE,
-                                                                fixedparameters::CODESOURCE_LICENSE_ADDRESS,
-                                                                fixedparameters::CODESOURCE_ADDRESS)));
+void MainWindow::about(void) {
+  // presentation screen message :
+  QString msg = QString("<span style=\"color:#000000\">");
 
-    #ifdef DISPLAY_INTERNAL_MESSAGES_IN_HELP_MENUITEM
-    msgBox.setDetailedText( "internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
-                            this->ui.current_dipydoc.err_messages.join("\n\n") + \
-                            "\n\n\n*** internal debug message ***\n\n\n" + \
-                            DebugMsg::messages.join("\n") );
-    #endif
+  msg += "\n\n";
 
-    msgBox.exec();
+  msg += QString(QObject::tr("<b>%1</b> %2, "
+                             "a software by %3.<br/><br/>"
+                             "  This program is covered by the <b>%4</b> "
+                             "(<a href='%5'>%5</a>) license : "
+                             "checkout the code of the project at the following "
+                             "<a href='%6'>address</a>.").arg(fixedparameters::application_name_for_the_user,
+                                                              fixedparameters::application_version,
+                                                              fixedparameters::CODESOURCE_AUTHOR,
+                                                              fixedparameters::CODESOURCE_LICENSE,
+                                                              fixedparameters::CODESOURCE_LICENSE_ADDRESS,
+                                                              fixedparameters::CODESOURCE_ADDRESS));
+
+  this->ui.presentation_screen_launcher.launch(msg, this->geometry());
 }
 
 /*______________________________________________________________________________
@@ -84,19 +81,16 @@ void MainWindow::about() {
   o [2] other modes
 ________________________________________________________________________________*/
 void MainWindow::audiocontrols_play(void) {
-  switch (this->ui.reading_mode ) {
-
+  switch (this->ui.reading_mode) {
     /*
       [1] lmode
     */
     case UI::READINGMODE_LMODE: {
-
-      switch (this->ui.reading_mode_details ) {
-
+      switch (this->ui.reading_mode_details) {
         // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
         case UI::READINGMODEDETAIL_LMODE_PLAYING: {
           this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_ONPAUSE;
-          this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_pause) );
+          this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_pause));
           this->audio_player->pause();
           break;
         }
@@ -104,7 +98,7 @@ void MainWindow::audiocontrols_play(void) {
         // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
         case UI::READINGMODEDETAIL_LMODE_ONPAUSE: {
           this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+          this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
           this->audio_player->play();
           break;
         }
@@ -112,7 +106,7 @@ void MainWindow::audiocontrols_play(void) {
         // [1.3] LMODE + STOP -> LMODE + PLAYING
         case UI::READINGMODEDETAIL_LMODE_STOP: {
           this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+          this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
           this->audio_player->play();
           break;
         }
@@ -132,7 +126,6 @@ void MainWindow::audiocontrols_play(void) {
     default: {
         break;
     }
-
   }
 }
 
@@ -151,10 +144,9 @@ void MainWindow::audiocontrols_stop(void) {
   DebugMsg() << "MainWindow::audiocontrols_stop";
 
   // LMODE + ON PAUSE ? we set the icon from "pause" to "play".
-  if( this->ui.reading_mode == UI::READINGMODE_LMODE &&
-      this->ui.reading_mode_details == UI::READINGMODEDETAIL_LMODE_ONPAUSE ) {
-
-    this->audiocontrols_playAct->setIcon( *(this->ui.icon_audio_play) );
+  if (this->ui.reading_mode == UI::READINGMODE_LMODE &&
+      this->ui.reading_mode_details == UI::READINGMODEDETAIL_LMODE_ONPAUSE) {
+    this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
   }
 
   this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_STOP;
@@ -170,18 +162,15 @@ void MainWindow::audiocontrols_stop(void) {
 
 ________________________________________________________________________________*/
 void MainWindow::audio_position_changed(qint64 arg_pos) {
-
   /* LMODE + PLAYING :
    */
-  if( this->ui.reading_mode == UI::READINGMODE_LMODE &&
-      this->ui.reading_mode_details == UI::READINGMODEDETAIL_LMODE_PLAYING ) {
-
+  if (this->ui.reading_mode == UI::READINGMODE_LMODE &&
+      this->ui.reading_mode_details == UI::READINGMODEDETAIL_LMODE_PLAYING) {
       // where are the characters linked to "arg_pos" ?
-      PosInTextRanges text_ranges = this->ui.current_dipydoc.audio2text_contains( arg_pos );
+      PosInTextRanges text_ranges = this->ui.current_dipydoc.audio2text_contains(arg_pos);
       std::size_t text_ranges_hash = text_ranges.get_hash();
 
-      if( text_ranges_hash != this->source_editor->modified_chars_hash ) {
-
+      if (text_ranges_hash != this->source_editor->modified_chars_hash) {
         // the function modifies the appearence of such characters :
         this->source_editor->modify_the_text_format(text_ranges);
 
@@ -241,7 +230,6 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions() {
-
   /*
     aboutAct
   */
@@ -314,6 +302,16 @@ void MainWindow::createActions() {
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
   QObject::connect(hidetoolbarsAct, &QAction::triggered,
                    this,            &MainWindow::hidetoolbarsAct__buttonPressed);
+
+  /*
+    internalmsgAct
+  */
+  this->internalmsgAct = new QAction( *(this->ui.icon_app),
+                                       tr("internal messages"),
+                                       this);
+  this->internalmsgAct->setStatusTip(tr("internal messages"));
+  QObject::connect(internalmsgAct, &QAction::triggered,
+                   this,           &MainWindow::internalmsgAct__buttonPressed);
 
   /*
     openAct
@@ -425,6 +423,10 @@ void MainWindow::createMenus() {
 
   helpMenu = menuBar()->addMenu(tr("&Help"));
   helpMenu->addAction(aboutAct);
+  #ifdef MENUACCESS_TO_INTERNAL_MESSAGES
+  menuBar()->addSeparator();
+  helpMenu->addAction(internalmsgAct);
+  #endif
 
   /*
     main popup menu :
@@ -458,7 +460,9 @@ void MainWindow::createStatusBar() {
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars() {
     this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
-    this->mainwintoolbar->setObjectName("main window::main toolbar");
+
+    this->mainwintoolbar->setObjectName("main_window__main_toolbar");
+
     #ifndef NO_MAIN_POPUPMENU
     this->mainwintoolbar->addAction(this->popup_mainmenuAct);
     #endif
@@ -474,7 +478,7 @@ void MainWindow::createMainToolBars() {
 ______________________________________________________________________________*/
 void MainWindow::download_dipydocs_demo(void) {
   // using the DownloadDemoDipydocs class to download the files :
-  DownloadDemoDipydocs d(this->ui);
+  DownloadDemoDipydocs d(this->ui, this);
 
   // update menu names :
   this->ui.read_menu_names();
@@ -488,7 +492,6 @@ void MainWindow::download_dipydocs_demo(void) {
   Fill the Open menu with the available dipydocs.
 ______________________________________________________________________________*/
 void MainWindow::fill_open_menu(void) {
-
   /*
     let's clear the menu content :
   */
@@ -497,10 +500,10 @@ void MainWindow::fill_open_menu(void) {
   /*
     special case : no dipydoc could be found.
   */
-  if( this->ui.available_menu_names.size() == 0) {
-    QAction* emptyAction = new QAction( *this->ui.icon_app,
-                                        "(No Dipydoc could be found)",
-                                        this );
+  if (this->ui.available_menu_names.size() == 0) {
+    QAction* emptyAction = new QAction(*this->ui.icon_app,
+                                       "(No Dipydoc could be found)",
+                                       this);
     this->openMenu->addAction(emptyAction);
 
     openMenu->addSeparator();
@@ -512,13 +515,13 @@ void MainWindow::fill_open_menu(void) {
     normal case : at least one dipydoc was found.
   */
   int number_of_items = 0;
-  for( auto &item : this->ui.available_menu_names ) {
+  for (auto &item : this->ui.available_menu_names) {
     number_of_items++;
 
-    if(number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-      QAction* newAction = new QAction( *this->ui.icon_app,
-                                        item.first,
-                                        this );
+    if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
+      QAction* newAction = new QAction(*this->ui.icon_app,
+                                       item.first,
+                                       this);
       /*
          see MainWindow::load_a_dipydoc_from_a_qaction() for the format of the
          internal data.
@@ -528,8 +531,7 @@ void MainWindow::fill_open_menu(void) {
       this->openMenu->addAction(newAction);
       QObject::connect(newAction, &QAction::triggered,
                        this,      &MainWindow::load_a_dipydoc_from_a_qaction);
-    }
-    else {
+    } else {
       break;
     }
   }
@@ -570,15 +572,17 @@ void MainWindow::init(void) {
   this->createActions();
 
   this->main_splitter = new QSplitter(this);
+  this->main_splitter->setObjectName("mainwindow__splitter");
+  this->main_splitter->setStyleSheet("#mainwindow__splitter::handle:vertical {height: 5px;}");
   this->main_splitter->setOrientation(Qt::Vertical);
   this->setCentralWidget(main_splitter);
 
-  this->source_zone = new SourceZone(this->ui);
-  this->commentary_zone = new CommentaryZone(this->ui);
+  this->source_zone = new SourceZone(this->ui, this->main_splitter);
+  this->commentary_zone = new CommentaryZone(this->ui, this->main_splitter);
   this->main_splitter->addWidget(this->source_zone);
   this->main_splitter->addWidget(this->commentary_zone);
 
-  this->main_splitter->setSizes( fixedparameters::default__editors_size_in_main_splitter );
+  this->main_splitter->setSizes(fixedparameters::default__editors_size_in_main_splitter);
 
   this->createMenus();
   this->createMainToolBars();
@@ -617,8 +621,8 @@ void MainWindow::init(void) {
   /*
      signal : the position in the audio record has been changed.
   */
-  QObject::connect( this->audio_player, &QMediaPlayer::positionChanged,
-                    this,               &MainWindow::audio_position_changed );
+  QObject::connect(this->audio_player, &QMediaPlayer::positionChanged,
+                   this,               &MainWindow::audio_position_changed);
 
   this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
   this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
@@ -638,13 +642,30 @@ void MainWindow::init(void) {
 
 /*______________________________________________________________________________
 
+  MainWindow::internalmsgAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::internalmsgAct__buttonPressed(void) {
+  QMessageBox msgBox;
+
+  msgBox.setText("Internal messages are used to debug the program. See details below.");
+
+  msgBox.setDetailedText("internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
+                         this->ui.current_dipydoc.err_messages.join("\n\n") + \
+                         "\n\n\n*** internal debug message ***\n\n\n" + \
+                         DebugMsg::messages.join("\n"));
+  msgBox.exec();
+}
+
+
+/*______________________________________________________________________________
+
   MainWindow::load_a_dipydoc_from_a_qaction
 
   Load a Dipydoc from a QAction with the path stored in the internal data.
 ______________________________________________________________________________*/
 void MainWindow::load_a_dipydoc_from_a_qaction(void) {
   QAction* action = qobject_cast<QAction*>(this->sender());
-  this->loadDipyDoc( action->data().toString() );
+  this->loadDipyDoc(action->data().toString());
 }
 
 /*______________________________________________________________________________
@@ -663,27 +684,25 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
 
   this->ui.current_dipydoc = DipyDoc(directoryName);
 
-  if( this->ui.current_dipydoc.well_initialized() == false ) {
-
+  if (this->ui.current_dipydoc.well_initialized() == false) {
     // an error occurs :
     QMessageBox msgBox;
-    msgBox.setText( tr("Unable to load any valid Dipydoc's document from <b>") + directoryName + "</b> ." +\
-                    "<br/><br/>" + this->ui.current_dipydoc.diagnosis() + \
-                    "<br/><br/>" + tr("See more details below.") );
+    msgBox.setText(tr("Unable to load any valid Dipydoc's document from <b>") + directoryName + "</b> ." +\
+                   "<br/><br/>" + this->ui.current_dipydoc.diagnosis() + \
+                   "<br/><br/>" + tr("See more details below."));
 
-    msgBox.setDetailedText( "internal state = " + \
-                            QString().setNum(this->ui.current_dipydoc.internal_state()) + \
-                            "\n\n" + \
-                            this->ui.current_dipydoc.err_messages.join("\n\n") + \
-                            "\n\n\n*** internal debug message ***\n\n\n" + \
-                            DebugMsg::messages.join("\n") );
+    msgBox.setDetailedText("internal state = " + \
+                           QString().setNum(this->ui.current_dipydoc.internal_state()) + \
+                           "\n\n" + \
+                           this->ui.current_dipydoc.err_messages.join("\n\n") + \
+                           "\n\n\n*** internal debug message ***\n\n\n" + \
+                           DebugMsg::messages.join("\n"));
     msgBox.exec();
-  }
-  else {
+  } else {
     // no error, let's load the DipyDoc :
     this->load_text(this->ui.current_dipydoc.source_text);
 
-    if( this->ui.current_dipydoc.audiorecord.found == true ) {
+    if (this->ui.current_dipydoc.audiorecord.found == true) {
       DebugMsg() << "loading audiofile" << this->ui.current_dipydoc.audiorecord.filename;
       this->audio_player->setMedia(QUrl::fromLocalFile(this->ui.current_dipydoc.audiorecord.filename));
     }
@@ -693,8 +712,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   QApplication::restoreOverrideCursor();
   #endif
 
-  if( this->ui.current_dipydoc.well_initialized() == true ) {
-
+  if (this->ui.current_dipydoc.well_initialized() == true) {
     // update source editor aspect :
     this->source_editor->update_aspect_from_dipydoc_aspect_informations();
 
@@ -717,14 +735,13 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     (main.xml, ...) : we need to place the user in the parent directory.
   */
   QDir parent_directory = QDir(directoryName);
-  if( parent_directory.cdUp() == true ) {
+  if (parent_directory.cdUp() == true) {
     /*
        Ok, we can go upper and set path_to_dipydocs to the parent
        directory
     */
     this->ui.path_to_dipydocs = parent_directory.absolutePath();
-  }
-  else {
+  } else {
     /*
       No, for some reasons the upper directory isn't readable : we
       keep the current directory.
@@ -777,9 +794,9 @@ void MainWindow::load_text(const DipyDocSourceText& source_text)  {
 ______________________________________________________________________________*/
 void MainWindow::open(void) {
   QString directoryName = QFileDialog::getExistingDirectory(this,
-                                                            QObject::tr("Open a DipyDoc directory"),
-                                                            this->ui.path_to_dipydocs,
-                                                            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+                                                          QObject::tr("Open a DipyDoc directory"),
+                                                          this->ui.path_to_dipydocs,
+                                                          QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
   if (!directoryName.isEmpty()) {
     // loading the DipyDoc :
@@ -794,6 +811,11 @@ void MainWindow::open(void) {
   connected to readingmode_aAct::triggered()
 ______________________________________________________________________________*/
 void MainWindow::readingmode_aAct__buttonpressed(void) {
+  // if necessary, the function cleans the "lmode" :
+  if (this->ui.reading_mode == UI::READINGMODE_LMODE) {
+    this->audiocontrols_stop();
+  }
+
   this->ui.reading_mode = UI::READINGMODE_AMODE;
   this->ui.reading_mode_details = UI::READINGMODEDETAIL_AMODE;
   DebugMsg() << "switched to AMODE mode";
@@ -807,6 +829,11 @@ void MainWindow::readingmode_aAct__buttonpressed(void) {
   connected to readingmode_rAct::triggered()
 ______________________________________________________________________________*/
 void MainWindow::readingmode_rAct__buttonpressed(void) {
+  // if necessary, the function cleans the "lmode" :
+  if (this->ui.reading_mode == UI::READINGMODE_LMODE) {
+    this->audiocontrols_stop();
+  }
+
   this->ui.reading_mode = UI::READINGMODE_RMODE;
   this->ui.reading_mode_details = UI::READINGMODEDETAIL_RMODE;
   DebugMsg() << "switched to RMODE mode";
@@ -908,8 +935,8 @@ void MainWindow::update_icons(void) {
   /*............................................................................
     a special case : no Dipydoc.
   ............................................................................*/
-  if( this->ui.at_least_one_dipydoc_has_been_loaded() == false ) {
-    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_off) );
+  if (this->ui.at_least_one_dipydoc_has_been_loaded() == false) {
+    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_off));
     this->ui.mainWin->source_toolbar->hide();
     this->ui.mainWin->commentary_toolbar->hide();
     return;
@@ -918,16 +945,16 @@ void MainWindow::update_icons(void) {
   /*............................................................................
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
-  if(this->ui.visible_toolbars == false) {
+  if (this->ui.visible_toolbars == false) {
     /*
       invisible toolbars :
     */
     this->ui.mainWin->source_toolbar->hide();
     this->ui.mainWin->commentary_toolbar->hide();
 
-    this->ui.mainWin->hidetoolbarsAct->setIcon( *(this->ui.icon_hide_toolbars_off) );
-  }
-  else {
+    // hidetoolbars button is "on" :
+    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_off));
+  } else {
     /*
        visible toolbars :
     */
@@ -938,7 +965,7 @@ void MainWindow::update_icons(void) {
       this->ui.mainWin->commentary_toolbar->show();
     }
 
-    // hidetoolbars button is visible :
+    // hidetoolbars button is "off" :
     this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_on));
 
     /*
@@ -946,11 +973,11 @@ void MainWindow::update_icons(void) {
     */
     switch (this->ui.reading_mode) {
       case UI::READINGMODE_AMODE: {
-        this->readingmode_aAct->setIcon( *(this->ui.icon_readingmode_amode_on) );
-        this->readingmode_rAct->setIcon( *(this->ui.icon_readingmode_rmode_off) );
-        this->readingmode_lAct->setIcon( *(this->ui.icon_readingmode_lmode_off) );
-        this->audiocontrols_playAct->setEnabled(false);
-        this->audiocontrols_stopAct->setEnabled(false);
+        this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_on));
+        this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_off));
+        this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_off));
+        this->audiocontrols_playAct->setVisible(false);
+        this->audiocontrols_stopAct->setVisible(false);
         break;
       }
 
@@ -958,8 +985,18 @@ void MainWindow::update_icons(void) {
         this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_off));
         this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_off));
         this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_on));
-        this->audiocontrols_playAct->setEnabled(true);
-        this->audiocontrols_stopAct->setEnabled(true);
+
+        // audio control icons :
+        if ((this->ui.current_dipydoc.well_initialized() == false) ||
+            (this->ui.current_dipydoc.audiorecord.found == false)) {
+          // special cases : a problem occurs, let's hide the audio icons.
+          this->audiocontrols_playAct->setVisible(false);
+          this->audiocontrols_stopAct->setVisible(false);
+        } else {
+          // normal case : let's show the audio icons.
+          this->audiocontrols_playAct->setVisible(true);
+          this->audiocontrols_stopAct->setVisible(true);
+        }
         break;
       }
 
@@ -967,44 +1004,14 @@ void MainWindow::update_icons(void) {
         this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_off));
         this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_on));
         this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_off));
-        this->audiocontrols_playAct->setEnabled(false);
-        this->audiocontrols_stopAct->setEnabled(false);
+        this->audiocontrols_playAct->setVisible(false);
+        this->audiocontrols_stopAct->setVisible(false);
         break;
       }
 
       default : {
         break;
       }
-    }
-
-    /*
-      source zone.toolbar.audiocontrol_icons :
-    */
-    if (this->ui.reading_mode != UI::READINGMODE_LMODE ||
-        this->ui.current_dipydoc.well_initialized() == false ||
-        (this->ui.current_dipydoc.well_initialized() == true &&
-         this->ui.current_dipydoc.audiorecord.found == false)) {
-      /*
-         No lmode mode or no current DipyDoc or no audio in the current DipyDoc :
-      */
-      this->audiocontrols_playAct->setEnabled(false);
-      // we refresh the icon to display it using only shades of gray :
-      this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
-
-      this->audiocontrols_stopAct->setEnabled(false);
-      // we refresh the icon to display it using only shades of gray :
-      this->audiocontrols_stopAct->setIcon(*(this->ui.icon_audio_stop));
-    } else {
-      /*
-        the current DipyDoc is ok and contains an audio record :
-      */
-      this->audiocontrols_playAct->setEnabled(true);
-      // we refresh the icon to display it in colors :
-      this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
-
-      this->audiocontrols_stopAct->setEnabled(true);
-      // we refresh the icon to display it in colors :
-      this->audiocontrols_stopAct->setIcon(*(this->ui.icon_audio_stop));
     }
   }
 }

@@ -31,16 +31,17 @@
 
   SourceZone::constructor
 ______________________________________________________________________________*/
-SourceZone::SourceZone(UI& _ui) : ui(_ui) {
+SourceZone::SourceZone(UI& _ui, QWidget *_parent) : QFrame(_parent), ui(_ui) {
   DebugMsg() << "SourceZone::SourceZone : entry point";
 
-  this->setObjectName("source zone");
+  this->setObjectName("source_zone");
+  this->setStyleSheet("#source_zone {border: 0px; padding: 0px}");
 
   DebugMsg() << "SourceZone::SourceZone : creating SourceEditor object";
-  this->ui.mainWin->source_editor = new SourceEditor(this->ui);
+  this->ui.mainWin->source_editor = new SourceEditor(this->ui, this);
 
   DebugMsg() << "SourceZone::SourceZone : creating SourceToolBar object";
-  this->ui.mainWin->source_toolbar = new SourceToolBar(this->ui);
+  this->ui.mainWin->source_toolbar = new SourceToolBar(this->ui, this);
 
   this->layout = new QHBoxLayout();
   this->layout->addWidget(this->ui.mainWin->source_editor);

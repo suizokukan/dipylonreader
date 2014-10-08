@@ -52,7 +52,7 @@ static const QString organization_name   = "suizokukanfactory";
 static const QString organization_domain = "94.23.197.37";
 static const QString application_name    = "dipylonreader";
 static const QString application_name_for_the_user = "Dipylon-R";
-static const QString application_version = "0.4.4";
+static const QString application_version = "0.4.5";
 static const QString application_style   = "CleanLooks";
 
 /*
@@ -113,11 +113,11 @@ static const int maximum_number_of_items_in_submenu_open = 10;
 
 // source site with '%1' for the version string.
 #if defined DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
-constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/freedipydocs/%1/ogg";
+constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylon/freedipydocs/%1/ogg";
 #elif defined DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
-constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/freedipydocs/%1/mp3";
+constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylon/freedipydocs/%1/mp3";
 #else
-constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylonreader/freedipydocs/%1/ogg";
+constexpr static const char* DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylon/freedipydocs/%1/ogg";
 #endif
 
 // regex used to detect 'demo' dipydocs's names :

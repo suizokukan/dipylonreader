@@ -56,7 +56,6 @@ int ArrowFormat::init_from_string(const QString& source_string) {
   int res = ArrowFormat::INTERNALSTATE::OK;
 
   for (auto &keyword : list_of_keywords) {
-
     // spaces are not taken in account :
     keyword.replace(" ", "");
 
@@ -67,11 +66,11 @@ int ArrowFormat::init_from_string(const QString& source_string) {
     /*
       thickness
     */
-    if( keyword.startsWith("thickness:") == true ) {
-      QString str_value = keyword.right( keyword.length() - QString("thickness:").length() );
+    if (keyword.startsWith("thickness:") == true) {
+      QString str_value = keyword.right(keyword.length() - QString("thickness:").length());
       bool ok;
       int value = str_value.toInt(&ok, 10);
-      if( (ok == true) && (value>0) ) {
+      if ((ok == true) && (value > 0)) {
         this->_thickness = value;
       } else {
         res = ArrowFormat::INTERNALSTATE::WRONG_DECIMAL_VALUE_FOR_THICKNESS;
@@ -84,11 +83,11 @@ int ArrowFormat::init_from_string(const QString& source_string) {
       main color
     */
     // main color with hexadecimal value ?
-    if( keyword.startsWith("main-color:#") == true ) {
-      QString str_value = keyword.right( keyword.length() - QString("main-color:#").length() );
+    if (keyword.startsWith("main-color:#") == true) {
+      QString str_value = keyword.right(keyword.length() - QString("main-color:#").length());
       bool ok;
       int value = str_value.toInt(&ok, 16);
-      if( ok == true ) {
+      if (ok == true) {
         this->_maincolor = QColor(static_cast<unsigned int>(value));
       } else {
         res = ArrowFormat::INTERNALSTATE::WRONG_HEX_VALUE_FOR_MAIN_COLOR;
@@ -97,25 +96,25 @@ int ArrowFormat::init_from_string(const QString& source_string) {
       continue;
     }
     // main colors with a keyword like "black", ... ?
-    if (keyword == "main-color:black")  { this->_maincolor = QColor(Qt::black);   continue;  }
-    if (keyword == "main-color:blue")   { this->_maincolor = QColor(Qt::blue);    continue;  }
-    if (keyword == "main-color:cyan")   { this->_maincolor = QColor(Qt::cyan);    continue;  }
-    if (keyword == "main-color:gray")   { this->_maincolor = QColor(Qt::gray);    continue;  }
-    if (keyword == "main-color:green")  { this->_maincolor = QColor(Qt::green);   continue;  }
-    if (keyword == "main-color:magenta"){ this->_maincolor = QColor(Qt::magenta); continue;  }
-    if (keyword == "main-color:red")    { this->_maincolor = QColor(Qt::red);     continue;  }
-    if (keyword == "main-color:white")  { this->_maincolor = QColor(Qt::white);   continue;  }
-    if (keyword == "main-color:yellow") { this->_maincolor = QColor(Qt::yellow);  continue;  }
+    if (keyword == "main-color:black")   { this->_maincolor = QColor(Qt::black);   continue;  }
+    if (keyword == "main-color:blue")    { this->_maincolor = QColor(Qt::blue);    continue;  }
+    if (keyword == "main-color:cyan")    { this->_maincolor = QColor(Qt::cyan);    continue;  }
+    if (keyword == "main-color:gray")    { this->_maincolor = QColor(Qt::gray);    continue;  }
+    if (keyword == "main-color:green")   { this->_maincolor = QColor(Qt::green);   continue;  }
+    if (keyword == "main-color:magenta") { this->_maincolor = QColor(Qt::magenta); continue;  }
+    if (keyword == "main-color:red")     { this->_maincolor = QColor(Qt::red);     continue;  }
+    if (keyword == "main-color:white")   { this->_maincolor = QColor(Qt::white);   continue;  }
+    if (keyword == "main-color:yellow")  { this->_maincolor = QColor(Qt::yellow);  continue;  }
 
     /*
       start color
     */
     // start color with hexadecimal value ?
-    if( keyword.startsWith("start-color:#") == true ) {
-      QString str_value = keyword.right( keyword.length() - QString("start-color:#").length() );
+    if (keyword.startsWith("start-color:#") == true) {
+      QString str_value = keyword.right(keyword.length() - QString("start-color:#").length());
       bool ok;
       int value = str_value.toInt(&ok, 16);
-      if( ok == true ) {
+      if (ok == true) {
         this->_startcolor = QColor(static_cast<unsigned int>(value));
       } else {
         res = ArrowFormat::INTERNALSTATE::WRONG_HEX_VALUE_FOR_START_COLOR;
@@ -124,25 +123,25 @@ int ArrowFormat::init_from_string(const QString& source_string) {
       continue;
     }
     // start colors with a keyword like "black", ... ?
-    if (keyword == "start-color:black")  { this->_startcolor = QColor(Qt::black);   continue;  }
-    if (keyword == "start-color:blue")   { this->_startcolor = QColor(Qt::blue);    continue;  }
-    if (keyword == "start-color:cyan")   { this->_startcolor = QColor(Qt::cyan);    continue;  }
-    if (keyword == "start-color:gray")   { this->_startcolor = QColor(Qt::gray);    continue;  }
-    if (keyword == "start-color:green")  { this->_startcolor = QColor(Qt::green);   continue;  }
-    if (keyword == "start-color:magenta"){ this->_startcolor = QColor(Qt::magenta); continue;  }
-    if (keyword == "start-color:red")    { this->_startcolor = QColor(Qt::red);     continue;  }
-    if (keyword == "start-color:white")  { this->_startcolor = QColor(Qt::white);   continue;  }
-    if (keyword == "start-color:yellow") { this->_startcolor = QColor(Qt::yellow);  continue;  }
+    if (keyword == "start-color:black")   { this->_startcolor = QColor(Qt::black);   continue;  }
+    if (keyword == "start-color:blue")    { this->_startcolor = QColor(Qt::blue);    continue;  }
+    if (keyword == "start-color:cyan")    { this->_startcolor = QColor(Qt::cyan);    continue;  }
+    if (keyword == "start-color:gray")    { this->_startcolor = QColor(Qt::gray);    continue;  }
+    if (keyword == "start-color:green")   { this->_startcolor = QColor(Qt::green);   continue;  }
+    if (keyword == "start-color:magenta") { this->_startcolor = QColor(Qt::magenta); continue;  }
+    if (keyword == "start-color:red")     { this->_startcolor = QColor(Qt::red);     continue;  }
+    if (keyword == "start-color:white")   { this->_startcolor = QColor(Qt::white);   continue;  }
+    if (keyword == "start-color:yellow")  { this->_startcolor = QColor(Qt::yellow);  continue;  }
 
     /*
       end color
     */
     // end color with hexadecimal value ?
-    if( keyword.endsWith("end-color:#") == true ) {
-      QString str_value = keyword.right( keyword.length() - QString("end-color:#").length() );
+    if (keyword.endsWith("end-color:#") == true) {
+      QString str_value = keyword.right(keyword.length() - QString("end-color:#").length());
       bool ok;
       int value = str_value.toInt(&ok, 16);
-      if( ok == true ) {
+      if (ok == true) {
         this->_endcolor = QColor(static_cast<unsigned int>(value));
       } else {
         res = ArrowFormat::INTERNALSTATE::WRONG_HEX_VALUE_FOR_END_COLOR;
@@ -151,15 +150,15 @@ int ArrowFormat::init_from_string(const QString& source_string) {
       continue;
     }
     // end colors with a keyword like "black", ... ?
-    if (keyword == "end-color:black")  { this->_endcolor = QColor(Qt::black);   continue;  }
-    if (keyword == "end-color:blue")   { this->_endcolor = QColor(Qt::blue);    continue;  }
-    if (keyword == "end-color:cyan")   { this->_endcolor = QColor(Qt::cyan);    continue;  }
-    if (keyword == "end-color:gray")   { this->_endcolor = QColor(Qt::gray);    continue;  }
-    if (keyword == "end-color:green")  { this->_endcolor = QColor(Qt::green);   continue;  }
-    if (keyword == "end-color:magenta"){ this->_endcolor = QColor(Qt::magenta); continue;  }
-    if (keyword == "end-color:red")    { this->_endcolor = QColor(Qt::red);     continue;  }
-    if (keyword == "end-color:white")  { this->_endcolor = QColor(Qt::white);   continue;  }
-    if (keyword == "end-color:yellow") { this->_endcolor = QColor(Qt::yellow);  continue;  }
+    if (keyword == "end-color:black")   { this->_endcolor = QColor(Qt::black);   continue;  }
+    if (keyword == "end-color:blue")    { this->_endcolor = QColor(Qt::blue);    continue;  }
+    if (keyword == "end-color:cyan")    { this->_endcolor = QColor(Qt::cyan);    continue;  }
+    if (keyword == "end-color:gray")    { this->_endcolor = QColor(Qt::gray);    continue;  }
+    if (keyword == "end-color:green")   { this->_endcolor = QColor(Qt::green);   continue;  }
+    if (keyword == "end-color:magenta") { this->_endcolor = QColor(Qt::magenta); continue;  }
+    if (keyword == "end-color:red")     { this->_endcolor = QColor(Qt::red);     continue;  }
+    if (keyword == "end-color:white")   { this->_endcolor = QColor(Qt::white);   continue;  }
+    if (keyword == "end-color:yellow")  { this->_endcolor = QColor(Qt::yellow);  continue;  }
 
     DebugMsg() << "ArrowFormat::init_from_string(); unknown keyword=" << keyword;
     res = ArrowFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;

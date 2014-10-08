@@ -28,8 +28,6 @@
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 #define CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 
-#include <QDebug>
-
 #include <QFile>
 #include <QFileInfo>
 #include <QIODevice>
@@ -39,17 +37,17 @@
 #include <QTextStream>
 #include <QXmlStreamReader>
 
-#include <map>
 #include <cstring>
+#include <map>
 #include <utility>
 
 #include "./fixedparameters.h"
 #include "dipydoc/menunames.h"
 #include "dipydoc/dipydocnotes.h"
+#include "languages/languagefromto.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
 #include "pos/posinaudio2posintext.h"
-#include "languages/languagefromto.h"
 #include "qt/arrowformat.h"
 #include "qt/blockformat.h"
 #include "qt/posintextframeformat.h"
@@ -267,6 +265,9 @@ friend class CommentaryEditor;
  private:
   bool                 _well_initialized;
   int                  _internal_state;
+  /*
+    "unspecified" or one of the strings defined in fixedparameters::known_doctypes.
+  */
   QString              doctype;
 
   QString              path;
@@ -324,10 +325,11 @@ friend class CommentaryEditor;
   bool                   error(const QString& msg);
   bool                   error(const QString& msg, const QString& error_string);
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
-  QString                error_string(const QXmlStreamReader& xmlreader);
+  QString                error_string(QXmlStreamReader* xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
-  bool                   read_mainfile__first_token(QXmlStreamReader& xmlreader);  // NOLINT(runtime/references)
-  bool                   read_mainfile__rest(QXmlStreamReader& xmlreader);   // NOLINT(runtime/references)
+  bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__text(QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__text__init_and_check(void);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_qsettings_name(void);
@@ -347,8 +349,8 @@ friend class CommentaryEditor;
   bool                 well_initialized(void) const;
 
   // public constants ...........................................................
-  static const int     min_dipydocformat_version = 32;
-  static const int     max_dipydocformat_version = 32;
+  static const int     min_dipydocformat_version = 33;
+  static const int     max_dipydocformat_version = 33;
   // for the following constants, see
   // the  get_condensed_extracts_from_the_source_text() method :
   static const int     condensed_extracts_length = 30;

@@ -46,7 +46,6 @@
 #ifndef CPPDIPYLON_LANGUAGES_LANGUAGEFROMTO_H_
 #define CPPDIPYLON_LANGUAGES_LANGUAGEFROMTO_H_
 
-#include <QDebug>
 #include <QString>
 #include <QStringList>
 

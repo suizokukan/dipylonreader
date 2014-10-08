@@ -29,6 +29,7 @@
 #define CPPDIPYLON_QT_TEXTEDITOR_H_
 
 #include <QTextEdit>
+#include <QWheelEvent>
 
 class UI;
 
@@ -45,7 +46,7 @@ friend class UI;
     Q_OBJECT
 
  public:
-    explicit  TextEditor(UI& _ui);
+    explicit  TextEditor(UI& _ui, QWidget *_parent);
 
  private:
     // UI object linked to the editor :
@@ -56,6 +57,9 @@ friend class UI;
     void     zoom_in(void);
     void     zoom_out(void);
     void     set_zoom_value(const signed int value);
+
+ protected:
+    void     wheelEvent(QWheelEvent* e);
 };
 
 #endif  // CPPDIPYLON_QT_TEXTEDITOR_H_

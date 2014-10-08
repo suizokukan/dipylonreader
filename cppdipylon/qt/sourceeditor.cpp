@@ -31,10 +31,10 @@
 
   SourceEditor constructor
 ______________________________________________________________________________*/
-SourceEditor::SourceEditor(UI& _ui) : TextEditor(_ui) {
+SourceEditor::SourceEditor(UI& _ui, QWidget *_parent) : TextEditor(_ui, _parent) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
-  this->setObjectName("source zone::editor");
+  this->setObjectName("source_zone__editor");
 
   this->setReadOnly(true);
   this->setMouseTracking(true);
@@ -259,7 +259,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
         This function modify the appearence of the text BUT DOES NOT UPDATE
         the .modified_chars_hash attribute.
 7_____________________________________________________________________________*/
-void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
+void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
   DipyDoc& dipydoc = this->ui.current_dipydoc;
 
   switch (this->ui.reading_mode) {
@@ -324,8 +324,7 @@ void SourceEditor::modify_the_text_format(PosInTextRanges& positions) {
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
   if (this->ui.selected_text_and_blocked_commentaries == false) {
-
-    switch(this->ui.reading_mode_details) {
+    switch (this->ui.reading_mode_details) {
       case UI::READINGMODEDETAIL_RMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
         int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;

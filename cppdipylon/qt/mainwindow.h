@@ -25,8 +25,16 @@
 
 *******************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CPPDIPYLON_QT_MAINWINDOW_H_
+#define CPPDIPYLON_QT_MAINWINDOW_H_
+
+#include <QFile>
+#include <QFrame>
+#include <QMainWindow>
+#include <QMediaPlayer>
+#include <QtWidgets>
+#include <QTimer>
+#include <QToolBar>
 
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
@@ -34,16 +42,10 @@
 #include "qt/commentaryeditor.h"
 #include "qt/commentaryzone.h"
 #include "qt/downloaddemodipydocs.h"
+#include "qt/presentationscreen.h"
 #include "qt/sourceeditor.h"
 #include "qt/sourcezone.h"
 #include "qt/ui.h"
-
-#include <QMediaPlayer>
-#include <QMainWindow>
-#include <QtWidgets>
-#include <QFile>
-#include <QFrame>
-#include <QToolBar>
 
 class CommentaryEditor;
 class QAction;
@@ -52,8 +54,7 @@ class QSplitter;
 class SourceEditor;
 class UI;
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
 friend class CommentaryEditor;
 friend class CommentaryToolBar;
 friend class CommentaryZone;
@@ -64,21 +65,22 @@ friend class UI;
 
     Q_OBJECT
 
-public:
-    MainWindow(UI&);
+ public:
+    explicit MainWindow(UI& _ui, QWidget *_parent = 0);
 
     void load_text(const DipyDocSourceText& source_text);
 
-protected:
+ protected:
     void closeEvent(QCloseEvent *event);
 
-private slots:
+ private slots:  // NOLINT(whitespace/indent)
     void about(void);
     void audiocontrols_play(void);
     void audiocontrols_stop(void);
     void audio_position_changed(PosInAudio);
     void closing(void);
     void hidetoolbarsAct__buttonPressed(void);
+    void internalmsgAct__buttonPressed(void);
     void open(void);
     void popup_mainmenuAct__buttonPressed(void);
     void readingmode_aAct__buttonpressed(void);
@@ -86,7 +88,7 @@ private slots:
     void readingmode_lAct__buttonpressed(void);
     bool saveMainFileOfADipyDocAs(void);
 
-private:
+ private:
     UI& ui;
 
     void    createActions(void);
@@ -124,6 +126,7 @@ private:
     QAction*   downloaddemoAct = nullptr;
     QAction*   exitAct = nullptr;
     QAction*   hidetoolbarsAct = nullptr;
+    QAction*   internalmsgAct = nullptr;
     QAction*   openAct = nullptr;
     QAction*   popup_mainmenuAct = nullptr;
     QAction*   saveMainFileOfADipyDocAsAct = nullptr;
@@ -143,4 +146,4 @@ private:
     QMediaPlayer* audio_player = nullptr;
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_MAINWINDOW_H_

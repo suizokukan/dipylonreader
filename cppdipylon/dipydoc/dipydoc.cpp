@@ -23,14 +23,6 @@
 
     See dipydoc.h for the documentation
 
-    ____________________________________________________________________________
-
-    expected files :
-
-    o text file : a bunch of pure UTF-8/unicode text
-
-    o main file : see DIPYDOC_XMLFORMAT in the documentation
-
 *******************************************************************************/
 
 #include "dipydoc/dipydoc.h"
@@ -71,8 +63,8 @@ DipyDoc::DipyDoc(const QString& _path) {
   // let's open the main file :
   this->read_mainfile(_path);
 
-  // let's open the text file :
-  if (this->well_initialized() == true) {
+  // text document ? let's open the text file :
+  if (this->well_initialized() == true && this->doctype == QString("text")) {
     DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
     QFile src_file(this->source_text.filename);
     src_file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -155,7 +147,7 @@ void DipyDoc::clear(void) {
   this->id = QString("default id");
   this->version = 0;
 
-  this->doctype = QString("");
+  this->doctype = QString("unspecified");
 
   this->path = QString("");
   this->main_filename_with_fullpath = QString("");
@@ -273,10 +265,10 @@ template<class T> bool DipyDoc::error(const T& object, const QString& _error_str
   DipyDoc::error_string()
 
 ______________________________________________________________________________*/
-QString DipyDoc::error_string(const QXmlStreamReader& xmlreader) {
-  return QString("%1\nLine %2, column %3").arg(xmlreader.errorString(),
-                                               QString().setNum(xmlreader.lineNumber()),
-                                               QString().setNum(xmlreader.columnNumber()));
+QString DipyDoc::error_string(QXmlStreamReader* xmlreader) {
+  return QString("%1\nLine %2, column %3").arg(xmlreader->errorString(),
+                                               QString().setNum(xmlreader->lineNumber()),
+                                               QString().setNum(xmlreader->columnNumber()));
 }
 
 /*______________________________________________________________________________
@@ -660,19 +652,7 @@ QString DipyDoc::get_xml_repr(void) const {
 
         (1) main file opening
         (2) xml reading : main file reading
-        (3) secondary initializations
-            (3.1) initialization of "audiorecord.audio2text"
-            (3.2) "number_of_chars_before_source_text" is not initialized here
-        (4) checks
-            (4.1) is audiorecord.text2audio correctly initialized ?
-            (4.2) is audiorecord.audio2text correctly initialized ?
-            (4.3) is translation correctly initialized ?
-            (4.4) is the text's filename an empty string ?
-            (4.5) are the notes' levels' number defined ?
-            (4.6) are the notes' aspects defined ?
-            (4.7) are the notes' arrows' types defined ?
-        (5) initializaton of _well_initialized
-
+        (3) initialization and checking
 ______________________________________________________________________________*/
 void DipyDoc::read_mainfile(const QString& _path) {
   DebugMsg() << "DipyDoc::read_mainfile() : entry point; path=" << _path;
@@ -705,31 +685,32 @@ void DipyDoc::read_mainfile(const QString& _path) {
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
   DebugMsg() << "(DipyDoc::read_mainfile) #2";
-  QXmlStreamReader xmlreader;
-  xmlreader.setDevice(&dipydoc_main_xml_file);
+  QXmlStreamReader* xmlreader = new QXmlStreamReader();
+  xmlreader->setDevice(&dipydoc_main_xml_file);
 
   bool ok = false;
 
-  if (xmlreader.readNextStartElement()) {
-    if (xmlreader.name() == "dipydoc") {
+  if (xmlreader->readNextStartElement()) {
+    if (xmlreader->name() == "dipydoc") {
       /*
          ok, it's a DipyDoc file : let's read and check its first token
       */
       if (this->read_mainfile__first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
-        ok = this->read_mainfile__rest(xmlreader);
-        DebugMsg() << "(DipyDoc::read_mainfile) #2(a)" << ok;
+        if (this->doctype == QString("text")) {
+            ok = this->read_mainfile__text(xmlreader);
+        }
       }
     } else {
       /*
-         not a DipyDoc file (?) :
+         not a DipyDoc file  :
       */
       this->error("This isn't a DipyDoc file : incorrect first token.", this->error_string(xmlreader));
       ok = false;
     }
   } else {
     /*
-       not a DipyDoc file (?) :
+       not a DipyDoc file :
     */
     this->error("This isn't a DipyDoc file : nothing to read.", this->error_string(xmlreader));
     ok = false;
@@ -739,155 +720,19 @@ void DipyDoc::read_mainfile(const QString& _path) {
     DebugMsg() << "DipyDoc::read_mainfile() : exit #1";
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
+
+    delete xmlreader;
     return;
   }
 
   /*............................................................................
-    (3) secondary initializations
+    (3) initialization and checking
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #3";
-
-  /*............................................................................
-    (3.1) initialization of "audiorecord.audio2text"
-  ............................................................................*/
-  if (this->audiorecord.found == true) {
-    this->audiorecord.audio2text = PosInAudio2PosInText(this->audiorecord.text2audio);
-  } else {
-    // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
-    this->audiorecord.audio2text.clear();
+  if (this->doctype == QString("text")) {
+    ok &= this->read_mainfile__text__init_and_check();
   }
 
-  /*............................................................................
-    (3.2) "number_of_chars_before_source_text" is not initialized here
-
-    The first attempt to compute "number_of_chars_before_source_text was doubtfull :
-
-      this->source_text.number_of_chars_before_source_text = 0;
-      if (this->title.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->title.text.length();
-      }
-      if (this->introduction.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
-      }
-      if (this->lettrine.found == true) {
-        this->source_text.number_of_chars_before_source_text += 1;
-      }
-
-    ... the main problem was that it's difficult to know how is the lettrine's
-    image coded into the text. The result was ok but I can not trust this
-    code : how will Qt work on different architectures ? So I decided to ask
-    SourceEditor::load_text() to initialize "number_of_chars_before_source_text"
-    by simply incrementing a cursor's position as the document is filled.
-  ............................................................................*/
-
-  /*............................................................................
-    (4) checks
-  ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #4";
-
-  /*............................................................................
-    (4.1) is audiorecord.text2audio correctly initialized ?
-  ............................................................................*/
-  if (this->audiorecord.found == true && \
-      this->audiorecord.text2audio.well_initialized() == false) {
-    QString msg = "text2audio isn't correctly initialized"
-                  "PosInText2PosInAudio error message = %1.";
-    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.text2audio.internal_state())));
-  }
-
-  /*............................................................................
-    (4.2) is audio2text correctly initialized ?
-  ............................................................................*/
-  if (this->audiorecord.found == true && \
-      this->audiorecord.audio2text.well_initialized() == false) {
-    QString msg = "audio2text isn't correctly initialized"
-                  "PosInAudio2PosInText error message = %1.";
-    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.audio2text.internal_state())));
-  }
-
-  /*............................................................................
-    (4.3) is translation correctly initialized ?
-  ............................................................................*/
-  if (this->translation.translations.well_initialized() == false) {
-    QString msg = "translation.translations isn't correctly initialized"
-                  "PosInText2Str error message = %1.";
-    ok &= !this->error(msg.arg(QString().setNum(this->translation.translations.internal_state())));
-  }
-
-  /*............................................................................
-    (4.4) is the text's filename an empty string ?
-  ............................................................................*/
-  if (this->source_text.filename.length() == 0) {
-    QString msg = "Empty text's filename";
-    ok &= !this->error(msg);
-  }
-
-  /*............................................................................
-    (4.5) are the notes' levels' number defined ?
-  ............................................................................*/
-  for (auto &note_by_level : this->notes) {
-    // note_by_level.first : (int)level
-    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
-    if (this->levels.find(note_by_level.first) == this->levels.end()) {
-      QString msg = "A note is defined with an unknown level; "
-                    "level=%i .";
-      ok = !this->error(msg.arg(QString().setNum(note_by_level.first)));
-    }
-  }
-
-  /*............................................................................
-    (4.6) are the notes' aspects defined ?
-  ............................................................................*/
-  for (auto &note_by_level : this->notes) {
-    // note_by_level.first : (int)level
-    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
-    for (auto &pos_and_note : note_by_level.second) {
-      // pos_and_note.first : PosInTextRanges
-      // pos_and_note.second : DipyDocNote
-      if ((pos_and_note.second.textformatname.size() != 0) && \
-          (this->textformats.find(pos_and_note.second.textformatname) == this->textformats.end())) {
-           QString msg = "A note is defined with an unknown textformat's name; "
-                         "textformat='%1' .";
-           ok = !this->error(msg.arg(pos_and_note.second.textformatname));
-      }
-    }
-  }
-
-  /*............................................................................
-    (4.7) are the notes' arrows' types defined ?
-  ............................................................................*/
-  for (auto &note_by_level : this->notes) {
-    // note_by_level.first : (int)level
-    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
-    for (auto &pos_and_note : note_by_level.second) {
-      // pos_and_note.first : PosInTextRanges
-      // pos_and_note.second : DipyDocNote
-      for (auto &arrow_in_a_note : pos_and_note.second.arrows) {
-        if (this->arrows.find(arrow_in_a_note.type) == this->arrows.end()) {
-           QString msg = "A note's arrow is defined with an unknown type; "
-                         "type='%1' .";
-           ok = !this->error(msg.arg(arrow_in_a_note.type));
-        }
-      }
-    }
-  }
-
-  /*............................................................................
-    (5) initializaton of _well_initialized and of _internal_state.
-  ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #5";
-  if (ok == false) {
-    this->_well_initialized = false;
-    // _internal_state has been precedently set to NOT_CORRECTLY_INITIALIZED.
-    DebugMsg() << "DipyDoc::read_mainfile() : exit #2; something's wrong.";
-  }
-
-  DebugMsg() << "(DipyDoc::read_mainfile) levels=" << this->levels_repr();
-
-  DebugMsg() << "(DipyDoc::read_mainfile) arrows=" << this->arrows_repr();
-
-  DebugMsg() << "(DipyDoc::read_mainfile) notes=";
-  DebugMsg() << this->notes.repr();
+  delete xmlreader;
 
   DebugMsg() << "DipyDoc::read_mainfile" << \
                 "this->_well_initialized = " << this->_well_initialized;
@@ -901,13 +746,13 @@ void DipyDoc::read_mainfile(const QString& _path) {
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__first_token(QXmlStreamReader& xmlreader) {  // NOLINT(runtime/references)
+bool DipyDoc::read_mainfile__first_token(QXmlStreamReader* xmlreader) {
   bool ok = true;
 
   /*
     let's read and check the version :
   */
-  this->dipydocformat_version = xmlreader.attributes().value("dipydoc_version").toString().toInt();
+  this->dipydocformat_version = xmlreader->attributes().value("dipydoc_version").toString().toInt();
 
   bool dipydoc_version_ok = (this->dipydocformat_version >= this->min_dipydocformat_version) && \
                             (this->dipydocformat_version <= this->max_dipydocformat_version);
@@ -928,14 +773,14 @@ bool DipyDoc::read_mainfile__first_token(QXmlStreamReader& xmlreader) {  // NOLI
   /*
     let's read and check the languages :
   */
-  this->languagefromto = LanguageFromTo(xmlreader.attributes().value("languages").toString());
+  this->languagefromto = LanguageFromTo(xmlreader->attributes().value("languages").toString());
   bool languagesfromto_ok = !this->error(this->languagefromto, this->error_string(xmlreader), "dipydoc:first token");
   ok &= languagesfromto_ok;
 
   /*
     let's read and check the doctype :
   */
-  this->doctype = xmlreader.attributes().value("type").toString();
+  this->doctype = xmlreader->attributes().value("type").toString();
   bool doctype_is_ok = (fixedparameters::known_doctypes.indexOf(this->doctype) != -1);
 
   if (doctype_is_ok == false) {
@@ -949,25 +794,26 @@ bool DipyDoc::read_mainfile__first_token(QXmlStreamReader& xmlreader) {  // NOLI
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__rest()
+  DipyDoc::read_mainfile__text()
 
-  read everything but the first token and initializes the object.
+    for doctype='text', read everything but the first token and initializes the
+  object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runtime/references)
-  DebugMsg() << "(DipyDoc::read_mainfile__rest) : entry point";
+bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
+  DebugMsg() << "(DipyDoc::read_mainfile__text) : entry point";
   bool ok = true;
 
-  while (xmlreader.readNextStartElement()) {
-    QString tokenname = xmlreader.name().toString();
+  while (xmlreader->readNextStartElement()) {
+    QString tokenname = xmlreader->name().toString();
 
     /*
       id
     */
-    if (xmlreader.name() == "id") {
+    if (xmlreader->name() == "id") {
       // id's text
-      this->id = xmlreader.readElementText();
+      this->id = xmlreader->readElementText();
       this->id = this->id.trimmed();
 
       continue;
@@ -978,9 +824,9 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
 
       = document's version [nothing to do with the format of the dipydoc file]
     */
-    if (xmlreader.name() == "version") {
+    if (xmlreader->name() == "version") {
       // version's text
-      this->version = xmlreader.readElementText().toInt();
+      this->version = xmlreader->readElementText().toInt();
 
       continue;
     }
@@ -988,19 +834,19 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
     /*
       title
     */
-    if (xmlreader.name() == "title") {
+    if (xmlreader->name() == "title") {
       this->title.found = true;
 
       // title::textformat
-      this->title.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+      this->title.textformat = TextFormat(xmlreader->attributes().value("textformat").toString());
       ok &= !this->error(this->title.textformat, this->error_string(xmlreader), QString("title:textformat"));
 
       // title::blockformat
-      this->title.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+      this->title.blockformat = BlockFormat(xmlreader->attributes().value("blockformat").toString());
       ok &= !this->error(this->title.blockformat, this->error_string(xmlreader), QString("title:blockformat"));
 
       // title's text
-      this->title.text = xmlreader.readElementText();
+      this->title.text = xmlreader->readElementText();
       this->title.text = this->title.text.trimmed();
 
       continue;
@@ -1013,17 +859,17 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       this->introduction.found = true;
 
       // introduction::textformat
-      this->introduction.textformat = TextFormat(xmlreader.attributes().value("textformat").toString());
+      this->introduction.textformat = TextFormat(xmlreader->attributes().value("textformat").toString());
       ok &= !this->error(this->introduction.textformat, this->error_string(xmlreader),
                          QString("introduction:textformat"));
 
       // introduction::blockformat
-      this->introduction.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+      this->introduction.blockformat = BlockFormat(xmlreader->attributes().value("blockformat").toString());
       ok &= !this->error(this->introduction.blockformat, this->error_string(xmlreader),
                          QString("introduction:blockformat"));
 
       // introduction's text
-      this->introduction.text = xmlreader.readElementText();
+      this->introduction.text = xmlreader->readElementText();
       this->introduction.text = this->introduction.text.trimmed();
 
       continue;
@@ -1036,13 +882,13 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       this->lettrine.found = true;
 
       // lettrine::positionintextframe
-      QString str_pos = xmlreader.attributes().value("positionintextframe").toString();
+      QString str_pos = xmlreader->attributes().value("positionintextframe").toString();
       this->lettrine.position_in_text_frame = PosInTextFrameFormat(str_pos);
       ok &= !this->error(this->lettrine.position_in_text_frame, this->error_string(xmlreader),
                          QString("lettrine:posintextframe"));
 
       // lettrine::filename
-      this->lettrine.filename_with_fullpath = this->path + "/" + xmlreader.attributes().value("filename").toString();
+      this->lettrine.filename_with_fullpath = this->path + "/" + xmlreader->attributes().value("filename").toString();
       QFile lettrinefile(this->lettrine.filename_with_fullpath);
       if (!lettrinefile.open(QFile::ReadOnly)) {
         QString msg("An error occurs while reading the lettrine's file; "
@@ -1055,7 +901,7 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       }
 
       // lettrine::aspectratio
-      this->lettrine.aspectratio = xmlreader.attributes().value("aspectratio").toInt();
+      this->lettrine.aspectratio = xmlreader->attributes().value("aspectratio").toInt();
       if (this->lettrine.aspectratio <= 0) {
         QString msg("the aspect ratio found for the lettrine isn't correct; "
                     "accepted values are integers greater than 0."
@@ -1063,7 +909,7 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
         ok &= !this->error(msg.arg(QString().setNum(this->lettrine.aspectratio)), error_string(xmlreader));
       }
 
-      xmlreader.skipCurrentElement();
+      xmlreader->skipCurrentElement();
       continue;
     }
 
@@ -1072,14 +918,14 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
     */
     if (tokenname == "text") {
       // text::blockformat
-      this->source_text.blockformat = BlockFormat(xmlreader.attributes().value("blockformat").toString());
+      this->source_text.blockformat = BlockFormat(xmlreader->attributes().value("blockformat").toString());
       ok &= !this->error(this->source_text.blockformat, this->error_string(xmlreader), QString("text:blockformat"));
 
       // text::description
-      this->source_text.description = xmlreader.attributes().value("description").toString();
+      this->source_text.description = xmlreader->attributes().value("description").toString();
 
       // text::filename
-      this->source_text.filename = this->path + "/" + xmlreader.attributes().value("filename").toString();
+      this->source_text.filename = this->path + "/" + xmlreader->attributes().value("filename").toString();
 
       QFile textfile(this->source_text.filename);
       if (!textfile.open(QFile::ReadOnly)) {
@@ -1088,9 +934,9 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       }
 
       // text::informations
-      this->source_text.informations = xmlreader.attributes().value("informations").toString();
+      this->source_text.informations = xmlreader->attributes().value("informations").toString();
 
-      xmlreader.skipCurrentElement();
+      xmlreader->skipCurrentElement();
       continue;
     }
 
@@ -1098,33 +944,33 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       aspect
     */
     if (tokenname == "aspect") {
-      while (xmlreader.readNextStartElement()) {
+      while (xmlreader->readNextStartElement()) {
         // aspect::sourceeditor
-        if (xmlreader.name() == "sourceeditor") {
-          while (xmlreader.readNextStartElement()) {
+        if (xmlreader->name() == "sourceeditor") {
+          while (xmlreader->readNextStartElement()) {
             // aspect::sourceeditor's stylesheet
-            if (xmlreader.name() == "stylesheet") {
-              this->sourceeditor_stylesheet = xmlreader.readElementText();
+            if (xmlreader->name() == "stylesheet") {
+              this->sourceeditor_stylesheet = xmlreader->readElementText();
               this->sourceeditor_stylesheet = this->sourceeditor_stylesheet.trimmed();
               continue;
             }
             // aspect::sourceeditor's default_textformat
-            if (xmlreader.name() == "default_textformat") {
-              this->sourceeditor_default_textformat = TextFormat(xmlreader.readElementText());
+            if (xmlreader->name() == "default_textformat") {
+              this->sourceeditor_default_textformat = TextFormat(xmlreader->readElementText());
               ok &= !this->error(this->sourceeditor_default_textformat, this->error_string(xmlreader),
                                  QString("aspect::sourceeditor::default_textformat"));
               continue;
             }
             // aspect::sourceeditor's rmode_textformat
-            if (xmlreader.name() == "rmode_textformat") {
-              this->sourceeditor_rmode_textformat = TextFormat(xmlreader.readElementText());
+            if (xmlreader->name() == "rmode_textformat") {
+              this->sourceeditor_rmode_textformat = TextFormat(xmlreader->readElementText());
               ok &= !this->error(this->sourceeditor_rmode_textformat, this->error_string(xmlreader),
                                  QString("aspect::sourceeditor::rmode_textformat"));
               continue;
             }
             // aspect::sourceeditor's lmode_textformat
-            if (xmlreader.name() == "lmode_textformat") {
-              this->sourceeditor_lmode_textformat = TextFormat(xmlreader.readElementText());
+            if (xmlreader->name() == "lmode_textformat") {
+              this->sourceeditor_lmode_textformat = TextFormat(xmlreader->readElementText());
               ok &= !this->error(this->sourceeditor_lmode_textformat, this->error_string(xmlreader),
                                  QString("aspect::sourceeditor::lmode_textformat"));
               continue;
@@ -1133,17 +979,17 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
         }
 
         // aspect::commentaryeditor
-        if (xmlreader.name() == "commentaryeditor") {
-          while (xmlreader.readNextStartElement()) {
+        if (xmlreader->name() == "commentaryeditor") {
+          while (xmlreader->readNextStartElement()) {
             // aspect::commentaryeditor's stylesheet
-            if (xmlreader.name() == "stylesheet") {
-              this->commentaryeditor_stylesheet = xmlreader.readElementText();
+            if (xmlreader->name() == "stylesheet") {
+              this->commentaryeditor_stylesheet = xmlreader->readElementText();
               this->commentaryeditor_stylesheet = this->commentaryeditor_stylesheet.trimmed();
               continue;
             }
             // aspect::commentaryeditor's textformat
-            if (xmlreader.name() == "textformat") {
-              this->commentaryeditor_textformat = TextFormat(xmlreader.readElementText());
+            if (xmlreader->name() == "textformat") {
+              this->commentaryeditor_textformat = TextFormat(xmlreader->readElementText());
               ok &= !this->error(this->commentaryeditor_textformat, this->error_string(xmlreader),
                                  QString("aspect::commentaryeditor::textformat"));
               continue;
@@ -1161,10 +1007,10 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
     if (tokenname == "audiorecord") {
       this->audiorecord.found = true;
       // audiorecord::description
-      this->audiorecord.description = xmlreader.attributes().value("description").toString();
+      this->audiorecord.description = xmlreader->attributes().value("description").toString();
 
       // audiorecord::filename
-      this->audiorecord.filename = this->path + "/" + xmlreader.attributes().value("filename").toString();
+      this->audiorecord.filename = this->path + "/" + xmlreader->attributes().value("filename").toString();
 
       QFile audiofile(this->audiorecord.filename);
       if (!audiofile.open(QFile::ReadOnly)) {
@@ -1174,24 +1020,24 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       }
 
       // audiorecord::informations
-      this->audiorecord.informations = xmlreader.attributes().value("informations").toString();
+      this->audiorecord.informations = xmlreader->attributes().value("informations").toString();
 
-      while (xmlreader.readNextStartElement()) {
+      while (xmlreader->readNextStartElement()) {
         // audiorecord::segment
-        if (xmlreader.name() == "segment") {
+        if (xmlreader->name() == "segment") {
           // audiorecord::segment::textranges
-          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+          PosInTextRanges textranges(xmlreader->attributes().value("textranges").toString());
           ok &= !this->error(textranges, this->error_string(xmlreader),
                              QString("audiorecord::segment::textranges"));
 
           // audiorecord::segment::audiorange
-          PosInAudioRange audiorange(xmlreader.attributes().value("audiorange").toString());
+          PosInAudioRange audiorange(xmlreader->attributes().value("audiorange").toString());
           ok &= !this->error(audiorange, this->error_string(xmlreader),
                              QString("audiorecord::segment::audiorange"));
 
           this->audiorecord.text2audio[ textranges ] = PairOfPosInAudio(audiorange.first(), audiorange.second());
 
-          xmlreader.skipCurrentElement();
+          xmlreader->skipCurrentElement();
           continue;
         }
       }
@@ -1205,20 +1051,20 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
     if (tokenname == "translation") {
       this->translation.found = true;
       // translation::informations
-      this->translation.informations = xmlreader.attributes().value("informations").toString();
+      this->translation.informations = xmlreader->attributes().value("informations").toString();
       // translation::description
-      this->translation.description = xmlreader.attributes().value("description").toString();
+      this->translation.description = xmlreader->attributes().value("description").toString();
 
-      while (xmlreader.readNextStartElement()) {
+      while (xmlreader->readNextStartElement()) {
         // translation::segment
-        if (xmlreader.name() == "segment") {
+        if (xmlreader->name() == "segment") {
           // translation::segment::textranges
-          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+          PosInTextRanges textranges(xmlreader->attributes().value("textranges").toString());
           ok &= !this->error(textranges, this->error_string(xmlreader),
                              QString("translation::segment::textranges"));
 
           // translation's text
-          QString text(xmlreader.readElementText());
+          QString text(xmlreader->readElementText());
           text = text.trimmed();
 
           this->translation.translations[ textranges ] = text;
@@ -1234,17 +1080,17 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       textformats
     */
     if (tokenname == "textformats") {
-      while (xmlreader.readNextStartElement()) {
+      while (xmlreader->readNextStartElement()) {
         // textformats::textformat
-        if (xmlreader.name() == "textformat") {
+        if (xmlreader->name() == "textformat") {
           // textformats::textformat::name
-          QString name = xmlreader.attributes().value("name").toString();
+          QString name = xmlreader->attributes().value("name").toString();
           // textformats::textformat::aspect
-          QString aspect = xmlreader.attributes().value("aspect").toString();
+          QString aspect = xmlreader->attributes().value("aspect").toString();
 
           this->textformats[ name ] = aspect;
 
-          xmlreader.skipCurrentElement();
+          xmlreader->skipCurrentElement();
           continue;
         }
       }
@@ -1256,22 +1102,22 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       levels
     */
     if (tokenname == "levels") {
-      while (xmlreader.readNextStartElement()) {
+      while (xmlreader->readNextStartElement()) {
         // level::level
-        if (xmlreader.name() == "level") {
+        if (xmlreader->name() == "level") {
           // levels::level::name
-          QString name = xmlreader.attributes().value("name").toString();
+          QString name = xmlreader->attributes().value("name").toString();
           // levels::level::number
-          int number = xmlreader.attributes().value("number").toString().toInt();
+          int number = xmlreader->attributes().value("number").toString().toInt();
           // levels::level::textformat
-          QString textformat_str = xmlreader.attributes().value("textformat").toString();
+          QString textformat_str = xmlreader->attributes().value("textformat").toString();
           TextFormat textformat(textformat_str);
           ok &= !this->error(textformat, this->error_string(xmlreader),
                              QString("levels::level::textformat"));
 
           this->levels[ number ] = LevelDetails(name, textformat_str);
 
-          xmlreader.skipCurrentElement();
+          xmlreader->skipCurrentElement();
           continue;
         }
       }
@@ -1283,19 +1129,19 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       arrows
     */
     if (tokenname == "arrows") {
-      while (xmlreader.readNextStartElement()) {
+      while (xmlreader->readNextStartElement()) {
         // arrows::arrow
-        if (xmlreader.name() == "arrow") {
+        if (xmlreader->name() == "arrow") {
           // arrows::arrow::name
-          QString name = xmlreader.attributes().value("name").toString();
+          QString name = xmlreader->attributes().value("name").toString();
           // arrows::arrow::arrowformat
-          ArrowFormat arrowformat(xmlreader.attributes().value("arrowformat").toString());
+          ArrowFormat arrowformat(xmlreader->attributes().value("arrowformat").toString());
           ok &= !this->error(arrowformat, this->error_string(xmlreader),
                              QString("arrows::arrow::arrowformat"));
 
           this->arrows[ name ] = arrowformat;
 
-          xmlreader.skipCurrentElement();
+          xmlreader->skipCurrentElement();
           continue;
         }
       }
@@ -1310,17 +1156,17 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       MAPPosNoteI_BOOL last_note;
       bool last_note_ok = false;
 
-      while (xmlreader.readNextStartElement()) {
+      while (xmlreader->readNextStartElement()) {
         // notes::note
-        if (xmlreader.name() == "note") {
+        if (xmlreader->name() == "note") {
           // notes::note::level
-          int level = xmlreader.attributes().value("level").toString().toInt();
+          int level = xmlreader->attributes().value("level").toString().toInt();
           // notes::note::textranges
-          PosInTextRanges textranges(xmlreader.attributes().value("textranges").toString());
+          PosInTextRanges textranges(xmlreader->attributes().value("textranges").toString());
           ok &= !this->error(textranges, this->error_string(xmlreader),
                              QString("notes::note::textranges"));
           // notes::note::textformatname
-          QString         textformatname = xmlreader.attributes().value("textformatname").toString();
+          QString         textformatname = xmlreader->attributes().value("textformatname").toString();
 
           // this->notes[level][textranges] = DipyDocNote(...)
           // NB : the text will be initialized later, when the 'text' tag will be read (see infra)
@@ -1330,10 +1176,10 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
           last_note_ok = last_note.second;
 
           // let's read the arrows linked to this note :
-          while (xmlreader.readNextStartElement()) {
-            if (xmlreader.name() == "text") {
+          while (xmlreader->readNextStartElement()) {
+            if (xmlreader->name() == "text") {
               // notes::note::text
-              QString text(xmlreader.readElementText());
+              QString text(xmlreader->readElementText());
               text = text.trimmed();
 
               // modifying the last note's text :
@@ -1343,13 +1189,13 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
               }
               continue;
             }
-            if (xmlreader.name() == "arrow") {
+            if (xmlreader->name() == "arrow") {
               // notes:note::arrow::target
-              PosInTextRanges target(xmlreader.attributes().value("target").toString());
+              PosInTextRanges target(xmlreader->attributes().value("target").toString());
               ok &= !this->error(target, this->error_string(xmlreader),
                                  QString("notes::note::arrows::target"));
               // notes:note::arrow's type
-              QString type(xmlreader.readElementText());
+              QString type(xmlreader->readElementText());
               type = type.trimmed();
 
               // adding this arrow to the last note :
@@ -1365,9 +1211,179 @@ bool DipyDoc::read_mainfile__rest(QXmlStreamReader& xmlreader) {  // NOLINT(runt
       }
       continue;
     }
-  }  // ... while (xmlreader.readNextStartElement())
+  }  // ... while (xmlreader->readNextStartElement())
 
-  DebugMsg() << "(DipyDoc::read_mainfile__rest) : exit point" << ok;
+  DebugMsg() << "(DipyDoc::read_mainfile__text) : exit point" << ok;
+  return ok;
+}
+
+/*______________________________________________________________________________
+
+  DipyDoc::read_mainfile__text__init_and_check()
+
+  Initialization and checking for "text" dipydoc.
+
+        (1) secondary initializations
+            (1.1) initialization of "audiorecord.audio2text"
+            (1.2) "number_of_chars_before_source_text" is not initialized here
+        (2) checks
+            (2.1) is audiorecord.text2audio correctly initialized ?
+            (2.2) is audiorecord.audio2text correctly initialized ?
+            (2.3) is translation correctly initialized ?
+            (2.4) is the text's filename an empty string ?
+            (2.5) are the notes' levels' number defined ?
+            (2.6) are the notes' aspects defined ?
+            (2.7) are the notes' arrows' types defined ?
+        (3) initializaton of _well_initialized
+
+________________________________________________________________________________*/
+bool DipyDoc::read_mainfile__text__init_and_check(void) {
+  bool ok = true;
+
+  /*............................................................................
+    (1) secondary initializations
+  ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #1";
+
+  /*............................................................................
+    (1.1) initialization of "audiorecord.audio2text"
+  ............................................................................*/
+  if (this->audiorecord.found == true) {
+    this->audiorecord.audio2text = PosInAudio2PosInText(this->audiorecord.text2audio);
+  } else {
+    // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
+    this->audiorecord.audio2text.clear();
+  }
+
+  /*............................................................................
+    (1.2) "number_of_chars_before_source_text" is not initialized here
+
+    The first attempt to compute "number_of_chars_before_source_text was doubtfull :
+
+      this->source_text.number_of_chars_before_source_text = 0;
+      if (this->title.found == true) {
+        this->source_text.number_of_chars_before_source_text += this->title.text.length();
+      }
+      if (this->introduction.found == true) {
+        this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
+      }
+      if (this->lettrine.found == true) {
+        this->source_text.number_of_chars_before_source_text += 1;
+      }
+
+    ... the main problem was that it's difficult to know how is the lettrine's
+    image coded into the text. The result was ok but I could not trust this
+    code : how will Qt work on different architectures ? So I decided to ask
+    SourceEditor::load_text() to initialize "number_of_chars_before_source_text"
+    by simply incrementing a cursor's position as the document is filled.
+  ............................................................................*/
+
+  /*............................................................................
+    (2) checks
+  ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #2";
+
+  /*............................................................................
+    (2.1) is audiorecord.text2audio correctly initialized ?
+  ............................................................................*/
+  if (this->audiorecord.found == true && \
+      this->audiorecord.text2audio.well_initialized() == false) {
+    QString msg = "text2audio isn't correctly initialized"
+                  "PosInText2PosInAudio error message = %1.";
+    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.text2audio.internal_state())));
+  }
+
+  /*............................................................................
+    (2.2) is audio2text correctly initialized ?
+  ............................................................................*/
+  if (this->audiorecord.found == true && \
+      this->audiorecord.audio2text.well_initialized() == false) {
+    QString msg = "audio2text isn't correctly initialized"
+                  "PosInAudio2PosInText error message = %1.";
+    ok &= !this->error(msg.arg(QString().setNum(this->audiorecord.audio2text.internal_state())));
+  }
+
+  /*............................................................................
+    (2.3) is translation correctly initialized ?
+  ............................................................................*/
+  if (this->translation.translations.well_initialized() == false) {
+    QString msg = "translation.translations isn't correctly initialized"
+                  "PosInText2Str error message = %1.";
+    ok &= !this->error(msg.arg(QString().setNum(this->translation.translations.internal_state())));
+  }
+
+  /*............................................................................
+    (2.4) is the text's filename an empty string ?
+  ............................................................................*/
+  if (this->source_text.filename.length() == 0) {
+    QString msg = "Empty text's filename";
+    ok &= !this->error(msg);
+  }
+
+  /*............................................................................
+    (2.5) are the notes' levels' number defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    if (this->levels.find(note_by_level.first) == this->levels.end()) {
+      QString msg = "A note is defined with an unknown level; "
+                    "level=%i .";
+      ok = !this->error(msg.arg(QString().setNum(note_by_level.first)));
+    }
+  }
+
+  /*............................................................................
+    (2.6) are the notes' aspects defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      if ((pos_and_note.second.textformatname.size() != 0) && \
+          (this->textformats.find(pos_and_note.second.textformatname) == this->textformats.end())) {
+           QString msg = "A note is defined with an unknown textformat's name; "
+                         "textformat='%1' .";
+           ok = !this->error(msg.arg(pos_and_note.second.textformatname));
+      }
+    }
+  }
+
+  /*............................................................................
+    (2.7) are the notes' arrows' types defined ?
+  ............................................................................*/
+  for (auto &note_by_level : this->notes) {
+    // note_by_level.first : (int)level
+    // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
+    for (auto &pos_and_note : note_by_level.second) {
+      // pos_and_note.first : PosInTextRanges
+      // pos_and_note.second : DipyDocNote
+      for (auto &arrow_in_a_note : pos_and_note.second.arrows) {
+        if (this->arrows.find(arrow_in_a_note.type) == this->arrows.end()) {
+           QString msg = "A note's arrow is defined with an unknown type; "
+                         "type='%1' .";
+           ok = !this->error(msg.arg(arrow_in_a_note.type));
+        }
+      }
+    }
+  }
+
+  /*............................................................................
+    (3) initializaton of _well_initialized and of _internal_state.
+  ............................................................................*/
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #3";
+  if (ok == false) {
+    this->_well_initialized = false;
+    this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
+  }
+
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) levels=" << this->levels_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) arrows=" << this->arrows_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) notes="  << this->notes.repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
+
   return ok;
 }
 

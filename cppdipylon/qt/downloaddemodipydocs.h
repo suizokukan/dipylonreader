@@ -56,7 +56,7 @@ class DownloadDemoDipydocs : public QObject {
     Q_OBJECT
 
  public:
-                     explicit DownloadDemoDipydocs(const UI&);
+                     explicit DownloadDemoDipydocs(const UI&, QWidget *_parent);
                              ~DownloadDemoDipydocs(void);
        bool                   cancel_tasks = false;
        bool                   still_waiting = false;
@@ -78,9 +78,7 @@ class DownloadDemoDipydocs : public QObject {
        QUrl                   get_data_url(const QString& filename) const;
        void                   set_summary_url(void);
 
- signals:
-
- public slots:  // NOLINT(whitespace/indent)
+ private slots:  // NOLINT(whitespace/indent)
        void                   cancel(void);
        void                   download_data_finished(QNetworkReply* reply);
        void                   download_summary_finished(QNetworkReply* reply);

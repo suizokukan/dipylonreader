@@ -31,16 +31,16 @@
 
   CommentaryZone::constructor
 ______________________________________________________________________________*/
-CommentaryZone::CommentaryZone(UI& _ui) : ui(_ui) {
+CommentaryZone::CommentaryZone(UI& _ui, QWidget *_parent) : QFrame(_parent), ui(_ui) {
   DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
 
-  this->setObjectName("commentary zone");
+  this->setObjectName("commentary_zone");
 
   DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
-  this->ui.mainWin->commentary_editor = new CommentaryEditor(this->ui);
+  this->ui.mainWin->commentary_editor = new CommentaryEditor(this->ui, this);
 
   DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
-  this->ui.mainWin->commentary_toolbar = new CommentaryToolBar(this->ui);
+  this->ui.mainWin->commentary_toolbar = new CommentaryToolBar(this->ui, this);
 
   this->layout = new QHBoxLayout();
   this->layout->addWidget(this->ui.mainWin->commentary_editor);

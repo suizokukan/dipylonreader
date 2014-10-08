@@ -41,10 +41,9 @@
 #ifndef CPPDIPYLON_QT_BLOCKFORMAT_H_
 #define CPPDIPYLON_QT_BLOCKFORMAT_H_
 
-#include <QDebug>
-#include <QTextBlockFormat>
 #include <QString>
 #include <QStringList>
+#include <QTextBlockFormat>
 
 /*______________________________________________________________________________
 

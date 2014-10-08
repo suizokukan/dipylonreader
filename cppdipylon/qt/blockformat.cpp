@@ -55,7 +55,6 @@ int BlockFormat::init_from_string(const QString& source_string) {
   int res = BlockFormat::INTERNALSTATE::OK;
 
   for (auto &keyword : list_of_keywords) {
-
     // spaces are not taken in account :
     keyword.replace(" ", "");
 
@@ -66,12 +65,12 @@ int BlockFormat::init_from_string(const QString& source_string) {
     /*
       line-height
     */
-    if( keyword.startsWith("line-height:") == true ) {
-      QString str_value = keyword.right( keyword.length() - QString("line-height:").length() );
+    if (keyword.startsWith("line-height:") == true) {
+      QString str_value = keyword.right(keyword.length() - QString("line-height:").length());
 
       bool ok = true;
 
-      if (str_value.endsWith("%") == false ) {
+      if (str_value.endsWith("%") == false) {
         ok = false;
         res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_PERCENTAGE;
         this->_well_initialized = false;
@@ -82,7 +81,6 @@ int BlockFormat::init_from_string(const QString& source_string) {
 
       int value = str_value.toInt(&ok, 10);
       if (ok == true) {
-
         if (value < 0) {
           res = BlockFormat::INTERNALSTATE::LINE_HEIGHT_IS_NOT_A_VALID_PERCENTAGE;
           this->_well_initialized = false;
