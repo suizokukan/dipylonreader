@@ -40,9 +40,6 @@
 #include "qt/blockformat.h"
 #include "qt/texteditor.h"
 #include "qt/textformat.h"
-#include "qt/ui.h"
-
-class UI;
 
 /*______________________________________________________________________________
 
@@ -50,12 +47,14 @@ class UI;
 ______________________________________________________________________________*/
 class SourceEditor : public TextEditor {
   friend class MainWindow;
-  friend class UI;
 
     Q_OBJECT
 
  public:
-    explicit  SourceEditor(UI& _ui, QWidget *_parent);
+    explicit  SourceEditor(ReadingMode & _readingmode,
+                           ReadingModeDetails & _readingmodedetails,
+                           DipyDoc & _dipydoc,
+                           QWidget *_parent);
 
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);
@@ -71,6 +70,11 @@ class SourceEditor : public TextEditor {
     void      paintEvent(QPaintEvent* event);
 
  private:
+    const QString & splitter_name;
+    DipyDoc & dipydoc;
+    ReadingMode & readingmode;
+    ReadingModeDetails & readingmodedetails;
+
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE

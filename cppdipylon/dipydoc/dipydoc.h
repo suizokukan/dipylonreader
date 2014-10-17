@@ -257,10 +257,11 @@ typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
 
 
 class DipyDoc {
-friend class UI;
+friend class CommentaryEditor;
 friend class MainWindow;
 friend class SourceEditor;
-friend class CommentaryEditor;
+friend class SourceCommentarySplitter;
+friend class UI;
 
  private:
   bool                 _well_initialized;
@@ -327,6 +328,7 @@ friend class CommentaryEditor;
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
   QString                error_string(QXmlStreamReader* xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
+  QString                get_translations_for(PosInText x0, PosInText x1) const;
   bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__text(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__text__init_and_check(void);

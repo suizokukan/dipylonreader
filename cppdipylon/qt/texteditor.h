@@ -31,8 +31,6 @@
 #include <QTextEdit>
 #include <QWheelEvent>
 
-class UI;
-
 /*______________________________________________________________________________
 
   TextEditor class
@@ -41,17 +39,13 @@ class TextEditor : public QTextEdit {
 friend class CommentaryEditor;
 friend class MainWindow;
 friend class SourceEditor;
-friend class UI;
 
     Q_OBJECT
 
  public:
-    explicit  TextEditor(UI& _ui, QWidget *_parent);
+    explicit  TextEditor(QWidget *_parent);
 
  private:
-    // UI object linked to the editor :
-    UI& ui;
-
     int      zoom_value = 0;
 
     void     zoom_in(void);

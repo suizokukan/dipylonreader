@@ -31,9 +31,6 @@
 #include <QToolBar>
 
 #include "debugmsg/debugmsg.h"
-#include "qt/ui.h"
-
-class UI;
 
 /*______________________________________________________________________________
 
@@ -43,10 +40,10 @@ class CommentaryToolBar : public QToolBar {
     Q_OBJECT
 
  private:
-  // UI object linked to the editor :
-  const UI& ui;
+  const QString & splitter_name = QString();
 
  public:
-  explicit CommentaryToolBar(const UI& _ui, QWidget *_parent);
+  explicit CommentaryToolBar(const QString & _splitter_name,
+                             QWidget *_parent);
 };
 #endif  // CPPDIPYLON_QT_COMMENTARYTOOLBAR_H_

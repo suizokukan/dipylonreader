@@ -1488,3 +1488,21 @@ ________________________________________________________________________________
 PosInTextRanges DipyDoc::translation_contains(PosInText x0, PosInText x1) const {
   return this->translation.translations.contains(x0, x1).toPosInTextRanges();
 }
+
+/*______________________________________________________________________________
+
+  DipyDoc::get_translations_for() : return a QString with the translations
+                                    matching the positions x0 to x1 in the
+                                    source text.
+______________________________________________________________________________*/
+QString DipyDoc::get_translations_for(PosInText x0, PosInText x1) const {
+  VectorPosInTextRanges vector_posintextranges = this->translation.translations.contains(x0, x1);
+
+  QStringList strlist_of_translations;
+
+  for (auto &posintextranges : vector_posintextranges) {
+    strlist_of_translations.append(this->translation.translations[posintextranges]);
+  }
+
+  return strlist_of_translations.join(" ");
+}

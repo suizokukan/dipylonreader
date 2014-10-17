@@ -31,14 +31,23 @@
 
   SourceEditor constructor
 ______________________________________________________________________________*/
-SourceEditor::SourceEditor(UI& _ui, QWidget *_parent) : TextEditor(_ui, _parent) {
+SourceEditor::SourceEditor(const QString & splitter_name,
+                           ReadingMode & _readingmode,
+                           ReadingModeDetails & _readingmodedetails,
+                           DipyDoc& _dipydoc,
+                           QWidget *_parent) : TextEditor(_parent),
+                                               readingmode(_readingmode),
+                                               readingmodedetails(_readingmodedetails),
+                                               dipydoc(_dipydoc) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
-  this->setObjectName("source_zone__editor");
+  QString object_name(splitter_name + "::source zone::editor");
+  this->setObjectName(object_name);
 
   this->setReadOnly(true);
   this->setMouseTracking(true);
   this->update_aspect_from_dipydoc_aspect_informations();
+
   DebugMsg() << "SourceEditor::SourceEditor() : exit point";
 }
 
@@ -53,7 +62,7 @@ SourceEditor::SourceEditor(UI& _ui, QWidget *_parent) : TextEditor(_ui, _parent)
 ______________________________________________________________________________*/
 PosInText SourceEditor::corrected_cursor_position(void) const {
   return static_cast<PosInText>(this->textCursor().position()) - \
-         static_cast<PosInText>(this->ui.current_dipydoc.source_text.number_of_chars_before_source_text);
+         static_cast<PosInText>(this->dipydoc.source_text.number_of_chars_before_source_text);
 }
 
 /*______________________________________________________________________________
@@ -168,38 +177,36 @@ ______________________________________________________________________________*/
 void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   this->clear();
 
-  DipyDoc& dipydoc = this->ui.current_dipydoc;
-
   QTextCursor cur = this->textCursor();
   QTextDocument* qtextdocument = this->document();
 
   /*
      title
   */
-  if (dipydoc.title.found == true) {
+  if (this->dipydoc.title.found == true) {
     // format :
-    QTextCharFormat title_qtextcharformat = dipydoc.title.textformat.qtextcharformat();
-    QTextBlockFormat title_qtextblockformat = dipydoc.title.blockformat.qtextblockformat();
+    QTextCharFormat title_qtextcharformat = this->dipydoc.title.textformat.qtextcharformat();
+    QTextBlockFormat title_qtextblockformat = this->dipydoc.title.blockformat.qtextblockformat();
 
     cur.insertBlock(title_qtextblockformat, title_qtextcharformat);
 
     // text :
-    cur.insertText(dipydoc.title.text);
+    cur.insertText(this->dipydoc.title.text);
     cur.insertText("\n");
   }
 
   /*
     introduction
   */
-  if (dipydoc.introduction.found == true) {
+  if (this->dipydoc.introduction.found == true) {
     // format :
-    QTextCharFormat introduction_qtextcharformat = dipydoc.introduction.textformat.qtextcharformat();
-    QTextBlockFormat introduction_qtextblockformat = dipydoc.introduction.blockformat.qtextblockformat();
+    QTextCharFormat introduction_qtextcharformat = this->dipydoc.introduction.textformat.qtextcharformat();
+    QTextBlockFormat introduction_qtextblockformat = this->dipydoc.introduction.blockformat.qtextblockformat();
 
     cur.insertBlock(introduction_qtextblockformat, introduction_qtextcharformat);
 
     // text :
-    cur.insertText(dipydoc.introduction.text);
+    cur.insertText(this->dipydoc.introduction.text);
     cur.insertText("\n");
   }
 
@@ -210,19 +217,19 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   /*
     new block for the lettrine and the text :
   */
-  QTextCharFormat text_qtextcharformat = dipydoc.sourceeditor_default_textformat.qtextcharformat();
-  QTextBlockFormat text_blockformat = dipydoc.source_text.blockformat.qtextblockformat();
+  QTextCharFormat text_qtextcharformat = this->dipydoc.sourceeditor_default_textformat.qtextcharformat();
+  QTextBlockFormat text_blockformat = this->dipydoc.source_text.blockformat.qtextblockformat();
 
   // inserting the block :
   cur.insertBlock(text_blockformat, text_qtextcharformat);
 
   // adding the lettrine :
-  if (dipydoc.lettrine.found == true) {
-    int aspectratio = dipydoc.lettrine.aspectratio;
+  if (this->dipydoc.lettrine.found == true) {
+    int aspectratio = this->dipydoc.lettrine.aspectratio;
 
     qtextdocument->addResource(QTextDocument::ImageResource,
                                QUrl("lettrine"),
-                               dipydoc.lettrine.image);
+                               this->dipydoc.lettrine.image);
 
     QTextImageFormat qtextimageformat = QTextImageFormat();
     /*
@@ -236,7 +243,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
     qtextimageformat.setName("lettrine");
 
     cur.insertImage(qtextimageformat,
-                    dipydoc.lettrine.position_in_text_frame.position());
+                    this->dipydoc.lettrine.position_in_text_frame.position());
   }
 
   /*
@@ -246,7 +253,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
      see DipyDoc::init_from_xml() to see why this attribute has not been
      initialized before.
   */
-  dipydoc.source_text.number_of_chars_before_source_text = cur.position();
+  this->dipydoc.source_text.number_of_chars_before_source_text = cur.position();
 
   cur.setCharFormat(text_qtextcharformat);
   cur.insertText(source_text.text);
@@ -260,7 +267,6 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
         the .modified_chars_hash attribute.
 7_____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
-  DipyDoc& dipydoc = this->ui.current_dipydoc;
 
   switch (this->ui.reading_mode) {
     /*
@@ -268,7 +274,7 @@ void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
     */
     case UI::READINGMODE_RMODE :
     case UI::READINGMODE_LMODE : {
-      int shift = dipydoc.source_text.number_of_chars_before_source_text;
+      int shift = this->dipydoc.source_text.number_of_chars_before_source_text;
 
       QTextCursor cur = this->textCursor();
 
@@ -279,7 +285,7 @@ void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
         cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
         cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
         QTextEdit::ExtraSelection sel = { cur,
-                                          dipydoc.sourceeditor_default_textformat.qtextcharformat() };
+                                          this->dipydoc.sourceeditor_default_textformat.qtextcharformat() };
         selections.append(sel);
       }
       this->setExtraSelections(selections);
@@ -294,11 +300,11 @@ void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
         QTextEdit::ExtraSelection sel;
         if (this->ui.reading_mode == UI::READINGMODE_RMODE) {
           sel = { cur,
-                  dipydoc.sourceeditor_rmode_textformat.qtextcharformat() };
+                  this->dipydoc.sourceeditor_rmode_textformat.qtextcharformat() };
         }
         if (this->ui.reading_mode == UI::READINGMODE_LMODE) {
           sel = { cur,
-                  dipydoc.sourceeditor_lmode_textformat.qtextcharformat() };
+                  this->dipydoc.sourceeditor_lmode_textformat.qtextcharformat() };
         }
 
         selections.append(sel);
@@ -327,11 +333,11 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
     switch (this->ui.reading_mode_details) {
       case UI::READINGMODEDETAIL_RMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
-        int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;
+        int shift = this->dipydoc.source_text.number_of_chars_before_source_text;
         PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
         // where are the characters linked to "cursor_position" ?
-        PosInTextRanges pos_in_text = this->ui.current_dipydoc.translation_contains(cursor_position);
+        PosInTextRanges pos_in_text = this->dipydoc.translation_contains(cursor_position);
 
         std::size_t text_ranges_hash = pos_in_text.get_hash();
 
@@ -376,12 +382,12 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   if (this->ui.reading_mode_details == UI::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
     DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
-    int shift = this->ui.current_dipydoc.source_text.number_of_chars_before_source_text;
+    int shift = this->dipydoc.source_text.number_of_chars_before_source_text;
     PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
     PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - shift);
 
     // where are the characters in the translations linked to "x0-x1" ?
-    PosInTextRanges pos_in_text =  this->ui.current_dipydoc.translation_contains(x0, x1);
+    PosInTextRanges pos_in_text =  this->dipydoc.translation_contains(x0, x1);
     DebugMsg() << "... pos_in_text=" << pos_in_text.repr();
 
     /*
@@ -423,7 +429,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
         case UI::READINGMODEDETAIL_LMODE_ONPAUSE:
         case UI::READINGMODEDETAIL_LMODE_STOP : {
           // where are the characters linked to "cursor_position" ?
-          PTRangesAND2PosAudio found_position = this->ui.current_dipydoc.text2audio_contains(cursor_position);
+          PTRangesAND2PosAudio found_position = this->dipydoc.text2audio_contains(cursor_position);
           PosInTextRanges pos_in_text = found_position.first;
 
           std::size_t text_ranges_hash = pos_in_text.get_hash();
@@ -446,7 +452,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
         // LMODE + PLAYING
         case UI::READINGMODEDETAIL_LMODE_PLAYING : {
           // where are the characters linked to "cursor_position" ?
-          PTRangesAND2PosAudio found_position = this->ui.current_dipydoc.text2audio_contains(cursor_position);
+          PTRangesAND2PosAudio found_position = this->dipydoc.text2audio_contains(cursor_position);
           PairOfPosInAudio pos_in_audio = found_position.second;
 
           // we jump to the beginning of the audio gap (pos_in_audio.first, pos_in_audio.second) :
@@ -543,7 +549,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
         This function resets the appearance of all the text.
 _____________________________________________________________________________*/
 void SourceEditor::reset_all_text_format_to_default(void) {
-  DipyDoc& dipydoc = this->ui.current_dipydoc;
+
   QTextCursor cur = this->textCursor();
 
   QList<QTextEdit::ExtraSelection> selections;
@@ -552,7 +558,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
   cur.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
   QTextEdit::ExtraSelection sel = { cur,
-                                    dipydoc.sourceeditor_default_textformat.qtextcharformat() };
+                                    this->dipydoc.sourceeditor_default_textformat.qtextcharformat() };
   selections.append(sel);
 
   cur.clearSelection();
@@ -563,7 +569,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   SourceEditor::set_the_appearance()
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
-  this->setStyleSheet(this->ui.current_dipydoc.sourceeditor_stylesheet);
+  this->setStyleSheet(this->dipydoc.sourceeditor_stylesheet);
 }
 
 /*______________________________________________________________________________

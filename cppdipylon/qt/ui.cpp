@@ -112,24 +112,6 @@ bool UI::at_least_one_dipydoc_has_been_loaded(void) const {
 
 /*______________________________________________________________________________
 
-  UI::get_translations_for() : return a QString with the translations
-                               matching the positions x0 to x1 in the
-                               source text.
-______________________________________________________________________________*/
-QString UI::get_translations_for(PosInText x0, PosInText x1) const {
-  VectorPosInTextRanges vector_posintextranges = this->current_dipydoc.translation.translations.contains(x0, x1);
-
-  QStringList strlist_of_translations;
-
-  for (auto &posintextranges : vector_posintextranges) {
-    strlist_of_translations.append(this->current_dipydoc.translation.translations[posintextranges]);
-  }
-
-  return strlist_of_translations.join(" ");
-}
-
-/*______________________________________________________________________________
-
   UI::go() : UI creation + main loop
 ______________________________________________________________________________*/
 int UI::go(int argc, char **argv) {
@@ -218,16 +200,6 @@ int UI::go(int argc, char **argv) {
   */
   DebugMsg() << "QGuiApplication::primaryScreen()->name() =" << QGuiApplication::primaryScreen()->name();
   DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << QGuiApplication::primaryScreen()->size();
-
-  /*
-     default reading mode
-
-     This parameter will be set again when a file will be opended. But the UI needs
-     this information for the display, e.g. the icons.
-  */
-  this->reading_mode         = UI::READINGMODE::READINGMODE_RMODE;
-  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
-  DebugMsg() << "now in RMODE mode";
 
   // main window creation :
   this->mainWin = new MainWindow(*this);

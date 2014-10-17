@@ -31,10 +31,12 @@
 
   SourceToolBar::constructor
 ______________________________________________________________________________*/
-SourceToolBar::SourceToolBar(UI& _ui, QWidget *_parent) : QToolBar(_parent), ui(_ui) {
+SourceToolBar::SourceToolBar(const QString & splitter_name,
+                             QWidget *_parent) : QToolBar(_parent) {
   DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
 
-  this->setObjectName("source_zone__toolbar");
+  QString object_name(splitter_name + "::source zone::toolbar");
+  this->setObjectName(object_name);
 
   this->setOrientation(Qt::Vertical);
 

@@ -30,13 +30,16 @@
 
 #include <QFrame>
 #include <QHBoxLayout>
+#include <QMediaPlayer>
 
 #include "debugmsg/debugmsg.h"
+#include "dipydoc/dipydoc.h"
+#include "qt/readingmodes.h"
 #include "qt/sourceeditor.h"
 #include "qt/sourcetoolbar.h"
-#include "qt/ui.h"
 
 class MainWindow;
+class UI;
 
 /*______________________________________________________________________________
 
@@ -47,14 +50,37 @@ friend MainWindow;
 
     Q_OBJECT
 
+ private slots:  // NOLINT(whitespace/indent)
+    void audiocontrols_play(void);
+    void audiocontrols_stop(void);
+    void audio_position_changed(PosInAudio);
+    void readingmode_aAct__buttonpressed(void);
+    void readingmode_rAct__buttonpressed(void);
+    void readingmode_lAct__buttonpressed(void);
+
  private:
-  // UI object linked to the editor :
-  UI& ui;
-  // object's layout :
+  const DipyDoc& dipydoc = DipyDoc();
+  UI& ui;                                 // UI object linked to the editor
+
+  ReadingMode        reading_mode = READINGMODE_UNDEFINED;
+  ReadingModeDetails reading_mode_details = READINGMODEDETAIL_UNDEFINED;
+
+  QAction* readingmode_aAct = nullptr;
+  QAction* readingmode_rAct = nullptr;
+  QAction* readingmode_lAct = nullptr;
+  QAction* audiocontrols_playAct = nullptr;
+  QAction* audiocontrols_stopAct = nullptr;
+
+  QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
+  SourceEditor* editor = nullptr;
+  SourceToolBar* toolbar = nullptr;
 
  public:
-  explicit SourceZone(UI& _ui, QWidget *_parent);
+  explicit SourceZone(const QString & splitter_name,
+                      const DipyDoc& _dipydoc,
+                      UI& _ui,
+                      QWidget *_parent);
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEZONE_H_

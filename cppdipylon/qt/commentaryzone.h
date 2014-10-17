@@ -32,9 +32,9 @@
 #include <QHBoxLayout>
 
 #include "debugmsg/debugmsg.h"
+#include "dipydoc/dipydoc.h"
 #include "qt/commentaryeditor.h"
 #include "qt/commentarytoolbar.h"
-#include "qt/ui.h"
 
 class MainWindow;
 
@@ -48,13 +48,15 @@ friend MainWindow;
     Q_OBJECT
 
  private:
-  // UI object linked to the editor :
-  UI& ui;
   // object's layout :
   QLayout* layout = nullptr;
+  CommentaryEditor* editor = nullptr;
+  CommentaryToolBar* toolbar = nullptr;
 
  public:
-  explicit CommentaryZone(UI& _ui, QWidget *_parent);
+  explicit CommentaryZone(const QString & splitter_name,
+                          const DipyDoc& _dipydoc,
+                          QWidget *_parent);
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYZONE_H_
