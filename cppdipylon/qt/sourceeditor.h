@@ -63,7 +63,7 @@ class SourceEditor : public TextEditor {
                            QMediaPlayer *       _audio_player,
                            QAction *            _audiocontrols_playAct,
                            QAction *            _audiocontrols_stopAct,
-                           bool &               _selected_text_and_blocked_commentaries,
+                           bool &               _blocked_commentaries,
                            QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
@@ -90,7 +90,7 @@ class SourceEditor : public TextEditor {
     QAction*             audiocontrols_playAct = nullptr;
     QAction*             audiocontrols_stopAct = nullptr;
 
-    bool &               selected_text_and_blocked_commentaries;
+    bool &               blocked_commentaries;
 
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :

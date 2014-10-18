@@ -40,7 +40,7 @@ SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
                                                    QWidget *_parent) : QSplitter(_parent),
                                                                        visible_toolbars(_visible_toolbars),
                                                                        _well_initialized(false),
-                                                                       selected_text_and_blocked_commentaries(false) {
+                                                                       blocked_commentaries(false) {
   /*
     (1) loading the DipyDoc
   */
@@ -91,12 +91,12 @@ SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
 
   this->source_zone = new SourceZone(splitter_name,
                                      this->dipydoc,
-                                     this->selected_text_and_blocked_commentaries,
+                                     this->blocked_commentaries,
                                      this->visible_toolbars,
                                      this);
   this->commentary_zone = new CommentaryZone(splitter_name,
                                              this->dipydoc,
-                                             this->selected_text_and_blocked_commentaries,
+                                             this->blocked_commentaries,
                                              this);
   this->addWidget(this->source_zone);
   this->addWidget(this->commentary_zone);

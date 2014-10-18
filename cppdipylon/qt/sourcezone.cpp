@@ -33,11 +33,11 @@
 ______________________________________________________________________________*/
 SourceZone::SourceZone(const QString & splitter_name,
                        const DipyDoc& _dipydoc,
-                       bool & _selected_text_and_blocked_commentaries,
+                       bool & _blocked_commentaries,
                        bool & _visible_toolbars,
                        QWidget *_parent) : QFrame(_parent),
                                            dipydoc(_dipydoc),
-                                           selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries),
+                                           blocked_commentaries(_blocked_commentaries),
                                            visible_toolbars(_visible_toolbars),
                                            readingmode(READINGMODE::READINGMODE_UNDEFINED),
                                            readingmode_details(READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED) {
@@ -114,7 +114,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                   this->audio_player,
                                   this->audiocontrols_playAct,
                                   this->audiocontrols_stopAct,
-                                  this->selected_text_and_blocked_commentaries,
+                                  this->blocked_commentaries,
                                   this);
   this->toolbar = new SourceToolBar(splitter_name,
                                     this);

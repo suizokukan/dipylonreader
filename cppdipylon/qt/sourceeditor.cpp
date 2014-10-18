@@ -38,7 +38,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
                            QMediaPlayer *        _audio_player,
                            QAction *             _audiocontrols_playAct,
                            QAction *             _audiocontrols_stopAct,
-                           bool &                _selected_text_and_blocked_commentaries,
+                           bool &                _blocked_commentaries,
                            QWidget* _parent) : TextEditor(_parent),
                                                readingmode(_readingmode),
                                                readingmode_details(_readingmode_details),
@@ -46,7 +46,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
                                                audio_player(_audio_player),
                                                audiocontrols_playAct(_audiocontrols_playAct),
                                                audiocontrols_stopAct(_audiocontrols_stopAct),
-                                               selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries) {
+                                               blocked_commentaries(_blocked_commentaries) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   QString object_name(splitter_name + "::source zone::editor");
@@ -335,7 +335,7 @@ void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
-  if (this->selected_text_and_blocked_commentaries == false) {
+  if (this->blocked_commentaries == false) {
     switch (this->readingmode_details) {
       case READINGMODEDETAILS::READINGMODEDETAIL_RMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
@@ -410,12 +410,12 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     // hash update :
     this->modified_chars_hash = text_ranges_hash;
 
-    this->selected_text_and_blocked_commentaries = false;
+    this->blocked_commentaries = false;
     /*
       TODO
     this->commentary_editor->update_content__translation_expected(pos_in_text);
     */
-    this->selected_text_and_blocked_commentaries = true;
+    this->blocked_commentaries = true;
 
     /*
       TODO (la méthode appartient au parent)
@@ -427,7 +427,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
   // no selection ? we don't protect anymore the commentary zone :
   if (cur.hasSelection() == false) {
-    this->selected_text_and_blocked_commentaries = false;
+    this->blocked_commentaries = false;
   }
 
   /*............................................................................

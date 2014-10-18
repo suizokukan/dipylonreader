@@ -52,7 +52,7 @@ friend class MainWindow;
  private:
   bool & visible_toolbars;
   bool  _well_initialized = false;               // object state
-  bool  selected_text_and_blocked_commentaries = false;
+  bool  blocked_commentaries = false;
 
   DipyDoc dipydoc = DipyDoc();
 
