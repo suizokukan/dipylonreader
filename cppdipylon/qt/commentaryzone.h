@@ -57,7 +57,7 @@ friend class MainWindow;
   CommentaryToolBar* toolbar = nullptr;
 
   const DipyDoc & dipydoc;
-  bool* selected_text_and_blocked_commentaries;
+  bool & selected_text_and_blocked_commentaries;
 
   QAction* textminusAct = nullptr;
   QAction* textplusAct = nullptr;
@@ -65,7 +65,7 @@ friend class MainWindow;
  public:
   explicit CommentaryZone(const QString & splitter_name,
                           const DipyDoc & _dipydoc,
-                          bool* _selected_text_and_blocked_commentaries,
+                          bool & _selected_text_and_blocked_commentaries,
                           QWidget* _parent);
 };
 

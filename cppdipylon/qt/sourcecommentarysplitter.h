@@ -50,7 +50,7 @@ friend class MainWindow;
     Q_OBJECT
 
  private:
-  bool* visible_toolbars = nullptr;
+  bool & visible_toolbars;
   bool  _well_initialized = false;               // object state
   bool  selected_text_and_blocked_commentaries = false;
 
@@ -62,7 +62,7 @@ friend class MainWindow;
  public:
   bool well_initialized(void);
   explicit SourceCommentarySplitter(const QString& directoryName,
-                                    bool* _visible_toolbars,
+                                    bool & _visible_toolbars,
                                     QWidget *_parent);
 };
 

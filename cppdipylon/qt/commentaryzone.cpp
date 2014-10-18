@@ -33,7 +33,7 @@
 ______________________________________________________________________________*/
 CommentaryZone::CommentaryZone(const QString & splitter_name,
                                const DipyDoc & _dipydoc,
-                               bool* _selected_text_and_blocked_commentaries,
+                               bool & _selected_text_and_blocked_commentaries,
                                QWidget* _parent) : QFrame(_parent),
                                                    dipydoc(_dipydoc),
                                                    selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries) {

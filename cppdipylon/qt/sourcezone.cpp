@@ -33,8 +33,8 @@
 ______________________________________________________________________________*/
 SourceZone::SourceZone(const QString & splitter_name,
                        const DipyDoc& _dipydoc,
-                       bool* _selected_text_and_blocked_commentaries,
-                       bool* _visible_toolbars,
+                       bool & _selected_text_and_blocked_commentaries,
+                       bool & _visible_toolbars,
                        QWidget *_parent) : QFrame(_parent),
                                            dipydoc(_dipydoc),
                                            selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries),
@@ -108,8 +108,8 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->setStyleSheet(QString("#%1 {border: 0px; padding: 0px}").arg(object_name));
 
   this->editor = new SourceEditor(splitter_name,
-                                  &this->readingmode,
-                                  &this->readingmode_details,
+                                  this->readingmode,
+                                  this->readingmode_details,
                                   this->dipydoc,
                                   this->audio_player,
                                   this->audiocontrols_playAct,
@@ -391,7 +391,7 @@ void SourceZone::update_icons(void) {
   /*............................................................................
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
-  if (*(this->visible_toolbars) == false) {
+  if (this->visible_toolbars == false) {
     /*
       invisible toolbars :
     */
@@ -406,7 +406,7 @@ void SourceZone::update_icons(void) {
     */
 
     // toolbars are visible :
-    if (*(this->visible_toolbars) == true && this->toolbar->isVisible() == false) {
+    if (this->visible_toolbars == true && this->toolbar->isVisible() == false) {
       this->toolbar->show();
       /*
         TODO

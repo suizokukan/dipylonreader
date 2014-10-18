@@ -36,7 +36,7 @@
         Initialize (bool)_well_initialized .
 ______________________________________________________________________________*/
 SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
-                                                   bool* _visible_toolbars,
+                                                   bool & _visible_toolbars,
                                                    QWidget *_parent) : QSplitter(_parent),
                                                                        visible_toolbars(_visible_toolbars),
                                                                        _well_initialized(false),
@@ -91,12 +91,12 @@ SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
 
   this->source_zone = new SourceZone(splitter_name,
                                      this->dipydoc,
-                                     &this->selected_text_and_blocked_commentaries,
+                                     this->selected_text_and_blocked_commentaries,
                                      this->visible_toolbars,
                                      this);
   this->commentary_zone = new CommentaryZone(splitter_name,
                                              this->dipydoc,
-                                             &this->selected_text_and_blocked_commentaries,
+                                             this->selected_text_and_blocked_commentaries,
                                              this);
   this->addWidget(this->source_zone);
   this->addWidget(this->commentary_zone);

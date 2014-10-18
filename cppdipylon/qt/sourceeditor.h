@@ -56,15 +56,15 @@ class SourceEditor : public TextEditor {
     Q_OBJECT
 
  public:
-    explicit  SourceEditor(const QString & splitter_name,
-                           ReadingMode* _readingmode,
-                           ReadingModeDetails* _readingmode_details,
-                           const DipyDoc & _dipydoc,
-                           QMediaPlayer* _audio_player,
-                           QAction* audiocontrols_playAct,
-                           QAction* audiocontrols_stopAct,
-                           bool* _selected_text_and_blocked_commentaries,
-                           QWidget* _parent);
+    explicit  SourceEditor(const QString &      splitter_name,
+                           ReadingMode &        _readingmode,
+                           ReadingModeDetails & _readingmode_details,
+                           const DipyDoc &      _dipydoc,
+                           QMediaPlayer *       _audio_player,
+                           QAction *            _audiocontrols_playAct,
+                           QAction *            _audiocontrols_stopAct,
+                           bool &               _selected_text_and_blocked_commentaries,
+                           QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
     void      load_text(const DipyDocSourceText&);
@@ -82,15 +82,15 @@ class SourceEditor : public TextEditor {
     void      paintEvent(QPaintEvent* event);
 
  private:
-    ReadingMode* readingmode;
-    ReadingModeDetails* readingmode_details;
-    const DipyDoc & dipydoc;
-    QMediaPlayer* audio_player = nullptr;
+    ReadingMode &        readingmode;
+    ReadingModeDetails & readingmode_details;
+    const DipyDoc &      dipydoc;
+    QMediaPlayer*        audio_player = nullptr;
 
-    QAction* audiocontrols_playAct = nullptr;
-    QAction* audiocontrols_stopAct = nullptr;
+    QAction*             audiocontrols_playAct = nullptr;
+    QAction*             audiocontrols_stopAct = nullptr;
 
-    bool* selected_text_and_blocked_commentaries = nullptr;
+    bool &               selected_text_and_blocked_commentaries;
 
     PosInTextRanges modified_chars = PosInTextRanges();
     // random value :

@@ -429,7 +429,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
   SourceCommentarySplitter* source_commentary_splitter = new SourceCommentarySplitter(directoryName,
-                                                                                      &this->visible_toolbars,
+                                                                                      this->visible_toolbars,
                                                                                       this->tabs);
 
   if (source_commentary_splitter->well_initialized() == false ) {

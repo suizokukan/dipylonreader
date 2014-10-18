@@ -63,8 +63,8 @@ friend class MainWindow;
   void update_icons(void);
   const DipyDoc& dipydoc = DipyDoc();
 
-  bool* selected_text_and_blocked_commentaries = nullptr;
-  bool* visible_toolbars = nullptr;
+  bool & selected_text_and_blocked_commentaries;
+  bool & visible_toolbars;
 
   ReadingMode        readingmode;
   ReadingModeDetails readingmode_details;
@@ -85,9 +85,9 @@ friend class MainWindow;
 
  public:
   explicit SourceZone(const QString & splitter_name,
-                      const DipyDoc& _dipydoc,
-                      bool* _selected_text_and_blocked_commentaries,
-                      bool* _visible_toolbars,
+                      const DipyDoc & _dipydoc,
+                      bool          & _selected_text_and_blocked_commentaries,
+                      bool          & _visible_toolbars,
                       QWidget *_parent);
 };
 
