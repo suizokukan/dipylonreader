@@ -105,7 +105,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
             // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
             case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING: {
               *(this->readingmode_details) = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE;
-              this->audiocontrols_playAct->setIcon(*(icons.audio_pause));
+              this->audiocontrols_playAct->setIcon(*(preloaded_icons::icons.audio_pause));
               this->audio_player->pause();
               break;
             }
@@ -114,7 +114,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
             // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
             case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE: {
               *(this->readingmode_details) = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING;
-              this->audiocontrols_playAct->setIcon(*(icons.audio_play));
+              this->audiocontrols_playAct->setIcon(*(preloaded_icons::icons.audio_play));
               this->audio_player->play();
               break;
             }
@@ -133,7 +133,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         default: {
             *(this->readingmode) = READINGMODE::READINGMODE_LMODE;
             *(this->readingmode_details) = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING;
-            this->audiocontrols_playAct->setIcon(*(icons.audio_play));
+            this->audiocontrols_playAct->setIcon(*(preloaded_icons::icons.audio_play));
             this->audio_player->play();
             break;
         }

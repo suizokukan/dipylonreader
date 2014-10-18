@@ -29,12 +29,11 @@
 
 /*______________________________________________________________________________
 
-  Icons::Icons
+  Icons::load_icons()
 
-  Icons constructor : load the different icons.
 _______________________________________________________________________________*/
-Icons::Icons(void) {
-  DebugMsg() << "Icons::Icons";
+void Icons::load_icons(void) {
+  DebugMsg() << "Icons::load_icons : entry point";
 
   this->app = new QIcon(":/ressources/images/icons/application_icon.png");
   this->audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
@@ -55,6 +54,8 @@ Icons::Icons(void) {
   this->readingmode_rmode_on  = new QIcon(":ressources/images/icons/readingmode_rmode_on.png");
   this->textminus = new QIcon(":ressources/images/icons/textminus.png");
   this->textplus = new QIcon(":ressources/images/icons/textplus.png");
+
+  DebugMsg() << "Icons::load_icons : exit point";
 }
 
 /*______________________________________________________________________________

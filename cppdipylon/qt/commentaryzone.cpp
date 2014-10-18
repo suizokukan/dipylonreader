@@ -61,8 +61,8 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   /*
     (2) signals : signals between the editors and the toolbars :
   */
-  this->textminusAct = new QAction(*(icons.textminus), tr("$$$commentary/minus"), this);
-  this->textplusAct  = new QAction(*(icons.textplus), tr("$$$commentary/plus"), this);
+  this->textminusAct = new QAction(*(preloaded_icons::icons.textminus), tr("$$$commentary/minus"), this);
+  this->textplusAct  = new QAction(*(preloaded_icons::icons.textplus), tr("$$$commentary/plus"), this);
 
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);

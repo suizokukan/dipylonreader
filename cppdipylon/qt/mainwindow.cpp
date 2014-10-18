@@ -117,7 +117,7 @@ void MainWindow::createActions() {
   /*
     downloaddemoAct
   */
-  downloaddemoAct = new QAction( *(icons.downloaddemo),
+  downloaddemoAct = new QAction( *(preloaded_icons::icons.downloaddemo),
                                  tr("Download demo Dipydocs"),
                                  this);
   downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
@@ -136,7 +136,7 @@ void MainWindow::createActions() {
   /*
     hidetoolbarsAct
   */
-  this->hidetoolbarsAct = new QAction( *(icons.hide_toolbars_on),
+  this->hidetoolbarsAct = new QAction( *(preloaded_icons::icons.hide_toolbars_on),
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
@@ -146,7 +146,7 @@ void MainWindow::createActions() {
   /*
     internalmsgAct
   */
-  this->internalmsgAct = new QAction( *(icons.app),
+  this->internalmsgAct = new QAction( *(preloaded_icons::icons.app),
                                        tr("internal messages"),
                                        this);
   this->internalmsgAct->setStatusTip(tr("internal messages"));
@@ -156,7 +156,7 @@ void MainWindow::createActions() {
   /*
     openAct
   */
-  openAct = new QAction( *(icons.open),
+  openAct = new QAction( *(preloaded_icons::icons.open),
                          tr("Open"),
                          this);
   openAct->setShortcuts(QKeySequence::Open);
@@ -168,7 +168,7 @@ void MainWindow::createActions() {
     popup_mainmenuAct
   */
   #ifndef NO_MAIN_POPUPMENU
-  popup_mainmenuAct = new QAction( *(icons.popup_mainmenu),
+  popup_mainmenuAct = new QAction( *(preloaded_icons::icons.popup_mainmenu),
                          tr("Popup_Mainmenu$$$"),
                          this);
   popup_mainmenuAct->setStatusTip(tr("Popup_Main$$$"));
@@ -287,7 +287,7 @@ void MainWindow::fill_open_menu(void) {
     special case : no dipydoc could be found.
   */
   if (this->ui.available_menu_names.size() == 0) {
-    QAction* emptyAction = new QAction(*icons.app,
+    QAction* emptyAction = new QAction(*preloaded_icons::icons.app,
                                        "(No Dipydoc could be found)",
                                        this);
     this->openMenu->addAction(emptyAction);
@@ -305,7 +305,7 @@ void MainWindow::fill_open_menu(void) {
     number_of_items++;
 
     if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-      QAction* newAction = new QAction(*icons.app,
+      QAction* newAction = new QAction(*preloaded_icons::icons.app,
                                        item.first,
                                        this);
       /*
@@ -486,7 +486,7 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if (splitter == nullptr || \
       splitter->dipydoc.well_initialized() == false) {
-    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
+    this->hidetoolbarsAct->setIcon(*(preloaded_icons::icons.hide_toolbars_off));
     return;
   }
 
@@ -495,13 +495,13 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if (this->visible_toolbars == false) {
     // hidetoolbars button is "on" :
-    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
+    this->hidetoolbarsAct->setIcon(*(preloaded_icons::icons.hide_toolbars_off));
   } else {
     /*
        visible toolbars :
     */
     // hidetoolbars button is "off" :
-    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_on));
+    this->hidetoolbarsAct->setIcon(*(preloaded_icons::icons.hide_toolbars_on));
   }
 }
 

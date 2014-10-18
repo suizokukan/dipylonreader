@@ -36,7 +36,7 @@
 _______________________________________________________________________________*/
 struct Icons {
 
-  Icons(void);
+  void load_icons(void);
  ~Icons(void);
 
   QIcon*      app = nullptr;
@@ -61,6 +61,8 @@ struct Icons {
   QIcon*      textplus = nullptr;
 };
 
-static Icons icons;
+namespace preloaded_icons {
+  static Icons icons;
+}
 
 #endif

@@ -104,8 +104,13 @@ int UI::go(int argc, char **argv) {
   // application's look :
   app.setStyle(fixedparameters::application_style);
 
+  /*
+    (pre)loading the icons
+  */
+  preloaded_icons::icons.load_icons();
+
   // application's icon :
-  app.setWindowIcon(*icons.app);
+  app.setWindowIcon(*preloaded_icons::icons.app);
 
   /* i18n :
 
