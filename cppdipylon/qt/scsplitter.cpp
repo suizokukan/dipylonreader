@@ -19,28 +19,28 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcecommentarysplitter.cpp
+    ❏DipylonReader❏ : qt/scsplitter.cpp
 
-    see sourcecommentarysplitter.h for the documentation
+    see scsplitter.h for the documentation
 
 *******************************************************************************/
 
-#include "qt/mainwindow.h"
+#include "qt/scsplitter.h"
 
 /*______________________________________________________________________________
 
-        SourceCommentarySplitter::SourceCommentarySplitter()
+        SCSplitter::SCSplitter()
 
-        SourceCommentarySplitter constructor.
+        SCSplitter constructor.
 
         Initialize (bool)_well_initialized .
 ______________________________________________________________________________*/
-SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
-                                                   bool & _visible_toolbars,
-                                                   QWidget *_parent) : QSplitter(_parent),
-                                                                       visible_toolbars(_visible_toolbars),
-                                                                       _well_initialized(false),
-                                                                       blocked_commentaries(false) {
+SCSplitter::SCSplitter(const QString& directoryName,
+                       bool & _visible_toolbars,
+                       QWidget *_parent) : QSplitter(_parent),
+                                                     visible_toolbars(_visible_toolbars),
+                                                     _well_initialized(false),
+                                                     blocked_commentaries(false) {
   /*
     (1) loading the DipyDoc
   */
@@ -109,8 +109,8 @@ SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
 
 /*______________________________________________________________________________
 
-        SourceCommentarySplitter::well_initialized
+        SCSplitter::well_initialized
 ______________________________________________________________________________*/
-bool SourceCommentarySplitter::well_initialized(void) {
+bool SCSplitter::well_initialized(void) {
   return this->_well_initialized;
 }

@@ -252,7 +252,7 @@ class DipyDoc {
 friend class CommentaryEditor;
 friend class MainWindow;
 friend class SourceEditor;
-friend class SourceCommentarySplitter;
+friend class SCSplitter;
 friend class SourceZone;
 friend class UI;
 

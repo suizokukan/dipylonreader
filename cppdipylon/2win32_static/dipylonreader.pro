@@ -67,7 +67,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/posintextframeformat.h \
                     qt/presentationscreen.h \
                     qt/readingmodes.h \
-                    qt/sourcecommentarysplitter.h \
+                    qt/scsplitter.h \
                     qt/sourceeditor.h \ 
                     qt/sourcetoolbar.h \
                     qt/sourcezone.h \  
@@ -97,7 +97,7 @@ SOURCES         +=  ./main.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/presentationscreen.cpp \
-                    qt/sourcecommentarysplitter.cpp \
+                    qt/scsplitter.cpp \
                     qt/sourceeditor.cpp \
                     qt/sourcetoolbar.cpp \
                     qt/sourcezone.cpp \

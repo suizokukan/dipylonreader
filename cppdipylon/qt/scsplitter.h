@@ -19,17 +19,18 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcecommentarysplitter.h
+    ❏DipylonReader❏ : qt/scsplitter.h
 
-    * SourceCommentarySplitter class
+    * SCSplitter class
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_SOURCECOMMENTARYSPLITTER_H_
-#define CPPDIPYLON_QT_SOURCECOMMENTARYSPLITTER_H_
+#ifndef CPPDIPYLON_QT_SCSPLITTER_H_
+#define CPPDIPYLON_QT_SCSPLITTER_H_
 
 #include "debugmsg/debugmsg.h"
 
+#include <QApplication>
 #include <QMessageBox>
 #include <QSplitter>
 #include <QString>
@@ -40,11 +41,11 @@
 
 /*______________________________________________________________________________
 
-  SourceCommentarySplitter class
+  SCSplitter class
 
   Splitter bewteen a SourceZone object and a CommentaryZone object.
 ______________________________________________________________________________*/
-class SourceCommentarySplitter : public QSplitter {
+class SCSplitter : public QSplitter {
 friend class MainWindow;
 
     Q_OBJECT
@@ -61,9 +62,9 @@ friend class MainWindow;
 
  public:
   bool well_initialized(void);
-  explicit SourceCommentarySplitter(const QString& directoryName,
-                                    bool & _visible_toolbars,
-                                    QWidget *_parent);
+  explicit SCSplitter(const QString& directoryName,
+                      bool & _visible_toolbars,
+                      QWidget *_parent);
 };
 
 #endif

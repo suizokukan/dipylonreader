@@ -252,8 +252,8 @@ void MainWindow::createMainToolBars() {
 
   MainWindow::current_splitter
 ______________________________________________________________________________*/
-SourceCommentarySplitter* MainWindow::current_splitter(void) {
-  return qobject_cast<SourceCommentarySplitter*>(this->tabs->currentWidget());
+SCSplitter* MainWindow::current_splitter(void) {
+  return qobject_cast<SCSplitter*>(this->tabs->currentWidget());
 }
 
 /*______________________________________________________________________________
@@ -391,7 +391,7 @@ void MainWindow::init(void) {
   MainWindow::internalmsgAct__buttonPressed
 ______________________________________________________________________________*/
 void MainWindow::internalmsgAct__buttonPressed(void) {
-  SourceCommentarySplitter* splitter = this->current_splitter();
+  SCSplitter* splitter = this->current_splitter();
 
   QMessageBox msgBox;
 
@@ -428,9 +428,9 @@ ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
   DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
-  SourceCommentarySplitter* source_commentary_splitter = new SourceCommentarySplitter(directoryName,
-                                                                                      this->visible_toolbars,
-                                                                                      this->tabs);
+  SCSplitter* source_commentary_splitter = new SCSplitter(directoryName,
+                                                          this->visible_toolbars,
+                                                          this->tabs);
 
   if (source_commentary_splitter->well_initialized() == false ) {
     DebugMsg() << "MainWindow::loadDipyDoc : error";
@@ -479,7 +479,7 @@ ________________________________________________________________________________
 void MainWindow::update_icons(void) {
   DebugMsg() << "MainWindow::update_icons;";
 
-  SourceCommentarySplitter* splitter = this->current_splitter();
+  SCSplitter* splitter = this->current_splitter();
 
   /*............................................................................
     a special case : no Dipydoc.

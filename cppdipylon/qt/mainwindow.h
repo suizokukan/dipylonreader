@@ -40,7 +40,7 @@
 #include "debugmsg/debugmsg.h"
 #include "qt/downloaddemodipydocs.h"
 #include "qt/icons.h"
-#include "qt/sourcecommentarysplitter.h"
+#include "qt/scsplitter.h"
 #include "qt/ui.h"
 
 class CommentaryEditor;
@@ -76,22 +76,22 @@ friend class UI;
     void popup_mainmenuAct__buttonPressed(void);
 
  private:
-    UI& ui;
+    UI&         ui;
 
-    bool    visible_toolbars = fixedparameters::default__visible_toolbars;
+    bool        visible_toolbars = fixedparameters::default__visible_toolbars;
 
-    void    createActions(void);
-    void    createMenus(void);
-    void    createStatusBar(void);
-    void    createMainToolBars(void);
-    SourceCommentarySplitter* current_splitter(void);
-    void    download_dipydocs_demo(void);
-    void    fill_open_menu(void);
-    void    init(void);
-    void    loadDipyDoc(const QString&);
-    void    load_a_dipydoc_from_a_qaction(void);
-    void    readSettings(void);
-    void    update_icons(void);
+    void        createActions(void);
+    void        createMenus(void);
+    void        createStatusBar(void);
+    void        createMainToolBars(void);
+    SCSplitter* current_splitter(void);
+    void        download_dipydocs_demo(void);
+    void        fill_open_menu(void);
+    void        init(void);
+    void        loadDipyDoc(const QString&);
+    void        load_a_dipydoc_from_a_qaction(void);
+    void        readSettings(void);
+    void        update_icons(void);
 
     QTabWidget*       tabs = nullptr;
 
