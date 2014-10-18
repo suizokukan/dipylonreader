@@ -33,8 +33,8 @@
 
 ______________________________________________________________________________*/
 CommentaryEditor::CommentaryEditor(const QString & splitter_name,
-                                   DipyDoc & _dipydoc,
-                                   bool & _selected_text_and_blocked_commentaries,
+                                   const DipyDoc & _dipydoc,
+                                   bool* _selected_text_and_blocked_commentaries,
                                    QWidget *_parent) : TextEditor(_parent),
                                                        dipydoc(_dipydoc),
                                                   selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries) {
@@ -70,7 +70,7 @@ void CommentaryEditor::set_the_text_formats(void) {
   only if this->selected_text_and_blocked_commentaries is false.
 ______________________________________________________________________________*/
 void CommentaryEditor::update_content__translation_expected(const PosInTextRanges& posintext) {
-  if (this->selected_text_and_blocked_commentaries == false) {
+  if (*(this->selected_text_and_blocked_commentaries) == false) {
     PosInText x0 = posintext.min();
     PosInText x1 = posintext.max();
 

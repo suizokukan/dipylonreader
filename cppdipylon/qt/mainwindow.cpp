@@ -32,7 +32,9 @@
   MainWindow::constructor
 
 ______________________________________________________________________________*/
-MainWindow::MainWindow(UI& _ui, QWidget *_parent) : QMainWindow(_parent), ui(_ui) {
+MainWindow::MainWindow(UI& _ui,
+                       QWidget *_parent) : QMainWindow(_parent),
+                                           ui(_ui) {
   this->setObjectName("main_window");
 
 #ifdef NO_STATUS_BAR
@@ -115,7 +117,7 @@ void MainWindow::createActions() {
   /*
     downloaddemoAct
   */
-  downloaddemoAct = new QAction( *(this->ui.icon_downloaddemo),
+  downloaddemoAct = new QAction( *(icons.downloaddemo),
                                  tr("Download demo Dipydocs"),
                                  this);
   downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
@@ -134,7 +136,7 @@ void MainWindow::createActions() {
   /*
     hidetoolbarsAct
   */
-  this->hidetoolbarsAct = new QAction( *(this->ui.icon_hide_toolbars_on),
+  this->hidetoolbarsAct = new QAction( *(icons.hide_toolbars_on),
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
@@ -144,7 +146,7 @@ void MainWindow::createActions() {
   /*
     internalmsgAct
   */
-  this->internalmsgAct = new QAction( *(this->ui.icon_app),
+  this->internalmsgAct = new QAction( *(icons.app),
                                        tr("internal messages"),
                                        this);
   this->internalmsgAct->setStatusTip(tr("internal messages"));
@@ -154,7 +156,7 @@ void MainWindow::createActions() {
   /*
     openAct
   */
-  openAct = new QAction( *(this->ui.icon_open),
+  openAct = new QAction( *(icons.open),
                          tr("Open"),
                          this);
   openAct->setShortcuts(QKeySequence::Open);
@@ -166,7 +168,7 @@ void MainWindow::createActions() {
     popup_mainmenuAct
   */
   #ifndef NO_MAIN_POPUPMENU
-  popup_mainmenuAct = new QAction( *(this->ui.icon_popup_mainmenu),
+  popup_mainmenuAct = new QAction( *(icons.popup_mainmenu),
                          tr("Popup_Mainmenu$$$"),
                          this);
   popup_mainmenuAct->setStatusTip(tr("Popup_Main$$$"));
@@ -248,6 +250,14 @@ void MainWindow::createMainToolBars() {
 
 /*______________________________________________________________________________
 
+  MainWindow::current_splitter
+______________________________________________________________________________*/
+SourceCommentarySplitter* MainWindow::current_splitter(void) {
+  return qobject_cast<SourceCommentarySplitter*>(this->tabs->currentWidget());
+}
+
+/*______________________________________________________________________________
+
   MainWindow::download_dipydocs_demo
 
   This function removes old demo files, then download and install the new ones.
@@ -277,7 +287,7 @@ void MainWindow::fill_open_menu(void) {
     special case : no dipydoc could be found.
   */
   if (this->ui.available_menu_names.size() == 0) {
-    QAction* emptyAction = new QAction(*this->ui.icon_app,
+    QAction* emptyAction = new QAction(*icons.app,
                                        "(No Dipydoc could be found)",
                                        this);
     this->openMenu->addAction(emptyAction);
@@ -295,7 +305,7 @@ void MainWindow::fill_open_menu(void) {
     number_of_items++;
 
     if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-      QAction* newAction = new QAction(*this->ui.icon_app,
+      QAction* newAction = new QAction(*icons.app,
                                        item.first,
                                        this);
       /*
@@ -330,7 +340,7 @@ void MainWindow::fill_open_menu(void) {
   MainWindow::hidetoolbarsAct__buttonPressed
 ______________________________________________________________________________*/
 void MainWindow::hidetoolbarsAct__buttonPressed(void) {
-  this->ui.visible_toolbars = !this->ui.visible_toolbars;
+  this->visible_toolbars = !this->visible_toolbars;
   this->update_icons();
 }
 
@@ -348,7 +358,7 @@ void MainWindow::init(void) {
   this->createActions();
 
   this->tabs = new QTabWidget(this);
-  this->tabs.setTabsClosable(true);
+  this->tabs->setTabsClosable(true);
   this->setCentralWidget(this->tabs);
 
   this->createMenus();
@@ -381,14 +391,22 @@ void MainWindow::init(void) {
   MainWindow::internalmsgAct__buttonPressed
 ______________________________________________________________________________*/
 void MainWindow::internalmsgAct__buttonPressed(void) {
+  SourceCommentarySplitter* splitter = this->current_splitter();
+
   QMessageBox msgBox;
 
   msgBox.setText("Internal messages are used to debug the program. See details below.");
 
-  msgBox.setDetailedText("internal state = " + QString().setNum(this->ui.current_dipydoc.internal_state()) +
-                         this->ui.current_dipydoc.err_messages.join("\n\n") + \
-                         "\n\n\n*** internal debug message ***\n\n\n" + \
-                         DebugMsg::messages.join("\n"));
+  if (splitter == nullptr) {
+    msgBox.setDetailedText(QString("(no messages linked to a DipyDoc : this->current_splitter==nullptr)") + \
+                           QString("\n\n\n*** internal debug message ***\n\n\n") + \
+                           DebugMsg::messages.join("\n"));
+  } else {
+    msgBox.setDetailedText("internal state = " + QString().setNum(splitter->dipydoc.internal_state()) +
+                           splitter->dipydoc.err_messages.join("\n\n") + \
+                           "\n\n\n*** internal debug message ***\n\n\n" + \
+                           DebugMsg::messages.join("\n"));
+  }
   msgBox.exec();
 }
 
@@ -411,7 +429,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
   SourceCommentarySplitter* source_commentary_splitter = new SourceCommentarySplitter(directoryName,
-                                                                                      ui,
+                                                                                      &this->visible_toolbars,
                                                                                       this->tabs);
 
   if (source_commentary_splitter->well_initialized() == false ) {
@@ -420,7 +438,7 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   }
   else {
     DebugMsg() << "MainWindow::loadDipyDoc : ok";
-    this->tabs->addWidget(source_commentary_splitter);
+    this->tabs->addTab(source_commentary_splitter, "$$$ nom de l'onglet");
   }
 }
 
@@ -459,43 +477,31 @@ void MainWindow::readSettings() {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
-  DebugMsg() << "MainWindow::update_icons; ui.reading_mode=" << this->ui.reading_mode;
+  DebugMsg() << "MainWindow::update_icons;";
+
+  SourceCommentarySplitter* splitter = this->current_splitter();
 
   /*............................................................................
     a special case : no Dipydoc.
   ............................................................................*/
-  if (this->ui.at_least_one_dipydoc_has_been_loaded() == false) {
-    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_off));
-    this->ui.mainWin->source_toolbar->hide();
-    this->ui.mainWin->commentary_toolbar->hide();
+  if (splitter == nullptr || \
+      splitter->dipydoc.well_initialized() == false) {
+    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
     return;
   }
 
   /*............................................................................
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
-  if (this->ui.visible_toolbars == false) {
-    /*
-      invisible toolbars :
-    */
-    this->ui.mainWin->source_toolbar->hide();
-    this->ui.mainWin->commentary_toolbar->hide();
-
+  if (this->visible_toolbars == false) {
     // hidetoolbars button is "on" :
-    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_off));
+    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
   } else {
     /*
        visible toolbars :
     */
-
-    // toolbars are visible :
-    if (this->ui.visible_toolbars == true && this->ui.mainWin->source_toolbar->isVisible() == false) {
-      this->ui.mainWin->source_toolbar->show();
-      this->ui.mainWin->commentary_toolbar->show();
-    }
-
     // hidetoolbars button is "off" :
-    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_on));
+    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_on));
   }
 }
 

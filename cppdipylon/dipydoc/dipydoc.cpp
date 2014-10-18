@@ -1225,7 +1225,6 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
 
         (1) secondary initializations
             (1.1) initialization of "audiorecord.audio2text"
-            (1.2) "number_of_chars_before_source_text" is not initialized here
         (2) checks
             (2.1) is audiorecord.text2audio correctly initialized ?
             (2.2) is audiorecord.audio2text correctly initialized ?
@@ -1254,29 +1253,6 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
     // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
     this->audiorecord.audio2text.clear();
   }
-
-  /*............................................................................
-    (1.2) "number_of_chars_before_source_text" is not initialized here
-
-    The first attempt to compute "number_of_chars_before_source_text was doubtfull :
-
-      this->source_text.number_of_chars_before_source_text = 0;
-      if (this->title.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->title.text.length();
-      }
-      if (this->introduction.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
-      }
-      if (this->lettrine.found == true) {
-        this->source_text.number_of_chars_before_source_text += 1;
-      }
-
-    ... the main problem was that it's difficult to know how is the lettrine's
-    image coded into the text. The result was ok but I could not trust this
-    code : how will Qt work on different architectures ? So I decided to ask
-    SourceEditor::load_text() to initialize "number_of_chars_before_source_text"
-    by simply incrementing a cursor's position as the document is filled.
-  ............................................................................*/
 
   /*............................................................................
     (2) checks

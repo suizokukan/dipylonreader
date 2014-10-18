@@ -36,10 +36,11 @@
         Initialize (bool)_well_initialized .
 ______________________________________________________________________________*/
 SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
-                                                   UI& _ui,
+                                                   bool* _visible_toolbars,
                                                    QWidget *_parent) : QSplitter(_parent),
+                                                                       visible_toolbars(_visible_toolbars),
                                                                        _well_initialized(false),
-                                                                       ui(_ui) {
+                                                                       selected_text_and_blocked_commentaries(false) {
   /*
     (1) loading the DipyDoc
   */
@@ -75,6 +76,7 @@ SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
   #endif
 
   if (loading_ok == false) {
+    this->_well_initialized = false;
     return;
   }
 
@@ -83,26 +85,32 @@ SourceCommentarySplitter::SourceCommentarySplitter(const QString& directoryName,
   */
   QString splitter_name("mainwindow__splitter"+this->dipydoc.menu_name);
   this->setObjectName(splitter_name);
-  this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}".arg(splitter_name)));
+  this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}").arg(splitter_name));
   this->setOrientation(Qt::Vertical);
   this->setSizes(fixedparameters::default__editors_size_in_main_splitter);
 
-  this->source_zone = new SourceZone(this->dipydoc,
-                                     this->ui,
+  this->source_zone = new SourceZone(splitter_name,
+                                     this->dipydoc,
+                                     &this->selected_text_and_blocked_commentaries,
+                                     this->visible_toolbars,
                                      this);
-  this->commentary_zone = new CommentaryZone(this->dipydoc,
-                                             this->ui,
+  this->commentary_zone = new CommentaryZone(splitter_name,
+                                             this->dipydoc,
+                                             &this->selected_text_and_blocked_commentaries,
                                              this);
   this->addWidget(this->source_zone);
   this->addWidget(this->commentary_zone);
 
   /*
-    (3) setting this->ui.current_dipydoc
-  */
-  this->ui.current_dipydoc = this->dipydoc;
-
-  /*
-    (4) setting this->_well_initialized
+    (3) setting this->_well_initialized
   */
   this->_well_initialized = true;
+}
+
+/*______________________________________________________________________________
+
+        SourceCommentarySplitter::well_initialized
+______________________________________________________________________________*/
+bool SourceCommentarySplitter::well_initialized(void) {
+  return this->_well_initialized;
 }

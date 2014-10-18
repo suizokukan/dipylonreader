@@ -47,8 +47,8 @@ friend class MainWindow;
 
  public:
     explicit CommentaryEditor(const QString & splitter_name,
-                              DipyDoc & _dipydoc,
-                              bool & _selected_text_and_blocked_commentaries,
+                              const DipyDoc & _dipydoc,
+                              bool* _selected_text_and_blocked_commentaries,
                               QWidget * _parent);
 
     void set_the_appearance(void);
@@ -57,11 +57,11 @@ friend class MainWindow;
     void update_aspect_from_dipydoc_aspect_informations(void);
 
  private:
-    DipyDoc & dipydoc;
+    const DipyDoc & dipydoc;
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();
 
-    bool& selected_text_and_blocked_commentaries;
+    bool* selected_text_and_blocked_commentaries = nullptr;
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYEDITOR_H_

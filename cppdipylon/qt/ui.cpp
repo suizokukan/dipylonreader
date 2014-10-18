@@ -77,37 +77,7 @@ UI::~UI(void) {
   DebugMsg() << "... delete this->network_manager";
   delete this->network_manager;
 
-  // icons :
-  DebugMsg() << "... delete icons";
-  delete this->icon_audio_pause;
-  delete this->icon_audio_play;
-  delete this->icon_audio_play_unavailable;
-  delete this->icon_audio_stop;
-  delete this->icon_audio_stop_unavailable;
-  delete this->icon_downloaddemo;
-  delete this->icon_hide_toolbars_off;
-  delete this->icon_hide_toolbars_on;
-  delete this->icon_open;
-  delete this->icon_popup_mainmenu;
-  delete this->icon_readingmode_amode_off;
-  delete this->icon_readingmode_amode_on;
-  delete this->icon_readingmode_lmode_off;
-  delete this->icon_readingmode_lmode_on;
-  delete this->icon_readingmode_rmode_off;
-  delete this->icon_readingmode_rmode_on;
-  delete this->icon_save;
-  delete this->icon_textminus;
-  delete this->icon_textplus;
-
   DebugMsg() << "UI::~UI(#fin)";
-}
-
-/*______________________________________________________________________________
-
-  UI::at_least_one_dipydoc_has_been_loaded()
-______________________________________________________________________________*/
-bool UI::at_least_one_dipydoc_has_been_loaded(void) const {
-  return this->current_dipydoc.well_initialized();
 }
 
 /*______________________________________________________________________________
@@ -134,29 +104,8 @@ int UI::go(int argc, char **argv) {
   // application's look :
   app.setStyle(fixedparameters::application_style);
 
-  // creating the icons :
-  this->icon_app = new QIcon(":/ressources/images/icons/application_icon.png");
-  this->icon_audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
-  this->icon_audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
-  this->icon_audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
-  this->icon_audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
-  this->icon_audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->icon_downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
-  this->icon_hide_toolbars_off = new QIcon(":ressources/images/icons/hidetoolbars_off.png");
-  this->icon_hide_toolbars_on = new QIcon(":ressources/images/icons/hidetoolbars_on.png");
-  this->icon_open = new QIcon(":ressources/images/icons/open.png");
-  this->icon_popup_mainmenu = new QIcon(":ressources/images/icons/popup_mainmenu.png");
-  this->icon_readingmode_amode_off = new QIcon(":ressources/images/icons/readingmode_amode_off.png");
-  this->icon_readingmode_amode_on  = new QIcon(":ressources/images/icons/readingmode_amode_on.png");
-  this->icon_readingmode_lmode_off = new QIcon(":ressources/images/icons/readingmode_lmode_off.png");
-  this->icon_readingmode_lmode_on  = new QIcon(":ressources/images/icons/readingmode_lmode_on.png");
-  this->icon_readingmode_rmode_off = new QIcon(":ressources/images/icons/readingmode_rmode_off.png");
-  this->icon_readingmode_rmode_on  = new QIcon(":ressources/images/icons/readingmode_rmode_on.png");
-  this->icon_textminus = new QIcon(":ressources/images/icons/textminus.png");
-  this->icon_textplus = new QIcon(":ressources/images/icons/textplus.png");
-
   // application's icon :
-  app.setWindowIcon(*icon_app);
+  app.setWindowIcon(*icons.app);
 
   /* i18n :
 
@@ -359,7 +308,7 @@ void UI::read_settings(void) {
     /*
       visible toolbars ?
     */
-    this->visible_toolbars = settings.value("mainwindow/visible_toolbars") == true;
+    this->mainWin->visible_toolbars = settings.value("mainwindow/visible_toolbars") == true;
   }
 }
 
@@ -415,15 +364,18 @@ void UI::write_settings(void) {
   /*
     visible toolbars ?
   */
-  settings.setValue("mainwindow/visible_toolbars", this->visible_toolbars);
+  settings.setValue("mainwindow/visible_toolbars", this->mainWin->visible_toolbars);
 
   /*
     zoom value of the current text (if it has been loaded)
   */
-  if (this->current_dipydoc.well_initialized() == true) {
-    settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->current_dipydoc.qsettings_name),
+  /*
+    TODO
+  if (this->current_dipydoc->well_initialized() == true) {
+    settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->current_dipydoc->qsettings_name),
                       this->mainWin->source_editor->zoom_value);
-    settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->current_dipydoc.qsettings_name),
+    settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->current_dipydoc->qsettings_name),
                       this->mainWin->commentary_editor->zoom_value);
   }
+  */
 }

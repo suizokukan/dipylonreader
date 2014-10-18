@@ -157,13 +157,6 @@ inline void DipyDocLettrine::clear(void) {
 
 ______________________________________________________________________________*/
 struct DipyDocSourceText {
-  /*
-    Before the source text, the title and the introduction may be inserted.
-    In this attribute is stored the number of characters appearing before
-    the source text.
-  */
-  int         number_of_chars_before_source_text;
-
   QString     text;
   QString     description;
   QString     filename;    // with full path
@@ -173,7 +166,6 @@ struct DipyDocSourceText {
   void    clear(void);
 };
 inline void DipyDocSourceText::clear(void) {
-  this->number_of_chars_before_source_text = 0;
   this->text = "";
   this->description = "";
   this->filename = "";
@@ -261,6 +253,7 @@ friend class CommentaryEditor;
 friend class MainWindow;
 friend class SourceEditor;
 friend class SourceCommentarySplitter;
+friend class SourceZone;
 friend class UI;
 
  private:

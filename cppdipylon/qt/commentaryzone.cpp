@@ -32,19 +32,25 @@
   CommentaryZone::constructor
 ______________________________________________________________________________*/
 CommentaryZone::CommentaryZone(const QString & splitter_name,
-                               const DipyDoc _dipydoc,
-                               QWidget *_parent) : QFrame(_parent),
-                                                   dipydoc(_dipydoc) {
+                               const DipyDoc & _dipydoc,
+                               bool* _selected_text_and_blocked_commentaries,
+                               QWidget* _parent) : QFrame(_parent),
+                                                   dipydoc(_dipydoc),
+                                                   selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries) {
   DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
 
   QString object_name(splitter_name + "::commentary_zone");
   this->setObjectName(object_name);
 
   DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
-  this->editor = new CommentaryEditor(this);
+  this->editor = new CommentaryEditor(splitter_name,
+                                      this->dipydoc,
+                                      this->selected_text_and_blocked_commentaries,
+                                      this);
 
   DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
-  this->toolbar = new CommentaryToolBar(this);
+  this->toolbar = new CommentaryToolBar(splitter_name,
+                                        this);
 
   this->layout = new QHBoxLayout();
   this->layout->addWidget(this->editor);
@@ -55,6 +61,12 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   /*
     (2) signals : signals between the editors and the toolbars :
   */
+  this->textminusAct = new QAction(*(icons.textminus), tr("$$$commentary/minus"), this);
+  this->textplusAct  = new QAction(*(icons.textplus), tr("$$$commentary/plus"), this);
+
+  this->toolbar->addAction(this->textplusAct);
+  this->toolbar->addAction(this->textminusAct);
+
   QObject::connect(this->textminusAct, &QAction::triggered,
                    this->editor,       &CommentaryEditor::zoom_out);
   QObject::connect(this->textplusAct,  &QAction::triggered,

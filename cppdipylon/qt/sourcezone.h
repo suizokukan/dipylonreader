@@ -28,9 +28,11 @@
 #ifndef CPPDIPYLON_QT_SOURCEZONE_H_
 #define CPPDIPYLON_QT_SOURCEZONE_H_
 
+#include <QAction>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMediaPlayer>
+#include <QSettings>
 
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
@@ -39,14 +41,13 @@
 #include "qt/sourcetoolbar.h"
 
 class MainWindow;
-class UI;
 
 /*______________________________________________________________________________
 
   SourceZone class
 ______________________________________________________________________________*/
 class SourceZone : public QFrame {
-friend MainWindow;
+friend class MainWindow;
 
     Q_OBJECT
 
@@ -59,17 +60,23 @@ friend MainWindow;
     void readingmode_lAct__buttonpressed(void);
 
  private:
+  void update_icons(void);
   const DipyDoc& dipydoc = DipyDoc();
-  UI& ui;                                 // UI object linked to the editor
 
-  ReadingMode        reading_mode = READINGMODE_UNDEFINED;
-  ReadingModeDetails reading_mode_details = READINGMODEDETAIL_UNDEFINED;
+  bool* selected_text_and_blocked_commentaries = nullptr;
+  bool* visible_toolbars = nullptr;
+
+  ReadingMode        readingmode;
+  ReadingModeDetails readingmode_details;
 
   QAction* readingmode_aAct = nullptr;
   QAction* readingmode_rAct = nullptr;
   QAction* readingmode_lAct = nullptr;
   QAction* audiocontrols_playAct = nullptr;
   QAction* audiocontrols_stopAct = nullptr;
+
+  QAction* textminusAct = nullptr;
+  QAction* textplusAct = nullptr;
 
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
@@ -79,7 +86,8 @@ friend MainWindow;
  public:
   explicit SourceZone(const QString & splitter_name,
                       const DipyDoc& _dipydoc,
-                      UI& _ui,
+                      bool* _selected_text_and_blocked_commentaries,
+                      bool* _visible_toolbars,
                       QWidget *_parent);
 };
 

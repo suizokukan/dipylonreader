@@ -40,16 +40,5 @@ SourceToolBar::SourceToolBar(const QString & splitter_name,
 
   this->setOrientation(Qt::Vertical);
 
-  this->addAction(this->ui.mainWin->readingmode_rAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_lAct);
-  this->addAction(this->ui.mainWin->audiocontrols_playAct);
-  this->addAction(this->ui.mainWin->audiocontrols_stopAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->readingmode_aAct);
-  this->addSeparator();
-  this->addAction(this->ui.mainWin->source_textplusAct);
-  this->addAction(this->ui.mainWin->source_textminusAct);
-
   DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
 }

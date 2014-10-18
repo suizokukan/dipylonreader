@@ -38,6 +38,9 @@
 
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
+#include "qt/downloaddemodipydocs.h"
+#include "qt/icons.h"
+#include "qt/sourcecommentarysplitter.h"
 #include "qt/ui.h"
 
 class CommentaryEditor;
@@ -75,10 +78,13 @@ friend class UI;
  private:
     UI& ui;
 
+    bool    visible_toolbars = fixedparameters::default__visible_toolbars;
+
     void    createActions(void);
     void    createMenus(void);
     void    createStatusBar(void);
     void    createMainToolBars(void);
+    SourceCommentarySplitter* current_splitter(void);
     void    download_dipydocs_demo(void);
     void    fill_open_menu(void);
     void    init(void);

@@ -33,13 +33,61 @@
 ______________________________________________________________________________*/
 SourceZone::SourceZone(const QString & splitter_name,
                        const DipyDoc& _dipydoc,
-                       UI& _ui,
-                       QWidget *_parent) : QFrame(_parent), ui(_ui), dipydoc(_dipydoc) {
-
+                       bool* _selected_text_and_blocked_commentaries,
+                       bool* _visible_toolbars,
+                       QWidget *_parent) : QFrame(_parent),
+                                           dipydoc(_dipydoc),
+                                           selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries),
+                                           visible_toolbars(_visible_toolbars),
+                                           readingmode(READINGMODE::READINGMODE_UNDEFINED),
+                                           readingmode_details(READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED) {
   DebugMsg() << "SourceZone::SourceZone : entry point";
 
   QString object_name(splitter_name + "::source_zone");
   this->setObjectName(object_name);
+
+  /*
+    (0) actions
+   */
+  // audiocontrols_playAct
+  this->audiocontrols_playAct = new QAction( *(icons.audio_play),
+                                             tr("play"),
+                                             this);
+  this->audiocontrols_playAct->setStatusTip(tr("play..."));
+  QObject::connect(this->audiocontrols_playAct, &QAction::triggered,
+                   this,                        &SourceZone::audiocontrols_play);
+
+  // audiocontrols_stopAct
+  this->audiocontrols_stopAct = new QAction( *(icons.audio_stop),
+                                             tr("stop"),
+                                             this);
+  this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
+  QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
+                   this,                        &SourceZone::audiocontrols_stop);
+
+  // readingmode_aAct
+  this->readingmode_aAct = new QAction( *(icons.readingmode_amode_on),
+                                        tr("change the mode$$$rl"),
+                                        this);
+  this->readingmode_aAct->setStatusTip(tr("change the mode to 'analyse'"));
+  QObject::connect(this->readingmode_aAct, &QAction::triggered,
+                   this,                   &SourceZone::readingmode_aAct__buttonpressed);
+
+  // readingmode_lAct
+  this->readingmode_lAct = new QAction( *(icons.readingmode_lmode_on),
+                                        tr("change the mode$$$rl"),
+                                        this);
+  this->readingmode_lAct->setStatusTip(tr("change the mode to 'read & listen'"));
+  QObject::connect(this->readingmode_lAct, &QAction::triggered,
+                   this,                   &SourceZone::readingmode_lAct__buttonpressed);
+
+  // readingmode_rAct
+  this->readingmode_rAct = new QAction( *(icons.readingmode_rmode_on),
+                                        tr("change the mode$$$r"),
+                                        this);
+  this->readingmode_rAct->setStatusTip(tr("change the mode to 'read'"));
+  QObject::connect(this->readingmode_rAct, &QAction::triggered,
+                   this,                   &SourceZone::readingmode_rAct__buttonpressed);
 
   /*
     (1) audio player
@@ -57,12 +105,19 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (1) setting the object : UI
   */
-  QString object_name(splitter_name + "::source_zone")
-  this->setObjectName(object_name);
   this->setStyleSheet(QString("#%1 {border: 0px; padding: 0px}").arg(object_name));
 
-  this->editor = new SourceEditor(this->ui, this);
-  this->toolbar = new SourceToolBar(this->ui, this);
+  this->editor = new SourceEditor(splitter_name,
+                                  &this->readingmode,
+                                  &this->readingmode_details,
+                                  this->dipydoc,
+                                  this->audio_player,
+                                  this->audiocontrols_playAct,
+                                  this->audiocontrols_stopAct,
+                                  this->selected_text_and_blocked_commentaries,
+                                  this);
+  this->toolbar = new SourceToolBar(splitter_name,
+                                    this);
 
   this->layout = new QHBoxLayout();
   this->layout->addWidget(this->editor);
@@ -71,24 +126,36 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->setLayout(this->layout);
 
   /*
-    (2) actions and signals
+    (2) actions
   */
-  this->toolbar_textminusAct = new QAction(tr("$$$source/minus"), this);
-  QObject::connect(this->toolbar_textminusAct, &QAction::triggered,
-                   this->editor,               &SourceEditor::zoom_out);
+  this->textminusAct = new QAction(*(icons.textminus), tr("$$$source/minus"), this);
+  this->textplusAct  = new QAction(*(icons.textminus), tr("$$$source/plus"), this);
 
-  this->toolbar_textplusAct =  new QAction(tr("$$$source/plus"), this);
-  QObject::connect(this->toolbar_textplusAct,  &QAction::triggered,
-                   this->editor,               &SourceEditor::zoom_in);
+  this->toolbar->addAction(this->readingmode_rAct);
+  this->toolbar->addSeparator();
+  this->toolbar->addAction(this->readingmode_lAct);
+  this->toolbar->addAction(this->audiocontrols_playAct);
+  this->toolbar->addAction(this->audiocontrols_stopAct);
+  this->toolbar->addSeparator();
+  this->toolbar->addAction(this->readingmode_aAct);
+  this->toolbar->addSeparator();
+  this->toolbar->addAction(this->textplusAct);
+  this->toolbar->addAction(this->textminusAct);
 
-   QObject::connect(this->audio_player, &QMediaPlayer::positionChanged,
-                    this,               &SourceZone::audio_position_changed);
+  QObject::connect(this->textminusAct, &QAction::triggered,
+                   this->editor,       &SourceEditor::zoom_out);
+
+  QObject::connect(this->textplusAct,  &QAction::triggered,
+                   this->editor,       &SourceEditor::zoom_in);
+
+  QObject::connect(this->audio_player, &QMediaPlayer::positionChanged,
+                   this,               &SourceZone::audio_position_changed);
 
   /*
     (3) default reading mode
   */
-  this->reading_mode         = UI::READINGMODE::READINGMODE_RMODE;
-  this->reading_mode_details = UI::READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
+  this->readingmode         = READINGMODE::READINGMODE_RMODE;
+  this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
   DebugMsg() << "now in RMODE mode";
 
   /*
@@ -106,9 +173,12 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   setting_name = QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name);
   if (settings.contains(setting_name) == true) {
-    this->commentary_editor->set_zoom_value(settings.value(setting_name).toInt());
+    this->editor->set_zoom_value(settings.value(setting_name).toInt());
   } else {
+    /*
+      TODO
     this->commentary_editor->set_zoom_value(fixedparameters::default__zoom_value);
+    */
   }
 
   /*
@@ -118,7 +188,10 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->editor->update_aspect_from_dipydoc_aspect_informations();
 
   // update commentary editor aspect :
+  /*
+    TODO:
   this->commentary_editor->update_aspect_from_dipydoc_aspect_informations();
+  */
 
   /*
     (6) updating the icons
@@ -144,32 +217,32 @@ SourceZone::SourceZone(const QString & splitter_name,
   o [2] other modes
 ________________________________________________________________________________*/
 void SourceZone::audiocontrols_play(void) {
-  switch (this->reading_mode) {
+  switch (this->readingmode) {
     /*
       [1] lmode
     */
-    case UI::READINGMODE_LMODE: {
-      switch (this->reading_mode_details) {
+    case READINGMODE_LMODE: {
+      switch (this->readingmode_details) {
         // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
-        case UI::READINGMODEDETAIL_LMODE_PLAYING: {
-          this->reading_mode_details = UI::READINGMODEDETAIL_LMODE_ONPAUSE;
-          this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_pause));
+        case READINGMODEDETAIL_LMODE_PLAYING: {
+          this->readingmode_details = READINGMODEDETAIL_LMODE_ONPAUSE;
+          this->audiocontrols_playAct->setIcon(*(icons.audio_pause));
           this->audio_player->pause();
           break;
         }
 
         // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
-        case UI::READINGMODEDETAIL_LMODE_ONPAUSE: {
-          this->reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
+        case READINGMODEDETAIL_LMODE_ONPAUSE: {
+          this->readingmode_details = READINGMODEDETAIL_LMODE_PLAYING;
+          this->audiocontrols_playAct->setIcon(*(icons.audio_play));
           this->audio_player->play();
           break;
         }
 
         // [1.3] LMODE + STOP -> LMODE + PLAYING
-        case UI::READINGMODEDETAIL_LMODE_STOP: {
-          this->reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
+        case READINGMODEDETAIL_LMODE_STOP: {
+          this->readingmode_details = READINGMODEDETAIL_LMODE_PLAYING;
+          this->audiocontrols_playAct->setIcon(*(icons.audio_play));
           this->audio_player->play();
           break;
         }
@@ -207,12 +280,12 @@ void SourceZone::audiocontrols_stop(void) {
   DebugMsg() << "SourceZone::audiocontrols_stop";
 
   // LMODE + ON PAUSE ? we set the icon from "pause" to "play".
-  if (this->reading_mode == UI::READINGMODE_LMODE &&
-      this->reading_mode_details == UI::READINGMODEDETAIL_LMODE_ONPAUSE) {
-    this->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
+  if (this->readingmode == READINGMODE_LMODE &&
+      this->readingmode_details == READINGMODEDETAIL_LMODE_ONPAUSE) {
+    this->audiocontrols_playAct->setIcon(*(icons.audio_play));
   }
 
-  this->reading_mode_details = UI::READINGMODEDETAIL_LMODE_STOP;
+  this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
 
   audio_player->stop();
 
@@ -227,8 +300,8 @@ ________________________________________________________________________________
 void SourceZone::audio_position_changed(qint64 arg_pos) {
   /* LMODE + PLAYING :
    */
-  if (this->reading_mode == UI::READINGMODE_LMODE &&
-      this->reading_mode_details == UI::READINGMODEDETAIL_LMODE_PLAYING) {
+  if (this->readingmode == READINGMODE_LMODE &&
+      this->readingmode_details == READINGMODEDETAIL_LMODE_PLAYING) {
       // where are the characters linked to "arg_pos" ?
       PosInTextRanges text_ranges = this->dipydoc.audio2text_contains(arg_pos);
       std::size_t text_ranges_hash = text_ranges.get_hash();
@@ -240,118 +313,21 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
         // hash update :
         this->editor->modified_chars_hash = text_ranges_hash;
 
+        /*
+          TODO
         this->ui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
+        */
       }
 
       return;
   }
 
   /*
-    this->reading_mode == UI::READINGMODE_LMODE &&
-    this->reading_mode_details == UI::READINGMODEDETAIL_LMODE_ONPAUSE
+    this->readingmode == READINGMODE_LMODE &&
+    this->readingmode_details == READINGMODEDETAIL_LMODE_ONPAUSE
 
     -> nothing to do.
   */
-}
-
-
-/*______________________________________________________________________________
-
-  SourceZone::createActions
-______________________________________________________________________________*/
-void SourceZone::createActions() {
-
-  /*
-    audiocontrols_playAct
-  */
-  this->audiocontrols_playAct = new QAction( *(this->ui.icon_audio_play),
-                                             tr("play"),
-                                             this);
-  this->audiocontrols_playAct->setStatusTip(tr("play..."));
-  QObject::connect(this->audiocontrols_playAct, &QAction::triggered,
-                   this,                        &SourceZone::audiocontrols_play);
-
-  /*
-    audiocontrols_stopAct
-  */
-  this->audiocontrols_stopAct = new QAction( *(this->ui.icon_audio_stop),
-                                             tr("stop"),
-                                             this);
-  this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
-  QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
-                   this,                        &SourceZone::audiocontrols_stop);
-
-  /*
-    commentary_textminusAct
-  */
-  this->commentary_textminusAct = new QAction( *(this->ui.icon_textminus),
-                                               tr("--- TEXT $$$"),
-                                               this);
-  this->commentary_textminusAct->setStatusTip(tr("TEXT $$$ -"));
-
-  /*
-    commentary_textplusAct
-  */
-  this->commentary_textplusAct = new QAction( *(this->ui.icon_textplus),
-                                               tr("--- TEXT $$$"),
-                                               this);
-  this->commentary_textplusAct->setStatusTip(tr("TEXT $$$ -"));
-
-  /*
-    hidetoolbarsAct
-  */
-  this->hidetoolbarsAct = new QAction( *(this->ui.icon_hide_toolbars_on),
-                                       tr("hide toolbars"),
-                                       this);
-  this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
-  QObject::connect(hidetoolbarsAct, &QAction::triggered,
-                   this,            &SourceZone::hidetoolbarsAct__buttonPressed);
-
-  /*
-    readingmode_aAct
-  */
-  this->readingmode_aAct = new QAction( *(this->ui.icon_readingmode_amode_on),
-                                        tr("change the mode$$$rl"),
-                                        this);
-  this->readingmode_aAct->setStatusTip(tr("change the mode to 'analyse'"));
-  QObject::connect(this->readingmode_aAct, &QAction::triggered,
-                   this,                   &SourceZone::readingmode_aAct__buttonpressed);
-
-  /*
-    readingmode_lAct
-  */
-  this->readingmode_lAct = new QAction( *(this->ui.icon_readingmode_lmode_on),
-                                        tr("change the mode$$$rl"),
-                                        this);
-  this->readingmode_lAct->setStatusTip(tr("change the mode to 'read & listen'"));
-  QObject::connect(this->readingmode_lAct, &QAction::triggered,
-                   this,                   &SourceZone::readingmode_lAct__buttonpressed);
-
-  /*
-    readingmode_rAct
-  */
-  this->readingmode_rAct = new QAction( *(this->ui.icon_readingmode_rmode_on),
-                                        tr("change the mode$$$r"),
-                                        this);
-  this->readingmode_rAct->setStatusTip(tr("change the mode to 'read'"));
-  QObject::connect(this->readingmode_rAct, &QAction::triggered,
-                   this,                   &SourceZone::readingmode_rAct__buttonpressed);
-
-  /*
-    source_textminusAct
-  */
-  this->source_textminusAct = new QAction( *(this->ui.icon_textminus),
-                                           tr("--- TEXT $$$"),
-                                           this);
-  this->source_textminusAct->setStatusTip(tr("TEXT $$$ -"));
-
-  /*
-    source_textplusAct
-  */
-  this->source_textplusAct = new QAction( *(this->ui.icon_textplus),
-                                          tr("--- TEXT $$$"),
-                                          this);
-  this->source_textplusAct->setStatusTip(tr("TEXT $$$ -"));
 }
 
 /*______________________________________________________________________________
@@ -362,12 +338,12 @@ void SourceZone::createActions() {
 ______________________________________________________________________________*/
 void SourceZone::readingmode_aAct__buttonpressed(void) {
   // if necessary, the function cleans the "lmode" :
-  if (this->reading_mode == UI::READINGMODE_LMODE) {
+  if (this->readingmode == READINGMODE_LMODE) {
     this->audiocontrols_stop();
   }
 
-  this->reading_mode = UI::READINGMODE_AMODE;
-  this->reading_mode_details = UI::READINGMODEDETAIL_AMODE;
+  this->readingmode = READINGMODE_AMODE;
+  this->readingmode_details = READINGMODEDETAIL_AMODE;
   DebugMsg() << "switched to AMODE mode";
   this->update_icons();
 }
@@ -380,12 +356,12 @@ void SourceZone::readingmode_aAct__buttonpressed(void) {
 ______________________________________________________________________________*/
 void SourceZone::readingmode_rAct__buttonpressed(void) {
   // if necessary, the function cleans the "lmode" :
-  if (this->reading_mode == UI::READINGMODE_LMODE) {
+  if (this->readingmode == READINGMODE_LMODE) {
     this->audiocontrols_stop();
   }
 
-  this->reading_mode = UI::READINGMODE_RMODE;
-  this->reading_mode_details = UI::READINGMODEDETAIL_RMODE;
+  this->readingmode = READINGMODE_RMODE;
+  this->readingmode_details = READINGMODEDETAIL_RMODE;
   DebugMsg() << "switched to RMODE mode";
   this->update_icons();
 }
@@ -397,8 +373,8 @@ void SourceZone::readingmode_rAct__buttonpressed(void) {
   connected to readingmode_lAct::triggered()
 ______________________________________________________________________________*/
 void SourceZone::readingmode_lAct__buttonpressed(void) {
-  this->reading_mode = UI::READINGMODE_LMODE;
-  this->reading_mode_details = UI::READINGMODEDETAIL_LMODE_STOP;
+  this->readingmode = READINGMODE_LMODE;
+  this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
   DebugMsg() << "switched to LMODE mode";
   this->update_icons();
 }
@@ -410,61 +386,51 @@ void SourceZone::readingmode_lAct__buttonpressed(void) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void SourceZone::update_icons(void) {
-  DebugMsg() << "SourceZone::update_icons; ui.reading_mode=" << this->reading_mode;
-
-  /*............................................................................
-    a special case : no Dipydoc.
-  ............................................................................*/
-  if (this->dipydoc.well_initialized() == false) {
-    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_off));
-    this->toolbar->hide();
-    this->commentary_zone->commentary_toolbar->hide();
-    return;
-  }
+  DebugMsg() << "SourceZone::update_icons; readingmode=" << this->readingmode;
 
   /*............................................................................
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
-  if (this->ui.visible_toolbars == false) {
+  if (*(this->visible_toolbars) == false) {
     /*
       invisible toolbars :
     */
-    this->source_zone->toolbar->hide();
+    this->toolbar->hide();
+    /*
+      TODO
     this->commentary_zone->commentary_toolbar->hide();
-
-    // hidetoolbars button is "on" :
-    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_off));
+    */
   } else {
     /*
        visible toolbars :
     */
 
     // toolbars are visible :
-    if (this->ui.visible_toolbars == true && this->source_zone->toolbar->isVisible() == false) {
-      this->source_zone->toolbar->show();
+    if (*(this->visible_toolbars) == true && this->toolbar->isVisible() == false) {
+      this->toolbar->show();
+      /*
+        TODO
       this->commentary_zone->commentary_toolbar->show();
+      */
     }
-
-    // hidetoolbars button is "off" :
-    this->ui.mainWin->hidetoolbarsAct->setIcon(*(this->ui.icon_hide_toolbars_on));
 
     /*
       source zone.toolbar.readingmode_icons :
     */
-    switch (this->reading_mode) {
-      case UI::READINGMODE_AMODE: {
-        this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_on));
-        this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_off));
-        this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_off));
+    switch (this->readingmode) {
+      case READINGMODE_AMODE: {
+        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_on));
+        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
+        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
         this->audiocontrols_playAct->setVisible(false);
         this->audiocontrols_stopAct->setVisible(false);
         break;
       }
 
-      case UI::READINGMODE_LMODE: {
-        this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_off));
-        this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_off));
-        this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_on));
+      case READINGMODE_LMODE: {
+        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
+        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
+        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_on));
 
         // audio control icons :
         if ((this->dipydoc.well_initialized() == false) ||
@@ -480,10 +446,10 @@ void SourceZone::update_icons(void) {
         break;
       }
 
-      case UI::READINGMODE_RMODE: {
-        this->readingmode_aAct->setIcon(*(this->ui.icon_readingmode_amode_off));
-        this->readingmode_rAct->setIcon(*(this->ui.icon_readingmode_rmode_on));
-        this->readingmode_lAct->setIcon(*(this->ui.icon_readingmode_lmode_off));
+      case READINGMODE_RMODE: {
+        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
+        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_on));
+        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
         this->audiocontrols_playAct->setVisible(false);
         this->audiocontrols_stopAct->setVisible(false);
         break;

@@ -19,28 +19,48 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/sourcetoolbar.h
-
-    o SourceToolBar class
+    ❏DipylonReader❏ : qt/icons.h
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_SOURCETOOLBAR_H_
-#define CPPDIPYLON_QT_SOURCETOOLBAR_H_
+#ifndef CPPDIPYLON_QT_ICONS_H_
+#define CPPDIPYLON_QT_ICONS_H_
 
-#include <QToolBar>
+#include <QIcon>
 
 #include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
-  SourceToolBar class
-______________________________________________________________________________*/
-class SourceToolBar : public QToolBar {
-    Q_OBJECT
+  Icons class
+_______________________________________________________________________________*/
+struct Icons {
 
- public:
-  explicit SourceToolBar(const QString & _splitter_name,
-                         QWidget *_parent);
+  Icons(void);
+ ~Icons(void);
+
+  QIcon*      app = nullptr;
+  QIcon*      audio_pause = nullptr;
+  QIcon*      audio_play = nullptr;
+  QIcon*      audio_play_unavailable = nullptr;
+  QIcon*      audio_stop = nullptr;
+  QIcon*      audio_stop_unavailable = nullptr;
+  QIcon*      downloaddemo = nullptr;
+  QIcon*      hide_toolbars_off = nullptr;
+  QIcon*      hide_toolbars_on = nullptr;
+  QIcon*      open = nullptr;
+  QIcon*      popup_mainmenu = nullptr;
+  QIcon*      readingmode_amode_off = nullptr;
+  QIcon*      readingmode_amode_on  = nullptr;
+  QIcon*      readingmode_lmode_off = nullptr;
+  QIcon*      readingmode_lmode_on  = nullptr;
+  QIcon*      readingmode_rmode_off = nullptr;
+  QIcon*      readingmode_rmode_on  = nullptr;
+  QIcon*      save = nullptr;
+  QIcon*      textminus = nullptr;
+  QIcon*      textplus = nullptr;
 };
-#endif  // CPPDIPYLON_QT_SOURCETOOLBAR_H_
+
+static Icons icons;
+
+#endif

@@ -36,7 +36,8 @@
   TextEditor class
 ______________________________________________________________________________*/
 class TextEditor : public QTextEdit {
-friend class CommentaryEditor;
+friend class CommentaryZone;
+friend class SourceZone;
 friend class MainWindow;
 friend class SourceEditor;
 

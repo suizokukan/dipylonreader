@@ -32,13 +32,21 @@
   SourceEditor constructor
 ______________________________________________________________________________*/
 SourceEditor::SourceEditor(const QString & splitter_name,
-                           ReadingMode & _readingmode,
-                           ReadingModeDetails & _readingmodedetails,
-                           DipyDoc& _dipydoc,
-                           QWidget *_parent) : TextEditor(_parent),
+                           ReadingMode* _readingmode,
+                           ReadingModeDetails*  _readingmode_details,
+                           const DipyDoc & _dipydoc,
+                           QMediaPlayer* _audio_player,
+                           QAction* _audiocontrols_playAct,
+                           QAction* _audiocontrols_stopAct,
+                           bool* _selected_text_and_blocked_commentaries,
+                           QWidget* _parent) : TextEditor(_parent),
                                                readingmode(_readingmode),
-                                               readingmodedetails(_readingmodedetails),
-                                               dipydoc(_dipydoc) {
+                                               readingmode_details(_readingmode_details),
+                                               dipydoc(_dipydoc),
+                                               audio_player(_audio_player),
+                                               audiocontrols_playAct(_audiocontrols_playAct),
+                                               audiocontrols_stopAct(_audiocontrols_stopAct),
+                                               selected_text_and_blocked_commentaries(_selected_text_and_blocked_commentaries) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   QString object_name(splitter_name + "::source zone::editor");
@@ -62,7 +70,7 @@ SourceEditor::SourceEditor(const QString & splitter_name,
 ______________________________________________________________________________*/
 PosInText SourceEditor::corrected_cursor_position(void) const {
   return static_cast<PosInText>(this->textCursor().position()) - \
-         static_cast<PosInText>(this->dipydoc.source_text.number_of_chars_before_source_text);
+         static_cast<PosInText>(this->number_of_chars_before_source_text);
 }
 
 /*______________________________________________________________________________
@@ -90,24 +98,24 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     //......................................................................
     // [1] space
     case Qt::Key_Space : {
-      switch (this->ui.reading_mode) {
-        case UI::READINGMODE_LMODE: {
-          switch (this->ui.reading_mode_details) {
+      switch (*(this->readingmode)) {
+        case READINGMODE::READINGMODE_LMODE: {
+          switch (*(this->readingmode_details)) {
             //......................................................................
             // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
-            case UI::READINGMODEDETAIL_LMODE_PLAYING: {
-              this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_ONPAUSE;
-              this->ui.mainWin->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_pause));
-              this->ui.mainWin->audio_player->pause();
+            case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING: {
+              *(this->readingmode_details) = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE;
+              this->audiocontrols_playAct->setIcon(*(icons.audio_pause));
+              this->audio_player->pause();
               break;
             }
 
             //......................................................................
             // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
-            case UI::READINGMODEDETAIL_LMODE_ONPAUSE: {
-              this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
-              this->ui.mainWin->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
-              this->ui.mainWin->audio_player->play();
+            case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE: {
+              *(this->readingmode_details) = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING;
+              this->audiocontrols_playAct->setIcon(*(icons.audio_play));
+              this->audio_player->play();
               break;
             }
 
@@ -123,10 +131,10 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         //..........................................................................
         // [1.4] UNDEFINED reading mode -> LMODE + PLAYING
         default: {
-            this->ui.reading_mode = UI::READINGMODE_LMODE;
-            this->ui.reading_mode_details = UI::READINGMODEDETAIL_LMODE_PLAYING;
-            this->ui.mainWin->audiocontrols_playAct->setIcon(*(this->ui.icon_audio_play));
-            this->ui.mainWin->audio_player->play();
+            *(this->readingmode) = READINGMODE::READINGMODE_LMODE;
+            *(this->readingmode_details) = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING;
+            this->audiocontrols_playAct->setIcon(*(icons.audio_play));
+            this->audio_player->play();
             break;
         }
       }
@@ -138,14 +146,14 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     // [2] arrows
     case Qt::Key_Left :
     case Qt::Key_Right : {
-      switch (this->ui.reading_mode) {
-        case UI::READINGMODE_LMODE: {
-          switch (this->ui.reading_mode_details) {
-            case UI::READINGMODEDETAIL_LMODE_PLAYING: {
+      switch (*(this->readingmode)) {
+        case READINGMODE::READINGMODE_LMODE: {
+          switch (*(this->readingmode_details)) {
+            case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING: {
               break;
             }
-            case UI::READINGMODEDETAIL_LMODE_STOP :
-            case UI::READINGMODEDETAIL_LMODE_ONPAUSE : {
+            case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_STOP :
+            case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE : {
               break;
             }
             default : {
@@ -247,13 +255,11 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   }
 
   /*
-    text
-
-     about the followig initialization of "number_of_chars_before_source_text" :
-     see DipyDoc::init_from_xml() to see why this attribute has not been
-     initialized before.
+    Before the source text, the title and the introduction may be inserted.
+    This attribute stores the number of characters appearing before
+    the source text.
   */
-  this->dipydoc.source_text.number_of_chars_before_source_text = cur.position();
+  this->number_of_chars_before_source_text = cur.position();
 
   cur.setCharFormat(text_qtextcharformat);
   cur.insertText(source_text.text);
@@ -268,13 +274,13 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
 7_____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
 
-  switch (this->ui.reading_mode) {
+  switch (*(this->readingmode)) {
     /*
       rmode, lmode
     */
-    case UI::READINGMODE_RMODE :
-    case UI::READINGMODE_LMODE : {
-      int shift = this->dipydoc.source_text.number_of_chars_before_source_text;
+    case READINGMODE::READINGMODE_RMODE :
+    case READINGMODE::READINGMODE_LMODE : {
+      int shift = this->number_of_chars_before_source_text;
 
       QTextCursor cur = this->textCursor();
 
@@ -298,11 +304,11 @@ void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
         cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
 
         QTextEdit::ExtraSelection sel;
-        if (this->ui.reading_mode == UI::READINGMODE_RMODE) {
+        if (*(this->readingmode) == READINGMODE::READINGMODE_RMODE) {
           sel = { cur,
                   this->dipydoc.sourceeditor_rmode_textformat.qtextcharformat() };
         }
-        if (this->ui.reading_mode == UI::READINGMODE_LMODE) {
+        if (*(this->readingmode) == READINGMODE::READINGMODE_LMODE) {
           sel = { cur,
                   this->dipydoc.sourceeditor_lmode_textformat.qtextcharformat() };
         }
@@ -329,11 +335,11 @@ void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
-  if (this->ui.selected_text_and_blocked_commentaries == false) {
-    switch (this->ui.reading_mode_details) {
-      case UI::READINGMODEDETAIL_RMODE : {
+  if (*(this->selected_text_and_blocked_commentaries) == false) {
+    switch (*(this->readingmode_details)) {
+      case READINGMODEDETAILS::READINGMODEDETAIL_RMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
-        int shift = this->dipydoc.source_text.number_of_chars_before_source_text;
+        int shift = this->number_of_chars_before_source_text;
         PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
         // where are the characters linked to "cursor_position" ?
@@ -351,7 +357,10 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
           // hash update :
           this->modified_chars_hash = text_ranges_hash;
 
-          this->ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+          /*
+            TODO
+          this->commentary_editor->update_content__translation_expected(pos_in_text);
+          */
         }
 
         break;
@@ -379,10 +388,10 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   /*............................................................................
     (1) RMODE + selection
   ............................................................................*/
-  if (this->ui.reading_mode_details == UI::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
+  if (*(this->readingmode_details) == READINGMODEDETAILS::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
     DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
-    int shift = this->dipydoc.source_text.number_of_chars_before_source_text;
+    int shift = this->number_of_chars_before_source_text;
     PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
     PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - shift);
 
@@ -401,18 +410,24 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     // hash update :
     this->modified_chars_hash = text_ranges_hash;
 
-    this->ui.selected_text_and_blocked_commentaries = false;
-    this->ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
-    this->ui.selected_text_and_blocked_commentaries = true;
+    *(this->selected_text_and_blocked_commentaries) = false;
+    /*
+      TODO
+    this->commentary_editor->update_content__translation_expected(pos_in_text);
+    */
+    *(this->selected_text_and_blocked_commentaries) = true;
 
-    this->ui.mainWin->update_icons();
+    /*
+      TODO (la méthode appartient au parent)
+    this->update_icons();
+    */
 
     return;
   }
 
   // no selection ? we don't protect anymore the commentary zone :
   if (cur.hasSelection() == false) {
-    this->ui.selected_text_and_blocked_commentaries = false;
+    *(this->selected_text_and_blocked_commentaries) = false;
   }
 
   /*............................................................................
@@ -420,14 +435,14 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   ............................................................................*/
   PosInText cursor_position = this->corrected_cursor_position();
 
-  switch (this->ui.reading_mode) {
-    case UI::READINGMODE_LMODE: {
-      switch (this->ui.reading_mode_details) {
+  switch (*(this->readingmode)) {
+    case READINGMODE::READINGMODE_LMODE: {
+      switch (*(this->readingmode_details)) {
         //......................................................................
         // LMODE + ON PAUSE
         // LMODE + STOP
-        case UI::READINGMODEDETAIL_LMODE_ONPAUSE:
-        case UI::READINGMODEDETAIL_LMODE_STOP : {
+        case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE:
+        case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_STOP : {
           // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = this->dipydoc.text2audio_contains(cursor_position);
           PosInTextRanges pos_in_text = found_position.first;
@@ -444,19 +459,22 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
             // hash update :
             this->modified_chars_hash = text_ranges_hash;
 
-            this->ui.mainWin->commentary_editor->update_content__translation_expected(pos_in_text);
+            /*
+              TODO
+            this->commentary_editor->update_content__translation_expected(pos_in_text);
+            */
           }
           break;
         }
         //......................................................................
         // LMODE + PLAYING
-        case UI::READINGMODEDETAIL_LMODE_PLAYING : {
+        case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING : {
           // where are the characters linked to "cursor_position" ?
           PTRangesAND2PosAudio found_position = this->dipydoc.text2audio_contains(cursor_position);
           PairOfPosInAudio pos_in_audio = found_position.second;
 
           // we jump to the beginning of the audio gap (pos_in_audio.first, pos_in_audio.second) :
-          this->ui.mainWin->audio_player->setPosition(pos_in_audio.first);
+          this->audio_player->setPosition(pos_in_audio.first);
           break;
         }
         default : {

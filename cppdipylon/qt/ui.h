@@ -42,6 +42,7 @@
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "dipydoc/menunames.h"
+#include "qt/icons.h"
 #include "qt/mainwindow.h"
 #include "qt/presentationscreen.h"
 #include "qt/readingmodes.h"
@@ -89,31 +90,6 @@ class UI {
   bool        first_launch;
   // display splash screen when the program has been launched ?
   bool        display_splashscreen = fixedparameters::default__display_splashscreen;
-  bool        visible_toolbars = fixedparameters::default__visible_toolbars;
-
-  // current document displayed in the source zone :
-  DipyDoc &   current_dipydoc;
-
-  QIcon*      icon_app = nullptr;
-  QIcon*      icon_audio_pause = nullptr;
-  QIcon*      icon_audio_play = nullptr;
-  QIcon*      icon_audio_play_unavailable = nullptr;
-  QIcon*      icon_audio_stop = nullptr;
-  QIcon*      icon_audio_stop_unavailable = nullptr;
-  QIcon*      icon_downloaddemo = nullptr;
-  QIcon*      icon_hide_toolbars_off = nullptr;
-  QIcon*      icon_hide_toolbars_on = nullptr;
-  QIcon*      icon_open = nullptr;
-  QIcon*      icon_popup_mainmenu = nullptr;
-  QIcon*      icon_readingmode_amode_off = nullptr;
-  QIcon*      icon_readingmode_amode_on  = nullptr;
-  QIcon*      icon_readingmode_lmode_off = nullptr;
-  QIcon*      icon_readingmode_lmode_on  = nullptr;
-  QIcon*      icon_readingmode_rmode_off = nullptr;
-  QIcon*      icon_readingmode_rmode_on  = nullptr;
-  QIcon*      icon_save = nullptr;
-  QIcon*      icon_textminus = nullptr;
-  QIcon*      icon_textplus = nullptr;
 
   // path to the DipyDocs : the initial value is initialized by UI's constructor.
   QString     path_to_dipydocs;
@@ -122,9 +98,6 @@ class UI {
   MenuNames   available_menu_names;
 
   MainWindow* mainWin = nullptr;
-
-  // if set to true, protect the commentary zone from modifications :
-  bool        selected_text_and_blocked_commentaries = false;
 
   QSplashScreen* splashscreen = nullptr;
 

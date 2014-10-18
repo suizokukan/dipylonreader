@@ -29,12 +29,14 @@
 #define CPPDIPYLON_QT_SOURCECOMMENTARYSPLITTER_H_
 
 #include "debugmsg/debugmsg.h"
-#include "qt/ui.h"
 
-#include <QAction>
 #include <QMessageBox>
 #include <QSplitter>
 #include <QString>
+
+#include "dipydoc/dipydoc.h"
+#include "qt/commentaryzone.h"
+#include "qt/sourcezone.h"
 
 /*______________________________________________________________________________
 
@@ -43,18 +45,25 @@
   Splitter bewteen a SourceZone object and a CommentaryZone object.
 ______________________________________________________________________________*/
 class SourceCommentarySplitter : public QSplitter {
+friend class MainWindow;
 
     Q_OBJECT
 
  private:
-  bool _well_initialized = false;               // object state
-  UI& ui;                                       // UI object linked to the editor
-  DipyDoc& dipydoc = DipyDoc();                 // Dipydoc doc. displayed
+  bool* visible_toolbars = nullptr;
+  bool  _well_initialized = false;               // object state
+  bool  selected_text_and_blocked_commentaries = false;
+
+  DipyDoc dipydoc = DipyDoc();
+
   SourceZone* source_zone = nullptr;            // (ui) source zone
-  CommentaryZone commentary_zone = nullptr;     // (ui) commentary zone
+  CommentaryZone* commentary_zone = nullptr;    // (ui) commentary zone
 
  public:
-  explicit SourceCommentarySplitter(const QString& directoryName, UI& _ui, QWidget *_parent);
+  bool well_initialized(void);
+  explicit SourceCommentarySplitter(const QString& directoryName,
+                                    bool* _visible_toolbars,
+                                    QWidget *_parent);
 };
 
 #endif

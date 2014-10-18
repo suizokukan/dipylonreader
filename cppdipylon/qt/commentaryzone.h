@@ -28,6 +28,7 @@
 #ifndef CPPDIPYLON_QT_COMMENTARYZONE_H_
 #define CPPDIPYLON_QT_COMMENTARYZONE_H_
 
+#include <QAction>
 #include <QFrame>
 #include <QHBoxLayout>
 
@@ -35,6 +36,7 @@
 #include "dipydoc/dipydoc.h"
 #include "qt/commentaryeditor.h"
 #include "qt/commentarytoolbar.h"
+#include "qt/icons.h"
 
 class MainWindow;
 
@@ -43,20 +45,28 @@ class MainWindow;
   CommentaryZone class
 ______________________________________________________________________________*/
 class CommentaryZone : public QFrame {
-friend MainWindow;
+friend class MainWindow;
 
     Q_OBJECT
 
  private:
   // object's layout :
   QLayout* layout = nullptr;
+
   CommentaryEditor* editor = nullptr;
   CommentaryToolBar* toolbar = nullptr;
 
+  const DipyDoc & dipydoc;
+  bool* selected_text_and_blocked_commentaries;
+
+  QAction* textminusAct = nullptr;
+  QAction* textplusAct = nullptr;
+
  public:
   explicit CommentaryZone(const QString & splitter_name,
-                          const DipyDoc& _dipydoc,
-                          QWidget *_parent);
+                          const DipyDoc & _dipydoc,
+                          bool* _selected_text_and_blocked_commentaries,
+                          QWidget* _parent);
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYZONE_H_
