@@ -50,7 +50,7 @@ SourceZone::SourceZone(const QString & splitter_name,
     (0) actions
    */
   // audiocontrols_playAct
-  this->audiocontrols_playAct = new QAction( *(preloaded_icons::icons.audio_play),
+  this->audiocontrols_playAct = new QAction( *(icons.audio_play),
                                              tr("play"),
                                              this);
   this->audiocontrols_playAct->setStatusTip(tr("play..."));
@@ -58,7 +58,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                        &SourceZone::audiocontrols_play);
 
   // audiocontrols_stopAct
-  this->audiocontrols_stopAct = new QAction( *(preloaded_icons::icons.audio_stop),
+  this->audiocontrols_stopAct = new QAction( *(icons.audio_stop),
                                              tr("stop"),
                                              this);
   this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
@@ -66,7 +66,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                        &SourceZone::audiocontrols_stop);
 
   // readingmode_aAct
-  this->readingmode_aAct = new QAction( *(preloaded_icons::icons.readingmode_amode_on),
+  this->readingmode_aAct = new QAction( *(icons.readingmode_amode_on),
                                         tr("change the mode$$$rl"),
                                         this);
   this->readingmode_aAct->setStatusTip(tr("change the mode to 'analyse'"));
@@ -74,7 +74,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                   &SourceZone::readingmode_aAct__buttonpressed);
 
   // readingmode_lAct
-  this->readingmode_lAct = new QAction( *(preloaded_icons::icons.readingmode_lmode_on),
+  this->readingmode_lAct = new QAction( *(icons.readingmode_lmode_on),
                                         tr("change the mode$$$rl"),
                                         this);
   this->readingmode_lAct->setStatusTip(tr("change the mode to 'read & listen'"));
@@ -82,7 +82,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                   &SourceZone::readingmode_lAct__buttonpressed);
 
   // readingmode_rAct
-  this->readingmode_rAct = new QAction( *(preloaded_icons::icons.readingmode_rmode_on),
+  this->readingmode_rAct = new QAction( *(icons.readingmode_rmode_on),
                                         tr("change the mode$$$r"),
                                         this);
   this->readingmode_rAct->setStatusTip(tr("change the mode to 'read'"));
@@ -128,8 +128,8 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (2) actions
   */
-  this->textminusAct = new QAction(*(preloaded_icons::icons.textminus), tr("$$$source/minus"), this);
-  this->textplusAct  = new QAction(*(preloaded_icons::icons.textminus), tr("$$$source/plus"), this);
+  this->textminusAct = new QAction(*(icons.textminus), tr("$$$source/minus"), this);
+  this->textplusAct  = new QAction(*(icons.textminus), tr("$$$source/plus"), this);
 
   this->toolbar->addAction(this->readingmode_rAct);
   this->toolbar->addSeparator();
@@ -226,7 +226,7 @@ void SourceZone::audiocontrols_play(void) {
         // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
         case READINGMODEDETAIL_LMODE_PLAYING: {
           this->readingmode_details = READINGMODEDETAIL_LMODE_ONPAUSE;
-          this->audiocontrols_playAct->setIcon(*(preloaded_icons::icons.audio_pause));
+          this->audiocontrols_playAct->setIcon(*(icons.audio_pause));
           this->audio_player->pause();
           break;
         }
@@ -234,7 +234,7 @@ void SourceZone::audiocontrols_play(void) {
         // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
         case READINGMODEDETAIL_LMODE_ONPAUSE: {
           this->readingmode_details = READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon(*(preloaded_icons::icons.audio_play));
+          this->audiocontrols_playAct->setIcon(*(icons.audio_play));
           this->audio_player->play();
           break;
         }
@@ -242,7 +242,7 @@ void SourceZone::audiocontrols_play(void) {
         // [1.3] LMODE + STOP -> LMODE + PLAYING
         case READINGMODEDETAIL_LMODE_STOP: {
           this->readingmode_details = READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon(*(preloaded_icons::icons.audio_play));
+          this->audiocontrols_playAct->setIcon(*(icons.audio_play));
           this->audio_player->play();
           break;
         }
@@ -282,7 +282,7 @@ void SourceZone::audiocontrols_stop(void) {
   // LMODE + ON PAUSE ? we set the icon from "pause" to "play".
   if (this->readingmode == READINGMODE_LMODE &&
       this->readingmode_details == READINGMODEDETAIL_LMODE_ONPAUSE) {
-    this->audiocontrols_playAct->setIcon(*(preloaded_icons::icons.audio_play));
+    this->audiocontrols_playAct->setIcon(*(icons.audio_play));
   }
 
   this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
@@ -419,27 +419,27 @@ void SourceZone::update_icons(void) {
     */
     switch (this->readingmode) {
       case READINGMODE_AMODE: {
-        this->readingmode_aAct->setIcon(*(preloaded_icons::icons.readingmode_amode_on));
-        this->readingmode_rAct->setIcon(*(preloaded_icons::icons.readingmode_rmode_off));
-        this->readingmode_lAct->setIcon(*(preloaded_icons::icons.readingmode_lmode_off));
+        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_on));
+        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
+        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
         this->audiocontrols_playAct->setVisible(false);
         this->audiocontrols_stopAct->setVisible(false);
         break;
       }
 
       case READINGMODE_LMODE: {
-        this->readingmode_aAct->setIcon(*(preloaded_icons::icons.readingmode_amode_off));
-        this->readingmode_rAct->setIcon(*(preloaded_icons::icons.readingmode_rmode_off));
-        this->readingmode_lAct->setIcon(*(preloaded_icons::icons.readingmode_lmode_on));
+        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
+        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
+        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_on));
 
         // audio control icons :
         if ((this->dipydoc.well_initialized() == false) ||
             (this->dipydoc.audiorecord.found == false)) {
-          // special cases : a problem occurs, let's hide the audio preloaded_icons::icons.
+          // special cases : a problem occurs, let's hide the audio icons.
           this->audiocontrols_playAct->setVisible(false);
           this->audiocontrols_stopAct->setVisible(false);
         } else {
-          // normal case : let's show the audio preloaded_icons::icons.
+          // normal case : let's show the audio icons.
           this->audiocontrols_playAct->setVisible(true);
           this->audiocontrols_stopAct->setVisible(true);
         }
@@ -447,9 +447,9 @@ void SourceZone::update_icons(void) {
       }
 
       case READINGMODE_RMODE: {
-        this->readingmode_aAct->setIcon(*(preloaded_icons::icons.readingmode_amode_off));
-        this->readingmode_rAct->setIcon(*(preloaded_icons::icons.readingmode_rmode_on));
-        this->readingmode_lAct->setIcon(*(preloaded_icons::icons.readingmode_lmode_off));
+        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
+        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_on));
+        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
         this->audiocontrols_playAct->setVisible(false);
         this->audiocontrols_stopAct->setVisible(false);
         break;

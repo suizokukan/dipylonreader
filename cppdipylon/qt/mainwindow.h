@@ -43,6 +43,8 @@
 #include "qt/scsplitter.h"
 #include "qt/ui.h"
 
+extern Icons icons;
+
 class CommentaryEditor;
 class QAction;
 class QMenu;

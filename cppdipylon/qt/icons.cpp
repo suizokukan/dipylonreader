@@ -35,25 +35,25 @@ _______________________________________________________________________________*
 void Icons::load_icons(void) {
   DebugMsg() << "Icons::load_icons : entry point";
 
-  this->app = new QIcon(":/ressources/images/icons/application_icon.png");
-  this->audio_pause = new QIcon(":ressources/images/icons/audio_pause.png");
-  this->audio_play  = new QIcon(":ressources/images/icons/audio_play.png");
+  this->app                     = new QIcon(":/ressources/images/icons/application_icon.png");
+  this->audio_pause             = new QIcon(":ressources/images/icons/audio_pause.png");
+  this->audio_play              = new QIcon(":ressources/images/icons/audio_play.png");
   this->audio_play_unavailable  = new QIcon(":ressources/images/icons/audio_play_unavailable.png");
-  this->audio_stop = new QIcon(":ressources/images/icons/audio_stop.png");
+  this->audio_stop              = new QIcon(":ressources/images/icons/audio_stop.png");
   this->audio_stop_unavailable  = new QIcon(":ressources/images/icons/audio_stop_unavailable.png");
-  this->downloaddemo = new QIcon(":ressources/images/icons/downloaddemo.png");
-  this->hide_toolbars_off = new QIcon(":ressources/images/icons/hidetoolbars_off.png");
-  this->hide_toolbars_on = new QIcon(":ressources/images/icons/hidetoolbars_on.png");
-  this->open = new QIcon(":ressources/images/icons/open.png");
-  this->popup_mainmenu = new QIcon(":ressources/images/icons/popup_mainmenu.png");
-  this->readingmode_amode_off = new QIcon(":ressources/images/icons/readingmode_amode_off.png");
-  this->readingmode_amode_on  = new QIcon(":ressources/images/icons/readingmode_amode_on.png");
-  this->readingmode_lmode_off = new QIcon(":ressources/images/icons/readingmode_lmode_off.png");
-  this->readingmode_lmode_on  = new QIcon(":ressources/images/icons/readingmode_lmode_on.png");
-  this->readingmode_rmode_off = new QIcon(":ressources/images/icons/readingmode_rmode_off.png");
-  this->readingmode_rmode_on  = new QIcon(":ressources/images/icons/readingmode_rmode_on.png");
-  this->textminus = new QIcon(":ressources/images/icons/textminus.png");
-  this->textplus = new QIcon(":ressources/images/icons/textplus.png");
+  this->downloaddemo            = new QIcon(":ressources/images/icons/downloaddemo.png");
+  this->hide_toolbars_off       = new QIcon(":ressources/images/icons/hidetoolbars_off.png");
+  this->hide_toolbars_on        = new QIcon(":ressources/images/icons/hidetoolbars_on.png");
+  this->open                    = new QIcon(":ressources/images/icons/open.png");
+  this->popup_mainmenu          = new QIcon(":ressources/images/icons/popup_mainmenu.png");
+  this->readingmode_amode_off   = new QIcon(":ressources/images/icons/readingmode_amode_off.png");
+  this->readingmode_amode_on    = new QIcon(":ressources/images/icons/readingmode_amode_on.png");
+  this->readingmode_lmode_off   = new QIcon(":ressources/images/icons/readingmode_lmode_off.png");
+  this->readingmode_lmode_on    = new QIcon(":ressources/images/icons/readingmode_lmode_on.png");
+  this->readingmode_rmode_off   = new QIcon(":ressources/images/icons/readingmode_rmode_off.png");
+  this->readingmode_rmode_on    = new QIcon(":ressources/images/icons/readingmode_rmode_on.png");
+  this->textminus               = new QIcon(":ressources/images/icons/textminus.png");
+  this->textplus                = new QIcon(":ressources/images/icons/textplus.png");
 
   DebugMsg() << "Icons::load_icons : exit point";
 }

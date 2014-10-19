@@ -45,6 +45,8 @@
 #include "qt/texteditor.h"
 #include "qt/textformat.h"
 
+extern Icons icons;
+
 /*______________________________________________________________________________
 
   SourceEditor class

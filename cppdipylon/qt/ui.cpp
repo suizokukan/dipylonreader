@@ -27,6 +27,8 @@
 
 #include "qt/ui.h"
 
+Icons icons;
+
 /*______________________________________________________________________________
 
   UI constructor : the real initialization is the go() method.
@@ -107,10 +109,10 @@ int UI::go(int argc, char **argv) {
   /*
     (pre)loading the icons
   */
-  preloaded_icons::icons.load_icons();
+  icons.load_icons();
 
   // application's icon :
-  app.setWindowIcon(*preloaded_icons::icons.app);
+  app.setWindowIcon(*icons.app);
 
   /* i18n :
 

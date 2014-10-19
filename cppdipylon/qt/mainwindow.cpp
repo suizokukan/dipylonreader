@@ -105,76 +105,81 @@ void MainWindow::closing(void) {
 
   MainWindow::createActions
 ______________________________________________________________________________*/
-void MainWindow::createActions() {
+void MainWindow::createActions(void) {
+
+  DebugMsg() << "MainWindow::createActions : entry point";
+
   /*
     aboutAct
   */
-  aboutAct = new QAction(tr("&About"), this);
-  aboutAct->setStatusTip(tr("Show the application's About box"));
-  QObject::connect(aboutAct, &QAction::triggered,
-                   this,     &MainWindow::about);
+  this->aboutAct = new QAction(tr("&About"), this);
+  this->aboutAct->setStatusTip(tr("Show the application's About box"));
+  QObject::connect(this->aboutAct, &QAction::triggered,
+                   this,           &MainWindow::about);
 
   /*
     downloaddemoAct
   */
-  downloaddemoAct = new QAction( *(preloaded_icons::icons.downloaddemo),
-                                 tr("Download demo Dipydocs"),
+  this->downloaddemoAct = new QAction( *(icons.downloaddemo),
+                                       tr("Download demo Dipydocs"),
                                  this);
-  downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
-  QObject::connect(downloaddemoAct, &QAction::triggered,
-                   this,            &MainWindow::download_dipydocs_demo);
+  this->downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
+  QObject::connect(this->downloaddemoAct, &QAction::triggered,
+                   this,                  &MainWindow::download_dipydocs_demo);
 
   /*
     exitAct
   */
-  exitAct = new QAction(tr("E&xit"), this);
-  exitAct->setShortcuts(QKeySequence::Quit);
-  exitAct->setStatusTip(tr("Exit the application"));
-  QObject::connect(exitAct, &QAction::triggered,
-                   this,    &MainWindow::close);
+  this->exitAct = new QAction(tr("E&xit"), this);
+  this->exitAct->setShortcuts(QKeySequence::Quit);
+  this->exitAct->setStatusTip(tr("Exit the application"));
+  QObject::connect(this->exitAct, &QAction::triggered,
+                   this,          &MainWindow::close);
 
   /*
     hidetoolbarsAct
   */
-  this->hidetoolbarsAct = new QAction( *(preloaded_icons::icons.hide_toolbars_on),
+  this->hidetoolbarsAct = new QAction( *(icons.hide_toolbars_on),
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
-  QObject::connect(hidetoolbarsAct, &QAction::triggered,
-                   this,            &MainWindow::hidetoolbarsAct__buttonPressed);
+  QObject::connect(this->hidetoolbarsAct, &QAction::triggered,
+                   this,                  &MainWindow::hidetoolbarsAct__buttonPressed);
 
   /*
     internalmsgAct
   */
-  this->internalmsgAct = new QAction( *(preloaded_icons::icons.app),
+  this->internalmsgAct = new QAction( *(icons.app),
                                        tr("internal messages"),
                                        this);
   this->internalmsgAct->setStatusTip(tr("internal messages"));
-  QObject::connect(internalmsgAct, &QAction::triggered,
-                   this,           &MainWindow::internalmsgAct__buttonPressed);
+  QObject::connect(this->internalmsgAct, &QAction::triggered,
+                   this,                 &MainWindow::internalmsgAct__buttonPressed);
 
   /*
     openAct
   */
-  openAct = new QAction( *(preloaded_icons::icons.open),
-                         tr("Open"),
-                         this);
+  this->openAct = new QAction( *(icons.open),
+                               tr("Open"),
+                               this);
   openAct->setShortcuts(QKeySequence::Open);
   openAct->setStatusTip(tr("Open an existing DipyDoc"));
-  QObject::connect(openAct, &QAction::triggered,
-                   this,    &MainWindow::open);
+  QObject::connect(this->openAct, &QAction::triggered,
+                   this,          &MainWindow::open);
 
   /*
     popup_mainmenuAct
   */
   #ifndef NO_MAIN_POPUPMENU
-  popup_mainmenuAct = new QAction( *(preloaded_icons::icons.popup_mainmenu),
-                         tr("Popup_Mainmenu$$$"),
-                         this);
+  this->popup_mainmenuAct = new QAction( *(icons.popup_mainmenu),
+                                         tr("Popup_Mainmenu$$$"),
+                                         this);
   popup_mainmenuAct->setStatusTip(tr("Popup_Main$$$"));
   QObject::connect(this->popup_mainmenuAct, &QAction::triggered,
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
   #endif
+
+  DebugMsg() << "MainWindow::createActions : exit point";
 }
 
 /*______________________________________________________________________________
@@ -184,7 +189,9 @@ void MainWindow::createActions() {
   o  main menu
   o  main popup menu
 ______________________________________________________________________________*/
-void MainWindow::createMenus() {
+void MainWindow::createMenus(void) {
+  DebugMsg() << "MainWindow::createMenus : entry point";
+
   /*
     main menu :
   */
@@ -220,13 +227,15 @@ void MainWindow::createMenus() {
   this->mainpopupmenu->addAction(exitAct);
   this->mainpopupmenu->addAction(aboutAct);
   #endif
+
+  DebugMsg() << "MainWindow::createMenus : exit point";
 }
 
 /*______________________________________________________________________________
 
   MainWindow::createStatusBar
 ______________________________________________________________________________*/
-void MainWindow::createStatusBar() {
+void MainWindow::createStatusBar(void) {
 #ifndef NO_STATUS_BAR
   statusBar()->showMessage(tr("Ready"));
 #endif
@@ -236,16 +245,20 @@ void MainWindow::createStatusBar() {
 
   MainWindow::createMainToolBars
 ______________________________________________________________________________*/
-void MainWindow::createMainToolBars() {
-    this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
+void MainWindow::createMainToolBars(void) {
+  DebugMsg() << "MainWindow::createMainToolBars : entry point";
 
-    this->mainwintoolbar->setObjectName("main_window__main_toolbar");
+  this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
 
-    #ifndef NO_MAIN_POPUPMENU
-    this->mainwintoolbar->addAction(this->popup_mainmenuAct);
-    #endif
-    this->mainwintoolbar->addAction(this->openAct);
-    this->mainwintoolbar->addAction(this->hidetoolbarsAct);
+  this->mainwintoolbar->setObjectName("main_window__main_toolbar");
+
+  #ifndef NO_MAIN_POPUPMENU
+  this->mainwintoolbar->addAction(this->popup_mainmenuAct);
+  #endif
+  this->mainwintoolbar->addAction(this->openAct);
+  this->mainwintoolbar->addAction(this->hidetoolbarsAct);
+
+  DebugMsg() << "MainWindow::createMainToolBars : exit point";
 }
 
 /*______________________________________________________________________________
@@ -278,6 +291,8 @@ void MainWindow::download_dipydocs_demo(void) {
   Fill the Open menu with the available dipydocs.
 ______________________________________________________________________________*/
 void MainWindow::fill_open_menu(void) {
+  DebugMsg() << "MainWindow::fill_open_menu : entry point";
+
   /*
     let's clear the menu content :
   */
@@ -287,7 +302,7 @@ void MainWindow::fill_open_menu(void) {
     special case : no dipydoc could be found.
   */
   if (this->ui.available_menu_names.size() == 0) {
-    QAction* emptyAction = new QAction(*preloaded_icons::icons.app,
+    QAction* emptyAction = new QAction(*icons.app,
                                        "(No Dipydoc could be found)",
                                        this);
     this->openMenu->addAction(emptyAction);
@@ -305,7 +320,7 @@ void MainWindow::fill_open_menu(void) {
     number_of_items++;
 
     if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-      QAction* newAction = new QAction(*preloaded_icons::icons.app,
+      QAction* newAction = new QAction(*icons.app,
                                        item.first,
                                        this);
       /*
@@ -333,6 +348,8 @@ void MainWindow::fill_open_menu(void) {
     openMenu->addSeparator()->setText(tr("choose other files :"));
     openMenu->addAction(openAct);
   }
+
+  DebugMsg() << "MainWindow::fill_open_menu : exit point";
 }
 
 /*______________________________________________________________________________
@@ -486,7 +503,7 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if (splitter == nullptr || \
       splitter->dipydoc.well_initialized() == false) {
-    this->hidetoolbarsAct->setIcon(*(preloaded_icons::icons.hide_toolbars_off));
+    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
     return;
   }
 
@@ -495,13 +512,13 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if (this->visible_toolbars == false) {
     // hidetoolbars button is "on" :
-    this->hidetoolbarsAct->setIcon(*(preloaded_icons::icons.hide_toolbars_off));
+    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
   } else {
     /*
        visible toolbars :
     */
     // hidetoolbars button is "off" :
-    this->hidetoolbarsAct->setIcon(*(preloaded_icons::icons.hide_toolbars_on));
+    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_on));
   }
 }
 

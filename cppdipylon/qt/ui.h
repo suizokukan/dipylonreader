@@ -47,6 +47,8 @@
 #include "qt/presentationscreen.h"
 #include "qt/readingmodes.h"
 
+extern Icons icons;
+
 class MainWindow;
 
 /*______________________________________________________________________________

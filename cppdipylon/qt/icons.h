@@ -61,8 +61,4 @@ struct Icons {
   QIcon*      textplus = nullptr;
 };
 
-namespace preloaded_icons {
-  static Icons icons;
-}
-
 #endif
