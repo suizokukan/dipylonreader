@@ -998,6 +998,8 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
   |
   \____> main_splitter : QSplitter object
          |
+         |
+
          \____> source_zone : SourceZone object
                 |
                 \___source_editor : SourceEditor object

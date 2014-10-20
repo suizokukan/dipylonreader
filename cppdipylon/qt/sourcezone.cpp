@@ -119,6 +119,10 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar = new SourceToolBar(splitter_name,
                                     this);
 
+  // (confer doc.) connection #C005
+  QObject::connect(this->editor, &SourceEditor::signal__source_zone_update_icons,
+                   this,         &SourceZone::update_icons);
+
   this->layout = new QHBoxLayout();
   this->layout->addWidget(this->editor);
   this->layout->addWidget(this->toolbar);
@@ -175,10 +179,8 @@ SourceZone::SourceZone(const QString & splitter_name,
   if (settings.contains(setting_name) == true) {
     this->editor->set_zoom_value(settings.value(setting_name).toInt());
   } else {
-    /*
-      TODO
-    this->commentary_editor->set_zoom_value(fixedparameters::default__zoom_value);
-    */
+    // (confer doc.) signal #S002 :
+    emit this->signal__set_zoom_value_in_commentary_editor(fixedparameters::default__zoom_value);
   }
 
   /*
@@ -188,10 +190,8 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->editor->update_aspect_from_dipydoc_aspect_informations();
 
   // update commentary editor aspect :
-  /*
-    TODO:
-  this->commentary_editor->update_aspect_from_dipydoc_aspect_informations();
-  */
+  // (confer doc.) signal S001 :
+  emit this->signal__in_commentary_editor_update_from_dipydoc_info();
 
   /*
     (6) updating the icons
@@ -313,10 +313,8 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
         // hash update :
         this->editor->modified_chars_hash = text_ranges_hash;
 
-        /*
-          TODO
-        this->ui.mainWin->commentary_editor->update_content__translation_expected(text_ranges);
-        */
+        // (confer doc.) signal #S008 :
+        emit this->signal__update_commentary_zone_content(text_ranges);
       }
 
       return;
@@ -396,10 +394,8 @@ void SourceZone::update_icons(void) {
       invisible toolbars :
     */
     this->toolbar->hide();
-    /*
-      TODO
-    this->commentary_zone->commentary_toolbar->hide();
-    */
+    // (confer doc.) signal #S003 :
+    emit this->signal__hide_toolbar_in_the_commentary_zone();
   } else {
     /*
        visible toolbars :
@@ -408,10 +404,8 @@ void SourceZone::update_icons(void) {
     // toolbars are visible :
     if (this->visible_toolbars == true && this->toolbar->isVisible() == false) {
       this->toolbar->show();
-      /*
-        TODO
-      this->commentary_zone->commentary_toolbar->show();
-      */
+      // (confer doc.) signal #S004 :
+      emit this->signal__show_toolbar_in_the_commentary_zone();
     }
 
     /*

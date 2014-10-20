@@ -69,13 +69,16 @@ class SourceEditor : public TextEditor {
                            QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
-    void      load_text(const DipyDocSourceText&);
-    void      modify_the_text_format(const PosInTextRanges&);
+    void      load_text(const DipyDocSourceText & sourcetext);
+    void      modify_the_text_format(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);
     void      update_aspect_from_dipydoc_aspect_informations(void);
     void      update_icons(void);
 
+ signals:
+    void      signal__source_zone_update_icons(void);
+    void      signal__update_commentary_zone_content(const PosInTextRanges & posintext);
 
  protected:
     void      keyReleaseEvent(QKeyEvent* keyboard_event);

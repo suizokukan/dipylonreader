@@ -102,7 +102,44 @@ SCSplitter::SCSplitter(const QString& directoryName,
   this->addWidget(this->commentary_zone);
 
   /*
-    (3) setting this->_well_initialized
+    (3) signals
+  */
+
+  // (confer doc.) connection #C001
+  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_commentary_zone_content,
+                   this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
+
+  // (confer doc.) connection #C002
+  QObject::connect(this->source_zone,              &SourceZone::signal__hide_toolbar_in_the_commentary_zone,
+                   this->commentary_zone->toolbar, &CommentaryToolBar::hide);
+
+  // (confer doc.) connection #C003
+  QObject::connect(this->source_zone,              &SourceZone::signal__show_toolbar_in_the_commentary_zone,
+                   this->commentary_zone->toolbar, &CommentaryToolBar::show);
+
+  // (confer doc.) connection #C004
+  QObject::connect(this->source_zone,              &SourceZone::signal__set_zoom_value_in_commentary_editor,
+                   this->commentary_zone->editor,  &TextEditor::set_zoom_value);
+
+  // (confer doc.) connection #C006
+  QObject::connect(this->source_zone,              &SourceZone::signal__in_commentary_editor_update_from_dipydoc_info,
+                   this->commentary_zone->editor,  &CommentaryEditor::update_aspect_from_dipydoc_aspect_informations);
+
+  // (confer doc.) connection #C007
+  QObject::connect(this->source_zone,              &SourceZone::signal__update_commentary_zone_content,
+                   this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
+
+  /*
+    (4) zoom value of the current text
+  */
+  QSettings settings;
+  settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+                    this->source_zone->editor->zoom_value);
+  settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+                    this->commentary_zone->editor->zoom_value);
+
+  /*
+    (5) setting this->_well_initialized
   */
   this->_well_initialized = true;
 }

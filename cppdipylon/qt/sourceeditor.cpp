@@ -411,16 +411,12 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     this->modified_chars_hash = text_ranges_hash;
 
     this->blocked_commentaries = false;
-    /*
-      TODO
-    this->commentary_zone.editor->update_content__translation_expected(pos_in_text);
-    */
+    // (confer doc.) signal #S005 :
+    emit this->signal__update_commentary_zone_content(pos_in_text);
     this->blocked_commentaries = true;
 
-    /*
-      TODO
-    this->source_zone.update_icons();
-    */
+    // (confer doc.) signal #S006 :
+    emit this->signal__source_zone_update_icons();
 
     return;
   }
@@ -459,10 +455,8 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
             // hash update :
             this->modified_chars_hash = text_ranges_hash;
 
-            /*
-              TODO
-            this->commentary_zone.editor->update_content__translation_expected(pos_in_text);
-            */
+            // (confer doc.) signal #S007 :
+            emit this->signal__update_commentary_zone_content(pos_in_text);
           }
           break;
         }

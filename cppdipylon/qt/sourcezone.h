@@ -44,6 +44,7 @@
 extern Icons icons;
 
 class MainWindow;
+class SCSplitter;
 
 /*______________________________________________________________________________
 
@@ -52,19 +53,29 @@ ______________________________________________________________________________*/
 class SourceZone : public QFrame {
 friend class MainWindow;
 friend class SourceEditor;
+friend class SCSplitter;
 
     Q_OBJECT
 
  private slots:  // NOLINT(whitespace/indent)
-    void audiocontrols_play(void);
-    void audiocontrols_stop(void);
-    void audio_position_changed(PosInAudio);
-    void readingmode_aAct__buttonpressed(void);
-    void readingmode_rAct__buttonpressed(void);
-    void readingmode_lAct__buttonpressed(void);
+  void audiocontrols_play(void);
+  void audiocontrols_stop(void);
+  void audio_position_changed(PosInAudio);
+  void readingmode_aAct__buttonpressed(void);
+  void readingmode_rAct__buttonpressed(void);
+  void readingmode_lAct__buttonpressed(void);
+
+ public slots:
+  void update_icons(void);
+
+ signals:
+  void signal__hide_toolbar_in_the_commentary_zone(void);
+  void signal__in_commentary_editor_update_from_dipydoc_info(void);
+  void signal__show_toolbar_in_the_commentary_zone(void);
+  void signal__set_zoom_value_in_commentary_editor(const signed int value);
+  void signal__update_commentary_zone_content(const PosInTextRanges & posintext);
 
  private:
-  void update_icons(void);
   const DipyDoc& dipydoc = DipyDoc();
 
   bool & blocked_commentaries;

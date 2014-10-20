@@ -31,6 +31,8 @@
 #include <QTextEdit>
 #include <QWheelEvent>
 
+class SCSplitter;
+
 /*______________________________________________________________________________
 
   TextEditor class
@@ -38,8 +40,8 @@ ______________________________________________________________________________*/
 class TextEditor : public QTextEdit {
 friend class CommentaryZone;
 friend class SourceZone;
-friend class MainWindow;
 friend class SourceEditor;
+friend class SCSplitter;
 
     Q_OBJECT
 

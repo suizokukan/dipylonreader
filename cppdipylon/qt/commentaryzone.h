@@ -41,6 +41,7 @@
 extern Icons icons;
 
 class MainWindow;
+class SCSplitter;
 
 /*______________________________________________________________________________
 
@@ -48,6 +49,7 @@ class MainWindow;
 ______________________________________________________________________________*/
 class CommentaryZone : public QFrame {
 friend class MainWindow;
+friend class SCSplitter;
 
     Q_OBJECT
 
