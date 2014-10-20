@@ -94,7 +94,7 @@ class SourceEditor : public TextEditor {
 
     bool &               blocked_commentaries;
 
-    PosInTextRanges modified_chars = PosInTextRanges();
+    PosInTextRanges      modified_chars = PosInTextRanges();
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE
     std::size_t modified_chars_hash = 0x12345678;

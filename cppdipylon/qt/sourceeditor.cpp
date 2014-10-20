@@ -358,8 +358,8 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
           this->modified_chars_hash = text_ranges_hash;
 
           /*
-            TODO
-          this->commentary_editor->update_content__translation_expected(pos_in_text);
+            ABC
+          this->commentary_zone.editor->update_content__translation_expected(pos_in_text);
           */
         }
 
@@ -413,13 +413,13 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     this->blocked_commentaries = false;
     /*
       TODO
-    this->commentary_editor->update_content__translation_expected(pos_in_text);
+    this->commentary_zone.editor->update_content__translation_expected(pos_in_text);
     */
     this->blocked_commentaries = true;
 
     /*
-      TODO (la méthode appartient au parent)
-    this->update_icons();
+      TODO
+    this->source_zone.update_icons();
     */
 
     return;
@@ -461,7 +461,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
             /*
               TODO
-            this->commentary_editor->update_content__translation_expected(pos_in_text);
+            this->commentary_zone.editor->update_content__translation_expected(pos_in_text);
             */
           }
           break;

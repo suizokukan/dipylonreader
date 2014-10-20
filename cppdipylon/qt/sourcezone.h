@@ -51,6 +51,7 @@ class MainWindow;
 ______________________________________________________________________________*/
 class SourceZone : public QFrame {
 friend class MainWindow;
+friend class SourceEditor;
 
     Q_OBJECT
 

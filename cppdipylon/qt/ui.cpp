@@ -96,14 +96,18 @@ int UI::go(int argc, char **argv) {
   */
   QApplication::setDesktopSettingsAware(true);
 
-  // general parameters :
+  /*
+    general parameters :
+  */
   QApplication app(argc, argv);
   app.setOrganizationName(fixedparameters::organization_name);
   app.setOrganizationDomain(fixedparameters::organization_domain);
   app.setApplicationName(fixedparameters::application_name);
   app.setApplicationVersion(fixedparameters::application_version);
 
-  // application's look :
+  /*
+    application's look :
+  */
   app.setStyle(fixedparameters::application_style);
 
   /*
@@ -111,7 +115,9 @@ int UI::go(int argc, char **argv) {
   */
   icons.load_icons();
 
-  // application's icon :
+  /*
+     application's icon :
+  */
   app.setWindowIcon(*icons.app);
 
   /* i18n :
@@ -157,7 +163,9 @@ int UI::go(int argc, char **argv) {
   DebugMsg() << "QGuiApplication::primaryScreen()->name() =" << QGuiApplication::primaryScreen()->name();
   DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << QGuiApplication::primaryScreen()->size();
 
-  // main window creation :
+  /*
+    main window creation :
+  */
   this->mainWin = new MainWindow(*this);
   this->mainWin->init();
 
@@ -193,7 +201,9 @@ int UI::go(int argc, char **argv) {
 
   #endif
 
-  // the main window is displayed :
+  /*
+    the main window is displayed :
+  */
   this->mainWin->show();
 
   /*
@@ -256,7 +266,9 @@ int UI::go(int argc, char **argv) {
   }
   #endif
 
-  // main loop :
+  /*
+    main loop :
+  */
   return app.exec();
 }
 

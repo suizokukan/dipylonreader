@@ -36,8 +36,8 @@
 _______________________________________________________________________________*/
 struct Icons {
 
-  void load_icons(void);
- ~Icons(void);
+  void        load_icons(void);
+             ~Icons(void);
 
   QIcon*      app = nullptr;
   QIcon*      audio_pause = nullptr;
