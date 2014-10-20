@@ -21,11 +21,19 @@
 
     ❏DipylonReader❏ : dipydoc/tabs.h
 
-    Tabs class, used to display DipyDoc(s).
+    o Tabs class, used to display DipyDoc(s).
 
 *******************************************************************************/
 
+#ifndef CPPDIPYLON_QT_TABS_H_
+#define CPPDIPYLON_QT_TABS_H_
+
+#include <QTabBar>
 #include <QTabWidget>
+#include <QWidget>
+
+#include "./fixedparameters.h"
+#include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________
 
@@ -35,9 +43,11 @@ class Tabs : public QTabWidget {
 
     Q_OBJECT
 
+ public slots:
+  void close_tab(int index);
+
  public:
   Tabs(QWidget *_parent);
+};
 
- protected:
-  void tabCloseRequested(int index);
-}
+#endif

@@ -32,24 +32,26 @@
   Tabs::Tabs
 
   Tabs' constructor.
-
 ______________________________________________________________________________*/
-void Tabs::Tabs(QWidget *_parent) : QTabWidget(_parent),
+Tabs::Tabs(QWidget *_parent) : QTabWidget(_parent) {
   this->setObjectName("main_window__tabwidget");
 
   DebugMsg() << "[MainWindow::init] this->setStyleSheet = " << fixedparameters::default__tabwiget_stylesheet;
-  this->tabs->setStyleSheet(fixedparameters::default__tabwiget_stylesheet);
+  this->setStyleSheet(fixedparameters::default__tabwiget_stylesheet);
 
-  this->tabs->setTabsClosable(true);
+  this->setTabsClosable(true);
+
+  QObject::connect(this->tabBar(), &QTabBar::tabCloseRequested,
+                   this,           &Tabs::close_tab);
 }
 
 /*______________________________________________________________________________
 
-  Tabs::tabCloseRequested
+  Tabs::close_tab
 
-  Function called when a close button is pressed.
+  Function called when the "closed button" of a the tab bar has been pressed.
 ______________________________________________________________________________*/
-void Tabs::tabCloseRequested(int index) {
-  DebugMsg() << "Tabs::tabCloseRequested; index=" << index;
+void Tabs::close_tab(int index) {
+  DebugMsg() << "Tabs::close_tab" << index;
   delete this->widget(index);
 }
