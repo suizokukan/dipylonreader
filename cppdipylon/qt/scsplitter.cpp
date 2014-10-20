@@ -35,7 +35,8 @@
 
         Initialize (bool)_well_initialized .
 ______________________________________________________________________________*/
-SCSplitter::SCSplitter(const QString& directoryName,
+SCSplitter::SCSplitter(const int index_in_scbar,
+                       const QString& directoryName,
                        bool & _visible_toolbars,
                        QWidget *_parent) : QSplitter(_parent),
                                                      visible_toolbars(_visible_toolbars),
@@ -83,19 +84,19 @@ SCSplitter::SCSplitter(const QString& directoryName,
   /*
     (2) setting the splitter
   */
-  QString splitter_name("mainwindow__scsplitter"+this->dipydoc.internal_name);
-  this->setObjectName(splitter_name);
-  DebugMsg() << "[SCSplitter::SCSplitter] this->setStyleSheet = " << QString("#%1::handle:vertical {height: 5px;}").arg(splitter_name);
-  this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}").arg(splitter_name));
+  this->setObjectName(this->get_object_name(index_in_scbar));
+  DebugMsg() << "[SCSplitter::SCSplitter] this->setStyleSheet = " \
+             << QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName());
+  this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName()));
   this->setOrientation(Qt::Vertical);
   this->setSizes(fixedparameters::default__editors_size_in_main_splitter);
 
-  this->source_zone = new SourceZone(splitter_name,
+  this->source_zone = new SourceZone(this->objectName(),
                                      this->dipydoc,
                                      this->blocked_commentaries,
                                      this->visible_toolbars,
                                      this);
-  this->commentary_zone = new CommentaryZone(splitter_name,
+  this->commentary_zone = new CommentaryZone(this->objectName(),
                                              this->dipydoc,
                                              this->blocked_commentaries,
                                              this);
@@ -149,6 +150,21 @@ SCSplitter::SCSplitter(const QString& directoryName,
 
         SCSplitter::well_initialized
 ______________________________________________________________________________*/
-bool SCSplitter::well_initialized(void) {
+bool SCSplitter::well_initialized(void) const {
   return this->_well_initialized;
+}
+
+/*______________________________________________________________________________
+
+        SCSplitter::get_object_name
+
+        Return the internal name of the object.
+
+        An index of the object in the TabBar object is used in order to
+        distinguish the same DipyDoc opened several times.
+______________________________________________________________________________*/
+QString SCSplitter::get_object_name(const int index_in_scbar) const {
+  return QString("mainwindow__scsplitter" + \
+                 this->dipydoc.internal_name + \
+                 QString().setNum(index_in_scbar));
 }

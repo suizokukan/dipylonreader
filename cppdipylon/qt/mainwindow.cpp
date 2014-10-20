@@ -267,7 +267,7 @@ void MainWindow::createMainToolBars(void) {
   MainWindow::current_splitter
 ______________________________________________________________________________*/
 SCSplitter* MainWindow::current_splitter(void) {
-  return qobject_cast<SCSplitter*>(this->tabs->currentWidget());
+  return qobject_cast<SCSplitter*>(this->sctabs->currentWidget());
 }
 
 /*______________________________________________________________________________
@@ -375,9 +375,9 @@ void MainWindow::init(void) {
   */
   this->createActions();
 
-  this->tabs = new SCTabs(this);
+  this->sctabs = new SCTabs(this);
 
-  this->setCentralWidget(this->tabs);
+  this->setCentralWidget(this->sctabs);
 
   this->createMenus();
   this->createMainToolBars();
@@ -448,9 +448,10 @@ ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
   DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
-  SCSplitter* source_commentary_splitter = new SCSplitter(directoryName,
+  SCSplitter* source_commentary_splitter = new SCSplitter(this->sctabs->count(),
+                                                          directoryName,
                                                           this->visible_toolbars,
-                                                          this->tabs);
+                                                          this->sctabs);
 
   if (source_commentary_splitter->well_initialized() == false ) {
     DebugMsg() << "MainWindow::loadDipyDoc : error";
@@ -458,8 +459,8 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
   }
   else {
     DebugMsg() << "MainWindow::loadDipyDoc : ok";
-    this->tabs->addTab(source_commentary_splitter,
-                       source_commentary_splitter->dipydoc.get_tab_name());
+    this->sctabs->addTab(source_commentary_splitter,
+                         source_commentary_splitter->dipydoc.get_tab_name());
   }
 }
 

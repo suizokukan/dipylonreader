@@ -62,10 +62,12 @@ friend class MainWindow;
   CommentaryZone* commentary_zone = nullptr;    // (ui) commentary zone
 
  public:
-  bool well_initialized(void);
-  explicit SCSplitter(const QString& directoryName,
+  explicit SCSplitter(const int index_in_scbar,
+                      const QString& directoryName,
                       bool & _visible_toolbars,
                       QWidget *_parent);
+  bool     well_initialized(void) const;
+  QString  get_object_name(const int index_in_scbar) const;
 };
 
 #endif
