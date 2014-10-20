@@ -62,7 +62,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/sourceeditor.h \
                     qt/sourcetoolbar.h \
                     qt/sourcezone.h \
-                    qt/tabs.h \
+                    qt/sctabs.h \
                     qt/ui.h \	
                     qt/texteditor.h \
                     qt/textformat.h
@@ -92,7 +92,7 @@ SOURCES         +=  ./main.cpp \
                     qt/sourceeditor.cpp \
                     qt/sourcetoolbar.cpp \
                     qt/sourcezone.cpp \
-                    qt/tabs.cpp \
+                    qt/sctabs.cpp \
                     qt/texteditor.cpp \
                     qt/textformat.cpp \
                     qt/ui.cpp

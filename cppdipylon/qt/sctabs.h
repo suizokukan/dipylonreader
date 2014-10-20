@@ -19,14 +19,14 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : dipydoc/tabs.h
+    ❏DipylonReader❏ : dipydoc/sctabs.h
 
-    o Tabs class, used to display DipyDoc(s).
+    o SCTabs class, used to display DipyDoc(s).
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_TABS_H_
-#define CPPDIPYLON_QT_TABS_H_
+#ifndef CPPDIPYLON_QT_SCTABS_H_
+#define CPPDIPYLON_QT_SCTABS_H_
 
 #include <QTabBar>
 #include <QTabWidget>
@@ -37,9 +37,9 @@
 
 /*______________________________________________________________________________
 
-  Tabs class
+  SCTabs class
 ______________________________________________________________________________*/
-class Tabs : public QTabWidget {
+class SCTabs : public QTabWidget {
 
     Q_OBJECT
 
@@ -47,7 +47,7 @@ class Tabs : public QTabWidget {
   void close_tab(int index);
 
  public:
-  Tabs(QWidget *_parent);
+  SCTabs(QWidget *_parent);
 };
 
 #endif

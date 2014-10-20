@@ -375,7 +375,7 @@ void MainWindow::init(void) {
   */
   this->createActions();
 
-  this->tabs = new Tabs(this);
+  this->tabs = new SCTabs(this);
 
   this->setCentralWidget(this->tabs);
 

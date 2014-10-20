@@ -40,7 +40,7 @@
 #include "qt/downloaddemodipydocs.h"
 #include "qt/icons.h"
 #include "qt/scsplitter.h"
-#include "qt/tabs.h"
+#include "qt/sctabs.h"
 #include "qt/ui.h"
 
 extern Icons icons;

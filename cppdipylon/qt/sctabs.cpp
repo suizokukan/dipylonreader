@@ -19,21 +19,21 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/tabs.cpp
+    ❏DipylonReader❏ : qt/sctabs.cpp
 
     see tabs.h
 
 *******************************************************************************/
 
-#include "qt/tabs.h"
+#include "qt/sctabs.h"
 
 /*______________________________________________________________________________
 
-  Tabs::Tabs
+  SCTabs::SCTabs
 
-  Tabs' constructor.
+  SCTabs' constructor.
 ______________________________________________________________________________*/
-Tabs::Tabs(QWidget *_parent) : QTabWidget(_parent) {
+SCTabs::SCTabs(QWidget *_parent) : QTabWidget(_parent) {
   this->setObjectName("main_window__tabwidget");
 
   DebugMsg() << "[MainWindow::init] this->setStyleSheet = " << fixedparameters::default__tabwiget_stylesheet;
@@ -42,16 +42,16 @@ Tabs::Tabs(QWidget *_parent) : QTabWidget(_parent) {
   this->setTabsClosable(true);
 
   QObject::connect(this->tabBar(), &QTabBar::tabCloseRequested,
-                   this,           &Tabs::close_tab);
+                   this,           &SCTabs::close_tab);
 }
 
 /*______________________________________________________________________________
 
-  Tabs::close_tab
+  SCTabs::close_tab
 
   Function called when the "closed button" of a the tab bar has been pressed.
 ______________________________________________________________________________*/
-void Tabs::close_tab(int index) {
-  DebugMsg() << "Tabs::close_tab" << index;
+void SCTabs::close_tab(int index) {
+  DebugMsg() << "SCTabs::close_tab" << index;
   delete this->widget(index);
 }
