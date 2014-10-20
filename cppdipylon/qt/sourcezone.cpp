@@ -134,7 +134,7 @@ SourceZone::SourceZone(const QString & splitter_name,
     (2) actions
   */
   this->textminusAct = new QAction(*(icons.textminus), tr("$$$source/minus"), this);
-  this->textplusAct  = new QAction(*(icons.textminus), tr("$$$source/plus"), this);
+  this->textplusAct  = new QAction(*(icons.textplus),  tr("$$$source/plus"), this);
 
   this->toolbar->addAction(this->readingmode_rAct);
   this->toolbar->addSeparator();
