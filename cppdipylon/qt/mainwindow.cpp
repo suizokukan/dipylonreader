@@ -375,11 +375,7 @@ void MainWindow::init(void) {
   */
   this->createActions();
 
-  this->tabs = new QTabWidget(this);
-  this->tabs->setObjectName("main_window__tabwidget");
-  DebugMsg() << "[MainWindow::init] this->setStyleSheet = " << fixedparameters::default__tabwiget_stylesheet;
-  this->tabs->setStyleSheet(fixedparameters::default__tabwiget_stylesheet);
-  this->tabs->setTabsClosable(true);
+  this->tabs = new Tabs(this);
 
   this->setCentralWidget(this->tabs);
 

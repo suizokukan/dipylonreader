@@ -31,7 +31,6 @@
 #include <QFile>
 #include <QFrame>
 #include <QMainWindow>
-#include <QTabWidget>
 #include <QtWidgets>
 #include <QTimer>
 #include <QToolBar>
@@ -41,6 +40,7 @@
 #include "qt/downloaddemodipydocs.h"
 #include "qt/icons.h"
 #include "qt/scsplitter.h"
+#include "qt/tabs.h"
 #include "qt/ui.h"
 
 extern Icons icons;
