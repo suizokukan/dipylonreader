@@ -83,8 +83,9 @@ SCSplitter::SCSplitter(const QString& directoryName,
   /*
     (2) setting the splitter
   */
-  QString splitter_name("mainwindow__splitter"+this->dipydoc.menu_name);
+  QString splitter_name("mainwindow__scsplitter"+this->dipydoc.internal_name);
   this->setObjectName(splitter_name);
+  DebugMsg() << "[SCSplitter::SCSplitter] this->setStyleSheet = " << QString("#%1::handle:vertical {height: 5px;}").arg(splitter_name);
   this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}").arg(splitter_name));
   this->setOrientation(Qt::Vertical);
   this->setSizes(fixedparameters::default__editors_size_in_main_splitter);

@@ -59,6 +59,8 @@ DipyDoc::DipyDoc(const QString& _path) {
 
   // let's initialize the qsettings' name :
   this->set_qsettings_name();
+  // let's initialize the internal name :
+  this->set_internal_name();
 
   // let's open the main file :
   this->read_mainfile(_path);
@@ -1431,6 +1433,24 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
 
 /*______________________________________________________________________________
 
+   DipyDoc::set_internal_name()
+
+   Initialize this->internal_name from this->menu_name
+
+   This function created name that can be used whin calls to setStyleSheet() :
+   the only characters accepted are "n_" + 0-9 + a-f.
+________________________________________________________________________________*/
+void DipyDoc::set_internal_name(void) {
+  QCryptographicHash hash(QCryptographicHash::Md5);
+  hash.addData("n_");
+  hash.addData(this->menu_name.toUtf8());
+  this->internal_name = hash.result().toHex();
+
+  DebugMsg() << "DipyDoc::set_internal_name = " << this->internal_name;
+}
+
+/*______________________________________________________________________________
+
    DipyDoc::set_qsettings_name()
 
    Initialize this->qsettings_name from this->menu_name
@@ -1442,6 +1462,8 @@ void DipyDoc::set_qsettings_name(void) {
   this->qsettings_name = this->menu_name;
   this->qsettings_name.replace("\\", "_");
   this->qsettings_name.replace("/", "_");
+
+  DebugMsg() << "DipyDoc::set_qsettings_name = " << this->qsettings_name;
 }
 
 /*______________________________________________________________________________

@@ -36,6 +36,7 @@ MainWindow::MainWindow(UI& _ui,
                        QWidget *_parent) : QMainWindow(_parent),
                                            ui(_ui) {
   this->setObjectName("main_window");
+  DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = " << fixedparameters::default__mainwindow_stylesheet;
   this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
 
   #ifdef NO_STATUS_BAR
@@ -375,7 +376,11 @@ void MainWindow::init(void) {
   this->createActions();
 
   this->tabs = new QTabWidget(this);
+  this->tabs->setObjectName("main_window__tabwidget");
+  DebugMsg() << "[MainWindow::init] this->setStyleSheet = " << fixedparameters::default__tabwiget_stylesheet;
+  this->tabs->setStyleSheet(fixedparameters::default__tabwiget_stylesheet);
   this->tabs->setTabsClosable(true);
+
   this->setCentralWidget(this->tabs);
 
   this->createMenus();

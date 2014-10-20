@@ -28,6 +28,7 @@
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 #define CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 
+#include <QCryptographicHash>
 #include <QFile>
 #include <QFileInfo>
 #include <QIODevice>
@@ -276,6 +277,9 @@ friend class UI;
   // name used in the qsettings file :
   // initialized by ::set_qsettings_name()
   QString              qsettings_name;
+  // name used internally
+  // initialized by ::set_internal_name()
+  QString              internal_name;
 
   QString              id;
   int                  version;
@@ -327,6 +331,7 @@ friend class UI;
   bool                   read_mainfile__text__init_and_check(void);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
+  void                   set_internal_name(void);
   void                   set_qsettings_name(void);
 
   // public methods .............................................................

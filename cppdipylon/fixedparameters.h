@@ -76,7 +76,9 @@ static const QString default__path_to_dipydocs  = QDir::homePath() + "/dipydocs/
 /*
   default style sheets :
 */
-const QString default__mainwindow_stylesheet = "background-color: #ffffcc;";
+const QString default__mainwindow_stylesheet = "";
+
+const QString default__tabwiget_stylesheet = "background-color: #ffffcc;";
 
 const QString default__sourceeditor_stylesheet = "background-color: #ffffcc;"
                                                  "selection-color: white;"

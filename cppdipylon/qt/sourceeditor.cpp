@@ -581,6 +581,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   SourceEditor::set_the_appearance()
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
+  DebugMsg() << "[SourceEditor::set_the_appearance] this->setStyleSheet = " << this->dipydoc.sourceeditor_stylesheet;
   this->setStyleSheet(this->dipydoc.sourceeditor_stylesheet);
 }
 
