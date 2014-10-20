@@ -31,7 +31,7 @@
 /*______________________________________________________________________________
 
         DipyDoc::constructor from a "_path" : initialize "this" from the files
-                                             stored in "_path"
+                                              stored in "_path"
 
         See above for a description of the expected files.
 
@@ -304,6 +304,20 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
   }
 
   return res;
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::get_tab_name()
+
+   Return a name convenient to tabs' display.
+________________________________________________________________________________*/
+QString DipyDoc::get_tab_name(void) {
+  if (this->menu_name.size() <= fixedparameters::maxlen_in_tab_name) {
+    return this->menu_name;
+  } else {
+    return "…" + this->menu_name.right(fixedparameters::maxlen_in_tab_name-1);
+  }
 }
 
 /*______________________________________________________________________________

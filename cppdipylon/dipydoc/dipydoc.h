@@ -154,7 +154,8 @@ inline void DipyDocLettrine::clear(void) {
 
   DipyDocSourceText class
 
-  This class is used to create an attribute of DipyDoc.
+  This class is used to create an attribute of DipyDoc; see DipyDoc class
+  to see how this class is used.
 
 ______________________________________________________________________________*/
 struct DipyDocSourceText {
@@ -271,7 +272,7 @@ friend class UI;
   /*
      general informations :
   */
-  // name displayed in the File>Open menu :
+  // name(s) displayed in the File>Open menu :
   // initialized by ::read_menu_name()
   QString              menu_name;
   // name used in the qsettings file :
@@ -325,6 +326,7 @@ friend class UI;
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
   QString                error_string(QXmlStreamReader* xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
+  QString                get_tab_name(void);
   QString                get_translations_for(PosInText x0, PosInText x1) const;
   bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__text(QXmlStreamReader* xmlreader);

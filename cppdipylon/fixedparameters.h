@@ -94,6 +94,9 @@ const QStringList known_doctypes = { QString("text"), };
 // default zoom value for both editors :
 const int default__zoom_value = 1;
 
+// maximum length in tab names.
+const int maxlen_in_tab_name = 15;
+
 /*
   settings
 */

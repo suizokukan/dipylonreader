@@ -69,7 +69,7 @@ class SourceEditor : public TextEditor {
                            QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
-    void      load_text(const DipyDocSourceText & sourcetext);
+    void      load_text(void);
     void      modify_the_text_format(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);

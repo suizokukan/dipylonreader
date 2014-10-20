@@ -54,6 +54,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
 
   this->setReadOnly(true);
   this->setMouseTracking(true);
+  this->load_text();
   this->update_aspect_from_dipydoc_aspect_informations();
 
   DebugMsg() << "SourceEditor::SourceEditor() : exit point";
@@ -182,7 +183,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
 
         SourceEditor::load_text()
 ______________________________________________________________________________*/
-void SourceEditor::load_text(const DipyDocSourceText& source_text) {
+void SourceEditor::load_text(void) {
   this->clear();
 
   QTextCursor cur = this->textCursor();
@@ -262,7 +263,7 @@ void SourceEditor::load_text(const DipyDocSourceText& source_text) {
   this->number_of_chars_before_source_text = cur.position();
 
   cur.setCharFormat(text_qtextcharformat);
-  cur.insertText(source_text.text);
+  cur.insertText(this->dipydoc.source_text.text);
 }
 
 /*______________________________________________________________________________
