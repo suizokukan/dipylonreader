@@ -36,10 +36,11 @@ MainWindow::MainWindow(UI& _ui,
                        QWidget *_parent) : QMainWindow(_parent),
                                            ui(_ui) {
   this->setObjectName("main_window");
+  this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
 
-#ifdef NO_STATUS_BAR
+  #ifdef NO_STATUS_BAR
   this->setStatusBar(0);
-#endif
+  #endif
 }
 
 /*______________________________________________________________________________
@@ -84,15 +85,15 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
 
   from the doc of QCoreApplication::exec:
 
-      We recommend that you connect clean-up code to the aboutToQuit() signal,
-    instead of putting it in your application's main() function because on some
-    platforms the QCoreApplication::exec() call may not return. For example,
-    on Windows when the user logs off, the system terminates the process after
-    Qt closes all top-level windows. Hence, there is no guarantee that the
-    application will have time to exit its event loop and execute code at the
-    end of the main() function after the QCoreApplication::exec() call.
+  |   We recommend that you connect clean-up code to the aboutToQuit() signal,
+  |  instead of putting it in your application's main() function because on some
+  |  platforms the QCoreApplication::exec() call may not return. For example,
+  |  on Windows when the user logs off, the system terminates the process after
+  |  Qt closes all top-level windows. Hence, there is no guarantee that the
+  |  application will have time to exit its event loop and execute code at the
+  |  end of the main() function after the QCoreApplication::exec() call.
 
-    see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
+  See e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 ________________________________________________________________________________*/
 void MainWindow::closing(void) {
   DebugMsg() << "MainWindow::closing";
@@ -106,7 +107,6 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions(void) {
-
   DebugMsg() << "MainWindow::createActions : entry point";
 
   /*
