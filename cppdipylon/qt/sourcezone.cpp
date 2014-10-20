@@ -67,25 +67,25 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   // readingmode_aAct
   this->readingmode_aAct = new QAction( *(icons.readingmode_amode_on),
-                                        tr("change the mode$$$rl"),
+                                        tr("switch to analyse mode"),
                                         this);
-  this->readingmode_aAct->setStatusTip(tr("change the mode to 'analyse'"));
+  this->readingmode_aAct->setStatusTip(tr("switched to analyse mode"));
   QObject::connect(this->readingmode_aAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_aAct__buttonpressed);
 
   // readingmode_lAct
   this->readingmode_lAct = new QAction( *(icons.readingmode_lmode_on),
-                                        tr("change the mode$$$rl"),
+                                        tr("switch to read-and-listen mode"),
                                         this);
-  this->readingmode_lAct->setStatusTip(tr("change the mode to 'read & listen'"));
+  this->readingmode_lAct->setStatusTip(tr("switched to read-and-listen mode"));
   QObject::connect(this->readingmode_lAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_lAct__buttonpressed);
 
   // readingmode_rAct
   this->readingmode_rAct = new QAction( *(icons.readingmode_rmode_on),
-                                        tr("change the mode$$$r"),
+                                        tr("switch to read mode"),
                                         this);
-  this->readingmode_rAct->setStatusTip(tr("change the mode to 'read'"));
+  this->readingmode_rAct->setStatusTip(tr("switched to read mode"));
   QObject::connect(this->readingmode_rAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_rAct__buttonpressed);
 
@@ -133,8 +133,8 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (2) actions
   */
-  this->textminusAct = new QAction(*(icons.textminus), tr("$$$source/minus"), this);
-  this->textplusAct  = new QAction(*(icons.textplus),  tr("$$$source/plus"), this);
+  this->textminusAct = new QAction(*(icons.textminus), tr("reduce the font size"), this);
+  this->textplusAct  = new QAction(*(icons.textplus),  tr("enlarge the font size"), this);
 
   this->toolbar->addAction(this->readingmode_rAct);
   this->toolbar->addSeparator();

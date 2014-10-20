@@ -61,8 +61,8 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   /*
     (2) signals : signals between the editors and the toolbars :
   */
-  this->textminusAct = new QAction(*(icons.textminus), tr("$$$commentary/minus"), this);
-  this->textplusAct  = new QAction(*(icons.textplus), tr("$$$commentary/plus"), this);
+  this->textminusAct = new QAction(*(icons.textminus), tr("reduce the font size"), this);
+  this->textplusAct  = new QAction(*(icons.textplus), tr("enlarge the font size"), this);
 
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);

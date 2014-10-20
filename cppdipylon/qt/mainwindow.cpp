@@ -173,9 +173,8 @@ void MainWindow::createActions(void) {
   */
   #ifndef NO_MAIN_POPUPMENU
   this->popup_mainmenuAct = new QAction( *(icons.popup_mainmenu),
-                                         tr("Popup_Mainmenu$$$"),
+                                         tr("display the main pop menu"),
                                          this);
-  popup_mainmenuAct->setStatusTip(tr("Popup_Main$$$"));
   QObject::connect(this->popup_mainmenuAct, &QAction::triggered,
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
   #endif
