@@ -81,7 +81,7 @@ void MainWindow::cleaning_up_tabs_before_changing_current_tab(void) {
   /*
     if in 'lmode', we stop all the audio readings :
   */
-  for(int index=0; index<this->sctabs->count(); ++index) {
+  for (int index = 0; index < this->sctabs->count(); ++index) {
     SCSplitter* splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
     if (splitter->readingmode == READINGMODE::READINGMODE_LMODE) {
       splitter->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
@@ -121,7 +121,7 @@ void MainWindow::closing(void) {
   DebugMsg() << "MainWindow::closing";
 
   DebugMsg() << "(MainWindow::closing) calling SCSPlitter::write_settings()";
-  for (int index=0; index < this->sctabs->count(); ++index) {
+  for (int index = 0; index < this->sctabs->count(); ++index) {
     SCSplitter* splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
     splitter->write_settings();
   }
@@ -488,11 +488,10 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
                                                           this->visible_toolbars,
                                                           this->sctabs);
 
-  if (source_commentary_splitter->well_initialized() == false ) {
+  if (source_commentary_splitter->well_initialized() == false) {
     DebugMsg() << "MainWindow::loadDipyDoc : error";
     delete source_commentary_splitter;
-  }
-  else {
+  } else {
     DebugMsg() << "MainWindow::loadDipyDoc : ok";
     this->sctabs->addTab(source_commentary_splitter,
                          source_commentary_splitter->dipydoc.get_tab_name());
@@ -557,7 +556,7 @@ void MainWindow::update_icons(void) {
     this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
     this->hidetoolbarsAct->setText(tr("show toolbars"));
 
-    for (int index=0; index<this->sctabs->count(); index++) {
+    for (int index = 0; index < this->sctabs->count(); index++) {
       splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
       splitter->update_icons();
     }
@@ -565,7 +564,7 @@ void MainWindow::update_icons(void) {
     this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_on));
     this->hidetoolbarsAct->setText(tr("hide toolbars"));
 
-    for (int index=0; index<this->sctabs->count(); index++) {
+    for (int index = 0; index < this->sctabs->count(); index++) {
       splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
       splitter->update_icons();
     }

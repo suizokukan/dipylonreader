@@ -50,7 +50,7 @@ CommentaryEditor::CommentaryEditor(const QString & splitter_name,
   CommentaryEditor::set_the_appearance
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_appearance(void) {
-  DebugMsg() << "[CommentaryEditor::set_the_appearance] this->setStyleSheet = " << this->dipydoc.commentaryeditor_stylesheet;
+  DebugMsg() << "[CommentaryEditor::set_the_appearance] setStyleSheet = " << this->dipydoc.commentaryeditor_stylesheet;
   this->setStyleSheet(this->dipydoc.commentaryeditor_stylesheet);
 }
 

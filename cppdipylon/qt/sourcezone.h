@@ -102,6 +102,7 @@ friend class SCSplitter;
                       ReadingMode        & _readingmode,
                       ReadingModeDetails & _readingmodedetails,
                       QWidget *_parent);
+
  private:
   void update_icons(void);
 };

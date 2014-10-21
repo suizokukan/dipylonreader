@@ -273,7 +273,6 @@ void SourceEditor::load_text(void) {
         the .modified_chars_hash attribute.
 7_____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
-
   switch (this->readingmode) {
     /*
       rmode, lmode
@@ -358,6 +357,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
           this->modified_chars_hash = text_ranges_hash;
 
           emit this->signal__update_commentary_zone_content(pos_in_text);
+          this->commentary_zone.editor->update_content__translation_expected(pos_in_text);
         }
 
         break;
@@ -559,7 +559,6 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
         This function resets the appearance of all the text.
 _____________________________________________________________________________*/
 void SourceEditor::reset_all_text_format_to_default(void) {
-
   QTextCursor cur = this->textCursor();
 
   QList<QTextEdit::ExtraSelection> selections;

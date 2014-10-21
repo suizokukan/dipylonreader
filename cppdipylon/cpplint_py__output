@@ -60,39 +60,43 @@ Done processing ./qt/commentaryeditor.cpp
 Total errors found: 0
 Done processing ./qt/arrowformat.cpp
 Total errors found: 0
+Done processing ./qt/scsplitter.cpp
+Total errors found: 0
 Done processing ./qt/textformat.cpp
 Total errors found: 0
-./qt/commentaryeditor.h:49:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
 Done processing ./qt/commentaryeditor.h
-Total errors found: 1
-./qt/sourcezone.h:57:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+Total errors found: 0
 Done processing ./qt/sourcezone.h
-Total errors found: 1
-./qt/sourcetoolbar.h:48:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+Total errors found: 0
 Done processing ./qt/sourcetoolbar.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/downloaddemodipydocs.cpp
 Total errors found: 0
-./qt/sourceeditor.h:58:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+Done processing ./qt/readingmodes.h
+Total errors found: 0
+Done processing ./qt/icons.h
+Total errors found: 0
 Done processing ./qt/sourceeditor.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/posintextframeformat.h
+Total errors found: 0
+Done processing ./qt/scsplitter.h
 Total errors found: 0
 Done processing ./qt/ui.h
 Total errors found: 0
-./qt/commentaryzone.h:57:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
 Done processing ./qt/commentaryzone.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/downloaddemodipydocs.h
 Total errors found: 0
 Done processing ./qt/sourceeditor.cpp
 Total errors found: 0
-./qt/texteditor.h:49:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
 Done processing ./qt/texteditor.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/commentarytoolbar.cpp
 Total errors found: 0
 Done processing ./qt/arrowformat.h
+Total errors found: 0
+Done processing ./qt/sctabs.cpp
 Total errors found: 0
 Done processing ./qt/texteditor.cpp
 Total errors found: 0
@@ -102,12 +106,15 @@ Done processing ./qt/textformat.h
 Total errors found: 0
 Done processing ./qt/sourcetoolbar.cpp
 Total errors found: 0
-./qt/mainwindow.h:69:  Is this a non-const reference? If so, make const or use a pointer: UI& _ui  [runtime/references] [2]
+Done processing ./qt/sctabs.h
+Total errors found: 0
 Done processing ./qt/mainwindow.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/mainwindow.cpp
 Total errors found: 0
 Done processing ./qt/presentationscreen.cpp
+Total errors found: 0
+Done processing ./qt/icons.cpp
 Total errors found: 0
 Done processing ./qt/posintextframeformat.cpp
 Total errors found: 0

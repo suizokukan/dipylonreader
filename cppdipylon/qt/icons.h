@@ -35,7 +35,6 @@
   Icons class
 _______________________________________________________________________________*/
 struct Icons {
-
   void        load_icons(void);
              ~Icons(void);
 
@@ -61,4 +60,4 @@ struct Icons {
   QIcon*      textplus = nullptr;
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_ICONS_H_

@@ -197,7 +197,6 @@ void SCSplitter::update_icons(void) {
   Write the settings specific to the DipyDoc linked to "this".
 ________________________________________________________________________________*/
 void SCSplitter::write_settings(void) {
-
   QSettings settings;
 
   /*

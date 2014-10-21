@@ -107,7 +107,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (1) setting the object : UI
   */
-  DebugMsg() << "[SourceZone::SourceZone] this->setStyleSheet = " << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
+  DebugMsg() << "[SourceZone::] setStyleSheet = " << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
   this->setStyleSheet(QString("#%1 {border: 0px; padding: 0px}").arg(object_name));
 
   this->editor = new SourceEditor(splitter_name,
@@ -387,7 +387,6 @@ void SourceZone::readingmode_lAct__buttonpressed(void) {
   SCSplitter::update_icons .
 ________________________________________________________________________________*/
 void SourceZone::update_icons(void) {
-
   DebugMsg() << "SourceZone::update_icons";
 
   switch (this->readingmode) {

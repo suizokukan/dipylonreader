@@ -28,14 +28,13 @@
 #ifndef CPPDIPYLON_QT_SCSPLITTER_H_
 #define CPPDIPYLON_QT_SCSPLITTER_H_
 
-#include "debugmsg/debugmsg.h"
-
 #include <QApplication>
 #include <QMessageBox>
 #include <QSettings>
 #include <QSplitter>
 #include <QString>
 
+#include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "qt/commentaryzone.h"
 #include "qt/sourcezone.h"
@@ -70,8 +69,8 @@ friend class MainWindow;
 
   void               write_settings(void);
 
- private slots:
-   void              update_icons(void);
+ private slots:  // NOLINT(whitespace/indent)
+  void              update_icons(void);
 
  public:
             explicit SCSplitter(const int index_in_scbar,
@@ -82,4 +81,4 @@ friend class MainWindow;
   QString            get_object_name(const int index_in_scbar) const;
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_SCSPLITTER_H_

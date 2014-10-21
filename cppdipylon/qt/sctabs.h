@@ -43,25 +43,24 @@
   SCTabs class
 ______________________________________________________________________________*/
 class SCTabs : public QTabWidget {
-
     Q_OBJECT
 
  signals:
-  void signal__open_a_new_dipydoc(void);
-  void signal__display_hidetoolbar_icon(bool);
+  void                 signal__open_a_new_dipydoc(void);
+  void                 signal__display_hidetoolbar_icon(bool is_visible);
 
- public slots:
-  void close_current_tab(void);
+ public slots:  // NOLINT(whitespace/indent)
+  void                 close_current_tab(void);
 
  protected:
-  void tabInserted(int index);
+  void                 tabInserted(int index);
 
  public:
-  SCTabs(QWidget *_parent);
+             explicit  SCTabs(QWidget *_parent);
 
  private:
   QShortcut*           shortcut_ctrl_t = nullptr;
   QShortcut*           shortcut_ctrl_w = nullptr;
 };
 
-#endif
+#endif  // CPPDIPYLON_QT_SCTABS_H_
