@@ -51,6 +51,10 @@ friend class MainWindow;
 
     Q_OBJECT
 
+ signals:
+  void signal__close_the_current_dipydoc(void);
+  void signal__open_a_new_dipydoc(void);
+
  private:
   bool & visible_toolbars;
   bool  _well_initialized = false;               // object state

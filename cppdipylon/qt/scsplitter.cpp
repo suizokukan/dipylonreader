@@ -148,14 +148,6 @@ SCSplitter::SCSplitter(const int index_in_scbar,
 
 /*______________________________________________________________________________
 
-        SCSplitter::well_initialized
-______________________________________________________________________________*/
-bool SCSplitter::well_initialized(void) const {
-  return this->_well_initialized;
-}
-
-/*______________________________________________________________________________
-
         SCSplitter::get_object_name
 
         Return the internal name of the object.
@@ -167,4 +159,12 @@ QString SCSplitter::get_object_name(const int index_in_scbar) const {
   return QString("mainwindow__scsplitter" + \
                  this->dipydoc.internal_name + \
                  QString().setNum(index_in_scbar));
+}
+
+/*______________________________________________________________________________
+
+        SCSplitter::well_initialized
+______________________________________________________________________________*/
+bool SCSplitter::well_initialized(void) const {
+  return this->_well_initialized;
 }

@@ -77,6 +77,8 @@ class SourceEditor : public TextEditor {
     void      update_icons(void);
 
  signals:
+    void      signal__close_the_current_dipydoc(void);
+    void      signal__open_a_new_dipydoc(void);
     void      signal__source_zone_update_icons(void);
     void      signal__update_commentary_zone_content(const PosInTextRanges & posintext);
 
@@ -98,6 +100,7 @@ class SourceEditor : public TextEditor {
     bool &               blocked_commentaries;
 
     PosInTextRanges      modified_chars = PosInTextRanges();
+
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE
     std::size_t modified_chars_hash = 0x12345678;

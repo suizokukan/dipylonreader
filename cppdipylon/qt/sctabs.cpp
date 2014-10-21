@@ -42,16 +42,43 @@ SCTabs::SCTabs(QWidget *_parent) : QTabWidget(_parent) {
   this->setTabsClosable(true);
 
   QObject::connect(this->tabBar(), &QTabBar::tabCloseRequested,
-                   this,           &SCTabs::close_tab);
+                   this,           &SCTabs::close_current_tab);
+
+  /*
+    shortcuts
+  */
+  // (shortcut) CTRL + T :
+  this->shortcut_ctrl_t = new QShortcut(QKeySequence(tr("Ctrl+T")), this);
+  QObject::connect(this->shortcut_ctrl_t, &QShortcut::activated,
+                   this,                  &SCTabs::signal__open_a_new_dipydoc);
+
+  // (shortcut) CTRL + W :
+  this->shortcut_ctrl_w = new QShortcut(QKeySequence(tr("Ctrl+W")), this);
+  QObject::connect(this->shortcut_ctrl_w, &QShortcut::activated,
+                   this,                  &SCTabs::close_current_tab);
 }
 
 /*______________________________________________________________________________
 
-  SCTabs::close_tab
+  SCTabs::close_current_tab
 
   Function called when the "closed button" of a the tab bar has been pressed.
 ______________________________________________________________________________*/
-void SCTabs::close_tab(int index) {
-  DebugMsg() << "SCTabs::close_tab" << index;
-  delete this->widget(index);
+void SCTabs::close_current_tab(void) {
+  DebugMsg() << "SCTabs::close_current_tab";
+  delete this->widget(this->currentIndex());
+}
+
+/*______________________________________________________________________________
+
+  SCTabs::tabInserted
+______________________________________________________________________________*/
+void SCTabs::tabInserted(int index) {
+  SCSplitter* new_tab = qobject_cast<SCSplitter*>(this->widget(index));
+
+  QObject::connect(new_tab, &SCSplitter::signal__close_the_current_dipydoc,
+                   this,    &SCTabs::close_current_tab);
+
+  QObject::connect(new_tab, &SCSplitter::signal__open_a_new_dipydoc,
+                   this,    &SCTabs::signal__open_a_new_dipydoc);
 }

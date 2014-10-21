@@ -95,7 +95,7 @@ friend class UI;
     void        readSettings(void);
     void        update_icons(void);
 
-    QTabWidget* sctabs = nullptr;
+    SCTabs*    sctabs = nullptr;
 
     QMenu     *fileMenu = nullptr;
     QMenu     *openMenu = nullptr;

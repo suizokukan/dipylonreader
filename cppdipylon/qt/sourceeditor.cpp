@@ -78,11 +78,10 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
 
         SourceEditor::keyReleaseEvent()
 
-        See http://qt-project.org/doc/qt-5/qt.html#Key-enum for the list of
-        constants like "Qt::Key_Space".
-
   known cases :
 
+  [0] special cases
+    [0.1] control + w
   [1] space
     [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
     [1.2] LMODE + ON PAUSE -> LMODE + PLAYING

@@ -195,8 +195,8 @@ void MainWindow::createMenus(void) {
   /*
     main menu :
   */
-  this->fileMenu = menuBar()->addMenu(tr("&File"));
-  this->openMenu = fileMenu->addMenu(tr("&Open"));
+  this->fileMenu = menuBar()->addMenu(tr("File"));
+  this->openMenu = fileMenu->addMenu(tr("Open"));
 
   this->fill_open_menu();
 
@@ -375,6 +375,9 @@ void MainWindow::init(void) {
   this->createActions();
 
   this->sctabs = new SCTabs(this);
+
+  QObject::connect(this->sctabs, &SCTabs::signal__open_a_new_dipydoc,
+                   this,         &MainWindow::open);
 
   this->setCentralWidget(this->sctabs);
 

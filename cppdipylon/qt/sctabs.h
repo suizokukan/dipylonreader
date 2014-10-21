@@ -28,12 +28,15 @@
 #ifndef CPPDIPYLON_QT_SCTABS_H_
 #define CPPDIPYLON_QT_SCTABS_H_
 
+#include <QKeySequence>
+#include <QShortcut>
 #include <QTabBar>
 #include <QTabWidget>
 #include <QWidget>
 
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
+#include "qt/scsplitter.h"
 
 /*______________________________________________________________________________
 
@@ -43,11 +46,21 @@ class SCTabs : public QTabWidget {
 
     Q_OBJECT
 
+ signals:
+  void signal__open_a_new_dipydoc(void);
+
  public slots:
-  void close_tab(int index);
+  void close_current_tab(void);
+
+ protected:
+  void tabInserted(int index);
 
  public:
   SCTabs(QWidget *_parent);
+
+ private:
+  QShortcut*           shortcut_ctrl_t = nullptr;
+  QShortcut*           shortcut_ctrl_w = nullptr;
 };
 
 #endif
