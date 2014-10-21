@@ -376,8 +376,11 @@ void MainWindow::init(void) {
 
   this->sctabs = new SCTabs(this);
 
-  QObject::connect(this->sctabs, &SCTabs::signal__open_a_new_dipydoc,
-                   this,         &MainWindow::open);
+  QObject::connect(this->sctabs,          &SCTabs::signal__open_a_new_dipydoc,
+                   this,                  &MainWindow::open);
+
+  QObject::connect(this->sctabs,          &SCTabs::signal__display_hidetoolbar_icon,
+                   this->hidetoolbarsAct, &QAction::setVisible);
 
   this->setCentralWidget(this->sctabs);
 
@@ -510,13 +513,15 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if (splitter == nullptr || \
       splitter->dipydoc.well_initialized() == false) {
-    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
+    this->hidetoolbarsAct->setVisible(false);
     return;
   }
 
   /*............................................................................
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
+  this->hidetoolbarsAct->setVisible(true);
+
   if (this->visible_toolbars == false) {
     this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
 

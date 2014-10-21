@@ -48,6 +48,7 @@ class SCTabs : public QTabWidget {
 
  signals:
   void signal__open_a_new_dipydoc(void);
+  void signal__display_hidetoolbar_icon(bool);
 
  public slots:
   void close_current_tab(void);

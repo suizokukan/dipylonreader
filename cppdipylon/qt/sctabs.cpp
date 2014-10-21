@@ -81,4 +81,10 @@ void SCTabs::tabInserted(int index) {
 
   QObject::connect(new_tab, &SCSplitter::signal__open_a_new_dipydoc,
                    this,    &SCTabs::signal__open_a_new_dipydoc);
+
+  /*
+    Since we're sure that at least one Dipydoc is displayed, let's display
+    the "hidetoolbar" icon :
+  */
+  emit this->signal__display_hidetoolbar_icon(true);
 }
