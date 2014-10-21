@@ -95,6 +95,8 @@ SCSplitter::SCSplitter(const int index_in_scbar,
                                      this->dipydoc,
                                      this->blocked_commentaries,
                                      this->visible_toolbars,
+                                     this->readingmode,
+                                     this->readingmodedetails,
                                      this);
   this->commentary_zone = new CommentaryZone(this->objectName(),
                                              this->dipydoc,
@@ -111,14 +113,6 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_commentary_zone_content,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
-  // (confer doc.) connection #C002
-  QObject::connect(this->source_zone,              &SourceZone::signal__hide_toolbar_in_the_commentary_zone,
-                   this->commentary_zone->toolbar, &CommentaryToolBar::hide);
-
-  // (confer doc.) connection #C003
-  QObject::connect(this->source_zone,              &SourceZone::signal__show_toolbar_in_the_commentary_zone,
-                   this->commentary_zone->toolbar, &CommentaryToolBar::show);
-
   // (confer doc.) connection #C004
   QObject::connect(this->source_zone,              &SourceZone::signal__set_zoom_value_in_commentary_editor,
                    this->commentary_zone->editor,  &TextEditor::set_zoom_value);
@@ -131,6 +125,10 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   QObject::connect(this->source_zone,              &SourceZone::signal__update_commentary_zone_content,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
+  // (confer doc.) connection #C???
+  QObject::connect(this->source_zone,              &SourceZone::signal__update_icons,
+                   this,                           &SCSplitter::update_icons);
+
   /*
     (4) zoom value of the current text
   */
@@ -141,7 +139,12 @@ SCSplitter::SCSplitter(const int index_in_scbar,
                     this->commentary_zone->editor->zoom_value);
 
   /*
-    (5) setting this->_well_initialized
+    (5) update icons
+  */
+  this->update_icons();
+
+  /*
+    (6) setting this->_well_initialized
   */
   this->_well_initialized = true;
 }
@@ -159,6 +162,34 @@ QString SCSplitter::get_object_name(const int index_in_scbar) const {
   return QString("mainwindow__scsplitter" + \
                  this->dipydoc.internal_name + \
                  QString().setNum(index_in_scbar));
+}
+
+/*______________________________________________________________________________
+
+  SCSplitter::update_icons()
+
+  Update the icons along the current Dipydoc and the reading mode.
+________________________________________________________________________________*/
+void SCSplitter::update_icons(void) {
+  DebugMsg() << "SCSplitter::update_icons; visible_toolbars=" << this->visible_toolbars;
+
+  if (this->visible_toolbars == false) {
+    /*
+      invisible toolbars :
+    */
+    DebugMsg() << "SCSplitter::update_icons; HIDE";
+    this->source_zone->toolbar->hide();
+    this->commentary_zone->toolbar->hide();
+  } else {
+    /*
+       visible toolbars :
+    */
+    DebugMsg() << "SCSplitter::update_icons; SHOW";
+    this->source_zone->toolbar->show();
+    this->commentary_zone->toolbar->show();
+  }
+
+  this->source_zone->update_icons();
 }
 
 /*______________________________________________________________________________

@@ -65,15 +65,11 @@ friend class SCSplitter;
   void readingmode_rAct__buttonpressed(void);
   void readingmode_lAct__buttonpressed(void);
 
- public slots:
-  void update_icons(void);
-
  signals:
-  void signal__hide_toolbar_in_the_commentary_zone(void);
   void signal__in_commentary_editor_update_from_dipydoc_info(void);
-  void signal__show_toolbar_in_the_commentary_zone(void);
   void signal__set_zoom_value_in_commentary_editor(const signed int value);
   void signal__update_commentary_zone_content(const PosInTextRanges & posintext);
+  void signal__update_icons(void);
 
  private:
   const DipyDoc& dipydoc = DipyDoc();
@@ -81,8 +77,8 @@ friend class SCSplitter;
   bool & blocked_commentaries;
   bool & visible_toolbars;
 
-  ReadingMode        readingmode;
-  ReadingModeDetails readingmode_details;
+  ReadingMode &        readingmode;
+  ReadingModeDetails & readingmode_details;
 
   QAction* readingmode_aAct = nullptr;
   QAction* readingmode_rAct = nullptr;
@@ -99,11 +95,15 @@ friend class SCSplitter;
   SourceToolBar* toolbar = nullptr;
 
  public:
-  explicit SourceZone(const QString & splitter_name,
-                      const DipyDoc & _dipydoc,
-                      bool          & _blocked_commentaries,
-                      bool          & _visible_toolbars,
+  explicit SourceZone(const QString      & splitter_name,
+                      const DipyDoc      & _dipydoc,
+                      bool               & _blocked_commentaries,
+                      bool               & _visible_toolbars,
+                      ReadingMode        & _readingmode,
+                      ReadingModeDetails & _readingmodedetails,
                       QWidget *_parent);
+ private:
+  void update_icons(void);
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEZONE_H_

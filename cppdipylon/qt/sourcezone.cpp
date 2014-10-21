@@ -35,12 +35,14 @@ SourceZone::SourceZone(const QString & splitter_name,
                        const DipyDoc& _dipydoc,
                        bool & _blocked_commentaries,
                        bool & _visible_toolbars,
+                       ReadingMode        & _readingmode,
+                       ReadingModeDetails & _readingmodedetails,
                        QWidget *_parent) : QFrame(_parent),
                                            dipydoc(_dipydoc),
                                            blocked_commentaries(_blocked_commentaries),
                                            visible_toolbars(_visible_toolbars),
-                                           readingmode(READINGMODE::READINGMODE_UNDEFINED),
-                                           readingmode_details(READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED) {
+                                           readingmode(_readingmode),
+                                           readingmode_details(_readingmodedetails) {
   DebugMsg() << "SourceZone::SourceZone : entry point";
 
   QString object_name(splitter_name + "::source_zone");
@@ -120,10 +122,6 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar = new SourceToolBar(splitter_name,
                                     this);
 
-  // (confer doc.) connection #C005
-  QObject::connect(this->editor, &SourceEditor::signal__source_zone_update_icons,
-                   this,         &SourceZone::update_icons);
-
   this->layout = new QHBoxLayout();
   this->layout->addWidget(this->editor);
   this->layout->addWidget(this->toolbar);
@@ -197,7 +195,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (6) updating the icons
   */
-  this->update_icons();
+  emit this->signal__update_icons();
 
   DebugMsg() << "SourceZone::SourceZone : exit point";
 }
@@ -344,7 +342,7 @@ void SourceZone::readingmode_aAct__buttonpressed(void) {
   this->readingmode = READINGMODE_AMODE;
   this->readingmode_details = READINGMODEDETAIL_AMODE;
   DebugMsg() << "switched to AMODE mode";
-  this->update_icons();
+  emit this->signal__update_icons();
 }
 
 /*______________________________________________________________________________
@@ -362,7 +360,7 @@ void SourceZone::readingmode_rAct__buttonpressed(void) {
   this->readingmode = READINGMODE_RMODE;
   this->readingmode_details = READINGMODEDETAIL_RMODE;
   DebugMsg() << "switched to RMODE mode";
-  this->update_icons();
+  emit this->signal__update_icons();
 }
 
 /*______________________________________________________________________________
@@ -375,84 +373,63 @@ void SourceZone::readingmode_lAct__buttonpressed(void) {
   this->readingmode = READINGMODE_LMODE;
   this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
   DebugMsg() << "switched to LMODE mode";
-  this->update_icons();
+  emit this->signal__update_icons();
 }
+
 
 /*______________________________________________________________________________
 
   SourceZone::update_icons()
 
-  Update the icons along the current Dipydoc and the reading mode.
+  Function called by SCSplitter::update_icons().
+
+  Whether the icons will be display is controlled by visible_toolbars and by
+  SCSplitter::update_icons .
 ________________________________________________________________________________*/
 void SourceZone::update_icons(void) {
-  DebugMsg() << "SourceZone::update_icons; readingmode=" << this->readingmode;
 
-  /*............................................................................
-    normal case : more than one Dipydoc has been loaded.
-  ............................................................................*/
-  if (this->visible_toolbars == false) {
-    /*
-      invisible toolbars :
-    */
-    this->toolbar->hide();
-    // (confer doc.) signal #S003 :
-    emit this->signal__hide_toolbar_in_the_commentary_zone();
-  } else {
-    /*
-       visible toolbars :
-    */
+  DebugMsg() << "SourceZone::update_icons";
 
-    // toolbars are visible :
-    if (this->visible_toolbars == true && this->toolbar->isVisible() == false) {
-      this->toolbar->show();
-      // (confer doc.) signal #S004 :
-      emit this->signal__show_toolbar_in_the_commentary_zone();
+  switch (this->readingmode) {
+    case READINGMODE_AMODE: {
+      this->readingmode_aAct->setIcon(*(icons.readingmode_amode_on));
+      this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
+      this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
+      this->audiocontrols_playAct->setVisible(false);
+      this->audiocontrols_stopAct->setVisible(false);
+      break;
     }
 
-    /*
-      source zone.toolbar.readingmode_icons :
-    */
-    switch (this->readingmode) {
-      case READINGMODE_AMODE: {
-        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_on));
-        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
-        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
+    case READINGMODE_LMODE: {
+      this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
+      this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
+      this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_on));
+
+      // audio control icons :
+      if ((this->dipydoc.well_initialized() == false) ||
+          (this->dipydoc.audiorecord.found == false)) {
+        // special cases : a problem occurs, let's hide the audio icons.
         this->audiocontrols_playAct->setVisible(false);
         this->audiocontrols_stopAct->setVisible(false);
-        break;
+      } else {
+        // normal case : let's show the audio icons.
+        this->audiocontrols_playAct->setVisible(true);
+        this->audiocontrols_stopAct->setVisible(true);
       }
+      break;
+    }
 
-      case READINGMODE_LMODE: {
-        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
-        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_off));
-        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_on));
+    case READINGMODE_RMODE: {
+      this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
+      this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_on));
+      this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
+      this->audiocontrols_playAct->setVisible(false);
+      this->audiocontrols_stopAct->setVisible(false);
+      break;
+    }
 
-        // audio control icons :
-        if ((this->dipydoc.well_initialized() == false) ||
-            (this->dipydoc.audiorecord.found == false)) {
-          // special cases : a problem occurs, let's hide the audio icons.
-          this->audiocontrols_playAct->setVisible(false);
-          this->audiocontrols_stopAct->setVisible(false);
-        } else {
-          // normal case : let's show the audio icons.
-          this->audiocontrols_playAct->setVisible(true);
-          this->audiocontrols_stopAct->setVisible(true);
-        }
-        break;
-      }
-
-      case READINGMODE_RMODE: {
-        this->readingmode_aAct->setIcon(*(icons.readingmode_amode_off));
-        this->readingmode_rAct->setIcon(*(icons.readingmode_rmode_on));
-        this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
-        this->audiocontrols_playAct->setVisible(false);
-        this->audiocontrols_stopAct->setVisible(false);
-        break;
-      }
-
-      default : {
-        break;
-      }
+    default : {
+      break;
     }
   }
 }

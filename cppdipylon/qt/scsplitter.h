@@ -65,13 +65,19 @@ friend class MainWindow;
   SourceZone* source_zone = nullptr;            // (ui) source zone
   CommentaryZone* commentary_zone = nullptr;    // (ui) commentary zone
 
+  ReadingMode        readingmode = READINGMODE::READINGMODE_UNDEFINED;
+  ReadingModeDetails readingmodedetails = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
+
+ private slots:
+   void              update_icons(void);
+
  public:
-  explicit SCSplitter(const int index_in_scbar,
-                      const QString& directoryName,
-                      bool & _visible_toolbars,
-                      QWidget *_parent);
-  bool     well_initialized(void) const;
-  QString  get_object_name(const int index_in_scbar) const;
+            explicit SCSplitter(const int index_in_scbar,
+                                const QString& directoryName,
+                                bool & _visible_toolbars,
+                                QWidget *_parent);
+  bool               well_initialized(void) const;
+  QString            get_object_name(const int index_in_scbar) const;
 };
 
 #endif

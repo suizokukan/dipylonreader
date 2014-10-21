@@ -518,14 +518,19 @@ void MainWindow::update_icons(void) {
     normal case : more than one Dipydoc has been loaded.
   ............................................................................*/
   if (this->visible_toolbars == false) {
-    // hidetoolbars button is "on" :
     this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
+
+    for (int index=0; index<this->sctabs->count(); index++) {
+      splitter = qobject_cast<SCSplitter*>(sctabs->widget(index));
+      splitter->update_icons();
+    }
   } else {
-    /*
-       visible toolbars :
-    */
-    // hidetoolbars button is "off" :
     this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_on));
+
+    for (int index=0; index<this->sctabs->count(); index++) {
+      splitter = qobject_cast<SCSplitter*>(sctabs->widget(index));
+      splitter->update_icons();
+    }
   }
 }
 
