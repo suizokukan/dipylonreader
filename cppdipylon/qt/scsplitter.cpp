@@ -177,14 +177,12 @@ void SCSplitter::update_icons(void) {
     /*
       invisible toolbars :
     */
-    DebugMsg() << "SCSplitter::update_icons; HIDE";
     this->source_zone->toolbar->hide();
     this->commentary_zone->toolbar->hide();
   } else {
     /*
        visible toolbars :
     */
-    DebugMsg() << "SCSplitter::update_icons; SHOW";
     this->source_zone->toolbar->show();
     this->commentary_zone->toolbar->show();
   }

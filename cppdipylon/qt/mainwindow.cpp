@@ -77,6 +77,7 @@ void MainWindow::about(void) {
 ______________________________________________________________________________*/
 void MainWindow::cleaning_up_tabs_before_changing_current_tab(void) {
   DebugMsg() << "MainWindow::cleaning_up_tabs_before_changing_current_tab";
+
   /*
     if in 'lmode', we stop all the audio readings :
   */
@@ -536,6 +537,7 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if (splitter == nullptr || \
       splitter->dipydoc.well_initialized() == false) {
+    DebugMsg() << "MainWindow::update_icons : no splitter.";
     this->hidetoolbarsAct->setVisible(false);
     return;
   }
@@ -547,6 +549,7 @@ void MainWindow::update_icons(void) {
 
   if (this->visible_toolbars == false) {
     this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
+    this->hidetoolbarsAct->setText(tr("show toolbars"));
 
     for (int index=0; index<this->sctabs->count(); index++) {
       splitter = qobject_cast<SCSplitter*>(sctabs->widget(index));
@@ -554,6 +557,7 @@ void MainWindow::update_icons(void) {
     }
   } else {
     this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_on));
+    this->hidetoolbarsAct->setText(tr("hide toolbars"));
 
     for (int index=0; index<this->sctabs->count(); index++) {
       splitter = qobject_cast<SCSplitter*>(sctabs->widget(index));
