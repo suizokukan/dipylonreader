@@ -31,6 +31,8 @@
 #include <QTextEdit>
 #include <QWheelEvent>
 
+#include "debugmsg/debugmsg.h"
+
 class SCSplitter;
 
 /*______________________________________________________________________________

@@ -52,21 +52,23 @@ friend class MainWindow;
     Q_OBJECT
 
  signals:
-  void signal__close_the_current_dipydoc(void);
-  void signal__open_a_new_dipydoc(void);
+  void               signal__close_the_current_dipydoc(void);
+  void               signal__open_a_new_dipydoc(void);
 
  private:
-  bool & visible_toolbars;
-  bool  _well_initialized = false;               // object state
-  bool  blocked_commentaries = false;
+  bool &             visible_toolbars;
+  bool               _well_initialized = false;               // object state
+  bool               blocked_commentaries = false;
 
-  DipyDoc dipydoc = DipyDoc();
+  DipyDoc            dipydoc = DipyDoc();
 
-  SourceZone* source_zone = nullptr;            // (ui) source zone
-  CommentaryZone* commentary_zone = nullptr;    // (ui) commentary zone
+  SourceZone*        source_zone = nullptr;            // (ui) source zone
+  CommentaryZone*    commentary_zone = nullptr;    // (ui) commentary zone
 
   ReadingMode        readingmode = READINGMODE::READINGMODE_UNDEFINED;
   ReadingModeDetails readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
+
+  void               write_settings(void);
 
  private slots:
    void              update_icons(void);

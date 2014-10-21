@@ -120,6 +120,12 @@ ________________________________________________________________________________
 void MainWindow::closing(void) {
   DebugMsg() << "MainWindow::closing";
 
+  DebugMsg() << "(MainWindow::closing) calling SCSPlitter::write_settings()";
+  for (int index=0; index < this->sctabs->count(); ++index) {
+    SCSplitter* splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
+    splitter->write_settings();
+  }
+
   DebugMsg() << "(MainWindow::closing) calling UI::write_settings()";
   this->ui.write_settings();
 }
@@ -552,7 +558,7 @@ void MainWindow::update_icons(void) {
     this->hidetoolbarsAct->setText(tr("show toolbars"));
 
     for (int index=0; index<this->sctabs->count(); index++) {
-      splitter = qobject_cast<SCSplitter*>(sctabs->widget(index));
+      splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
       splitter->update_icons();
     }
   } else {
@@ -560,7 +566,7 @@ void MainWindow::update_icons(void) {
     this->hidetoolbarsAct->setText(tr("hide toolbars"));
 
     for (int index=0; index<this->sctabs->count(); index++) {
-      splitter = qobject_cast<SCSplitter*>(sctabs->widget(index));
+      splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
       splitter->update_icons();
     }
   }

@@ -192,6 +192,25 @@ void SCSplitter::update_icons(void) {
 
 /*______________________________________________________________________________
 
+  SCSplitter::write_settings()
+
+  Write the settings specific to the DipyDoc linked to "this".
+________________________________________________________________________________*/
+void SCSplitter::write_settings(void) {
+
+  QSettings settings;
+
+  /*
+    zoom value :
+  */
+  settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+                    this->source_zone->editor->zoom_value);
+  settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+                    this->commentary_zone->editor->zoom_value);
+}
+
+/*______________________________________________________________________________
+
         SCSplitter::well_initialized
 ______________________________________________________________________________*/
 bool SCSplitter::well_initialized(void) const {
