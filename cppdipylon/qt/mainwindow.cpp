@@ -71,6 +71,26 @@ void MainWindow::about(void) {
 
 /*______________________________________________________________________________
 
+  SCTabs::cleaning_up_tabs_before_changing_current_tab
+
+  Function called when the current tab has changed.
+______________________________________________________________________________*/
+void MainWindow::cleaning_up_tabs_before_changing_current_tab(void) {
+  DebugMsg() << "MainWindow::cleaning_up_tabs_before_changing_current_tab";
+  /*
+    if in 'lmode', we stop all the audio readings :
+  */
+  for(int index=0; index<this->sctabs->count(); ++index) {
+    SCSplitter* splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
+    if (splitter->readingmode == READINGMODE::READINGMODE_LMODE) {
+      splitter->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
+      splitter->source_zone->audio_player->stop();
+    }
+  }
+}
+
+/*______________________________________________________________________________
+
   MainWindow::closeEvent
 
   Function called when the main window is closed.
@@ -381,6 +401,9 @@ void MainWindow::init(void) {
 
   QObject::connect(this->sctabs,          &SCTabs::signal__display_hidetoolbar_icon,
                    this->hidetoolbarsAct, &QAction::setVisible);
+
+  QObject::connect(this->sctabs,          &SCTabs::currentChanged,
+                   this,                  &MainWindow::cleaning_up_tabs_before_changing_current_tab);
 
   this->setCentralWidget(this->sctabs);
 

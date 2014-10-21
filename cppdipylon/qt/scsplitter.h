@@ -66,7 +66,7 @@ friend class MainWindow;
   CommentaryZone* commentary_zone = nullptr;    // (ui) commentary zone
 
   ReadingMode        readingmode = READINGMODE::READINGMODE_UNDEFINED;
-  ReadingModeDetails readingmodedetails = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
+  ReadingModeDetails readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
 
  private slots:
    void              update_icons(void);

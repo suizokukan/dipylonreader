@@ -71,6 +71,7 @@ friend class UI;
 
  private slots:  // NOLINT(whitespace/indent)
     void about(void);
+    void cleaning_up_tabs_before_changing_current_tab(void);
     void closing(void);
     void hidetoolbarsAct__buttonPressed(void);
     void internalmsgAct__buttonPressed(void);

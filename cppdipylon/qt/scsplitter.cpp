@@ -96,7 +96,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
                                      this->blocked_commentaries,
                                      this->visible_toolbars,
                                      this->readingmode,
-                                     this->readingmodedetails,
+                                     this->readingmode_details,
                                      this);
   this->commentary_zone = new CommentaryZone(this->objectName(),
                                              this->dipydoc,
