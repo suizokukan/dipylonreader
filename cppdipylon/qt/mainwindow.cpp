@@ -222,7 +222,7 @@ void MainWindow::createMenus(void) {
   /*
     main menu :
   */
-  this->fileMenu = menuBar()->addMenu(tr("File"));
+  this->fileMenu = menuBar()->addMenu(tr("&File"));
   this->openMenu = fileMenu->addMenu(tr("Open"));
 
   this->fill_open_menu();
