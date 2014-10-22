@@ -43,6 +43,7 @@
 #include <utility>
 
 #include "./fixedparameters.h"
+#include "debugmsg/debugmsg.h"
 #include "dipydoc/menunames.h"
 #include "dipydoc/dipydocnotes.h"
 #include "languages/languagefromto.h"
