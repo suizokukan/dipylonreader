@@ -29,6 +29,8 @@
 
 #include "qt/posintextframeformat.h"
 
+const QString PosInTextFrameFormat::SEPARATOR = ";";
+
 /*______________________________________________________________________________
 
         PosInTextFrameFormat::constructor from a source string.

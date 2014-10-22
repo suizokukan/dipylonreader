@@ -78,7 +78,7 @@ struct VectorPosInTextRanges {
         void                   sort(void);
         PosInTextRanges        toPosInTextRanges(void) const;
 
-        const char* MAIN_SEPARATOR = "/";
+        const QString          MAIN_SEPARATOR = "/";
 
         /*
                 Functor used to sort VectorPosInTextRanges.

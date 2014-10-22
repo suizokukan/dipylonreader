@@ -357,7 +357,6 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
           this->modified_chars_hash = text_ranges_hash;
 
           emit this->signal__update_commentary_zone_content(pos_in_text);
-          this->commentary_zone.editor->update_content__translation_expected(pos_in_text);
         }
 
         break;

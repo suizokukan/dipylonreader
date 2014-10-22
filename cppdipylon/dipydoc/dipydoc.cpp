@@ -28,6 +28,11 @@
 #include "dipydoc/dipydoc.h"
 #include "debugmsg/debugmsg.h"
 
+const int     DipyDoc::min_dipydocformat_version    = 33;
+const int     DipyDoc::max_dipydocformat_version    = 33;
+const int     DipyDoc::condensed_extracts_length    = 30;
+const QString DipyDoc::condensed_extracts_separator = "//";
+
 /*______________________________________________________________________________
 
         DipyDoc::constructor from a "_path" : initialize "this" from the files
@@ -287,14 +292,14 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
 
   for (auto &textrange : positions) {
     QString substring = this->source_text.text.mid(static_cast<int>(textrange.first),
-                                                    static_cast<int>(textrange.second - textrange.first));
+                                                   static_cast<int>(textrange.second - textrange.first));
     res += substring;
     res += condensed_extracts_separator;
   }
 
   // removing the last '//', if necessary :
   if (positions.size() != 0) {
-    res.chop(strlen(condensed_extracts_separator));
+    res.chop(condensed_extracts_separator.size());
   }
 
   if (res.length() > maxlength) {

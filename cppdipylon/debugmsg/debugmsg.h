@@ -50,8 +50,8 @@
 ______________________________________________________________________________*/
 class DebugMsg {
  public:
-                    DebugMsg(void);
-                    ~DebugMsg(void);
+                              DebugMsg(void);
+                              ~DebugMsg(void);
 
                     DebugMsg& operator<<(const int& argument);
                     DebugMsg& operator<<(const QString& argument);
@@ -63,7 +63,7 @@ class DebugMsg {
   static QStringList          messages;
 
  private:
-                    std::ostringstream stream;
+           std::ostringstream stream;
 };
 
 /*______________________________________________________________________________

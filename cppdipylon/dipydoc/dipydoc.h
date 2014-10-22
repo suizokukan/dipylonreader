@@ -351,12 +351,12 @@ friend class UI;
   bool                 well_initialized(void) const;
 
   // public constants ...........................................................
-  static const int     min_dipydocformat_version = 33;
-  static const int     max_dipydocformat_version = 33;
+  static const int     min_dipydocformat_version;
+  static const int     max_dipydocformat_version;
   // for the following constants, see
-  // the  get_condensed_extracts_from_the_source_text() method :
-  static const int     condensed_extracts_length = 30;
-  constexpr static const char*   condensed_extracts_separator = "//";
+  // the get_condensed_extracts_from_the_source_text() method :
+  static const int     condensed_extracts_length;
+  static const QString condensed_extracts_separator;
 
   /*
      INTERNALSTATE

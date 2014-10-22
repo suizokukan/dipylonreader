@@ -48,26 +48,26 @@
   wrapper around "pair", a PairOfPosInAudio object.
 ______________________________________________________________________________*/
 class PosInAudioRange {
-    friend class PosInText2PosInAudio;
-    friend class PosInAudio2PosInText;
+friend class PosInText2PosInAudio;
+friend class PosInAudio2PosInText;
 
  public:
-                     PosInAudioRange(void);
-            explicit PosInAudioRange(const PosInAudioRange&);
-            explicit PosInAudioRange(const QString&);
-                     PosInAudioRange(PosInAudio, PosInAudio);
-                     PosInAudioRange(std::pair<PosInAudio, PosInAudio>);
-                     ~PosInAudioRange(void);
-                     PosInAudioRange& operator=(const PosInAudioRange&);
-  bool               operator==(const PosInAudioRange& other) const;
-  bool               operator!=(const PosInAudioRange& other) const;
+                        PosInAudioRange(void);
+               explicit PosInAudioRange(const PosInAudioRange&);
+               explicit PosInAudioRange(const QString&);
+                        PosInAudioRange(PosInAudio, PosInAudio);
+                        PosInAudioRange(std::pair<PosInAudio, PosInAudio>);
+                        ~PosInAudioRange(void);
+                        PosInAudioRange& operator=(const PosInAudioRange&);
+  bool                  operator==(const PosInAudioRange& other) const;
+  bool                  operator!=(const PosInAudioRange& other) const;
 
-  PosInAudio         first(void) const;
-  std::size_t        get_hash(void) const;
-  int                internal_state(void) const;
-  PosInAudio         second(void) const;
-  QString            repr(void) const;
-  bool               well_initialized(void) const;
+  PosInAudio            first(void) const;
+  std::size_t           get_hash(void) const;
+  int                   internal_state(void) const;
+  PosInAudio            second(void) const;
+  QString               repr(void) const;
+  bool                  well_initialized(void) const;
 
   /*
      INTERNALSTATE
@@ -89,13 +89,13 @@ class PosInAudioRange {
 
  private:
   // for more details, see the POSINAUDIORANGE_STR format :
-  constexpr static const char* MAIN_SEPARATOR = "-";
+  const QString         MAIN_SEPARATOR = "-";
 
-  PairOfPosInAudio   pair;
-  int                _internal_state;
-  bool               _well_initialized;
+  PairOfPosInAudio      pair;
+  int                   _internal_state;
+  bool                  _well_initialized;
 
-  void               checks(void);
+  void                  checks(void);
 };
 
 inline PosInAudioRange::PosInAudioRange(void) : \

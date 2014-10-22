@@ -28,6 +28,8 @@
 #include "languages/languagefromto.h"
 #include "debugmsg/debugmsg.h"
 
+const QString LanguageFromTo::SEPARATOR = ";";
+
 /*______________________________________________________________________________
 
   LanguageFromTo::constructor from a "src" QString.

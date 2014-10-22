@@ -30,6 +30,8 @@
 #include "debugmsg/debugmsg.h"
 #include "qt/textformat.h"
 
+const QString TextFormat::SEPARATOR = ";";
+
 /*______________________________________________________________________________
 
         TextFormat::constructor from a source string.
