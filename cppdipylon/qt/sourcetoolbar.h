@@ -30,6 +30,7 @@
 
 #include <QToolBar>
 
+#include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
 
 /*______________________________________________________________________________

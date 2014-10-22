@@ -41,5 +41,7 @@ CommentaryToolBar::CommentaryToolBar(const QString & _splitter_name,
 
   this->setOrientation(Qt::Vertical);
 
+  this->setStyleSheet(fixedparameters::default__commentarytoolbar_stylesheet);
+
   DebugMsg() << "CommentaryToolBar::CommentaryToolBar : exit point";
 }
