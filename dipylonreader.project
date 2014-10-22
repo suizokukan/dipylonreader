@@ -66,6 +66,9 @@ SUMMARY
 [0] roadmap
 ################################################################################
 
+0.4.6 (2014_10_22)
+o feature84 : added tabs to the UI
+
 0.4.5 (2014_10_08)
 o feature79 : Dipydocs format #33 (RECORD_EXT, summary files)
 o feature74 : added the TextEditor::wheelEvent() method so that zoom value is 
