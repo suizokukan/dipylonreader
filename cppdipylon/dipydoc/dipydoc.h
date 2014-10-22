@@ -28,6 +28,7 @@
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 #define CPPDIPYLON_DIPYDOC_DIPYDOC_H_
 
+#include <QCryptographicHash>
 #include <QFile>
 #include <QFileInfo>
 #include <QIODevice>
@@ -153,17 +154,11 @@ inline void DipyDocLettrine::clear(void) {
 
   DipyDocSourceText class
 
-  This class is used to create an attribute of DipyDoc.
+  This class is used to create an attribute of DipyDoc; see DipyDoc class
+  to see how this class is used.
 
 ______________________________________________________________________________*/
 struct DipyDocSourceText {
-  /*
-    Before the source text, the title and the introduction may be inserted.
-    In this attribute is stored the number of characters appearing before
-    the source text.
-  */
-  int         number_of_chars_before_source_text;
-
   QString     text;
   QString     description;
   QString     filename;    // with full path
@@ -173,7 +168,6 @@ struct DipyDocSourceText {
   void    clear(void);
 };
 inline void DipyDocSourceText::clear(void) {
-  this->number_of_chars_before_source_text = 0;
   this->text = "";
   this->description = "";
   this->filename = "";
@@ -257,10 +251,12 @@ typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
 
 
 class DipyDoc {
-friend class UI;
+friend class CommentaryEditor;
 friend class MainWindow;
 friend class SourceEditor;
-friend class CommentaryEditor;
+friend class SCSplitter;
+friend class SourceZone;
+friend class UI;
 
  private:
   bool                 _well_initialized;
@@ -276,12 +272,15 @@ friend class CommentaryEditor;
   /*
      general informations :
   */
-  // name displayed in the File>Open menu :
+  // name(s) displayed in the File>Open menu :
   // initialized by ::read_menu_name()
   QString              menu_name;
   // name used in the qsettings file :
   // initialized by ::set_qsettings_name()
   QString              qsettings_name;
+  // name used internally
+  // initialized by ::set_internal_name()
+  QString              internal_name;
 
   QString              id;
   int                  version;
@@ -327,11 +326,14 @@ friend class CommentaryEditor;
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
   QString                error_string(QXmlStreamReader* xmlreader);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
+  QString                get_tab_name(void);
+  QString                get_translations_for(PosInText x0, PosInText x1) const;
   bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__text(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__text__init_and_check(void);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
+  void                   set_internal_name(void);
   void                   set_qsettings_name(void);
 
   // public methods .............................................................
@@ -349,12 +351,12 @@ friend class CommentaryEditor;
   bool                 well_initialized(void) const;
 
   // public constants ...........................................................
-  static const int     min_dipydocformat_version = 33;
-  static const int     max_dipydocformat_version = 33;
+  static const int     min_dipydocformat_version;
+  static const int     max_dipydocformat_version;
   // for the following constants, see
-  // the  get_condensed_extracts_from_the_source_text() method :
-  static const int     condensed_extracts_length = 30;
-  constexpr static const char*   condensed_extracts_separator = "//";
+  // the get_condensed_extracts_from_the_source_text() method :
+  static const int     condensed_extracts_length;
+  static const QString condensed_extracts_separator;
 
   /*
      INTERNALSTATE

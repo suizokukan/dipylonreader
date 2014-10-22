@@ -54,15 +54,15 @@
 ______________________________________________________________________________*/
 class ArrowFormat {
  private:
-  QColor               _endcolor;
-  int                  _internal_state;
-  QColor               _maincolor;
-  QString              _repr;
-  QColor               _startcolor;
-  int                  _thickness;
-  bool                 _well_initialized;
+  QColor                  _endcolor;
+  int                     _internal_state;
+  QColor                  _maincolor;
+  QString                 _repr;
+  QColor                  _startcolor;
+  int                     _thickness;
+  bool                    _well_initialized;
 
-  constexpr static const char* SEPARATOR = ";";
+  static const QString    SEPARATOR;
 
  public:
                           ArrowFormat(void);

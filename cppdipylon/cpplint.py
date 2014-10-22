@@ -19,7 +19,7 @@
 
 import os
 
-invoking_cpplint = "python2 ~/projets/cpplint.py --linelength=120"
+invoking_cpplint = "python2 ~/projets/cpplint.py --linelength=120 --filter=-runtime/references"
 
 output_filename = 'cpplint_py__output'
 

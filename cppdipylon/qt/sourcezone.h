@@ -28,33 +28,83 @@
 #ifndef CPPDIPYLON_QT_SOURCEZONE_H_
 #define CPPDIPYLON_QT_SOURCEZONE_H_
 
+#include <QAction>
 #include <QFrame>
 #include <QHBoxLayout>
+#include <QMediaPlayer>
+#include <QSettings>
 
 #include "debugmsg/debugmsg.h"
+#include "dipydoc/dipydoc.h"
+#include "qt/readingmodes.h"
 #include "qt/sourceeditor.h"
 #include "qt/sourcetoolbar.h"
-#include "qt/ui.h"
+#include "qt/icons.h"
+
+extern Icons icons;
 
 class MainWindow;
+class SCSplitter;
 
 /*______________________________________________________________________________
 
   SourceZone class
 ______________________________________________________________________________*/
 class SourceZone : public QFrame {
-friend MainWindow;
+friend class MainWindow;
+friend class SourceEditor;
+friend class SCSplitter;
 
     Q_OBJECT
 
+ private slots:  // NOLINT(whitespace/indent)
+  void audiocontrols_play(void);
+  void audiocontrols_stop(void);
+  void audio_position_changed(PosInAudio);
+  void readingmode_aAct__buttonpressed(void);
+  void readingmode_rAct__buttonpressed(void);
+  void readingmode_lAct__buttonpressed(void);
+
+ signals:
+  void signal__in_commentary_editor_update_from_dipydoc_info(void);
+  void signal__set_zoom_value_in_commentary_editor(const signed int value);
+  void signal__update_commentary_zone_content(const PosInTextRanges & posintext);
+  void signal__update_icons(void);
+
  private:
-  // UI object linked to the editor :
-  UI& ui;
-  // object's layout :
+  const DipyDoc& dipydoc = DipyDoc();
+
+  bool & blocked_commentaries;
+  bool & visible_toolbars;
+
+  ReadingMode &        readingmode;
+  ReadingModeDetails & readingmode_details;
+
+  QAction* readingmode_aAct = nullptr;
+  QAction* readingmode_rAct = nullptr;
+  QAction* readingmode_lAct = nullptr;
+  QAction* audiocontrols_playAct = nullptr;
+  QAction* audiocontrols_stopAct = nullptr;
+
+  QAction* textminusAct = nullptr;
+  QAction* textplusAct = nullptr;
+
+  QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
+  SourceEditor* editor = nullptr;
+  SourceToolBar* toolbar = nullptr;
 
  public:
-  explicit SourceZone(UI& _ui, QWidget *_parent);
+  explicit SourceZone(const QString      & splitter_name,
+                      const DipyDoc      & _dipydoc,
+                      bool               & _blocked_commentaries,
+                      bool               & _visible_toolbars,
+                      ReadingMode        & _readingmode,
+                      ReadingModeDetails & _readingmodedetails,
+                      QWidget *_parent);
+
+ private:
+  void update_icons(void);
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEZONE_H_

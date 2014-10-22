@@ -58,12 +58,12 @@
 ______________________________________________________________________________*/
 class TextFormat {
  private:
-  QTextCharFormat      _qtextcharformat;
-  QString              _repr;
-  bool                 _well_initialized;
-  int                  _internal_state;
+  QTextCharFormat        _qtextcharformat;
+  QString                _repr;
+  bool                   _well_initialized;
+  int                    _internal_state;
 
-  constexpr static const char* SEPARATOR = ";";
+  static const QString   SEPARATOR;
 
  public:
                          TextFormat(void);

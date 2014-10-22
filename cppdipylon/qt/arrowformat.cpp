@@ -30,6 +30,8 @@
 #include "qt/arrowformat.h"
 #include "debugmsg/debugmsg.h"
 
+const QString ArrowFormat::SEPARATOR = ";";
+
 /*______________________________________________________________________________
 
         ArrowFormat::constructor from a source string.

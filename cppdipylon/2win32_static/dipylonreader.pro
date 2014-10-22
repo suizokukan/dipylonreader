@@ -61,16 +61,21 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/commentaryeditor.h \
                     qt/commentarytoolbar.h \
                     qt/commentaryzone.h \
-                    qt/ui.h \	
+                    qt/downloaddemodipydocs.h
+                    qt/icons.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
                     qt/presentationscreen.h \
+                    qt/readingmodes.h \
+                    qt/scsplitter.h \
                     qt/sourceeditor.h \ 
                     qt/sourcetoolbar.h \
                     qt/sourcezone.h \  
+                    qt/sctabs.h \
                     qt/texteditor.h \
                     qt/textformat.h \
-                    qt/downloaddemodipydocs.h
+                    qt/ui.h
+
 
 SOURCES         +=  ./main.cpp \
                     debugmsg/debugmsg.cpp \
@@ -88,16 +93,19 @@ SOURCES         +=  ./main.cpp \
                     qt/commentaryeditor.cpp \
                     qt/commentarytoolbar.cpp \
                     qt/commentaryzone.cpp \
-                    qt/ui.cpp \
+                    qt/downloaddemodipydocs.cpp \
+                    qt/icons.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/presentationscreen.cpp \
+                    qt/scsplitter.cpp \
                     qt/sourceeditor.cpp \
                     qt/sourcetoolbar.cpp \
                     qt/sourcezone.cpp \
+                    qt/sctabs.cpp \
                     qt/texteditor.cpp \
                     qt/textformat.cpp \
-                    qt/downloaddemodipydocs.cpp
+                    qt/ui.cpp
 
 DESTDIR = build/
 OBJECTS_DIR = build/

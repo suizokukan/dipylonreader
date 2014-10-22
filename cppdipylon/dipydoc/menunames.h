@@ -23,7 +23,8 @@
 
     MenuNames class
 
-    This class allow to store the name of the different Dipydocs stored in a directory.
+      This class allow to store the name of the different Dipydocs present in a
+    directory.
 
 *******************************************************************************/
 

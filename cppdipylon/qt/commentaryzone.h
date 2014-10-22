@@ -28,33 +28,49 @@
 #ifndef CPPDIPYLON_QT_COMMENTARYZONE_H_
 #define CPPDIPYLON_QT_COMMENTARYZONE_H_
 
+#include <QAction>
 #include <QFrame>
 #include <QHBoxLayout>
 
 #include "debugmsg/debugmsg.h"
+#include "dipydoc/dipydoc.h"
 #include "qt/commentaryeditor.h"
 #include "qt/commentarytoolbar.h"
-#include "qt/ui.h"
+#include "qt/icons.h"
+
+extern Icons icons;
 
 class MainWindow;
+class SCSplitter;
 
 /*______________________________________________________________________________
 
   CommentaryZone class
 ______________________________________________________________________________*/
 class CommentaryZone : public QFrame {
-friend MainWindow;
+friend class MainWindow;
+friend class SCSplitter;
 
     Q_OBJECT
 
  private:
-  // UI object linked to the editor :
-  UI& ui;
   // object's layout :
   QLayout* layout = nullptr;
 
+  CommentaryEditor* editor = nullptr;
+  CommentaryToolBar* toolbar = nullptr;
+
+  const DipyDoc & dipydoc;
+  bool & blocked_commentaries;
+
+  QAction* textminusAct = nullptr;
+  QAction* textplusAct = nullptr;
+
  public:
-  explicit CommentaryZone(UI& _ui, QWidget *_parent);
+  explicit CommentaryZone(const QString & splitter_name,
+                          const DipyDoc & _dipydoc,
+                          bool & _blocked_commentaries,
+                          QWidget* _parent);
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYZONE_H_

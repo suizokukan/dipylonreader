@@ -47,24 +47,24 @@
 ______________________________________________________________________________*/
 class PosInTextFrameFormat {
  private:
-  QTextFrameFormat::Position  _position;
+  QTextFrameFormat::Position _position;
 
-  QString                     _repr;
+  QString                    _repr;
 
-  bool                        _well_initialized;
-  int                         _internal_state;
+  bool                       _well_initialized;
+  int                        _internal_state;
 
-  constexpr static const char* SEPARATOR = ";";
+  static const QString       SEPARATOR;
 
  public:
-                            PosInTextFrameFormat(void);
-                   explicit PosInTextFrameFormat(const QString&);
+                             PosInTextFrameFormat(void);
+                   explicit  PosInTextFrameFormat(const QString&);
 
-  int                       init_from_string(const QString&);
-  int                       internal_state(void) const;
+  int                        init_from_string(const QString&);
+  int                        internal_state(void) const;
   QTextFrameFormat::Position position(void) const;
-  const QString&            repr(void) const;
-  bool                      well_initialized(void) const;
+  const QString&             repr(void) const;
+  bool                       well_initialized(void) const;
 
   /*
      INTERNALSTATE

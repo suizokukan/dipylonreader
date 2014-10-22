@@ -42,18 +42,14 @@
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "dipydoc/menunames.h"
+#include "qt/icons.h"
 #include "qt/mainwindow.h"
 #include "qt/presentationscreen.h"
+#include "qt/readingmodes.h"
+
+extern Icons icons;
 
 class MainWindow;
-
-/*
-  reading mode type
-
-  see UI::READINGMODE and UI::READINGMODEDETAILS for the values.
-*/
-typedef unsigned int ReadingMode;
-typedef unsigned int ReadingModeDetails;
 
 /*______________________________________________________________________________
 
@@ -82,6 +78,8 @@ class UI {
  private:
   /*
     unique PSLauncher object, used to display "splashscreens".
+
+    n.b. : PSLauncher stands for P(resentation)S(creen)Launcher
   */
   PSLauncher presentation_screen_launcher = PSLauncher();
 
@@ -94,31 +92,6 @@ class UI {
   bool        first_launch;
   // display splash screen when the program has been launched ?
   bool        display_splashscreen = fixedparameters::default__display_splashscreen;
-  bool        visible_toolbars = fixedparameters::default__visible_toolbars;
-
-  // current document displayed in the source zone :
-  DipyDoc     current_dipydoc = DipyDoc();
-
-  QIcon*      icon_app = nullptr;
-  QIcon*      icon_audio_pause = nullptr;
-  QIcon*      icon_audio_play = nullptr;
-  QIcon*      icon_audio_play_unavailable = nullptr;
-  QIcon*      icon_audio_stop = nullptr;
-  QIcon*      icon_audio_stop_unavailable = nullptr;
-  QIcon*      icon_downloaddemo = nullptr;
-  QIcon*      icon_hide_toolbars_off = nullptr;
-  QIcon*      icon_hide_toolbars_on = nullptr;
-  QIcon*      icon_open = nullptr;
-  QIcon*      icon_popup_mainmenu = nullptr;
-  QIcon*      icon_readingmode_amode_off = nullptr;
-  QIcon*      icon_readingmode_amode_on  = nullptr;
-  QIcon*      icon_readingmode_lmode_off = nullptr;
-  QIcon*      icon_readingmode_lmode_on  = nullptr;
-  QIcon*      icon_readingmode_rmode_off = nullptr;
-  QIcon*      icon_readingmode_rmode_on  = nullptr;
-  QIcon*      icon_save = nullptr;
-  QIcon*      icon_textminus = nullptr;
-  QIcon*      icon_textplus = nullptr;
 
   // path to the DipyDocs : the initial value is initialized by UI's constructor.
   QString     path_to_dipydocs;
@@ -128,53 +101,16 @@ class UI {
 
   MainWindow* mainWin = nullptr;
 
-  // if set to true, protect the commentary zone to be modified.
-  bool        selected_text_and_blocked_commentaries = false;
-
   QSplashScreen* splashscreen = nullptr;
 
  public:
-  /*
-    READINGMODE, READINGMODEDETAILS :
-
-    o READINGMODE_UNDEFINED : no reading mode defined
-      o READINGMODEDETAIL_UNDEFINED
-
-    o READINGMODEDETAIL_AMODE : "analyse" mode
-
-    o READINGMODE_RMODE : "read" mode
-      o READINGMODEDETAIL_LMODE
-
-    o READINGMODE_LMODE : "read and listen" mode
-      o READINGMODEDETAIL_LMODE_PLAYING
-      o READINGMODEDETAIL_LMODE_ONPAUSE
-  */
-  enum READINGMODE : ReadingMode {
-    READINGMODE_UNDEFINED = 0,
-    READINGMODE_RMODE     = 1,
-    READINGMODE_LMODE    = 2,
-    READINGMODE_AMODE     = 3,
-  };
-  enum READINGMODEDETAILS : ReadingModeDetails {
-      READINGMODEDETAIL_UNDEFINED      = 0,
-      READINGMODEDETAIL_RMODE          = 0x1000,
-      READINGMODEDETAIL_LMODE_PLAYING  = 0x2000,
-      READINGMODEDETAIL_LMODE_ONPAUSE  = 0x2001,
-      READINGMODEDETAIL_LMODE_STOP     = 0x2002,
-      READINGMODEDETAIL_AMODE          = 0x3000,
-  };
-
-  ReadingMode        reading_mode = UI::READINGMODE_UNDEFINED;
-  ReadingModeDetails reading_mode_details = UI::READINGMODEDETAIL_UNDEFINED;
-
                      UI(void);
-                     ~UI(void);
+                    ~UI(void);
   int                go(int argc, char **argv);
 
  private:
   bool               at_least_one_dipydoc_has_been_loaded(void) const;
   void               display_the_splashscreen(const QString& text);
-  QString            get_translations_for(PosInText, PosInText) const;
   void               read_menu_names(void);
   void               read_settings(void);
   void               set_content_of_the_commentary_editor(QString text);

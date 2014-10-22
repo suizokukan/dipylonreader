@@ -31,15 +31,15 @@
 
   CommentaryToolBar::constructor
 ______________________________________________________________________________*/
-CommentaryToolBar::CommentaryToolBar(const UI& _ui, QWidget *_parent) : QToolBar(_parent), ui(_ui) {
+CommentaryToolBar::CommentaryToolBar(const QString & _splitter_name,
+                                     QWidget *_parent) : QToolBar(_parent),
+                                                         splitter_name(_splitter_name) {
   DebugMsg() << "CommentaryToolBar::CommentaryToolBar : entry point";
 
-  this->setObjectName("commentary_zone__toolbar");
+  QString object_name(splitter_name + "::commentary zone::toolbar");
+  this->setObjectName(object_name);
 
   this->setOrientation(Qt::Vertical);
-
-  this->addAction(this->ui.mainWin->commentary_textplusAct);
-  this->addAction(this->ui.mainWin->commentary_textminusAct);
 
   DebugMsg() << "CommentaryToolBar::CommentaryToolBar : exit point";
 }
