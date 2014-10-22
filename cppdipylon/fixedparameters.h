@@ -89,6 +89,10 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
                                                      "selection-color: yellow;"
                                                      "selection-background-color: red;";
 
+const QString default__sourcetoolbar_stylesheet = "background-color: #efebe7;";
+
+const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7;";
+
 const QStringList known_doctypes = { QString("text"), };
 
 // default zoom value for both editors :

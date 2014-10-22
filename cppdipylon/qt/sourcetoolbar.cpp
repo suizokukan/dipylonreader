@@ -40,5 +40,7 @@ SourceToolBar::SourceToolBar(const QString & splitter_name,
 
   this->setOrientation(Qt::Vertical);
 
+  this->setStyleSheet(fixedparameters::default__sourcetoolbar_stylesheet);
+
   DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
 }
