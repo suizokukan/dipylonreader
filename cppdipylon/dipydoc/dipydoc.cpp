@@ -718,7 +718,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
       if (this->read_mainfile__first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
         if (this->doctype == QString("text")) {
-            ok = this->read_mainfile__text(xmlreader);
+            ok = this->read_mainfile__doctype_text(xmlreader);
         }
       }
     } else {
@@ -749,7 +749,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
     (3) initialization and checking
   ............................................................................*/
   if (this->doctype == QString("text")) {
-    ok &= this->read_mainfile__text__init_and_check();
+    ok &= this->read_mainfile__doctype_text__init_and_check();
   }
 
   delete xmlreader;
@@ -816,15 +816,15 @@ bool DipyDoc::read_mainfile__first_token(QXmlStreamReader* xmlreader) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__text()
+  DipyDoc::read_mainfile__doctype_text()
 
-    for doctype='text', read everything but the first token and initializes the
+    for doctype='text', read everything but the first token and initialize the
   object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
-  DebugMsg() << "(DipyDoc::read_mainfile__text) : entry point";
+bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : entry point";
   bool ok = true;
 
   while (xmlreader->readNextStartElement()) {
@@ -1235,13 +1235,13 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
     }
   }  // ... while (xmlreader->readNextStartElement())
 
-  DebugMsg() << "(DipyDoc::read_mainfile__text) : exit point" << ok;
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : exit point" << ok;
   return ok;
 }
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__text__init_and_check()
+  DipyDoc::read_mainfile__doctype_text__init_and_check()
 
   Initialization and checking for "text" dipydoc.
 
@@ -1258,13 +1258,13 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
         (3) initializaton of _well_initialized
 
 ________________________________________________________________________________*/
-bool DipyDoc::read_mainfile__text__init_and_check(void) {
+bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   bool ok = true;
 
   /*............................................................................
     (1) secondary initializations
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #1";
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #1";
 
   /*............................................................................
     (1.1) initialization of "audiorecord.audio2text"
@@ -1279,7 +1279,7 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
   /*............................................................................
     (2) checks
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #2";
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #2";
 
   /*............................................................................
     (2.1) is audiorecord.text2audio correctly initialized ?
@@ -1371,16 +1371,16 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
   /*............................................................................
     (3) initializaton of _well_initialized and of _internal_state.
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #3";
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #3";
   if (ok == false) {
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
   }
 
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) levels=" << this->levels_repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) arrows=" << this->arrows_repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) notes="  << this->notes.repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) levels=" << this->levels_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows=" << this->arrows_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes="  << this->notes.repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
 
   return ok;
 }
