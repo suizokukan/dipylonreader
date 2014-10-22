@@ -47,7 +47,7 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
     this->_well_initialized = false;
     this->_internal_state = ILLFORMED_SOURCE_STRING;
     DebugMsg() << "LanguageFromTo::LanguageFromTo() : ill-formed source string=" << src \
-               << " where splitted_strings.length=" << splitted_strings.length;
+               << " where splitted_strings.length=" << splitted_strings.length();
     return;
   }
 
