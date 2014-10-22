@@ -61,7 +61,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/commentaryeditor.h \
                     qt/commentarytoolbar.h \
                     qt/commentaryzone.h \
-                    qt/downloaddemodipydocs.h
+                    qt/downloaddemodipydocs.h \
                     qt/icons.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
