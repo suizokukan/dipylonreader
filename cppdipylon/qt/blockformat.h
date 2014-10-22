@@ -53,12 +53,12 @@
 ______________________________________________________________________________*/
 class BlockFormat {
  private:
-  QTextBlockFormat     _qtextblockformat;
-  QString              _repr;
-  bool                 _well_initialized;
-  int                  _internal_state;
+  QTextBlockFormat        _qtextblockformat;
+  QString                 _repr;
+  bool                    _well_initialized;
+  int                     _internal_state;
 
-  constexpr static const char* SEPARATOR = ";";
+  static const QString    SEPARATOR;
 
  public:
                           BlockFormat(void);

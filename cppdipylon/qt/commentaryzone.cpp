@@ -31,22 +31,46 @@
 
   CommentaryZone::constructor
 ______________________________________________________________________________*/
-CommentaryZone::CommentaryZone(UI& _ui, QWidget *_parent) : QFrame(_parent), ui(_ui) {
+CommentaryZone::CommentaryZone(const QString & splitter_name,
+                               const DipyDoc & _dipydoc,
+                               bool & _blocked_commentaries,
+                               QWidget* _parent) : QFrame(_parent),
+                                                   dipydoc(_dipydoc),
+                                                   blocked_commentaries(_blocked_commentaries) {
   DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
 
-  this->setObjectName("commentary_zone");
+  QString object_name(splitter_name + "::commentary_zone");
+  this->setObjectName(object_name);
 
   DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
-  this->ui.mainWin->commentary_editor = new CommentaryEditor(this->ui, this);
+  this->editor = new CommentaryEditor(splitter_name,
+                                      this->dipydoc,
+                                      this->blocked_commentaries,
+                                      this);
 
   DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
-  this->ui.mainWin->commentary_toolbar = new CommentaryToolBar(this->ui, this);
+  this->toolbar = new CommentaryToolBar(splitter_name,
+                                        this);
 
   this->layout = new QHBoxLayout();
-  this->layout->addWidget(this->ui.mainWin->commentary_editor);
-  this->layout->addWidget(this->ui.mainWin->commentary_toolbar);
+  this->layout->addWidget(this->editor);
+  this->layout->addWidget(this->toolbar);
 
   this->setLayout(this->layout);
+
+  /*
+    (2) signals : signals between the editors and the toolbars :
+  */
+  this->textminusAct = new QAction(*(icons.textminus), tr("reduce the font size"), this);
+  this->textplusAct  = new QAction(*(icons.textplus), tr("enlarge the font size"), this);
+
+  this->toolbar->addAction(this->textplusAct);
+  this->toolbar->addAction(this->textminusAct);
+
+  QObject::connect(this->textminusAct, &QAction::triggered,
+                   this->editor,       &CommentaryEditor::zoom_out);
+  QObject::connect(this->textplusAct,  &QAction::triggered,
+                   this->editor,       &CommentaryEditor::zoom_in);
 
   DebugMsg() << "CommentaryZone::CommentaryZone : exit point";
 }

@@ -128,8 +128,8 @@ class PosInTextRanges {
 
  private:
   // for more details, see the POSINTEXTRANGES_STR format :
-  constexpr static const char* MAIN_SEPARATOR = "+";
-  constexpr static const char* SECONDARY_SEPARATOR = "-";
+  const QString MAIN_SEPARATOR = "+";
+  const QString SECONDARY_SEPARATOR = "-";
 
   VPairOfPosInText   vec;
   int                _internal_state;

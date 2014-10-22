@@ -29,6 +29,8 @@
 
 #include "qt/blockformat.h"
 
+const QString BlockFormat::SEPARATOR = ";";
+
 /*______________________________________________________________________________
 
         BlockFormat::constructor from a source string.

@@ -30,10 +30,11 @@
 
 #include <QTextEdit>
 
+#include "debugmsg/debugmsg.h"
+#include "dipydoc/dipydoc.h"
+#include "pos/posintext/posintextranges.h"
+#include "qt/readingmodes.h"
 #include "qt/texteditor.h"
-#include "qt/ui.h"
-
-class UI;
 
 /*______________________________________________________________________________
 
@@ -41,24 +42,30 @@ class UI;
 ______________________________________________________________________________*/
 class CommentaryEditor : public TextEditor {
 friend class MainWindow;
-friend class UI;
 
     Q_OBJECT
 
+ signals:
+  void signal__close_the_current_dipydoc(void);
+  void signal__open_a_new_dipydoc(void);
+
  public:
-    explicit CommentaryEditor(UI& _ui, QWidget *_parent);
+  explicit CommentaryEditor(const QString & splitter_name,
+                            const DipyDoc & _dipydoc,
+                            bool & _blocked_commentaries,
+                            QWidget * _parent);
 
-    void set_the_appearance(void);
-    void set_the_text_formats(void);
-    void update_content__translation_expected(const PosInTextRanges&);
-    void update_aspect_from_dipydoc_aspect_informations(void);
-
- protected:
-    void keyReleaseEvent(QKeyEvent* keyboard_event);
+  void set_the_appearance(void);
+  void set_the_text_formats(void);
+  void update_content__translation_expected(const PosInTextRanges&);
+  void update_aspect_from_dipydoc_aspect_informations(void);
 
  private:
+    const DipyDoc & dipydoc;
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();
+
+    bool & blocked_commentaries;
 };
 
 #endif  // CPPDIPYLON_QT_COMMENTARYEDITOR_H_

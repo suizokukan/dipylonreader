@@ -31,7 +31,6 @@
 #include <QToolBar>
 
 #include "debugmsg/debugmsg.h"
-#include "qt/ui.h"
 
 /*______________________________________________________________________________
 
@@ -40,11 +39,8 @@ ______________________________________________________________________________*/
 class SourceToolBar : public QToolBar {
     Q_OBJECT
 
- private:
-  // UI object linked to the editor :
-  UI& ui;
-
  public:
-  explicit SourceToolBar(UI& _ui, QWidget *_parent);
+  explicit SourceToolBar(const QString & _splitter_name,
+                         QWidget *_parent);
 };
 #endif  // CPPDIPYLON_QT_SOURCETOOLBAR_H_

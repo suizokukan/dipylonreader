@@ -92,20 +92,20 @@ class LanguageFromTo {
   };
 
  private:
-  int     _internal_state;
-  bool    _well_initialized;
-  QString _from;
-  QString _to;
+  int                   _internal_state;
+  bool                  _well_initialized;
+  QString               _from;
+  QString               _to;
 
-  constexpr static const char* SEPARATOR = "->";
+  static const QString  SEPARATOR;
 };
 
 inline LanguageFromTo::LanguageFromTo(void) : \
                   _internal_state(NOT_YET_INITIALIZED), \
                   _well_initialized(false), \
                   _from(""), \
-                  _to("")
-{}
+                  _to("") {
+}
 
 inline int LanguageFromTo::internal_state(void) const {
   return this->_internal_state;

@@ -28,10 +28,15 @@
 #include "dipydoc/dipydoc.h"
 #include "debugmsg/debugmsg.h"
 
+const int     DipyDoc::min_dipydocformat_version    = 33;
+const int     DipyDoc::max_dipydocformat_version    = 33;
+const int     DipyDoc::condensed_extracts_length    = 30;
+const QString DipyDoc::condensed_extracts_separator = "//";
+
 /*______________________________________________________________________________
 
         DipyDoc::constructor from a "_path" : initialize "this" from the files
-                                             stored in "_path"
+                                              stored in "_path"
 
         See above for a description of the expected files.
 
@@ -59,6 +64,8 @@ DipyDoc::DipyDoc(const QString& _path) {
 
   // let's initialize the qsettings' name :
   this->set_qsettings_name();
+  // let's initialize the internal name :
+  this->set_internal_name();
 
   // let's open the main file :
   this->read_mainfile(_path);
@@ -285,14 +292,14 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
 
   for (auto &textrange : positions) {
     QString substring = this->source_text.text.mid(static_cast<int>(textrange.first),
-                                                    static_cast<int>(textrange.second - textrange.first));
+                                                   static_cast<int>(textrange.second - textrange.first));
     res += substring;
     res += condensed_extracts_separator;
   }
 
   // removing the last '//', if necessary :
   if (positions.size() != 0) {
-    res.chop(strlen(condensed_extracts_separator));
+    res.chop(condensed_extracts_separator.size());
   }
 
   if (res.length() > maxlength) {
@@ -302,6 +309,20 @@ QString DipyDoc::get_condensed_extracts_from_the_source_text(PosInTextRanges pos
   }
 
   return res;
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::get_tab_name()
+
+   Return a name convenient to tabs' display.
+________________________________________________________________________________*/
+QString DipyDoc::get_tab_name(void) {
+  if (this->menu_name.size() <= fixedparameters::maxlen_in_tab_name) {
+    return this->menu_name;
+  } else {
+    return "…" + this->menu_name.right(fixedparameters::maxlen_in_tab_name-1);
+  }
 }
 
 /*______________________________________________________________________________
@@ -774,7 +795,9 @@ bool DipyDoc::read_mainfile__first_token(QXmlStreamReader* xmlreader) {
     let's read and check the languages :
   */
   this->languagefromto = LanguageFromTo(xmlreader->attributes().value("languages").toString());
-  bool languagesfromto_ok = !this->error(this->languagefromto, this->error_string(xmlreader), "dipydoc:first token");
+  bool languagesfromto_ok = !this->error(this->languagefromto,
+                                         this->error_string(xmlreader),
+                                         "dipydoc:first token");
   ok &= languagesfromto_ok;
 
   /*
@@ -1225,7 +1248,6 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
 
         (1) secondary initializations
             (1.1) initialization of "audiorecord.audio2text"
-            (1.2) "number_of_chars_before_source_text" is not initialized here
         (2) checks
             (2.1) is audiorecord.text2audio correctly initialized ?
             (2.2) is audiorecord.audio2text correctly initialized ?
@@ -1254,29 +1276,6 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
     // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
     this->audiorecord.audio2text.clear();
   }
-
-  /*............................................................................
-    (1.2) "number_of_chars_before_source_text" is not initialized here
-
-    The first attempt to compute "number_of_chars_before_source_text was doubtfull :
-
-      this->source_text.number_of_chars_before_source_text = 0;
-      if (this->title.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->title.text.length();
-      }
-      if (this->introduction.found == true) {
-        this->source_text.number_of_chars_before_source_text += this->introduction.text.length();
-      }
-      if (this->lettrine.found == true) {
-        this->source_text.number_of_chars_before_source_text += 1;
-      }
-
-    ... the main problem was that it's difficult to know how is the lettrine's
-    image coded into the text. The result was ok but I could not trust this
-    code : how will Qt work on different architectures ? So I decided to ask
-    SourceEditor::load_text() to initialize "number_of_chars_before_source_text"
-    by simply incrementing a cursor's position as the document is filled.
-  ............................................................................*/
 
   /*............................................................................
     (2) checks
@@ -1455,6 +1454,24 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
 
 /*______________________________________________________________________________
 
+   DipyDoc::set_internal_name()
+
+   Initialize this->internal_name from this->menu_name
+
+   This function created name that can be used whin calls to setStyleSheet() :
+   the only characters accepted are "n_" + 0-9 + a-f.
+________________________________________________________________________________*/
+void DipyDoc::set_internal_name(void) {
+  QCryptographicHash hash(QCryptographicHash::Md5);
+  hash.addData("n_");
+  hash.addData(this->menu_name.toUtf8());
+  this->internal_name = hash.result().toHex();
+
+  DebugMsg() << "DipyDoc::set_internal_name = " << this->internal_name;
+}
+
+/*______________________________________________________________________________
+
    DipyDoc::set_qsettings_name()
 
    Initialize this->qsettings_name from this->menu_name
@@ -1466,6 +1483,8 @@ void DipyDoc::set_qsettings_name(void) {
   this->qsettings_name = this->menu_name;
   this->qsettings_name.replace("\\", "_");
   this->qsettings_name.replace("/", "_");
+
+  DebugMsg() << "DipyDoc::set_qsettings_name = " << this->qsettings_name;
 }
 
 /*______________________________________________________________________________
@@ -1487,4 +1506,22 @@ PosInTextRanges DipyDoc::translation_contains(PosInText x0) const {
 ________________________________________________________________________________*/
 PosInTextRanges DipyDoc::translation_contains(PosInText x0, PosInText x1) const {
   return this->translation.translations.contains(x0, x1).toPosInTextRanges();
+}
+
+/*______________________________________________________________________________
+
+  DipyDoc::get_translations_for() : return a QString with the translations
+                                    matching the positions x0 to x1 in the
+                                    source text.
+______________________________________________________________________________*/
+QString DipyDoc::get_translations_for(PosInText x0, PosInText x1) const {
+  VectorPosInTextRanges vector_posintextranges = this->translation.translations.contains(x0, x1);
+
+  QStringList strlist_of_translations;
+
+  for (auto &posintextranges : vector_posintextranges) {
+    strlist_of_translations.append(this->translation.translations[posintextranges]);
+  }
+
+  return strlist_of_translations.join(" ");
 }

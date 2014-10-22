@@ -28,9 +28,11 @@
 #ifndef CPPDIPYLON_QT_SOURCEEDITOR_H_
 #define CPPDIPYLON_QT_SOURCEEDITOR_H_
 
+#include <QAction>
 #include <QTextEdit>
 #include <QTextCharFormat>
 #include <QList>
+#include <QMediaPlayer>
 
 #include <vector>
 
@@ -38,11 +40,12 @@
 #include "dipydoc/dipydoc.h"
 #include "pos/posintext/posintext.h"
 #include "qt/blockformat.h"
+#include "qt/icons.h"
+#include "qt/readingmodes.h"
 #include "qt/texteditor.h"
 #include "qt/textformat.h"
-#include "qt/ui.h"
 
-class UI;
+extern Icons icons;
 
 /*______________________________________________________________________________
 
@@ -50,19 +53,34 @@ class UI;
 ______________________________________________________________________________*/
 class SourceEditor : public TextEditor {
   friend class MainWindow;
-  friend class UI;
+  friend class SourceZone;
 
     Q_OBJECT
 
  public:
-    explicit  SourceEditor(UI& _ui, QWidget *_parent);
+    explicit  SourceEditor(const QString &      splitter_name,
+                           ReadingMode &        _readingmode,
+                           ReadingModeDetails & _readingmode_details,
+                           const DipyDoc &      _dipydoc,
+                           QMediaPlayer *       _audio_player,
+                           QAction *            _audiocontrols_playAct,
+                           QAction *            _audiocontrols_stopAct,
+                           bool &               _blocked_commentaries,
+                           QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
-    void      load_text(const DipyDocSourceText&);
-    void      modify_the_text_format(const PosInTextRanges&);
+    void      load_text(void);
+    void      modify_the_text_format(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);
     void      update_aspect_from_dipydoc_aspect_informations(void);
+    void      update_icons(void);
+
+ signals:
+    void      signal__close_the_current_dipydoc(void);
+    void      signal__open_a_new_dipydoc(void);
+    void      signal__source_zone_update_icons(void);
+    void      signal__update_commentary_zone_content(const PosInTextRanges & posintext);
 
  protected:
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
@@ -71,13 +89,30 @@ class SourceEditor : public TextEditor {
     void      paintEvent(QPaintEvent* event);
 
  private:
-    PosInTextRanges modified_chars = PosInTextRanges();
+    ReadingMode &        readingmode;
+    ReadingModeDetails & readingmode_details;
+    const DipyDoc &      dipydoc;
+    QMediaPlayer*        audio_player = nullptr;
+
+    QAction*             audiocontrols_playAct = nullptr;
+    QAction*             audiocontrols_stopAct = nullptr;
+
+    bool &               blocked_commentaries;
+
+    PosInTextRanges      modified_chars = PosInTextRanges();
+
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE
     std::size_t modified_chars_hash = 0x12345678;
     #else
     std::size_t modified_chars_hash = 0x123456789;
     #endif
+
+    /*
+       the number of characters appearing before the source text.
+       initialized by SourceEditor::load_text()
+    */
+    int number_of_chars_before_source_text = 0;
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEEDITOR_H_

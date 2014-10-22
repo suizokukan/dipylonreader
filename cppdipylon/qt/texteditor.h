@@ -31,27 +31,26 @@
 #include <QTextEdit>
 #include <QWheelEvent>
 
-class UI;
+#include "debugmsg/debugmsg.h"
+
+class SCSplitter;
 
 /*______________________________________________________________________________
 
   TextEditor class
 ______________________________________________________________________________*/
 class TextEditor : public QTextEdit {
-friend class CommentaryEditor;
-friend class MainWindow;
+friend class CommentaryZone;
+friend class SourceZone;
 friend class SourceEditor;
-friend class UI;
+friend class SCSplitter;
 
     Q_OBJECT
 
  public:
-    explicit  TextEditor(UI& _ui, QWidget *_parent);
+    explicit  TextEditor(QWidget *_parent);
 
  private:
-    // UI object linked to the editor :
-    UI& ui;
-
     int      zoom_value = 0;
 
     void     zoom_in(void);

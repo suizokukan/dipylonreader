@@ -40,7 +40,7 @@
 
 ______________________________________________________________________________*/
 namespace languages {
-    static std::map<QString, QString> known_languages = {
+    const std::map<QString, QString> known_languages = {
       { QString("ang"), QString(QObject::tr("Old English")) },
       { QString("bod"), QString(QObject::tr("Tibetan")) },
       { QString("deu"), QString(QObject::tr("German")) },
