@@ -66,8 +66,15 @@ SUMMARY
 [0] roadmap
 ################################################################################
 
+0.4.7 (2014_10_22)
+o feature89 : splitters' sizes are now stored in settings' file.
+o feature85 : added style sheets to SourceZoneToolBar and CommentaryToolBar
++ feature91, feature90, feature88, feature87, feature86
+code quality : 2 errors, according to cpplint.py
+
 0.4.6 (2014_10_22)
 o feature84 : added tabs to the UI
+code quality : 9 errors, according to cpplint.py
 
 0.4.5 (2014_10_08)
 o feature79 : Dipydocs format #33 (RECORD_EXT, summary files)

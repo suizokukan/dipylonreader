@@ -26,10 +26,9 @@
 *******************************************************************************/
 
 #include "dipydoc/dipydoc.h"
-#include "debugmsg/debugmsg.h"
 
-const int     DipyDoc::min_dipydocformat_version    = 33;
-const int     DipyDoc::max_dipydocformat_version    = 33;
+const int     DipyDoc::min_dipydocformat_version    = fixedparameters::min_dipydocformat_version;
+const int     DipyDoc::max_dipydocformat_version    = fixedparameters::min_dipydocformat_version;
 const int     DipyDoc::condensed_extracts_length    = 30;
 const QString DipyDoc::condensed_extracts_separator = "//";
 

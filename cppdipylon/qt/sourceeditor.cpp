@@ -394,7 +394,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
     // where are the characters in the translations linked to "x0-x1" ?
     PosInTextRanges pos_in_text =  this->dipydoc.translation_contains(x0, x1);
-    DebugMsg() << "... pos_in_text=" << pos_in_text.repr();
+    DebugMsg() << x0 << "-" << x1 << "; pos_in_text=" << pos_in_text.repr();
 
     /*
       we refresh the ui :

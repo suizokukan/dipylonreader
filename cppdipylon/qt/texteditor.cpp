@@ -34,6 +34,7 @@
   class constructor
 ______________________________________________________________________________*/
 TextEditor::TextEditor(QWidget *_parent) : QTextEdit(_parent) {
+  this->set_zoom_value(this->zoom_value);
 }
 
 /*______________________________________________________________________________
@@ -85,4 +86,6 @@ void TextEditor::wheelEvent(QWheelEvent * e) {
       this->zoomOut(1);
     }
   }
+
+  QTextEdit::wheelEvent(e);
 }

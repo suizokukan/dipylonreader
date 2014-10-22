@@ -44,6 +44,12 @@ const QString   CODESOURCE_LICENSE = "GPLv3";
 const QString   CODESOURCE_LICENSE_ADDRESS= "http://www.gnu.org/copyleft/gpl.html";
 
 /*
+  minimal/maximal DipyDoc's versions allowed :
+*/
+const int min_dipydocformat_version = 33;
+const int max_dipydocformat_version = 33;
+
+/*
   data used to initialize the QApplication object.
 
   see http://qt-project.org/doc/qt-5/qcoreapplication.html
@@ -52,7 +58,7 @@ const QString organization_name   = "suizokukanfactory";
 const QString organization_domain = "94.23.197.37";
 const QString application_name    = "dipylonreader";
 const QString application_name_for_the_user = "Dipylon-R";
-const QString application_version = "0.4.6";
+const QString application_version = "0.4.7";
 const QString application_style   = "CleanLooks";
 
 /*
@@ -88,6 +94,10 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
                                                      "background-color: #ffcc99;"
                                                      "selection-color: yellow;"
                                                      "selection-background-color: red;";
+
+const QString default__sourcetoolbar_stylesheet = "background-color: #efebe7;";
+
+const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7;";
 
 const QStringList known_doctypes = { QString("text"), };
 

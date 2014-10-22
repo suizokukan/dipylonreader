@@ -1,1 +1,66 @@
 (C++/Qt5) front-end used to read texts with some annotations
+
+TODO
+
+[ui]
+- ouvrir le(s) dernier(s) fichier(s) ouverts
+- (ui)menu contextuel avec espace
+- (ui)ouvrir la liste des documents disponibles dès le lancement.
+- (ui)icône hidetoolbar : reprendre les couleurs de la toolbar.
+- créer une entrée dans les menus où le splashscreen est autorisé/interdit, afin de modifier : this->display_splashscreen == true
+- [ui] flèche gauche, flèche droite : passer d'un segment à l'autre (+first pos, +last pos)
+- [ui] Menu : informations sur le dipydoc
+- [ui] faire pivoter les fenêtres : bouton ou dragable (cf QDockWidget)
+- [ui] si zone de traduction horizontale, placer la traduction à la même hauteur que le le texte traduit.
+- [ui/tablette] bouton Menu (en haut à gauche ? un gros point ?)
+- [ui] mute/volume slider (http://qt-project.org/doc/qt-5/qtwidgets-widgets-sliders-example.html)
+- [ui] -/+ taille du texte
+- [ui] interface jeunes enfants : grosses icônes + gros curseur souris.
+- [ui] menu contextuel click droit
+- [ui] si pas de traduction, update icônes
+- [ui] justify ne fonctionne pas (au moins sur Linux)
+
+[+]
+- afficher correctement le mode AMODE
+- doc. achetés : Fichier>télécharger doc. acheté avec le n° du doc. acheté.
+- permettre des variantes dans le texte.
+- vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
+- variantes d'un texe
+- document image (http://qt-project.org/doc/qt-5/qpixmap.html#details)
+
+[code]
+- que faire de bool MainWindow::saveMainFileOfADipyDocAs() ??// READ_AND_WRITE n'est nulle part utilisé.
+- réfléchir à la question : le ~/dipydocs est-il complètement nettoyé après un download ? Documenter ce comportement.
+- memory leaks : regarder valgrind + g++ -g
+- pointeurs const par sécurité partout où c'est possible.
+- DebugMsg() sur une seule ligne pour facilement les remplacer par //DebugMsg() pour une version optimisée.
+- relire le code : les include sont-ils nécessaires ?
+- et si on clique dans l'intro ? comment réagissent les _contains() ?
+- réécrire les .sh en script python + inclure un numéro de build.
+- dans ... , vérifier que "number", "name" existent :
+
+      if( name == "level" ) {
+        current_division = DIPYDOCDIV_INSIDE_LEVEL;
+        int     level_number = xmlreader.attributes().value("number").toString().toInt();
+        QString level_name = xmlreader.attributes().value("name").toString();
+        this->levels[ level_number ] = level_name;
+        continue;
+      }
+
+[doc]
+- (doc)numéroter toutes les connexions (TOUS LES connect()) et faire un dessin.
+- (doc)friend class/include/ à relire : sont-ils nécessaires ?
+- this->setParent()+this->setName() -> doc.
+
+[crossplaform]
+- renommer MXE MXE_Qt5_1
+- build : Linux_static/Linux_dynamique/Win32static/Win64static/OSXstatic/IPadStatic/AndroidStatic
+- [win] installateur Windows (cf mail de ~)
+- java :
+  rpm -ivh jdk-<version>-linux-x64.rpm
+
+    ~/.bashrc
+    export JAVA_HOME=/usr/java/default/
+    export PATH=$JAVA_HOME/bin:$PATH
+
+

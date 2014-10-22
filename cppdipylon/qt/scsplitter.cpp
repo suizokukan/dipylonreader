@@ -89,7 +89,6 @@ SCSplitter::SCSplitter(const int index_in_scbar,
              << QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName());
   this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName()));
   this->setOrientation(Qt::Vertical);
-  this->setSizes(fixedparameters::default__editors_size_in_main_splitter);
 
   this->source_zone = new SourceZone(this->objectName(),
                                      this->dipydoc,
@@ -106,7 +105,16 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   this->addWidget(this->commentary_zone);
 
   /*
-    (3) signals
+    (3) settings' value for the current text; apply these values to te UI.
+  */
+  this->read_settings();
+
+  this->setSizes(this->splittersizes);
+  this->source_zone->editor->set_zoom_value(this->source_zone->editor->zoom_value);
+  this->commentary_zone->editor->set_zoom_value(this->commentary_zone->editor->zoom_value);
+
+  /*
+    (4) signals
   */
 
   // (confer doc.) connection #C001
@@ -128,15 +136,6 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   // (confer doc.) connection #C???
   QObject::connect(this->source_zone,              &SourceZone::signal__update_icons,
                    this,                           &SCSplitter::update_icons);
-
-  /*
-    (4) zoom value of the current text
-  */
-  QSettings settings;
-  settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
-                    this->source_zone->editor->zoom_value);
-  settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
-                    this->commentary_zone->editor->zoom_value);
 
   /*
     (5) update icons
@@ -162,6 +161,34 @@ QString SCSplitter::get_object_name(const int index_in_scbar) const {
   return QString("mainwindow__scsplitter" + \
                  this->dipydoc.internal_name + \
                  QString().setNum(index_in_scbar));
+}
+
+/*______________________________________________________________________________
+
+  SCSplitter::read_settings()
+
+  Read the settings value from the settings' file.
+________________________________________________________________________________*/
+void SCSplitter::read_settings(void) {
+  DebugMsg() << "SCSplitter::read_settings()";
+
+  QSettings settings;
+  this->source_zone->editor->zoom_value = \
+    settings.value(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+                   fixedparameters::default__zoom_value).toInt();
+
+  this->commentary_zone->editor->zoom_value = \
+    settings.value(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+                   fixedparameters::default__zoom_value).toInt();
+
+  /*
+    see SCSplitter::write_settings for the explanations.
+  */
+  this->splittersizes.clear();
+  foreach(QVariant v,
+          settings.value(QString("text/%1/splittersizes").arg(this->dipydoc.qsettings_name)).toList()) {
+  this->splittersizes << v.toInt();
+  }
 }
 
 /*______________________________________________________________________________
@@ -192,11 +219,21 @@ void SCSplitter::update_icons(void) {
 
 /*______________________________________________________________________________
 
+        SCSplitter::well_initialized
+______________________________________________________________________________*/
+bool SCSplitter::well_initialized(void) const {
+  return this->_well_initialized;
+}
+
+/*______________________________________________________________________________
+
   SCSplitter::write_settings()
 
   Write the settings specific to the DipyDoc linked to "this".
 ________________________________________________________________________________*/
 void SCSplitter::write_settings(void) {
+  DebugMsg() << "SCSplitter::write_settings()";
+
   QSettings settings;
 
   /*
@@ -206,12 +243,22 @@ void SCSplitter::write_settings(void) {
                     this->source_zone->editor->zoom_value);
   settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
                     this->commentary_zone->editor->zoom_value);
-}
+  /*
+    splitter's sizes :
 
-/*______________________________________________________________________________
+    About the trick used here :
+      The normal way to store a QList<int> is described here [1] and here [2] but this
+    method leads to difficulties, at least on Linux system. Hence this work around
+    described here [3].
 
-        SCSplitter::well_initialized
-______________________________________________________________________________*/
-bool SCSplitter::well_initialized(void) const {
-  return this->_well_initialized;
+      [1] http://qt-project.org/doc/qt-5/qsettings.html#details
+      [2] http://stackoverflow.com/questions/2452893/save-qlistint-to-qsettings
+      [3] http://stackoverflow.com/questions/21923016
+  */
+  QVariantList splittersizes_variant;
+  for (int & v : this->sizes()) {
+    splittersizes_variant << v;
+  }
+  settings.setValue(QString("text/%1/splittersizes").arg(this->dipydoc.qsettings_name),
+                    splittersizes_variant);
 }
