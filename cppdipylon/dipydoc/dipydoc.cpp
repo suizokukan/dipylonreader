@@ -795,7 +795,9 @@ bool DipyDoc::read_mainfile__first_token(QXmlStreamReader* xmlreader) {
     let's read and check the languages :
   */
   this->languagefromto = LanguageFromTo(xmlreader->attributes().value("languages").toString());
-  bool languagesfromto_ok = !this->error(this->languagefromto, this->error_string(xmlreader), "dipydoc:first token");
+  bool languagesfromto_ok = !this->error(this->languagefromto,
+                                         this->error_string(xmlreader),
+                                         "dipydoc:first token");
   ok &= languagesfromto_ok;
 
   /*

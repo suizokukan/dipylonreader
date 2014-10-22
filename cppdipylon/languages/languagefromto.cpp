@@ -28,7 +28,7 @@
 #include "languages/languagefromto.h"
 #include "debugmsg/debugmsg.h"
 
-const QString LanguageFromTo::SEPARATOR = ";";
+const QString LanguageFromTo::SEPARATOR = "->";
 
 /*______________________________________________________________________________
 
@@ -42,10 +42,12 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
 
   QStringList splitted_strings = src.split(this->SEPARATOR);
 
-  if ( splitted_strings.length() != 2 ) {
+  if (splitted_strings.length() != 2) {
     // error : ill-formed src (no SEPARATOR or more than one SEPARATOR)
     this->_well_initialized = false;
     this->_internal_state = ILLFORMED_SOURCE_STRING;
+    DebugMsg() << "LanguageFromTo::LanguageFromTo() : ill-formed source string=" << src \
+               << " where splitted_strings.length=" << splitted_strings.length;
     return;
   }
 
@@ -62,7 +64,7 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
   ............................................................................*/
   auto known_languages_end = languages::known_languages.end();
 
-  if ( languages::known_languages.find(this->_from) == known_languages_end ) {
+  if (languages::known_languages.find(this->_from) == known_languages_end) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_FROMLANGUAGE;
     DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'from' language = " << this->_from;
