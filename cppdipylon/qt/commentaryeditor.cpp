@@ -42,6 +42,7 @@ CommentaryEditor::CommentaryEditor(const QString & splitter_name,
   this->setObjectName(object_name);
 
   this->setReadOnly(true);
+  this->set_zoom_value(this->zoom_value);
   this->update_aspect_from_dipydoc_aspect_informations();
 }
 
