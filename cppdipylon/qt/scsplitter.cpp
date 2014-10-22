@@ -256,7 +256,7 @@ void SCSplitter::write_settings(void) {
       [3] http://stackoverflow.com/questions/21923016
   */
   QVariantList splittersizes_variant;
-  for(int & v : this->sizes()) {
+  for (int & v : this->sizes()) {
     splittersizes_variant << v;
   }
   settings.setValue(QString("text/%1/splittersizes").arg(this->dipydoc.qsettings_name),
