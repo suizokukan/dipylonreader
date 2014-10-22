@@ -85,4 +85,6 @@ void TextEditor::wheelEvent(QWheelEvent * e) {
       this->zoomOut(1);
     }
   }
+
+  QTextEdit::wheelEvent(e);
 }
