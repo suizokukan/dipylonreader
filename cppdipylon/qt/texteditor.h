@@ -50,12 +50,13 @@ friend class SCSplitter;
  public:
     explicit  TextEditor(QWidget *_parent);
 
- private:
+ protected:
     int      zoom_value = 0;
+    void     set_zoom_value(const signed int value);
 
+ private:
     void     zoom_in(void);
     void     zoom_out(void);
-    void     set_zoom_value(const signed int value);
 
  protected:
     void     wheelEvent(QWheelEvent* e);

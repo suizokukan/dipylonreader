@@ -30,6 +30,7 @@
 
 #include <QApplication>
 #include <QMessageBox>
+#include <QMetaType>
 #include <QSettings>
 #include <QSplitter>
 #include <QString>
@@ -58,15 +59,14 @@ friend class MainWindow;
   bool &             visible_toolbars;
   bool               _well_initialized = false;               // object state
   bool               blocked_commentaries = false;
-
   DipyDoc            dipydoc = DipyDoc();
-
   SourceZone*        source_zone = nullptr;            // (ui) source zone
   CommentaryZone*    commentary_zone = nullptr;    // (ui) commentary zone
-
   ReadingMode        readingmode = READINGMODE::READINGMODE_UNDEFINED;
   ReadingModeDetails readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
+  QList<int> splittersizes = fixedparameters::default__editors_size_in_main_splitter;
 
+  void               read_settings(void);
   void               write_settings(void);
 
  private slots:  // NOLINT(whitespace/indent)

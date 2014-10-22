@@ -3,6 +3,7 @@
 TODO
 
 [ui]
+- ouvrir le(s) dernier(s) fichier(s) ouverts
 - (ui)menu contextuel avec espace
 - (ui)ouvrir la liste des documents disponibles dès le lancement.
 - (ui)icône hidetoolbar : reprendre les couleurs de la toolbar.
