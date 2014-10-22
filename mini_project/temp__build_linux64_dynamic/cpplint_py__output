@@ -1,0 +1,126 @@
+Done processing ./debugmsg/debugmsg.h
+Total errors found: 0
+Done processing ./debugmsg/debugmsg.cpp
+Total errors found: 0
+Done processing ./dipydoc/menunames.h
+Total errors found: 0
+Done processing ./dipydoc/dipydoc.cpp
+Total errors found: 0
+Done processing ./dipydoc/dipydoc.h
+Total errors found: 0
+Done processing ./dipydoc/dipydocnotes.h
+Total errors found: 0
+Done processing ./dipydoc/dipydocnotes.cpp
+Total errors found: 0
+Done processing ./languages/languages.h
+Total errors found: 0
+Done processing ./languages/languagefromto.cpp
+Total errors found: 0
+Done processing ./languages/languagefromto.h
+Total errors found: 0
+Done processing ./misc/hash.h
+Total errors found: 0
+Done processing ./pos/posinaudio2posintext.h
+Total errors found: 0
+Done processing ./pos/posinaudio2posintext.cpp
+Total errors found: 0
+Done processing ./pos/posintext2posinaudio.cpp
+Total errors found: 0
+Done processing ./pos/posintext2posinaudio.h
+Total errors found: 0
+./pos/posintext/vectorposintextranges.h:71:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+./pos/posintext/vectorposintextranges.h:89:  Single-argument constructors should be marked explicit.  [runtime/explicit] [5]
+Done processing ./pos/posintext/vectorposintextranges.h
+Total errors found: 2
+Done processing ./pos/posintext/posintextranges.cpp
+Total errors found: 0
+Done processing ./pos/posintext/posintext2str.h
+Total errors found: 0
+Done processing ./pos/posintext/posintext.h
+Total errors found: 0
+Done processing ./pos/posintext/vectorposintextranges.cpp
+Total errors found: 0
+Done processing ./pos/posintext/posintext2str.cpp
+Total errors found: 0
+Done processing ./pos/posintext/posintextranges.h
+Total errors found: 0
+Done processing ./pos/posinaudio/posinaudiorange.h
+Total errors found: 0
+Done processing ./pos/posinaudio/posinaudiorange.cpp
+Total errors found: 0
+Done processing ./pos/posinaudio/posinaudio.h
+Total errors found: 0
+Done processing ./qt/commentarytoolbar.h
+Total errors found: 0
+Done processing ./qt/blockformat.cpp
+Total errors found: 0
+Done processing ./qt/presentationscreen.h
+Total errors found: 0
+Done processing ./qt/commentaryeditor.cpp
+Total errors found: 0
+Done processing ./qt/arrowformat.cpp
+Total errors found: 0
+Done processing ./qt/scsplitter.cpp
+Total errors found: 0
+Done processing ./qt/textformat.cpp
+Total errors found: 0
+Done processing ./qt/commentaryeditor.h
+Total errors found: 0
+Done processing ./qt/sourcezone.h
+Total errors found: 0
+Done processing ./qt/sourcetoolbar.h
+Total errors found: 0
+Done processing ./qt/downloaddemodipydocs.cpp
+Total errors found: 0
+Done processing ./qt/readingmodes.h
+Total errors found: 0
+Done processing ./qt/icons.h
+Total errors found: 0
+Done processing ./qt/sourceeditor.h
+Total errors found: 0
+Done processing ./qt/posintextframeformat.h
+Total errors found: 0
+Done processing ./qt/scsplitter.h
+Total errors found: 0
+Done processing ./qt/ui.h
+Total errors found: 0
+Done processing ./qt/commentaryzone.h
+Total errors found: 0
+Done processing ./qt/downloaddemodipydocs.h
+Total errors found: 0
+Done processing ./qt/sourceeditor.cpp
+Total errors found: 0
+Done processing ./qt/texteditor.h
+Total errors found: 0
+Done processing ./qt/commentarytoolbar.cpp
+Total errors found: 0
+Done processing ./qt/arrowformat.h
+Total errors found: 0
+Done processing ./qt/sctabs.cpp
+Total errors found: 0
+Done processing ./qt/texteditor.cpp
+Total errors found: 0
+Done processing ./qt/blockformat.h
+Total errors found: 0
+Done processing ./qt/textformat.h
+Total errors found: 0
+Done processing ./qt/sourcetoolbar.cpp
+Total errors found: 0
+Done processing ./qt/sctabs.h
+Total errors found: 0
+Done processing ./qt/mainwindow.h
+Total errors found: 0
+Done processing ./qt/mainwindow.cpp
+Total errors found: 0
+Done processing ./qt/presentationscreen.cpp
+Total errors found: 0
+Done processing ./qt/icons.cpp
+Total errors found: 0
+Done processing ./qt/posintextframeformat.cpp
+Total errors found: 0
+Done processing ./qt/commentaryzone.cpp
+Total errors found: 0
+Done processing ./qt/sourcezone.cpp
+Total errors found: 0
+Done processing ./qt/ui.cpp
+Total errors found: 0
