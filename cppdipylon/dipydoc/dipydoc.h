@@ -45,7 +45,7 @@
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/menunames.h"
-#include "dipydoc/dipydocnotes.h"
+#include "dipydoc/dipydocsyntagmas.h"
 #include "languages/languagefromto.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
@@ -308,9 +308,9 @@ friend class UI;
   // translation data :
   DipyDocTranslation   translation;
   // syntagmas' names->aspects :
-  std::map<QString, QString> syntagma_names;
-  // notes :
-  DipyDocNotes         notes;
+  std::map<QString, QString> syntagmas_names;
+  // all syntagmas objects :
+  std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
   // arrows (see DipyDoc::arrows_repr)
   std::map<QString, ArrowFormat> arrows;
 
@@ -330,7 +330,9 @@ friend class UI;
   bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__doctype_text(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__doctype_text__init_and_check(void);
-  bool                   read_mainfile__doctype_text__syntagma(QXmlStreamReader* xmlreader, int level);
+  bool                   read_mainfile__doctype_text__syntagma(Syntagma * father,
+                                                               QXmlStreamReader* xmlreader,
+                                                               int level);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_internal_name(void);
