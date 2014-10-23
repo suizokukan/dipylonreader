@@ -56,6 +56,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                              tr("play"),
                                              this);
   this->audiocontrols_playAct->setStatusTip(tr("play..."));
+  // connection #C028 (confer documentation)
   QObject::connect(this->audiocontrols_playAct, &QAction::triggered,
                    this,                        &SourceZone::audiocontrols_play);
 
@@ -64,6 +65,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                              tr("stop"),
                                              this);
   this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
+  // connection #C029 (confer documentation)
   QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
                    this,                        &SourceZone::audiocontrols_stop);
 
@@ -72,6 +74,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                         tr("switch to analyse mode"),
                                         this);
   this->readingmode_aAct->setStatusTip(tr("switched to analyse mode"));
+  // connection #C030 (confer documentation)
   QObject::connect(this->readingmode_aAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_aAct__buttonpressed);
 
@@ -80,6 +83,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                         tr("switch to read-and-listen mode"),
                                         this);
   this->readingmode_lAct->setStatusTip(tr("switched to read-and-listen mode"));
+  // connection #C031 (confer documentation)
   QObject::connect(this->readingmode_lAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_lAct__buttonpressed);
 
@@ -88,6 +92,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                         tr("switch to read mode"),
                                         this);
   this->readingmode_rAct->setStatusTip(tr("switched to read mode"));
+  // connection #C032 (confer documentation)
   QObject::connect(this->readingmode_rAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_rAct__buttonpressed);
 
@@ -145,12 +150,15 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
 
+  // connection #C033 (confer documentation)
   QObject::connect(this->textminusAct, &QAction::triggered,
                    this->editor,       &SourceEditor::zoom_out);
 
+  // connection #C034 (confer documentation)
   QObject::connect(this->textplusAct,  &QAction::triggered,
                    this->editor,       &SourceEditor::zoom_in);
 
+  // connection #C035 (confer documentation)
   QObject::connect(this->audio_player, &QMediaPlayer::positionChanged,
                    this,               &SourceZone::audio_position_changed);
 
@@ -178,7 +186,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   if (settings.contains(setting_name) == true) {
     this->editor->set_zoom_value(settings.value(setting_name).toInt());
   } else {
-    // (confer doc.) signal #S002 :
+    // SIGNAL #S006 (confer documentation)
     emit this->signal__set_zoom_value_in_commentary_editor(fixedparameters::default__zoom_value);
   }
 
@@ -189,12 +197,13 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->editor->update_aspect_from_dipydoc_aspect_informations();
 
   // update commentary editor aspect :
-  // (confer doc.) signal S001 :
+  // SIGNAL #S007 (confer documentation)
   emit this->signal__in_commentary_editor_update_from_dipydoc_info();
 
   /*
     (6) updating the icons
   */
+  // SIGNAL #S008 (confer documentation)
   emit this->signal__update_icons();
 
   DebugMsg() << "SourceZone::SourceZone : exit point";
@@ -312,7 +321,7 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
         // hash update :
         this->editor->modified_chars_hash = text_ranges_hash;
 
-        // (confer doc.) signal #S008 :
+        // SIGNAL #S009 (confer documentation)
         emit this->signal__update_commentary_zone_content(text_ranges);
       }
 
@@ -342,6 +351,7 @@ void SourceZone::readingmode_aAct__buttonpressed(void) {
   this->readingmode = READINGMODE_AMODE;
   this->readingmode_details = READINGMODEDETAIL_AMODE;
   DebugMsg() << "switched to AMODE mode";
+  // SIGNAL #S010 (confer documentation)
   emit this->signal__update_icons();
 }
 
@@ -360,6 +370,7 @@ void SourceZone::readingmode_rAct__buttonpressed(void) {
   this->readingmode = READINGMODE_RMODE;
   this->readingmode_details = READINGMODEDETAIL_RMODE;
   DebugMsg() << "switched to RMODE mode";
+  // SIGNAL #S011 (confer documentation)
   emit this->signal__update_icons();
 }
 
@@ -373,6 +384,7 @@ void SourceZone::readingmode_lAct__buttonpressed(void) {
   this->readingmode = READINGMODE_LMODE;
   this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
   DebugMsg() << "switched to LMODE mode";
+  // SIGNAL #S012 (confer documentation)
   emit this->signal__update_icons();
 }
 

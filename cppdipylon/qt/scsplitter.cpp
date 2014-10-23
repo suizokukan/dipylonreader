@@ -117,23 +117,23 @@ SCSplitter::SCSplitter(const int index_in_scbar,
     (4) signals
   */
 
-  // (confer doc.) connection #C001
+  // connection #C001 (confer documentation)
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_commentary_zone_content,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
-  // (confer doc.) connection #C004
+  // connection #C002 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__set_zoom_value_in_commentary_editor,
                    this->commentary_zone->editor,  &TextEditor::set_zoom_value);
 
-  // (confer doc.) connection #C006
+  // connection #C003 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__in_commentary_editor_update_from_dipydoc_info,
                    this->commentary_zone->editor,  &CommentaryEditor::update_aspect_from_dipydoc_aspect_informations);
 
-  // (confer doc.) connection #C007
+  // connection #C004 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__update_commentary_zone_content,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
-  // (confer doc.) connection #C???
+  // connection #C005 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__update_icons,
                    this,                           &SCSplitter::update_icons);
 

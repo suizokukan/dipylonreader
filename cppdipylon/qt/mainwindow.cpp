@@ -142,6 +142,7 @@ void MainWindow::createActions(void) {
   */
   this->aboutAct = new QAction(tr("&About"), this);
   this->aboutAct->setStatusTip(tr("Show the application's About box"));
+  // connection #C015 (confer documentation)
   QObject::connect(this->aboutAct, &QAction::triggered,
                    this,           &MainWindow::about);
 
@@ -152,6 +153,7 @@ void MainWindow::createActions(void) {
                                        tr("Download demo Dipydocs"),
                                  this);
   this->downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
+  // connection #C016 (confer documentation)
   QObject::connect(this->downloaddemoAct, &QAction::triggered,
                    this,                  &MainWindow::download_dipydocs_demo);
 
@@ -161,6 +163,7 @@ void MainWindow::createActions(void) {
   this->exitAct = new QAction(tr("E&xit"), this);
   this->exitAct->setShortcuts(QKeySequence::Quit);
   this->exitAct->setStatusTip(tr("Exit the application"));
+  // connection #C017 (confer documentation)
   QObject::connect(this->exitAct, &QAction::triggered,
                    this,          &MainWindow::close);
 
@@ -171,6 +174,7 @@ void MainWindow::createActions(void) {
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
+  // connection #C018 (confer documentation)
   QObject::connect(this->hidetoolbarsAct, &QAction::triggered,
                    this,                  &MainWindow::hidetoolbarsAct__buttonPressed);
 
@@ -181,6 +185,7 @@ void MainWindow::createActions(void) {
                                        tr("internal messages"),
                                        this);
   this->internalmsgAct->setStatusTip(tr("internal messages"));
+  // connection #C019 (confer documentation)
   QObject::connect(this->internalmsgAct, &QAction::triggered,
                    this,                 &MainWindow::internalmsgAct__buttonPressed);
 
@@ -192,6 +197,7 @@ void MainWindow::createActions(void) {
                                this);
   openAct->setShortcuts(QKeySequence::Open);
   openAct->setStatusTip(tr("Open an existing DipyDoc"));
+  // connection #C020 (confer documentation)
   QObject::connect(this->openAct, &QAction::triggered,
                    this,          &MainWindow::open);
 
@@ -202,6 +208,7 @@ void MainWindow::createActions(void) {
   this->popup_mainmenuAct = new QAction( *(icons.popup_mainmenu),
                                          tr("display the main pop menu"),
                                          this);
+  // connection #C021 (confer documentation)
   QObject::connect(this->popup_mainmenuAct, &QAction::triggered,
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
   #endif
@@ -357,6 +364,7 @@ void MainWindow::fill_open_menu(void) {
       newAction->setData(item.second);
 
       this->openMenu->addAction(newAction);
+      // connection #C022 (confer documentation)
       QObject::connect(newAction, &QAction::triggered,
                        this,      &MainWindow::load_a_dipydoc_from_a_qaction);
     } else {
@@ -403,12 +411,15 @@ void MainWindow::init(void) {
 
   this->sctabs = new SCTabs(this);
 
+  // connection #C023 (confer documentation)
   QObject::connect(this->sctabs,          &SCTabs::signal__open_a_new_dipydoc,
                    this,                  &MainWindow::open);
 
+  // connection #C024 (confer documentation)
   QObject::connect(this->sctabs,          &SCTabs::signal__display_hidetoolbar_icon,
                    this->hidetoolbarsAct, &QAction::setVisible);
 
+  // connection #C025 (confer documentation)
   QObject::connect(this->sctabs,          &SCTabs::currentChanged,
                    this,                  &MainWindow::cleaning_up_tabs_before_changing_current_tab);
 

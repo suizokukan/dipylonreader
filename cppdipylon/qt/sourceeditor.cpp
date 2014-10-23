@@ -453,7 +453,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
             // hash update :
             this->modified_chars_hash = text_ranges_hash;
 
-            // (confer doc.) signal #S007 :
+            // SIGNAL #S004 (confer documentation)
             emit this->signal__update_commentary_zone_content(pos_in_text);
           }
           break;

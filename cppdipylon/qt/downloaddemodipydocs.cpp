@@ -63,6 +63,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   QProgressDialog progress(QObject::tr("Download demo Dipydocs"),
                            QObject::tr("Abort installation"),
                            0, 100);
+  // connection #C006 (confer documentation)
   QObject::connect(&progress, &QProgressDialog::canceled,
                    this,      &DownloadDemoDipydocs::cancel);
   progress.setWindowModality(Qt::WindowModal);
@@ -109,6 +110,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   progress.setLabelText(QObject::tr("contacting the download site..."));
   progress.setValue(2);
 
+  // connection #C007 (confer documentation)
   QObject::connect(this->ui.network_manager, &QNetworkAccessManager::finished,
                    this,                     &DownloadDemoDipydocs::download_summary_finished);
 
@@ -120,6 +122,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
     QApplication::processEvents();
   }
 
+  // disconnection #D001 (confer documentation)
   QObject::disconnect(this->ui.network_manager, &QNetworkAccessManager::finished,
                       this,                     &DownloadDemoDipydocs::download_summary_finished);
 
@@ -133,6 +136,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   // update the progress bar : new maximum value.
   progress.setMaximum(this->number_of_bytes_to_be_downloaded);
 
+  // connection #C008 (confer documentation)
   QObject::connect(this->ui.network_manager, &QNetworkAccessManager::finished,
                    this,                     &DownloadDemoDipydocs::download_data_finished);
 
@@ -164,6 +168,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
       this->current_reply = \
         this->ui.network_manager->get(QNetworkRequest(this->current_datafile_to_be_downloaded__url));
 
+      // connection #C009 (confer documentation)
       QObject::connect(this->current_reply, &QNetworkReply::readyRead,
                        this,                &DownloadDemoDipydocs::readyRead);
 
@@ -194,6 +199,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
     }
   }
 
+  // connection #D002 (confer documentation)
   QObject::disconnect(this->ui.network_manager, &QNetworkAccessManager::finished,
                       this,                     &DownloadDemoDipydocs::download_data_finished);
 

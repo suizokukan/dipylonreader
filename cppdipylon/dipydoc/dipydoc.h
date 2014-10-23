@@ -307,10 +307,8 @@ friend class UI;
   DipyDocAudioRecord   audiorecord;
   // translation data :
   DipyDocTranslation   translation;
-  // text formats :
-  std::map<QString, QString> textformats;
-  // levels (see DipyDoc::levels_repr)
-  std::map<int, LevelDetails> levels;
+  // syntagmas' names->aspects :
+  std::map<QString, QString> syntagma_names;
   // notes :
   DipyDocNotes         notes;
   // arrows (see DipyDoc::arrows_repr)
@@ -332,6 +330,7 @@ friend class UI;
   bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__doctype_text(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__doctype_text__init_and_check(void);
+  bool                   read_mainfile__doctype_text__syntagma(QXmlStreamReader* xmlreader, int level);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_internal_name(void);
