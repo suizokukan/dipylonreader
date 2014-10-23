@@ -356,6 +356,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
           // hash update :
           this->modified_chars_hash = text_ranges_hash;
 
+          // SIGNAL #S001 (confer documentation)
           emit this->signal__update_commentary_zone_content(pos_in_text);
         }
 
@@ -408,11 +409,11 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     this->modified_chars_hash = text_ranges_hash;
 
     this->blocked_commentaries = false;
-    // (confer doc.) signal #S005 :
+    // SIGNAL #S002 (confer documentation)
     emit this->signal__update_commentary_zone_content(pos_in_text);
     this->blocked_commentaries = true;
 
-    // (confer doc.) signal #S006 :
+    // SIGNAL #S003 (confer documentation)
     emit this->signal__source_zone_update_icons();
 
     return;

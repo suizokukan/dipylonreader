@@ -46,8 +46,8 @@ const QString   CODESOURCE_LICENSE_ADDRESS= "http://www.gnu.org/copyleft/gpl.htm
 /*
   minimal/maximal DipyDoc's versions allowed :
 */
-const int min_dipydocformat_version = 33;
-const int max_dipydocformat_version = 33;
+const int min_dipydocformat_version = 34;
+const int max_dipydocformat_version = 34;
 
 /*
   data used to initialize the QApplication object.
