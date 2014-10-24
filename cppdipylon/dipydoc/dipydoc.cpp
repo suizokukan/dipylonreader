@@ -104,76 +104,6 @@ DipyDoc::~DipyDoc(void) {
   DebugMsg() << "DipyDoc::~DipyDoc : exit point";
 }
 
-/*$$$
-DipyDoc::DipyDoc(const DipyDoc& that) : _well_initialized(that._well_initialized),
-                                        _internal_state(that._internal_state),
-                                        doctype(that.doctype),
-                                        path(that.path),
-                                        main_filename_with_fullpath(that.main_filename_with_fullpath),
-                                        menu_name(that.menu_name),
-                                        qsettings_name(that.qsettings_name),
-                                        internal_name(that.internal_name),
-                                        id(that.id),
-                                        version(that.version),
-                                        dipydocformat_version(that.dipydocformat_version),
-                                        languagefromto(that.languagefromto),
-                                        sourceeditor_stylesheet(that.sourceeditor_stylesheet),
-                                        sourceeditor_default_textformat(that.sourceeditor_default_textformat),
-                                        sourceeditor_rmode_textformat(that.sourceeditor_rmode_textformat),
-                                        sourceeditor_lmode_textformat(that.sourceeditor_lmode_textformat),
-                                        commentaryeditor_stylesheet(that.commentaryeditor_stylesheet),
-                                        commentaryeditor_textformat(that.commentaryeditor_textformat),
-                                        title(that.title),
-                                        introduction(that.introduction),
-                                        lettrine(that.lettrine),
-                                        source_text(that.source_text),
-                                        audiorecord(that.audiorecord),
-                                        translation(that.translation),
-                                        syntagmas_names(that.syntagmas_names),
-                                        _syntagmas(that._syntagmas),
-                                        syntagmas(that.syntagmas),
-                                        arrows(that.arrows),
-                                        err_messages(that.err_messages) {
-  DebugMsg() << "DipyDoc::DipyDoc !!!!!!";
-  }*/
-
-/*$$$
-DipyDoc& DipyDoc::operator=(const DipyDoc& that) {
-  DebugMsg() << "DipyDoc::DipyDoc !!!!!!==";
-  if(this != &that) {
-    this->_well_initialized             = that._well_initialized;
-    this->_internal_state               = that._internal_state;
-    this->doctype                       = that.doctype;
-    this->path                          = that.path;
-    this->main_filename_with_fullpath   = that.main_filename_with_fullpath;
-    this->menu_name                     = that.menu_name;
-    this->qsettings_name                = that.qsettings_name;
-    this->internal_name                 = that.internal_name;
-    this->id                            = that.id;
-    this->version                       = that.version;
-    this->dipydocformat_version         = that.dipydocformat_version;
-    this->languagefromto                = that.languagefromto;
-    this->sourceeditor_stylesheet       = that.sourceeditor_stylesheet;
-    this->sourceeditor_default_textformat = that.sourceeditor_default_textformat;
-    this->sourceeditor_rmode_textformat = that.sourceeditor_rmode_textformat;
-    this->sourceeditor_lmode_textformat = that.sourceeditor_lmode_textformat;
-    this->commentaryeditor_stylesheet   = that.commentaryeditor_stylesheet;
-    this->commentaryeditor_textformat   = that.commentaryeditor_textformat;
-    this->title                         = that.title;
-    this->introduction                  = that.introduction;
-    this->lettrine                      = that.lettrine;
-    this->source_text                   = that.source_text;
-    this->audiorecord                   = that.audiorecord;
-    this->translation                   = that.translation;
-    this->syntagmas_names               = that.syntagmas_names;
-    this->_syntagmas                    = that._syntagmas;
-    this->syntagmas                     = that.syntagmas;
-    this->arrows                        = that.arrows;
-    this->err_messages                  = that.err_messages;
-  }
-  return *this;
-  }*/
-
 /*______________________________________________________________________________
 
   DipyDoc::arrows_repr
@@ -1293,6 +1223,7 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
                                                                xmlreader,
                                                                1);
     }
+    DebugMsg() << "syntagmas :\n" << this->syntagmas_repr();
 
   }  // ... while (xmlreader->readNextStartElement())
 
@@ -1527,24 +1458,6 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::levels_repr $$$
-
-  Return a string which is a representation of this->levels
-______________________________________________________________________________*/
-/*
-QString DipyDoc::levels_repr(void) const {
-  QString res("");
-  for (auto &level : this->levels) {
-    res += QString("\n  #%1 - name='%2' - textformat='%3'").arg(QString().setNum(level.first),
-                                                                level.second.name,
-                                                                level.second.textformat.repr());
-    }
-  return res;
-}
-*/
-
-/*______________________________________________________________________________
-
         DipyDoc::read_menu_name
 
         Initialize "this->menu_name" from the "menu name" file.
@@ -1569,28 +1482,6 @@ void DipyDoc::read_menu_name(const QString& _path) {
   }
 
   DebugMsg() << "(DipyDoc::read_menu_name) menu name = " << this->menu_name;
-}
-
-/*______________________________________________________________________________
-
-   DipyDoc::text2audio_contains(PosInText x0)
-
-   return the text ranges and the audio positions (from, to) matching the
-   'x0' character.
-
-   If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
-   second (PairOfPosInAudio) being set to (0,0).
-________________________________________________________________________________*/
-PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
-  PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0);
-
-  if (posintext.is_empty() == true) {
-    return PTRangesAND2PosAudio(posintext,
-                                PairOfPosInAudio(0, 0));
-  } else {
-    return PTRangesAND2PosAudio(posintext,
-                                this->audiorecord.text2audio[posintext]);
-  }
 }
 
 /*______________________________________________________________________________
@@ -1626,6 +1517,44 @@ void DipyDoc::set_qsettings_name(void) {
   this->qsettings_name.replace("/", "_");
 
   DebugMsg() << "DipyDoc::set_qsettings_name = " << this->qsettings_name;
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::syntagmas_repr
+
+   Debugging-oriented function.
+________________________________________________________________________________*/
+QString DipyDoc::syntagmas_repr(void) const {
+  QString res;
+
+  for (auto & syntagma : this->_syntagmas) {
+    res += syntagma->repr() + "\n";
+  }
+
+  return res;
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::text2audio_contains(PosInText x0)
+
+   return the text ranges and the audio positions (from, to) matching the
+   'x0' character.
+
+   If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
+   second (PairOfPosInAudio) being set to (0,0).
+________________________________________________________________________________*/
+PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
+  PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0);
+
+  if (posintext.is_empty() == true) {
+    return PTRangesAND2PosAudio(posintext,
+                                PairOfPosInAudio(0, 0));
+  } else {
+    return PTRangesAND2PosAudio(posintext,
+                                this->audiorecord.text2audio[posintext]);
+  }
 }
 
 /*______________________________________________________________________________

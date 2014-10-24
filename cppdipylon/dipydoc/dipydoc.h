@@ -356,6 +356,7 @@ friend class UI;
   void                 read_mainfile(const QString&);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
+  QString              syntagmas_repr(void) const;
 
   // public constants ...........................................................
   static const int     min_dipydocformat_version;

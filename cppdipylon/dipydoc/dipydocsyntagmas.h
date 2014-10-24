@@ -62,6 +62,8 @@ struct Syntagma {
   std::list<ArrowTarget>                arrows;
   QString                               note;
 
+  QString                               repr(void);
+
                                         Syntagma(void);
                                        ~Syntagma(void);
                                         Syntagma(Syntagma* _father,
@@ -93,5 +95,17 @@ inline Syntagma::Syntagma(Syntagma* _father,
                                            name(_name),
                                            type(_type),
                                            note(_note) {
+}
+inline QString Syntagma::repr(void) {
+  if (this->father==nullptr) {
+    return QString("(no father) name=%1; type=%2; note=%3").arg(this->name,
+                                                                this->type,
+                                                                this->note);
+  } else {
+   return QString("(father's name=%4) name=%1; type=%2; note=%3").arg(this->name,
+                                                                      this->type,
+                                                                      this->note,
+                                                                      this->father->name);
+  }
 }
 #endif
