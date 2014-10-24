@@ -96,6 +96,26 @@ SourceZone::SourceZone(const QString & splitter_name,
   QObject::connect(this->readingmode_rAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_rAct__buttonpressed);
 
+  // levelupAct
+  this->levelupAct = new QAction( *(icons.up),
+                                  tr("level up$$$"),
+                                  this);
+  // leveldownAct
+  this->leveldownAct = new QAction( *(icons.down),
+                                    tr("level down$$$"),
+                                    this);
+
+  // level_menu
+  this->level_menu = new QMenu(this);
+  this->level_menu->addAction(this->readingmode_lAct);
+  this->level_menu->addAction(this->readingmode_lAct);
+  this->level_menu->addAction(this->readingmode_lAct);
+
+  // level_pushbutton
+  this->level_pushbutton = new QPushButton(this);
+  this->level_pushbutton->setIcon(*(icons.level));
+  //$$$this->level_pushbutton->setMenu(this->level_menu);
+
   /*
     (1) audio player
   */
@@ -146,6 +166,9 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar->addAction(this->audiocontrols_stopAct);
   this->toolbar->addSeparator();
   this->toolbar->addAction(this->readingmode_aAct);
+  this->toolbar->addAction(this->levelupAct);
+  this->toolbar->addWidget(this->level_pushbutton);
+  this->toolbar->addAction(this->leveldownAct);
   this->toolbar->addSeparator();
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
@@ -408,6 +431,9 @@ void SourceZone::update_icons(void) {
       this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
+      this->levelupAct->setVisible(true);
+      this->level_pushbutton->setVisible(true);
+      this->leveldownAct->setVisible(true);
       break;
     }
 
@@ -427,6 +453,10 @@ void SourceZone::update_icons(void) {
         this->audiocontrols_playAct->setVisible(true);
         this->audiocontrols_stopAct->setVisible(true);
       }
+
+      this->levelupAct->setVisible(false);
+      this->level_pushbutton->setVisible(false);
+      this->leveldownAct->setVisible(false);
       break;
     }
 
@@ -436,6 +466,9 @@ void SourceZone::update_icons(void) {
       this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
+      this->levelupAct->setVisible(false);
+      this->level_pushbutton->setVisible(false);
+      this->leveldownAct->setVisible(false);
       break;
     }
 

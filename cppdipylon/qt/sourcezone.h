@@ -29,9 +29,11 @@
 #define CPPDIPYLON_QT_SOURCEZONE_H_
 
 #include <QAction>
+#include <QPushButton>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMediaPlayer>
+#include <QMenu>
 #include <QSettings>
 
 #include "debugmsg/debugmsg.h"
@@ -88,6 +90,12 @@ friend class SCSplitter;
 
   QAction* textminusAct = nullptr;
   QAction* textplusAct = nullptr;
+
+  QAction* levelupAct = nullptr;
+  QAction* leveldownAct = nullptr;
+
+  QMenu* level_menu = nullptr;
+  QPushButton* level_pushbutton = nullptr;
 
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
