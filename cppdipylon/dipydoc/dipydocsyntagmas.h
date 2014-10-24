@@ -60,68 +60,38 @@ struct Syntagma {
   QString                               type;
   std::list<Syntagma*>                  soons;
   std::list<ArrowTarget>                arrows;
+  QString                               note;
 
                                         Syntagma(void);
-  //$$$                              Syntagma(const Syntagma& that);
                                        ~Syntagma(void);
-  //$$$                              Syntagma& operator=(const Syntagma& other);
                                         Syntagma(Syntagma* _father,
                                                  int _level,
                                                  PosInTextRanges _posintextranges,
                                                  QString _name,
-                                                 QString _type);
-  QString                               repr(void);
+                                                 QString _type,
+                                                 QString _note);
 };
 inline Syntagma::Syntagma(void) {
+  this->father = nullptr;
   this->level = 0;
   this->posintextranges = PosInTextRanges();
   this->name = QString("");
   this->type = QString("");
-  this->father = nullptr;
+  this->note = QString("");
 }
-/*$$$
-inline Syntagma::Syntagma(const Syntagma& that) : father(that.father),
-                                                  level(that.level),
-                                                  posintextranges(that.posintextranges),
-                                                  name(that.name),
-                                                  type(that.type),
-                                                  soons(that.soons),
-                                                  arrows(that.arrows) {
-                                                  }*/
 inline Syntagma::~Syntagma(void) {
   DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type << " level=" << this->level;
 }
-/*$$$
-inline Syntagma& Syntagma::operator=(const Syntagma& that) {
-  if( this != &that) {
-    this->father                = that.father;
-    this->level                 = that.level;
-    this->posintextranges       = that.posintextranges;
-    this->name                  = that.name;
-    this->type                  = that.type;
-    this->soons                 = that.soons;
-    this->arrows                = that.arrows;
-  }
-  return *this;
-}*/
 inline Syntagma::Syntagma(Syntagma* _father,
                           int _level,
                           PosInTextRanges _posintextranges,
                           QString _name,
-                          QString _type) : father(_father),
-                                             level(_level),
-                                             posintextranges(_posintextranges),
-                                             name(_name),
-                                             type(_type) {
+                          QString _type,
+                          QString _note) : father(_father),
+                                           level(_level),
+                                           posintextranges(_posintextranges),
+                                           name(_name),
+                                           type(_type),
+                                           note(_note) {
 }
-/*$$$inline Syntagma& Syntagma::operator=(const Syntagma& other) {
-  if (this != &other) {
-    this->level = other.level;
-    this->posintextranges = other.posintextranges;
-    this->type = other.type;
-    this->arrows = other.arrows;
-  }
-  return *this;
-  }*/
-
 #endif

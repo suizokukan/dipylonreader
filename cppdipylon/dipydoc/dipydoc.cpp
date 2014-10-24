@@ -1324,48 +1324,34 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
                          this->error_string(xmlreader),
                          QString("notes::note::textranges"));
       QString type(xmlreader->attributes().value("type").toString());
-      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #0";
-      // let's insert a new syntagma object in this->syntagmas :
+      // let's insert a new syntagma object in this->syntagmas; 'note' will be defined later.
       Syntagma* new_syntagma = new Syntagma(father,
                                             level,
                                             textranges,
                                             tag_name,
-                                            type);
-      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #1";
+                                            type,
+                                            QString(""));
       this->_syntagmas.push_back( std::shared_ptr<Syntagma>(new_syntagma) );
-      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #2";
       if (this->syntagmas.count(level) == 0) {
         this->syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
       }
-      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #3";
       this->syntagmas[level][textranges] = new_syntagma;
-      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #4";
 
       // let's add this new soon to its "father" :
       if (father != nullptr) {
         father->soons.push_back(new_syntagma);
       }
-      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #4bis";
       current_syntagma = new_syntagma;
 
     } else {
       if (tag_name == "note") {
-        if(current_syntagma == nullptr) {
+        if(father == nullptr) {
           // error : pending 'note' tag.
           ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'note' tag."),
                              this->error_string(xmlreader));
         } else {
-          if (current_syntagma == nullptr) {
-            // error : pending note
-            ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending note"),
-                               this->error_string(xmlreader));
-          } else {
-            // let's add the note to the current syntagma :
-            QString note(xmlreader->readElementText());
-            DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #5";
-            DebugMsg() << "#### N+" << current_syntagma->name << current_syntagma->level << "-" << current_syntagma->type << "-" << note;
-            DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #6";
-          }
+          // let's add the note to its father :
+          father->note = xmlreader->readElementText();
         }
       } else {
         // error : unknown tag name :
@@ -1374,7 +1360,12 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
       }
     }
 
-    ok &= this->read_mainfile__doctype_text__syntagma(father, xmlreader, level+1);
+    // We go deeper with "current_syntagma" as future father, one level deeper :
+    if (current_syntagma != nullptr) {
+      ok &= this->read_mainfile__doctype_text__syntagma(current_syntagma,
+                                                        xmlreader,
+                                                        level+1);
+    }
   }
 
   DebugMsg() << "read_mainfile__doctype_text__syntagma exit point; level = " << level;
