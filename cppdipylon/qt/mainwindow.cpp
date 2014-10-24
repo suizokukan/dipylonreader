@@ -118,7 +118,7 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
   See e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 ________________________________________________________________________________*/
 void MainWindow::closing(void) {
-  DebugMsg() << "MainWindow::closing";
+  DebugMsg() << "MainWindow::closing : entry point";
 
   DebugMsg() << "(MainWindow::closing) calling SCSPlitter::write_settings()";
   for (int index = 0; index < this->sctabs->count(); ++index) {
@@ -128,6 +128,14 @@ void MainWindow::closing(void) {
 
   DebugMsg() << "(MainWindow::closing) calling UI::write_settings()";
   this->ui.write_settings();
+
+  DebugMsg() << "(MainWindow::closing) about to delete all dipydocs still opened";
+  for (int splitter_index =0; splitter_index < this->sctabs->count(); ++splitter_index) {
+    DebugMsg() << "(MainWindow::closing) about to delete " << qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc->menu_name;
+    delete qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc;
+  }
+
+  DebugMsg() << "MainWindow::closing : exit point";
 }
 
 /*______________________________________________________________________________
@@ -466,8 +474,8 @@ void MainWindow::internalmsgAct__buttonPressed(void) {
                            QString("\n\n\n*** internal debug message ***\n\n\n") + \
                            DebugMsg::messages.join("\n"));
   } else {
-    msgBox.setDetailedText("internal state = " + QString().setNum(splitter->dipydoc.internal_state()) +
-                           splitter->dipydoc.err_messages.join("\n\n") + \
+    msgBox.setDetailedText("internal state = " + QString().setNum(splitter->dipydoc->internal_state()) +
+                           splitter->dipydoc->err_messages.join("\n\n") + \
                            "\n\n\n*** internal debug message ***\n\n\n" + \
                            DebugMsg::messages.join("\n"));
   }
@@ -500,12 +508,12 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
                                                           this->sctabs);
 
   if (source_commentary_splitter->well_initialized() == false) {
-    DebugMsg() << "MainWindow::loadDipyDoc : error";
+    DebugMsg() << "MainWindow::loadDipyDoc : error -> deleting the splitter and its DipyDoc :";
     delete source_commentary_splitter;
   } else {
     DebugMsg() << "MainWindow::loadDipyDoc : ok";
     this->sctabs->addTab(source_commentary_splitter,
-                         source_commentary_splitter->dipydoc.get_tab_name());
+                         source_commentary_splitter->dipydoc->get_tab_name());
   }
 }
 
@@ -549,10 +557,10 @@ void MainWindow::update_icons(void) {
   SCSplitter* splitter = this->current_splitter();
 
   /*............................................................................
-    a special case : no Dipydoc.
+    a special case : no Dipydoc->
   ............................................................................*/
   if (splitter == nullptr || \
-      splitter->dipydoc.well_initialized() == false) {
+      splitter->dipydoc->well_initialized() == false) {
     DebugMsg() << "MainWindow::update_icons : no splitter.";
     this->hidetoolbarsAct->setVisible(false);
     return;

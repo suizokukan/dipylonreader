@@ -62,13 +62,14 @@ struct Syntagma {
   std::list<ArrowTarget>                arrows;
 
                                         Syntagma(void);
+  //$$$                              Syntagma(const Syntagma& that);
                                        ~Syntagma(void);
+  //$$$                              Syntagma& operator=(const Syntagma& other);
                                         Syntagma(Syntagma* _father,
                                                  int _level,
                                                  PosInTextRanges _posintextranges,
                                                  QString _name,
                                                  QString _type);
-  //$$$                              Syntagma& operator=(const Syntagma& other);
   QString                               repr(void);
 };
 inline Syntagma::Syntagma(void) {
@@ -78,10 +79,31 @@ inline Syntagma::Syntagma(void) {
   this->type = QString("");
   this->father = nullptr;
 }
+/*$$$
+inline Syntagma::Syntagma(const Syntagma& that) : father(that.father),
+                                                  level(that.level),
+                                                  posintextranges(that.posintextranges),
+                                                  name(that.name),
+                                                  type(that.type),
+                                                  soons(that.soons),
+                                                  arrows(that.arrows) {
+                                                  }*/
 inline Syntagma::~Syntagma(void) {
-  // $$$
-  DebugMsg() << "~~~~~~~~~~~~~~~~~~" << name << "-" << type;
+  DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type << " level=" << this->level;
 }
+/*$$$
+inline Syntagma& Syntagma::operator=(const Syntagma& that) {
+  if( this != &that) {
+    this->father                = that.father;
+    this->level                 = that.level;
+    this->posintextranges       = that.posintextranges;
+    this->name                  = that.name;
+    this->type                  = that.type;
+    this->soons                 = that.soons;
+    this->arrows                = that.arrows;
+  }
+  return *this;
+}*/
 inline Syntagma::Syntagma(Syntagma* _father,
                           int _level,
                           PosInTextRanges _posintextranges,

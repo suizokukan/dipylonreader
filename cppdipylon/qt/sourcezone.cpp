@@ -32,7 +32,7 @@
   SourceZone::constructor
 ______________________________________________________________________________*/
 SourceZone::SourceZone(const QString & splitter_name,
-                       const DipyDoc& _dipydoc,
+                       const DipyDoc * _dipydoc,
                        bool & _blocked_commentaries,
                        bool & _visible_toolbars,
                        ReadingMode        & _readingmode,
@@ -101,9 +101,9 @@ SourceZone::SourceZone(const QString & splitter_name,
   */
   this->audio_player = new QMediaPlayer(this);
 
-  if (this->dipydoc.audiorecord.found == true) {
-    DebugMsg() << "loading audiofile" << this->dipydoc.audiorecord.filename;
-    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc.audiorecord.filename));
+  if (this->dipydoc->audiorecord.found == true) {
+    DebugMsg() << "loading audiofile" << this->dipydoc->audiorecord.filename;
+    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc->audiorecord.filename));
 
     this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
     this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
@@ -175,14 +175,14 @@ SourceZone::SourceZone(const QString & splitter_name,
   QSettings settings;
   QString setting_name;
 
-  setting_name = QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name);
+  setting_name = QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc->qsettings_name);
   if (settings.contains(setting_name) == true) {
     this->editor->set_zoom_value(settings.value(setting_name).toInt());
   } else {
     this->editor->set_zoom_value(fixedparameters::default__zoom_value);
   }
 
-  setting_name = QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name);
+  setting_name = QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc->qsettings_name);
   if (settings.contains(setting_name) == true) {
     this->editor->set_zoom_value(settings.value(setting_name).toInt());
   } else {
@@ -311,7 +311,7 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
   if (this->readingmode == READINGMODE_LMODE &&
       this->readingmode_details == READINGMODEDETAIL_LMODE_PLAYING) {
       // where are the characters linked to "arg_pos" ?
-      PosInTextRanges text_ranges = this->dipydoc.audio2text_contains(arg_pos);
+      PosInTextRanges text_ranges = this->dipydoc->audio2text_contains(arg_pos);
       std::size_t text_ranges_hash = text_ranges.get_hash();
 
       if (text_ranges_hash != this->editor->modified_chars_hash) {
@@ -417,8 +417,8 @@ void SourceZone::update_icons(void) {
       this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_on));
 
       // audio control icons :
-      if ((this->dipydoc.well_initialized() == false) ||
-          (this->dipydoc.audiorecord.found == false)) {
+      if ((this->dipydoc->well_initialized() == false) ||
+          (this->dipydoc->audiorecord.found == false)) {
         // special cases : a problem occurs, let's hide the audio icons.
         this->audiocontrols_playAct->setVisible(false);
         this->audiocontrols_stopAct->setVisible(false);

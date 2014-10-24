@@ -38,6 +38,9 @@
 ______________________________________________________________________________*/
 int main(int argc, char **argv) {
 
+  C c = C();
+  qDebug() << c.a;
+
   qDebug() << "HELLO !";
   qDebug() << fixedparameters::application_name;
 

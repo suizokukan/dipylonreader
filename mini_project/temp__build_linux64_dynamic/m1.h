@@ -5,11 +5,12 @@
 
 void m1_foo1(void);
 
-struct CC {
-  CC(void);
-  CC& a;
+struct C {
+
+  int a;
+
+  C(void);
+  ~C(void);
 };
-inline CC::CC(void) : a(CC()) {
-}
 
 #endif

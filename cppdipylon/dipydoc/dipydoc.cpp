@@ -84,6 +84,98 @@ DipyDoc::DipyDoc(const QString& _path) {
 
 /*______________________________________________________________________________
 
+        DipyDoc::~DipyDoc()
+
+        DipyDoc destructor
+______________________________________________________________________________*/
+DipyDoc::~DipyDoc(void) {
+  DebugMsg() << "DipyDoc::~DipyDoc : entry point; menu_name=" << this->menu_name;
+
+  /* deleting _syntagmas :
+
+       syntagmas/_syntagmas being filled with pointers, we have to clean up their
+     content manually.
+  */
+  while(!this->_syntagmas.empty()) {
+    this->_syntagmas.front().reset();
+    this->_syntagmas.pop_front();
+  }
+
+  DebugMsg() << "DipyDoc::~DipyDoc : exit point";
+}
+
+/*$$$
+DipyDoc::DipyDoc(const DipyDoc& that) : _well_initialized(that._well_initialized),
+                                        _internal_state(that._internal_state),
+                                        doctype(that.doctype),
+                                        path(that.path),
+                                        main_filename_with_fullpath(that.main_filename_with_fullpath),
+                                        menu_name(that.menu_name),
+                                        qsettings_name(that.qsettings_name),
+                                        internal_name(that.internal_name),
+                                        id(that.id),
+                                        version(that.version),
+                                        dipydocformat_version(that.dipydocformat_version),
+                                        languagefromto(that.languagefromto),
+                                        sourceeditor_stylesheet(that.sourceeditor_stylesheet),
+                                        sourceeditor_default_textformat(that.sourceeditor_default_textformat),
+                                        sourceeditor_rmode_textformat(that.sourceeditor_rmode_textformat),
+                                        sourceeditor_lmode_textformat(that.sourceeditor_lmode_textformat),
+                                        commentaryeditor_stylesheet(that.commentaryeditor_stylesheet),
+                                        commentaryeditor_textformat(that.commentaryeditor_textformat),
+                                        title(that.title),
+                                        introduction(that.introduction),
+                                        lettrine(that.lettrine),
+                                        source_text(that.source_text),
+                                        audiorecord(that.audiorecord),
+                                        translation(that.translation),
+                                        syntagmas_names(that.syntagmas_names),
+                                        _syntagmas(that._syntagmas),
+                                        syntagmas(that.syntagmas),
+                                        arrows(that.arrows),
+                                        err_messages(that.err_messages) {
+  DebugMsg() << "DipyDoc::DipyDoc !!!!!!";
+  }*/
+
+/*$$$
+DipyDoc& DipyDoc::operator=(const DipyDoc& that) {
+  DebugMsg() << "DipyDoc::DipyDoc !!!!!!==";
+  if(this != &that) {
+    this->_well_initialized             = that._well_initialized;
+    this->_internal_state               = that._internal_state;
+    this->doctype                       = that.doctype;
+    this->path                          = that.path;
+    this->main_filename_with_fullpath   = that.main_filename_with_fullpath;
+    this->menu_name                     = that.menu_name;
+    this->qsettings_name                = that.qsettings_name;
+    this->internal_name                 = that.internal_name;
+    this->id                            = that.id;
+    this->version                       = that.version;
+    this->dipydocformat_version         = that.dipydocformat_version;
+    this->languagefromto                = that.languagefromto;
+    this->sourceeditor_stylesheet       = that.sourceeditor_stylesheet;
+    this->sourceeditor_default_textformat = that.sourceeditor_default_textformat;
+    this->sourceeditor_rmode_textformat = that.sourceeditor_rmode_textformat;
+    this->sourceeditor_lmode_textformat = that.sourceeditor_lmode_textformat;
+    this->commentaryeditor_stylesheet   = that.commentaryeditor_stylesheet;
+    this->commentaryeditor_textformat   = that.commentaryeditor_textformat;
+    this->title                         = that.title;
+    this->introduction                  = that.introduction;
+    this->lettrine                      = that.lettrine;
+    this->source_text                   = that.source_text;
+    this->audiorecord                   = that.audiorecord;
+    this->translation                   = that.translation;
+    this->syntagmas_names               = that.syntagmas_names;
+    this->_syntagmas                    = that._syntagmas;
+    this->syntagmas                     = that.syntagmas;
+    this->arrows                        = that.arrows;
+    this->err_messages                  = that.err_messages;
+  }
+  return *this;
+  }*/
+
+/*______________________________________________________________________________
+
   DipyDoc::arrows_repr
 
   Return a string which is a representation of this->arrows
@@ -1218,6 +1310,7 @@ ______________________________________________________________________________*/
 bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
                                                     QXmlStreamReader * xmlreader,
                                                     int level) {
+  DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; level = " << level;
 
   Syntagma* current_syntagma = nullptr;
   bool ok = true;
@@ -1231,24 +1324,28 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
                          this->error_string(xmlreader),
                          QString("notes::note::textranges"));
       QString type(xmlreader->attributes().value("type").toString());
-
+      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #0";
       // let's insert a new syntagma object in this->syntagmas :
       Syntagma* new_syntagma = new Syntagma(father,
                                             level,
                                             textranges,
                                             tag_name,
                                             type);
-
+      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #1";
+      this->_syntagmas.push_back( std::shared_ptr<Syntagma>(new_syntagma) );
+      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #2";
       if (this->syntagmas.count(level) == 0) {
         this->syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
       }
+      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #3";
       this->syntagmas[level][textranges] = new_syntagma;
+      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #4";
 
       // let's add this new soon to its "father" :
       if (father != nullptr) {
         father->soons.push_back(new_syntagma);
       }
-
+      DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #4bis";
       current_syntagma = new_syntagma;
 
     } else {
@@ -1257,11 +1354,18 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
           // error : pending 'note' tag.
           ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'note' tag."),
                              this->error_string(xmlreader));
-        }
-        else {
-          // let's add the note to the current syntagma :
-          QString note(xmlreader->readElementText());
-          DebugMsg() << "#####+" << current_syntagma->name << current_syntagma->level << "-" << current_syntagma->type << "-" << note;
+        } else {
+          if (current_syntagma == nullptr) {
+            // error : pending note
+            ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending note"),
+                               this->error_string(xmlreader));
+          } else {
+            // let's add the note to the current syntagma :
+            QString note(xmlreader->readElementText());
+            DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #5";
+            DebugMsg() << "#### N+" << current_syntagma->name << current_syntagma->level << "-" << current_syntagma->type << "-" << note;
+            DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; #6";
+          }
         }
       } else {
         // error : unknown tag name :
@@ -1272,6 +1376,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
 
     ok &= this->read_mainfile__doctype_text__syntagma(father, xmlreader, level+1);
   }
+
+  DebugMsg() << "read_mainfile__doctype_text__syntagma exit point; level = " << level;
 
   return ok;
 }

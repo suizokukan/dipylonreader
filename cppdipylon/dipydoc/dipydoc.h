@@ -40,6 +40,7 @@
 
 #include <cstring>
 #include <map>
+#include <memory>
 #include <utility>
 
 #include "./fixedparameters.h"
@@ -310,6 +311,7 @@ friend class UI;
   // syntagmas' names->aspects :
   std::map<QString, QString> syntagmas_names;
   // all syntagmas objects :
+  std::list< std::shared_ptr<Syntagma> > _syntagmas;
   std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
   // arrows (see DipyDoc::arrows_repr)
   std::map<QString, ArrowFormat> arrows;
@@ -341,6 +343,9 @@ friend class UI;
   // public methods .............................................................
  public:
                        DipyDoc(void);
+                       //$$$DipyDoc(const DipyDoc& that);
+                      ~DipyDoc(void);
+                      //$$$DipyDoc& operator=(const DipyDoc& that);
               explicit DipyDoc(const QString&);
   PosInTextRanges      audio2text_contains(PosInAudio x0) const;
   PTRangesAND2PosAudio text2audio_contains(PosInText x0) const;

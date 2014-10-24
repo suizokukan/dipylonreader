@@ -32,7 +32,7 @@
   CommentaryZone::constructor
 ______________________________________________________________________________*/
 CommentaryZone::CommentaryZone(const QString & splitter_name,
-                               const DipyDoc & _dipydoc,
+                               const DipyDoc * _dipydoc,
                                bool & _blocked_commentaries,
                                QWidget* _parent) : QFrame(_parent),
                                                    dipydoc(_dipydoc),

@@ -61,7 +61,7 @@ class SourceEditor : public TextEditor {
     explicit  SourceEditor(const QString &      splitter_name,
                            ReadingMode &        _readingmode,
                            ReadingModeDetails & _readingmode_details,
-                           const DipyDoc &      _dipydoc,
+                           const DipyDoc *      _dipydoc,
                            QMediaPlayer *       _audio_player,
                            QAction *            _audiocontrols_playAct,
                            QAction *            _audiocontrols_stopAct,
@@ -91,7 +91,7 @@ class SourceEditor : public TextEditor {
  private:
     ReadingMode &        readingmode;
     ReadingModeDetails & readingmode_details;
-    const DipyDoc &      dipydoc;
+    const DipyDoc *      dipydoc;
     QMediaPlayer*        audio_player = nullptr;
 
     QAction*             audiocontrols_playAct = nullptr;
