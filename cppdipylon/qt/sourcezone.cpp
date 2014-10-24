@@ -32,7 +32,7 @@
   SourceZone::constructor
 ______________________________________________________________________________*/
 SourceZone::SourceZone(const QString & splitter_name,
-                       const DipyDoc& _dipydoc,
+                       const DipyDoc * _dipydoc,
                        bool & _blocked_commentaries,
                        bool & _visible_toolbars,
                        ReadingMode        & _readingmode,
@@ -56,6 +56,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                              tr("play"),
                                              this);
   this->audiocontrols_playAct->setStatusTip(tr("play..."));
+  // connection #C028 (confer documentation)
   QObject::connect(this->audiocontrols_playAct, &QAction::triggered,
                    this,                        &SourceZone::audiocontrols_play);
 
@@ -64,6 +65,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                              tr("stop"),
                                              this);
   this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
+  // connection #C029 (confer documentation)
   QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
                    this,                        &SourceZone::audiocontrols_stop);
 
@@ -72,6 +74,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                         tr("switch to analyse mode"),
                                         this);
   this->readingmode_aAct->setStatusTip(tr("switched to analyse mode"));
+  // connection #C030 (confer documentation)
   QObject::connect(this->readingmode_aAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_aAct__buttonpressed);
 
@@ -80,6 +83,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                         tr("switch to read-and-listen mode"),
                                         this);
   this->readingmode_lAct->setStatusTip(tr("switched to read-and-listen mode"));
+  // connection #C031 (confer documentation)
   QObject::connect(this->readingmode_lAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_lAct__buttonpressed);
 
@@ -88,17 +92,38 @@ SourceZone::SourceZone(const QString & splitter_name,
                                         tr("switch to read mode"),
                                         this);
   this->readingmode_rAct->setStatusTip(tr("switched to read mode"));
+  // connection #C032 (confer documentation)
   QObject::connect(this->readingmode_rAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_rAct__buttonpressed);
+
+  // levelupAct
+  this->levelupAct = new QAction( *(icons.up),
+                                  tr("level up$$$"),
+                                  this);
+  // leveldownAct
+  this->leveldownAct = new QAction( *(icons.down),
+                                    tr("level down$$$"),
+                                    this);
+
+  // level_menu
+  this->level_menu = new QMenu(this);
+  this->level_menu->addAction(this->readingmode_lAct);
+  this->level_menu->addAction(this->readingmode_lAct);
+  this->level_menu->addAction(this->readingmode_lAct);
+
+  // level_pushbutton
+  this->level_pushbutton = new QPushButton(this);
+  this->level_pushbutton->setIcon(*(icons.level));
+  //$$$this->level_pushbutton->setMenu(this->level_menu);
 
   /*
     (1) audio player
   */
   this->audio_player = new QMediaPlayer(this);
 
-  if (this->dipydoc.audiorecord.found == true) {
-    DebugMsg() << "loading audiofile" << this->dipydoc.audiorecord.filename;
-    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc.audiorecord.filename));
+  if (this->dipydoc->audiorecord.found == true) {
+    DebugMsg() << "loading audiofile" << this->dipydoc->audiorecord.filename;
+    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc->audiorecord.filename));
 
     this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
     this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
@@ -141,16 +166,22 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar->addAction(this->audiocontrols_stopAct);
   this->toolbar->addSeparator();
   this->toolbar->addAction(this->readingmode_aAct);
+  this->toolbar->addAction(this->levelupAct);
+  this->toolbar->addWidget(this->level_pushbutton);
+  this->toolbar->addAction(this->leveldownAct);
   this->toolbar->addSeparator();
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
 
+  // connection #C033 (confer documentation)
   QObject::connect(this->textminusAct, &QAction::triggered,
                    this->editor,       &SourceEditor::zoom_out);
 
+  // connection #C034 (confer documentation)
   QObject::connect(this->textplusAct,  &QAction::triggered,
                    this->editor,       &SourceEditor::zoom_in);
 
+  // connection #C035 (confer documentation)
   QObject::connect(this->audio_player, &QMediaPlayer::positionChanged,
                    this,               &SourceZone::audio_position_changed);
 
@@ -167,18 +198,18 @@ SourceZone::SourceZone(const QString & splitter_name,
   QSettings settings;
   QString setting_name;
 
-  setting_name = QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name);
+  setting_name = QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc->qsettings_name);
   if (settings.contains(setting_name) == true) {
     this->editor->set_zoom_value(settings.value(setting_name).toInt());
   } else {
     this->editor->set_zoom_value(fixedparameters::default__zoom_value);
   }
 
-  setting_name = QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name);
+  setting_name = QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc->qsettings_name);
   if (settings.contains(setting_name) == true) {
     this->editor->set_zoom_value(settings.value(setting_name).toInt());
   } else {
-    // (confer doc.) signal #S002 :
+    // SIGNAL #S006 (confer documentation)
     emit this->signal__set_zoom_value_in_commentary_editor(fixedparameters::default__zoom_value);
   }
 
@@ -189,12 +220,13 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->editor->update_aspect_from_dipydoc_aspect_informations();
 
   // update commentary editor aspect :
-  // (confer doc.) signal S001 :
+  // SIGNAL #S007 (confer documentation)
   emit this->signal__in_commentary_editor_update_from_dipydoc_info();
 
   /*
     (6) updating the icons
   */
+  // SIGNAL #S008 (confer documentation)
   emit this->signal__update_icons();
 
   DebugMsg() << "SourceZone::SourceZone : exit point";
@@ -302,7 +334,7 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
   if (this->readingmode == READINGMODE_LMODE &&
       this->readingmode_details == READINGMODEDETAIL_LMODE_PLAYING) {
       // where are the characters linked to "arg_pos" ?
-      PosInTextRanges text_ranges = this->dipydoc.audio2text_contains(arg_pos);
+      PosInTextRanges text_ranges = this->dipydoc->audio2text_contains(arg_pos);
       std::size_t text_ranges_hash = text_ranges.get_hash();
 
       if (text_ranges_hash != this->editor->modified_chars_hash) {
@@ -312,7 +344,7 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
         // hash update :
         this->editor->modified_chars_hash = text_ranges_hash;
 
-        // (confer doc.) signal #S008 :
+        // SIGNAL #S009 (confer documentation)
         emit this->signal__update_commentary_zone_content(text_ranges);
       }
 
@@ -342,6 +374,7 @@ void SourceZone::readingmode_aAct__buttonpressed(void) {
   this->readingmode = READINGMODE_AMODE;
   this->readingmode_details = READINGMODEDETAIL_AMODE;
   DebugMsg() << "switched to AMODE mode";
+  // SIGNAL #S010 (confer documentation)
   emit this->signal__update_icons();
 }
 
@@ -360,6 +393,7 @@ void SourceZone::readingmode_rAct__buttonpressed(void) {
   this->readingmode = READINGMODE_RMODE;
   this->readingmode_details = READINGMODEDETAIL_RMODE;
   DebugMsg() << "switched to RMODE mode";
+  // SIGNAL #S011 (confer documentation)
   emit this->signal__update_icons();
 }
 
@@ -373,6 +407,7 @@ void SourceZone::readingmode_lAct__buttonpressed(void) {
   this->readingmode = READINGMODE_LMODE;
   this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
   DebugMsg() << "switched to LMODE mode";
+  // SIGNAL #S012 (confer documentation)
   emit this->signal__update_icons();
 }
 
@@ -396,6 +431,9 @@ void SourceZone::update_icons(void) {
       this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
+      this->levelupAct->setVisible(true);
+      this->level_pushbutton->setVisible(true);
+      this->leveldownAct->setVisible(true);
       break;
     }
 
@@ -405,8 +443,8 @@ void SourceZone::update_icons(void) {
       this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_on));
 
       // audio control icons :
-      if ((this->dipydoc.well_initialized() == false) ||
-          (this->dipydoc.audiorecord.found == false)) {
+      if ((this->dipydoc->well_initialized() == false) ||
+          (this->dipydoc->audiorecord.found == false)) {
         // special cases : a problem occurs, let's hide the audio icons.
         this->audiocontrols_playAct->setVisible(false);
         this->audiocontrols_stopAct->setVisible(false);
@@ -415,6 +453,10 @@ void SourceZone::update_icons(void) {
         this->audiocontrols_playAct->setVisible(true);
         this->audiocontrols_stopAct->setVisible(true);
       }
+
+      this->levelupAct->setVisible(false);
+      this->level_pushbutton->setVisible(false);
+      this->leveldownAct->setVisible(false);
       break;
     }
 
@@ -424,6 +466,9 @@ void SourceZone::update_icons(void) {
       this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
+      this->levelupAct->setVisible(false);
+      this->level_pushbutton->setVisible(false);
+      this->leveldownAct->setVisible(false);
       break;
     }
 

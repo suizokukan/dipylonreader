@@ -59,7 +59,7 @@ friend class MainWindow;
   bool &             visible_toolbars;
   bool               _well_initialized = false;               // object state
   bool               blocked_commentaries = false;
-  DipyDoc            dipydoc = DipyDoc();
+  DipyDoc *          dipydoc;
   SourceZone*        source_zone = nullptr;            // (ui) source zone
   CommentaryZone*    commentary_zone = nullptr;    // (ui) commentary zone
   ReadingMode        readingmode = READINGMODE::READINGMODE_UNDEFINED;
@@ -77,6 +77,7 @@ friend class MainWindow;
                                 const QString& directoryName,
                                 bool & _visible_toolbars,
                                 QWidget *_parent);
+                    ~SCSplitter(void);
   bool               well_initialized(void) const;
   QString            get_object_name(const int index_in_scbar) const;
 };

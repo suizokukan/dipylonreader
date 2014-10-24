@@ -29,9 +29,11 @@
 #define CPPDIPYLON_QT_SOURCEZONE_H_
 
 #include <QAction>
+#include <QPushButton>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMediaPlayer>
+#include <QMenu>
 #include <QSettings>
 
 #include "debugmsg/debugmsg.h"
@@ -72,7 +74,7 @@ friend class SCSplitter;
   void signal__update_icons(void);
 
  private:
-  const DipyDoc& dipydoc = DipyDoc();
+  const DipyDoc * dipydoc = nullptr;
 
   bool & blocked_commentaries;
   bool & visible_toolbars;
@@ -89,6 +91,12 @@ friend class SCSplitter;
   QAction* textminusAct = nullptr;
   QAction* textplusAct = nullptr;
 
+  QAction* levelupAct = nullptr;
+  QAction* leveldownAct = nullptr;
+
+  QMenu* level_menu = nullptr;
+  QPushButton* level_pushbutton = nullptr;
+
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
   SourceEditor* editor = nullptr;
@@ -96,7 +104,7 @@ friend class SCSplitter;
 
  public:
   explicit SourceZone(const QString      & splitter_name,
-                      const DipyDoc      & _dipydoc,
+                      const DipyDoc      * _dipydoc,
                       bool               & _blocked_commentaries,
                       bool               & _visible_toolbars,
                       ReadingMode        & _readingmode,

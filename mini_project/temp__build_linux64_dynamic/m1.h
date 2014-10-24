@@ -5,4 +5,12 @@
 
 void m1_foo1(void);
 
+struct C {
+
+  int a;
+
+  C(void);
+  ~C(void);
+};
+
 #endif

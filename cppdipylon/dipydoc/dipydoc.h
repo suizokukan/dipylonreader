@@ -40,12 +40,13 @@
 
 #include <cstring>
 #include <map>
+#include <memory>
 #include <utility>
 
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/menunames.h"
-#include "dipydoc/dipydocnotes.h"
+#include "dipydoc/dipydocsyntagmas.h"
 #include "languages/languagefromto.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
@@ -307,12 +308,11 @@ friend class UI;
   DipyDocAudioRecord   audiorecord;
   // translation data :
   DipyDocTranslation   translation;
-  // text formats :
-  std::map<QString, QString> textformats;
-  // levels (see DipyDoc::levels_repr)
-  std::map<int, LevelDetails> levels;
-  // notes :
-  DipyDocNotes         notes;
+  // syntagmas' names->aspects :
+  std::map<QString, QString> syntagmas_names;
+  // all syntagmas objects :
+  std::list< std::shared_ptr<Syntagma> > _syntagmas;
+  std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
   // arrows (see DipyDoc::arrows_repr)
   std::map<QString, ArrowFormat> arrows;
 
@@ -330,8 +330,11 @@ friend class UI;
   QString                get_tab_name(void);
   QString                get_translations_for(PosInText x0, PosInText x1) const;
   bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
-  bool                   read_mainfile__text(QXmlStreamReader* xmlreader);
-  bool                   read_mainfile__text__init_and_check(void);
+  bool                   read_mainfile__doctype_text(QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__doctype_text__init_and_check(void);
+  bool                   read_mainfile__doctype_text__syntagma(Syntagma * father,
+                                                               QXmlStreamReader* xmlreader,
+                                                               int level);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_internal_name(void);
@@ -340,6 +343,9 @@ friend class UI;
   // public methods .............................................................
  public:
                        DipyDoc(void);
+                       //$$$DipyDoc(const DipyDoc& that);
+                      ~DipyDoc(void);
+                      //$$$DipyDoc& operator=(const DipyDoc& that);
               explicit DipyDoc(const QString&);
   PosInTextRanges      audio2text_contains(PosInAudio x0) const;
   PTRangesAND2PosAudio text2audio_contains(PosInText x0) const;
@@ -350,6 +356,7 @@ friend class UI;
   void                 read_mainfile(const QString&);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
+  QString              syntagmas_repr(void) const;
 
   // public constants ...........................................................
   static const int     min_dipydocformat_version;

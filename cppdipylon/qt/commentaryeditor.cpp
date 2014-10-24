@@ -33,7 +33,7 @@
 
 ______________________________________________________________________________*/
 CommentaryEditor::CommentaryEditor(const QString & splitter_name,
-                                   const DipyDoc & _dipydoc,
+                                   const DipyDoc * _dipydoc,
                                    bool & _blocked_commentaries,
                                    QWidget *_parent) : TextEditor(_parent),
                                                        dipydoc(_dipydoc),
@@ -51,8 +51,8 @@ CommentaryEditor::CommentaryEditor(const QString & splitter_name,
   CommentaryEditor::set_the_appearance
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_appearance(void) {
-  DebugMsg() << "[CommentaryEditor::set_the_appearance] setStyleSheet = " << this->dipydoc.commentaryeditor_stylesheet;
-  this->setStyleSheet(this->dipydoc.commentaryeditor_stylesheet);
+  DebugMsg() << "[CommentaryEditor::set_the_appearance] setStyleSheet = " << this->dipydoc->commentaryeditor_stylesheet;
+  this->setStyleSheet(this->dipydoc->commentaryeditor_stylesheet);
 }
 
 /*______________________________________________________________________________
@@ -62,7 +62,7 @@ void CommentaryEditor::set_the_appearance(void) {
   Initialize this->format_text_*
 ______________________________________________________________________________*/
 void CommentaryEditor::set_the_text_formats(void) {
-  this->format_text = this->dipydoc.commentaryeditor_textformat.qtextcharformat();
+  this->format_text = this->dipydoc->commentaryeditor_textformat.qtextcharformat();
 }
 
 /*______________________________________________________________________________
@@ -76,7 +76,7 @@ void CommentaryEditor::update_content__translation_expected(const PosInTextRange
     PosInText x0 = posintext.min();
     PosInText x1 = posintext.max();
 
-    QString matching_translations = this->dipydoc.get_translations_for(x0, x1);
+    QString matching_translations = this->dipydoc->get_translations_for(x0, x1);
 
     this->clear();
 

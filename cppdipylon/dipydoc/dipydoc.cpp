@@ -84,6 +84,28 @@ DipyDoc::DipyDoc(const QString& _path) {
 
 /*______________________________________________________________________________
 
+        DipyDoc::~DipyDoc()
+
+        DipyDoc destructor
+______________________________________________________________________________*/
+DipyDoc::~DipyDoc(void) {
+  DebugMsg() << "DipyDoc::~DipyDoc : entry point; menu_name=" << this->menu_name;
+
+  /* deleting _syntagmas :
+
+       syntagmas/_syntagmas being filled with pointers, we have to clean up their
+     content manually.
+  */
+  while(!this->_syntagmas.empty()) {
+    this->_syntagmas.front().reset();
+    this->_syntagmas.pop_front();
+  }
+
+  DebugMsg() << "DipyDoc::~DipyDoc : exit point";
+}
+
+/*______________________________________________________________________________
+
   DipyDoc::arrows_repr
 
   Return a string which is a representation of this->arrows
@@ -170,9 +192,9 @@ void DipyDoc::clear(void) {
   this->dipydocformat_version = -1;
   this->languagefromto.clear();
 
-  this->textformats.clear();
+  this->syntagmas_names.clear();
   this->arrows.clear();
-  this->levels.clear();
+  // $$$ this->levels.clear();
 
   this->source_text.clear();
   this->audiorecord.clear();
@@ -322,6 +344,24 @@ QString DipyDoc::get_tab_name(void) {
   } else {
     return "…" + this->menu_name.right(fixedparameters::maxlen_in_tab_name-1);
   }
+}
+
+/*______________________________________________________________________________
+
+  DipyDoc::get_translations_for() : return a QString with the translations
+                                    matching the positions x0 to x1 in the
+                                    source text.
+______________________________________________________________________________*/
+QString DipyDoc::get_translations_for(PosInText x0, PosInText x1) const {
+  VectorPosInTextRanges vector_posintextranges = this->translation.translations.contains(x0, x1);
+
+  QStringList strlist_of_translations;
+
+  for (auto &posintextranges : vector_posintextranges) {
+    strlist_of_translations.append(this->translation.translations[posintextranges]);
+  }
+
+  return strlist_of_translations.join(" ");
 }
 
 /*______________________________________________________________________________
@@ -485,21 +525,22 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "  </translation>\n";
 
   /*............................................................................
-    textformats
+    syntagmas_names
   ............................................................................*/
   res += "\n";
-  res += "  <textformats>\n";
-  for (auto &textformat : this->textformats) {
-    QString new_line("    <textformat name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
-    new_line.replace("$NAME$", textformat.first);
-    new_line.replace("$ASPECT$",  textformat.second);
+  res += "  <syntagmas_names>\n";
+  for (auto &syntagma_name : this->syntagmas_names) {
+    QString new_line("    <syntagma_name name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
+    new_line.replace("$NAME$", syntagma_name.first);
+    new_line.replace("$ASPECT$",  syntagma_name.second);
     res += new_line;
   }
-  res += "  </textformats>\n";
+  res += "  </syntagmas_names>\n";
 
   /*............................................................................
-    levels
+    levels $$$$
   ............................................................................*/
+  /*
   res += "\n";
   res += "  <levels>\n";
   for (auto &level : this->levels) {
@@ -513,6 +554,7 @@ QString DipyDoc::get_xml_repr(void) const {
     res += new_line;
   }
   res += "  </levels>\n";
+  */
 
   /*............................................................................
     arrows
@@ -530,8 +572,9 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "  </arrows>\n";
 
   /*............................................................................
-    notes
+    notes $$$
   ............................................................................*/
+  /*
   res += "\n";
   res += "  <notes>\n";
 
@@ -579,6 +622,7 @@ QString DipyDoc::get_xml_repr(void) const {
     }
   }
   res += "  </notes>\n";
+  */
 
   /*............................................................................
     final line
@@ -718,7 +762,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
       if (this->read_mainfile__first_token(xmlreader) == true) {
         // ok, let's read the rest of the file :
         if (this->doctype == QString("text")) {
-            ok = this->read_mainfile__text(xmlreader);
+            ok = this->read_mainfile__doctype_text(xmlreader);
         }
       }
     } else {
@@ -749,7 +793,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
     (3) initialization and checking
   ............................................................................*/
   if (this->doctype == QString("text")) {
-    ok &= this->read_mainfile__text__init_and_check();
+    ok &= this->read_mainfile__doctype_text__init_and_check();
   }
 
   delete xmlreader;
@@ -816,15 +860,15 @@ bool DipyDoc::read_mainfile__first_token(QXmlStreamReader* xmlreader) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__text()
+  DipyDoc::read_mainfile__doctype_text()
 
-    for doctype='text', read everything but the first token and initializes the
+    for doctype='text', read everything but the first token and initialize the
   object.
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
-  DebugMsg() << "(DipyDoc::read_mainfile__text) : entry point";
+bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : entry point";
   bool ok = true;
 
   while (xmlreader->readNextStartElement()) {
@@ -1036,9 +1080,8 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
 
       QFile audiofile(this->audiorecord.filename);
       if (!audiofile.open(QFile::ReadOnly)) {
-        ok = false;
-        this->error(QString("Can't open the audio record file named '%1'").arg(this->audiorecord.filename),
-                    error_string(xmlreader));
+        ok &= !this->error(QString("Can't open the audio record file named '%1'").arg(this->audiorecord.filename),
+                           error_string(xmlreader));
       }
 
       // audiorecord::informations
@@ -1099,18 +1142,18 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
     }
 
     /*
-      textformats
+      syntagmas_names
     */
-    if (tokenname == "textformats") {
+    if (tokenname == "syntagmas_names") {
       while (xmlreader->readNextStartElement()) {
-        // textformats::textformat
-        if (xmlreader->name() == "textformat") {
-          // textformats::textformat::name
+        // syntagmas_names::syntagma_name
+        if (xmlreader->name() == "syntagmas_name") {
+          // syntagmas_names::syntagma_name::name
           QString name = xmlreader->attributes().value("name").toString();
-          // textformats::textformat::aspect
+          // syntagmas_names::syntagma_name::aspect
           QString aspect = xmlreader->attributes().value("aspect").toString();
 
-          this->textformats[ name ] = aspect;
+          this->syntagmas_names[ name ] = aspect;
 
           xmlreader->skipCurrentElement();
           continue;
@@ -1121,8 +1164,9 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
     }
 
     /*
-      levels
+      levels $$$$ à supprimer
     */
+    /*
     if (tokenname == "levels") {
       while (xmlreader->readNextStartElement()) {
         // level::level
@@ -1143,9 +1187,9 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
           continue;
         }
       }
-
       continue;
     }
+    */
 
     /*
       arrows
@@ -1175,73 +1219,94 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
       notes
     */
     if (tokenname == "notes") {
-      MAPPosNoteI_BOOL last_note;
-      bool last_note_ok = false;
-
-      while (xmlreader->readNextStartElement()) {
-        // notes::note
-        if (xmlreader->name() == "note") {
-          // notes::note::level
-          int level = xmlreader->attributes().value("level").toString().toInt();
-          // notes::note::textranges
-          PosInTextRanges textranges(xmlreader->attributes().value("textranges").toString());
-          ok &= !this->error(textranges, this->error_string(xmlreader),
-                             QString("notes::note::textranges"));
-          // notes::note::textformatname
-          QString         textformatname = xmlreader->attributes().value("textformatname").toString();
-
-          // this->notes[level][textranges] = DipyDocNote(...)
-          // NB : the text will be initialized later, when the 'text' tag will be read (see infra)
-          last_note = this->notes.insert(level,
-                                         textranges,
-                                         DipyDocNote(level, textranges, "???", textformatname));
-          last_note_ok = last_note.second;
-
-          // let's read the arrows linked to this note :
-          while (xmlreader->readNextStartElement()) {
-            if (xmlreader->name() == "text") {
-              // notes::note::text
-              QString text(xmlreader->readElementText());
-              text = text.trimmed();
-
-              // modifying the last note's text :
-              if (last_note_ok == true) {
-                MAP_PosNoteI last_note_iterator = last_note.first;
-                last_note_iterator->second.text = text;
-              }
-              continue;
-            }
-            if (xmlreader->name() == "arrow") {
-              // notes:note::arrow::target
-              PosInTextRanges target(xmlreader->attributes().value("target").toString());
-              ok &= !this->error(target, this->error_string(xmlreader),
-                                 QString("notes::note::arrows::target"));
-              // notes:note::arrow's type
-              QString type(xmlreader->readElementText());
-              type = type.trimmed();
-
-              // adding this arrow to the last note :
-              if (last_note_ok == true) {
-                MAP_PosNoteI last_note_iterator = last_note.first;
-                last_note_iterator->second.arrows.push_back(ArrowTargetInANote(type, target));;
-              }
-              continue;
-            }
-          }
-          continue;
-        }
-      }
-      continue;
+      ok &= this->read_mainfile__doctype_text__syntagma(nullptr,
+                                                               xmlreader,
+                                                               1);
     }
+    DebugMsg() << "syntagmas :\n" << this->syntagmas_repr();
+
   }  // ... while (xmlreader->readNextStartElement())
 
-  DebugMsg() << "(DipyDoc::read_mainfile__text) : exit point" << ok;
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : exit point" << ok;
   return ok;
 }
 
 /*______________________________________________________________________________
 
-  DipyDoc::read_mainfile__text__init_and_check()
+  DipyDoc::read_mainfile__doctype_text__syntagma
+
+  Read the syntagmas' definitions inside <notes></notes>
+
+______________________________________________________________________________*/
+bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
+                                                    QXmlStreamReader * xmlreader,
+                                                    int level) {
+  DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; level = " << level;
+
+  Syntagma* current_syntagma = nullptr;
+  bool ok = true;
+
+  while (xmlreader->readNextStartElement()) {
+    QString tag_name = xmlreader->name().toString();
+
+    if (this->syntagmas_names.find(tag_name) != this->syntagmas_names.end()) {
+      PosInTextRanges textranges(xmlreader->attributes().value("textranges").toString());
+      ok &= !this->error(textranges,
+                         this->error_string(xmlreader),
+                         QString("notes::note::textranges"));
+      QString type(xmlreader->attributes().value("type").toString());
+      // let's insert a new syntagma object in this->syntagmas; 'note' will be defined later.
+      Syntagma* new_syntagma = new Syntagma(father,
+                                            level,
+                                            textranges,
+                                            tag_name,
+                                            type,
+                                            QString(""));
+      this->_syntagmas.push_back( std::shared_ptr<Syntagma>(new_syntagma) );
+      if (this->syntagmas.count(level) == 0) {
+        this->syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
+      }
+      this->syntagmas[level][textranges] = new_syntagma;
+
+      // let's add this new soon to its "father" :
+      if (father != nullptr) {
+        father->soons.push_back(new_syntagma);
+      }
+      current_syntagma = new_syntagma;
+
+    } else {
+      if (tag_name == "note") {
+        if(father == nullptr) {
+          // error : pending 'note' tag.
+          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'note' tag."),
+                             this->error_string(xmlreader));
+        } else {
+          // let's add the note to its father :
+          father->note = xmlreader->readElementText();
+        }
+      } else {
+        // error : unknown tag name :
+        ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] unknown tag name=%1").arg(tag_name),
+                           this->error_string(xmlreader));
+      }
+    }
+
+    // We go deeper with "current_syntagma" as future father, one level deeper :
+    if (current_syntagma != nullptr) {
+      ok &= this->read_mainfile__doctype_text__syntagma(current_syntagma,
+                                                        xmlreader,
+                                                        level+1);
+    }
+  }
+
+  DebugMsg() << "read_mainfile__doctype_text__syntagma exit point; level = " << level;
+
+  return ok;
+}
+
+/*______________________________________________________________________________
+
+  DipyDoc::read_mainfile__doctype_text__init_and_check()
 
   Initialization and checking for "text" dipydoc.
 
@@ -1258,13 +1323,13 @@ bool DipyDoc::read_mainfile__text(QXmlStreamReader* xmlreader) {
         (3) initializaton of _well_initialized
 
 ________________________________________________________________________________*/
-bool DipyDoc::read_mainfile__text__init_and_check(void) {
+bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   bool ok = true;
 
   /*............................................................................
     (1) secondary initializations
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #1";
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #1";
 
   /*............................................................................
     (1.1) initialization of "audiorecord.audio2text"
@@ -1279,7 +1344,7 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
   /*............................................................................
     (2) checks
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #2";
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #2";
 
   /*............................................................................
     (2.1) is audiorecord.text2audio correctly initialized ?
@@ -1319,8 +1384,9 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
   }
 
   /*............................................................................
-    (2.5) are the notes' levels' number defined ?
+    (2.5) are the notes' levels' number defined ? $$$
   ............................................................................*/
+  /*
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
     // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
@@ -1330,10 +1396,12 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
       ok = !this->error(msg.arg(QString().setNum(note_by_level.first)));
     }
   }
+  */
 
   /*............................................................................
-    (2.6) are the notes' aspects defined ?
+    (2.6) are the notes' aspects defined ? $$$$$$
   ............................................................................*/
+  /*
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
     // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
@@ -1348,10 +1416,12 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
       }
     }
   }
+  */
 
   /*............................................................................
-    (2.7) are the notes' arrows' types defined ?
+    (2.7) are the notes' arrows' types defined ? $$$
   ............................................................................*/
+  /*
   for (auto &note_by_level : this->notes) {
     // note_by_level.first : (int)level
     // note_by_level.second : std::map<PosInTextRanges, DipyDocNote>
@@ -1367,38 +1437,23 @@ bool DipyDoc::read_mainfile__text__init_and_check(void) {
       }
     }
   }
+  */
 
   /*............................................................................
     (3) initializaton of _well_initialized and of _internal_state.
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) #3";
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #3";
   if (ok == false) {
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
   }
 
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) levels=" << this->levels_repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) arrows=" << this->arrows_repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check) notes="  << this->notes.repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
+  // $$$ DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) levels=" << this->levels_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows=" << this->arrows_repr();
+  // $$$DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes="  << this->notes.repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
 
   return ok;
-}
-
-/*______________________________________________________________________________
-
-  DipyDoc::levels_repr
-
-  Return a string which is a representation of this->levels
-______________________________________________________________________________*/
-QString DipyDoc::levels_repr(void) const {
-  QString res("");
-  for (auto &level : this->levels) {
-    res += QString("\n  #%1 - name='%2' - textformat='%3'").arg(QString().setNum(level.first),
-                                                                level.second.name,
-                                                                level.second.textformat.repr());
-    }
-  return res;
 }
 
 /*______________________________________________________________________________
@@ -1427,28 +1482,6 @@ void DipyDoc::read_menu_name(const QString& _path) {
   }
 
   DebugMsg() << "(DipyDoc::read_menu_name) menu name = " << this->menu_name;
-}
-
-/*______________________________________________________________________________
-
-   DipyDoc::text2audio_contains(PosInText x0)
-
-   return the text ranges and the audio positions (from, to) matching the
-   'x0' character.
-
-   If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
-   second (PairOfPosInAudio) being set to (0,0).
-________________________________________________________________________________*/
-PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
-  PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0);
-
-  if (posintext.is_empty() == true) {
-    return PTRangesAND2PosAudio(posintext,
-                                PairOfPosInAudio(0, 0));
-  } else {
-    return PTRangesAND2PosAudio(posintext,
-                                this->audiorecord.text2audio[posintext]);
-  }
 }
 
 /*______________________________________________________________________________
@@ -1488,6 +1521,44 @@ void DipyDoc::set_qsettings_name(void) {
 
 /*______________________________________________________________________________
 
+   DipyDoc::syntagmas_repr
+
+   Debugging-oriented function.
+________________________________________________________________________________*/
+QString DipyDoc::syntagmas_repr(void) const {
+  QString res;
+
+  for (auto & syntagma : this->_syntagmas) {
+    res += syntagma->repr() + "\n";
+  }
+
+  return res;
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::text2audio_contains(PosInText x0)
+
+   return the text ranges and the audio positions (from, to) matching the
+   'x0' character.
+
+   If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
+   second (PairOfPosInAudio) being set to (0,0).
+________________________________________________________________________________*/
+PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
+  PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0);
+
+  if (posintext.is_empty() == true) {
+    return PTRangesAND2PosAudio(posintext,
+                                PairOfPosInAudio(0, 0));
+  } else {
+    return PTRangesAND2PosAudio(posintext,
+                                this->audiorecord.text2audio[posintext]);
+  }
+}
+
+/*______________________________________________________________________________
+
    DipyDoc::translation_contains(PosInText x0)
 ________________________________________________________________________________*/
 PosInTextRanges DipyDoc::translation_contains(PosInText x0) const {
@@ -1505,22 +1576,4 @@ PosInTextRanges DipyDoc::translation_contains(PosInText x0) const {
 ________________________________________________________________________________*/
 PosInTextRanges DipyDoc::translation_contains(PosInText x0, PosInText x1) const {
   return this->translation.translations.contains(x0, x1).toPosInTextRanges();
-}
-
-/*______________________________________________________________________________
-
-  DipyDoc::get_translations_for() : return a QString with the translations
-                                    matching the positions x0 to x1 in the
-                                    source text.
-______________________________________________________________________________*/
-QString DipyDoc::get_translations_for(PosInText x0, PosInText x1) const {
-  VectorPosInTextRanges vector_posintextranges = this->translation.translations.contains(x0, x1);
-
-  QStringList strlist_of_translations;
-
-  for (auto &posintextranges : vector_posintextranges) {
-    strlist_of_translations.append(this->translation.translations[posintextranges]);
-  }
-
-  return strlist_of_translations.join(" ");
 }

@@ -51,7 +51,7 @@ friend class MainWindow;
 
  public:
   explicit CommentaryEditor(const QString & splitter_name,
-                            const DipyDoc & _dipydoc,
+                            const DipyDoc * _dipydoc,
                             bool & _blocked_commentaries,
                             QWidget * _parent);
 
@@ -61,7 +61,7 @@ friend class MainWindow;
   void update_aspect_from_dipydoc_aspect_informations(void);
 
  private:
-    const DipyDoc & dipydoc;
+    const DipyDoc * dipydoc;
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();
 
