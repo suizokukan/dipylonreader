@@ -33,11 +33,12 @@
 
   Class constructor.
 
-     (0) progress dialog
-     (1) erase old files
-     (2) download summary file
-     (3) download & install data files
-     (4) success message
+     (0) contact with the source site
+     (1) progress dialog
+     (2) erase old files
+     (3) download summary file
+     (4) download & install data files
+     (5) success message
 ________________________________________________________________________________*/
 DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QObject(_parent), ui(_ui) {
   DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : entry point";
@@ -45,7 +46,15 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   // setting this->summary_url :
   this->set_summary_url();
 
-  if ( this->ui.network_manager->networkAccessible() != QNetworkAccessManager::NetworkAccessibility::Accessible ) {
+  // setting this->contact_url :
+  this->set_contact_url();
+
+  /* ...........................................................................
+     (0) contact with the source site
+  ............................................................................*/
+
+  // (0.1) is the network ok ?
+  if (this->ui.network_manager->networkAccessible() != QNetworkAccessManager::NetworkAccessibility::Accessible) {
     // no network !
     DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : No network available !";
     QMessageBox msgBox;
@@ -54,8 +63,30 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
     return;
   }
 
+  // (0.2) is the site ok ?
+
+  // connection #C037 (confer documentation)
+  QObject::connect(this->ui.network_manager, &QNetworkAccessManager::finished,
+                   this,                     &DownloadDemoDipydocs::download_contact_finished);
+
+  this->ui.network_manager->get(QNetworkRequest(this->contact_url));
+
+  // event loop :
+  this->still_waiting = true;
+  while ((this->still_waiting == true) && (this->cancel_tasks == false)) {
+    QApplication::processEvents();
+  }
+
+  // disconnection #D003 (confer documentation)
+  QObject::disconnect(this->ui.network_manager, &QNetworkAccessManager::finished,
+                      this,                     &DownloadDemoDipydocs::download_contact_finished);
+
+  if (this->cancel_tasks == true) {
+    return;
+  }
+
   /* ...........................................................................
-     (0) progress dialog
+     (1) progress dialog
 
      the real maximum value will be set later, when the summary file will
      be read.
@@ -69,7 +100,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   progress.setWindowModality(Qt::WindowModal);
 
   /* ...........................................................................
-     (1) erase old files
+     (2) erase old files
    ...........................................................................*/
   progress.setLabelText(QObject::tr("removing old files..."));
   progress.setValue(1);
@@ -104,7 +135,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   }
 
   /* ...........................................................................
-     (2) download summary file,
+     (3) download summary file,
      initialize this->filenames_and_sizes and this->number_of_bytes_to_be_downloaded
   ............................................................................*/
   progress.setLabelText(QObject::tr("contacting the download site..."));
@@ -126,12 +157,12 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   QObject::disconnect(this->ui.network_manager, &QNetworkAccessManager::finished,
                       this,                     &DownloadDemoDipydocs::download_summary_finished);
 
-  if ( this->cancel_tasks == true ) {
+  if (this->cancel_tasks == true) {
     return;
   }
 
   /* ...........................................................................
-     (3) download & install data files
+     (4) download & install data files
   ............................................................................*/
   // update the progress bar : new maximum value.
   progress.setMaximum(this->number_of_bytes_to_be_downloaded);
@@ -204,7 +235,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
                       this,                     &DownloadDemoDipydocs::download_data_finished);
 
   /* ...........................................................................
-     (4) success message
+     (5) success message
   ............................................................................*/
   if (this->cancel_tasks == false) {
     QMessageBox msgBox;
@@ -309,6 +340,35 @@ void DownloadDemoDipydocs::download_data_finished(QNetworkReply* reply) {
 
 /*______________________________________________________________________________
 
+  DownloadDemoDipydocs::download_contact_finished()
+
+  "Download" the (empty) 'contact' file.
+
+  Function called when downloading the contact file is over.
+______________________________________________________________________________*/
+void DownloadDemoDipydocs::download_contact_finished(QNetworkReply* reply) {
+  if (reply->error()) {
+    /*
+       an error occurs :
+    */
+    DebugMsg() << "DownloadDemoDipydocs::download_contact_finished() : ERROR :" << reply->errorString();
+
+    QMessageBox msgBox;
+    msgBox.setText(QString(tr("The source site could not be reached : is the network ok ? Check out details below.")));
+    msgBox.setDetailedText(QString("Trying to reach %1.\n\n"
+                                   "System error=\n%2").arg(this->contact_url.toString(),
+                                                            reply->errorString()));
+    msgBox.exec();
+
+    this->cancel();
+  }
+
+  this->still_waiting = false;
+  reply->deleteLater();
+}
+
+/*______________________________________________________________________________
+
   DownloadDemoDipydocs::download_summary_finished()
 
   Download the summary file, read it and initialize this->filenames_and_sizes
@@ -401,6 +461,19 @@ void DownloadDemoDipydocs::readyRead(void) {
   if (this->current_file != nullptr) {
     this->current_file->write(this->current_reply->readAll());
   }
+}
+
+/*______________________________________________________________________________
+
+  DownloadDemoDipydocs::set_contact_url()
+
+  Set this->contact_url, the URL of the expected contact file.
+______________________________________________________________________________*/
+void DownloadDemoDipydocs::set_contact_url(void) {
+  QString str(QString(fixedparameters::DEMODIPYDOCS__SOURCE_SITE).arg(QString(fixedparameters::application_version)) + \
+             "/" + \
+              QString(fixedparameters::DEMODIPYDOCS__CONTACT_FILENAME));
+  this->contact_url.setUrl(str);
 }
 
 /*______________________________________________________________________________

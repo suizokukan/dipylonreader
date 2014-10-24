@@ -139,9 +139,11 @@ const QString DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylon/freedipyd
 
 // regex used to detect 'demo' dipydocs's names :
 const QString DEMODIPYDOCS__REGEX_FOR_DIRECTORIES_NAME = "_demo_*";
+// name of the contact file :
+const QString DEMODIPYDOCS__CONTACT_FILENAME = "contact";
 // name of the summary file :
 const QString DEMODIPYDOCS__SUMMARY_FILENAME = "summary";
-// separatator characters in the summary file :
+ // separatator characters in the summary file :
 const QString DEMODIPYDOCS__SUMMARY_SEP = " :: ";
 }
 #endif
