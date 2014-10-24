@@ -60,7 +60,8 @@ class DownloadDemoDipydocs : public QObject {
                              ~DownloadDemoDipydocs(void);
        bool                   cancel_tasks = false;
        bool                   still_waiting = false;
-       QUrl                   summary_url;
+       QUrl                   contact_url;      // initialized by ::set_contact_url();
+       QUrl                   summary_url;      // initialized by ::set_summary_url();
 
  private:
        const UI&              ui;
@@ -76,10 +77,12 @@ class DownloadDemoDipydocs : public QObject {
        void                   create_path_to_the_file(const QString& filename);
        QString                get_data_filename_fullpath(const QString& filename) const;
        QUrl                   get_data_url(const QString& filename) const;
+       void                   set_contact_url(void);
        void                   set_summary_url(void);
 
  private slots:  // NOLINT(whitespace/indent)
        void                   cancel(void);
+       void                   download_contact_finished(QNetworkReply* reply);
        void                   download_data_finished(QNetworkReply* reply);
        void                   download_summary_finished(QNetworkReply* reply);
        void                   readyRead(void);
