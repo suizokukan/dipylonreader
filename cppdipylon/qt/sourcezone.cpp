@@ -105,17 +105,10 @@ SourceZone::SourceZone(const QString & splitter_name,
                                     tr("level down$$$"),
                                     this);
 
-  // level_menu
-  this->level_menu = new QMenu(this);
-  this->level_menu->addAction(this->readingmode_lAct);
-  this->level_menu->addAction(this->readingmode_lAct);
-  this->level_menu->addAction(this->readingmode_lAct);
-
-  // level_pushbutton
-  this->level_pushbutton = new QPushButton(this);
-  this->level_pushbutton->setIcon(*(icons.level));
-  //$$$this->level_pushbutton->setMenu(this->level_menu);
-
+  // levelAct
+  this->levelAct = new QAction( *(icons.level),
+                                tr("change level$$$"),
+                                this);
   /*
     (1) audio player
   */
@@ -167,7 +160,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar->addSeparator();
   this->toolbar->addAction(this->readingmode_aAct);
   this->toolbar->addAction(this->levelupAct);
-  this->toolbar->addWidget(this->level_pushbutton);
+  this->toolbar->addAction(this->levelAct);
   this->toolbar->addAction(this->leveldownAct);
   this->toolbar->addSeparator();
   this->toolbar->addAction(this->textplusAct);
@@ -432,7 +425,7 @@ void SourceZone::update_icons(void) {
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
       this->levelupAct->setVisible(true);
-      this->level_pushbutton->setVisible(true);
+      this->levelAct->setVisible(true);
       this->leveldownAct->setVisible(true);
       break;
     }
@@ -455,7 +448,7 @@ void SourceZone::update_icons(void) {
       }
 
       this->levelupAct->setVisible(false);
-      this->level_pushbutton->setVisible(false);
+      this->levelAct->setVisible(false);
       this->leveldownAct->setVisible(false);
       break;
     }
@@ -467,7 +460,7 @@ void SourceZone::update_icons(void) {
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
       this->levelupAct->setVisible(false);
-      this->level_pushbutton->setVisible(false);
+      this->levelAct->setVisible(false);
       this->leveldownAct->setVisible(false);
       break;
     }

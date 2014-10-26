@@ -94,8 +94,7 @@ friend class SCSplitter;
   QAction* levelupAct = nullptr;
   QAction* leveldownAct = nullptr;
 
-  QMenu* level_menu = nullptr;
-  QPushButton* level_pushbutton = nullptr;
+  QAction* levelAct = nullptr;
 
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;

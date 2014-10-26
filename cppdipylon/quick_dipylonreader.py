@@ -18,6 +18,9 @@
 #       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
 # 
 ################################################################################
+#
+# version 2 (2014.10.26) : (ancient) build/dipylon_reader is deleted before the build
+#
 # version 1 (2014.10.26) : first version to be committed.
 ################################################################################
 
@@ -80,6 +83,7 @@ ossystem("mkdir -p ../builds")
 print("== filling {0}/".format(TEMP_FOLDER))
 ossystem("rm -f temp__build_linux64_dynamic/build/qrc_*.cpp".format(TEMP_FOLDER))
 ossystem("rm -f temp__build_linux64_dynamic/build/moc_*.cpp".format(TEMP_FOLDER))
+ossystem("rm -f temp__build_linux64_dynamic/build/dipylonreader".format(TEMP_FOLDER))
 ossystem("rsync -a . {0}/ --exclude {0}/".format(TEMP_FOLDER))
 
 os.chdir("{0}/".format(TEMP_FOLDER))
@@ -94,5 +98,5 @@ ossystem("make")
 print("== copying the binary into the builds/ folder")
 ossystem("cp ./build/dipylonreader ../../builds/{0}".format(EXEC_NAME))
 
-print("== launching the binary")
+print("== launching the binary ../../builds/{0}".format(EXEC_NAME))
 ossystem("../../builds/{0}".format(EXEC_NAME))
