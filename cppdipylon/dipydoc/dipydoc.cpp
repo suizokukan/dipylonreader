@@ -91,14 +91,14 @@ ______________________________________________________________________________*/
 DipyDoc::~DipyDoc(void) {
   DebugMsg() << "DipyDoc::~DipyDoc : entry point; menu_name=" << this->menu_name;
 
-  /* deleting _syntagmas :
+  /* deleting notes._syntagmas :
 
        syntagmas/_syntagmas being filled with pointers, we have to clean up their
      content manually.
   */
-  while(!this->_syntagmas.empty()) {
-    this->_syntagmas.front().reset();
-    this->_syntagmas.pop_front();
+  while(!this->notes._syntagmas.empty()) {
+    this->notes._syntagmas.front().reset();
+    this->notes._syntagmas.pop_front();
   }
 
   DebugMsg() << "DipyDoc::~DipyDoc : exit point";
@@ -192,9 +192,8 @@ void DipyDoc::clear(void) {
   this->dipydocformat_version = -1;
   this->languagefromto.clear();
 
-  this->syntagmas_names.clear();
+  this->notes.syntagmas_names.clear();
   this->arrows.clear();
-  // $$$ this->levels.clear();
 
   this->source_text.clear();
   this->audiorecord.clear();
@@ -525,11 +524,11 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "  </translation>\n";
 
   /*............................................................................
-    syntagmas_names
+    notes.syntagmas_names
   ............................................................................*/
   res += "\n";
   res += "  <syntagmas_names>\n";
-  for (auto &syntagma_name : this->syntagmas_names) {
+  for (auto &syntagma_name : this->notes.syntagmas_names) {
     QString new_line("    <syntagma_name name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
     new_line.replace("$NAME$", syntagma_name.first);
     new_line.replace("$ASPECT$",  syntagma_name.second);
@@ -1142,7 +1141,7 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
     }
 
     /*
-      syntagmas_names
+      notes.syntagmas_names
     */
     if (tokenname == "syntagmas_names") {
       while (xmlreader->readNextStartElement()) {
@@ -1153,7 +1152,7 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
           // syntagmas_names::syntagma_name::aspect
           QString aspect = xmlreader->attributes().value("aspect").toString();
 
-          this->syntagmas_names[ name ] = aspect;
+          this->notes.syntagmas_names[ name ] = aspect;
 
           xmlreader->skipCurrentElement();
           continue;
@@ -1223,7 +1222,7 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
                                                                xmlreader,
                                                                1);
     }
-    DebugMsg() << "syntagmas :\n" << this->syntagmas_repr();
+    DebugMsg() << "notes :\n" << this->notes.repr();
 
   }  // ... while (xmlreader->readNextStartElement())
 
@@ -1249,24 +1248,24 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
   while (xmlreader->readNextStartElement()) {
     QString tag_name = xmlreader->name().toString();
 
-    if (this->syntagmas_names.find(tag_name) != this->syntagmas_names.end()) {
+    if (this->notes.syntagmas_names.find(tag_name) != this->notes.syntagmas_names.end()) {
       PosInTextRanges textranges(xmlreader->attributes().value("textranges").toString());
       ok &= !this->error(textranges,
                          this->error_string(xmlreader),
                          QString("notes::note::textranges"));
       QString type(xmlreader->attributes().value("type").toString());
-      // let's insert a new syntagma object in this->syntagmas; 'note' will be defined later.
+      // let's insert a new syntagma object in this->notes.syntagmas; 'textnote' will be defined later.
       Syntagma* new_syntagma = new Syntagma(father,
                                             level,
                                             textranges,
                                             tag_name,
                                             type,
                                             QString(""));
-      this->_syntagmas.push_back( std::shared_ptr<Syntagma>(new_syntagma) );
-      if (this->syntagmas.count(level) == 0) {
-        this->syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
+      this->notes._syntagmas.push_back( std::shared_ptr<Syntagma>(new_syntagma) );
+      if (this->notes.syntagmas.count(level) == 0) {
+        this->notes.syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
       }
-      this->syntagmas[level][textranges] = new_syntagma;
+      this->notes.syntagmas[level][textranges] = new_syntagma;
 
       // let's add this new soon to its "father" :
       if (father != nullptr) {
@@ -1277,12 +1276,12 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
     } else {
       if (tag_name == "note") {
         if(father == nullptr) {
-          // error : pending 'note' tag.
-          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'note' tag."),
+          // error : pending 'textnote' tag.
+          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'textnote' tag."),
                              this->error_string(xmlreader));
         } else {
-          // let's add the note to its father :
-          father->note = xmlreader->readElementText();
+          // let's add the textnote to its father :
+          father->textnote = xmlreader->readElementText();
         }
       } else {
         // error : unknown tag name :
@@ -1517,22 +1516,6 @@ void DipyDoc::set_qsettings_name(void) {
   this->qsettings_name.replace("/", "_");
 
   DebugMsg() << "DipyDoc::set_qsettings_name = " << this->qsettings_name;
-}
-
-/*______________________________________________________________________________
-
-   DipyDoc::syntagmas_repr
-
-   Debugging-oriented function.
-________________________________________________________________________________*/
-QString DipyDoc::syntagmas_repr(void) const {
-  QString res;
-
-  for (auto & syntagma : this->_syntagmas) {
-    res += syntagma->repr() + "\n";
-  }
-
-  return res;
 }
 
 /*______________________________________________________________________________

@@ -63,6 +63,8 @@ friend class SCSplitter;
   void audiocontrols_play(void);
   void audiocontrols_stop(void);
   void audio_position_changed(PosInAudio);
+  void leveldownAct__buttonpressed(void);
+  void levelupAct__buttonpressed(void);
   void readingmode_aAct__buttonpressed(void);
   void readingmode_rAct__buttonpressed(void);
   void readingmode_lAct__buttonpressed(void);
@@ -94,13 +96,14 @@ friend class SCSplitter;
   QAction* levelupAct = nullptr;
   QAction* leveldownAct = nullptr;
 
-  QMenu* level_menu = nullptr;
-  QPushButton* level_pushbutton = nullptr;
+  QAction* levelAct = nullptr;
 
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
   SourceEditor* editor = nullptr;
   SourceToolBar* toolbar = nullptr;
+
+  int amode_level = -1;
 
  public:
   explicit SourceZone(const QString      & splitter_name,
