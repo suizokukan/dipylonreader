@@ -452,7 +452,7 @@ void MainWindow::init(void) {
     initialization of the network manager :
   */
   this->ui.network_manager = new QNetworkAccessManager(this);
-  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
+  DebugMsg() << "network_manager.networkAccessible (1 if ok, 0 if not ok, -1 if unknown) =" \
              << static_cast<int>(this->ui.network_manager->networkAccessible());
 
   DebugMsg() << "MainWindow::exit() : entry point";

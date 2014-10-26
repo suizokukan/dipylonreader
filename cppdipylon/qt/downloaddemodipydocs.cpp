@@ -54,7 +54,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   ............................................................................*/
 
   // (0.1) is the network ok ?
-  if (this->ui.network_manager->networkAccessible() != QNetworkAccessManager::NetworkAccessibility::Accessible) {
+  if (this->ui.network_manager->networkAccessible() == QNetworkAccessManager::NetworkAccessibility::NotAccessible) {
     // no network !
     DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : No network available !";
     QMessageBox msgBox;
