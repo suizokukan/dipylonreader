@@ -60,7 +60,7 @@ struct Syntagma {
   QString                               type;
   std::list<Syntagma*>                  soons;
   std::list<ArrowTarget>                arrows;
-  QString                               note;
+  QString                               textnote;
 
   QString                               repr(void);
 
@@ -71,7 +71,7 @@ struct Syntagma {
                                                  PosInTextRanges _posintextranges,
                                                  QString _name,
                                                  QString _type,
-                                                 QString _note);
+                                                 QString _textnote);
 };
 inline Syntagma::Syntagma(void) {
   this->father = nullptr;
@@ -79,7 +79,7 @@ inline Syntagma::Syntagma(void) {
   this->posintextranges = PosInTextRanges();
   this->name = QString("");
   this->type = QString("");
-  this->note = QString("");
+  this->textnote = QString("");
 }
 inline Syntagma::~Syntagma(void) {
   DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type << " level=" << this->level;
@@ -89,23 +89,23 @@ inline Syntagma::Syntagma(Syntagma* _father,
                           PosInTextRanges _posintextranges,
                           QString _name,
                           QString _type,
-                          QString _note) : father(_father),
-                                           level(_level),
-                                           posintextranges(_posintextranges),
-                                           name(_name),
-                                           type(_type),
-                                           note(_note) {
+                          QString _textnote) : father(_father),
+                                               level(_level),
+                                               posintextranges(_posintextranges),
+                                               name(_name),
+                                               type(_type),
+                                               textnote(_textnote) {
 }
 inline QString Syntagma::repr(void) {
   if (this->father==nullptr) {
-    return QString("(no father) name=%1; type=%2; note=%3").arg(this->name,
-                                                                this->type,
-                                                                this->note);
+    return QString("(no father) name=%1; type=%2; textnote=%3").arg(this->name,
+                                                                    this->type,
+                                                                    this->textnote);
   } else {
-   return QString("(father's name=%4) name=%1; type=%2; note=%3").arg(this->name,
-                                                                      this->type,
-                                                                      this->note,
-                                                                      this->father->name);
+   return QString("(father's name=%4) name=%1; type=%2; textnote=%3").arg(this->name,
+                                                                          this->type,
+                                                                          this->textnote,
+                                                                          this->father->name);
   }
 }
 #endif

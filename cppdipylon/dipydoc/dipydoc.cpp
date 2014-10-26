@@ -1255,7 +1255,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
                          this->error_string(xmlreader),
                          QString("notes::note::textranges"));
       QString type(xmlreader->attributes().value("type").toString());
-      // let's insert a new syntagma object in this->syntagmas; 'note' will be defined later.
+      // let's insert a new syntagma object in this->syntagmas; 'textnote' will be defined later.
       Syntagma* new_syntagma = new Syntagma(father,
                                             level,
                                             textranges,
@@ -1277,12 +1277,12 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
     } else {
       if (tag_name == "note") {
         if(father == nullptr) {
-          // error : pending 'note' tag.
-          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'note' tag."),
+          // error : pending 'textnote' tag.
+          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'textnote' tag."),
                              this->error_string(xmlreader));
         } else {
-          // let's add the note to its father :
-          father->note = xmlreader->readElementText();
+          // let's add the textnote to its father :
+          father->textnote = xmlreader->readElementText();
         }
       } else {
         // error : unknown tag name :
