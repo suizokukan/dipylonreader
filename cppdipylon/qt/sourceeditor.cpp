@@ -341,7 +341,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
         int shift = this->number_of_chars_before_source_text;
         PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
-        // where are the characters linked to "cursor_position" ?
+        // in the translation, where are the characters linked to "cursor_position" ?
         PosInTextRanges pos_in_text = this->dipydoc->translation_contains(cursor_position);
 
         std::size_t text_ranges_hash = pos_in_text.get_hash();
@@ -360,6 +360,16 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
           emit this->signal__update_commentary_zone_content(pos_in_text);
         }
 
+        break;
+      }
+
+      case READINGMODEDETAILS::READINGMODEDETAIL_AMODE : {
+        //QTextCursor cur = this->cursorForPosition(mouse_event->pos());
+        //int shift = this->number_of_chars_before_source_text;
+        //PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
+
+        // in the syntagmas, where are the characters linked to "cursor_position" ?
+        // PosInTextRanges pos_in_text = this->dipydoc->notes.contain(cursor_position, 0);
         break;
       }
 

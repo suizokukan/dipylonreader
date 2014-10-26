@@ -308,11 +308,8 @@ friend class UI;
   DipyDocAudioRecord   audiorecord;
   // translation data :
   DipyDocTranslation   translation;
-  // syntagmas' names->aspects :
-  std::map<QString, QString> syntagmas_names;
-  // all syntagmas objects :
-  std::list< std::shared_ptr<Syntagma> > _syntagmas;
-  std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
+  // syntagmas added as notes :
+  Notes                notes;
   // arrows (see DipyDoc::arrows_repr)
   std::map<QString, ArrowFormat> arrows;
 

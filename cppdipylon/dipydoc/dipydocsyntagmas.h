@@ -108,4 +108,24 @@ inline QString Syntagma::repr(void) {
                                                                           this->father->name);
   }
 }
+
+struct Notes {
+  // syntagmas' names->aspects :
+  std::map<QString, QString> syntagmas_names;
+  // all syntagmas objects :
+  std::list< std::shared_ptr<Syntagma> > _syntagmas;
+  std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
+
+  QString repr(void) const;
+};
+
+inline QString Notes::repr(void) const {
+  QString res;
+
+  for (auto & syntagma : this->_syntagmas) {
+    res += syntagma->repr() + "\n";
+  }
+
+  return res;
+}
 #endif
