@@ -143,6 +143,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                   this->audiocontrols_playAct,
                                   this->audiocontrols_stopAct,
                                   this->blocked_commentaries,
+                                  this->amode_level,
                                   this);
   this->toolbar = new SourceToolBar(splitter_name,
                                     this);

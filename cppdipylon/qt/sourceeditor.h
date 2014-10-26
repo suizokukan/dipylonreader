@@ -66,6 +66,7 @@ class SourceEditor : public TextEditor {
                            QAction *            _audiocontrols_playAct,
                            QAction *            _audiocontrols_stopAct,
                            bool &               _blocked_commentaries,
+                           int &                _amode_level,
                            QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
@@ -98,6 +99,8 @@ class SourceEditor : public TextEditor {
     QAction*             audiocontrols_stopAct = nullptr;
 
     bool &               blocked_commentaries;
+
+    int &                amode_level;
 
     PosInTextRanges      modified_chars = PosInTextRanges();
 

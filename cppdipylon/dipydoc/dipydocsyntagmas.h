@@ -30,8 +30,10 @@
 
 #include <list>
 #include <map>
+#include <memory>
 #include <utility>
 
+#include "debugmsg/debugmsg.h"
 #include "pos/posintext/posintextranges.h"
 
 /*______________________________________________________________________________
@@ -73,42 +75,11 @@ struct Syntagma {
                                                  QString _type,
                                                  QString _textnote);
 };
-inline Syntagma::Syntagma(void) {
-  this->father = nullptr;
-  this->level = 0;
-  this->posintextranges = PosInTextRanges();
-  this->name = QString("");
-  this->type = QString("");
-  this->textnote = QString("");
-}
-inline Syntagma::~Syntagma(void) {
-  DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type << " level=" << this->level;
-}
-inline Syntagma::Syntagma(Syntagma* _father,
-                          int _level,
-                          PosInTextRanges _posintextranges,
-                          QString _name,
-                          QString _type,
-                          QString _textnote) : father(_father),
-                                               level(_level),
-                                               posintextranges(_posintextranges),
-                                               name(_name),
-                                               type(_type),
-                                               textnote(_textnote) {
-}
-inline QString Syntagma::repr(void) {
-  if (this->father==nullptr) {
-    return QString("(no father) name=%1; type=%2; textnote=%3").arg(this->name,
-                                                                    this->type,
-                                                                    this->textnote);
-  } else {
-   return QString("(father's name=%4) name=%1; type=%2; textnote=%3").arg(this->name,
-                                                                          this->type,
-                                                                          this->textnote,
-                                                                          this->father->name);
-  }
-}
 
+/*______________________________________________________________________________
+
+  Notes class, used in the DipyDoc class.
+______________________________________________________________________________*/
 struct Notes {
   // syntagmas' names->aspects :
   std::map<QString, QString> syntagmas_names;

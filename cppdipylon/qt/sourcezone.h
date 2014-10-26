@@ -103,7 +103,7 @@ friend class SCSplitter;
   SourceEditor* editor = nullptr;
   SourceToolBar* toolbar = nullptr;
 
-  int amode_level = -1;
+  int amode_level = 0;
 
  public:
   explicit SourceZone(const QString      & splitter_name,

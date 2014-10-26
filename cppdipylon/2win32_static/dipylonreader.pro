@@ -80,6 +80,7 @@ HEADERS         +=  ./fixedparameters.h \
 SOURCES         +=  ./main.cpp \
                     debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
+                    dipydoc/dipydocsyntagmas.cpp \
                     languages/languagefromto.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \

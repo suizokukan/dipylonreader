@@ -39,6 +39,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
                            QAction *             _audiocontrols_playAct,
                            QAction *             _audiocontrols_stopAct,
                            bool &                _blocked_commentaries,
+                           int &                 _amode_level,
                            QWidget* _parent) : TextEditor(_parent),
                                                readingmode(_readingmode),
                                                readingmode_details(_readingmode_details),
@@ -46,7 +47,8 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
                                                audio_player(_audio_player),
                                                audiocontrols_playAct(_audiocontrols_playAct),
                                                audiocontrols_stopAct(_audiocontrols_stopAct),
-                                               blocked_commentaries(_blocked_commentaries) {
+                                               blocked_commentaries(_blocked_commentaries),
+                                               amode_level(_amode_level) {
   DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   QString object_name(splitter_name + "::source zone::editor");
@@ -369,7 +371,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
         //PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
         // in the syntagmas, where are the characters linked to "cursor_position" ?
-        // PosInTextRanges pos_in_text = this->dipydoc->notes.contain(cursor_position, 0);
+        //PosInTextRanges pos_in_text = this->dipydoc->notes.contain(cursor_position, this->amode_level);
         break;
       }
 
