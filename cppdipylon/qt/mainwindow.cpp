@@ -495,9 +495,10 @@ void MainWindow::load_a_dipydoc_from_a_qaction(void) {
 
 /*______________________________________________________________________________
 
-  MainWindow::loadDipyDoc() : load a DipyDoc from the path "directoryName".
+  MainWindow::loadDipyDoc() : load a DipyDoc from the path "directoryName"
+  and set this DipyDoc as the current one.
 
-  This function created a new SCSplitter object.
+  This function creates a new SCSplitter object.
 ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
   DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
@@ -514,6 +515,8 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
     DebugMsg() << "MainWindow::loadDipyDoc : ok";
     this->sctabs->addTab(source_commentary_splitter,
                          source_commentary_splitter->dipydoc->get_tab_name());
+
+    this->sctabs->setCurrentWidget(source_commentary_splitter);
   }
 }
 
