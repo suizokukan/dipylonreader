@@ -1468,7 +1468,7 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   }
 
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows=" << this->arrows_repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes="  << this->notes.repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes=\n"  << this->notes.repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
 
   return ok;

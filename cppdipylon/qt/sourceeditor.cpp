@@ -293,10 +293,35 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
   }
   this->setExtraSelections(selections);
 
-  selections.clear();
-
   // ... and then we modify the new text's appearance :
-  for (auto &x0x1 : syntagma->posintextranges) {
+  selections.clear();
+  this->modify_the_text_format__amode_recursively(syntagma->highest_forefather, selections);
+  for (auto & selection : selections) {
+    DebugMsg() << "#> " << selection.cursor.selectedText() << " ** " << selection.format.background().color().name();
+  }
+  this->setExtraSelections(selections);
+
+  this->modified_chars = syntagma->posintextranges;
+
+  cur.clearSelection();
+  DebugMsg() << "###";
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::modify_the_text_format__amode_recursively
+
+        Function called by SourceEditor::modify_the_text_format__amode
+_____________________________________________________________________________*/
+void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* syntagma,
+                                                             QList<QTextEdit::ExtraSelection> & selections) {
+  DebugMsg() << "# " << syntagma->name << " - " << syntagma->type << " back = " << this->dipydoc->notes.syntagmas_aspects.at(syntagma->name).qtextcharformat().background().color().name();
+
+  int shift = this->number_of_chars_before_source_text;
+
+  QTextCursor cur = this->textCursor();
+
+  for (auto & x0x1 : syntagma->posintextranges) {
     cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
     cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
 
@@ -305,11 +330,11 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
             this->dipydoc->notes.syntagmas_aspects.at(syntagma->name).qtextcharformat() };
     selections.append(sel);
   }
-  this->setExtraSelections(selections);
 
-  this->modified_chars = syntagma->posintextranges;
-
-  cur.clearSelection();
+  // let's call the soons of 'syntagma' :
+  for (auto & soon : syntagma->soons) {
+    this->modify_the_text_format__amode_recursively(soon, selections);
+  }
 }
 
 /*______________________________________________________________________________
