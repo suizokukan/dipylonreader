@@ -72,7 +72,7 @@ friend class SCSplitter;
  signals:
   void signal__in_commentary_editor_update_from_dipydoc_info(void);
   void signal__set_zoom_value_in_commentary_editor(const signed int value);
-  void signal__update_commentary_zone_content(const PosInTextRanges & posintext);
+  void signal__update_translation_in_commentary_zone(const PosInTextRanges & posintext);
   void signal__update_icons(void);
 
  private:
@@ -103,7 +103,7 @@ friend class SCSplitter;
   SourceEditor* editor = nullptr;
   SourceToolBar* toolbar = nullptr;
 
-  int amode_level = -1;
+  int amode_level = 0;
 
  public:
   explicit SourceZone(const QString      & splitter_name,

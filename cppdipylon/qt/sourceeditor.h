@@ -38,6 +38,7 @@
 
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
+#include "dipydoc/dipydocsyntagmas.h"
 #include "pos/posintext/posintext.h"
 #include "qt/blockformat.h"
 #include "qt/icons.h"
@@ -66,11 +67,13 @@ class SourceEditor : public TextEditor {
                            QAction *            _audiocontrols_playAct,
                            QAction *            _audiocontrols_stopAct,
                            bool &               _blocked_commentaries,
+                           int &                _amode_level,
                            QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
     void      load_text(void);
-    void      modify_the_text_format(const PosInTextRanges & posintext);
+    void      modify_the_text_format__amode(Syntagma* syntagma);
+    void      modify_the_text_format__rmode__lmode(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);
     void      update_aspect_from_dipydoc_aspect_informations(void);
@@ -80,7 +83,8 @@ class SourceEditor : public TextEditor {
     void      signal__close_the_current_dipydoc(void);
     void      signal__open_a_new_dipydoc(void);
     void      signal__source_zone_update_icons(void);
-    void      signal__update_commentary_zone_content(const PosInTextRanges & posintext);
+    void      signal__update_translation_in_commentary_zone(const PosInTextRanges & posintext);
+    void      signal__update_note_in_commentary_zone(const QString& textnote);
 
  protected:
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
@@ -98,6 +102,8 @@ class SourceEditor : public TextEditor {
     QAction*             audiocontrols_stopAct = nullptr;
 
     bool &               blocked_commentaries;
+
+    int &                amode_level;
 
     PosInTextRanges      modified_chars = PosInTextRanges();
 

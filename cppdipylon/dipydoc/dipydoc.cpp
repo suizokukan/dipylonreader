@@ -192,7 +192,8 @@ void DipyDoc::clear(void) {
   this->dipydocformat_version = -1;
   this->languagefromto.clear();
 
-  this->notes.syntagmas_names.clear();
+  this->notes.syntagmas_aspects.clear();
+  this->notes.syntagmas_levels.clear();
   this->arrows.clear();
 
   this->source_text.clear();
@@ -524,17 +525,21 @@ QString DipyDoc::get_xml_repr(void) const {
   res += "  </translation>\n";
 
   /*............................................................................
-    notes.syntagmas_names
+    notes.syntagmas_aspects
+
+$$$
   ............................................................................*/
+  /*
   res += "\n";
-  res += "  <syntagmas_names>\n";
-  for (auto &syntagma_name : this->notes.syntagmas_names) {
+  res += "  <syntagmas_aspects>\n";
+  for (auto &syntagma_name : this->notes.syntagmas_aspects) {
     QString new_line("    <syntagma_name name=\"$NAME$\" aspect=\"$ASPECT$\" />\n");
     new_line.replace("$NAME$", syntagma_name.first);
     new_line.replace("$ASPECT$",  syntagma_name.second);
     res += new_line;
   }
-  res += "  </syntagmas_names>\n";
+  res += "  </syntagmas_aspects>\n";
+  */
 
   /*............................................................................
     levels $$$$
@@ -1141,18 +1146,21 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
     }
 
     /*
-      notes.syntagmas_names
+      notes.syntagmas_aspects, notes.syntagmas_levels
     */
     if (tokenname == "syntagmas_names") {
       while (xmlreader->readNextStartElement()) {
-        // syntagmas_names::syntagma_name
+        // syntagmas_aspects::syntagma_name
         if (xmlreader->name() == "syntagmas_name") {
-          // syntagmas_names::syntagma_name::name
+          // syntagmas_aspects::syntagma_name::name
           QString name = xmlreader->attributes().value("name").toString();
-          // syntagmas_names::syntagma_name::aspect
-          QString aspect = xmlreader->attributes().value("aspect").toString();
+          // syntagmas_aspects::syntagma_name::aspect
+          QString txt_aspect = xmlreader->attributes().value("aspect").toString();
+          // syntagmas_aspects::syntagma_name::level
+          int level = xmlreader->attributes().value("level").toString().toInt();
 
-          this->notes.syntagmas_names[ name ] = aspect;
+          this->notes.syntagmas_aspects[ name ] = TextFormat(txt_aspect);
+          this->notes.syntagmas_levels[ name ] = level;
 
           xmlreader->skipCurrentElement();
           continue;
@@ -1219,10 +1227,8 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
     */
     if (tokenname == "notes") {
       ok &= this->read_mainfile__doctype_text__syntagma(nullptr,
-                                                               xmlreader,
-                                                               1);
+                                                        xmlreader);
     }
-    DebugMsg() << "notes :\n" << this->notes.repr();
 
   }  // ... while (xmlreader->readNextStartElement())
 
@@ -1238,17 +1244,14 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
 
 ______________________________________________________________________________*/
 bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
-                                                    QXmlStreamReader * xmlreader,
-                                                    int level) {
-  DebugMsg() << "read_mainfile__doctype_text__syntagma entry point; level = " << level;
-
+                                                    QXmlStreamReader * xmlreader) {
   Syntagma* current_syntagma = nullptr;
   bool ok = true;
 
   while (xmlreader->readNextStartElement()) {
     QString tag_name = xmlreader->name().toString();
 
-    if (this->notes.syntagmas_names.find(tag_name) != this->notes.syntagmas_names.end()) {
+    if (this->notes.syntagmas_aspects.find(tag_name) != this->notes.syntagmas_aspects.end()) {
       PosInTextRanges textranges(xmlreader->attributes().value("textranges").toString());
       ok &= !this->error(textranges,
                          this->error_string(xmlreader),
@@ -1256,13 +1259,14 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
       QString type(xmlreader->attributes().value("type").toString());
       // let's insert a new syntagma object in this->notes.syntagmas; 'textnote' will be defined later.
       Syntagma* new_syntagma = new Syntagma(father,
-                                            level,
                                             textranges,
                                             tag_name,
                                             type,
                                             QString(""));
+      int level = this->notes.syntagmas_levels.at(tag_name);
+
       this->notes._syntagmas.push_back( std::shared_ptr<Syntagma>(new_syntagma) );
-      if (this->notes.syntagmas.count(level) == 0) {
+      if (this->notes.syntagmas.find(level) == this->notes.syntagmas.end()) {
         this->notes.syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
       }
       this->notes.syntagmas[level][textranges] = new_syntagma;
@@ -1290,15 +1294,12 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
       }
     }
 
-    // We go deeper with "current_syntagma" as future father, one level deeper :
+    // We go deeper with "current_syntagma" as future father :
     if (current_syntagma != nullptr) {
       ok &= this->read_mainfile__doctype_text__syntagma(current_syntagma,
-                                                        xmlreader,
-                                                        level+1);
+                                                        xmlreader);
     }
   }
-
-  DebugMsg() << "read_mainfile__doctype_text__syntagma exit point; level = " << level;
 
   return ok;
 }
@@ -1447,9 +1448,8 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
   }
 
-  // $$$ DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) levels=" << this->levels_repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows=" << this->arrows_repr();
-  // $$$DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes="  << this->notes.repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes="  << this->notes.repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
 
   return ok;
@@ -1543,6 +1543,8 @@ PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
 /*______________________________________________________________________________
 
    DipyDoc::translation_contains(PosInText x0)
+
+   $$$ l'intérêt d'une telle fonction est très douteux !!! (voir aussi la suivante)
 ________________________________________________________________________________*/
 PosInTextRanges DipyDoc::translation_contains(PosInText x0) const {
   return this->translation.translations.contains(x0);

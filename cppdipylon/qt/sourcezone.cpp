@@ -143,6 +143,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                   this->audiocontrols_playAct,
                                   this->audiocontrols_stopAct,
                                   this->blocked_commentaries,
+                                  this->amode_level,
                                   this);
   this->toolbar = new SourceToolBar(splitter_name,
                                     this);
@@ -339,13 +340,13 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
 
       if (text_ranges_hash != this->editor->modified_chars_hash) {
         // the function modifies the appearence of such characters :
-        this->editor->modify_the_text_format(text_ranges);
+        this->editor->modify_the_text_format__rmode__lmode(text_ranges);
 
         // hash update :
         this->editor->modified_chars_hash = text_ranges_hash;
 
         // SIGNAL #S009 (confer documentation)
-        emit this->signal__update_commentary_zone_content(text_ranges);
+        emit this->signal__update_translation_in_commentary_zone(text_ranges);
       }
 
       return;

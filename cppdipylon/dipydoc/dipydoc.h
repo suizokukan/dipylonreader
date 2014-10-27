@@ -330,8 +330,7 @@ friend class UI;
   bool                   read_mainfile__doctype_text(QXmlStreamReader* xmlreader);
   bool                   read_mainfile__doctype_text__init_and_check(void);
   bool                   read_mainfile__doctype_text__syntagma(Syntagma * father,
-                                                               QXmlStreamReader* xmlreader,
-                                                               int level);
+                                                               QXmlStreamReader* xmlreader);
   QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_internal_name(void);

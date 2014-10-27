@@ -57,8 +57,11 @@ friend class MainWindow;
 
   void set_the_appearance(void);
   void set_the_text_formats(void);
+
+ public slots:
   void update_content__translation_expected(const PosInTextRanges&);
   void update_aspect_from_dipydoc_aspect_informations(void);
+  void update_content__commentary_expected(const QString & textnote);
 
  private:
     const DipyDoc * dipydoc;
