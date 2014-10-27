@@ -269,66 +269,99 @@ void SourceEditor::load_text(void) {
 
 /*______________________________________________________________________________
 
-        SourceEditor::modify_the_text_format()
+        SourceEditor::modify_the_text_format__amode
 
         This function modify the appearence of the text BUT DOES NOT UPDATE
         the .modified_chars_hash attribute.
-7_____________________________________________________________________________*/
-void SourceEditor::modify_the_text_format(const PosInTextRanges& positions) {
-  switch (this->readingmode) {
-    /*
-      rmode, lmode
-    */
-    case READINGMODE::READINGMODE_RMODE :
-    case READINGMODE::READINGMODE_LMODE : {
-      int shift = this->number_of_chars_before_source_text;
 
-      QTextCursor cur = this->textCursor();
+        Use this function only for the a-mode.
+_____________________________________________________________________________*/
+void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
+  int shift = this->number_of_chars_before_source_text;
 
-      // first we set the ancient modified text's appearance to "default" :
-      QList<QTextEdit::ExtraSelection> selections;
+  QTextCursor cur = this->textCursor();
 
-      for (auto &x0x1 : this->modified_chars) {
-        cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-        cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-        QTextEdit::ExtraSelection sel = { cur,
-                                          this->dipydoc->sourceeditor_default_textformat.qtextcharformat() };
-        selections.append(sel);
-      }
-      this->setExtraSelections(selections);
+  // first we set the ancient modified text's appearance to "default" :
+  QList<QTextEdit::ExtraSelection> selections;
 
-      selections.clear();
-
-      // ... and then we modify the new text's appearance :
-      for (auto &x0x1 : positions) {
-        cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-        cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-
-        QTextEdit::ExtraSelection sel;
-        if (this->readingmode == READINGMODE::READINGMODE_RMODE) {
-          sel = { cur,
-                  this->dipydoc->sourceeditor_rmode_textformat.qtextcharformat() };
-        }
-        if (this->readingmode == READINGMODE::READINGMODE_LMODE) {
-          sel = { cur,
-                  this->dipydoc->sourceeditor_lmode_textformat.qtextcharformat() };
-        }
-
-        selections.append(sel);
-      }
-      this->setExtraSelections(selections);
-
-      this->modified_chars = positions;
-
-      cur.clearSelection();
-
-      break;
-    }
-
-    default : {
-      break;
-    }
+  for (auto &x0x1 : this->modified_chars) {
+    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+    QTextEdit::ExtraSelection sel = { cur,
+                                      this->dipydoc->sourceeditor_default_textformat.qtextcharformat() };
+    selections.append(sel);
   }
+  this->setExtraSelections(selections);
+
+  selections.clear();
+
+  // ... and then we modify the new text's appearance :
+  for (auto &x0x1 : syntagma->posintextranges) {
+    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+
+    QTextEdit::ExtraSelection sel;
+    sel = { cur,
+            this->dipydoc->notes.syntagmas_aspects.at(syntagma->name).qtextcharformat() };
+    selections.append(sel);
+  }
+  this->setExtraSelections(selections);
+
+  this->modified_chars = syntagma->posintextranges;
+
+  cur.clearSelection();
+}
+
+/*______________________________________________________________________________
+
+        SourceEditor::modify_the_text_format__rmode__lmode
+
+        This function modify the appearence of the text BUT DOES NOT UPDATE
+        the .modified_chars_hash attribute.
+
+        Use this function only for r-mode and l-mode.
+_____________________________________________________________________________*/
+void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& positions) {
+  int shift = this->number_of_chars_before_source_text;
+
+  QTextCursor cur = this->textCursor();
+
+  // first we set the ancient modified text's appearance to "default" :
+  QList<QTextEdit::ExtraSelection> selections;
+
+  for (auto &x0x1 : this->modified_chars) {
+    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+    QTextEdit::ExtraSelection sel = { cur,
+                                      this->dipydoc->sourceeditor_default_textformat.qtextcharformat() };
+    selections.append(sel);
+  }
+  this->setExtraSelections(selections);
+
+  selections.clear();
+
+  // ... and then we modify the new text's appearance :
+  for (auto &x0x1 : positions) {
+    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+
+    QTextEdit::ExtraSelection sel;
+    if (this->readingmode == READINGMODE::READINGMODE_RMODE) {
+      sel = { cur,
+              this->dipydoc->sourceeditor_rmode_textformat.qtextcharformat() };
+    }
+    if (this->readingmode == READINGMODE::READINGMODE_LMODE) {
+      sel = { cur,
+              this->dipydoc->sourceeditor_lmode_textformat.qtextcharformat() };
+    }
+
+    selections.append(sel);
+  }
+  this->setExtraSelections(selections);
+
+  this->modified_chars = positions;
+
+  cur.clearSelection();
 }
 
 /*______________________________________________________________________________
@@ -353,25 +386,45 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
           // ... we refresh the ui :
 
           // the function modifies the appearence of such characters :
-          this->modify_the_text_format(pos_in_text);
+          this->modify_the_text_format__rmode__lmode(pos_in_text);
 
           // hash update :
           this->modified_chars_hash = text_ranges_hash;
 
           // SIGNAL #S001 (confer documentation)
-          emit this->signal__update_commentary_zone_content(pos_in_text);
+          emit this->signal__update_translation_in_commentary_zone(pos_in_text);
         }
 
         break;
       }
 
       case READINGMODEDETAILS::READINGMODEDETAIL_AMODE : {
-        //QTextCursor cur = this->cursorForPosition(mouse_event->pos());
-        //int shift = this->number_of_chars_before_source_text;
-        //PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
+        QTextCursor cur = this->cursorForPosition(mouse_event->pos());
+        int shift = this->number_of_chars_before_source_text;
+        PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
         // in the syntagmas, where are the characters linked to "cursor_position" ?
-        //PosInTextRanges pos_in_text = this->dipydoc->notes.contain(cursor_position, this->amode_level);
+        Syntagma* syntagma = this->dipydoc->notes.contains(cursor_position, this->amode_level);
+
+        if (syntagma != nullptr) {
+
+          std::size_t text_ranges_hash = syntagma->posintextranges.get_hash();
+
+          // if the user is really on another text's segment ...
+          if (text_ranges_hash != this->modified_chars_hash) {
+            // ... we refresh the ui :
+
+            // the function modifies the appearence of such characters :
+            this->modify_the_text_format__amode(syntagma);
+
+            // hash update :
+            this->modified_chars_hash = text_ranges_hash;
+
+            // let's show the note :
+            // SIGNAL #S013 (confer documentation)
+            emit this->signal__update_note_in_commentary_zone(syntagma->textnote);
+          }
+        }
         break;
       }
 
@@ -415,14 +468,14 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     std::size_t text_ranges_hash = pos_in_text.get_hash();
 
     // the function modifies the appearence of such characters :
-    this->modify_the_text_format(pos_in_text);
+    this->modify_the_text_format__rmode__lmode(pos_in_text);
 
     // hash update :
     this->modified_chars_hash = text_ranges_hash;
 
     this->blocked_commentaries = false;
     // SIGNAL #S002 (confer documentation)
-    emit this->signal__update_commentary_zone_content(pos_in_text);
+    emit this->signal__update_translation_in_commentary_zone(pos_in_text);
     this->blocked_commentaries = true;
 
     // SIGNAL #S003 (confer documentation)
@@ -460,13 +513,13 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
             // ... we refresh the ui :
 
             // the function modifies the appearence of such characters :
-            this->modify_the_text_format(pos_in_text);
+            this->modify_the_text_format__rmode__lmode(pos_in_text);
 
             // hash update :
             this->modified_chars_hash = text_ranges_hash;
 
             // SIGNAL #S004 (confer documentation)
-            emit this->signal__update_commentary_zone_content(pos_in_text);
+            emit this->signal__update_translation_in_commentary_zone(pos_in_text);
           }
           break;
         }

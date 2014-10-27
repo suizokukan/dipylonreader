@@ -35,6 +35,7 @@
 
 #include "debugmsg/debugmsg.h"
 #include "pos/posintext/posintextranges.h"
+#include "qt/textformat.h"
 
 /*______________________________________________________________________________
 
@@ -56,7 +57,6 @@ type(_type), final_position(_final_position) {
 ______________________________________________________________________________*/
 struct Syntagma {
   Syntagma*                             father;
-  int                                   level;
   PosInTextRanges                       posintextranges;
   QString                               name;
   QString                               type;
@@ -69,7 +69,6 @@ struct Syntagma {
                                         Syntagma(void);
                                        ~Syntagma(void);
                                         Syntagma(Syntagma* _father,
-                                                 int _level,
                                                  PosInTextRanges _posintextranges,
                                                  QString _name,
                                                  QString _type,
@@ -82,21 +81,13 @@ struct Syntagma {
 ______________________________________________________________________________*/
 struct Notes {
   // syntagmas' names->aspects :
-  std::map<QString, QString> syntagmas_names;
+  std::map<QString, TextFormat>                        syntagmas_aspects;
+  std::map<QString, int>                               syntagmas_levels;
   // all syntagmas objects :
-  std::list< std::shared_ptr<Syntagma> > _syntagmas;
+  std::list< std::shared_ptr<Syntagma> >               _syntagmas;
   std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
 
-  QString repr(void) const;
+  Syntagma*                                            contains(PosInText x0, int level) const;
+  QString                                              repr(void) const;
 };
-
-inline QString Notes::repr(void) const {
-  QString res;
-
-  for (auto & syntagma : this->_syntagmas) {
-    res += syntagma->repr() + "\n";
-  }
-
-  return res;
-}
 #endif

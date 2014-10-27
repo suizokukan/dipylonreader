@@ -123,7 +123,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   */
 
   // connection #C001 (confer documentation)
-  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_commentary_zone_content,
+  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
   // connection #C002 (confer documentation)
@@ -135,12 +135,16 @@ SCSplitter::SCSplitter(const int index_in_scbar,
                    this->commentary_zone->editor,  &CommentaryEditor::update_aspect_from_dipydoc_aspect_informations);
 
   // connection #C004 (confer documentation)
-  QObject::connect(this->source_zone,              &SourceZone::signal__update_commentary_zone_content,
+  QObject::connect(this->source_zone,              &SourceZone::signal__update_translation_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
   // connection #C005 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__update_icons,
                    this,                           &SCSplitter::update_icons);
+
+  // connection #C040 (confer documentation)
+  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_note_in_commentary_zone,
+                   this->commentary_zone->editor,  &CommentaryEditor::update_content__commentary_expected);
 
   /*
     (5) update icons

@@ -67,6 +67,27 @@ void CommentaryEditor::set_the_text_formats(void) {
 
 /*______________________________________________________________________________
 
+  CommentaryEditor::update_aspect_from_dipydoc_aspect_informations
+______________________________________________________________________________*/
+void CommentaryEditor::update_aspect_from_dipydoc_aspect_informations(void) {
+  this->set_the_text_formats();
+  this->set_the_appearance();
+}
+
+/*______________________________________________________________________________
+
+  CommentaryEditor::update_content__commentary_expected
+______________________________________________________________________________*/
+void CommentaryEditor::update_content__commentary_expected(const QString & textnote) {
+    this->clear();
+
+    QTextCursor cur = this->textCursor();
+    cur.setCharFormat(this->format_text);
+    cur.insertText(textnote);
+}
+
+/*______________________________________________________________________________
+
   CommentaryEditor::update_content__translation_expected
 
   only if this->blocked_commentaries is false.
@@ -84,13 +105,4 @@ void CommentaryEditor::update_content__translation_expected(const PosInTextRange
     cur.setCharFormat(this->format_text);
     cur.insertText(matching_translations);
   }
-}
-
-/*______________________________________________________________________________
-
-  CommentaryEditor::update_aspect_from_dipydoc_aspect_informations
-______________________________________________________________________________*/
-void CommentaryEditor::update_aspect_from_dipydoc_aspect_informations(void) {
-  this->set_the_text_formats();
-  this->set_the_appearance();
 }

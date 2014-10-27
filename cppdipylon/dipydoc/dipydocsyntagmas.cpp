@@ -35,7 +35,6 @@
 ______________________________________________________________________________*/
 Syntagma::Syntagma(void) {
   this->father = nullptr;
-  this->level = 0;
   this->posintextranges = PosInTextRanges();
   this->name = QString("");
   this->type = QString("");
@@ -49,12 +48,10 @@ Syntagma::Syntagma(void) {
         Syntagma class normal constructor
 ______________________________________________________________________________*/
 Syntagma::Syntagma(Syntagma* _father,
-                   int _level,
                    PosInTextRanges _posintextranges,
                    QString _name,
                    QString _type,
                    QString _textnote) : father(_father),
-                                        level(_level),
                                         posintextranges(_posintextranges),
                                         name(_name),
                                         type(_type),
@@ -68,7 +65,7 @@ Syntagma::Syntagma(Syntagma* _father,
         Syntagma class destructor
 ______________________________________________________________________________*/
 Syntagma::~Syntagma(void) {
-  DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type << " level=" << this->level;
+  DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type;
 }
 
 /*______________________________________________________________________________
@@ -88,4 +85,62 @@ QString Syntagma::repr(void) {
                                                                           this->textnote,
                                                                           this->father->name);
   }
+}
+
+
+/*______________________________________________________________________________
+
+        Notes::contains
+
+        Is there a note about x0 at "level".
+        Return nullptr if "x0" doesn't match anything
+______________________________________________________________________________*/
+Syntagma* Notes::contains(PosInText x0, int level) const {
+  // does the "level" exist in this->syntagmas ?
+  if (this->syntagmas.find(level) == this->syntagmas.end()) {
+    // ... no :
+    return nullptr;
+  }
+
+  Syntagma* res = nullptr;
+  for (auto & posintextranges_and_syntagma : this->syntagmas.at(level)) {
+    if (posintextranges_and_syntagma.first.contains(x0) == true) {
+      res = posintextranges_and_syntagma.second;
+      break;
+    }
+  }
+
+  return res;
+}
+
+/*______________________________________________________________________________
+
+        Notes::repr
+
+        debugging-oriented function
+______________________________________________________________________________*/
+QString Notes::repr(void) const {
+  QString res;
+
+  res += "* syntagmas_levels = \n";
+  for (auto & name_and_level : this->syntagmas_levels) {
+    res += QString("** %1 -> %2\n").arg(name_and_level.first).arg(name_and_level.second);
+  }
+
+  res += "* _syntagmas = \n";
+  for (auto & syntagma : this->_syntagmas) {
+    res += "** " + syntagma->repr() + "\n";
+  }
+
+  res += "* syntagmas = \n";
+  for(auto & level_and_syntagmasbylevel : this->syntagmas) {
+    res += QString("** at level=%1, %2 syntagma(s) :\n").arg(level_and_syntagmasbylevel.first).arg(this->syntagmas.at(level_and_syntagmasbylevel.first).size());
+
+    for (auto & posintextranges_and_syntagma : level_and_syntagmasbylevel.second) {
+      res += QString("** posintextranges=%1 : %2\n").arg(posintextranges_and_syntagma.first.repr(),
+                                                         posintextranges_and_syntagma.second->repr());
+    }
+  }
+
+  return res;
 }
