@@ -1257,8 +1257,10 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
                          this->error_string(xmlreader),
                          QString("notes::note::textranges"));
       QString type(xmlreader->attributes().value("type").toString());
-      // let's insert a new syntagma object in this->notes.syntagmas; 'textnote' will be defined later.
+      // let's insert a new syntagma object in this->notes.syntagmas;
+      // 'textnote' and 'highest_forefather' will be defined later.
       Syntagma* new_syntagma = new Syntagma(father,
+                                            nullptr,
                                             textranges,
                                             tag_name,
                                             type,
@@ -1312,6 +1314,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
 
         (1) secondary initializations
             (1.1) initialization of "audiorecord.audio2text"
+            (1.2) initialization of the Syntagma::'highest_forefather' pointers
         (2) checks
             (2.1) is audiorecord.text2audio correctly initialized ?
             (2.2) is audiorecord.audio2text correctly initialized ?
@@ -1339,6 +1342,22 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   } else {
     // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
     this->audiorecord.audio2text.clear();
+  }
+
+  /*............................................................................
+    (1.2) initialization of the Syntagma::highest_forefather pointers
+  ............................................................................*/
+  // for each syntagma, the following loop searches its highest father :
+  for (auto & syntagma : this->notes._syntagmas) {
+    Syntagma* current_forefather = syntagma->father;
+    while(current_forefather != nullptr) {
+      if (current_forefather->father==nullptr) {
+        break;
+      } else {
+        current_forefather = current_forefather->father;
+      }
+    }
+    syntagma->highest_forefather = current_forefather;
   }
 
   /*............................................................................

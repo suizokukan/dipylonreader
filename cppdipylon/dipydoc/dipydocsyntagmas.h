@@ -57,6 +57,7 @@ type(_type), final_position(_final_position) {
 ______________________________________________________________________________*/
 struct Syntagma {
   Syntagma*                             father;
+  Syntagma*                             highest_forefather;
   PosInTextRanges                       posintextranges;
   QString                               name;
   QString                               type;
@@ -69,6 +70,7 @@ struct Syntagma {
                                         Syntagma(void);
                                        ~Syntagma(void);
                                         Syntagma(Syntagma* _father,
+                                                 Syntagma* _highest_forefather,
                                                  PosInTextRanges _posintextranges,
                                                  QString _name,
                                                  QString _type,
