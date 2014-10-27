@@ -35,6 +35,7 @@
 ______________________________________________________________________________*/
 Syntagma::Syntagma(void) {
   this->father = nullptr;
+  this->highest_ancestor = nullptr;
   this->posintextranges = PosInTextRanges();
   this->name = QString("");
   this->type = QString("");
@@ -48,10 +49,14 @@ Syntagma::Syntagma(void) {
         Syntagma class normal constructor
 ______________________________________________________________________________*/
 Syntagma::Syntagma(Syntagma* _father,
+                   Syntagma* _highest_ancestor,
+                   QList<Syntagma*> _ancestors,
                    PosInTextRanges _posintextranges,
                    QString _name,
                    QString _type,
                    QString _textnote) : father(_father),
+                                        highest_ancestor(_highest_ancestor),
+                                        ancestors(_ancestors),
                                         posintextranges(_posintextranges),
                                         name(_name),
                                         type(_type),
@@ -80,10 +85,18 @@ QString Syntagma::repr(void) {
                                                                     this->type,
                                                                     this->textnote);
   } else {
-   return QString("(father's name=%4) name=%1; type=%2; textnote=%3").arg(this->name,
-                                                                          this->type,
-                                                                          this->textnote,
-                                                                          this->father->name);
+    if (this->highest_ancestor==nullptr) {
+      return QString("(no forefather)(father's name=%4) name=%1; type=%2; textnote=%3").arg(this->name,
+                                                                                            this->type,
+                                                                                            this->textnote,
+                                                                                            this->father->name);
+    } else {
+      return QString("(forefather's name=%5)(father's name=%4) name=%1; type=%2; textnote=%3").arg(this->name,
+                                                                                                   this->type,
+                                                                                                   this->textnote,
+                                                                                                   this->father->name,
+                                                                                                   this->highest_ancestor->name);
+    }
   }
 }
 
@@ -125,6 +138,13 @@ QString Notes::repr(void) const {
   res += "* syntagmas_levels = \n";
   for (auto & name_and_level : this->syntagmas_levels) {
     res += QString("** %1 -> %2\n").arg(name_and_level.first).arg(name_and_level.second);
+  }
+
+  res += "* syntagmas_aspects = \n";
+  for (auto & name_and_aspect : this->syntagmas_aspects) {
+    res += QString("** %1 -> foreground=%2 background=%3\n").arg(name_and_aspect.first,
+                                                                 name_and_aspect.second.qtextcharformat().foreground().color().name(),
+                                                                 name_and_aspect.second.qtextcharformat().background().color().name());
   }
 
   res += "* _syntagmas = \n";

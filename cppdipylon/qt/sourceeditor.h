@@ -73,6 +73,9 @@ class SourceEditor : public TextEditor {
     PosInText corrected_cursor_position(void) const;
     void      load_text(void);
     void      modify_the_text_format__amode(Syntagma* syntagma);
+    void      modify_the_text_format__amode_recursively(Syntagma* focused_syntagma,
+                                                        Syntagma* current_syntagma,
+                                                        QList<QTextEdit::ExtraSelection> & selections);
     void      modify_the_text_format__rmode__lmode(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);

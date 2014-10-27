@@ -1159,9 +1159,26 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
           // syntagmas_aspects::syntagma_name::level
           int level = xmlreader->attributes().value("level").toString().toInt();
 
-          this->notes.syntagmas_aspects[ name ] = TextFormat(txt_aspect);
+          // notes.syntagmas_levels[ name ]
           this->notes.syntagmas_levels[ name ] = level;
 
+          // notes.syntagmas_aspects[ name ]
+          this->notes.syntagmas_aspects[ name ] = TextFormat(txt_aspect);
+
+          this->notes.syntagmas_aspects[ name+"+bro" ] = TextFormat(txt_aspect);
+
+          TextFormat textformat_focused = TextFormat(txt_aspect);
+          textformat_focused.modify_for_focused_appearance();
+          this->notes.syntagmas_aspects[ name+"+foc" ] = textformat_focused;
+
+          TextFormat textformat_family = TextFormat(txt_aspect);
+          textformat_family.modify_for_family_appearance();
+          this->notes.syntagmas_aspects[ name+"+fam" ] = textformat_family;
+
+          TextFormat textformat_distant = TextFormat(txt_aspect);
+          textformat_distant.modify_for_distant_appearance();
+          this->notes.syntagmas_aspects[ name+"+distant" ] = textformat_distant;
+
           xmlreader->skipCurrentElement();
           continue;
         }
@@ -1169,34 +1186,6 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
 
       continue;
     }
-
-    /*
-      levels $$$$ à supprimer
-    */
-    /*
-    if (tokenname == "levels") {
-      while (xmlreader->readNextStartElement()) {
-        // level::level
-        if (xmlreader->name() == "level") {
-          // levels::level::name
-          QString name = xmlreader->attributes().value("name").toString();
-          // levels::level::number
-          int number = xmlreader->attributes().value("number").toString().toInt();
-          // levels::level::textformat
-          QString textformat_str = xmlreader->attributes().value("textformat").toString();
-          TextFormat textformat(textformat_str);
-          ok &= !this->error(textformat, this->error_string(xmlreader),
-                             QString("levels::level::textformat"));
-
-          this->levels[ number ] = LevelDetails(name, textformat_str);
-
-          xmlreader->skipCurrentElement();
-          continue;
-        }
-      }
-      continue;
-    }
-    */
 
     /*
       arrows
@@ -1257,8 +1246,11 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
                          this->error_string(xmlreader),
                          QString("notes::note::textranges"));
       QString type(xmlreader->attributes().value("type").toString());
-      // let's insert a new syntagma object in this->notes.syntagmas; 'textnote' will be defined later.
+      // let's insert a new syntagma object in this->notes.syntagmas;
+      // 'textnote', 'highest_ancestor' and 'ancestors' will be defined later.
       Syntagma* new_syntagma = new Syntagma(father,
+                                            nullptr,
+                                            QList<Syntagma*>(),
                                             textranges,
                                             tag_name,
                                             type,
@@ -1312,6 +1304,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
 
         (1) secondary initializations
             (1.1) initialization of "audiorecord.audio2text"
+            (1.2) initialization of the Syntagma::'highest_ancestor' pointers
+            (1.3) initialization of the Syntagma::ancestors.
         (2) checks
             (2.1) is audiorecord.text2audio correctly initialized ?
             (2.2) is audiorecord.audio2text correctly initialized ?
@@ -1339,6 +1333,33 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   } else {
     // we clear the audio2text object so that its _well_initialized flag will be set to "true" :
     this->audiorecord.audio2text.clear();
+  }
+
+  /*............................................................................
+    (1.2) initialization of the Syntagma::highest_ancestor pointers
+  ............................................................................*/
+  // for each syntagma, the following loop searches its highest father :
+  for (auto & syntagma : this->notes._syntagmas) {
+    Syntagma* current_forefather = syntagma->father;
+    while(current_forefather != nullptr) {
+      if (current_forefather->father==nullptr) {
+        break;
+      } else {
+        current_forefather = current_forefather->father;
+      }
+    }
+    syntagma->highest_ancestor = current_forefather;
+  }
+
+  /*............................................................................
+    (1.3) initialization of the Syntagma::ancestors.
+  ............................................................................*/
+  for (auto & syntagma : this->notes._syntagmas) {
+    Syntagma* current_forefather = syntagma->father;
+    while(current_forefather != nullptr) {
+      syntagma->ancestors.push_back(current_forefather);
+      current_forefather = current_forefather->father;
+    }
   }
 
   /*............................................................................
@@ -1449,7 +1470,7 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   }
 
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows=" << this->arrows_repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes="  << this->notes.repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes=\n"  << this->notes.repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
 
   return ok;
