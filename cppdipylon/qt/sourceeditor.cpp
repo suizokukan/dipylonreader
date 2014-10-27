@@ -295,7 +295,9 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
 
   // ... and then we modify the new text's appearance :
   selections.clear();
-  this->modify_the_text_format__amode_recursively(syntagma->highest_forefather, selections);
+  this->modify_the_text_format__amode_recursively(syntagma,
+                                                  syntagma->highest_ancestor,
+                                                  selections);
   for (auto & selection : selections) {
     DebugMsg() << "#> " << selection.cursor.selectedText() << " ** " << selection.format.background().color().name();
   }
@@ -312,28 +314,74 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
         SourceEditor::modify_the_text_format__amode_recursively
 
         Function called by SourceEditor::modify_the_text_format__amode
+
+        parameters :
+
+        o 'focused_syntagma' is the syntagma choosed by the user.
+          This pointer can't be null.
+
+        o 'current_syntagma' is the current syntagma to be modified
+          This pointer CAN BE EQUAL to nullptr.
+
+        o 'selections' is the bunch of (text) selections to be filled.
 _____________________________________________________________________________*/
-void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* syntagma,
+void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_syntagma,
+                                                             Syntagma* current_syntagma,
                                                              QList<QTextEdit::ExtraSelection> & selections) {
-  DebugMsg() << "# " << syntagma->name << " - " << syntagma->type << " back = " << this->dipydoc->notes.syntagmas_aspects.at(syntagma->name).qtextcharformat().background().color().name();
+  DebugMsg() << "# " << current_syntagma->name << " - " << current_syntagma->type;
 
   int shift = this->number_of_chars_before_source_text;
 
   QTextCursor cur = this->textCursor();
 
-  for (auto & x0x1 : syntagma->posintextranges) {
+  QString aspect_key;
+  if (focused_syntagma == current_syntagma) {
+      /*
+        'current_syntagma' is 'focused_syntagma' :
+      */
+    aspect_key = current_syntagma->name+"+foc";
+    DebugMsg() << "#(focused) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+  } else {
+    if (focused_syntagma->father != nullptr && focused_syntagma->father->soons.contains(current_syntagma)) {
+      /*
+        'focused_syntagma' and 'current_syntagma' are brothers :
+      */
+      aspect_key = current_syntagma->name+"+bro";
+      DebugMsg() << "#(bro) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+    } else {
+      if (focused_syntagma->ancestors.contains(current_syntagma)) {
+        /*
+          One of the ancestors of 'focused_syntagma' is 'current_syntagma'.
+        */
+        aspect_key = current_syntagma->name+"+fam";
+        DebugMsg() << "#(fam) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+      }
+      else {
+        /*
+          'focused_syntagma' and 'current_syntagma' have nothing in common :
+        */
+        aspect_key = current_syntagma->name+"+distant";
+        DebugMsg() << "#() " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+      }
+    }
+  }
+
+  QTextEdit::ExtraSelection sel;
+  for (auto & x0x1 : current_syntagma->posintextranges) {
     cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
     cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
 
-    QTextEdit::ExtraSelection sel;
     sel = { cur,
-            this->dipydoc->notes.syntagmas_aspects.at(syntagma->name).qtextcharformat() };
+            this->dipydoc->notes.syntagmas_aspects.at(aspect_key).qtextcharformat() };
+
     selections.append(sel);
   }
 
-  // let's call the soons of 'syntagma' :
-  for (auto & soon : syntagma->soons) {
-    this->modify_the_text_format__amode_recursively(soon, selections);
+  // let's modify the soons of 'current_syntagma' :
+  for (auto & soon : current_syntagma->soons) {
+    this->modify_the_text_format__amode_recursively(focused_syntagma,
+                                                    soon,
+                                                    selections);
   }
 }
 

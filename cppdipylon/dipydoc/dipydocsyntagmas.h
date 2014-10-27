@@ -26,6 +26,7 @@
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOCSYNTAGMAS_H_
 #define CPPDIPYLON_DIPYDOC_DIPYDOCSYNTAGMAS_H_
 
+#include <QList>
 #include <QString>
 
 #include <list>
@@ -57,12 +58,13 @@ type(_type), final_position(_final_position) {
 ______________________________________________________________________________*/
 struct Syntagma {
   Syntagma*                             father;
-  Syntagma*                             highest_forefather;
+  Syntagma*                             highest_ancestor;
+  QList<Syntagma*>                      ancestors;
   PosInTextRanges                       posintextranges;
   QString                               name;
   QString                               type;
-  std::list<Syntagma*>                  soons;
-  std::list<ArrowTarget>                arrows;
+  QList<Syntagma*>                      soons;
+  QList<ArrowTarget>                    arrows;
   QString                               textnote;
 
   QString                               repr(void);
@@ -70,7 +72,8 @@ struct Syntagma {
                                         Syntagma(void);
                                        ~Syntagma(void);
                                         Syntagma(Syntagma* _father,
-                                                 Syntagma* _highest_forefather,
+                                                 Syntagma* _highest_ancestor,
+                                                 QList<Syntagma*> _ancestors,
                                                  PosInTextRanges _posintextranges,
                                                  QString _name,
                                                  QString _type,

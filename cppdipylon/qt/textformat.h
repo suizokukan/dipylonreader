@@ -71,6 +71,9 @@ class TextFormat {
 
   int                    init_from_string(const QString&);
   int                    internal_state(void) const;
+  void                   modify_for_distant_appearance(void);
+  void                   modify_for_family_appearance(void);
+  void                   modify_for_focused_appearance(void);
   const QTextCharFormat& qtextcharformat(void) const;
   const QString&         repr(void) const;
   bool                   well_initialized(void) const;

@@ -35,7 +35,7 @@
 ______________________________________________________________________________*/
 Syntagma::Syntagma(void) {
   this->father = nullptr;
-  this->highest_forefather = nullptr;
+  this->highest_ancestor = nullptr;
   this->posintextranges = PosInTextRanges();
   this->name = QString("");
   this->type = QString("");
@@ -49,12 +49,14 @@ Syntagma::Syntagma(void) {
         Syntagma class normal constructor
 ______________________________________________________________________________*/
 Syntagma::Syntagma(Syntagma* _father,
-                   Syntagma* _highest_forefather,
+                   Syntagma* _highest_ancestor,
+                   QList<Syntagma*> _ancestors,
                    PosInTextRanges _posintextranges,
                    QString _name,
                    QString _type,
                    QString _textnote) : father(_father),
-                                        highest_forefather(_highest_forefather),
+                                        highest_ancestor(_highest_ancestor),
+                                        ancestors(_ancestors),
                                         posintextranges(_posintextranges),
                                         name(_name),
                                         type(_type),
@@ -83,7 +85,7 @@ QString Syntagma::repr(void) {
                                                                     this->type,
                                                                     this->textnote);
   } else {
-    if (this->highest_forefather==nullptr) {
+    if (this->highest_ancestor==nullptr) {
       return QString("(no forefather)(father's name=%4) name=%1; type=%2; textnote=%3").arg(this->name,
                                                                                             this->type,
                                                                                             this->textnote,
@@ -93,7 +95,7 @@ QString Syntagma::repr(void) {
                                                                                                    this->type,
                                                                                                    this->textnote,
                                                                                                    this->father->name,
-                                                                                                   this->highest_forefather->name);
+                                                                                                   this->highest_ancestor->name);
     }
   }
 }
