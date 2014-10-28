@@ -167,5 +167,50 @@ int ArrowFormat::init_from_string(const QString& source_string) {
     this->_well_initialized = false;
   }
 
+  /*
+    this->_*_qpen initialization :
+  */
+  this->_body_qpen = QPen(QBrush(this->_maincolor),
+                          this->_thickness,
+                          Qt::SolidLine,
+                          Qt::SquareCap,
+                          Qt::BevelJoin);
+
+  this->_start_qpen = QPen(QBrush(this->_startcolor),
+                           this->_thickness,
+                           Qt::SolidLine,
+                           Qt::SquareCap,
+                           Qt::BevelJoin);
+
+  this->_end_qpen = QPen(QBrush(this->_endcolor),
+                         this->_thickness,
+                         Qt::SolidLine,
+                         Qt::SquareCap,
+                         Qt::BevelJoin);
+
   return res;
+}
+
+/*______________________________________________________________________________
+
+        ArrowFormat::body_qpen
+______________________________________________________________________________*/
+const QPen& ArrowFormat::body_qpen(void) const {
+  return this->_body_qpen;
+}
+
+/*______________________________________________________________________________
+
+        ArrowFormat::end_qpen
+______________________________________________________________________________*/
+const QPen& ArrowFormat::end_qpen(void) const {
+  return this->_end_qpen;
+}
+
+/*______________________________________________________________________________
+
+        ArrowFormat::start_qpen
+______________________________________________________________________________*/
+const QPen& ArrowFormat::start_qpen(void) const {
+  return this->_start_qpen;
 }

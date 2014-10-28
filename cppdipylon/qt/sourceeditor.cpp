@@ -655,6 +655,15 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
      between this focused syntagma and other syntagmas.
   */
   if (this->focused_syntagma != nullptr) {
+
+    /*
+      let's draw anything but arrows...
+    */
+    QTextEdit::paintEvent(ev);
+
+    /*
+      ... and let's draw arrows over the rest :
+    */
     for (auto & arrowtarget : this->focused_syntagma->arrows) {
 
       // starting point :
@@ -677,23 +686,25 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       QPointF startingpoint = QPointF(x0, y0);
       QPointF endpoint = QPointF(x1, y1);
 
-      p.setPen(QPen(QBrush("red"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
-
       // arrow body :
+      p.setPen( this->dipydoc->arrows_types.at(arrowtarget.type).body_qpen());
       QPainterPath path = QPainterPath(startingpoint);  // starting point
       path.cubicTo(QPointF(x0*1.3, y0*0.9),
                    QPointF(x0*1.1, y0*0.7),
                    endpoint);  // p1, p2, endpoint
       p.drawPath(path);
 
-      p.setPen(QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
+      // initial/final boxes :
+      p.setPen( this->dipydoc->arrows_types.at(arrowtarget.type).start_qpen());
+      p.drawRect(x0-3, y0-3, 6, 6);
 
-      p.drawRect(x0-40, y0-40, 80, 80);
-
-      p.drawRect(x1-40, y1-40, 80, 80 );
+      p.setPen( this->dipydoc->arrows_types.at(arrowtarget.type).end_qpen());
+      p.drawRect(x1-3, y1-3, 6, 6);
 
       this->update();
     }
+  } else {
+    QTextEdit::paintEvent(ev);
   }
 
   /*
@@ -751,7 +762,6 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   p.drawLine(endpoint, end2);
   */
 
-  QTextEdit::paintEvent(ev);
 }
 
 /*______________________________________________________________________________

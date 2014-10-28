@@ -43,7 +43,9 @@
 #ifndef CPPDIPYLON_QT_ARROWFORMAT_H_
 #define CPPDIPYLON_QT_ARROWFORMAT_H_
 
+#include <QBrush>
 #include <QColor>
+#include <QPen>
 #include <QString>
 #include <QStringList>
 
@@ -62,16 +64,23 @@ class ArrowFormat {
   int                     _thickness;
   bool                    _well_initialized;
 
+  QPen                    _body_qpen;
+  QPen                    _end_qpen;
+  QPen                    _start_qpen;
+
   static const QString    SEPARATOR;
 
  public:
                           ArrowFormat(void);
                  explicit ArrowFormat(const QString&);
 
+  const QPen&             body_qpen(void) const;
   QColor                  endcolor(void) const;
+  const QPen&             end_qpen(void) const;
   int                     init_from_string(const QString&);
   int                     internal_state(void) const;
   QColor                  maincolor(void) const;
+  const QPen&             start_qpen(void) const;
   const QString&          repr(void) const;
   QColor                  startcolor(void) const;
   int                     thickness(void) const;
