@@ -1148,10 +1148,10 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
     /*
       notes.syntagmas_aspects, notes.syntagmas_levels
     */
-    if (tokenname == "syntagmas_names") {
+    if (tokenname == "syntagmas_levels") {
       while (xmlreader->readNextStartElement()) {
         // syntagmas_aspects::syntagma_name
-        if (xmlreader->name() == "syntagmas_name") {
+        if (xmlreader->name() == "syntagmas_level") {
           // syntagmas_aspects::syntagma_name::name
           QString name = xmlreader->attributes().value("name").toString();
           // syntagmas_aspects::syntagma_name::aspect
@@ -1178,6 +1178,28 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
           TextFormat textformat_distant = TextFormat(txt_aspect);
           textformat_distant.modify_for_distant_appearance();
           this->notes.syntagmas_aspects[ name+"+distant" ] = textformat_distant;
+
+          xmlreader->skipCurrentElement();
+          continue;
+        }
+      }
+
+      continue;
+    }
+
+    /*
+      notes.syntagmas_types
+    */
+    if (tokenname == "syntagmas_types") {
+      while (xmlreader->readNextStartElement()) {
+        // syntagmas_types::syntagmas_type
+        if (xmlreader->name() == "syntagmas_type") {
+          // syntagmas_types::syntagmas_type::type
+          QString type = xmlreader->attributes().value("type").toString();
+          // syntagmas_types::syntagmas_type::aspect
+          QString txt_aspect = xmlreader->attributes().value("aspect").toString();
+
+          this->notes.syntagmas_types[ type ] = TextFormat(txt_aspect);
 
           xmlreader->skipCurrentElement();
           continue;
@@ -1314,6 +1336,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
             (2.5) are the notes' levels' number defined ?
             (2.6) are the notes' aspects defined ?
             (2.7) are the notes' arrows' types defined ?
+            (2.8) are the notes' types defines ?
         (3) initializaton of _well_initialized
 
 ________________________________________________________________________________*/
@@ -1459,6 +1482,18 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
     }
   }
   */
+
+  /*............................................................................
+    (2.8) are the notes' types defines ?
+  ............................................................................*/
+  for (auto & syntagma : this->notes._syntagmas) {
+    if (syntagma->type.size() > 0 && this->notes.syntagmas_types.find(syntagma->type) ==  this->notes.syntagmas_types.end()) {
+      QString msg = "unknown syntagmas' type '%1' defined in name='%2'.";
+      ok &= !this->error(msg.arg(syntagma->type,
+                                 syntagma->name));
+    }
+  }
+
 
   /*............................................................................
     (3) initializaton of _well_initialized and of _internal_state.
