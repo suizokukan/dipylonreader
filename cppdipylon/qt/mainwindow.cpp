@@ -42,6 +42,9 @@ MainWindow::MainWindow(UI& _ui,
   #ifdef NO_STATUS_BAR
   this->setStatusBar(0);
   #endif
+
+  // giving the focus so that keyboard shortcuts allow to access the main menu :
+  this->setFocus(Qt::OtherFocusReason);
 }
 
 /*______________________________________________________________________________
