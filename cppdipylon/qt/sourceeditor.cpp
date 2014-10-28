@@ -345,32 +345,53 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_s
         'current_syntagma' is 'focused_syntagma' :
       */
       if (current_syntagma->type.size() != 0) {
+        // the type has been defined :
         qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
       } else {
+        // no type defined :
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+foc").qtextcharformat();
       }
-      DebugMsg() << "#(focused) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr() << " -> back= " << qtextcharformat.background().color().name();
+      DebugMsg() << "#(focused) " << current_syntagma->name \
+                 << " - " << current_syntagma->type \
+                 << " * " << current_syntagma->posintextranges.repr() \
+                 << " -> back= " << qtextcharformat.background().color().name();
     } else {
       if (focused_syntagma->father != nullptr && focused_syntagma->father->soons.contains(current_syntagma)) {
         /*
           'focused_syntagma' and 'current_syntagma' are brothers :
         */
-        qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
-        DebugMsg() << "#(bro) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+        if (current_syntagma->type.size() != 0) {
+          // the type has been defined :
+          qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
+        }
+        else {
+          // no type defined :
+          qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
+        }
+        DebugMsg() << "#(bro) " << current_syntagma->name   \
+                   << " - " << current_syntagma->type                 \
+                   << " * " << current_syntagma->posintextranges.repr() \
+                   << " -> back= " << qtextcharformat.background().color().name();
       } else {
         if (focused_syntagma->ancestors.contains(current_syntagma)) {
           /*
             One of the ancestors of 'focused_syntagma' is 'current_syntagma'.
           */
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
-          DebugMsg() << "#(fam) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+        DebugMsg() << "#(fam) " << current_syntagma->name   \
+                   << " - " << current_syntagma->type                 \
+                   << " * " << current_syntagma->posintextranges.repr() \
+                   << " -> back= " << qtextcharformat.background().color().name();
         }
         else {
           /*
             'focused_syntagma' and 'current_syntagma' have nothing in common :
           */
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+distant").qtextcharformat();
-          DebugMsg() << "#() " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+          DebugMsg() << "#() " << current_syntagma->name   \
+                     << " - " << current_syntagma->type                 \
+                     << " * " << current_syntagma->posintextranges.repr() \
+                     << " -> back= " << qtextcharformat.background().color().name();
         }
       }
     }
