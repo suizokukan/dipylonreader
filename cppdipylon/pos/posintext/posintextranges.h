@@ -95,6 +95,7 @@ class PosInTextRanges {
   int                internal_state(void) const;
   bool               is_empty(void) const;
   PosInText          max(void) const;
+  PosInText          medium(void) const;
   PosInText          min(void) const;
   size_t             size(void) const;
   QString            repr(void) const;

@@ -33,6 +33,7 @@
 #include <QTextCharFormat>
 #include <QList>
 #include <QMediaPlayer>
+#include <QPainter>
 
 #include <vector>
 
@@ -73,8 +74,7 @@ class SourceEditor : public TextEditor {
     PosInText corrected_cursor_position(void) const;
     void      load_text(void);
     void      modify_the_text_format__amode(Syntagma* syntagma);
-    void      modify_the_text_format__amode_recursively(Syntagma* focused_syntagma,
-                                                        Syntagma* current_syntagma,
+    void      modify_the_text_format__amode_recursively(Syntagma* current_syntagma,
                                                         QList<QTextEdit::ExtraSelection> & selections);
     void      modify_the_text_format__rmode__lmode(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
@@ -109,6 +109,8 @@ class SourceEditor : public TextEditor {
     int &                amode_level;
 
     PosInTextRanges      modified_chars = PosInTextRanges();
+
+    Syntagma*            focused_syntagma = nullptr;
 
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE

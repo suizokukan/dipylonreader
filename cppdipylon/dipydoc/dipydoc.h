@@ -310,13 +310,13 @@ friend class UI;
   DipyDocTranslation   translation;
   // syntagmas added as notes :
   Notes                notes;
-  // arrows (see DipyDoc::arrows_repr)
-  std::map<QString, ArrowFormat> arrows;
+  // arrows (see DipyDoc::arrows_repr) // $$$ à déplacer vers la classe Notes
+  std::map<QString, ArrowFormat> arrows_types;
 
   QStringList          err_messages;
 
   // private methods ...........................................................
-  QString                arrows_repr(void) const;
+  QString                arrows_types_repr(void) const; // $$$ à déplacer avec arrows_types
   bool                   check_path(const QString&);
   void                   clear(void);
   bool                   error(const QString& msg);
@@ -331,7 +331,6 @@ friend class UI;
   bool                   read_mainfile__doctype_text__init_and_check(void);
   bool                   read_mainfile__doctype_text__syntagma(Syntagma * father,
                                                                QXmlStreamReader* xmlreader);
-  QString                levels_repr(void) const;
   void                   read_menu_name(const QString& _path);
   void                   set_internal_name(void);
   void                   set_qsettings_name(void);
@@ -339,9 +338,7 @@ friend class UI;
   // public methods .............................................................
  public:
                        DipyDoc(void);
-                       //$$$DipyDoc(const DipyDoc& that);
                       ~DipyDoc(void);
-                      //$$$DipyDoc& operator=(const DipyDoc& that);
               explicit DipyDoc(const QString&);
   PosInTextRanges      audio2text_contains(PosInAudio x0) const;
   PTRangesAND2PosAudio text2audio_contains(PosInText x0) const;
