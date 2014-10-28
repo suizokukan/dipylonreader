@@ -147,6 +147,13 @@ QString Notes::repr(void) const {
                                                                  name_and_aspect.second.qtextcharformat().background().color().name());
   }
 
+  res += "* syntagmas_types = \n";
+  for (auto & name_and_type : this->syntagmas_types) {
+    res += QString("** %1 -> foreground=%2 background=%3\n").arg(name_and_type.first,
+                                                                 name_and_type.second.qtextcharformat().foreground().color().name(),
+                                                                 name_and_type.second.qtextcharformat().background().color().name());
+  }
+
   res += "* _syntagmas = \n";
   for (auto & syntagma : this->_syntagmas) {
     res += "** " + syntagma->repr() + "\n";

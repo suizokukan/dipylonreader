@@ -44,7 +44,7 @@ MainWindow::MainWindow(UI& _ui,
   #endif
 
   // giving the focus so that keyboard shortcuts allow to access the main menu :
-  this->setFocus(Qt::OtherFocusReason);
+  this->setFocus(Qt::MenuBarFocusReason);
 }
 
 /*______________________________________________________________________________

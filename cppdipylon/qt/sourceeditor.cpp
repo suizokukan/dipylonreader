@@ -334,45 +334,48 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_s
 
   QTextCursor cur = this->textCursor();
 
-  QString aspect_key;
-  if (focused_syntagma == current_syntagma) {
-      /*
-        'current_syntagma' is 'focused_syntagma' :
-      */
-    aspect_key = current_syntagma->name+"+foc";
-    DebugMsg() << "#(focused) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
-  } else {
-    if (focused_syntagma->father != nullptr && focused_syntagma->father->soons.contains(current_syntagma)) {
-      /*
-        'focused_syntagma' and 'current_syntagma' are brothers :
-      */
-      aspect_key = current_syntagma->name+"+bro";
-      DebugMsg() << "#(bro) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
-    } else {
-      if (focused_syntagma->ancestors.contains(current_syntagma)) {
-        /*
-          One of the ancestors of 'focused_syntagma' is 'current_syntagma'.
-        */
-        aspect_key = current_syntagma->name+"+fam";
-        DebugMsg() << "#(fam) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
-      }
-      else {
-        /*
-          'focused_syntagma' and 'current_syntagma' have nothing in common :
-        */
-        aspect_key = current_syntagma->name+"+distant";
-        DebugMsg() << "#() " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
-      }
-    }
-  }
-
   QTextEdit::ExtraSelection sel;
   for (auto & x0x1 : current_syntagma->posintextranges) {
     cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
     cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
 
-    sel = { cur,
-            this->dipydoc->notes.syntagmas_aspects.at(aspect_key).qtextcharformat() };
+    QTextCharFormat qtextcharformat;
+    if (focused_syntagma == current_syntagma) {
+      /*
+        'current_syntagma' is 'focused_syntagma' :
+      */
+      if (current_syntagma->type.size() != 0) {
+        qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
+      } else {
+        qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+foc").qtextcharformat();
+      }
+      DebugMsg() << "#(focused) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr() << " -> back= " << qtextcharformat.background().color().name();
+    } else {
+      if (focused_syntagma->father != nullptr && focused_syntagma->father->soons.contains(current_syntagma)) {
+        /*
+          'focused_syntagma' and 'current_syntagma' are brothers :
+        */
+        qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
+        DebugMsg() << "#(bro) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+      } else {
+        if (focused_syntagma->ancestors.contains(current_syntagma)) {
+          /*
+            One of the ancestors of 'focused_syntagma' is 'current_syntagma'.
+          */
+        qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
+          DebugMsg() << "#(fam) " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+        }
+        else {
+          /*
+            'focused_syntagma' and 'current_syntagma' have nothing in common :
+          */
+          qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+distant").qtextcharformat();
+          DebugMsg() << "#() " << current_syntagma->name << " - " << current_syntagma->type << " * " << current_syntagma->posintextranges.repr();
+        }
+      }
+    }
+
+    sel = { cur, qtextcharformat };
 
     selections.append(sel);
   }

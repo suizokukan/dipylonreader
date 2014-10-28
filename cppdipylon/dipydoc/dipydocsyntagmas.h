@@ -87,9 +87,13 @@ ______________________________________________________________________________*/
 struct Notes {
   // syntagmas' names->aspects :
   std::map<QString, TextFormat>                        syntagmas_aspects;
+  // syntagmas' names->levels :
   std::map<QString, int>                               syntagmas_levels;
+  // syntagmas' names->types :
+  std::map<QString, TextFormat>                        syntagmas_types;
   // all syntagmas objects :
   std::list< std::shared_ptr<Syntagma> >               _syntagmas;
+  // syntagmas ordered by level :
   std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
 
   Syntagma*                                            contains(PosInText x0, int level) const;
