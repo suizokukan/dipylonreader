@@ -311,12 +311,12 @@ friend class UI;
   // syntagmas added as notes :
   Notes                notes;
   // arrows (see DipyDoc::arrows_repr)
-  std::map<QString, ArrowFormat> arrows;
+  std::map<QString, ArrowFormat> arrows_types;
 
   QStringList          err_messages;
 
   // private methods ...........................................................
-  QString                arrows_repr(void) const;
+  QString                arrows_types_repr(void) const;
   bool                   check_path(const QString&);
   void                   clear(void);
   bool                   error(const QString& msg);

@@ -295,8 +295,7 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
 
   // ... and then we modify the new text's appearance :
   selections.clear();
-  this->modify_the_text_format__amode_recursively(syntagma,
-                                                  syntagma->highest_ancestor,
+  this->modify_the_text_format__amode_recursively(syntagma->highest_ancestor,
                                                   selections);
   for (auto & selection : selections) {
     DebugMsg() << "#> " << selection.cursor.selectedText() << " ** " << selection.format.background().color().name();
@@ -317,16 +316,12 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
 
         parameters :
 
-        o 'focused_syntagma' is the syntagma choosed by the user.
-          This pointer can't be null.
-
         o 'current_syntagma' is the current syntagma to be modified
           This pointer CAN BE EQUAL to nullptr.
 
         o 'selections' is the bunch of (text) selections to be filled.
 _____________________________________________________________________________*/
-void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_syntagma,
-                                                             Syntagma* current_syntagma,
+void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_syntagma,
                                                              QList<QTextEdit::ExtraSelection> & selections) {
   DebugMsg() << "# " << current_syntagma->name << " - " << current_syntagma->type;
 
@@ -340,9 +335,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_s
     cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
 
     QTextCharFormat qtextcharformat;
-    if (focused_syntagma == current_syntagma) {
+    if (this->focused_syntagma == current_syntagma) {
       /*
-        'current_syntagma' is 'focused_syntagma' :
+        'current_syntagma' is 'this->focused_syntagma' :
       */
       if (current_syntagma->type.size() != 0) {
         // the type has been defined :
@@ -356,9 +351,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_s
                  << " * " << current_syntagma->posintextranges.repr() \
                  << " -> back= " << qtextcharformat.background().color().name();
     } else {
-      if (focused_syntagma->father != nullptr && focused_syntagma->father->soons.contains(current_syntagma)) {
+      if (this->focused_syntagma->father != nullptr && this->focused_syntagma->father->soons.contains(current_syntagma)) {
         /*
-          'focused_syntagma' and 'current_syntagma' are brothers :
+          'this->focused_syntagma' and 'current_syntagma' are brothers :
         */
         if (current_syntagma->type.size() != 0) {
           // the type has been defined :
@@ -373,9 +368,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_s
                    << " * " << current_syntagma->posintextranges.repr() \
                    << " -> back= " << qtextcharformat.background().color().name();
       } else {
-        if (focused_syntagma->ancestors.contains(current_syntagma)) {
+        if (this->focused_syntagma->ancestors.contains(current_syntagma)) {
           /*
-            One of the ancestors of 'focused_syntagma' is 'current_syntagma'.
+            One of the ancestors of 'this->focused_syntagma' is 'current_syntagma'.
           */
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
         DebugMsg() << "#(fam) " << current_syntagma->name   \
@@ -385,7 +380,7 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_s
         }
         else {
           /*
-            'focused_syntagma' and 'current_syntagma' have nothing in common :
+            'this->focused_syntagma' and 'current_syntagma' have nothing in common :
           */
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+distant").qtextcharformat();
           DebugMsg() << "#() " << current_syntagma->name   \
@@ -403,8 +398,7 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* focused_s
 
   // let's modify the soons of 'current_syntagma' :
   for (auto & soon : current_syntagma->soons) {
-    this->modify_the_text_format__amode_recursively(focused_syntagma,
-                                                    soon,
+    this->modify_the_text_format__amode_recursively(soon,
                                                     selections);
   }
 }
@@ -466,6 +460,8 @@ void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& p
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
+  this->focused_syntagma = nullptr; // $$$ pour le moment ok mais à placer dans le code qui change le mode de lecture, ce pointeur n'a de sens que pour le a-mode.
+
   if (this->blocked_commentaries == false) {
     switch (this->readingmode_details) {
       case READINGMODEDETAILS::READINGMODEDETAIL_RMODE : {
@@ -504,6 +500,8 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
         Syntagma* syntagma = this->dipydoc->notes.contains(cursor_position, this->amode_level);
 
         if (syntagma != nullptr) {
+
+          this->focused_syntagma = syntagma;
 
           std::size_t text_ranges_hash = syntagma->posintextranges.get_hash();
 
@@ -650,12 +648,54 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 /*______________________________________________________________________________
 
   SourceEditor::paintEvent()
-
-  doc : http://qt-project.org/doc/qt-4.8/qpainterpath.html#cubicTo
-
-  sur QPen : http://qt-project.org/doc/qt-4.8/qpen.html
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
+
+  /* if there's a defined (=not nullptr) focused_syntagma, let's draw the arrows
+     between this focused syntagma and other syntagmas.
+  */
+  if (this->focused_syntagma != nullptr) {
+    for (auto & arrowtarget : this->focused_syntagma->arrows) {
+
+      // starting point :
+      QTextCursor start_cur = this->textCursor();
+      start_cur.setPosition(static_cast<int>(this->focused_syntagma->posintextranges.medium()));
+      QRect start_rect = this->cursorRect(start_cur);
+
+      // end point :
+      QTextCursor end_cur = this->textCursor();
+      end_cur.setPosition(static_cast<int>(arrowtarget.final_position.medium()));
+      QRect dest_rect = this->cursorRect(end_cur);
+
+      QPainter p(viewport());
+
+      float x0 = start_rect.x();
+      float y0 = start_rect.y();
+      float x1 = dest_rect.x();
+      float y1 = dest_rect.y();
+
+      QPointF startingpoint = QPointF(x0, y0);
+      QPointF endpoint = QPointF(x1, y1);
+
+      p.setPen(QPen(QBrush("red"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
+
+      // arrow body :
+      QPainterPath path = QPainterPath(startingpoint);  // starting point
+      path.cubicTo(QPointF(x0*1.3, y0*0.9),
+                   QPointF(x0*1.1, y0*0.7),
+                   endpoint);  // p1, p2, endpoint
+      p.drawPath(path);
+
+      p.setPen(QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
+
+      p.drawRect(x0-40, y0-40, 80, 80);
+
+      p.drawRect(x1-40, y1-40, 80, 80 );
+
+      this->update();
+    }
+  }
+
   /*
   // starting point :
   QTextCursor current_posintext_pos = this->textCursor();

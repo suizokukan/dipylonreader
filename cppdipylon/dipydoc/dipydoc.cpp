@@ -106,13 +106,13 @@ DipyDoc::~DipyDoc(void) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::arrows_repr
+  DipyDoc::arrows_types_repr
 
-  Return a string which is a representation of this->arrows
+  Return a string which is a representation of this->arrows_types
 ______________________________________________________________________________*/
-QString DipyDoc::arrows_repr(void) const {
+QString DipyDoc::arrows_types_repr(void) const {
   QString res("");
-  for (auto &arrow : this->arrows) {
+  for (auto &arrow : this->arrows_types) {
     res += QString("\n  name='%1' - arrowformat='%2'").arg(arrow.first,
                                                            arrow.second.repr());
     }
@@ -194,7 +194,7 @@ void DipyDoc::clear(void) {
 
   this->notes.syntagmas_aspects.clear();
   this->notes.syntagmas_levels.clear();
-  this->arrows.clear();
+  this->arrows_types.clear();
 
   this->source_text.clear();
   this->audiorecord.clear();
@@ -561,19 +561,19 @@ $$$
   */
 
   /*............................................................................
-    arrows
+    arrows_types
   ............................................................................*/
   res += "\n";
-  res += "  <arrows>\n";
-  for (auto &arrow : this->arrows) {
-    QString new_line("    <arrow name=\"$NAME$\" "
+  res += "  <arrows_types>\n";
+  for (auto &arrow : this->arrows_types) {
+    QString new_line("    <arrow_type name=\"$NAME$\" "
                      "arrowformat=\"$ARROWFORMAT$\" "
                      "/>\n");
     new_line.replace("$NAME$", arrow.first);
     new_line.replace("$ARROWFORMAT$",  arrow.second.repr());
     res += new_line;
   }
-  res += "  </arrows>\n";
+  res += "  </arrows_types>\n";
 
   /*............................................................................
     notes $$$
@@ -1151,7 +1151,7 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
     if (tokenname == "syntagmas_levels") {
       while (xmlreader->readNextStartElement()) {
         // syntagmas_aspects::syntagma_name
-        if (xmlreader->name() == "syntagmas_level") {
+        if (xmlreader->name() == "syntagma_level") {
           // syntagmas_aspects::syntagma_name::name
           QString name = xmlreader->attributes().value("name").toString();
           // syntagmas_aspects::syntagma_name::aspect
@@ -1193,7 +1193,7 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
     if (tokenname == "syntagmas_types") {
       while (xmlreader->readNextStartElement()) {
         // syntagmas_types::syntagmas_type
-        if (xmlreader->name() == "syntagmas_type") {
+        if (xmlreader->name() == "syntagma_type") {
           // syntagmas_types::syntagmas_type::type
           QString type = xmlreader->attributes().value("type").toString();
           // syntagmas_types::syntagmas_type::aspect
@@ -1210,20 +1210,20 @@ bool DipyDoc::read_mainfile__doctype_text(QXmlStreamReader* xmlreader) {
     }
 
     /*
-      arrows
+      arrows_types
     */
-    if (tokenname == "arrows") {
+    if (tokenname == "arrows_types") {
       while (xmlreader->readNextStartElement()) {
-        // arrows::arrow
-        if (xmlreader->name() == "arrow") {
-          // arrows::arrow::name
+        // arrows_types::arrow_type
+        if (xmlreader->name() == "arrow_type") {
+          // arrows_types::arrow_type::name
           QString name = xmlreader->attributes().value("name").toString();
-          // arrows::arrow::arrowformat
+          // arrows_types::arrow_type::arrowformat
           ArrowFormat arrowformat(xmlreader->attributes().value("arrowformat").toString());
           ok &= !this->error(arrowformat, this->error_string(xmlreader),
-                             QString("arrows::arrow::arrowformat"));
+                             QString("arrows_types::arrow_type::arrowformat"));
 
-          this->arrows[ name ] = arrowformat;
+          this->arrows_types[ name ] = arrowformat;
 
           xmlreader->skipCurrentElement();
           continue;
@@ -1302,9 +1302,22 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father,
           father->textnote = xmlreader->readElementText();
         }
       } else {
-        // error : unknown tag name :
-        ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] unknown tag name=%1").arg(tag_name),
-                           this->error_string(xmlreader));
+        if (tag_name == "arrow") {
+          if(father == nullptr) {
+            // error : pending 'arrow' tag.
+            ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'arrow' tag."),
+                               this->error_string(xmlreader));
+          } else {
+            // let's add the textnote to its father :
+            QString arrow_type(xmlreader->attributes().value("type").toString());
+            PosInTextRanges arrow_final_position(xmlreader->attributes().value("dest").toString());
+            father->arrows.push_back( ArrowTarget(arrow_type, arrow_final_position) );
+          }
+        } else {
+          // error : unknown tag name :
+          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] unknown tag name=%1").arg(tag_name),
+                             this->error_string(xmlreader));
+        }
       }
     }
 
@@ -1504,7 +1517,7 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
   }
 
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows=" << this->arrows_repr();
+  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows_types=\n" << this->arrows_types_repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes=\n"  << this->notes.repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
 
