@@ -251,7 +251,6 @@ inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : nam
 ______________________________________________________________________________*/
 typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
 
-
 class DipyDoc {
 friend class CommentaryEditor;
 friend class MainWindow;
@@ -312,13 +311,10 @@ friend class UI;
   DipyDocTranslation   translation;
   // syntagmas added as notes :
   Notes                notes;
-  // arrows (see DipyDoc::arrows_repr) // $$$ à déplacer vers la classe Notes
-  std::map<QString, ArrowFormat> arrows_types;
 
   QStringList          err_messages;
 
   // private methods ...........................................................
-  QString                arrows_types_repr(void) const; // $$$ à déplacer avec arrows_types
   bool                   check_path(const QString&);
   void                   clear(void);
   bool                   error(const QString& msg);

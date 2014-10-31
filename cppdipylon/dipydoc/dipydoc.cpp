@@ -106,21 +106,6 @@ DipyDoc::~DipyDoc(void) {
 
 /*______________________________________________________________________________
 
-  DipyDoc::arrows_types_repr
-
-  Return a string which is a representation of this->arrows_types
-______________________________________________________________________________*/
-QString DipyDoc::arrows_types_repr(void) const {
-  QString res("");
-  for (auto &arrow : this->arrows_types) {
-    res += QString("\n  name='%1' - arrowformat='%2'").arg(arrow.first,
-                                                           arrow.second.repr());
-    }
-  return res;
-}
-
-/*______________________________________________________________________________
-
         DipyDoc::check_path() : check if _path leads to the expected files.
 
         Return false if an error occurs, or true if everything's ok.
@@ -194,7 +179,7 @@ void DipyDoc::clear(void) {
 
   this->notes.syntagmas_aspects.clear();
   this->notes.syntagmas_levels.clear();
-  this->arrows_types.clear();
+  this->notes.arrows_types.clear();
 
   this->source_text.clear();
   this->audiorecord.clear();
@@ -565,7 +550,7 @@ $$$
   ............................................................................*/
   res += "\n";
   res += "  <arrows_types>\n";
-  for (auto &arrow : this->arrows_types) {
+  for (auto &arrow : this->notes.arrows_types) {
     QString new_line("    <arrow_type name=\"$NAME$\" "
                      "arrowformat=\"$ARROWFORMAT$\" "
                      "/>\n");
@@ -1223,7 +1208,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
           ok &= !this->error(arrowformat, this->error_string(),
                              QString("arrows_types::arrow_type::arrowformat"));
 
-          this->arrows_types[ name ] = arrowformat;
+          this->notes.arrows_types[ name ] = arrowformat;
 
           this->xmlreader->skipCurrentElement();
           continue;
@@ -1546,7 +1531,6 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
   }
 
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) arrows_types=\n" << this->arrows_types_repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes=\n"  << this->notes.repr();
   DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
 

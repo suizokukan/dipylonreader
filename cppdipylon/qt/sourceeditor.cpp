@@ -689,7 +689,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       QPointF endpoint = QPointF(x1, y1);
 
       // arrow body :
-      p.setPen( this->dipydoc->arrows_types.at(arrowtarget.type).body_qpen());
+      p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).body_qpen());
       QPainterPath path = QPainterPath(startingpoint);  // starting point
       path.cubicTo(QPointF(x0*1.3, y0*0.9),
                    QPointF(x0*1.1, y0*0.7),
@@ -697,10 +697,10 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       p.drawPath(path);
 
       // initial/final boxes :
-      p.setPen( this->dipydoc->arrows_types.at(arrowtarget.type).start_qpen());
+      p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).start_qpen());
       p.drawRect(x0-3, y0-3, 6, 6);
 
-      p.setPen( this->dipydoc->arrows_types.at(arrowtarget.type).end_qpen());
+      p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).end_qpen());
       p.drawRect(x1-3, y1-3, 6, 6);
 
       this->update();

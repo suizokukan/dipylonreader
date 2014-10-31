@@ -37,6 +37,7 @@
 #include "debugmsg/debugmsg.h"
 #include "pos/posintext/posintextranges.h"
 #include "dipydoc/arrowtarget.h"
+#include "qt/arrowformat.h"
 #include "qt/textformat.h"
 
 /*______________________________________________________________________________
@@ -87,6 +88,9 @@ struct Notes {
 
   // syntagmas ordered by level :
   std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
+
+  // arrows
+  std::map<QString, ArrowFormat> arrows_types;
 
   Syntagma*                                            contains(PosInText x0, int level) const;
   QString                                              repr(void) const;

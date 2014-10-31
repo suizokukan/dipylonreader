@@ -167,6 +167,12 @@ ______________________________________________________________________________*/
 QString Notes::repr(void) const {
   QString res;
 
+  res += "* arrows_types = \n";
+  for (auto &arrow : this->arrows_types) {
+    res += QString("\n  name='%1' - arrowformat='%2'").arg(arrow.first,
+                                                           arrow.second.repr());
+  }
+
   res += "* syntagmas_levels = \n";
   for (auto & name_and_level : this->syntagmas_levels) {
     res += QString("** %1 -> %2\n").arg(name_and_level.first).arg(name_and_level.second);
