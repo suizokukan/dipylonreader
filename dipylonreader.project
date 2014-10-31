@@ -811,10 +811,10 @@ http://qt-project.org/doc/qt-4.8/linguist-hellotr.html
 .ts (XML, human-readable)   ------> .qm (binary)
 
 to create .ts files :
-lupdate -verbose dipylon.pro
+lupdate -verbose dipylonreader.pro
 
 to modify .ts files :
-linguist dipylon_French.ts
+linguist dipylonreader_French.ts
 
 to create .qm file :
 (in "linguist" application File > Release)
