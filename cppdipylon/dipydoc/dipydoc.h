@@ -271,6 +271,8 @@ friend class UI;
   QString              path;
   QString              main_filename_with_fullpath;
 
+  QXmlStreamReader*    xmlreader = nullptr;
+
   /*
      general informations :
   */
@@ -322,15 +324,14 @@ friend class UI;
   bool                   error(const QString& msg);
   bool                   error(const QString& msg, const QString& error_string);
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
-  QString                error_string(QXmlStreamReader* xmlreader);
+  QString                error_string(void);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   QString                get_tab_name(void);
   QString                get_translations_for(PosInText x0, PosInText x1) const;
-  bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
-  bool                   read_mainfile__doctype_text(QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__first_token(void);
+  bool                   read_mainfile__doctype_text(void);
   bool                   read_mainfile__doctype_text__init_and_check(void);
-  bool                   read_mainfile__doctype_text__syntagma(Syntagma * father,
-                                                               QXmlStreamReader* xmlreader);
+  bool                   read_mainfile__doctype_text__syntagma(Syntagma * father);
   void                   read_menu_name(const QString& _path);
   void                   set_internal_name(void);
   void                   set_qsettings_name(void);
