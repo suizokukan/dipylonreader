@@ -110,7 +110,7 @@ class SourceEditor : public TextEditor {
 
     PosInTextRanges      modified_chars = PosInTextRanges();
 
-    Syntagma*            focused_syntagma = nullptr;
+    Syntagma*            focused_syntagma_in_amode = nullptr;
 
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE
