@@ -23,6 +23,8 @@
 # 
 ################################################################################
 #
+# version 3 (2014.10.31) : temp folder's name depends on ARGS.debug value
+#
 # version 2 (2014.10.31) : command line options "--debug", "--version" and "--help"
 #
 # version 1 (2014.10.26) : first version to be committed.
@@ -32,7 +34,7 @@
 import os
 import argparse
 
-VERSION = "build_dipylonreader_win32static : v2"
+VERSION = "build_dipylonreader_win32static : v3"
 SUMMARY = "Linux > Windows32/static/using MXE"
 
 # system call
@@ -77,7 +79,7 @@ with open("build_number", 'w') as buildnumber_file:
     buildnumber_file.write(str(BUILD_NUMBER))
 
 # setting the temporary build folder without the final '/' :
-TEMP_FOLDER = "temp__build_win32_static"
+TEMP_FOLDER = "temp__build_win32_static_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
 EXEC_NAME  = "dipylonreader_win_32bits_static_v{0}_build{1}_debug{2}.exe".format(VERSION_FOR_EXEC_NAME,

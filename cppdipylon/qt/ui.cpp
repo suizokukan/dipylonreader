@@ -37,8 +37,8 @@ Icons icons;
   "argc" and "argv".
 ______________________________________________________________________________*/
 UI::UI(void) {
-  DebugMsg() << "UI::UI() : entry point";
-  DebugMsg() << "Qt version : " << QT_VERSION_STR;
+  //DEBUG1 DebugMsg() << "UI::UI() : entry point";
+  //DEBUG1 DebugMsg() << "Qt version : " << QT_VERSION_STR;
 
   /*
      initialization of this->path_info :
@@ -47,12 +47,13 @@ UI::UI(void) {
   */
   QFileInfo path_info = QFileInfo(fixedparameters::default__path_to_dipydocs);
   if (path_info.exists() == false || path_info.isFile()) {
-    DebugMsg() << "UI::UI" \
-               << "problem with the default path stored in fixedparameters.h, using the current directory." \
-               << " default path = " << fixedparameters::default__path_to_dipydocs \
-               << " (path_info.exists()=" << path_info.exists() \
-               << "path_info.isFile()=" << path_info.isFile() \
-               << ")";
+    //DEBUG1 DebugMsg() << "UI::UI" \
+    //DEBUG1            << "problem with the default path stored in fixedparameters.h, using the current directory."
+    //DEBUG1            << " default path = " << fixedparameters::default__path_to_dipydocs
+    //DEBUG1            << " (path_info.exists()=" << path_info.exists()
+    //DEBUG1            << "path_info.isFile()=" << path_info.isFile()
+    //DEBUG1            << ")";
+
     // problem with the default value, the program has to use the current directory :
     this->path_to_dipydocs = ".";
   } else {
@@ -63,9 +64,9 @@ UI::UI(void) {
     initialization of this->available_menu_names
   */
   this->read_menu_names();
-  DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
+  //DEBUG1 DebugMsg() << "this->available_menu_names =\n" << this->available_menu_names.repr();
 
-  DebugMsg() << "UI::UI() : exit point";
+  //DEBUG1 DebugMsg() << "UI::UI() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -73,13 +74,13 @@ UI::UI(void) {
   UI destructor
 ______________________________________________________________________________*/
 UI::~UI(void) {
-  DebugMsg() << "UI::~UI(#beginning)";
+  //DEBUG1 DebugMsg() << "UI::~UI(#beginning)";
 
   // QNetworkAccessManager object :
-  DebugMsg() << "... delete this->network_manager";
+  //DEBUG1 DebugMsg() << "... delete this->network_manager";
   delete this->network_manager;
 
-  DebugMsg() << "UI::~UI(#fin)";
+  //DEBUG1 DebugMsg() << "UI::~UI(#fin)";
 }
 
 /*______________________________________________________________________________
@@ -87,7 +88,7 @@ UI::~UI(void) {
   UI::go() : UI creation + main loop
 ______________________________________________________________________________*/
 int UI::go(int argc, char **argv) {
-  DebugMsg() << "enter in UI::go()";
+  //DEBUG1 DebugMsg() << "enter in UI::go()";
 
   /*
     We want to use the system's standard settings.
@@ -128,8 +129,8 @@ int UI::go(int argc, char **argv) {
      see http://qt-project.org/doc/qt-5/internationalization.html
   */
   QLocale local_system = QLocale::system();
-  DebugMsg() << "i18n : local_system.name()=" << local_system.name();  // language_COUNTRY
-  DebugMsg() << "i18n : local_system.language()=" << QLocale::languageToString(local_system.language());
+  //DEBUG1 DebugMsg() << "i18n : local_system.name()=" << local_system.name();  // language_COUNTRY
+  //DEBUG1 DebugMsg() << "i18n : local_system.language()=" << QLocale::languageToString(local_system.language());
 
   /*
      global i18n (translations written by Qt)
@@ -141,8 +142,8 @@ int UI::go(int argc, char **argv) {
   QTranslator qtTranslator;
   QString system_translations_filename("qt_" +QLocale::languageToString(local_system.language()));
   bool system_translations_res = qtTranslator.load(system_translations_filename, ":/i18n");
-  DebugMsg() << "i18n : loading " << system_translations_filename \
-             << "success=" << system_translations_res;
+  //DEBUG1 DebugMsg() << "i18n : loading " << system_translations_filename
+  //DEBUG1            << "success=" << system_translations_res;
   app.installTranslator(&qtTranslator);
 
   /*
@@ -153,15 +154,15 @@ int UI::go(int argc, char **argv) {
   QTranslator dipylonTranslator;
   QString dipylon_translations_filename("dipylon_" + QLocale::languageToString(local_system.language()));
   bool dipylon_translations_res = dipylonTranslator.load(dipylon_translations_filename, ":/i18n");
-  DebugMsg() << "i18n : loading " << dipylon_translations_filename \
-             << "success=" << dipylon_translations_res;
+  //DEBUG1 DebugMsg() << "i18n : loading " << dipylon_translations_filename
+  //DEBUG1            << "success=" << dipylon_translations_res;
   app.installTranslator(&dipylonTranslator);
 
   /*
     Displaying some usefull informations
   */
-  DebugMsg() << "QGuiApplication::primaryScreen()->name() =" << QGuiApplication::primaryScreen()->name();
-  DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << QGuiApplication::primaryScreen()->size();
+  //DEBUG1 DebugMsg() << "QGuiApplication::primaryScreen()->name() =" << QGuiApplication::primaryScreen()->name();
+  //DEBUG1 DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << QGuiApplication::primaryScreen()->size();
 
   /*
     main window creation :
@@ -177,7 +178,7 @@ int UI::go(int argc, char **argv) {
     see http://qt-project.org/doc/qt-5/application-windows.html#window-geometry
   */
   #ifdef ALLOW_MAXIMIZE_MAINWINDOW
-  DebugMsg() << "maximize the main window";
+  //DEBUG1 DebugMsg() << "maximize the main window";
 
   #ifdef MAXIMIZE_MAINWINDOW_TRUE_METHOD
   if (this->first_launch == true) {
@@ -228,8 +229,8 @@ int UI::go(int argc, char **argv) {
     we display the list of the available fonts' families :
   */
   QFontDatabase qfontdatabase;
-  DebugMsg() << "list of the available fonts' families : " \
-             << qfontdatabase.families().join("; ");
+  //DEBUG1 DebugMsg() << "list of the available fonts' families : "
+  //DEBUG1            << qfontdatabase.families().join("; ");
 
   /*
     saved settings :
@@ -290,7 +291,7 @@ void UI::read_settings(void) {
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
-  DebugMsg() << "UI::read_settings() from " << settings.fileName();
+  //DEBUG1 DebugMsg() << "UI::read_settings() from " << settings.fileName();
 
   /*
     first launch ?
@@ -305,13 +306,13 @@ void UI::read_settings(void) {
       main window's geometry :
     */
     #ifdef ALLOW_RESIZING_THE_MAINWINDOW
-    DebugMsg() << "resize main window :" << settings.value("mainwindow/size", QSize()).toSize();
+    //DEBUG1 DebugMsg() << "resize main window :" << settings.value("mainwindow/size", QSize()).toSize();
     this->mainWin->resize(settings.value("mainwindow/size",
                                          QSize()).toSize());
     #endif
 
     #ifdef ALLOW_MOVING_THE_MAINWINDOW
-    DebugMsg() << "move main window :" << settings.value("mainwindow/pos", QPoint()).toPoint();
+    //DEBUG1 DebugMsg() << "move main window :" << settings.value("mainwindow/pos", QPoint()).toPoint();
     this->mainWin->move(settings.value("mainwindow/pos",
                                        QPoint()).toPoint());
     #endif
@@ -358,7 +359,7 @@ void UI::write_settings(void) {
     (see http://qt-project.org/doc/qt-5/QSettings.html)
   */
   QSettings settings;
-  DebugMsg() << "UI::write_settings() to " << settings.fileName();
+  //DEBUG1 DebugMsg() << "UI::write_settings() to " << settings.fileName();
 
   /*
     If 'application/firstlaunch' is defined, it means that the program

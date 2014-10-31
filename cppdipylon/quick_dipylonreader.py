@@ -23,6 +23,8 @@
 # 
 ################################################################################
 #
+# version 4 (2014.10.31) : temp folder's name depends on ARGS.debug value
+#
 # version 3 (2014.10.31) : command line options "--debug", "--version" and "--help"
 #
 # version 2 (2014.10.26) : (ancient) build/dipylon_reader is deleted before the build
@@ -33,7 +35,7 @@
 import argparse
 import os
 
-VERSION = "quick_dipylonreader : v3"
+VERSION = "quick_dipylonreader : v4"
 SUMMARY = "Linux > Linux64/dynamic (quick compilation)"
 
 # system call
@@ -78,7 +80,7 @@ with open("build_number", 'w') as buildnumber_file:
     buildnumber_file.write(str(BUILD_NUMBER))
 
 # setting the temporary build folder without the final '/' :
-TEMP_FOLDER = "temp__build_linux64_dynamic"
+TEMP_FOLDER = "temp__build_linux64_dynamic_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
 EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_build{1}_debug{2}".format(VERSION_FOR_EXEC_NAME,
