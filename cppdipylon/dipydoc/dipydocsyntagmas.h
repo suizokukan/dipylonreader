@@ -36,21 +36,8 @@
 
 #include "debugmsg/debugmsg.h"
 #include "pos/posintext/posintextranges.h"
+#include "dipydoc/arrowtarget.h"
 #include "qt/textformat.h"
-
-/*______________________________________________________________________________
-
-  ArrowTarget class, part of the DipyDocNote class $$$
-______________________________________________________________________________*/
-struct ArrowTarget {
-  QString type = "";
-  PosInTextRanges final_position;
-
-  ArrowTarget(const QString& _type, const PosInTextRanges& _final_position);
-};
-inline ArrowTarget::ArrowTarget(const QString& _type, const PosInTextRanges& _final_position) : \
-type(_type), final_position(_final_position) {
-}
 
 /*______________________________________________________________________________
 
