@@ -78,6 +78,7 @@ struct Syntagma {
                                                  QString _name,
                                                  QString _type,
                                                  QString _textnote);
+  QString                               pretty_debugmsg(int hlevel);
 };
 
 /*______________________________________________________________________________

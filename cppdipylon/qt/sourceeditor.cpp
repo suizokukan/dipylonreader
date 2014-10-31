@@ -317,13 +317,13 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
         parameters :
 
         o 'current_syntagma' is the current syntagma to be modified
-          This pointer CAN BE EQUAL to nullptr.
+          This pointer should never be set to nullptr.
 
         o 'selections' is the bunch of (text) selections to be filled.
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_syntagma,
                                                              QList<QTextEdit::ExtraSelection> & selections) {
-  DebugMsg() << "# " << current_syntagma->name << " - " << current_syntagma->type;
+  DebugMsg() << "# " << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
 
   int shift = this->number_of_chars_before_source_text;
 
@@ -351,9 +351,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
                  << " * " << current_syntagma->posintextranges.repr() \
                  << " -> back= " << qtextcharformat.background().color().name();
     } else {
-      if (this->focused_syntagma->father != nullptr && this->focused_syntagma->father->soons.contains(current_syntagma)) {
+      if (this->focused_syntagma->father==current_syntagma->father) {
         /*
-          'this->focused_syntagma' and 'current_syntagma' are brothers :
+          'this->focused_syntagma' and 'current_syntagma' are brothers (=have the same father)
         */
         if (current_syntagma->type.size() != 0) {
           // the type has been defined :
@@ -665,6 +665,8 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       ... and let's draw arrows over the rest :
     */
     for (auto & arrowtarget : this->focused_syntagma->arrows) {
+
+      // $$$ le code de cette boucle est à optimiser.
 
       // starting point :
       QTextCursor start_cur = this->textCursor();

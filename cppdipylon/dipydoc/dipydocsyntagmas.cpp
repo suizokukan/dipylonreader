@@ -106,6 +106,32 @@ QString Syntagma::repr(void) {
   }
 }
 
+/*______________________________________________________________________________
+
+        Syntagma::pretty_debugmsg
+
+        Debug-oriented function : display the current Syntagma and its soons.
+
+______________________________________________________________________________*/
+QString Syntagma::pretty_debugmsg(int hlevel) {
+
+  QString res;
+
+  QString spacer("");
+  for(int i=0; i<hlevel; ++i) {
+    spacer += QString("  ");
+  }
+
+  res += spacer + QString("%1 %2 %3").arg(this->name,
+                                          this->type,
+                                          this->posintextranges.repr()) + "\n";
+
+  for (auto & soon : this->soons) {
+    res += soon->pretty_debugmsg(hlevel+1);
+  }
+
+  return res;
+}
 
 /*______________________________________________________________________________
 
@@ -165,14 +191,24 @@ QString Notes::repr(void) const {
     res += "** " + syntagma->repr() + "\n";
   }
 
-  res += "* syntagmas = \n";
+  // first way to display this->syntagmas :
+  res += "* syntagmas(1/2) = \n";
   for(auto & level_and_syntagmasbylevel : this->syntagmas) {
     // for an unknown reason QString().arg(1,2) doesn't work, .arg(1).arg(2) does.
     res += QString("** at level=%1, %2 syntagma(s) :\n").arg(level_and_syntagmasbylevel.first).arg(this->syntagmas.at(level_and_syntagmasbylevel.first).size());
-
     for (auto & posintextranges_and_syntagma : level_and_syntagmasbylevel.second) {
       res += QString("** posintextranges=%1 : %2\n").arg(posintextranges_and_syntagma.first.repr(),
                                                          posintextranges_and_syntagma.second->repr());
+    }
+  }
+
+  // second way to display this->syntagmas :
+  res += "* syntagmas(2/2) =\n";
+  for(auto & level_and_syntagmasbylevel : this->syntagmas) {
+    for(auto & posintext_and_syntagma : level_and_syntagmasbylevel.second) {
+      if (posintext_and_syntagma.second->father==nullptr) {
+        res += posintext_and_syntagma.second->pretty_debugmsg(0);
+      }
     }
   }
 
