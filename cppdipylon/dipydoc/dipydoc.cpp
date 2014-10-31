@@ -1265,13 +1265,10 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
   Syntagma* current_father = father;
   bool ok = true;
 
- again:
   DebugMsg() << "~0~ current_father=" << current_father;
 
-  bool something_has_been_read = false;
-
   while (this->xmlreader->readNextStartElement()) {
-    something_has_been_read = true;
+
     QString tag_name = this->xmlreader->name().toString();
     DebugMsg() << "~1a~ current_father=" << current_father << " tag_name= " << tag_name;
 
@@ -1324,6 +1321,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
         } else {
           // let's add the textnote to its father :
           current_father->textnote = this->xmlreader->attributes().value("content").toString();
+
+          this->xmlreader->skipCurrentElement();
         }
       } else {
         if (tag_name == "arrow") {
@@ -1336,6 +1335,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
             QString arrow_type(this->xmlreader->attributes().value("type").toString());
             PosInTextRanges arrow_final_position(this->xmlreader->attributes().value("dest").toString());
             current_father->arrows.push_back( ArrowTarget(arrow_type, arrow_final_position) );
+
+            this->xmlreader->skipCurrentElement();
           }
         } else {
           // error : unknown tag name :
@@ -1346,12 +1347,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
     }
   }
 
-  DebugMsg() << "~4+ father=" << father << " current_father= " << current_father << " something_has_been_read=" << something_has_been_read;
+  DebugMsg() << "~4+ father=" << father << " current_father= " << current_father;
 
-  if (current_father!=nullptr && current_father == father && current_father->father!=nullptr && something_has_been_read==true) {
-    DebugMsg() << "~4! new current_father=" << current_father;
-    goto again;
-  }
   /*$$$
   if (current_father != father) {
     DebugMsg() << "~40* current_father=" << current_father;
