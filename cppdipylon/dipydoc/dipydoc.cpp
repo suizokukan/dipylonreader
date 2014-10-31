@@ -1236,8 +1236,9 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
 
   DipyDoc::read_mainfile__doctype_text__syntagma
 
-  Read the syntagmas' definitions inside <notes></notes>
+  Read the syntagmas' definitions inside <notes></notes>.
 
+  Recursive function able to read every token inside <notes></notes>.
 ______________________________________________________________________________*/
 bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
 
@@ -1253,8 +1254,12 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
       PosInTextRanges textranges(this->xmlreader->attributes().value("textranges").toString());
       ok &= !this->error(textranges,
                          this->error_string(),
-                         QString("notes::note::textranges =%1; internalstate=%2").arg(textranges.repr()).arg(QString().setNum(textranges.internal_state())));
+                         QString("notes::note::textranges =%1;"
+                                 "internalstate=%2").arg(textranges.repr(),
+                                                         QString().setNum(textranges.internal_state())));
+
       QString type(this->xmlreader->attributes().value("type").toString());
+
       // let's insert a new syntagma object in this->notes.syntagmas;
       // 'textnote', 'highest_ancestor' and 'ancestors' will be defined later.
       Syntagma* new_syntagma = new Syntagma(current_father,
@@ -1287,7 +1292,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
       if (tag_name == "note") {
         if(current_father == nullptr) {
           // error : pending 'textnote' tag.
-          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'textnote' tag."),
+          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma]"
+                                     "pending 'textnote' tag."),
                              this->error_string());
         } else {
           // let's add the textnote to its father :
@@ -1299,7 +1305,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
         if (tag_name == "arrow") {
           if(current_father == nullptr) {
             // error : pending 'arrow' tag.
-            ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] pending 'arrow' tag."),
+            ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma]"
+                                       " pending 'arrow' tag."),
                                this->error_string());
           } else {
             // let's add the arrow to its father :
@@ -1311,7 +1318,8 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
           }
         } else {
           // error : unknown tag name :
-          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma] unknown tag name=%1").arg(tag_name),
+          ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma]"
+                                     " unknown tag name=%1").arg(tag_name),
                              this->error_string());
         }
       }
