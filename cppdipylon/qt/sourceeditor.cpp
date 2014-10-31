@@ -679,8 +679,13 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
 
       QPainter p(viewport());
 
-      QPointF startingpoint = QPointF(start_rect.x(), start_rect.y());
-      QPointF endpoint = QPointF(dest_rect.x(), dest_rect.y());
+      float x0 = start_rect.x();
+      float y0 = start_rect.y();
+      float x1 = dest_rect.x();
+      float y1 = dest_rect.y();
+
+      QPointF startingpoint = QPointF(x0, y0);
+      QPointF endpoint = QPointF(x1, y1);
 
       // arrow body :
       p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).body_qpen());
