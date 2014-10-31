@@ -21,6 +21,8 @@
 
     ❏DipylonReader❏ : dipydoc/arrowtarget.h
 
+    ArrowTarget class, defining how an arrow links two group of words.
+
 *******************************************************************************/
 
 #ifndef CPPDIPYLON_DIPYDOC_ARROWTARGET_H_
@@ -29,9 +31,13 @@
 /*______________________________________________________________________________
 
   ArrowTarget class, part of the DipyDocNote class
+
+    This classe defines how an arrow links (1) the Syntagma object which possessing
+  the ArrowTarget object (2) and the block of text described in
+  ArrowTarget::final_position.
 ______________________________________________________________________________*/
 struct ArrowTarget {
-  QString type = "";
+  QString type = "";                    // cf Notes::syntagmas_types
   PosInTextRanges final_position;
 
   ArrowTarget(const QString& _type,
