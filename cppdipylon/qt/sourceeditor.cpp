@@ -49,7 +49,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
                                                audiocontrols_stopAct(_audiocontrols_stopAct),
                                                blocked_commentaries(_blocked_commentaries),
                                                amode_level(_amode_level) {
-  DebugMsg() << "SourceEditor::SourceEditor() : entry point";
+  //DEBUG+DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   QString object_name(splitter_name + "::source zone::editor");
   this->setObjectName(object_name);
@@ -59,7 +59,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
   this->load_text();
   this->update_aspect_from_dipydoc_aspect_informations();
 
-  DebugMsg() << "SourceEditor::SourceEditor() : exit point";
+  //DEBUG+DebugMsg() << "SourceEditor::SourceEditor() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -94,7 +94,7 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
 
 ______________________________________________________________________________*/
 void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
-  DebugMsg() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
+  //DEBUG+DebugMsg() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
 
   switch (keyboard_event->key()) {
     //......................................................................
@@ -302,15 +302,12 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
   selections.clear();
   this->modify_the_text_format__amode_recursively(syntagma->highest_ancestor,
                                                   selections);
-  for (auto & selection : selections) {
-    DebugMsg() << "#> " << selection.cursor.selectedText() << " ** " << selection.format.background().color().name();
-  }
+
   this->setExtraSelections(selections);
 
   this->modified_chars = syntagma->posintextranges;
 
   cur.clearSelection();
-  DebugMsg() << "###";
 }
 
 /*______________________________________________________________________________
@@ -328,7 +325,7 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_syntagma,
                                                              QList<QTextEdit::ExtraSelection> & selections) {
-  DebugMsg() << "# " << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
+  //DEBUG+DebugMsg() << "# " << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
 
   int shift = this->number_of_chars_before_source_text;
 
@@ -351,10 +348,10 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
         // no type defined :
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+foc").qtextcharformat();
       }
-      DebugMsg() << "#(focused) " << current_syntagma->name \
-                 << " - " << current_syntagma->type \
-                 << " * " << current_syntagma->posintextranges.repr() \
-                 << " -> back= " << qtextcharformat.background().color().name();
+      //DEBUG+DebugMsg() << "#(focused) " << current_syntagma->name \
+      //DEBUG+                 << " - " << current_syntagma->type \
+      //DEBUG+                 << " * " << current_syntagma->posintextranges.repr() \
+      //DEBUG+                 << " -> back= " << qtextcharformat.background().color().name();
     } else {
       if (this->focused_syntagma_in_amode->father==current_syntagma->father) {
         /*
@@ -368,30 +365,30 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
           // no type defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
         }
-        DebugMsg() << "#(bro) " << current_syntagma->name   \
-                   << " - " << current_syntagma->type                 \
-                   << " * " << current_syntagma->posintextranges.repr() \
-                   << " -> back= " << qtextcharformat.background().color().name();
+        //DEBUG+DebugMsg() << "#(bro) " << current_syntagma->name   \
+        //DEBUG+                   << " - " << current_syntagma->type                 \
+        //DEBUG+                   << " * " << current_syntagma->posintextranges.repr() \
+        //DEBUG+                   << " -> back= " << qtextcharformat.background().color().name();
       } else {
         if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
           /*
             One of the ancestors of 'this->focused_syntagma_in_amode' is 'current_syntagma'.
           */
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
-        DebugMsg() << "#(fam) " << current_syntagma->name   \
-                   << " - " << current_syntagma->type                 \
-                   << " * " << current_syntagma->posintextranges.repr() \
-                   << " -> back= " << qtextcharformat.background().color().name();
+        //DEBUG+DebugMsg() << "#(fam) " << current_syntagma->name   \
+        //DEBUG+           << " - " << current_syntagma->type                 \
+        //DEBUG+           << " * " << current_syntagma->posintextranges.repr() \
+        //DEBUG+           << " -> back= " << qtextcharformat.background().color().name();
         }
         else {
           /*
             'this->focused_syntagma_in_amode' and 'current_syntagma' have nothing in common :
           */
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+distant").qtextcharformat();
-          DebugMsg() << "#() " << current_syntagma->name   \
-                     << " - " << current_syntagma->type                 \
-                     << " * " << current_syntagma->posintextranges.repr() \
-                     << " -> back= " << qtextcharformat.background().color().name();
+          //DEBUG+DebugMsg() << "#() " << current_syntagma->name   \
+          //DEBUG+           << " - " << current_syntagma->type                 \
+          //DEBUG+           << " * " << current_syntagma->posintextranges.repr() \
+          //DEBUG+           << " -> back= " << qtextcharformat.background().color().name();
         }
       }
     }
@@ -545,13 +542,13 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   QTextCursor cur = this->textCursor();
-  DebugMsg() << "SourceEditor::mouseReleaseEvent";
+  //DEBUG+DebugMsg() << "SourceEditor::mouseReleaseEvent";
 
   /*............................................................................
     (1) RMODE + selection
   ............................................................................*/
   if (this->readingmode_details == READINGMODEDETAILS::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
-    DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
+    //DEBUG+DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
     int shift = this->number_of_chars_before_source_text;
     PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
@@ -559,7 +556,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
     // where are the characters in the translations linked to "x0-x1" ?
     PosInTextRanges pos_in_text =  this->dipydoc->translation_contains(x0, x1);
-    DebugMsg() << x0 << "-" << x1 << "; pos_in_text=" << pos_in_text.repr();
+    //DEBUG+DebugMsg() << x0 << "-" << x1 << "; pos_in_text=" << pos_in_text.repr();
 
     /*
       we refresh the ui :
@@ -670,8 +667,6 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
     */
     for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
 
-      // $$$ le code de cette boucle est à optimiser.
-
       // starting point :
       QTextCursor start_cur = this->textCursor();
       start_cur.setPosition(static_cast<int>(this->focused_syntagma_in_amode->posintextranges.medium()));
@@ -684,13 +679,8 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
 
       QPainter p(viewport());
 
-      float x0 = start_rect.x();
-      float y0 = start_rect.y();
-      float x1 = dest_rect.x();
-      float y1 = dest_rect.y();
-
-      QPointF startingpoint = QPointF(x0, y0);
-      QPointF endpoint = QPointF(x1, y1);
+      QPointF startingpoint = QPointF(start_rect.x(), start_rect.y());
+      QPointF endpoint = QPointF(dest_rect.x(), dest_rect.y());
 
       // arrow body :
       p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).body_qpen());
@@ -796,7 +786,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   SourceEditor::set_the_appearance()
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
-  DebugMsg() << "[SourceEditor::set_the_appearance] this->setStyleSheet = " << this->dipydoc->sourceeditor_stylesheet;
+  //DEBUG+DebugMsg() << "[SourceEditor::set_the_appearance] this->setStyleSheet = " << this->dipydoc->sourceeditor_stylesheet;
   this->setStyleSheet(this->dipydoc->sourceeditor_stylesheet);
 }
 
