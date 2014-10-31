@@ -43,6 +43,7 @@ QTPLUGIN += dsengine qtmedia_audioengine
 # Input
 HEADERS         +=  ./fixedparameters.h \
                     debugmsg/debugmsg.h \
+                    dipydoc/arrowtarget.h \
                     dipydoc/dipydoc.h \
                     dipydoc/dipydocsyntagmas.h \
                     dipydoc/menunames.h \
