@@ -18,20 +18,37 @@
 #       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
 # 
 ################################################################################
+#
+# version 2 (2014.10.31) : command line option "-debug"
+#
 # version 1 (2014.10.26) : first version to be committed.
 ################################################################################
 
 import os
+import argparse
 
+VERSION = "build_dipylonreader_linux64dynamic : v.2"
 SUMMARY = "Linux > Linux64/dynamic"
 
-#...............................................................................
 # system call
-#...............................................................................
 def ossystem(arg):
     os.system(arg)
     #print(arg)
-    
+
+# command line options :
+PARSER = argparse.ArgumentParser(description=SUMMARY)
+PARSER.add_argument("--debug",
+                    help="level of the calls to DebugMessage() to be kept",
+                    choices={0,1},
+                    required=True,
+                    type=int)
+
+PARSER.add_argument("--version",
+                    action="version",
+                    version=VERSION)
+ARGS = PARSER.parse_args()
+print( ARGS.debug )
+
 # getting the version of the project :
 VERSION = "unknown_version"
 VERSION_LINE_STARTSWITH = "const QString application_version = \""
@@ -61,7 +78,6 @@ EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_build{1}".format(VERSION_F
                                                                        BUILD_NUMBER)
 
 # build :
-
 print("=== compiling {0} ===".format(SUMMARY))
 print("===")
 print("===   This file must be launched from the root directory,")
@@ -84,6 +100,11 @@ ossystem("rsync -a . {0}/ --exclude {0}/".format(TEMP_FOLDER))
 
 os.chdir("{0}/".format(TEMP_FOLDER))
 print("== now in {0}/".format(TEMP_FOLDER))
+
+print("== removing //DEBUGx prefix :")
+if ARGS.debug == 0:
+    print("... removing every //DEBUGx prefix"):
+    ossystem("find . -name '*.cpp' -exec sed 's/\$\$DEBUG1//g'  {} \;".format(TEMP_FOLDER))
 
 print("== calling qmake")
 ossystem("qmake-qt5 -makefile dipylonreader.pro")
