@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="fr">
-
-<!--
-    This file is a qt_fr file + a QPlatformTheme section, allowing to translate "Ok" and "Cancel" keywords.
-
-    source of the qt_fr.ts file : https://github.com/Blizzard/qt/blob/master/translations/qt_fr.ts
--->
-
+<TS version="2.1" language="fr">
 <context>
-  <name>QPlatformTheme</name>
-  <message>
-    <source>Cancel</source>
-    <translation>AnNuleR</translation>
-  </message>
+    <name>QPlatformTheme</name>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
 </context>
-
 <context>
     <name>MAC_APPLICATION_MENU</name>
     <message>
