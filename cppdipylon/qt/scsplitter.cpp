@@ -42,7 +42,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
                                                      visible_toolbars(_visible_toolbars),
                                                      _well_initialized(false),
                                                      blocked_commentaries(false) {
-  DebugMsg() << "SCSplitter::SCSplitter : entry point " << directoryName;
+  //DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : entry point " << directoryName;
 
   /*
     (1) loading the DipyDoc
@@ -53,9 +53,9 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   QApplication::setOverrideCursor(Qt::WaitCursor);
   #endif
 
-  DebugMsg() << "SCSplitter::SCSplitter : reading DipyDoc...";
+  //DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : reading DipyDoc...";
   this->dipydoc = new DipyDoc(directoryName);
-  DebugMsg() << "SCSplitter::SCSplitter : ... DipyDoc read";
+  //DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : ... DipyDoc read";
 
   if (this->dipydoc->well_initialized() == false) {
     // an error occurs :
@@ -82,7 +82,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
 
   if (loading_ok == false) {
     this->_well_initialized = false;
-    DebugMsg() << "SCSplitter::SCSplitter : exit point on error" << directoryName;
+    //DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : exit point on error" << directoryName;
     return;
   }
 
@@ -90,8 +90,8 @@ SCSplitter::SCSplitter(const int index_in_scbar,
     (2) setting the splitter
   */
   this->setObjectName(this->get_object_name(index_in_scbar));
-  DebugMsg() << "[SCSplitter::SCSplitter] this->setStyleSheet = " \
-             << QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName());
+  //DEBUG1 DebugMsg() << "[SCSplitter::SCSplitter] this->setStyleSheet = "
+  //DEBUG1            << QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName());
   this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName()));
   this->setOrientation(Qt::Vertical);
 
@@ -156,7 +156,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   */
   this->_well_initialized = true;
 
-  DebugMsg() << "SCSplitter::SCSplitter : exit point" << directoryName;;
+  //DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : exit point" << directoryName;;
 }
 
 /*______________________________________________________________________________
@@ -166,7 +166,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
         SCSplitter destructor
 ______________________________________________________________________________*/
 SCSplitter::~SCSplitter(void) {
-  DebugMsg() << "~SCSplitter";
+  //DEBUG1 DebugMsg() << "~SCSplitter";
   delete this->dipydoc;
 }
 
@@ -192,7 +192,7 @@ QString SCSplitter::get_object_name(const int index_in_scbar) const {
   Read the settings value from the settings' file.
 ________________________________________________________________________________*/
 void SCSplitter::read_settings(void) {
-  DebugMsg() << "SCSplitter::read_settings()";
+  //DEBUG1 DebugMsg() << "SCSplitter::read_settings()";
 
   QSettings settings;
   this->source_zone->editor->zoom_value = \
@@ -220,7 +220,7 @@ void SCSplitter::read_settings(void) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void SCSplitter::update_icons(void) {
-  DebugMsg() << "SCSplitter::update_icons; visible_toolbars=" << this->visible_toolbars;
+  //DEBUG1 DebugMsg() << "SCSplitter::update_icons; visible_toolbars=" << this->visible_toolbars;
 
   if (this->visible_toolbars == false) {
     /*
@@ -254,7 +254,7 @@ bool SCSplitter::well_initialized(void) const {
   Write the settings specific to the DipyDoc linked to "this".
 ________________________________________________________________________________*/
 void SCSplitter::write_settings(void) {
-  DebugMsg() << "SCSplitter::write_settings()";
+  //DEBUG1 DebugMsg() << "SCSplitter::write_settings()";
 
   QSettings settings;
 

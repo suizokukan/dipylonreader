@@ -70,7 +70,7 @@ Syntagma::Syntagma(Syntagma* _father,
         Syntagma class destructor
 ______________________________________________________________________________*/
 Syntagma::~Syntagma(void) {
-  DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type;
+  //DEBUG1 DebugMsg() << "~Syntagma name=" << this->name << " type=" << this->type;
 }
 
 /*______________________________________________________________________________

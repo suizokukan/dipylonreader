@@ -43,7 +43,7 @@ const QString DipyDoc::condensed_extracts_separator = "//";
 
 ______________________________________________________________________________*/
 DipyDoc::DipyDoc(const QString& _path) {
-  DebugMsg() << "DipyDoc::DipyDoc from " << _path;
+  //DEBUG1 DebugMsg() << "DipyDoc::DipyDoc from " << _path;
 
   this->clear();
 
@@ -52,7 +52,7 @@ DipyDoc::DipyDoc(const QString& _path) {
 
   // does the path leads to the expected files ?
   if (this->check_path(_path) == false) {
-    DebugMsg() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
+    //DEBUG1 DebugMsg() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
     return;
@@ -71,7 +71,7 @@ DipyDoc::DipyDoc(const QString& _path) {
 
   // text document ? let's open the text file :
   if (this->well_initialized() == true && this->doctype == QString("text")) {
-    DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
+    //DEBUG1 DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
     QFile src_file(this->source_text.filename);
     src_file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream src_file_stream(&src_file);
@@ -79,7 +79,7 @@ DipyDoc::DipyDoc(const QString& _path) {
     this->source_text.text = src_file_stream.readAll();
   }
 
-  DebugMsg() << "(DipyDoc::DipyDoc) exit point";
+  //DEBUG1 DebugMsg() << "(DipyDoc::DipyDoc) exit point";
 }
 
 /*______________________________________________________________________________
@@ -89,7 +89,7 @@ DipyDoc::DipyDoc(const QString& _path) {
         DipyDoc destructor
 ______________________________________________________________________________*/
 DipyDoc::~DipyDoc(void) {
-  DebugMsg() << "DipyDoc::~DipyDoc : entry point; menu_name=" << this->menu_name;
+  //DEBUG1 DebugMsg() << "DipyDoc::~DipyDoc : entry point; menu_name=" << this->menu_name;
 
   /* deleting notes._syntagmas :
 
@@ -101,7 +101,7 @@ DipyDoc::~DipyDoc(void) {
     this->notes._syntagmas.pop_front();
   }
 
-  DebugMsg() << "DipyDoc::~DipyDoc : exit point";
+  //DEBUG1 DebugMsg() << "DipyDoc::~DipyDoc : exit point";
 }
 
 /*______________________________________________________________________________
@@ -246,7 +246,7 @@ ________________________________________________________________________________
 bool DipyDoc::error(const QString& _msg) {
   QString msg(QString("#ERROR# An error occured by reading the main file : msg=\"%1\";.").arg(_msg));
   this->err_messages.append(msg);
-  DebugMsg() << msg;
+  //DEBUG1 DebugMsg() << msg;
 
   return true;  // since this function has been called, there must be an error !
 }
@@ -254,7 +254,7 @@ bool DipyDoc::error(const QString& _msg, const QString& _error_string) {
   QString msg(QString("#ERROR# An error occured by reading the main file : "
                       "msg=\"%1\"; error_string()=\"%2\".").arg(_msg, _error_string));
   this->err_messages.append(msg);
-  DebugMsg() << msg;
+  //DEBUG1 DebugMsg() << msg;
 
   return true;  // since this function has been called, there must be an error !
 }
@@ -267,7 +267,7 @@ template<class T> bool DipyDoc::error(const T& object, const QString& _error_str
     QString msg(QString("#ERROR# An error occured by reading the main file : "
                         "error_string=\"%1\"; where=\"%2\".").arg(_error_string, where));
     this->err_messages.append(msg);
-    DebugMsg() << msg;
+    //DEBUG1 DebugMsg() << msg;
   }
 
   return error_detected;
@@ -708,16 +708,16 @@ $$$
         (3) initialization and checking
 ______________________________________________________________________________*/
 void DipyDoc::read_mainfile(const QString& _path) {
-  DebugMsg() << "DipyDoc::read_mainfile() : entry point; path=" << _path;
+  //DEBUG1 DebugMsg() << "DipyDoc::read_mainfile() : entry point; path=" << _path;
 
   QString msg_error;
 
-  DebugMsg() << "DipyDoc::read_mainfile" << "path=" << _path;
+  //DEBUG1 DebugMsg() << "DipyDoc::read_mainfile" << "path=" << _path;
 
   /*............................................................................
     (1) main file opening
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #1";
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile) #1";
   this->path = _path;
   this->main_filename_with_fullpath = _path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
@@ -737,7 +737,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
 
     If an error occurs, set "xml_reading_is_ok" to false and fills "err_messages".
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile) #2";
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile) #2";
   this->xmlreader = new QXmlStreamReader();
   this->xmlreader->setDevice(&dipydoc_main_xml_file);
 
@@ -770,7 +770,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   }
 
   if (ok == false) {
-    DebugMsg() << "DipyDoc::read_mainfile() : exit #1";
+    //DEBUG1 DebugMsg() << "DipyDoc::read_mainfile() : exit #1";
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
 
@@ -787,8 +787,8 @@ void DipyDoc::read_mainfile(const QString& _path) {
 
   delete this->xmlreader;
 
-  DebugMsg() << "DipyDoc::read_mainfile" << \
-                "this->_well_initialized = " << this->_well_initialized;
+  //DEBUG1 DebugMsg() << "DipyDoc::read_mainfile" <<
+  //DEBUG1               "this->_well_initialized = " << this->_well_initialized;
 }
 
 /*______________________________________________________________________________
@@ -857,7 +857,7 @@ bool DipyDoc::read_mainfile__first_token(void) {
   return a bool (=success)
 ______________________________________________________________________________*/
 bool DipyDoc::read_mainfile__doctype_text(void) {
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : entry point";
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : entry point";
   bool ok = true;
 
   while (this->xmlreader->readNextStartElement()) {
@@ -1228,7 +1228,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
 
   }  // ... while (this->xmlreader->readNextStartElement())
 
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : exit point" << ok;
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : exit point" << ok;
   return ok;
 }
 
@@ -1357,7 +1357,7 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   /*............................................................................
     (1) secondary initializations
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #1";
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #1";
 
   /*............................................................................
     (1.1) initialization of "audiorecord.audio2text"
@@ -1399,7 +1399,7 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   /*............................................................................
     (2) checks
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #2";
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #2";
 
   /*............................................................................
     (2.1) is audiorecord.text2audio correctly initialized ?
@@ -1509,14 +1509,15 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   /*............................................................................
     (3) initializaton of _well_initialized and of _internal_state.
   ............................................................................*/
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #3";
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) #3";
   if (ok == false) {
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
   }
 
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes=\n"  << this->notes.repr();
-  DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)" << "_well_initialized =" << this->_well_initialized;
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes=\n"  << this->notes.repr();
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)"
+  //DEBUG1            << "_well_initialized =" << this->_well_initialized;
 
   return ok;
 }
@@ -1546,7 +1547,7 @@ void DipyDoc::read_menu_name(const QString& _path) {
     return;
   }
 
-  DebugMsg() << "(DipyDoc::read_menu_name) menu name = " << this->menu_name;
+  //DEBUG1 DebugMsg() << "(DipyDoc::read_menu_name) menu name = " << this->menu_name;
 }
 
 /*______________________________________________________________________________
@@ -1564,7 +1565,7 @@ void DipyDoc::set_internal_name(void) {
   hash.addData(this->menu_name.toUtf8());
   this->internal_name = hash.result().toHex();
 
-  DebugMsg() << "DipyDoc::set_internal_name = " << this->internal_name;
+  //DEBUG1 DebugMsg() << "DipyDoc::set_internal_name = " << this->internal_name;
 }
 
 /*______________________________________________________________________________
@@ -1581,7 +1582,7 @@ void DipyDoc::set_qsettings_name(void) {
   this->qsettings_name.replace("\\", "_");
   this->qsettings_name.replace("/", "_");
 
-  DebugMsg() << "DipyDoc::set_qsettings_name = " << this->qsettings_name;
+  //DEBUG1 DebugMsg() << "DipyDoc::set_qsettings_name = " << this->qsettings_name;
 }
 
 /*______________________________________________________________________________

@@ -11,6 +11,10 @@
 #
 # This script launches the compilation of the Dipylon's project
 #
+# o --debug=0, --debug=1
+#       =0 : no call to DebugMessage() will be kept
+#       =1 : the calls to DebugMessage() marked as //DEBUG1 will be kept
+#
 # o this script seeks in fixedparameters.h the project's version :
 #   expected format is :
 #       const QString application_version = "@@@version number@@@";
@@ -18,20 +22,41 @@
 #       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
 # 
 ################################################################################
+#
+# version 3 (2014.10.31) : temp folder's name depends on ARGS.debug value
+#
+# version 2 (2014.10.31) : command line options "--debug", "--version" and "--help"
+#
 # version 1 (2014.10.26) : first version to be committed.
+#
 ################################################################################
 
 import os
+import argparse
 
+VERSION = "build_dipylonreader_linux64dynamic : v3"
 SUMMARY = "Linux > Linux64/dynamic"
 
-#...............................................................................
 # system call
-#...............................................................................
 def ossystem(arg):
     os.system(arg)
     #print(arg)
-    
+
+# command line options :
+PARSER = argparse.ArgumentParser(description=SUMMARY)
+
+PARSER.add_argument("--debug",
+                    help="level of the calls to DebugMessage() to be kept : =0 if nothing to be kept.",
+                    choices={0,1},
+                    required=True,
+                    type=int)
+
+PARSER.add_argument("--version",
+                    action="version",
+                    version=VERSION)
+
+ARGS = PARSER.parse_args()
+
 # getting the version of the project :
 VERSION = "unknown_version"
 VERSION_LINE_STARTSWITH = "const QString application_version = \""
@@ -54,14 +79,14 @@ with open("build_number", 'w') as buildnumber_file:
     buildnumber_file.write(str(BUILD_NUMBER))
 
 # setting the temporary build folder without the final '/' :
-TEMP_FOLDER = "temp__build_linux64_dynamic"
+TEMP_FOLDER = "temp__build_linux64_dynamic_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_build{1}".format(VERSION_FOR_EXEC_NAME,
-                                                                       BUILD_NUMBER)
+EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_build{1}_debug{2}".format(VERSION_FOR_EXEC_NAME,
+                                                                                BUILD_NUMBER,
+                                                                                ARGS.debug)
 
 # build :
-
 print("=== compiling {0} ===".format(SUMMARY))
 print("===")
 print("===   This file must be launched from the root directory,")
@@ -85,6 +110,12 @@ ossystem("rsync -a . {0}/ --exclude {0}/".format(TEMP_FOLDER))
 os.chdir("{0}/".format(TEMP_FOLDER))
 print("== now in {0}/".format(TEMP_FOLDER))
 
+print("== removing //DEBUGx prefix ?")
+if ARGS.debug == 1:
+    print("... removing the //DEBUG1 prefix")
+    ossystem("find . -name \"*.cpp\" -exec sed -i 's://DEBUG1 ::g' {} \;")
+    ossystem("find . -name \"*.h\"   -exec sed -i 's://DEBUG1 ::g' {} \;")
+    
 print("== calling qmake")
 ossystem("qmake-qt5 -makefile dipylonreader.pro")
 

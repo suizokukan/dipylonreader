@@ -56,7 +56,7 @@ PresentationScreen::PresentationScreen(bool* _the_launcher_is_busy,
         attribute).
 ______________________________________________________________________________*/
 void PresentationScreen::hideEvent(QHideEvent* e) {
-  DebugMsg() << "PresentationScreen::hideEvent";
+  //DEBUG1 DebugMsg() << "PresentationScreen::hideEvent";
   e->accept();
 
   this->close();
@@ -81,7 +81,7 @@ ______________________________________________________________________________*/
 void PSLauncher::launch(const QString& text, const QRect& parent_geometry) {
   // problem : a PresentationScreen object already exists :
   if (this->busy == true) {
-    DebugMsg() << "PSLauncher::display_a_presentation_screen() : a PresentationScreen object already exists.";
+    //DEBUG1 DebugMsg() << "PSLauncher::display_a_presentation_screen() : a PresentationScreen object already exists.";
     return;
   }
 

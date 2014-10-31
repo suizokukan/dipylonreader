@@ -36,7 +36,8 @@ MainWindow::MainWindow(UI& _ui,
                        QWidget *_parent) : QMainWindow(_parent),
                                            ui(_ui) {
   this->setObjectName("main_window");
-  DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = " << fixedparameters::default__mainwindow_stylesheet;
+  //DEBUG1 DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = "
+  //DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
   this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
 
   #ifdef NO_STATUS_BAR
@@ -79,7 +80,7 @@ void MainWindow::about(void) {
   Function called when the current tab has changed.
 ______________________________________________________________________________*/
 void MainWindow::cleaning_up_tabs_before_changing_current_tab(void) {
-  DebugMsg() << "MainWindow::cleaning_up_tabs_before_changing_current_tab";
+  //DEBUG1 DebugMsg() << "MainWindow::cleaning_up_tabs_before_changing_current_tab";
 
   /*
     if in 'lmode', we stop all the audio readings :
@@ -100,7 +101,7 @@ void MainWindow::cleaning_up_tabs_before_changing_current_tab(void) {
   Function called when the main window is closed.
 ______________________________________________________________________________*/
 void MainWindow::closeEvent(QCloseEvent *arg_event) {
-  DebugMsg() << "MainWindow::closeEvent";
+  //DEBUG1 DebugMsg() << "MainWindow::closeEvent";
   arg_event->accept();
 }
 
@@ -121,24 +122,24 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
   See e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 ________________________________________________________________________________*/
 void MainWindow::closing(void) {
-  DebugMsg() << "MainWindow::closing : entry point";
+  //DEBUG1 DebugMsg() << "MainWindow::closing : entry point";
 
-  DebugMsg() << "(MainWindow::closing) calling SCSPlitter::write_settings()";
+  //DEBUG1 DebugMsg() << "(MainWindow::closing) calling SCSPlitter::write_settings()";
   for (int index = 0; index < this->sctabs->count(); ++index) {
     SCSplitter* splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
     splitter->write_settings();
   }
 
-  DebugMsg() << "(MainWindow::closing) calling UI::write_settings()";
+  //DEBUG1 DebugMsg() << "(MainWindow::closing) calling UI::write_settings()";
   this->ui.write_settings();
 
-  DebugMsg() << "(MainWindow::closing) about to delete all dipydocs still opened";
+  //DEBUG1 DebugMsg() << "(MainWindow::closing) about to delete all dipydocs still opened";
   for (int splitter_index =0; splitter_index < this->sctabs->count(); ++splitter_index) {
-    DebugMsg() << "(MainWindow::closing) about to delete " << qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc->menu_name;
+    //DEBUG1 DebugMsg() << "(MainWindow::closing) about to delete " << qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc->menu_name;
     delete qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc;
   }
 
-  DebugMsg() << "MainWindow::closing : exit point";
+  //DEBUG1 DebugMsg() << "MainWindow::closing : exit point";
 }
 
 /*______________________________________________________________________________
@@ -146,7 +147,7 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions(void) {
-  DebugMsg() << "MainWindow::createActions : entry point";
+  //DEBUG1 DebugMsg() << "MainWindow::createActions : entry point";
 
   /*
     aboutAct
@@ -224,7 +225,7 @@ void MainWindow::createActions(void) {
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
   #endif
 
-  DebugMsg() << "MainWindow::createActions : exit point";
+  //DEBUG1 DebugMsg() << "MainWindow::createActions : exit point";
 }
 
 /*______________________________________________________________________________
@@ -235,7 +236,7 @@ void MainWindow::createActions(void) {
   o  main popup menu
 ______________________________________________________________________________*/
 void MainWindow::createMenus(void) {
-  DebugMsg() << "MainWindow::createMenus : entry point";
+  //DEBUG1 DebugMsg() << "MainWindow::createMenus : entry point";
 
   /*
     main menu :
@@ -273,7 +274,7 @@ void MainWindow::createMenus(void) {
   this->mainpopupmenu->addAction(aboutAct);
   #endif
 
-  DebugMsg() << "MainWindow::createMenus : exit point";
+  //DEBUG1 DebugMsg() << "MainWindow::createMenus : exit point";
 }
 
 /*______________________________________________________________________________
@@ -291,7 +292,7 @@ void MainWindow::createStatusBar(void) {
   MainWindow::createMainToolBars
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars(void) {
-  DebugMsg() << "MainWindow::createMainToolBars : entry point";
+  //DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : entry point";
 
   this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
 
@@ -303,7 +304,7 @@ void MainWindow::createMainToolBars(void) {
   this->mainwintoolbar->addAction(this->openAct);
   this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 
-  DebugMsg() << "MainWindow::createMainToolBars : exit point";
+  //DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : exit point";
 }
 
 /*______________________________________________________________________________
@@ -336,7 +337,7 @@ void MainWindow::download_dipydocs_demo(void) {
   Fill the Open menu with the available dipydocs.
 ______________________________________________________________________________*/
 void MainWindow::fill_open_menu(void) {
-  DebugMsg() << "MainWindow::fill_open_menu : entry point";
+  //DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : entry point";
 
   /*
     let's clear the menu content :
@@ -395,7 +396,7 @@ void MainWindow::fill_open_menu(void) {
     openMenu->addAction(openAct);
   }
 
-  DebugMsg() << "MainWindow::fill_open_menu : exit point";
+  //DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : exit point";
 }
 
 /*______________________________________________________________________________
@@ -412,7 +413,7 @@ void MainWindow::hidetoolbarsAct__buttonPressed(void) {
   MainWindow::init()
 ______________________________________________________________________________*/
 void MainWindow::init(void) {
-  DebugMsg() << "MainWindow::init() : entry point";
+  //DEBUG1 DebugMsg() << "MainWindow::init() : entry point";
 
   /*
        The actions created by the the call to createActions() method are
@@ -455,10 +456,10 @@ void MainWindow::init(void) {
     initialization of the network manager :
   */
   this->ui.network_manager = new QNetworkAccessManager(this);
-  DebugMsg() << "network_manager.networkAccessible (1 if ok, 0 if not ok, -1 if unknown) =" \
-             << static_cast<int>(this->ui.network_manager->networkAccessible());
+  //DEBUG1 DebugMsg() << "network_manager.networkAccessible (1 if ok, 0 if not ok, -1 if unknown) ="
+  //DEBUG1            << static_cast<int>(this->ui.network_manager->networkAccessible());
 
-  DebugMsg() << "MainWindow::exit() : entry point";
+  //DEBUG1 DebugMsg() << "MainWindow::exit() : entry point";
 }
 
 /*______________________________________________________________________________
@@ -504,7 +505,7 @@ void MainWindow::load_a_dipydoc_from_a_qaction(void) {
   This function creates a new SCSplitter object.
 ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
-  DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
+  //DEBUG1 DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
   SCSplitter* source_commentary_splitter = new SCSplitter(this->sctabs->count(),
                                                           directoryName,
@@ -512,10 +513,10 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
                                                           this->sctabs);
 
   if (source_commentary_splitter->well_initialized() == false) {
-    DebugMsg() << "MainWindow::loadDipyDoc : error -> deleting the splitter and its DipyDoc :";
+    //DEBUG1 DebugMsg() << "MainWindow::loadDipyDoc : error -> deleting the splitter and its DipyDoc :";
     delete source_commentary_splitter;
   } else {
-    DebugMsg() << "MainWindow::loadDipyDoc : ok";
+    //DEBUG1 DebugMsg() << "MainWindow::loadDipyDoc : ok";
     this->sctabs->addTab(source_commentary_splitter,
                          source_commentary_splitter->dipydoc->get_tab_name());
 
@@ -558,7 +559,7 @@ void MainWindow::readSettings() {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
-  DebugMsg() << "MainWindow::update_icons;";
+  //DEBUG1 DebugMsg() << "MainWindow::update_icons;";
 
   SCSplitter* splitter = this->current_splitter();
 
@@ -567,7 +568,7 @@ void MainWindow::update_icons(void) {
   ............................................................................*/
   if (splitter == nullptr || \
       splitter->dipydoc->well_initialized() == false) {
-    DebugMsg() << "MainWindow::update_icons : no splitter.";
+    //DEBUG1 DebugMsg() << "MainWindow::update_icons : no splitter.";
     this->hidetoolbarsAct->setVisible(false);
     return;
   }

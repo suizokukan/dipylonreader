@@ -36,7 +36,7 @@ ______________________________________________________________________________*/
 SCTabs::SCTabs(QWidget *_parent) : QTabWidget(_parent) {
   this->setObjectName("main_window__tabwidget");
 
-  DebugMsg() << "[MainWindow::init] this->setStyleSheet = " << fixedparameters::default__tabwiget_stylesheet;
+  //DEBUG1 DebugMsg() << "[MainWindow::init] this->setStyleSheet = " << fixedparameters::default__tabwiget_stylesheet;
   this->setStyleSheet(fixedparameters::default__tabwiget_stylesheet);
 
   this->setTabsClosable(true);
@@ -68,7 +68,7 @@ SCTabs::SCTabs(QWidget *_parent) : QTabWidget(_parent) {
   Function called when the "closed button" of a the tab bar has been pressed.
 ______________________________________________________________________________*/
 void SCTabs::close_current_tab(void) {
-  DebugMsg() << "SCTabs::close_current_tab";
+  //DEBUG1 DebugMsg() << "SCTabs::close_current_tab";
   delete this->widget(this->currentIndex());
 }
 
