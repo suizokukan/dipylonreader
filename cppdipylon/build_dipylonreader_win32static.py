@@ -11,6 +11,10 @@
 #
 # This script launches the compilation of the Dipylon's project
 #
+# o --debug=0, --debug=1
+#       =0 : no call to DebugMessage() will be kept
+#       =1 : the calls to DebugMessage() marked as //DEBUG1 will be kept
+#
 # o this script seeks in fixedparameters.h the project's version :
 #   expected format is :
 #       const QString application_version = "@@@version number@@@";
@@ -18,19 +22,38 @@
 #       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
 # 
 ################################################################################
+#
+# version 2 (2014.10.31) : command line options "--debug", "--version" and "--help"
+#
 # version 1 (2014.10.26) : first version to be committed.
+#
 ################################################################################
 
 import os
+import argparse
 
+VERSION = "build_dipylonreader_win32static : v2"
 SUMMARY = "Linux > Windows32/static/using MXE"
 
-#...............................................................................
 # system call
-#...............................................................................
 def ossystem(arg):
     os.system(arg)
     #print(arg)
+
+# command line options :
+PARSER = argparse.ArgumentParser(description=SUMMARY)
+
+PARSER.add_argument("--debug",
+                    help="level of the calls to DebugMessage() to be kept : =0 if nothing to be kept.",
+                    choices={0,1},
+                    required=True,
+                    type=int)
+
+PARSER.add_argument("--version",
+                    action="version",
+                    version=VERSION)
+
+ARGS = PARSER.parse_args()
     
 # getting the version of the project :
 VERSION = "unknown_version"
@@ -57,8 +80,9 @@ with open("build_number", 'w') as buildnumber_file:
 TEMP_FOLDER = "temp__build_win32_static"
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_win_32bits_static_v{0}_build{1}.exe".format(VERSION_FOR_EXEC_NAME,
-                                                                        BUILD_NUMBER)
+EXEC_NAME  = "dipylonreader_win_32bits_static_v{0}_build{1}_debug{2}.exe".format(VERSION_FOR_EXEC_NAME,
+                                                                                 BUILD_NUMBER,
+                                                                                 ARGS.debug)
 
 # build :
 
@@ -78,11 +102,7 @@ print("== create builds/ folder if it doesn't exist")
 ossystem("mkdir -p ../builds")
 
 NEWPATH = "/home/suizokukan/mxe/usr/bin:" + os.environ['PATH']
-#print("== export MXE binary folder to PATH")
-#print(os.environ['PATH'])
-#ossystem("export PATH=~/mxe/usr/bin:$PATH")
 os.environ['PATH'] = "/home/suizokukan/mxe/usr/bin:" + os.environ['PATH']
-#ossystem("echo $PATH")
 
 print("== filling {0}/".format(TEMP_FOLDER))
 ossystem("mkdir -p {0}/".format(TEMP_FOLDER))
@@ -99,6 +119,12 @@ ossystem("cp 2win32_static/dipylonreader.rc {0}/".format(TEMP_FOLDER))
 
 os.chdir("{0}/".format(TEMP_FOLDER))
 print("== now in {0}/".format(TEMP_FOLDER))
+
+print("== removing //DEBUGx prefix ?")
+if ARGS.debug == 1:
+    print("... removing the //DEBUG1 prefix")
+    ossystem("find . -name \"*.cpp\" -exec sed -i 's://DEBUG1 ::g' {} \;")
+    ossystem("find . -name \"*.h\"   -exec sed -i 's://DEBUG1 ::g' {} \;")
 
 print("== calling qmake")
 ossystem("~/mxe/usr/i686-pc-mingw32/qt5/bin/qmake -makefile dipylonreader.pro".format(TEMP_FOLDER))

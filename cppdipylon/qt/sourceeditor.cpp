@@ -348,9 +348,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
         // no type defined :
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+foc").qtextcharformat();
       }
-      //DEBUG1 DebugMsg() << "#(focused) " << current_syntagma->name \
-      //DEBUG1                  << " - " << current_syntagma->type \
-      //DEBUG1                  << " * " << current_syntagma->posintextranges.repr() \
+      //DEBUG1 DebugMsg() << "#(focused) " << current_syntagma->name
+      //DEBUG1                  << " - " << current_syntagma->type
+      //DEBUG1                  << " * " << current_syntagma->posintextranges.repr()
       //DEBUG1                  << " -> back= " << qtextcharformat.background().color().name();
     } else {
       if (this->focused_syntagma_in_amode->father==current_syntagma->father) {
@@ -365,9 +365,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
           // no type defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
         }
-        //DEBUG1 DebugMsg() << "#(bro) " << current_syntagma->name   \
-        //DEBUG1                    << " - " << current_syntagma->type                 \
-        //DEBUG1                    << " * " << current_syntagma->posintextranges.repr() \
+        //DEBUG1 DebugMsg() << "#(bro) " << current_syntagma->name
+        //DEBUG1                    << " - " << current_syntagma->type
+        //DEBUG1                    << " * " << current_syntagma->posintextranges.repr()
         //DEBUG1                    << " -> back= " << qtextcharformat.background().color().name();
       } else {
         if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
@@ -375,9 +375,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
             One of the ancestors of 'this->focused_syntagma_in_amode' is 'current_syntagma'.
           */
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
-        //DEBUG1 DebugMsg() << "#(fam) " << current_syntagma->name   \
-        //DEBUG1            << " - " << current_syntagma->type                 \
-        //DEBUG1            << " * " << current_syntagma->posintextranges.repr() \
+        //DEBUG1 DebugMsg() << "#(fam) " << current_syntagma->name
+        //DEBUG1            << " - " << current_syntagma->type
+        //DEBUG1            << " * " << current_syntagma->posintextranges.repr()
         //DEBUG1            << " -> back= " << qtextcharformat.background().color().name();
         }
         else {
@@ -385,9 +385,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
             'this->focused_syntagma_in_amode' and 'current_syntagma' have nothing in common :
           */
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+distant").qtextcharformat();
-          //DEBUG1 DebugMsg() << "#() " << current_syntagma->name   \
-          //DEBUG1            << " - " << current_syntagma->type                 \
-          //DEBUG1            << " * " << current_syntagma->posintextranges.repr() \
+          //DEBUG1 DebugMsg() << "#() " << current_syntagma->name
+          //DEBUG1            << " - " << current_syntagma->type
+          //DEBUG1            << " * " << current_syntagma->posintextranges.repr()
           //DEBUG1            << " -> back= " << qtextcharformat.background().color().name();
         }
       }
