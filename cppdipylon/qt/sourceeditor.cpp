@@ -335,9 +335,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
     cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
 
     QTextCharFormat qtextcharformat;
-    if (this->focused_syntagma == current_syntagma) {
+    if (this->focused_syntagma_in_amode == current_syntagma) {
       /*
-        'current_syntagma' is 'this->focused_syntagma' :
+        'current_syntagma' is 'this->focused_syntagma_in_amode' :
       */
       if (current_syntagma->type.size() != 0) {
         // the type has been defined :
@@ -351,9 +351,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
                  << " * " << current_syntagma->posintextranges.repr() \
                  << " -> back= " << qtextcharformat.background().color().name();
     } else {
-      if (this->focused_syntagma->father==current_syntagma->father) {
+      if (this->focused_syntagma_in_amode->father==current_syntagma->father) {
         /*
-          'this->focused_syntagma' and 'current_syntagma' are brothers (=have the same father)
+          'this->focused_syntagma_in_amode' and 'current_syntagma' are brothers (=have the same father)
         */
         if (current_syntagma->type.size() != 0) {
           // the type has been defined :
@@ -368,9 +368,9 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
                    << " * " << current_syntagma->posintextranges.repr() \
                    << " -> back= " << qtextcharformat.background().color().name();
       } else {
-        if (this->focused_syntagma->ancestors.contains(current_syntagma)) {
+        if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
           /*
-            One of the ancestors of 'this->focused_syntagma' is 'current_syntagma'.
+            One of the ancestors of 'this->focused_syntagma_in_amode' is 'current_syntagma'.
           */
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
         DebugMsg() << "#(fam) " << current_syntagma->name   \
@@ -380,7 +380,7 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
         }
         else {
           /*
-            'this->focused_syntagma' and 'current_syntagma' have nothing in common :
+            'this->focused_syntagma_in_amode' and 'current_syntagma' have nothing in common :
           */
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+distant").qtextcharformat();
           DebugMsg() << "#() " << current_syntagma->name   \
@@ -460,7 +460,7 @@ void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& p
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
-  this->focused_syntagma = nullptr; // $$$ pour le moment ok mais à placer dans le code qui change le mode de lecture, ce pointeur n'a de sens que pour le a-mode.
+  this->focused_syntagma_in_amode = nullptr; // $$$ pour le moment ok mais à placer dans le code qui change le mode de lecture, ce pointeur n'a de sens que pour le a-mode.
 
   if (this->blocked_commentaries == false) {
     switch (this->readingmode_details) {
@@ -501,7 +501,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
 
         if (syntagma != nullptr) {
 
-          this->focused_syntagma = syntagma;
+          this->focused_syntagma_in_amode = syntagma;
 
           std::size_t text_ranges_hash = syntagma->posintextranges.get_hash();
 
@@ -651,10 +651,10 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
 
-  /* if there's a defined (=not nullptr) focused_syntagma, let's draw the arrows
+  /* if there's a defined (=not nullptr) focused_syntagma_in_amode, let's draw the arrows
      between this focused syntagma and other syntagmas.
   */
-  if (this->focused_syntagma != nullptr) {
+  if (this->focused_syntagma_in_amode != nullptr) {
 
     /*
       let's draw anything but arrows...
@@ -664,13 +664,13 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
     /*
       ... and let's draw arrows over the rest :
     */
-    for (auto & arrowtarget : this->focused_syntagma->arrows) {
+    for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
 
       // $$$ le code de cette boucle est à optimiser.
 
       // starting point :
       QTextCursor start_cur = this->textCursor();
-      start_cur.setPosition(static_cast<int>(this->focused_syntagma->posintextranges.medium()));
+      start_cur.setPosition(static_cast<int>(this->focused_syntagma_in_amode->posintextranges.medium()));
       QRect start_rect = this->cursorRect(start_cur);
 
       // end point :
