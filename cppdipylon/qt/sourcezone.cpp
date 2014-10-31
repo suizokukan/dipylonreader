@@ -412,6 +412,11 @@ void SourceZone::readingmode_rAct__buttonpressed(void) {
   DebugMsg() << "switched to RMODE mode";
   // SIGNAL #S011 (confer documentation)
   emit this->signal__update_icons();
+
+  /* SourceEditor::focused_syntagma_in_amode isn't relevant anymore since
+     this attribute has a sense only in A-mode.
+  */
+  this->editor->focused_syntagma_in_amode = nullptr;
 }
 
 /*______________________________________________________________________________
@@ -426,6 +431,11 @@ void SourceZone::readingmode_lAct__buttonpressed(void) {
   DebugMsg() << "switched to LMODE mode";
   // SIGNAL #S012 (confer documentation)
   emit this->signal__update_icons();
+
+  /* SourceEditor::focused_syntagma_in_amode isn't relevant anymore since
+     this attribute has a sense only in A-mode.
+  */
+  this->editor->focused_syntagma_in_amode = nullptr;
 }
 
 

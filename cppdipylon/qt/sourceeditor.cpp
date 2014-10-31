@@ -137,6 +137,11 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
             this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING;
             this->audiocontrols_playAct->setIcon(*(icons.audio_play));
             this->audio_player->play();
+
+            /* SourceEditor::focused_syntagma_in_amode isn't relevant anymore since
+               this attribute has a sense only in A-mode.
+            */
+            this->focused_syntagma_in_amode = nullptr;
             break;
         }
       }
@@ -145,7 +150,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     }
 
     //......................................................................
-    // [2] arrows
+    // [2] arrows $$$ unfinished $$$
     case Qt::Key_Left :
     case Qt::Key_Right : {
       switch (this->readingmode) {
@@ -460,7 +465,6 @@ void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& p
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
-  this->focused_syntagma_in_amode = nullptr; // $$$ pour le moment ok mais à placer dans le code qui change le mode de lecture, ce pointeur n'a de sens que pour le a-mode.
 
   if (this->blocked_commentaries == false) {
     switch (this->readingmode_details) {
