@@ -1241,24 +1241,14 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
 ______________________________________________________________________________*/
 bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
 
-  if (father==nullptr) {
-    DebugMsg() << "~~~ father= nullptr";
-  } else {
-    DebugMsg() << "~~~ father->name+type=" << father->name << "+" << father->type << " father.adr=" << father;
-  }
-
   Syntagma* current_father = father;
   bool ok = true;
-
-  DebugMsg() << "~0~ current_father=" << current_father;
 
   while (this->xmlreader->readNextStartElement()) {
 
     QString tag_name = this->xmlreader->name().toString();
-    DebugMsg() << "~1a~ current_father=" << current_father << " tag_name= " << tag_name;
 
     if (this->notes.syntagmas_levels.find(tag_name) != this->notes.syntagmas_levels.end()) {
-      DebugMsg() << "~1b~ current_father=" << current_father << " tag_name= " << tag_name;
 
       PosInTextRanges textranges(this->xmlreader->attributes().value("textranges").toString());
       ok &= !this->error(textranges,
@@ -1281,7 +1271,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
         this->notes.syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
       }
       this->notes.syntagmas[level][textranges] = new_syntagma;
-      DebugMsg() << "~2~ current_father=" << current_father << " name=" << new_syntagma->name << "+" << new_syntagma->type << " adr=" << new_syntagma;
+
       // let's add this new soon to its "father" :
       if (father != nullptr) {
         father->soons.push_back(new_syntagma);
@@ -1289,13 +1279,9 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
 
       current_father = new_syntagma;
 
-      DebugMsg() << "~30+ current_father=" << current_father;
-
-      DebugMsg() << "~30* current_father=" << current_father;
       ok &= this->read_mainfile__doctype_text__syntagma(current_father);
 
-      current_father = current_father->father; // ??? $$$
-      DebugMsg() << "~30- current_father=" << current_father;
+      current_father = current_father->father;
 
     } else {
       if (tag_name == "note") {
@@ -1331,16 +1317,6 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
       }
     }
   }
-
-  DebugMsg() << "~4+ father=" << father << " current_father= " << current_father;
-
-  /*$$$
-  if (current_father != father) {
-    DebugMsg() << "~40* current_father=" << current_father;
-    ok &= this->read_mainfile__doctype_text__syntagma(current_father);
-  }*/
-
-  DebugMsg() << "~5+ father=" << father;
 
   return ok;
 }
