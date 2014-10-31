@@ -98,7 +98,7 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   // levelupAct
   this->levelupAct = new QAction( *(icons.up),
-                                  tr("level up$$$$"),
+                                  tr("reading mode : level up"),
                                   this);
   // connection #C038 (confer documentation)
   QObject::connect(this->levelupAct, &QAction::triggered,
@@ -106,7 +106,7 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   // leveldownAct
   this->leveldownAct = new QAction( *(icons.down),
-                                    tr("level down$$$$"),
+                                    tr("reading mode : level down"),
                                     this);
   // connection #C039 (confer documentation)
   QObject::connect(this->leveldownAct, &QAction::triggered,
@@ -114,7 +114,7 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   // levelAct
   this->levelAct = new QAction( *(icons.level),
-                                tr("change level$$$"),
+                                tr("reading mode : select level"),
                                 this);
   /*
     (1) audio player
