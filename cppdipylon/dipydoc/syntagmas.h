@@ -19,25 +19,21 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : dipydoc/dipydocsyntagmas.h
+    ❏DipylonReader❏ : dipydoc/syntagmas.h
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_DIPYDOC_DIPYDOCSYNTAGMAS_H_
-#define CPPDIPYLON_DIPYDOC_DIPYDOCSYNTAGMAS_H_
+#ifndef CPPDIPYLON_DIPYDOC_SYNTAGMAS_H_
+#define CPPDIPYLON_DIPYDOC_SYNTAGMAS_H_
 
 #include <QList>
 #include <QString>
 
 #include <list>
-#include <map>
-#include <memory>
-#include <utility>
 
 #include "debugmsg/debugmsg.h"
-#include "pos/posintext/posintextranges.h"
 #include "dipydoc/arrowtarget.h"
-#include "qt/arrowformat.h"
+#include "pos/posintext/posintextranges.h"
 #include "qt/textformat.h"
 
 /*______________________________________________________________________________
@@ -69,30 +65,4 @@ struct Syntagma {
   QString                               pretty_debugmsg(int hlevel);
 };
 
-/*______________________________________________________________________________
-
-  Notes class, used in the DipyDoc class.
-______________________________________________________________________________*/
-struct Notes {
-  // syntagmas' names->aspects :
-  std::map<QString, TextFormat>                        syntagmas_aspects;
-
-  // syntagmas' names->levels :
-  std::map<QString, int>                               syntagmas_levels;
-
-  // syntagmas' names->types :
-  std::map<QString, TextFormat>                        syntagmas_types;
-
-  // all syntagmas objects :
-  std::list< std::shared_ptr<Syntagma> >               _syntagmas;
-
-  // syntagmas ordered by level :
-  std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
-
-  // arrows
-  std::map<QString, ArrowFormat> arrows_types;
-
-  Syntagma*                                            contains(PosInText x0, int level) const;
-  QString                                              repr(void) const;
-};
 #endif

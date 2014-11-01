@@ -19,38 +19,51 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : dipydoc/arrowtarget.h
+    ❏DipylonReader❏ : dipydoc/notes.h
 
-    ArrowTarget class, defining how an arrow links two group of words.
+    Notes class.
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_DIPYDOC_ARROWTARGET_H_
-#define CPPDIPYLON_DIPYDOC_ARROWTARGET_H_
+#ifndef CPPDIPYLON_DIPYDOC_NOTES_H_
+#define CPPDIPYLON_DIPYDOC_NOTES_H_
 
 #include <QString>
 
+#include <list>
+#include <map>
+#include <memory>
+
+#include "dipydoc/syntagmas.h"
 #include "pos/posintext/posintextranges.h"
+#include "qt/arrowformat.h"
+#include "qt/textformat.h"
 
 /*______________________________________________________________________________
 
-  ArrowTarget class, part of the DipyDocNote class
-
-    This classe defines how an arrow links (1) the Syntagma object which possessing
-  the ArrowTarget object (2) and the block of text described in
-  ArrowTarget::final_position.
+  Notes class, used in the DipyDoc class.
 ______________________________________________________________________________*/
-struct ArrowTarget {
-  QString type = "";                    // cf Notes::syntagmas_types
-  PosInTextRanges final_position;
+struct Notes {
+  // syntagmas' names->aspects :
+  std::map<QString, TextFormat>                        syntagmas_aspects;
 
-  ArrowTarget(const QString& _type,
-              const PosInTextRanges& _final_position);
+  // syntagmas' names->levels :
+  std::map<QString, int>                               syntagmas_levels;
+
+  // syntagmas' names->types :
+  std::map<QString, TextFormat>                        syntagmas_types;
+
+  // all syntagmas objects :
+  std::list< std::shared_ptr<Syntagma> >               _syntagmas;
+
+  // syntagmas ordered by level :
+  std::map<int, std::map<PosInTextRanges, Syntagma*> > syntagmas;
+
+  // arrows
+  std::map<QString, ArrowFormat> arrows_types;
+
+  Syntagma*                                            contains(PosInText x0, int level) const;
+  QString                                              repr(void) const;
 };
-
-inline ArrowTarget::ArrowTarget(const QString& _type,
-                                const PosInTextRanges& _final_position) : \
-type(_type), final_position(_final_position) {
-}
 
 #endif
