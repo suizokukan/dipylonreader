@@ -63,8 +63,8 @@ QString Notes::repr(void) const {
 
   res += "* arrows_types = \n";
   for (auto &arrow : this->arrows_types) {
-    res += QString("\n  name='%1' - arrowformat='%2'").arg(arrow.first,
-                                                           arrow.second.repr());
+    res += QString("name='%1' - arrowformat='%2'\n").arg(arrow.first,
+                                                         arrow.second.repr());
   }
 
   res += "* syntagmas_levels = \n";

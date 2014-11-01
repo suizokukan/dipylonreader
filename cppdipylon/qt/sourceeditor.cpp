@@ -325,7 +325,7 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_syntagma,
                                                              QList<QTextEdit::ExtraSelection> & selections) {
-  //DEBUG1 DebugMsg() << "# " << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
+  //DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode_recursively() : entry point : #" << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
 
   int shift = this->number_of_chars_before_source_text;
 
@@ -403,6 +403,8 @@ void SourceEditor::modify_the_text_format__amode_recursively(Syntagma* current_s
     this->modify_the_text_format__amode_recursively(soon,
                                                     selections);
   }
+
+  //DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode_recursively() : exit point : #" << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
 }
 
 /*______________________________________________________________________________
@@ -512,10 +514,8 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
 
             // the function modifies the appearence of such characters :
             this->modify_the_text_format__amode(syntagma);
-
             // hash update :
             this->modified_chars_hash = text_ranges_hash;
-
             // let's show the note :
             // SIGNAL #S013 (confer documentation)
             emit this->signal__update_note_in_commentary_zone(syntagma->textnote);
@@ -665,8 +665,10 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
     /*
       ... and let's draw arrows over the rest :
     */
-    for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
+    QPainter p(this->viewport());
+    QRect rect_to_be_updated;
 
+    for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
       // starting point :
       QTextCursor start_cur = this->textCursor();
       start_cur.setPosition(static_cast<int>(this->focused_syntagma_in_amode->posintextranges.medium()));
@@ -676,8 +678,6 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       QTextCursor end_cur = this->textCursor();
       end_cur.setPosition(static_cast<int>(arrowtarget.final_position.medium()));
       QRect dest_rect = this->cursorRect(end_cur);
-
-      QPainter p(viewport());
 
       float x0 = start_rect.x();
       float y0 = start_rect.y();
@@ -693,6 +693,8 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       path.cubicTo(QPointF(x0*1.3, y0*0.9),
                    QPointF(x0*1.1, y0*0.7),
                    endpoint);  // p1, p2, endpoint
+      //$$$path.quadTo(startingpoint, endpoint);
+      //$$$path.drawLine(startingpoint, endpoint);
       p.drawPath(path);
 
       // initial/final boxes :
@@ -702,8 +704,12 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).end_qpen());
       p.drawRect(x1-3, y1-3, 6, 6);
 
-      this->update();
+      rect_to_be_updated.united(start_rect);
+      rect_to_be_updated.united(dest_rect);
     }
+
+    this->update(rect_to_be_updated);
+
   } else {
     QTextEdit::paintEvent(ev);
   }
