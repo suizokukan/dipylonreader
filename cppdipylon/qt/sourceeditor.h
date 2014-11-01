@@ -39,7 +39,7 @@
 
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
-#include "dipydoc/dipydocsyntagmas.h"
+#include "dipydoc/syntagmas.h"
 #include "pos/posintext/posintext.h"
 #include "qt/blockformat.h"
 #include "qt/icons.h"

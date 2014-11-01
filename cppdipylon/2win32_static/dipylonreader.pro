@@ -45,7 +45,8 @@ HEADERS         +=  ./fixedparameters.h \
                     debugmsg/debugmsg.h \
                     dipydoc/arrowtarget.h \
                     dipydoc/dipydoc.h \
-                    dipydoc/dipydocsyntagmas.h \
+                    dipydoc/notes.h \
+                    dipydoc/syntagmas.h \
                     dipydoc/menunames.h \
                     languages/languages.h \
                     languages/languagefromto.h \
@@ -81,7 +82,8 @@ HEADERS         +=  ./fixedparameters.h \
 SOURCES         +=  ./main.cpp \
                     debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
-                    dipydoc/dipydocsyntagmas.cpp \
+                    dipydoc/notes.cpp \
+                    dipydoc/syntagmas.cpp \
                     languages/languagefromto.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
