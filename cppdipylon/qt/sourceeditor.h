@@ -31,9 +31,12 @@
 #include <QAction>
 #include <QTextEdit>
 #include <QTextCharFormat>
+#include <QTimer>
 #include <QList>
 #include <QMediaPlayer>
 #include <QPainter>
+#include <QPaintEvent>
+#include <QWidget>
 
 #include <vector>
 
@@ -93,7 +96,7 @@ class SourceEditor : public TextEditor {
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
     void      mouseMoveEvent(QMouseEvent* mouse_event);
     void      mouseReleaseEvent(QMouseEvent* mouse_event);
-    void      paintEvent(QPaintEvent* event);
+    void      paintEvent(QPaintEvent* ev);
 
  private:
     ReadingMode &        readingmode;
@@ -111,6 +114,8 @@ class SourceEditor : public TextEditor {
     PosInTextRanges      modified_chars = PosInTextRanges();
 
     Syntagma*            focused_syntagma_in_amode = nullptr;
+
+    QTimer*              update_arrows__timer = nullptr;
 
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE

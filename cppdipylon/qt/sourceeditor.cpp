@@ -59,6 +59,14 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
   this->load_text();
   this->update_aspect_from_dipydoc_aspect_informations();
 
+  //$$$this->update_arrows__timer = new QTimer(this);
+  // connection #C041 (confer documentation)
+  //$$$this->connect(this->update_arrows__timer, &QTimer::timeout,
+  //$$$              this,                       &QWidget::update);
+  //$$$this->connect(this->update_arrows__timer, SIGNAL(timeout()),
+  //$$$              this,                       SLOT(Q::update()));
+  //$$$this->update_arrows__timer->start(250);
+
   //DEBUG1 DebugMsg() << "SourceEditor::SourceEditor() : exit point";
 }
 
@@ -66,7 +74,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
 
   SourceEditor::corrected_cursor_position()
 
-  Return the cursor position, "corrected" since the characters before the
+    Return the cursor position, "corrected" since the characters before the
   text (=title, intro, ...) are not taken in account. E.g. if this function
   returns 0, it means that the cursor is on the first character of the
   text.
@@ -489,6 +497,8 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
 
           // SIGNAL #S001 (confer documentation)
           emit this->signal__update_translation_in_commentary_zone(pos_in_text);
+
+          this->update();
         }
 
         break;
@@ -519,6 +529,8 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
             // let's show the note :
             // SIGNAL #S013 (confer documentation)
             emit this->signal__update_note_in_commentary_zone(syntagma->textnote);
+
+            this->update();
           }
         }
         break;
@@ -577,6 +589,8 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     // SIGNAL #S003 (confer documentation)
     emit this->signal__source_zone_update_icons();
 
+    this->update();
+
     return;
   }
 
@@ -616,6 +630,8 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
             // SIGNAL #S004 (confer documentation)
             emit this->signal__update_translation_in_commentary_zone(pos_in_text);
+
+            this->update();
           }
           break;
         }
@@ -648,25 +664,29 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
 /*______________________________________________________________________________
 
-  SourceEditor::paintEvent()
+  SourceEditor::paintEvent
+
+  $$$ à étudier (???)
+  $$$ http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
+  $$$ http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
+  DebugMsg() << "SourceEditor::paintEvent()";
 
-  /* if there's a defined (=not nullptr) focused_syntagma_in_amode, let's draw the arrows
-     between this focused syntagma and other syntagmas.
+  /*
+    Let's draw anything but the arrows :
+  */
+  QTextEdit::paintEvent(ev);
+
+  /*
+       If there's a defined (=not nullptr) focused_syntagma_in_amode, let's draw
+     the arrows between this focused syntagma and the other syntagmas.
   */
   if (this->focused_syntagma_in_amode != nullptr) {
 
-    /*
-      let's draw anything but arrows...
-    */
-    QTextEdit::paintEvent(ev);
-
-    /*
-      ... and let's draw arrows over the rest :
-    */
-    QPainter p(this->viewport());
-    QRect rect_to_be_updated;
+    QPainter p(this);
+    //$$$p.setClipRegion(QRegion(0,0,100,100));
+    //$$$p.setRenderHint(QPainter::Antialiasing);
 
     for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
       // starting point :
@@ -693,82 +713,16 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       path.cubicTo(QPointF(x0*1.3, y0*0.9),
                    QPointF(x0*1.1, y0*0.7),
                    endpoint);  // p1, p2, endpoint
-      //$$$path.quadTo(startingpoint, endpoint);
-      //$$$path.drawLine(startingpoint, endpoint);
       p.drawPath(path);
 
-      // initial/final boxes :
-      p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).start_qpen());
-      p.drawRect(x0-3, y0-3, 6, 6);
+      // $$$ initial/final boxes :
+      //p.setPen(this->dipydoc->notes.arrows_types.at(arrowtarget.type).start_qpen());
+      //p.drawRect(x0-3, y0-3, 6, 6);
 
-      p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).end_qpen());
-      p.drawRect(x1-3, y1-3, 6, 6);
-
-      rect_to_be_updated.united(start_rect);
-      rect_to_be_updated.united(dest_rect);
+      //p.setPen(this->dipydoc->notes.arrows_types.at(arrowtarget.type).end_qpen());
+      //p.drawRect(x1-3, y1-3, 6, 6);
     }
-
-    this->update(rect_to_be_updated);
-
-  } else {
-    QTextEdit::paintEvent(ev);
   }
-
-  /*
-  // starting point :
-  QTextCursor current_posintext_pos = this->textCursor();
-  QPoint current_xy_pos = this->mapFromGlobal(QCursor().pos());
-  // end point :
-  QTextCursor dest_posintext_pos = this->textCursor();
-  dest_posintext_pos.movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, 100);
-  QRect dest_rect = this->cursorRect(dest_posintext_pos);
-
-  // à étudier (???)
-  // http://www.qtcentre.org/threads/32130-Getting-the-bounding-rect-of-a-character-in-a-QTextDocument
-  // http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
-
-  //const QRect rec = ev->rect();
-  QPainter p(viewport());
-
-  float x0 = current_xy_pos.x();
-  float y0 = current_xy_pos.y();
-  float x1 = dest_rect.x();
-  float y1 = dest_rect.y();
-
-  QPointF startingpoint = QPointF(x0, y0);
-  QPointF endpoint = QPointF(x1, y1);
-
-  p.setPen(QPen(QBrush("red"), 2, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
-
-  // arrow body :
-  QPainterPath path = QPainterPath(startingpoint);  // starting point
-  path.cubicTo(QPointF(x0*1.3, y0*0.9),
-               QPointF(x0*1.1, y0*0.7),
-               endpoint);  // p1, p2, endpoint
-  p.drawPath(path);
-
-  p.setPen(QPen(QBrush("yellow"), 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
-
-  p.drawRect(x0-2, y0-2, 4, 4);
-
-  p.drawRect(x1-1, y1-1, 2, 2);
-
-  this->update();
-  */
-
-  // arrow head :
-  /*  const double cos = -0.707; //0.866;
-  const double sin =  0.707; //0.500.
-  QPointF end1 = QPointF(
-        x1 + (dx * cos + dy * -sin),
-        y1 + (dx * sin + dy * cos));
-  QPointF end2 = QPointF(
-        x1 + (dx * cos + dy * sin),
-        y1 + (dx * -sin + dy * cos));
-  p.drawLine(endpoint, end1);
-  p.drawLine(endpoint, end2);
-  */
-
 }
 
 /*______________________________________________________________________________
