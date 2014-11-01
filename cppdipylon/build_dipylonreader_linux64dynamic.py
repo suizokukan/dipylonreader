@@ -23,6 +23,8 @@
 # 
 ################################################################################
 #
+# version 4 (2014.11.01) : new EXEC_NAME, ending with "_v{0}_debug{1}_build{2}"
+#
 # version 3 (2014.10.31) : temp folder's name depends on ARGS.debug value
 #
 # version 2 (2014.10.31) : command line options "--debug", "--version" and "--help"
@@ -34,7 +36,7 @@
 import os
 import argparse
 
-VERSION = "build_dipylonreader_linux64dynamic : v3"
+VERSION = "build_dipylonreader_linux64dynamic : v4"
 SUMMARY = "Linux > Linux64/dynamic"
 
 # system call
@@ -82,9 +84,9 @@ with open("build_number", 'w') as buildnumber_file:
 TEMP_FOLDER = "temp__build_linux64_dynamic_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_build{1}_debug{2}".format(VERSION_FOR_EXEC_NAME,
-                                                                                BUILD_NUMBER,
-                                                                                ARGS.debug)
+EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_debug{1}_build{2}".format(VERSION_FOR_EXEC_NAME,
+                                                                                ARGS.debug,
+                                                                                BUILD_NUMBER)
 
 # build :
 print("=== compiling {0} ===".format(SUMMARY))
