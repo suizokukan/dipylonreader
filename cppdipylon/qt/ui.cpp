@@ -152,7 +152,9 @@ int UI::go(int argc, char **argv) {
      This translations are loaded from the ressource files.
   */
   QTranslator dipylonTranslator;
-  QString dipylon_translations_filename("dipylon_" + QLocale::languageToString(local_system.language()));
+  QString dipylon_translations_filename(fixedparameters::application_name + \
+                                        "_" + \
+                                        QLocale::languageToString(local_system.language()));
   //DEBUG1 bool dipylon_translations_res = dipylonTranslator.load(dipylon_translations_filename, ":/i18n");
   //DEBUG1 DebugMsg() << "i18n : loading " << dipylon_translations_filename
   //DEBUG1            << "success=" << dipylon_translations_res;
