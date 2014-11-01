@@ -23,6 +23,8 @@
 # 
 ################################################################################
 #
+# version 5 (2014.11.01) : new EXEC_NAME, ending with "_v{0}_debug{1}_build{2}"
+#
 # version 4 (2014.10.31) : temp folder's name depends on ARGS.debug value
 #
 # version 3 (2014.10.31) : command line options "--debug", "--version" and "--help"
@@ -35,7 +37,7 @@
 import argparse
 import os
 
-VERSION = "quick_dipylonreader : v4"
+VERSION = "quick_dipylonreader : v5"
 SUMMARY = "Linux > Linux64/dynamic (quick compilation)"
 
 # system call
