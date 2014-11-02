@@ -315,6 +315,10 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
   /*
     The following loop goes through the tree and adds the modifications to "selections".
 
+    The higher the syntagma (=phrase, proposition...) the sooner they are "draw".
+    The deeper the syntagma (=word, ...) the later they are "draw".
+
+
     E.g. with Syntagma objects replaced by integers :
 
                                 0+
@@ -334,20 +338,38 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
 
   while (current_syntagma != nullptr) {
     /*
-       let's call the following function with the element described in "hierarchy"
-       whose address is stored in "current_syntagma" .
+       let's call the ::this->modify_the_text_format__amode__syntagma() method
+      with the element described in "hierarchy" whose address is stored in
+      "current_syntagma" .
     */
 
     // link betwween current_syntagma and focused_syntagma_in_amode ?
-    int link = 3; // by default, no link.
-    if (this->focused_syntagma_in_amode == current_syntagma) { link=0; } // focused
-    if (this->focused_syntagma_in_amode->father == current_syntagma->father) { link=1; } // brother
-    if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) { link=2; } // family.
+    int link = -1; // by default, no link.
+    if (this->focused_syntagma_in_amode == current_syntagma) {
+      // focused :
+      link=0;
+    } else {
+      if (this->focused_syntagma_in_amode->father == current_syntagma->father) {
+        // brother :
+        link=1;
+      } else {
+        if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
+          // family :
+          link=2;
+        }
+      }
+    }
 
-    this->modify_the_text_format__amode__syntagma(current_syntagma,
-                                                  selections,
-                                                  link);
+    // the method is not called for every value of "link" :
+    if (link != -1) {
+      this->modify_the_text_format__amode__syntagma(current_syntagma,
+                                                    selections,
+                                                    link);
+    }
 
+    /*
+      let's go through the tree, searching the next syntagma :
+    */
     if (current_syntagma->soons.size() == 0) {
       bool keep_on = true;
       while(keep_on==true) {
@@ -371,6 +393,9 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
     }
   }
 
+  /*
+    Let's apply the modifications :
+  */
   this->setExtraSelections(selections);
 
   this->modified_chars = syntagma->posintextranges;
@@ -397,12 +422,11 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
            0 : focused
            1 : brother
            2 : family
-           3 : no link
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syntagma,
                                                            QList<QTextEdit::ExtraSelection> & selections,
                                                            int link) {
-  //DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : entry point : #" << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
+  //DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : entry point : #" << current_syntagma->name << " link=" << link << " pos=" << current_syntagma->posintextranges.repr();
 
   int shift = this->number_of_chars_before_source_text;
 
@@ -428,12 +452,12 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
           // the type has been defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###foc0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          //DEBUG1 DebugMsg() << "###foc0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         } else {
           // no type defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+foc").qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###foc1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          //DEBUG1 DebugMsg() << "###foc1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         }
         break;
       }
@@ -448,12 +472,12 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
           // the type has been defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###bro0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          //DEBUG1 DebugMsg() << "###bro0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         } else {
           // no type defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###bro1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          //DEBUG1 DebugMsg() << "###bro1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         }
         break;
       }
@@ -466,7 +490,7 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
         */
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
         selections.append( {cur, qtextcharformat} );
-        DebugMsg() << "###fam" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+        //DEBUG1 DebugMsg() << "###fam" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         break;
       }
 
@@ -475,58 +499,6 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
       }
     }
   }
-
-  /*
-  for (auto & x0x1 : current_syntagma->posintextranges) {
-    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-    // $$$ plus rapide ??? $$$ cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
-    cur.movePosition(QTextCursor::NextCharacter,
-                     QTextCursor::KeepAnchor,
-                     static_cast<int>(x0x1.second - x0x1.first));
-
-    if (this->focused_syntagma_in_amode == current_syntagma) {
-      // current_syntagma' is 'this->focused_syntagma_in_amode' :
-      if (current_syntagma->type.size() != 0) {
-        // the type has been defined :
-        qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
-        selections.append( {cur, qtextcharformat} );
-        DebugMsg() << "###foc0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
-      } else {
-        // no type defined :
-        qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+foc").qtextcharformat();
-        selections.append( {cur, qtextcharformat} );
-        DebugMsg() << "###foc1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
-      }
-    } else {
-      if (this->focused_syntagma_in_amode->father==current_syntagma->father) {
-        // this->focused_syntagma_in_amode' and 'current_syntagma' are brothers (=have the same father)
-        if (current_syntagma->type.size() != 0) {
-          // the type has been defined :
-          qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
-          selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###bro0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
-        } else {
-          // no type defined :
-          qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
-          selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###bro1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
-        }
-      } else {
-        if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
-          // One of the ancestors of 'this->focused_syntagma_in_amode' is 'current_syntagma'.
-          qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
-          selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###fam0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
-        } else {
-          // this->focused_syntagma_in_amode' and 'current_syntagma' have nothing in common :
-          qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+distant").qtextcharformat();
-          selections.append( {cur, qtextcharformat} );
-          DebugMsg() << "###---0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
-        }
-      }
-    }
-  }
-  */
 
   //DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : exit point : #" << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
 }
@@ -793,6 +765,8 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   */
   QTextEdit::paintEvent(ev);
 
+  int shift = this->number_of_chars_before_source_text;
+
   /*
        If there's a defined (=not nullptr) focused_syntagma_in_amode, let's draw
      the arrows between this focused syntagma and the other syntagmas.
@@ -800,18 +774,16 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   if (this->focused_syntagma_in_amode != nullptr) {
 
     QPainter p(this->viewport());
-    //$$$p.setClipRegion(QRegion(0,0,100,100));
-    //$$$p.setRenderHint(QPainter::Antialiasing);
 
     for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
       // starting point :
       QTextCursor start_cur = this->textCursor();
-      start_cur.setPosition(static_cast<int>(this->focused_syntagma_in_amode->posintextranges.medium()));
+      start_cur.setPosition(shift+static_cast<int>(this->focused_syntagma_in_amode->posintextranges.medium()));
       QRect start_rect = this->cursorRect(start_cur);
 
       // end point :
       QTextCursor end_cur = this->textCursor();
-      end_cur.setPosition(static_cast<int>(arrowtarget.final_position.medium()));
+      end_cur.setPosition(shift+static_cast<int>(arrowtarget.final_position.medium()));
       QRect dest_rect = this->cursorRect(end_cur);
 
       float x0 = start_rect.x();
