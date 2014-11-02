@@ -59,14 +59,6 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
   this->load_text();
   this->update_aspect_from_dipydoc_aspect_informations();
 
-  //$$$this->update_arrows__timer = new QTimer(this);
-  // connection #C041 (confer documentation)
-  //$$$this->connect(this->update_arrows__timer, &QTimer::timeout,
-  //$$$              this,                       &QWidget::update);
-  //$$$this->connect(this->update_arrows__timer, SIGNAL(timeout()),
-  //$$$              this,                       SLOT(Q::update()));
-  //$$$this->update_arrows__timer->start(250);
-
   //DEBUG1 DebugMsg() << "SourceEditor::SourceEditor() : exit point";
 }
 
@@ -774,6 +766,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   if (this->focused_syntagma_in_amode != nullptr) {
 
     QPainter p(this->viewport());
+    p.setRenderHints(QPainter::Antialiasing, true);
 
     for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
       // starting point :
