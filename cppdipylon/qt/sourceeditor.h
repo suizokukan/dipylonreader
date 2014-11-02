@@ -31,9 +31,12 @@
 #include <QAction>
 #include <QTextEdit>
 #include <QTextCharFormat>
+#include <QTimer>
 #include <QList>
 #include <QMediaPlayer>
 #include <QPainter>
+#include <QPaintEvent>
+#include <QWidget>
 
 #include <vector>
 
@@ -74,8 +77,9 @@ class SourceEditor : public TextEditor {
     PosInText corrected_cursor_position(void) const;
     void      load_text(void);
     void      modify_the_text_format__amode(Syntagma* syntagma);
-    void      modify_the_text_format__amode_recursively(Syntagma* current_syntagma,
-                                                        QList<QTextEdit::ExtraSelection> & selections);
+    void      modify_the_text_format__amode__syntagma(Syntagma* current_syntagma,
+                                                      QList<QTextEdit::ExtraSelection> & selections,
+                                                      int link);
     void      modify_the_text_format__rmode__lmode(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);
@@ -93,7 +97,7 @@ class SourceEditor : public TextEditor {
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
     void      mouseMoveEvent(QMouseEvent* mouse_event);
     void      mouseReleaseEvent(QMouseEvent* mouse_event);
-    void      paintEvent(QPaintEvent* event);
+    void      paintEvent(QPaintEvent* ev);
 
  private:
     ReadingMode &        readingmode;
@@ -111,6 +115,8 @@ class SourceEditor : public TextEditor {
     PosInTextRanges      modified_chars = PosInTextRanges();
 
     Syntagma*            focused_syntagma_in_amode = nullptr;
+
+    QTimer*              update_arrows__timer = nullptr;
 
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE

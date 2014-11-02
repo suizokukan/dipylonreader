@@ -33,10 +33,8 @@ TODO
 - réfléchir à la question : le ~/dipydocs est-il complètement nettoyé après un download ? Documenter ce comportement.
 - memory leaks : regarder valgrind + g++ -g
 - pointeurs const par sécurité partout où c'est possible.
-- DebugMsg() sur une seule ligne pour facilement les remplacer par //DebugMsg() pour une version optimisée.
 - relire le code : les include sont-ils nécessaires ?
 - et si on clique dans l'intro ? comment réagissent les _contains() ?
-- réécrire les .sh en script python + inclure un numéro de build.
 - dans ... , vérifier que "number", "name" existent :
 
       if( name == "level" ) {

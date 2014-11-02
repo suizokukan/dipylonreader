@@ -85,10 +85,9 @@ with open("build_number", 'w') as buildnumber_file:
 TEMP_FOLDER = "temp__build_linux64_dynamic_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_build{1}_debug{2}".format(VERSION_FOR_EXEC_NAME,
-                                                                                BUILD_NUMBER,
-                                                                                ARGS.debug)
-
+EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_debug{1}_build{2}".format(VERSION_FOR_EXEC_NAME,
+                                                                                ARGS.debug,
+                                                                                BUILD_NUMBER)
 # build :
 
 print("=== compiling {0} ===".format(SUMMARY))

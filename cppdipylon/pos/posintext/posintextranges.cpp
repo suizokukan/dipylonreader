@@ -221,7 +221,7 @@ PosInText PosInTextRanges::max(void) const {
 
 ______________________________________________________________________________*/
 PosInText PosInTextRanges::medium(void) const {
-  return (this->max() - this->min())/2;
+  return ((this->min() + this->max()) >> 1);
 }
 
 /*______________________________________________________________________________

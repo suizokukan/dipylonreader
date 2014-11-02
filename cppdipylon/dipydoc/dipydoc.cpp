@@ -1139,6 +1139,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
         if (this->xmlreader->name() == "syntagma_level") {
           // syntagmas_aspects::syntagma_name::name
           QString name = this->xmlreader->attributes().value("name").toString();
+
           // syntagmas_aspects::syntagma_name::aspect
           QString txt_aspect = this->xmlreader->attributes().value("aspect").toString();
           // syntagmas_aspects::syntagma_name::level
@@ -1181,6 +1182,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
         if (this->xmlreader->name() == "syntagma_type") {
           // syntagmas_types::syntagmas_type::type
           QString type = this->xmlreader->attributes().value("type").toString();
+
           // syntagmas_types::syntagmas_type::aspect
           QString txt_aspect = this->xmlreader->attributes().value("aspect").toString();
 
@@ -1203,9 +1205,11 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
         if (this->xmlreader->name() == "arrow_type") {
           // arrows_types::arrow_type::name
           QString name = this->xmlreader->attributes().value("name").toString();
+
           // arrows_types::arrow_type::arrowformat
           ArrowFormat arrowformat(this->xmlreader->attributes().value("arrowformat").toString());
-          ok &= !this->error(arrowformat, this->error_string(),
+          ok &= !this->error(arrowformat,
+                             this->error_string(),
                              QString("arrows_types::arrow_type::arrowformat"));
 
           this->notes.arrows_types[ name ] = arrowformat;
@@ -1241,7 +1245,6 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
   Recursive function able to read every token inside <notes></notes>.
 ______________________________________________________________________________*/
 bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
-
   Syntagma* current_father = father;
   bool ok = true;
 
