@@ -141,9 +141,10 @@ int UI::go(int argc, char **argv) {
   */
   QTranslator qtTranslator;
   QString system_translations_filename("qt_" +QLocale::languageToString(local_system.language()));
-  //DEBUG1 bool system_translations_res = qtTranslator.load(system_translations_filename, ":/i18n");
-  //DEBUG1 DebugMsg() << "i18n : loading " << system_translations_filename
-  //DEBUG1            << "success=" << system_translations_res;
+  //DEBUG1 DebugMsg() << "i18n : loading the Qt translations : " << system_translations_filename;
+  if (qtTranslator.load(system_translations_filename, ":/i18n") == false) {
+    //DEBUG1 DebugMsg() << "i18n : can't load the Qt translations !";
+  }
   app.installTranslator(&qtTranslator);
 
   /*
@@ -155,9 +156,10 @@ int UI::go(int argc, char **argv) {
   QString dipylon_translations_filename(fixedparameters::application_name + \
                                         "_" + \
                                         QLocale::languageToString(local_system.language()));
-  //DEBUG1 bool dipylon_translations_res = dipylonTranslator.load(dipylon_translations_filename, ":/i18n");
-  //DEBUG1 DebugMsg() << "i18n : loading " << dipylon_translations_filename
-  //DEBUG1            << "success=" << dipylon_translations_res;
+  //DEBUG1 DebugMsg() << "i18n : loading the project's translations" << dipylon_translations_filename;
+  if (dipylonTranslator.load(dipylon_translations_filename, ":/i18n")==false) {
+    //DEBUG1 DebugMsg() << "i18n : can't load the project's translations !";
+  }
   app.installTranslator(&dipylonTranslator);
 
   /*
