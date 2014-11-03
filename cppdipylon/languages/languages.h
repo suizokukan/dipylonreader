@@ -38,9 +38,13 @@
   known_languages : name of the languages recognized by the program with
                     their short names (ISO 639-3) and their English long names.
 
+                    If no ISO 639-3 exists, use whatever string.
+
 ______________________________________________________________________________*/
 namespace languages {
     const std::map<QString, QString> known_languages = {
+
+      // ISO 639-3 names :
       { QString("ang"), QString(QObject::tr("Old English")) },
       { QString("bod"), QString(QObject::tr("Tibetan")) },
       { QString("deu"), QString(QObject::tr("German")) },
@@ -50,6 +54,9 @@ namespace languages {
       { QString("jpn"), QString(QObject::tr("Japan")) },
       { QString("lat"), QString(QObject::tr("Latin")) },
       { QString("san"), QString(QObject::tr("Sanskrit")) },
+
+      // non-ISO 639-3 names :
+      { QString("haut_marnais"), QString(QObject::tr("haut-marnais")) },
     };
 }  // namespace languages
 
