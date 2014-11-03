@@ -97,7 +97,7 @@
     <message>
         <location filename="qt/mainwindow.cpp" line="244"/>
         <source>&amp;File</source>
-        <translation>&amp;Ficher</translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
         <location filename="qt/mainwindow.cpp" line="258"/>
