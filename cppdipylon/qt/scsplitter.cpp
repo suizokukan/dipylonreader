@@ -192,7 +192,7 @@ QString SCSplitter::get_object_name(const int index_in_scbar) const {
   Read the settings value from the settings' file.
 ________________________________________________________________________________*/
 void SCSplitter::read_settings(void) {
-  //DEBUG1 DebugMsg() << "SCSplitter::read_settings()";
+  //DEBUG1 DebugMsg() << "SCSplitter::read_settings() : entry point";
 
   QSettings settings;
   this->source_zone->editor->zoom_value = \
@@ -206,11 +206,13 @@ void SCSplitter::read_settings(void) {
   /*
     see SCSplitter::write_settings for the explanations.
   */
-  this->splittersizes.clear();
+  this->splittersizes = fixedparameters::default__editors_size_in_main_splitter;
   foreach(QVariant v,
           settings.value(QString("text/%1/splittersizes").arg(this->dipydoc->qsettings_name)).toList()) {
   this->splittersizes << v.toInt();
   }
+
+  //DEBUG1 DebugMsg() << "SCSplitter::read_settings() : exit point";
 }
 
 /*______________________________________________________________________________
