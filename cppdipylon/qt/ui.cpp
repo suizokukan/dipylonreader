@@ -175,38 +175,6 @@ int UI::go(int argc, char **argv) {
   this->mainWin->init();
 
   /*
-    main window maximized ?
-
-    On Linux/X11, the ::showMaximized() method doesn't work, hence the tricks used
-    above.
-    see http://qt-project.org/doc/qt-5/application-windows.html#window-geometry
-  */
-  #ifdef ALLOW_MAXIMIZE_MAINWINDOW
-  //DEBUG1 DebugMsg() << "maximize the main window";
-
-  #ifdef MAXIMIZE_MAINWINDOW_TRUE_METHOD
-  if (this->first_launch == true) {
-    this->mainWin->showMaximized();
-  }
-  #endif
-
-  #ifdef MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
-  if (this->first_launch == true) {
-    /*
-      Since the ::showMaximized() method doesn't work on X11,
-      let's resize and move the main window "artistically" :
-    */
-    QSize size = QGuiApplication::primaryScreen()->size();
-    size.setWidth(size.width() / 2);
-    size.setHeight(size.height() / 2);
-    this->mainWin->move((size.width() / 2), (size.height() / 2));
-    this->mainWin->resize(size);
-  }
-  #endif
-
-  #endif
-
-  /*
     the main window is displayed :
   */
   this->mainWin->show();
@@ -240,6 +208,39 @@ int UI::go(int argc, char **argv) {
     saved settings :
   */
   this->read_settings();
+
+  /*
+    main window maximized ?
+
+    On Linux/X11, the ::showMaximized() method doesn't work, hence the tricks used
+    above.
+    see http://qt-project.org/doc/qt-5/application-windows.html#window-geometry
+  */
+  #ifdef ALLOW_MAXIMIZE_MAINWINDOW
+  //DEBUG1 DebugMsg() << "maximize the main window";
+
+  #ifdef MAXIMIZE_MAINWINDOW_TRUE_METHOD
+  if (this->first_launch == true) {
+    //DEBUG1 DebugMsg() << "... call to this->mainWin->showMaximized() .";
+    this->mainWin->showMaximized();
+  }
+  #endif
+
+  #ifdef MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
+  if (this->first_launch == true) {
+    // Since the ::showMaximized() method doesn't work on X11,
+    // let's resize and move the main window "artistically" :
+
+    //DEBUG1 DebugMsg() << "... using a specific way to X11 platforms to maximize the main window.";
+    QSize size = QGuiApplication::primaryScreen()->size();
+    size.setWidth(size.width() / 2);
+    size.setHeight(size.height() / 2);
+    this->mainWin->move((size.width() / 2), (size.height() / 2));
+    this->mainWin->resize(size);
+  }
+  #endif
+
+  #endif
 
   /*
     splash screen
@@ -301,6 +302,7 @@ void UI::read_settings(void) {
     first launch ?
   */
   this->first_launch = !settings.contains("application/firstlaunch");
+  //DEBUG1 DebugMsg() << "first_launch= " << this->first_launch;
 
   /*
     we read the settings only if there are settings to be read :
@@ -322,6 +324,7 @@ void UI::read_settings(void) {
     #endif
 
     if (settings.value("mainwindow/fullscreen") == true) {
+      //DEBUG1 DebugMsg() << "call to this->mainWin->showFullScreen()";
       this->mainWin->showFullScreen();
     }
 
