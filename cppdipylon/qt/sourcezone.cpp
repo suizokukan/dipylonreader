@@ -458,9 +458,9 @@ void SourceZone::update_icons(void) {
       this->readingmode_lAct->setIcon(*(icons.readingmode_lmode_off));
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
-      this->levelupAct->setVisible(true);
-      this->levelAct->setVisible(true);
-      this->leveldownAct->setVisible(true);
+      this->levelupAct->setVisible(false);       //$$$ true
+      this->levelAct->setVisible(false);         //$$$ true
+      this->leveldownAct->setVisible(false);    //$$$ true
       break;
     }
 
