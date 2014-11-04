@@ -139,7 +139,7 @@ int ArrowFormat::init_from_string(const QString& source_string) {
       end color
     */
     // end color with hexadecimal value ?
-    if (keyword.endsWith("end-color:#") == true) {
+    if (keyword.startsWith("end-color:#") == true) {
       QString str_value = keyword.right(keyword.length() - QString("end-color:#").length());
       bool ok;
       int value = str_value.toInt(&ok, 16);

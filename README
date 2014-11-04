@@ -1,6 +1,8 @@
 (C++/Qt5) front-end used to read texts with some annotations
 
 TODO
+* si type apparaît dans main.xml sans être défini, boom
+* distinguer un DEBUG2 dans la partie la plus sensible de la boucle d'événements.
 
 [ui]
 - ouvrir le(s) dernier(s) fichier(s) ouverts
