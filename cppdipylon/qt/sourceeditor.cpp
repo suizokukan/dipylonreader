@@ -762,6 +762,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
        If there's a defined (=not nullptr) focused_syntagma_in_amode, let's draw
      the arrows between this focused syntagma and the other syntagmas.
   */
+  #ifndef DO_NOT_DISPLAY_ARROWS_IN_AMODE
   if (this->focused_syntagma_in_amode != nullptr) {
 
     QPainter p(this->viewport());
@@ -802,6 +803,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       p.drawRect(x1-3, y1-3, 6, 6);
     }
   }
+  #endif
 }
 
 /*______________________________________________________________________________
