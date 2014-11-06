@@ -949,26 +949,17 @@ http://qt-project.org/doc/qt-5/android-support.html
 
 [10.1.1] cross-compilation depuis Linux
 
+ [-> version 32bits]
  o utilisation de MXE : http://mxe.cc/
  o pré-requis : http://mxe.cc/#requirements
  o libc 32 bits exigée : http://linuxfr.org/forums/programmationautre/posts/cross-compilation-avec-mxe-sur-archlinux-quid-de-la-libc-32-bits
  o hdf5 (pacman -S hdf5), puis flann sont à installer (http://www.cs.ubc.ca/research/flann/).
 
  ensuite : compilation vers 32 bits avec la branche multi-target (confer https://github.com/mxe/mxe/issues/39)
-         
 
-
-utilisation de MinGW-w64 : stackoverflow.com/questions/19425482
-
-pour pouvoir compiler essai1, il a fallu ajouter à Path le chemin suivant : c:\Program Files (x86)\mingw-w64\i686-4.9.1-posix-dwarf-rt_v3-rev0\mingw32\bin\mingw32-make.exe"
-
-pour exécuter essai1, il a fallu ajouter à Path le chemin suivant : "c:\Qt\5.3\mingw482_32\bin"
-
-tentative de compiler depuis Windows :
-(1) chercher le script PowerShell windows-build-qt-static.ps1
-(2) le script ne s'exécute que si $$$ = Unrestriced
-(3) il faut préciser au script où se trouve mingw : .\windows-build-qt-static.ps1 -MingwDir 'c:\Program Files (x86)\mingw-w64\i686-4.9.1-posix-dwarf-rt_v3-rev0\mingw32\bin'
-(4) le script ne parvient pas à télécharger de lui-même qt-everywhere-opensource-src-5.3.1.7z; télécharger ce fichier et le placer dans c:\Qt\Static\src
+ [compilation en 64 bits, cf http://mxe.cc/#tutorial]
+ o git clone -b stable https://github.com/mxe/mxe.git mxe_64
+ o une fois dans ~/mxe_64/ :  make MXE_TARGETS='x86_64-w64-mingw32 i686-w64-mingw32'
 
 ################################################################################
 [11] command line
