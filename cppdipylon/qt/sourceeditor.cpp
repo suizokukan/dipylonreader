@@ -756,14 +756,14 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   */
   QTextEdit::paintEvent(ev);
 
-  int shift = this->number_of_chars_before_source_text;
-
   /*
        If there's a defined (=not nullptr) focused_syntagma_in_amode, let's draw
      the arrows between this focused syntagma and the other syntagmas.
   */
   #ifndef DO_NOT_DISPLAY_ARROWS_IN_AMODE
+
   if (this->focused_syntagma_in_amode != nullptr) {
+    int shift = this->number_of_chars_before_source_text;
 
     QPainter p(this->viewport());
     p.setRenderHints(QPainter::Antialiasing, true);
@@ -771,12 +771,12 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
     for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
       // starting point :
       QTextCursor start_cur = this->textCursor();
-      start_cur.setPosition(shift+static_cast<int>(this->focused_syntagma_in_amode->posintextranges.medium()));
+      start_cur.setPosition(shift+static_cast<int>(this->focused_syntagma_in_amode->posintextranges.min()));
       QRect start_rect = this->cursorRect(start_cur);
 
       // end point :
       QTextCursor end_cur = this->textCursor();
-      end_cur.setPosition(shift+static_cast<int>(arrowtarget.final_position.medium()));
+      end_cur.setPosition(shift+static_cast<int>(arrowtarget.final_position.min()));
       QRect dest_rect = this->cursorRect(end_cur);
 
       float x0 = start_rect.x();
@@ -797,10 +797,10 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
 
       // initial/final boxes :
       p.setPen(this->dipydoc->notes.arrows_types.at(arrowtarget.type).start_qpen());
-      p.drawRect(x0-3, y0-3, 6, 6);
+      p.drawRect(x0-2, y0-2, 4, 4);
 
       p.setPen(this->dipydoc->notes.arrows_types.at(arrowtarget.type).end_qpen());
-      p.drawRect(x1-3, y1-3, 6, 6);
+      p.drawRect(x1-2, y1-2, 4, 4);
     }
   }
   #endif
