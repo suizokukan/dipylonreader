@@ -334,7 +334,8 @@ void MainWindow::download_dipydocs_demo(void) {
 
   MainWindow::fill_open_menu
 
-  Fill the Open menu with the available dipydocs.
+  Fill the Open menu with the available dipydocs, whose name are stored in
+  this->ui.available_menu_names .
 ______________________________________________________________________________*/
 void MainWindow::fill_open_menu(void) {
   //DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : entry point";
@@ -348,6 +349,7 @@ void MainWindow::fill_open_menu(void) {
     special case : no dipydoc could be found.
   */
   if (this->ui.available_menu_names.size() == 0) {
+    //DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : no dipydoc";
     QAction* emptyAction = new QAction(*icons.app,
                                        "(No Dipydoc could be found)",
                                        this);
@@ -363,6 +365,7 @@ void MainWindow::fill_open_menu(void) {
   */
   int number_of_items = 0;
   for (auto &item : this->ui.available_menu_names) {
+    //DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : found " << item.first;
     number_of_items++;
 
     if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
