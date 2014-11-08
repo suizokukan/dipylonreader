@@ -27,10 +27,11 @@ DEFINES += QT_NO_DEBUG_OUTPUT
 
 #_______________________________________________________________________________
 #
-# add this line if you want to see qDebug() messages
+# Add a console to the application ?
+#
+# this line will be set by the build script.
 #_______________________________________________________________________________
-CONFIG += console
-
+@@CONSOLE@@
 
 
 QT += widgets
