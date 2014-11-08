@@ -80,28 +80,30 @@ Syntagma::~Syntagma(void) {
         debugging-oriented function
 ______________________________________________________________________________*/
 QString Syntagma::repr(void) {
-
   QString arrowsnumber = QString("arrows' number=%1").arg(QString().setNum(this->arrows.size()));
 
-  if (this->father==nullptr) {
-    return QString("(no father) name=%1; type=%2; textnote=%3 arrows'number=%4").arg(this->name,
-                                                                                     this->type,
-                                                                                     this->textnote,
-                                                                                     QString().setNum(this->arrows.size()));
+  if (this->father == nullptr) {
+    return QString("(no father)"
+                   "name=%1; type=%2; textnote=%3 arrows'number=%4").arg(this->name,
+                                                                         this->type,
+                                                                         this->textnote,
+                                                                         QString().setNum(this->arrows.size()));
   } else {
     if (this->highest_ancestor==nullptr) {
-      return QString("(no forefather)(father's name=%4) name=%1; type=%2; textnote=%3 arrows'num.=%5").arg(this->name,
-                                                                                            this->type,
-                                                                                            this->textnote,
-                                                                                            this->father->name,
-                                                                                            QString().setNum(this->arrows.size()));
+      return QString("(no forefather)(father's name=%4)"
+                     "name=%1; type=%2; textnote=%3 arrows'num.=%5").arg(this->name,
+                                                                         this->type,
+                                                                         this->textnote,
+                                                                         this->father->name,
+                                                                         QString().setNum(this->arrows.size()));
     } else {
-      return QString("(forefather's name=%5)(father's name=%4) name=%1; type=%2; textnote=%3 arrows'num.=%6").arg(this->name,
-                                                                                            this->type,
-                                                                                            this->textnote,
-                                                                                            this->father->name,
-                                                                                            this->highest_ancestor->name,
-                                                                                            QString().setNum(this->arrows.size()));
+      return QString("(forefather's name=%5)(father's name=%4)"
+                     "name=%1; type=%2; textnote=%3 arrows'num.=%6").arg(this->name,
+                                                                         this->type,
+                                                                         this->textnote,
+                                                                         this->father->name,
+                                                                         this->highest_ancestor->name,
+                                                                         QString().setNum(this->arrows.size()));
     }
   }
 }
@@ -114,11 +116,10 @@ QString Syntagma::repr(void) {
 
 ______________________________________________________________________________*/
 QString Syntagma::pretty_debugmsg(int hlevel) {
-
   QString res;
 
   QString spacer("");
-  for(int i=0; i<hlevel; ++i) {
+  for (int i = 0; i < hlevel; ++i) {
     spacer += QString("  ");
   }
 

@@ -281,6 +281,17 @@ int UI::go(int argc, char **argv) {
 
 /*______________________________________________________________________________
 
+  UI::read_menu_names
+
+  Initialize this->available_menu_names.
+______________________________________________________________________________*/
+void UI::read_menu_names(void) {
+  this->available_menu_names = MenuNames(this->path_to_dipydocs);
+}
+
+
+/*______________________________________________________________________________
+
   UI::read_settings() : read the settings and initialize the application's
                         parameters
 ______________________________________________________________________________*/
@@ -338,16 +349,6 @@ void UI::read_settings(void) {
     */
     this->mainWin->visible_toolbars = settings.value("mainwindow/visible_toolbars") == true;
   }
-}
-
-/*______________________________________________________________________________
-
-  UI::read_menu_names
-
-  Initialize this->available_menu_names.
-______________________________________________________________________________*/
-void UI::read_menu_names(void) {
-  this->available_menu_names = MenuNames(this->path_to_dipydocs);
 }
 
 /*______________________________________________________________________________

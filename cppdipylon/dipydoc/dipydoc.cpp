@@ -943,7 +943,8 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
                          QString("lettrine:posintextframe"));
 
       // lettrine::filename
-      this->lettrine.filename_with_fullpath = this->path + "/" + this->xmlreader->attributes().value("filename").toString();
+      this->lettrine.filename_with_fullpath = this->path + "/" + \
+                                              this->xmlreader->attributes().value("filename").toString();
       QFile lettrinefile(this->lettrine.filename_with_fullpath);
       if (!lettrinefile.open(QFile::ReadOnly)) {
         QString msg("An error occurs while reading the lettrine's file; "
@@ -1226,7 +1227,6 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
       notes
     */
     if (tokenname == "notes") {
-
       ok &= this->read_mainfile__doctype_text__syntagma(nullptr);
     }
 
@@ -1249,11 +1249,9 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
   bool ok = true;
 
   while (this->xmlreader->readNextStartElement()) {
-
     QString tag_name = this->xmlreader->name().toString();
 
     if (this->notes.syntagmas_levels.find(tag_name) != this->notes.syntagmas_levels.end()) {
-
       PosInTextRanges textranges(this->xmlreader->attributes().value("textranges").toString());
       ok &= !this->error(textranges,
                          this->error_string(),

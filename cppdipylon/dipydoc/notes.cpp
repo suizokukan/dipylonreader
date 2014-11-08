@@ -75,15 +75,15 @@ QString Notes::repr(void) const {
   res += "* syntagmas_aspects = \n";
   for (auto & name_and_aspect : this->syntagmas_aspects) {
     res += QString("** %1 -> foreground=%2 background=%3\n").arg(name_and_aspect.first,
-                                                                 name_and_aspect.second.qtextcharformat().foreground().color().name(),
-                                                                 name_and_aspect.second.qtextcharformat().background().color().name());
+                                                  name_and_aspect.second.qtextcharformat().foreground().color().name(),
+                                                  name_and_aspect.second.qtextcharformat().background().color().name());
   }
 
   res += "* syntagmas_types = \n";
   for (auto & name_and_type : this->syntagmas_types) {
     res += QString("** %1 -> foreground=%2 background=%3\n").arg(name_and_type.first,
-                                                                 name_and_type.second.qtextcharformat().foreground().color().name(),
-                                                                 name_and_type.second.qtextcharformat().background().color().name());
+                                                    name_and_type.second.qtextcharformat().foreground().color().name(),
+                                                    name_and_type.second.qtextcharformat().background().color().name());
   }
 
   res += "* _syntagmas = \n";
@@ -93,7 +93,7 @@ QString Notes::repr(void) const {
 
   // first way to display this->syntagmas :
   res += "* syntagmas(1/2) = \n";
-  for(auto & level_and_syntagmasbylevel : this->syntagmas) {
+  for (auto & level_and_syntagmasbylevel : this->syntagmas) {
     // for an unknown reason QString().arg(1,2) doesn't work, .arg(1).arg(2) does.
     res += QString("** at level=%1, %2 syntagma(s) :\n").arg(level_and_syntagmasbylevel.first).arg(this->syntagmas.at(level_and_syntagmasbylevel.first).size());
     for (auto & posintextranges_and_syntagma : level_and_syntagmasbylevel.second) {
@@ -104,9 +104,9 @@ QString Notes::repr(void) const {
 
   // second way to display this->syntagmas :
   res += "* syntagmas(2/2) =\n";
-  for(auto & level_and_syntagmasbylevel : this->syntagmas) {
-    for(auto & posintext_and_syntagma : level_and_syntagmasbylevel.second) {
-      if (posintext_and_syntagma.second->father==nullptr) {
+  for (auto & level_and_syntagmasbylevel : this->syntagmas) {
+    for (auto & posintext_and_syntagma : level_and_syntagmasbylevel.second) {
+      if (posintext_and_syntagma.second->father == nullptr) {
         res += posintext_and_syntagma.second->pretty_debugmsg(0);
       }
     }
