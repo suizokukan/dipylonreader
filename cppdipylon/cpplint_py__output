@@ -2,87 +2,34 @@ Done processing ./debugmsg/debugmsg.h
 Total errors found: 0
 Done processing ./debugmsg/debugmsg.cpp
 Total errors found: 0
-./dipydoc/notes.cpp:78:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/notes.cpp:79:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/notes.cpp:85:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/notes.cpp:86:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/notes.cpp:96:  Missing space before ( in for(  [whitespace/parens] [5]
 ./dipydoc/notes.cpp:98:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
-./dipydoc/notes.cpp:107:  Missing space before ( in for(  [whitespace/parens] [5]
-./dipydoc/notes.cpp:108:  Missing space before ( in for(  [whitespace/parens] [5]
-./dipydoc/notes.cpp:109:  Missing spaces around ==  [whitespace/operators] [3]
 Done processing ./dipydoc/notes.cpp
-Total errors found: 9
-./dipydoc/menunames.h:72:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 1
 ./dipydoc/menunames.h:117:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/menunames.h:117:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./dipydoc/menunames.h
-Total errors found: 3
-./dipydoc/dipydoc.cpp:46:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:55:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:74:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:82:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:92:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 1
 ./dipydoc/dipydoc.cpp:99:  Missing space before ( in while(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:104:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:249:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:257:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:270:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:711:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:715:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:720:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:740:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:773:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:790:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:791:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:860:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:946:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/dipydoc.cpp:1229:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
 ./dipydoc/dipydoc.cpp:1232:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
-./dipydoc/dipydoc.cpp:1235:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1252:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./dipydoc/dipydoc.cpp:1256:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./dipydoc/dipydoc.cpp:1277:  Extra space after ( in function call  [whitespace/parens] [4]
-./dipydoc/dipydoc.cpp:1296:  Missing space before ( in if(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1309:  Missing space before ( in if(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1318:  Extra space after ( in function call  [whitespace/parens] [4]
-./dipydoc/dipydoc.cpp:1363:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1381:  Missing space before ( in while(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1382:  Missing spaces around ==  [whitespace/operators] [3]
-./dipydoc/dipydoc.cpp:1396:  Missing space before ( in while(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1405:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1504:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/dipydoc.cpp:1515:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1521:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1522:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1523:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1553:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1571:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1588:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/dipydoc.cpp:1279:  Add #include <map> for map<>  [build/include_what_you_use] [4]
+./dipydoc/dipydoc.cpp:1275:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:1294:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1307:  Missing space before ( in if(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1316:  Extra space after ( in function call  [whitespace/parens] [4]
+./dipydoc/dipydoc.cpp:1379:  Missing space before ( in while(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1380:  Missing spaces around ==  [whitespace/operators] [3]
+./dipydoc/dipydoc.cpp:1394:  Missing space before ( in while(  [whitespace/parens] [5]
+./dipydoc/dipydoc.cpp:1502:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./dipydoc/dipydoc.cpp:1277:  Add #include <map> for map<>  [build/include_what_you_use] [4]
 Done processing ./dipydoc/dipydoc.cpp
-Total errors found: 42
+Total errors found: 11
 ./dipydoc/syntagmas.h:68:  #endif line should be "#endif  // CPPDIPYLON_DIPYDOC_SYNTAGMAS_H_"  [build/header_guard] [5]
 Done processing ./dipydoc/syntagmas.h
 Total errors found: 1
 ./dipydoc/arrowtarget.h:56:  #endif line should be "#endif  // CPPDIPYLON_DIPYDOC_ARROWTARGET_H_"  [build/header_guard] [5]
 Done processing ./dipydoc/arrowtarget.h
 Total errors found: 1
-./dipydoc/syntagmas.cpp:73:  Should have a space between // and comment  [whitespace/comments] [4]
-./dipydoc/syntagmas.cpp:83:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./dipydoc/syntagmas.cpp:86:  Missing spaces around ==  [whitespace/operators] [3]
-./dipydoc/syntagmas.cpp:90:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
 ./dipydoc/syntagmas.cpp:92:  Missing spaces around ==  [whitespace/operators] [3]
-./dipydoc/syntagmas.cpp:97:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/syntagmas.cpp:99:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/syntagmas.cpp:103:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/syntagmas.cpp:104:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/syntagmas.cpp:117:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./dipydoc/syntagmas.cpp:121:  Missing spaces around =  [whitespace/operators] [4]
-./dipydoc/syntagmas.cpp:121:  Missing spaces around <  [whitespace/operators] [3]
-./dipydoc/syntagmas.cpp:121:  Missing space before ( in for(  [whitespace/parens] [5]
 Done processing ./dipydoc/syntagmas.cpp
-Total errors found: 13
+Total errors found: 1
 Done processing ./dipydoc/dipydoc.h
 Total errors found: 0
 ./dipydoc/notes.h:69:  #endif line should be "#endif  // CPPDIPYLON_DIPYDOC_NOTES_H_"  [build/header_guard] [5]
@@ -91,12 +38,8 @@ Total errors found: 1
 ./languages/languages.h:46:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
 Done processing ./languages/languages.h
 Total errors found: 1
-./languages/languagefromto.cpp:49:  Should have a space between // and comment  [whitespace/comments] [4]
-./languages/languagefromto.cpp:50:  Should have a space between // and comment  [whitespace/comments] [4]
-./languages/languagefromto.cpp:70:  Should have a space between // and comment  [whitespace/comments] [4]
-./languages/languagefromto.cpp:76:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./languages/languagefromto.cpp
-Total errors found: 4
+Total errors found: 0
 Done processing ./languages/languagefromto.h
 Total errors found: 0
 Done processing ./misc/hash.h
@@ -138,33 +81,16 @@ Done processing ./qt/blockformat.cpp
 Total errors found: 0
 Done processing ./qt/presentationscreen.h
 Total errors found: 0
-./qt/commentaryeditor.cpp:54:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/commentaryeditor.cpp:55:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/commentaryeditor.cpp
-Total errors found: 2
-./qt/arrowformat.cpp:165:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 0
 Done processing ./qt/arrowformat.cpp
-Total errors found: 1
-./qt/scsplitter.cpp:45:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:56:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:58:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:85:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:93:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:94:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:159:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:169:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:195:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:215:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:225:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/scsplitter.cpp:259:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 0
 Done processing ./qt/scsplitter.cpp
-Total errors found: 12
-./qt/textformat.cpp:285:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/textformat.cpp:286:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 0
 ./qt/textformat.cpp:306:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/textformat.cpp:323:  Extra space after ( in function call  [whitespace/parens] [4]
 Done processing ./qt/textformat.cpp
-Total errors found: 4
+Total errors found: 2
 ./qt/commentaryeditor.h:61:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
 Done processing ./qt/commentaryeditor.h
 Total errors found: 1
@@ -172,18 +98,8 @@ Done processing ./qt/sourcezone.h
 Total errors found: 0
 Done processing ./qt/sourcetoolbar.h
 Total errors found: 0
-./qt/downloaddemodipydocs.cpp:44:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:59:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:117:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:185:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:250:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:270:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:291:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:329:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:354:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/downloaddemodipydocs.cpp:386:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/downloaddemodipydocs.cpp
-Total errors found: 10
+Total errors found: 0
 Done processing ./qt/readingmodes.h
 Total errors found: 0
 Done processing ./qt/icons.h
@@ -200,10 +116,6 @@ Done processing ./qt/commentaryzone.h
 Total errors found: 0
 Done processing ./qt/downloaddemodipydocs.h
 Total errors found: 0
-./qt/sourceeditor.cpp:52:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourceeditor.cpp:62:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourceeditor.cpp:97:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourceeditor.cpp:285:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/sourceeditor.cpp:339:  At least two spaces is best between code and comments  [whitespace/comments] [2]
 ./qt/sourceeditor.cpp:342:  Missing spaces around =  [whitespace/operators] [4]
 ./qt/sourceeditor.cpp:346:  Missing spaces around =  [whitespace/operators] [4]
@@ -212,165 +124,64 @@ Total errors found: 0
 ./qt/sourceeditor.cpp:367:  Missing space before ( in while(  [whitespace/parens] [5]
 ./qt/sourceeditor.cpp:371:  Missing spaces around =  [whitespace/operators] [4]
 ./qt/sourceeditor.cpp:421:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
-./qt/sourceeditor.cpp:421:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/sourceeditor.cpp:429:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
 ./qt/sourceeditor.cpp:436:  Missing space before ( in switch(  [whitespace/parens] [5]
 ./qt/sourceeditor.cpp:446:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/sourceeditor.cpp:446:  Extra space before )  [whitespace/parens] [2]
 ./qt/sourceeditor.cpp:447:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:447:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/sourceeditor.cpp:451:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/sourceeditor.cpp:451:  Extra space before )  [whitespace/parens] [2]
 ./qt/sourceeditor.cpp:452:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:452:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/sourceeditor.cpp:466:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/sourceeditor.cpp:466:  Extra space before )  [whitespace/parens] [2]
 ./qt/sourceeditor.cpp:467:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:467:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/sourceeditor.cpp:471:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/sourceeditor.cpp:471:  Extra space before )  [whitespace/parens] [2]
 ./qt/sourceeditor.cpp:472:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:472:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/sourceeditor.cpp:484:  Extra space after ( in function call  [whitespace/parens] [4]
 ./qt/sourceeditor.cpp:484:  Extra space before )  [whitespace/parens] [2]
 ./qt/sourceeditor.cpp:485:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:485:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/sourceeditor.cpp:495:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
-./qt/sourceeditor.cpp:495:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourceeditor.cpp:555:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/sourceeditor.cpp:636:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourceeditor.cpp:642:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourceeditor.cpp:650:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourceeditor.cpp:753:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/sourceeditor.cpp:791:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/sourceeditor.cpp:835:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:835:  Should have a space between // and comment  [whitespace/comments] [4]
+./qt/sourceeditor.cpp:833:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
 Done processing ./qt/sourceeditor.cpp
-Total errors found: 45
+Total errors found: 27
 Done processing ./qt/texteditor.h
 Total errors found: 0
-./qt/commentarytoolbar.cpp:37:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/commentarytoolbar.cpp:46:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/commentarytoolbar.cpp
-Total errors found: 2
+Total errors found: 0
 Done processing ./qt/arrowformat.h
 Total errors found: 0
-./qt/sctabs.cpp:39:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sctabs.cpp:71:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/sctabs.cpp
-Total errors found: 2
+Total errors found: 0
 Done processing ./qt/texteditor.cpp
 Total errors found: 0
 Done processing ./qt/blockformat.h
 Total errors found: 0
 Done processing ./qt/textformat.h
 Total errors found: 0
-./qt/sourcetoolbar.cpp:36:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcetoolbar.cpp:45:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/sourcetoolbar.cpp
-Total errors found: 2
+Total errors found: 0
 Done processing ./qt/sctabs.h
 Total errors found: 0
 Done processing ./qt/mainwindow.h
 Total errors found: 0
-./qt/mainwindow.cpp:39:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:40:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:83:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:104:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:125:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:127:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:133:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:136:  Should have a space between // and comment  [whitespace/comments] [4]
 ./qt/mainwindow.cpp:138:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
-./qt/mainwindow.cpp:138:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:142:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:150:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:228:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:239:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:277:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:295:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:307:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:341:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:352:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:368:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:402:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:419:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:462:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:463:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:465:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:511:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:519:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:522:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:565:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/mainwindow.cpp:574:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/mainwindow.cpp
-Total errors found: 30
-./qt/presentationscreen.cpp:59:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/presentationscreen.cpp:84:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 1
 Done processing ./qt/presentationscreen.cpp
-Total errors found: 2
-./qt/icons.cpp:36:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/icons.cpp:61:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/icons.cpp:71:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/icons.cpp:96:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 0
 Done processing ./qt/icons.cpp
-Total errors found: 4
+Total errors found: 0
 Done processing ./qt/posintextframeformat.cpp
 Total errors found: 0
-./qt/commentaryzone.cpp:40:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/commentaryzone.cpp:45:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/commentaryzone.cpp:51:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/commentaryzone.cpp:78:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/commentaryzone.cpp
-Total errors found: 4
-./qt/sourcezone.cpp:46:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:125:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 0
 ./qt/sourcezone.cpp:135:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourcezone.cpp:135:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:194:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:233:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:312:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:368:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:376:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:393:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:412:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:431:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/sourcezone.cpp:452:  Should have a space between // and comment  [whitespace/comments] [4]
 Done processing ./qt/sourcezone.cpp
-Total errors found: 13
-./qt/ui.cpp:40:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:41:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:50:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:51:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:52:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:53:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:54:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:55:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:67:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:69:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:77:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:80:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:83:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:91:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:132:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:133:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:144:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:146:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:159:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:160:  Missing spaces around ==  [whitespace/operators] [3]
-./qt/ui.cpp:161:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:168:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:169:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:204:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:205:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:220:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:224:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:234:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:310:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:316:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:326:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:332:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:338:  Should have a space between // and comment  [whitespace/comments] [4]
-./qt/ui.cpp:370:  Should have a space between // and comment  [whitespace/comments] [4]
+Total errors found: 1
+./qt/ui.cpp:51:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+./qt/ui.cpp:73:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./qt/ui.cpp:83:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
+./qt/ui.cpp:185:  Missing spaces around ==  [whitespace/operators] [3]
 Done processing ./qt/ui.cpp
-Total errors found: 34
+Total errors found: 4

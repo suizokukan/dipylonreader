@@ -33,7 +33,7 @@
 
 _______________________________________________________________________________*/
 void Icons::load_icons(void) {
-  //DEBUG1 DebugMsg() << "Icons::load_icons : entry point";
+  // DEBUG1 DebugMsg() << "Icons::load_icons : entry point";
 
   this->app                     = new QIcon(":/ressources/images/icons/application_icon.png");
   this->audio_pause             = new QIcon(":ressources/images/icons/audio_pause.png");
@@ -58,7 +58,7 @@ void Icons::load_icons(void) {
   this->textplus                = new QIcon(":ressources/images/icons/textplus.png");
   this->up                      = new QIcon(":ressources/images/icons/up.png");
 
-  //DEBUG1 DebugMsg() << "Icons::load_icons : exit point";
+  // DEBUG1 DebugMsg() << "Icons::load_icons : exit point";
 }
 
 /*______________________________________________________________________________
@@ -68,7 +68,7 @@ void Icons::load_icons(void) {
   Icons destructor
 _______________________________________________________________________________*/
 Icons::~Icons(void) {
-  //DEBUG1 DebugMsg() << "Icons::~Icons : entry point";
+  // DEBUG1 DebugMsg() << "Icons::~Icons : entry point";
 
   delete this->audio_pause;
   delete this->audio_play;
@@ -93,5 +93,5 @@ Icons::~Icons(void) {
   delete this->textplus;
   delete this->up;
 
-  //DEBUG1 DebugMsg() << "Icons::~Icons : exit point";
+  // DEBUG1 DebugMsg() << "Icons::~Icons : exit point";
 }

@@ -37,18 +37,18 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
                                QWidget* _parent) : QFrame(_parent),
                                                    dipydoc(_dipydoc),
                                                    blocked_commentaries(_blocked_commentaries) {
-  //DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
 
   QString object_name(splitter_name + "::commentary_zone");
   this->setObjectName(object_name);
 
-  //DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
   this->editor = new CommentaryEditor(splitter_name,
                                       this->dipydoc,
                                       this->blocked_commentaries,
                                       this);
 
-  //DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
   this->toolbar = new CommentaryToolBar(splitter_name,
                                         this);
 
@@ -75,5 +75,5 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   QObject::connect(this->textplusAct,  &QAction::triggered,
                    this->editor,       &CommentaryEditor::zoom_in);
 
-  //DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : exit point";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : exit point";
 }

@@ -69,7 +69,7 @@ inline MenuNames::MenuNames(void) {
 
 // let's search in 'path' to find every 'menu name' :
 inline MenuNames::MenuNames(const QString& path) {
-  //DEBUG1 DebugMsg() << "MenuNames::MenuNames() from path = "<< path;
+  // DEBUG1 DebugMsg() << "MenuNames::MenuNames() from path = "<< path;
   this->menuname_to_directory.clear();
 
   QDir dipydocs_path(path);
@@ -114,7 +114,7 @@ inline QString MenuNames::read_menu_name_from_a_file_within_a_directory(const QS
     res = res.trimmed();
   }
 
-  //DEBUG1 DebugMsg() << "MenuNames::read_menu_name_from_a_file_within_a_directory() path = " << path << "; res = " << res;
+  // DEBUG1 DebugMsg() << "MenuNames::read_menu_name_from_a_file_within_a_directory() path = " << path << "; res = " << res;
   return res;
 }
 

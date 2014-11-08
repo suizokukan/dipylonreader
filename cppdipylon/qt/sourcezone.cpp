@@ -43,7 +43,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                            visible_toolbars(_visible_toolbars),
                                            readingmode(_readingmode),
                                            readingmode_details(_readingmodedetails) {
-  //DEBUG1 DebugMsg() << "SourceZone::SourceZone : entry point";
+  // DEBUG1 DebugMsg() << "SourceZone::SourceZone : entry point";
 
   QString object_name(splitter_name + "::source_zone");
   this->setObjectName(object_name);
@@ -122,7 +122,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->audio_player = new QMediaPlayer(this);
 
   if (this->dipydoc->audiorecord.found == true) {
-    //DEBUG1 DebugMsg() << "loading audiofile" << this->dipydoc->audiorecord.filename;
+    // DEBUG1 DebugMsg() << "loading audiofile" << this->dipydoc->audiorecord.filename;
     this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc->audiorecord.filename));
 
     this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
@@ -132,7 +132,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (1) setting the object : UI
   */
-  //DEBUG1 DebugMsg() << "[SourceZone::] setStyleSheet = " << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
+  // DEBUG1 DebugMsg() << "[SourceZone::] setStyleSheet = " << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
   this->setStyleSheet(QString("#%1 {border: 0px; padding: 0px}").arg(object_name));
 
   this->editor = new SourceEditor(splitter_name,
@@ -191,7 +191,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   */
   this->readingmode         = READINGMODE::READINGMODE_RMODE;
   this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
-  //DEBUG1 DebugMsg() << "now in RMODE mode";
+  // DEBUG1 DebugMsg() << "now in RMODE mode";
 
   /*
     (4) zoom values for this document :
@@ -230,7 +230,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   // SIGNAL #S008 (confer documentation)
   emit this->signal__update_icons();
 
-  //DEBUG1 DebugMsg() << "SourceZone::SourceZone : exit point";
+  // DEBUG1 DebugMsg() << "SourceZone::SourceZone : exit point";
 }
 
 /*______________________________________________________________________________
@@ -309,7 +309,7 @@ void SourceZone::audiocontrols_play(void) {
 
 ________________________________________________________________________________*/
 void SourceZone::audiocontrols_stop(void) {
-  //DEBUG1 DebugMsg() << "SourceZone::audiocontrols_stop";
+  // DEBUG1 DebugMsg() << "SourceZone::audiocontrols_stop";
 
   // LMODE + ON PAUSE ? we set the icon from "pause" to "play".
   if (this->readingmode == READINGMODE_LMODE &&
@@ -365,7 +365,7 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
   SourceZone::leveldownAct__buttonpressed()
 ______________________________________________________________________________*/
 void SourceZone::leveldownAct__buttonpressed(void) {
-  //DEBUG1 DebugMsg() << "SourceZone::leveldownAct__buttonpressed" << this->amode_level;
+  // DEBUG1 DebugMsg() << "SourceZone::leveldownAct__buttonpressed" << this->amode_level;
 }
 
 /*______________________________________________________________________________
@@ -373,7 +373,7 @@ void SourceZone::leveldownAct__buttonpressed(void) {
   SourceZone::levelupAct__buttonpressed()
 ______________________________________________________________________________*/
 void SourceZone::levelupAct__buttonpressed(void) {
-  //DEBUG1 DebugMsg() << "SourceZone::levelupAct__buttonpressed" << this->amode_level;
+  // DEBUG1 DebugMsg() << "SourceZone::levelupAct__buttonpressed" << this->amode_level;
 }
 
 /*______________________________________________________________________________
@@ -390,7 +390,7 @@ void SourceZone::readingmode_aAct__buttonpressed(void) {
 
   this->readingmode = READINGMODE_AMODE;
   this->readingmode_details = READINGMODEDETAIL_AMODE;
-  //DEBUG1 DebugMsg() << "switched to AMODE mode";
+  // DEBUG1 DebugMsg() << "switched to AMODE mode";
   // SIGNAL #S010 (confer documentation)
   emit this->signal__update_icons();
 }
@@ -409,7 +409,7 @@ void SourceZone::readingmode_rAct__buttonpressed(void) {
 
   this->readingmode = READINGMODE_RMODE;
   this->readingmode_details = READINGMODEDETAIL_RMODE;
-  //DEBUG1 DebugMsg() << "switched to RMODE mode";
+  // DEBUG1 DebugMsg() << "switched to RMODE mode";
   // SIGNAL #S011 (confer documentation)
   emit this->signal__update_icons();
 
@@ -428,7 +428,7 @@ ______________________________________________________________________________*/
 void SourceZone::readingmode_lAct__buttonpressed(void) {
   this->readingmode = READINGMODE_LMODE;
   this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
-  //DEBUG1 DebugMsg() << "switched to LMODE mode";
+  // DEBUG1 DebugMsg() << "switched to LMODE mode";
   // SIGNAL #S012 (confer documentation)
   emit this->signal__update_icons();
 
@@ -449,7 +449,7 @@ void SourceZone::readingmode_lAct__buttonpressed(void) {
   SCSplitter::update_icons .
 ________________________________________________________________________________*/
 void SourceZone::update_icons(void) {
-  //DEBUG1 DebugMsg() << "SourceZone::update_icons";
+  // DEBUG1 DebugMsg() << "SourceZone::update_icons";
 
   switch (this->readingmode) {
     case READINGMODE_AMODE: {
