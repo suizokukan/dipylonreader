@@ -70,7 +70,7 @@ UI::UI(void) {
         ok, the default path has been created : let's use it.
       */
 
-      // DEBUG1 DebugMsg() << "initialization of this->path_info : let's use fixedparameters::default__path_to_dipydocs " \
+      // DEBUG1 DebugMsg() << "initialization of this->path_info : let's use fixedparameters::default__path_to_dipydocs "
       // DEBUG1            << "which has just been created; this->path_to_dipydocs="
       // DEBUG1            << fixedparameters::default__path_to_dipydocs;
       this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
@@ -80,7 +80,7 @@ UI::UI(void) {
       ok, the default path exists : let's use it.
     */
 
-    // DEBUG1 DebugMsg() << "initialization of this->path_info : let's use fixedparameters::default__path_to_dipydocs " \
+    // DEBUG1 DebugMsg() << "initialization of this->path_info : let's use fixedparameters::default__path_to_dipydocs "
     // DEBUG1            << fixedparameters::default__path_to_dipydocs;
     this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
   }

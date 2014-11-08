@@ -11,6 +11,9 @@
 #
 # This script launches the compilation of the Dipylon's project
 #
+# o --console=yes, --console=no
+#       Add a console to the application ?
+#
 # o --debug=0, --debug=1
 #       =0 : no call to DebugMessage() will be kept
 #       =1 : the calls to DebugMessage() marked as // DEBUG1 will be kept
@@ -23,6 +26,8 @@
 # 
 ################################################################################
 #
+# version 2 (2014.11.21) : new option : --console=yes|no
+#
 # version 1 (2014.11.05) : first version to be committed.
 #
 ################################################################################
@@ -30,7 +35,7 @@
 import os
 import argparse
 
-VERSION = "build_dipylonreader_win64static : v1"
+VERSION = "build_dipylonreader_win64static : v2"
 SUMMARY = "Linux > Windows64/static/using MXE"
 
 # system call
@@ -46,6 +51,12 @@ PARSER.add_argument("--debug",
                     choices={0,1},
                     required=True,
                     type=int)
+
+PARSER.add_argument("--console",
+                    help="add a console to the application, or not",
+                    choices={"yes","no"},
+                    required=True,
+                    type=str)
 
 PARSER.add_argument("--version",
                     action="version",
@@ -78,9 +89,11 @@ with open("build_number", 'w') as buildnumber_file:
 TEMP_FOLDER = "temp__build_win64_static_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_win_64bits_static_v{0}_debug{1}_build{2}.exe".format(VERSION_FOR_EXEC_NAME,
-                                                                                 ARGS.debug,
-                                                                                 BUILD_NUMBER)
+EXEC_NAME  = "dipylonreader_win_64bits_static_v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,
+                                                                                            ARGS.debug,
+                                                                                            ARGS.console,
+                                                                                            BUILD_NUMBER)
+
 
 # build :
 print("=== compiling {0} ===".format(SUMMARY))
@@ -117,11 +130,21 @@ ossystem("cp 2win64_static/dipylonreader.rc {0}/".format(TEMP_FOLDER))
 os.chdir("{0}/".format(TEMP_FOLDER))
 print("== now in {0}/".format(TEMP_FOLDER))
 
-print("== removing //DEBUGx prefix ?")
+print("== removing // DEBUGx prefix ?")
 if ARGS.debug == 1:
     print("... removing the // DEBUG1 prefix")
     ossystem("find . -name \"*.cpp\" -exec sed -i 's:// DEBUG1 ::g' {} \;")
     ossystem("find . -name \"*.h\"   -exec sed -i 's:// DEBUG1 ::g' {} \;")
+
+print("== modifiying dipylonreader.pro")
+with open("dipylonreader.pro", 'r') as pro_file:
+    pro_file_content = pro_file.read()
+if ARGS.console == "yes":
+  pro_file_content = pro_file_content.replace("@@CONSOLE@@", "CONFIG += CONSOLE")
+else:
+  pro_file_content = pro_file_content.replace("@@CONSOLE@@", "CONFIG -= CONSOLE")
+with open("dipylonreader.pro", 'w') as pro_file:
+    pro_file.write(pro_file_content)
 
 print("== calling qmake")
 ossystem("~/mxe_64/usr/x86_64-w64-mingw32/qt5/bin/qmake -makefile dipylonreader.pro".format(TEMP_FOLDER))

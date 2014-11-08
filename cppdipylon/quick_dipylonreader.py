@@ -114,7 +114,7 @@ ossystem("rsync -a . {0}/ --exclude {0}/".format(TEMP_FOLDER))
 os.chdir("{0}/".format(TEMP_FOLDER))
 print("== now in {0}/".format(TEMP_FOLDER))
 
-print("== removing //DEBUGx prefix ?")
+print("== removing // DEBUGx prefix ?")
 if ARGS.debug == 1:
     print("... removing the // DEBUG1 prefix")
     ossystem("find . -name \"*.cpp\" -exec sed -i 's:// DEBUG1 ::g' {} \;")
