@@ -13,7 +13,7 @@
 #
 # o --debug=0, --debug=1
 #       =0 : no call to DebugMessage() will be kept
-#       =1 : the calls to DebugMessage() marked as //DEBUG1 will be kept
+#       =1 : the calls to DebugMessage() marked as // DEBUG1 will be kept
 #
 # o this script seeks in fixedparameters.h the project's version :
 #   expected format is :
@@ -116,9 +116,9 @@ print("== now in {0}/".format(TEMP_FOLDER))
 
 print("== removing //DEBUGx prefix ?")
 if ARGS.debug == 1:
-    print("... removing the //DEBUG1 prefix")
-    ossystem("find . -name \"*.cpp\" -exec sed -i 's://DEBUG1 ::g' {} \;")
-    ossystem("find . -name \"*.h\"   -exec sed -i 's://DEBUG1 ::g' {} \;")
+    print("... removing the // DEBUG1 prefix")
+    ossystem("find . -name \"*.cpp\" -exec sed -i 's:// DEBUG1 ::g' {} \;")
+    ossystem("find . -name \"*.h\"   -exec sed -i 's:// DEBUG1 ::g' {} \;")
 
 print("== calling qmake")
 ossystem("qmake-qt5 -makefile dipylonreader.pro")

@@ -41,7 +41,7 @@
      (5) success message
 ________________________________________________________________________________*/
 DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QObject(_parent), ui(_ui) {
-  //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : entry point";
+  // DEBUG1 DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : entry point";
 
   // setting this->summary_url :
   this->set_summary_url();
@@ -56,7 +56,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   // (0.1) is the network ok ?
   if (this->ui.network_manager->networkAccessible() == QNetworkAccessManager::NetworkAccessibility::NotAccessible) {
     // no network !
-    //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : No network available !";
+    // DEBUG1 DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : No network available !";
     QMessageBox msgBox;
     msgBox.setText(QObject::tr("No network available ! You can't download if the network is down."));
     msgBox.exec();
@@ -114,7 +114,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   for ( QString &directory : path.entryList() ) {
     if ( (directory != ".") && (directory != "..") ) {
       QString directory_with_full_path = path.absolutePath() + "/" + directory;
-      //DEBUG1 DebugMsg() << "(MainWindow::download_dipydocs_demo) erasing recursively" << directory_with_full_path;
+      // DEBUG1 DebugMsg() << "(MainWindow::download_dipydocs_demo) erasing recursively" << directory_with_full_path;
 
       QDir path_to_be_erased(directory_with_full_path);
       ok &= path_to_be_erased.removeRecursively();
@@ -182,7 +182,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
 
     delete this->current_file;
     this->current_file = new QFile(this->current_datafile_to_be_downloaded__disk);
-    //DEBUG1 DebugMsg() << "... opening a new QFile : " << this->current_file->fileName();
+    // DEBUG1 DebugMsg() << "... opening a new QFile : " << this->current_file->fileName();
 
     if (!this->current_file->open(QIODevice::WriteOnly)) {
       QMessageBox msgBox;
@@ -247,7 +247,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
     msgBox.exec();
   }
 
-  //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : exit point";
+  // DEBUG1 DebugMsg() << "DownloadDemoDipydocs::DownloadDemoDipydoc() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -267,7 +267,7 @@ DownloadDemoDipydocs::~DownloadDemoDipydocs(void) {
   Function called when the user stops the process.
 ______________________________________________________________________________*/
 void DownloadDemoDipydocs::cancel(void) {
-  //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::cancel()";
+  // DEBUG1 DebugMsg() << "DownloadDemoDipydocs::cancel()";
 
   this->cancel_tasks = true;
 
@@ -288,7 +288,7 @@ void DownloadDemoDipydocs::create_path_to_the_file(const QString& filename) {
   QDir new_d = QFileInfo(filename).dir();
 
   if (new_d.exists() == false) {
-    //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::create_path_to_the_file : creating " << new_d.absolutePath();
+    // DEBUG1 DebugMsg() << "DownloadDemoDipydocs::create_path_to_the_file : creating " << new_d.absolutePath();
 
     if (new_d.mkpath(new_d.absolutePath()) == false) {
       QMessageBox msgBox;
@@ -326,7 +326,7 @@ void DownloadDemoDipydocs::download_data_finished(QNetworkReply* reply) {
     /*
       the download has finished normally :
     */
-    //DEBUG1 DebugMsg() << "... closing a QFile : " << this->current_file->fileName();
+    // DEBUG1 DebugMsg() << "... closing a QFile : " << this->current_file->fileName();
     this->current_file->flush();
     this->current_file->close();
 
@@ -351,7 +351,7 @@ void DownloadDemoDipydocs::download_contact_finished(QNetworkReply* reply) {
     /*
        an error occurs :
     */
-    //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::download_contact_finished() : ERROR :" << reply->errorString();
+    // DEBUG1 DebugMsg() << "DownloadDemoDipydocs::download_contact_finished() : ERROR :" << reply->errorString();
 
     QMessageBox msgBox;
     msgBox.setText(QString(tr("The source site could not be reached : is the network ok ? Check out details below.")));
@@ -383,7 +383,7 @@ void DownloadDemoDipydocs::download_summary_finished(QNetworkReply* reply) {
     /*
        an error occurs :
     */
-    //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::download_summary_finished() : ERROR :" << reply->errorString();
+    // DEBUG1 DebugMsg() << "DownloadDemoDipydocs::download_summary_finished() : ERROR :" << reply->errorString();
 
     QMessageBox msgBox;
     msgBox.setText(QString(tr("The source site could not be reached : is the network ok ? Check out details below.")));

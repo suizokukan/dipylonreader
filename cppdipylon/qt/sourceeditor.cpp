@@ -49,7 +49,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
                                                audiocontrols_stopAct(_audiocontrols_stopAct),
                                                blocked_commentaries(_blocked_commentaries),
                                                amode_level(_amode_level) {
-  //DEBUG1 DebugMsg() << "SourceEditor::SourceEditor() : entry point";
+  // DEBUG1 DebugMsg() << "SourceEditor::SourceEditor() : entry point";
 
   QString object_name(splitter_name + "::source zone::editor");
   this->setObjectName(object_name);
@@ -59,7 +59,7 @@ SourceEditor::SourceEditor(const QString &       splitter_name,
   this->load_text();
   this->update_aspect_from_dipydoc_aspect_informations();
 
-  //DEBUG1 DebugMsg() << "SourceEditor::SourceEditor() : exit point";
+  // DEBUG1 DebugMsg() << "SourceEditor::SourceEditor() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -94,7 +94,7 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
 
 ______________________________________________________________________________*/
 void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
-  //DEBUG1 DebugMsg() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
+  // DEBUG1 DebugMsg() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
 
   switch (keyboard_event->key()) {
     //......................................................................
@@ -282,7 +282,7 @@ void SourceEditor::load_text(void) {
         Use this function only for the a-mode.
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
-  //DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode() syntagma=" << syntagma;
+  // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode() syntagma=" << syntagma;
 
   int shift = this->number_of_chars_before_source_text;
 
@@ -418,7 +418,7 @@ _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syntagma,
                                                            QList<QTextEdit::ExtraSelection> & selections,
                                                            int link) {
-  ////DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : entry point : #" << current_syntagma->name << " link=" << link << " pos=" << current_syntagma->posintextranges.repr();
+  // // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : entry point : #" << current_syntagma->name << " link=" << link << " pos=" << current_syntagma->posintextranges.repr();
 
   int shift = this->number_of_chars_before_source_text;
 
@@ -444,12 +444,12 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
           // the type has been defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          ////DEBUG1 DebugMsg() << "###foc0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          // // DEBUG1 DebugMsg() << "###foc0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         } else {
           // no type defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+foc").qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          ////DEBUG1 DebugMsg() << "###foc1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          // // DEBUG1 DebugMsg() << "###foc1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         }
         break;
       }
@@ -464,12 +464,12 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
           // the type has been defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_types.at(current_syntagma->type).qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          ////DEBUG1 DebugMsg() << "###bro0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          // // DEBUG1 DebugMsg() << "###bro0" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         } else {
           // no type defined :
           qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+bro").qtextcharformat();
           selections.append( {cur, qtextcharformat} );
-          ////DEBUG1 DebugMsg() << "###bro1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+          // // DEBUG1 DebugMsg() << "###bro1" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         }
         break;
       }
@@ -482,7 +482,7 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
         */
         qtextcharformat = this->dipydoc->notes.syntagmas_aspects.at(current_syntagma->name+"+fam").qtextcharformat();
         selections.append( {cur, qtextcharformat} );
-        ////DEBUG1 DebugMsg() << "###fam" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
+        // // DEBUG1 DebugMsg() << "###fam" << static_cast<int>(x0x1.first) + shift << " - " << static_cast<int>(x0x1.second) + shift;
         break;
       }
 
@@ -492,7 +492,7 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
     }
   }
 
-  ////DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : exit point : #" << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
+  // // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : exit point : #" << current_syntagma->name << " - " << current_syntagma->type << " this= " << current_syntagma << " father= " << current_syntagma->father;
 }
 
 /*______________________________________________________________________________
@@ -632,13 +632,13 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
 _____________________________________________________________________________*/
 void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   QTextCursor cur = this->textCursor();
-  //DEBUG1 DebugMsg() << "SourceEditor::mouseReleaseEvent";
+  // DEBUG1 DebugMsg() << "SourceEditor::mouseReleaseEvent";
 
   /*............................................................................
     (1) RMODE + selection
   ............................................................................*/
   if (this->readingmode_details == READINGMODEDETAILS::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
-    //DEBUG1 DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
+    // DEBUG1 DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
     int shift = this->number_of_chars_before_source_text;
     PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
@@ -646,7 +646,7 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
 
     // where are the characters in the translations linked to "x0-x1" ?
     PosInTextRanges pos_in_text =  this->dipydoc->translation_contains(x0, x1);
-    //DEBUG1 DebugMsg() << x0 << "-" << x1 << "; pos_in_text=" << pos_in_text.repr();
+    // DEBUG1 DebugMsg() << x0 << "-" << x1 << "; pos_in_text=" << pos_in_text.repr();
 
     /*
       we refresh the ui :
@@ -830,7 +830,7 @@ void SourceEditor::reset_all_text_format_to_default(void) {
   SourceEditor::set_the_appearance()
 ______________________________________________________________________________*/
 void SourceEditor::set_the_appearance(void) {
-  //DEBUG1 DebugMsg() << "[SourceEditor::set_the_appearance] this->setStyleSheet = " << this->dipydoc->sourceeditor_stylesheet;
+  // DEBUG1 DebugMsg() << "[SourceEditor::set_the_appearance] this->setStyleSheet = " << this->dipydoc->sourceeditor_stylesheet;
   this->setStyleSheet(this->dipydoc->sourceeditor_stylesheet);
 }
 

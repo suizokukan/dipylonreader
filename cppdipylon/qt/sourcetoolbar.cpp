@@ -33,7 +33,7 @@
 ______________________________________________________________________________*/
 SourceToolBar::SourceToolBar(const QString & splitter_name,
                              QWidget *_parent) : QToolBar(_parent) {
-  //DEBUG1 DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
+  // DEBUG1 DebugMsg() << "SourceToolBar::SourceToolBar : entry point";
 
   QString object_name(splitter_name + "::source zone::toolbar");
   this->setObjectName(object_name);
@@ -42,5 +42,5 @@ SourceToolBar::SourceToolBar(const QString & splitter_name,
 
   this->setStyleSheet(fixedparameters::default__sourcetoolbar_stylesheet);
 
-  //DEBUG1 DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
+  // DEBUG1 DebugMsg() << "SourceToolBar::SourceToolBar : exit point";
 }
