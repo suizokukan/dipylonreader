@@ -45,18 +45,43 @@ UI::UI(void) {
 
      if it's possible, this attribute takes the value stored in fixedparameters::default_path_to_dipydocs :
   */
+  //DEBUG1 DebugMsg() << "initialization of this->path_info :";
   QFileInfo path_info = QFileInfo(fixedparameters::default__path_to_dipydocs);
   if (path_info.exists() == false || path_info.isFile()) {
-    //DEBUG1 DebugMsg() << "UI::UI"
-    //DEBUG1            << "problem with the default path stored in fixedparameters.h, using the current directory."
-    //DEBUG1            << " default path = " << fixedparameters::default__path_to_dipydocs
-    //DEBUG1            << " (path_info.exists()=" << path_info.exists()
-    //DEBUG1            << "path_info.isFile()=" << path_info.isFile()
-    //DEBUG1            << ")";
 
-    // problem with the default value, the program has to use the current directory :
-    this->path_to_dipydocs = ".";
+    /*
+      Let's try to create the expected directory :
+    */
+    QDir new_d = path_info.dir();
+    if (new_d.mkpath(new_d.absolutePath()) == false) {
+      /*
+        problem with the default value, the program has to use the current directory :
+      */
+      this->path_to_dipydocs = ".";
+
+      //DEBUG1 DebugMsg() << "(can't create the expected folder). "
+      //DEBUG1            << "Problem with the default path stored in fixedparameters.h, using the current directory."
+      //DEBUG1            << " default path = " << fixedparameters::default__path_to_dipydocs
+      //DEBUG1            << " (path_info.exists()=" << path_info.exists()
+      //DEBUG1            << "path_info.isFile()=" << path_info.isFile()
+      //DEBUG1            << ")";
+    } else {
+      /*
+        ok, the default path has been created : let's use it.
+      */
+
+      //DEBUG1 DebugMsg() << "initialization of this->path_info : let's use fixedparameters::default__path_to_dipydocs " \
+      //DEBUG1            << "which has just been created; this->path_to_dipydocs="
+      //DEBUG1            << fixedparameters::default__path_to_dipydocs;
+      this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
+    }
   } else {
+    /*
+      ok, the default path exists : let's use it.
+    */
+
+    //DEBUG1 DebugMsg() << "initialization of this->path_info : let's use fixedparameters::default__path_to_dipydocs " \
+    //DEBUG1            << fixedparameters::default__path_to_dipydocs;
     this->path_to_dipydocs = fixedparameters::default__path_to_dipydocs;
   }
 
