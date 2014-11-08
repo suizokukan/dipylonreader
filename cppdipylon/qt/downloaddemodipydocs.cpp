@@ -287,7 +287,7 @@ void DownloadDemoDipydocs::create_path_to_the_file(const QString& filename) {
   // if the directory where filename should be stored doesn't exist, we create it :
   QDir new_d = QFileInfo(filename).dir();
 
-  if ( new_d.exists() == false ) {
+  if (new_d.exists() == false) {
     //DEBUG1 DebugMsg() << "DownloadDemoDipydocs::create_path_to_the_file : creating " << new_d.absolutePath();
 
     if (new_d.mkpath(new_d.absolutePath()) == false) {
@@ -447,7 +447,7 @@ QUrl DownloadDemoDipydocs::get_data_url(const QString& filename) const {
   E.g. transform "Ovide/main.xml" into "/home/suizokukan/dipydocs/Ovide/main.xml"
 ______________________________________________________________________________*/
 QString DownloadDemoDipydocs::get_data_filename_fullpath(const QString& filename) const {
-  return fixedparameters::default__path_to_dipydocs + "/" + filename;
+  return this->ui.path_to_dipydocs + "/" + filename;
 }
 
 /*______________________________________________________________________________
