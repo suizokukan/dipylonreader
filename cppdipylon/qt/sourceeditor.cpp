@@ -552,7 +552,6 @@ void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& p
         SourceEditor::mouseMoveEvent()
 ______________________________________________________________________________*/
 void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
-
   if (this->blocked_commentaries == false) {
     switch (this->readingmode_details) {
       case READINGMODEDETAILS::READINGMODEDETAIL_RMODE : {
@@ -750,7 +749,6 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   $$$ http://elonen.iki.fi/code/misc-notes/char-bbox-qtextedit/
 ______________________________________________________________________________*/
 void SourceEditor::paintEvent(QPaintEvent* ev) {
-
   /*
     Let's draw anything but the arrows :
   */
@@ -788,7 +786,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
       QPointF endpoint = QPointF(x1, y1);
 
       // arrow body :
-      p.setPen( this->dipydoc->notes.arrows_types.at(arrowtarget.type).body_qpen());
+      p.setPen(this->dipydoc->notes.arrows_types.at(arrowtarget.type).body_qpen());
       QPainterPath path = QPainterPath(startingpoint);  // starting point
       path.cubicTo(QPointF(x0*1.3, y0*0.9),
                    QPointF(x0*1.1, y0*0.7),
