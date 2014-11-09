@@ -26,6 +26,8 @@
 # 
 ################################################################################
 #
+# version 3 (2014.11.08) : improved TEMP_FOLDER
+#
 # version 2 (2014.11.21) : new option : --console=yes|no
 #
 # version 1 (2014.11.05) : first version to be committed.
@@ -35,7 +37,7 @@
 import os
 import argparse
 
-VERSION = "build_dipylonreader_win64static : v2"
+VERSION = "build_dipylonreader_win64static : v3"
 SUMMARY = "Linux > Windows64/static/using MXE"
 
 # system call
@@ -86,7 +88,8 @@ with open("build_number", 'w') as buildnumber_file:
     buildnumber_file.write(str(BUILD_NUMBER))
 
 # setting the temporary build folder without the final '/' :
-TEMP_FOLDER = "temp__build_win64_static_debug{0}".format(ARGS.debug)
+TEMP_FOLDER = "temp__build_win64_static_debug{0}_console{1}".format(ARGS.debug,
+                                                                    ARGS.console)
 
 # setting the executable name :
 EXEC_NAME  = "dipylonreader_win_64bits_static_v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,

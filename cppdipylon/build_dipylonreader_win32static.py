@@ -26,7 +26,9 @@
 # 
 ################################################################################
 #
-# version 5 (2014.11.21) : new option : --console=yes|no
+# version 6 (2014.11.09) : improved TEMP_FOLDER
+#
+# version 5 (2014.11.08) : new option : --console=yes|no
 #
 # version 4 (2014.11.01) : new EXEC_NAME, ending with "_v{0}_debug{1}_build{2}.exe"
 #
@@ -41,7 +43,7 @@
 import os
 import argparse
 
-VERSION = "build_dipylonreader_win32static : v5"
+VERSION = "build_dipylonreader_win32static : v6"
 SUMMARY = "Linux > Windows32/static/using MXE"
 
 # system call
@@ -92,7 +94,8 @@ with open("build_number", 'w') as buildnumber_file:
     buildnumber_file.write(str(BUILD_NUMBER))
 
 # setting the temporary build folder without the final '/' :
-TEMP_FOLDER = "temp__build_win32_static_debug{0}".format(ARGS.debug)
+TEMP_FOLDER = "temp__build_win32_static_debug{0}_console{1}".format(ARGS.debug,
+                                                                    ARGS.console)
 
 # setting the executable name :
 EXEC_NAME  = "dipylonreader_win_32bits_static_v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,
