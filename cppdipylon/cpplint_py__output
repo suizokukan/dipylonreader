@@ -5,39 +5,22 @@ Total errors found: 0
 ./dipydoc/notes.cpp:98:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
 Done processing ./dipydoc/notes.cpp
 Total errors found: 1
-./dipydoc/menunames.h:117:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
 Done processing ./dipydoc/menunames.h
-Total errors found: 1
-./dipydoc/dipydoc.cpp:99:  Missing space before ( in while(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1232:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
-./dipydoc/dipydoc.cpp:1275:  Extra space after ( in function call  [whitespace/parens] [4]
-./dipydoc/dipydoc.cpp:1294:  Missing space before ( in if(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1307:  Missing space before ( in if(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1316:  Extra space after ( in function call  [whitespace/parens] [4]
-./dipydoc/dipydoc.cpp:1379:  Missing space before ( in while(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1380:  Missing spaces around ==  [whitespace/operators] [3]
-./dipydoc/dipydoc.cpp:1394:  Missing space before ( in while(  [whitespace/parens] [5]
-./dipydoc/dipydoc.cpp:1502:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./dipydoc/dipydoc.cpp:1277:  Add #include <map> for map<>  [build/include_what_you_use] [4]
+Total errors found: 0
 Done processing ./dipydoc/dipydoc.cpp
-Total errors found: 11
-./dipydoc/syntagmas.h:68:  #endif line should be "#endif  // CPPDIPYLON_DIPYDOC_SYNTAGMAS_H_"  [build/header_guard] [5]
+Total errors found: 0
 Done processing ./dipydoc/syntagmas.h
-Total errors found: 1
-./dipydoc/arrowtarget.h:56:  #endif line should be "#endif  // CPPDIPYLON_DIPYDOC_ARROWTARGET_H_"  [build/header_guard] [5]
+Total errors found: 0
 Done processing ./dipydoc/arrowtarget.h
-Total errors found: 1
-./dipydoc/syntagmas.cpp:92:  Missing spaces around ==  [whitespace/operators] [3]
+Total errors found: 0
 Done processing ./dipydoc/syntagmas.cpp
-Total errors found: 1
+Total errors found: 0
 Done processing ./dipydoc/dipydoc.h
 Total errors found: 0
-./dipydoc/notes.h:69:  #endif line should be "#endif  // CPPDIPYLON_DIPYDOC_NOTES_H_"  [build/header_guard] [5]
 Done processing ./dipydoc/notes.h
-Total errors found: 1
-./languages/languages.h:46:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+Total errors found: 0
 Done processing ./languages/languages.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./languages/languagefromto.cpp
 Total errors found: 0
 Done processing ./languages/languagefromto.h
@@ -66,9 +49,8 @@ Done processing ./pos/posintext/vectorposintextranges.cpp
 Total errors found: 0
 Done processing ./pos/posintext/posintext2str.cpp
 Total errors found: 0
-./pos/posintext/posintextranges.h:65:  At least two spaces is best between code and comments  [whitespace/comments] [2]
 Done processing ./pos/posintext/posintextranges.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./pos/posinaudio/posinaudiorange.h
 Total errors found: 0
 Done processing ./pos/posinaudio/posinaudiorange.cpp
@@ -87,13 +69,10 @@ Done processing ./qt/arrowformat.cpp
 Total errors found: 0
 Done processing ./qt/scsplitter.cpp
 Total errors found: 0
-./qt/textformat.cpp:306:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/textformat.cpp:323:  Extra space after ( in function call  [whitespace/parens] [4]
 Done processing ./qt/textformat.cpp
-Total errors found: 2
-./qt/commentaryeditor.h:61:  Weird number of spaces at line-start.  Are you using a 2-space indent?  [whitespace/indent] [3]
+Total errors found: 0
 Done processing ./qt/commentaryeditor.h
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/sourcezone.h
 Total errors found: 0
 Done processing ./qt/sourcetoolbar.h
@@ -116,35 +95,8 @@ Done processing ./qt/commentaryzone.h
 Total errors found: 0
 Done processing ./qt/downloaddemodipydocs.h
 Total errors found: 0
-./qt/sourceeditor.cpp:339:  At least two spaces is best between code and comments  [whitespace/comments] [2]
-./qt/sourceeditor.cpp:342:  Missing spaces around =  [whitespace/operators] [4]
-./qt/sourceeditor.cpp:346:  Missing spaces around =  [whitespace/operators] [4]
-./qt/sourceeditor.cpp:350:  Missing spaces around =  [whitespace/operators] [4]
-./qt/sourceeditor.cpp:367:  Missing spaces around ==  [whitespace/operators] [3]
-./qt/sourceeditor.cpp:367:  Missing space before ( in while(  [whitespace/parens] [5]
-./qt/sourceeditor.cpp:371:  Missing spaces around =  [whitespace/operators] [4]
-./qt/sourceeditor.cpp:421:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
-./qt/sourceeditor.cpp:429:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/sourceeditor.cpp:436:  Missing space before ( in switch(  [whitespace/parens] [5]
-./qt/sourceeditor.cpp:446:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/sourceeditor.cpp:446:  Extra space before )  [whitespace/parens] [2]
-./qt/sourceeditor.cpp:447:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:451:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/sourceeditor.cpp:451:  Extra space before )  [whitespace/parens] [2]
-./qt/sourceeditor.cpp:452:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:466:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/sourceeditor.cpp:466:  Extra space before )  [whitespace/parens] [2]
-./qt/sourceeditor.cpp:467:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:471:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/sourceeditor.cpp:471:  Extra space before )  [whitespace/parens] [2]
-./qt/sourceeditor.cpp:472:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:484:  Extra space after ( in function call  [whitespace/parens] [4]
-./qt/sourceeditor.cpp:484:  Extra space before )  [whitespace/parens] [2]
-./qt/sourceeditor.cpp:485:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/sourceeditor.cpp:495:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
-./qt/sourceeditor.cpp:833:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
 Done processing ./qt/sourceeditor.cpp
-Total errors found: 27
+Total errors found: 0
 Done processing ./qt/texteditor.h
 Total errors found: 0
 Done processing ./qt/commentarytoolbar.cpp
@@ -165,9 +117,8 @@ Done processing ./qt/sctabs.h
 Total errors found: 0
 Done processing ./qt/mainwindow.h
 Total errors found: 0
-./qt/mainwindow.cpp:138:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
 Done processing ./qt/mainwindow.cpp
-Total errors found: 1
+Total errors found: 0
 Done processing ./qt/presentationscreen.cpp
 Total errors found: 0
 Done processing ./qt/icons.cpp
@@ -176,12 +127,7 @@ Done processing ./qt/posintextframeformat.cpp
 Total errors found: 0
 Done processing ./qt/commentaryzone.cpp
 Total errors found: 0
-./qt/sourcezone.cpp:135:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
 Done processing ./qt/sourcezone.cpp
-Total errors found: 1
-./qt/ui.cpp:51:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
-./qt/ui.cpp:73:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/ui.cpp:83:  Lines should be <= 120 characters long  [whitespace/line_length] [2]
-./qt/ui.cpp:185:  Missing spaces around ==  [whitespace/operators] [3]
+Total errors found: 0
 Done processing ./qt/ui.cpp
-Total errors found: 4
+Total errors found: 0

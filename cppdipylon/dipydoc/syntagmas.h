@@ -65,4 +65,4 @@ struct Syntagma {
   QString                               pretty_debugmsg(int hlevel);
 };
 
-#endif  // CPPDIPYLON_DIPYDOC_SYNTAGMAS_H
+#endif  // CPPDIPYLON_DIPYDOC_SYNTAGMAS_H_

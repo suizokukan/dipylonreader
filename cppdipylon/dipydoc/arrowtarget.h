@@ -53,4 +53,4 @@ inline ArrowTarget::ArrowTarget(const QString& _type,
 type(_type), final_position(_final_position) {
 }
 
-#endif  // CPPDIPYLON_DIPYDOC_ARROWTARGET_H
+#endif  // CPPDIPYLON_DIPYDOC_ARROWTARGET_H_

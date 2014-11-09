@@ -89,7 +89,7 @@ QString Syntagma::repr(void) {
                                                                          this->textnote,
                                                                          QString().setNum(this->arrows.size()));
   } else {
-    if (this->highest_ancestor==nullptr) {
+    if (this->highest_ancestor == nullptr) {
       return QString("(no forefather)(father's name=%4)"
                      "name=%1; type=%2; textnote=%3 arrows'num.=%5").arg(this->name,
                                                                          this->type,

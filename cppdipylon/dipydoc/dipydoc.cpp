@@ -26,6 +26,7 @@
 *******************************************************************************/
 
 #include "dipydoc/dipydoc.h"
+#include <map>
 
 const int     DipyDoc::min_dipydocformat_version    = fixedparameters::min_dipydocformat_version;
 const int     DipyDoc::max_dipydocformat_version    = fixedparameters::min_dipydocformat_version;
@@ -96,7 +97,7 @@ DipyDoc::~DipyDoc(void) {
        syntagmas/_syntagmas being filled with pointers, we have to clean up their
      content manually.
   */
-  while(!this->notes._syntagmas.empty()) {
+  while (!this->notes._syntagmas.empty()) {
     this->notes._syntagmas.front().reset();
     this->notes._syntagmas.pop_front();
   }
@@ -1229,7 +1230,6 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
     if (tokenname == "notes") {
       ok &= this->read_mainfile__doctype_text__syntagma(nullptr);
     }
-
   }  // ... while (this->xmlreader->readNextStartElement())
 
   // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : exit point" << ok;
@@ -1272,7 +1272,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
                                             QString(""));
       int level = this->notes.syntagmas_levels.at(tag_name);
 
-      this->notes._syntagmas.push_back( std::shared_ptr<Syntagma>(new_syntagma) );
+      this->notes._syntagmas.push_back(std::shared_ptr<Syntagma>(new_syntagma));
       if (this->notes.syntagmas.find(level) == this->notes.syntagmas.end()) {
         this->notes.syntagmas[level] = std::map<PosInTextRanges, Syntagma*>();
       }
@@ -1291,7 +1291,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
 
     } else {
       if (tag_name == "note") {
-        if(current_father == nullptr) {
+        if (current_father == nullptr) {
           // error : pending 'textnote' tag.
           ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma]"
                                      "pending 'textnote' tag."),
@@ -1304,7 +1304,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
         }
       } else {
         if (tag_name == "arrow") {
-          if(current_father == nullptr) {
+          if (current_father == nullptr) {
             // error : pending 'arrow' tag.
             ok &= !this->error(QString("[DipyDoc::read_mainfile__doctype_text__syntagma]"
                                        " pending 'arrow' tag."),
@@ -1313,7 +1313,7 @@ bool DipyDoc::read_mainfile__doctype_text__syntagma(Syntagma * father) {
             // let's add the arrow to its father :
             QString arrow_type(this->xmlreader->attributes().value("type").toString());
             PosInTextRanges arrow_final_position(this->xmlreader->attributes().value("dest").toString());
-            current_father->arrows.push_back( ArrowTarget(arrow_type, arrow_final_position) );
+            current_father->arrows.push_back(ArrowTarget(arrow_type, arrow_final_position));
 
             this->xmlreader->skipCurrentElement();
           }
@@ -1376,8 +1376,8 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   // for each syntagma, the following loop searches its highest father :
   for (auto & syntagma : this->notes._syntagmas) {
     Syntagma* current_forefather = syntagma->father;
-    while(current_forefather != nullptr) {
-      if (current_forefather->father==nullptr) {
+    while (current_forefather != nullptr) {
+      if (current_forefather->father == nullptr) {
         break;
       } else {
         current_forefather = current_forefather->father;
@@ -1391,7 +1391,7 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   ............................................................................*/
   for (auto & syntagma : this->notes._syntagmas) {
     Syntagma* current_forefather = syntagma->father;
-    while(current_forefather != nullptr) {
+    while (current_forefather != nullptr) {
       syntagma->ancestors.push_back(current_forefather);
       current_forefather = current_forefather->father;
     }
@@ -1499,7 +1499,8 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
     (2.8) are the notes' types defines ?
   ............................................................................*/
   for (auto & syntagma : this->notes._syntagmas) {
-    if (syntagma->type.size() > 0 && this->notes.syntagmas_types.find(syntagma->type) ==  this->notes.syntagmas_types.end()) {
+    if (syntagma->type.size() > 0 &&
+        this->notes.syntagmas_types.find(syntagma->type) ==  this->notes.syntagmas_types.end()) {
       QString msg = "unknown syntagmas' type '%1' defined in name='%2'.";
       ok &= !this->error(msg.arg(syntagma->type,
                                  syntagma->name));
