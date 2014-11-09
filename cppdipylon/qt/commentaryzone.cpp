@@ -52,7 +52,7 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   this->toolbar = new CommentaryToolBar(splitter_name,
                                         this);
 
-  this->layout = new QHBoxLayout();
+  this->layout = new QHBoxLayout(this);
   this->layout->addWidget(this->editor);
   this->layout->addWidget(this->toolbar);
 
