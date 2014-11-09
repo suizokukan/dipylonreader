@@ -36,9 +36,6 @@
 #include "dipydoc/dipydoc.h"
 #include "qt/commentaryeditor.h"
 #include "qt/commentarytoolbar.h"
-#include "qt/icons.h"
-
-extern Icons icons;
 
 class MainWindow;
 class SCSplitter;

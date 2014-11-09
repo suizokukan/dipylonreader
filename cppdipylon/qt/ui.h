@@ -42,12 +42,9 @@
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "dipydoc/menunames.h"
-#include "qt/icons.h"
 #include "qt/mainwindow.h"
 #include "qt/presentationscreen.h"
 #include "qt/readingmodes.h"
-
-extern Icons icons;
 
 class MainWindow;
 

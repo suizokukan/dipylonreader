@@ -45,12 +45,9 @@
 #include "dipydoc/syntagmas.h"
 #include "pos/posintext/posintext.h"
 #include "qt/blockformat.h"
-#include "qt/icons.h"
 #include "qt/readingmodes.h"
 #include "qt/texteditor.h"
 #include "qt/textformat.h"
-
-extern Icons icons;
 
 /*______________________________________________________________________________
 

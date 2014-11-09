@@ -38,12 +38,9 @@
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
 #include "qt/downloaddemodipydocs.h"
-#include "qt/icons.h"
 #include "qt/scsplitter.h"
 #include "qt/sctabs.h"
 #include "qt/ui.h"
-
-extern Icons icons;
 
 class CommentaryEditor;
 class QAction;

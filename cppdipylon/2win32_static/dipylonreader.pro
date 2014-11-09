@@ -67,7 +67,6 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/commentarytoolbar.h \
                     qt/commentaryzone.h \
                     qt/downloaddemodipydocs.h \
-                    qt/icons.h \	
                     qt/mainwindow.h \
                     qt/posintextframeformat.h \
                     qt/presentationscreen.h \
@@ -100,7 +99,6 @@ SOURCES         +=  ./main.cpp \
                     qt/commentarytoolbar.cpp \
                     qt/commentaryzone.cpp \
                     qt/downloaddemodipydocs.cpp \
-                    qt/icons.cpp \
                     qt/mainwindow.cpp \
                     qt/posintextframeformat.cpp \
                     qt/presentationscreen.cpp \

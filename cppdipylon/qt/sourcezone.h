@@ -41,9 +41,6 @@
 #include "qt/readingmodes.h"
 #include "qt/sourceeditor.h"
 #include "qt/sourcetoolbar.h"
-#include "qt/icons.h"
-
-extern Icons icons;
 
 class MainWindow;
 class SCSplitter;
