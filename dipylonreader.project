@@ -66,6 +66,32 @@ SUMMARY
 [0] roadmap
 ################################################################################
 
+0.4.8 (2014_11_09)
+
+Dipydoc's version = 34, 'analysis' reading mode
+
+o every call to DebugMsg() is preceded by a // DEBUGx prefix, allowing to
+  keep/the reject debug informations. Updated build scripts.
+  (feature108, feature128)
+o a-mode
+  (feature92, feature97, feature99, feature102, feature103, feature104,
+  feature105, feature106, feature107, feature109, feature114, feature115,
+  feature116, feature117, feature125)
+o fixed DownloadDemoDipydocs constructor so that the DipyDocs stored
+  on disk are not deleted if the network is not reachable.
+  (feature93)
+o Converted script files to Python files; added a build number; added a script
+  for win64; added a --console=no|yes option for win builds.
+  (feature94, feature112, feature124, feature129)
+o  Updated the French translation
+  (feature111)
+  
++ feature95, feature96, feature98, feature100, feature110, feature113,
+  feature118, feature119, feature120, feature121, feature122, feature123,
+  feature127
+  
+code quality : 3 errors, according to cpplint.py
+
 0.4.7 (2014_10_22)
 o feature89 : splitters' sizes are now stored in settings' file.
 o feature85 : added style sheets to SourceZoneToolBar and CommentaryToolBar
