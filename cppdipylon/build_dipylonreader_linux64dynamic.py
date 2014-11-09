@@ -23,6 +23,8 @@
 # 
 ################################################################################
 #
+# version 5 (2014.11.09) : make uses -j2 + display total amount of time
+#
 # version 4 (2014.11.01) : new EXEC_NAME, ending with "_v{0}_debug{1}_build{2}"
 #
 # version 3 (2014.10.31) : temp folder's name depends on ARGS.debug value
@@ -35,8 +37,11 @@
 
 import os
 import argparse
+from datetime import datetime
 
-VERSION = "build_dipylonreader_linux64dynamic : v4"
+start_time = datetime.now()
+
+VERSION = "build_dipylonreader_linux64dynamic : v5"
 SUMMARY = "Linux > Linux64/dynamic"
 
 # system call
@@ -102,7 +107,6 @@ print("===")
 print("")
 
 print("== create builds/ folder if it doesn't exist")
-ossystem("mkdir -p ../builds")
 
 print("== filling {0}/".format(TEMP_FOLDER))
 ossystem("mkdir -p {0}/".format(TEMP_FOLDER))
@@ -122,7 +126,11 @@ print("== calling qmake")
 ossystem("qmake-qt5 -makefile dipylonreader.pro")
 
 print("== calling make")
-ossystem("make")
+ossystem("make -j2")
 
 print("== copying the binary into the builds/ folder")
 ossystem("cp ./build/dipylonreader ../../builds/{0}".format(EXEC_NAME))
+
+time_end = datetime.now()
+print("==> total time = ", str(time_end-start_time))
+
