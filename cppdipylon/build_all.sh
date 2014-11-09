@@ -9,4 +9,6 @@ rm -rf temp__build* && ./build_dipylonreader_win64static.py --debug=1 --console=
 rm -rf temp__build* && ./build_dipylonreader_linux64dynamic.py --debug=0
 rm -rf temp__build* && ./build_dipylonreader_linux64dynamic.py --debug=1
 
+rm -rf temp__build*
+
 
