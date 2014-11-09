@@ -132,7 +132,8 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (1) setting the object : UI
   */
-  // DEBUG1 DebugMsg() << "[SourceZone::] setStyleSheet = " << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
+  // DEBUG1 DebugMsg() << "[SourceZone::] setStyleSheet = "
+  // DEBUG1            << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
   this->setStyleSheet(QString("#%1 {border: 0px; padding: 0px}").arg(object_name));
 
   this->editor = new SourceEditor(splitter_name,

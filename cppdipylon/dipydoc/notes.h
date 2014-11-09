@@ -66,4 +66,4 @@ struct Notes {
   QString                                              repr(void) const;
 };
 
-#endif
+#endif  // CPPDIPYLON_DIPYDOC_NOTES_H_

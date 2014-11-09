@@ -303,9 +303,9 @@ void TextFormat::modify_for_distant_appearance(void) {
   int background_blue = background.color().blue() * 0.7;
   int background_green = background.color().green() * 0.7;
   int background_red = background.color().red() * 0.7;
-  background.setColor( QColor(background_red,
-                              background_green,
-                              background_blue) );
+  background.setColor(QColor(background_red,
+                             background_green,
+                             background_blue));
   this->_qtextcharformat.setBackground(background);
 }
 
@@ -320,9 +320,9 @@ void TextFormat::modify_for_family_appearance(void) {
   int background_blue = background.color().blue() * 0.9;
   int background_green = background.color().green() * 0.9;
   int background_red = background.color().red() * 0.9;
-  background.setColor( QColor(background_red,
-                              background_green,
-                              background_blue) );
+  background.setColor(QColor(background_red,
+                             background_green,
+                             background_blue));
   this->_qtextcharformat.setBackground(background);
 }
 

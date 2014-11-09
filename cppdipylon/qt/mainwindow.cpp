@@ -135,7 +135,8 @@ void MainWindow::closing(void) {
 
   // DEBUG1 DebugMsg() << "(MainWindow::closing) about to delete all dipydocs still opened";
   for (int splitter_index =0; splitter_index < this->sctabs->count(); ++splitter_index) {
-    // DEBUG1 DebugMsg() << "(MainWindow::closing) about to delete " << qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc->menu_name;
+    // DEBUG1 DebugMsg() << "(MainWindow::closing) about to delete "
+    // DEBUG1            << qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc->menu_name;
     delete qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc;
   }
 

@@ -43,7 +43,6 @@
 ______________________________________________________________________________*/
 namespace languages {
     const std::map<QString, QString> known_languages = {
-
       // ISO 639-3 names :
       { QString("ang"), QString(QObject::tr("Old English")) },
       { QString("bod"), QString(QObject::tr("Tibetan")) },
