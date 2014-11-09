@@ -26,6 +26,8 @@
 # 
 ################################################################################
 #
+# version 4 (2014.11.09) : make uses -j2 + display total amount of time
+#
 # version 3 (2014.11.08) : improved TEMP_FOLDER
 #
 # version 2 (2014.11.21) : new option : --console=yes|no
@@ -36,8 +38,12 @@
 
 import os
 import argparse
+from datetime import datetime
 
-VERSION = "build_dipylonreader_win64static : v3"
+start_time = datetime.now()
+
+
+VERSION = "build_dipylonreader_win64static : v4"
 SUMMARY = "Linux > Windows64/static/using MXE"
 
 # system call
@@ -154,7 +160,10 @@ ossystem("~/mxe_64/usr/x86_64-w64-mingw32/qt5/bin/qmake -makefile dipylonreader.
 
 print("== calling make")
 ossystem("pwd")
-ossystem("make")
+ossystem("make -j2")
 
 print("== copying the binary into the builds/ folder")
 ossystem("cp build/dipylonreader.exe ../../builds/{0}".format(EXEC_NAME))
+
+time_end = datetime.now()
+print("==> total time = ", str(time_end-start_time))
