@@ -34,7 +34,7 @@ ______________________________________________________________________________*/
 CommentaryToolBar::CommentaryToolBar(const QString & _splitter_name,
                                      QWidget *_parent) : QToolBar(_parent),
                                                          splitter_name(_splitter_name) {
-  DebugMsg() << "CommentaryToolBar::CommentaryToolBar : entry point";
+  // DEBUG1 DebugMsg() << "CommentaryToolBar::CommentaryToolBar : entry point";
 
   QString object_name(splitter_name + "::commentary zone::toolbar");
   this->setObjectName(object_name);
@@ -43,5 +43,5 @@ CommentaryToolBar::CommentaryToolBar(const QString & _splitter_name,
 
   this->setStyleSheet(fixedparameters::default__commentarytoolbar_stylesheet);
 
-  DebugMsg() << "CommentaryToolBar::CommentaryToolBar : exit point";
+  // DEBUG1 DebugMsg() << "CommentaryToolBar::CommentaryToolBar : exit point";
 }

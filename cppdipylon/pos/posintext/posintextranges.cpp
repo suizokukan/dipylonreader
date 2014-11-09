@@ -215,6 +215,17 @@ PosInText PosInTextRanges::max(void) const {
 
 /*______________________________________________________________________________
 
+        PosInTextRanges::medium()
+
+        return the medium value between ::min() and ::max() .
+
+______________________________________________________________________________*/
+PosInText PosInTextRanges::medium(void) const {
+  return ((this->min() + this->max()) >> 1);
+}
+
+/*______________________________________________________________________________
+
         PosInTextRanges::min() : return the smallest element in "this" or
                                  MAXIMAL_POSINTEXT if "this" is empty.
 ______________________________________________________________________________*/

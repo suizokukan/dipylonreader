@@ -36,12 +36,16 @@ MainWindow::MainWindow(UI& _ui,
                        QWidget *_parent) : QMainWindow(_parent),
                                            ui(_ui) {
   this->setObjectName("main_window");
-  DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = " << fixedparameters::default__mainwindow_stylesheet;
+  // DEBUG1 DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = "
+  // DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
   this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
 
   #ifdef NO_STATUS_BAR
   this->setStatusBar(0);
   #endif
+
+  // giving the focus so that keyboard shortcuts allow to access the main menu :
+  this->setFocus(Qt::MenuBarFocusReason);
 }
 
 /*______________________________________________________________________________
@@ -76,7 +80,7 @@ void MainWindow::about(void) {
   Function called when the current tab has changed.
 ______________________________________________________________________________*/
 void MainWindow::cleaning_up_tabs_before_changing_current_tab(void) {
-  DebugMsg() << "MainWindow::cleaning_up_tabs_before_changing_current_tab";
+  // DEBUG1 DebugMsg() << "MainWindow::cleaning_up_tabs_before_changing_current_tab";
 
   /*
     if in 'lmode', we stop all the audio readings :
@@ -97,7 +101,7 @@ void MainWindow::cleaning_up_tabs_before_changing_current_tab(void) {
   Function called when the main window is closed.
 ______________________________________________________________________________*/
 void MainWindow::closeEvent(QCloseEvent *arg_event) {
-  DebugMsg() << "MainWindow::closeEvent";
+  // DEBUG1 DebugMsg() << "MainWindow::closeEvent";
   arg_event->accept();
 }
 
@@ -118,16 +122,25 @@ void MainWindow::closeEvent(QCloseEvent *arg_event) {
   See e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 ________________________________________________________________________________*/
 void MainWindow::closing(void) {
-  DebugMsg() << "MainWindow::closing";
+  // DEBUG1 DebugMsg() << "MainWindow::closing : entry point";
 
-  DebugMsg() << "(MainWindow::closing) calling SCSPlitter::write_settings()";
+  // DEBUG1 DebugMsg() << "(MainWindow::closing) calling SCSPlitter::write_settings()";
   for (int index = 0; index < this->sctabs->count(); ++index) {
     SCSplitter* splitter = qobject_cast<SCSplitter*>(this->sctabs->widget(index));
     splitter->write_settings();
   }
 
-  DebugMsg() << "(MainWindow::closing) calling UI::write_settings()";
+  // DEBUG1 DebugMsg() << "(MainWindow::closing) calling UI::write_settings()";
   this->ui.write_settings();
+
+  // DEBUG1 DebugMsg() << "(MainWindow::closing) about to delete all dipydocs still opened";
+  for (int splitter_index =0; splitter_index < this->sctabs->count(); ++splitter_index) {
+    // DEBUG1 DebugMsg() << "(MainWindow::closing) about to delete "
+    // DEBUG1            << qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc->menu_name;
+    delete qobject_cast<SCSplitter*>(this->sctabs->widget(splitter_index))->dipydoc;
+  }
+
+  // DEBUG1 DebugMsg() << "MainWindow::closing : exit point";
 }
 
 /*______________________________________________________________________________
@@ -135,13 +148,14 @@ void MainWindow::closing(void) {
   MainWindow::createActions
 ______________________________________________________________________________*/
 void MainWindow::createActions(void) {
-  DebugMsg() << "MainWindow::createActions : entry point";
+  // DEBUG1 DebugMsg() << "MainWindow::createActions : entry point";
 
   /*
     aboutAct
   */
   this->aboutAct = new QAction(tr("&About"), this);
   this->aboutAct->setStatusTip(tr("Show the application's About box"));
+  // connection #C015 (confer documentation)
   QObject::connect(this->aboutAct, &QAction::triggered,
                    this,           &MainWindow::about);
 
@@ -152,6 +166,7 @@ void MainWindow::createActions(void) {
                                        tr("Download demo Dipydocs"),
                                  this);
   this->downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
+  // connection #C016 (confer documentation)
   QObject::connect(this->downloaddemoAct, &QAction::triggered,
                    this,                  &MainWindow::download_dipydocs_demo);
 
@@ -161,6 +176,7 @@ void MainWindow::createActions(void) {
   this->exitAct = new QAction(tr("E&xit"), this);
   this->exitAct->setShortcuts(QKeySequence::Quit);
   this->exitAct->setStatusTip(tr("Exit the application"));
+  // connection #C017 (confer documentation)
   QObject::connect(this->exitAct, &QAction::triggered,
                    this,          &MainWindow::close);
 
@@ -171,6 +187,7 @@ void MainWindow::createActions(void) {
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
+  // connection #C018 (confer documentation)
   QObject::connect(this->hidetoolbarsAct, &QAction::triggered,
                    this,                  &MainWindow::hidetoolbarsAct__buttonPressed);
 
@@ -181,6 +198,7 @@ void MainWindow::createActions(void) {
                                        tr("internal messages"),
                                        this);
   this->internalmsgAct->setStatusTip(tr("internal messages"));
+  // connection #C019 (confer documentation)
   QObject::connect(this->internalmsgAct, &QAction::triggered,
                    this,                 &MainWindow::internalmsgAct__buttonPressed);
 
@@ -192,6 +210,7 @@ void MainWindow::createActions(void) {
                                this);
   openAct->setShortcuts(QKeySequence::Open);
   openAct->setStatusTip(tr("Open an existing DipyDoc"));
+  // connection #C020 (confer documentation)
   QObject::connect(this->openAct, &QAction::triggered,
                    this,          &MainWindow::open);
 
@@ -202,11 +221,12 @@ void MainWindow::createActions(void) {
   this->popup_mainmenuAct = new QAction( *(icons.popup_mainmenu),
                                          tr("display the main pop menu"),
                                          this);
+  // connection #C021 (confer documentation)
   QObject::connect(this->popup_mainmenuAct, &QAction::triggered,
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
   #endif
 
-  DebugMsg() << "MainWindow::createActions : exit point";
+  // DEBUG1 DebugMsg() << "MainWindow::createActions : exit point";
 }
 
 /*______________________________________________________________________________
@@ -217,7 +237,7 @@ void MainWindow::createActions(void) {
   o  main popup menu
 ______________________________________________________________________________*/
 void MainWindow::createMenus(void) {
-  DebugMsg() << "MainWindow::createMenus : entry point";
+  // DEBUG1 DebugMsg() << "MainWindow::createMenus : entry point";
 
   /*
     main menu :
@@ -255,7 +275,7 @@ void MainWindow::createMenus(void) {
   this->mainpopupmenu->addAction(aboutAct);
   #endif
 
-  DebugMsg() << "MainWindow::createMenus : exit point";
+  // DEBUG1 DebugMsg() << "MainWindow::createMenus : exit point";
 }
 
 /*______________________________________________________________________________
@@ -273,7 +293,7 @@ void MainWindow::createStatusBar(void) {
   MainWindow::createMainToolBars
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars(void) {
-  DebugMsg() << "MainWindow::createMainToolBars : entry point";
+  // DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : entry point";
 
   this->mainwintoolbar = this->addToolBar(tr("main toolbar"));
 
@@ -285,7 +305,7 @@ void MainWindow::createMainToolBars(void) {
   this->mainwintoolbar->addAction(this->openAct);
   this->mainwintoolbar->addAction(this->hidetoolbarsAct);
 
-  DebugMsg() << "MainWindow::createMainToolBars : exit point";
+  // DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : exit point";
 }
 
 /*______________________________________________________________________________
@@ -315,10 +335,11 @@ void MainWindow::download_dipydocs_demo(void) {
 
   MainWindow::fill_open_menu
 
-  Fill the Open menu with the available dipydocs.
+  Fill the Open menu with the available dipydocs, whose name are stored in
+  this->ui.available_menu_names .
 ______________________________________________________________________________*/
 void MainWindow::fill_open_menu(void) {
-  DebugMsg() << "MainWindow::fill_open_menu : entry point";
+  // DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : entry point";
 
   /*
     let's clear the menu content :
@@ -329,6 +350,7 @@ void MainWindow::fill_open_menu(void) {
     special case : no dipydoc could be found.
   */
   if (this->ui.available_menu_names.size() == 0) {
+    // DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : no dipydoc";
     QAction* emptyAction = new QAction(*icons.app,
                                        "(No Dipydoc could be found)",
                                        this);
@@ -344,6 +366,7 @@ void MainWindow::fill_open_menu(void) {
   */
   int number_of_items = 0;
   for (auto &item : this->ui.available_menu_names) {
+    // DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : found " << item.first;
     number_of_items++;
 
     if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
@@ -357,6 +380,7 @@ void MainWindow::fill_open_menu(void) {
       newAction->setData(item.second);
 
       this->openMenu->addAction(newAction);
+      // connection #C022 (confer documentation)
       QObject::connect(newAction, &QAction::triggered,
                        this,      &MainWindow::load_a_dipydoc_from_a_qaction);
     } else {
@@ -376,7 +400,7 @@ void MainWindow::fill_open_menu(void) {
     openMenu->addAction(openAct);
   }
 
-  DebugMsg() << "MainWindow::fill_open_menu : exit point";
+  // DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : exit point";
 }
 
 /*______________________________________________________________________________
@@ -393,7 +417,7 @@ void MainWindow::hidetoolbarsAct__buttonPressed(void) {
   MainWindow::init()
 ______________________________________________________________________________*/
 void MainWindow::init(void) {
-  DebugMsg() << "MainWindow::init() : entry point";
+  // DEBUG1 DebugMsg() << "MainWindow::init() : entry point";
 
   /*
        The actions created by the the call to createActions() method are
@@ -403,12 +427,15 @@ void MainWindow::init(void) {
 
   this->sctabs = new SCTabs(this);
 
+  // connection #C023 (confer documentation)
   QObject::connect(this->sctabs,          &SCTabs::signal__open_a_new_dipydoc,
                    this,                  &MainWindow::open);
 
+  // connection #C024 (confer documentation)
   QObject::connect(this->sctabs,          &SCTabs::signal__display_hidetoolbar_icon,
                    this->hidetoolbarsAct, &QAction::setVisible);
 
+  // connection #C025 (confer documentation)
   QObject::connect(this->sctabs,          &SCTabs::currentChanged,
                    this,                  &MainWindow::cleaning_up_tabs_before_changing_current_tab);
 
@@ -433,10 +460,10 @@ void MainWindow::init(void) {
     initialization of the network manager :
   */
   this->ui.network_manager = new QNetworkAccessManager(this);
-  DebugMsg() << "network_manager.networkAccessible (1 if ok) =" \
-             << static_cast<int>(this->ui.network_manager->networkAccessible());
+  // DEBUG1 DebugMsg() << "network_manager.networkAccessible (1 if ok, 0 if not ok, -1 if unknown) ="
+  // DEBUG1            << static_cast<int>(this->ui.network_manager->networkAccessible());
 
-  DebugMsg() << "MainWindow::exit() : entry point";
+  // DEBUG1 DebugMsg() << "MainWindow::exit() : entry point";
 }
 
 /*______________________________________________________________________________
@@ -455,8 +482,8 @@ void MainWindow::internalmsgAct__buttonPressed(void) {
                            QString("\n\n\n*** internal debug message ***\n\n\n") + \
                            DebugMsg::messages.join("\n"));
   } else {
-    msgBox.setDetailedText("internal state = " + QString().setNum(splitter->dipydoc.internal_state()) +
-                           splitter->dipydoc.err_messages.join("\n\n") + \
+    msgBox.setDetailedText("internal state = " + QString().setNum(splitter->dipydoc->internal_state()) +
+                           splitter->dipydoc->err_messages.join("\n\n") + \
                            "\n\n\n*** internal debug message ***\n\n\n" + \
                            DebugMsg::messages.join("\n"));
   }
@@ -476,12 +503,13 @@ void MainWindow::load_a_dipydoc_from_a_qaction(void) {
 
 /*______________________________________________________________________________
 
-  MainWindow::loadDipyDoc() : load a DipyDoc from the path "directoryName".
+  MainWindow::loadDipyDoc() : load a DipyDoc from the path "directoryName"
+  and set this DipyDoc as the current one.
 
-  This function created a new SCSplitter object.
+  This function creates a new SCSplitter object.
 ______________________________________________________________________________*/
 void MainWindow::loadDipyDoc(const QString &directoryName) {
-  DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
+  // DEBUG1 DebugMsg() << "MainWindow::loadDipyDoc" << directoryName;
 
   SCSplitter* source_commentary_splitter = new SCSplitter(this->sctabs->count(),
                                                           directoryName,
@@ -489,12 +517,14 @@ void MainWindow::loadDipyDoc(const QString &directoryName) {
                                                           this->sctabs);
 
   if (source_commentary_splitter->well_initialized() == false) {
-    DebugMsg() << "MainWindow::loadDipyDoc : error";
+    // DEBUG1 DebugMsg() << "MainWindow::loadDipyDoc : error -> deleting the splitter and its DipyDoc :";
     delete source_commentary_splitter;
   } else {
-    DebugMsg() << "MainWindow::loadDipyDoc : ok";
+    // DEBUG1 DebugMsg() << "MainWindow::loadDipyDoc : ok";
     this->sctabs->addTab(source_commentary_splitter,
-                         source_commentary_splitter->dipydoc.get_tab_name());
+                         source_commentary_splitter->dipydoc->get_tab_name());
+
+    this->sctabs->setCurrentWidget(source_commentary_splitter);
   }
 }
 
@@ -533,16 +563,16 @@ void MainWindow::readSettings() {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
-  DebugMsg() << "MainWindow::update_icons;";
+  // DEBUG1 DebugMsg() << "MainWindow::update_icons;";
 
   SCSplitter* splitter = this->current_splitter();
 
   /*............................................................................
-    a special case : no Dipydoc.
+    a special case : no Dipydoc->
   ............................................................................*/
   if (splitter == nullptr || \
-      splitter->dipydoc.well_initialized() == false) {
-    DebugMsg() << "MainWindow::update_icons : no splitter.";
+      splitter->dipydoc->well_initialized() == false) {
+    // DEBUG1 DebugMsg() << "MainWindow::update_icons : no splitter.";
     this->hidetoolbarsAct->setVisible(false);
     return;
   }

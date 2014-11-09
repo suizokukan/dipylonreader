@@ -2,361 +2,375 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
+    <name>CommentaryZone</name>
+    <message>
+        <location filename="qt/commentaryzone.cpp" line="64"/>
+        <source>reduce the font size</source>
+        <translation>réduire la taille du texte</translation>
+    </message>
+    <message>
+        <location filename="qt/commentaryzone.cpp" line="65"/>
+        <source>enlarge the font size</source>
+        <translation>augmenter la taille du texte</translation>
+    </message>
+</context>
+<context>
+    <name>DownloadDemoDipydocs</name>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="242"/>
+        <source>Demonstration Dipydocs have been successfully downloaded.</source>
+        <translation>Les Dipydocs de démonstration ont été téléchargés.</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="318"/>
+        <location filename="qt/downloaddemodipydocs.cpp" line="357"/>
+        <location filename="qt/downloaddemodipydocs.cpp" line="389"/>
+        <source>The source site could not be reached : is the network ok ? Check out details below.</source>
+        <translation>Le site où se trouvent les Dipydocs est inaccessible : l&apos;ordinateur est-il correctement connecté à Internet ? Plus de détails sont disponibles ci-dessous.</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="qt/mainwindow.cpp" line="85"/>
-        <source>About Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="86"/>
-        <source>The &lt;b&gt;Application&lt;/b&gt; example demonstrates how to write modern GUI applications using Qt, with a menu bar, toolbars, and a status bar.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="260"/>
-        <source>&amp;New</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="263"/>
-        <source>Create a new file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="268"/>
-        <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="271"/>
-        <source>Open an existing DipyDoc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="276"/>
-        <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="279"/>
-        <source>Save the document to disk</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="283"/>
-        <source>Save &amp;As...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="285"/>
-        <source>Save the document under a new name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="290"/>
-        <source>Save DipyDoc&apos;s main file as...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="291"/>
-        <source>Save DipyDoc&apos;s main file as</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="296"/>
-        <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="298"/>
-        <source>Exit the application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="303"/>
-        <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="306"/>
-        <source>Cut the current selection&apos;s contents to the clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="312"/>
-        <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="315"/>
-        <source>Copy the current selection&apos;s contents to the clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="321"/>
-        <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="324"/>
-        <source>Paste the clipboard&apos;s contents into the current selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="329"/>
+        <location filename="qt/mainwindow.cpp" line="155"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>A propos</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="330"/>
+        <location filename="qt/mainwindow.cpp" line="156"/>
         <source>Show the application&apos;s About box</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations à propos du logiciel</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="334"/>
-        <source>About &amp;Qt</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="165"/>
+        <source>Download demo Dipydocs</source>
+        <translation>Télécharger les Dipydocs de démonstration</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="335"/>
-        <source>Show the Qt library&apos;s About box</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="167"/>
+        <source>Download demo Dipydocs/statustip</source>
+        <translation>Télécharger les Dipydocs de démonstration</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="353"/>
-        <source>play</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="175"/>
+        <source>E&amp;xit</source>
+        <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="355"/>
-        <source>play...</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="177"/>
+        <source>Exit the application</source>
+        <translation>Quitter l&apos;application</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="360"/>
-        <source>stop</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="186"/>
+        <location filename="qt/mainwindow.cpp" line="591"/>
+        <source>hide toolbars</source>
+        <translation>cacher les barres d&apos;outil latérales</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="362"/>
-        <source>stop...</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="188"/>
+        <source>hide the editors&apos; toolbars</source>
+        <translation>Cacher les barres d&apos;outils latérales</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="376"/>
+        <location filename="qt/mainwindow.cpp" line="197"/>
+        <location filename="qt/mainwindow.cpp" line="199"/>
+        <source>internal messages</source>
+        <translation>Messages internes</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="208"/>
+        <location filename="qt/mainwindow.cpp" line="245"/>
+        <source>Open</source>
+        <translation>Ouvrir</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="211"/>
+        <source>Open an existing DipyDoc</source>
+        <translation>Ouvrir un Dipydoc</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="221"/>
+        <source>display the main pop menu</source>
+        <translation>afficher le menu principal sous forme d&apos;un popup</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="244"/>
         <source>&amp;File</source>
-        <translation>&amp;FichIEr</translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="387"/>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="258"/>
+        <source>&amp;Help</source>
+        <translation>Aide</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="286"/>
+        <source>Ready</source>
+        <translation>La barre d&apos;état est prête</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="297"/>
+        <source>main toolbar</source>
+        <translation>barre d&apos;outils</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="391"/>
+        <location filename="qt/mainwindow.cpp" line="395"/>
+        <source>choose other files :</source>
+        <translation>choisir d&apos;autres fichiers :</translation>
     </message>
     <message>
         <location filename="qt/mainwindow.cpp" line="394"/>
-        <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <source>(...)</source>
+        <translation>(...)</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="405"/>
-        <source>Ready</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="414"/>
-        <source>File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="419"/>
-        <source>Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="424"/>
-        <source>AudioControls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="459"/>
-        <source>Unable to load a (valid) DipyDoc from &lt;b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="461"/>
-        <source>See more details below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="492"/>
-        <source>DipyDoc loaded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="519"/>
-        <location filename="qt/mainwindow.cpp" line="637"/>
-        <location filename="qt/mainwindow.cpp" line="678"/>
-        <source>Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="520"/>
-        <source>The document has been modified.
-Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="638"/>
-        <location filename="qt/mainwindow.cpp" line="679"/>
-        <source>Cannot write file %1:
-%2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qt/mainwindow.cpp" line="654"/>
-        <location filename="qt/mainwindow.cpp" line="695"/>
-        <source>File saved</source>
-        <translation type="unfinished"></translation>
+        <location filename="qt/mainwindow.cpp" line="583"/>
+        <source>show toolbars</source>
+        <translation>montrer les barres d&apos;outils latérales</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="dipydoc/dipydoc.cpp" line="183"/>
+        <location filename="dipydoc/dipydoc.cpp" line="200"/>
         <source>No problem has been detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun problème détecté.</translation>
     </message>
     <message>
-        <location filename="dipydoc/dipydoc.cpp" line="187"/>
-        <source>The DipyDoc has not been initialized and stays in an undefined state.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="192"/>
-        <source>The DipyDoc has not been correctly initialized but no further information can be given.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="197"/>
-        <source>The given path doesn&apos;t exist.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="201"/>
-        <source>The given path is a file : a DipyDoc is a folder with several files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="206"/>
-        <source>This DipyDoc contains an error : the given path doesn&apos;t contain the expected main file, &apos;$FILENAME$&apos;.</source>
-        <translation type="unfinished"></translation>
+        <location filename="dipydoc/dipydoc.cpp" line="204"/>
+        <location filename="dipydoc/dipydoc.cpp" line="209"/>
+        <source>corrupted DipyDoc : the document could not be read. Please replace this Dipydoc by another one.</source>
+        <translation>Dipydoc corrompu : le document n&apos;a pas pu être lu. Veuillez remplacer ce document pas un autre.</translation>
     </message>
     <message>
         <location filename="dipydoc/dipydoc.cpp" line="214"/>
+        <source>The DipyDoc could not be read since its version is either too oldor too recent. See the details for more informations.Please update your Dipydoc application.</source>
+        <translation>Le Dipydoc n&apos;a pu être lu car sa version est ou bien trop récente ou bien trop ancienne. Voyez les détails pour plus de renseignements. Veuillez mettre à jour votre application.</translation>
+    </message>
+    <message>
+        <location filename="dipydoc/dipydoc.cpp" line="220"/>
+        <source>This DipyDoc could not be read since the given path doesn&apos;t exist.Please give another path.</source>
+        <translation>Le Dipydoc n&apos;a pas pu être lu car le chemin donné n&apos;existe pas. Veuillez donner un autre chemin.</translation>
+    </message>
+    <message>
+        <location filename="dipydoc/dipydoc.cpp" line="225"/>
+        <source>This DipyDoc could not be read since the given path isnot a directory (perhaps did you give a file instead ?)Please give a directory and not a file to load.</source>
+        <translation>Le Dipydoc demandé n&apos;a pu être chargé car le chemin donné n&apos;est pas un répertoire (peut-être avez-vous donné un fichier à la place ?) : veuillez donner un répertoire, non un fichier.</translation>
+    </message>
+    <message>
         <location filename="dipydoc/dipydoc.cpp" line="231"/>
-        <source>This DipyDoc contains an error : the given path doesn&apos;t contain the expected text file, &apos;$FILENAME$&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="222"/>
-        <source>This DipyDoc contains an error : the given path doesn&apos;t contain the expected audio file (&apos;$FILENAME$&apos;) whose name was given in the DipyDoc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="239"/>
-        <source>The given path contain a DipyDoc document whose version ($VERSION$) is outdated.The minimal version being $MINVERSION$, please update your DipyDoc documents.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="249"/>
-        <source>The given path contain a DipyDoc document whose version ($VERSION$) is too recent.The maximal version being $MAXVERSION$, please update your DipyDoc reader.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="259"/>
-        <source>This DipyDoc contains an error : the given ratio aspect of the lettrine is zero or above. A correct value would be greater than 0.Value given in main.xml : $LETTRINEASPECTRATIO</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="269"/>
-        <source>This DipyDoc contains an error : the given path doesn&apos;t contain the expected lettrine file image.In main.xml the name &apos;$LETTRINEFILENAME$&apos; appears but such a file can&apos;t be found in the given path.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="280"/>
-        <source>This DipyDoc contains an error : audiorecord.text2audio can&apos;t be initialized.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="286"/>
-        <source>This DipyDoc contains an error : audiorecord.audio2text can&apos;t be initialized.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="292"/>
-        <source>This DipyDoc contains an error : the translations&apos; data are ill-formed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="298"/>
-        <source>This DipyDoc contains an error : the document&apos;s type isn&apos;t known by this version of the software.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dipydoc/dipydoc.cpp" line="304"/>
         <source>anomaly : unknown internal state.</source>
-        <translation type="unfinished"></translation>
+        <translation>anomalie : état interne non connu.</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="44"/>
         <source>Old English</source>
-        <translation type="unfinished"></translation>
+        <translation>vieil anglais</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="45"/>
         <source>Tibetan</source>
-        <translation type="unfinished"></translation>
+        <translation>tibétain</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="46"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>allemand</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="47"/>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>français</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="48"/>
         <source>Ancient Greek</source>
-        <translation type="unfinished"></translation>
+        <translation>grec ancien</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="49"/>
         <source>Biblical Hebrew</source>
-        <translation type="unfinished"></translation>
+        <translation>hébreu biblique</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="50"/>
         <source>Japan</source>
-        <translation type="unfinished"></translation>
+        <translation>japonais</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="51"/>
         <source>Latin</source>
-        <translation type="unfinished"></translation>
+        <translation>latin</translation>
     </message>
     <message>
         <location filename="languages/languages.h" line="52"/>
         <source>Sanskrit</source>
-        <translation type="unfinished"></translation>
+        <translation>sanskrit</translation>
     </message>
     <message>
-        <location filename="qt/mainwindow.cpp" line="551"/>
+        <location filename="qt/downloaddemodipydocs.cpp" line="61"/>
+        <source>No network available ! You can&apos;t download if the network is down.</source>
+        <translation>Internet n&apos;est pas disponible : vous ne pouvez télécharger des fichiers si le réseau n&apos;est pas accessible.</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="94"/>
+        <source>Download demo Dipydocs</source>
+        <translation>Téléchargement de Dipydocs de démonstration</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="95"/>
+        <source>Abort installation</source>
+        <translation>Arrêter l&apos;installation</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="105"/>
+        <source>removing old files...</source>
+        <translation>Suppression des anciens fichiers...</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="125"/>
+        <source>The program can&apos;t erase the old demonstration Dipydoc&apos;s. See details below.</source>
+        <translation>Le programme ne peut supprimer les anciens Dipydocs de démonstration. Plus de détails ci-dessous.</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="141"/>
+        <source>contacting the download site...</source>
+        <translation>connexion avec le site en cours...</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="189"/>
+        <location filename="qt/downloaddemodipydocs.cpp" line="295"/>
+        <source>The program can&apos;t write the new demonstration Dipydoc&apos;s on disk. See details below.</source>
+        <translation>Le programme ne peut écrire les nouveaux Dipydocs sur le disque. Plus de détails ci-dessous.</translation>
+    </message>
+    <message>
+        <location filename="qt/downloaddemodipydocs.cpp" line="408"/>
+        <source>Files available on the source site are corrupted. See details below.</source>
+        <translation>Les fichiers disponibles sur le site sont corrompus. Voyez les détails ci-dessous.</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="61"/>
+        <source>&lt;b&gt;%1&lt;/b&gt; %2, a software by %3.&lt;br/&gt;&lt;br/&gt;  This program is covered by the &lt;b&gt;%4&lt;/b&gt; (&lt;a href=&apos;%5&apos;&gt;%5&lt;/a&gt;) license : checkout the code of the project at the following &lt;a href=&apos;%6&apos;&gt;address&lt;/a&gt;.</source>
+        <translatorcomment>&lt;</translatorcomment>
+        <translation>&lt;b&gt;%1&lt;/b&gt; %2, un logiciel créé par %3.&lt;br/&gt;&lt;br/&gt; Ce programme est sous license %4 (&lt;a href=&apos;%5&apos;&gt;%5&lt;/a&gt;). Le code du projet est disponible à cette adresse : &lt;a href=&apos;%6&apos;&gt;adresse&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location filename="qt/mainwindow.cpp" line="533"/>
         <source>Open a DipyDoc directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir un répertoire Dipydoc</translation>
+    </message>
+    <message>
+        <location filename="qt/ui.cpp" line="247"/>
+        <source>&lt;b&gt;%1&lt;/b&gt; - version %2 -</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt; - version %2 -</translation>
+    </message>
+</context>
+<context>
+    <name>SCSplitter</name>
+    <message>
+        <location filename="qt/scsplitter.cpp" line="63"/>
+        <source>Unable to load any valid Dipydoc&apos;s document from &lt;b&gt;</source>
+        <translation>Impossible de charger le moindre Dipydoc depuis &lt;b&gt;</translation>
+    </message>
+    <message>
+        <location filename="qt/scsplitter.cpp" line="66"/>
+        <source>See more details below.</source>
+        <translation>Plus de détails ci-dessous.</translation>
+    </message>
+</context>
+<context>
+    <name>SCTabs</name>
+    <message>
+        <location filename="qt/sctabs.cpp" line="52"/>
+        <source>Ctrl+T</source>
+        <translation>Ctrl+T</translation>
+    </message>
+    <message>
+        <location filename="qt/sctabs.cpp" line="58"/>
+        <source>Ctrl+W</source>
+        <translation>Ctrl+W</translation>
+    </message>
+</context>
+<context>
+    <name>SourceZone</name>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="56"/>
+        <source>play</source>
+        <translation>lecture</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="58"/>
+        <source>play...</source>
+        <translation>lecture</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="65"/>
+        <source>stop</source>
+        <translation>arrêt</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="67"/>
+        <source>stop...</source>
+        <translation>arrêt</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="74"/>
+        <source>switch to analyse mode</source>
+        <translation>passage au monde analyse</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="76"/>
+        <source>switched to analyse mode</source>
+        <translation>maintenant en mode analyse</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="83"/>
+        <source>switch to read-and-listen mode</source>
+        <translation>passage en mode lire et écouter</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="85"/>
+        <source>switched to read-and-listen mode</source>
+        <translation>maintenant en mode lire et écouter</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="92"/>
+        <source>switch to read mode</source>
+        <translation>passage en mode lecture</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="94"/>
+        <source>switched to read mode</source>
+        <translation>maintenant en mode lecture</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="101"/>
+        <source>reading mode : level up</source>
+        <oldsource>level up$$$$</oldsource>
+        <translation>passer au niveau de lecture supérieur</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="109"/>
+        <source>reading mode : level down</source>
+        <oldsource>level down$$$$</oldsource>
+        <translation>passer au mode de lecture inférieur</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="117"/>
+        <source>reading mode : select level</source>
+        <translation>choisir le niveau de lecture</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="160"/>
+        <source>reduce the font size</source>
+        <translation>réduire la taille du texte</translation>
+    </message>
+    <message>
+        <location filename="qt/sourcezone.cpp" line="161"/>
+        <source>enlarge the font size</source>
+        <translation>augmenter la taille du texte</translation>
     </message>
 </context>
 </TS>

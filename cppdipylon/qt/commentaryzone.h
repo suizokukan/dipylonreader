@@ -60,7 +60,7 @@ friend class SCSplitter;
   CommentaryEditor* editor = nullptr;
   CommentaryToolBar* toolbar = nullptr;
 
-  const DipyDoc & dipydoc;
+  const DipyDoc * dipydoc;
   bool & blocked_commentaries;
 
   QAction* textminusAct = nullptr;
@@ -68,7 +68,7 @@ friend class SCSplitter;
 
  public:
   explicit CommentaryZone(const QString & splitter_name,
-                          const DipyDoc & _dipydoc,
+                          const DipyDoc * _dipydoc,
                           bool & _blocked_commentaries,
                           QWidget* _parent);
 };

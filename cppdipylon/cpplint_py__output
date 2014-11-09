@@ -2,15 +2,22 @@ Done processing ./debugmsg/debugmsg.h
 Total errors found: 0
 Done processing ./debugmsg/debugmsg.cpp
 Total errors found: 0
+./dipydoc/notes.cpp:98:  Lines should very rarely be longer than 150 characters  [whitespace/line_length] [4]
+Done processing ./dipydoc/notes.cpp
+Total errors found: 1
 Done processing ./dipydoc/menunames.h
 Total errors found: 0
 Done processing ./dipydoc/dipydoc.cpp
 Total errors found: 0
+Done processing ./dipydoc/syntagmas.h
+Total errors found: 0
+Done processing ./dipydoc/arrowtarget.h
+Total errors found: 0
+Done processing ./dipydoc/syntagmas.cpp
+Total errors found: 0
 Done processing ./dipydoc/dipydoc.h
 Total errors found: 0
-Done processing ./dipydoc/dipydocnotes.h
-Total errors found: 0
-Done processing ./dipydoc/dipydocnotes.cpp
+Done processing ./dipydoc/notes.h
 Total errors found: 0
 Done processing ./languages/languages.h
 Total errors found: 0

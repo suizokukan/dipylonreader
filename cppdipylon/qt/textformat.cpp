@@ -140,7 +140,7 @@ int TextFormat::init_from_string(const QString& source_string) {
     /*
        bold
     */
-    if (keyword == "italic") {
+    if (keyword == "bold") {
        this->_qtextcharformat.setFontWeight(QFont::Bold);
        continue;
     }
@@ -282,12 +282,58 @@ int TextFormat::init_from_string(const QString& source_string) {
        continue;
     }
 
-    DebugMsg() << "TextFormat::init_from_string() : unknown keyword=" << keyword \
-               << "keyword.length()=" << keyword.length();
+    // DEBUG1 DebugMsg() << "TextFormat::init_from_string() : unknown keyword=" << keyword
+    // DEBUG1                << "keyword.length()=" << keyword.length();
 
     res = TextFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
     this->_well_initialized = false;
   }
 
   return res;
+}
+
+/*______________________________________________________________________________
+
+        TextFormat::modify_for_distant_appearance
+
+        see A-mode for more details
+______________________________________________________________________________*/
+void TextFormat::modify_for_distant_appearance(void) {
+  QBrush background = this->_qtextcharformat.background();
+  int background_blue = background.color().blue() * 0.7;
+  int background_green = background.color().green() * 0.7;
+  int background_red = background.color().red() * 0.7;
+  background.setColor(QColor(background_red,
+                             background_green,
+                             background_blue));
+  this->_qtextcharformat.setBackground(background);
+}
+
+/*______________________________________________________________________________
+
+        TextFormat::modify_for_family_appearance
+
+        see A-mode for more details
+______________________________________________________________________________*/
+void TextFormat::modify_for_family_appearance(void) {
+  QBrush background = this->_qtextcharformat.background();
+  int background_blue = background.color().blue() * 0.9;
+  int background_green = background.color().green() * 0.9;
+  int background_red = background.color().red() * 0.9;
+  background.setColor(QColor(background_red,
+                             background_green,
+                             background_blue));
+  this->_qtextcharformat.setBackground(background);
+}
+
+/*______________________________________________________________________________
+
+        TextFormat::modify_for_focused_appearance
+
+        see A-mode for more details
+______________________________________________________________________________*/
+void TextFormat::modify_for_focused_appearance(void) {
+  this->_qtextcharformat.setProperty(QTextFormat::FontWeight, QFont::Bold);
+  this->_qtextcharformat.setProperty(QTextFormat::FontItalic, true);
+  this->_qtextcharformat.setProperty(QTextFormat::TextUnderlineStyle, QTextCharFormat::SingleUnderline);
 }

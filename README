@@ -1,6 +1,10 @@
 (C++/Qt5) front-end used to read texts with some annotations
 
 TODO
+* virer le terminal sous win
+* virer Icons
+* si type apparaît dans main.xml sans être défini, boom
+* distinguer un DEBUG2 dans la partie la plus sensible de la boucle d'événements.
 
 [ui]
 - ouvrir le(s) dernier(s) fichier(s) ouverts
@@ -29,14 +33,13 @@ TODO
 - document image (http://qt-project.org/doc/qt-5/qpixmap.html#details)
 
 [code]
+- plus de pointeurs hors Qt > smart pointers + virer les delete correspondant.
 - que faire de bool MainWindow::saveMainFileOfADipyDocAs() ??// READ_AND_WRITE n'est nulle part utilisé.
 - réfléchir à la question : le ~/dipydocs est-il complètement nettoyé après un download ? Documenter ce comportement.
 - memory leaks : regarder valgrind + g++ -g
 - pointeurs const par sécurité partout où c'est possible.
-- DebugMsg() sur une seule ligne pour facilement les remplacer par //DebugMsg() pour une version optimisée.
 - relire le code : les include sont-ils nécessaires ?
 - et si on clique dans l'intro ? comment réagissent les _contains() ?
-- réécrire les .sh en script python + inclure un numéro de build.
 - dans ... , vérifier que "number", "name" existent :
 
       if( name == "level" ) {

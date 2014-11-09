@@ -32,23 +32,23 @@
   CommentaryZone::constructor
 ______________________________________________________________________________*/
 CommentaryZone::CommentaryZone(const QString & splitter_name,
-                               const DipyDoc & _dipydoc,
+                               const DipyDoc * _dipydoc,
                                bool & _blocked_commentaries,
                                QWidget* _parent) : QFrame(_parent),
                                                    dipydoc(_dipydoc),
                                                    blocked_commentaries(_blocked_commentaries) {
-  DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : entry point";
 
   QString object_name(splitter_name + "::commentary_zone");
   this->setObjectName(object_name);
 
-  DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryEditor object";
   this->editor = new CommentaryEditor(splitter_name,
                                       this->dipydoc,
                                       this->blocked_commentaries,
                                       this);
 
-  DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : creating CommentaryToolBar object";
   this->toolbar = new CommentaryToolBar(splitter_name,
                                         this);
 
@@ -67,10 +67,13 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
 
+  // connection #C026 (confer documentation)
   QObject::connect(this->textminusAct, &QAction::triggered,
                    this->editor,       &CommentaryEditor::zoom_out);
+
+  // connection #C027 (confer documentation)
   QObject::connect(this->textplusAct,  &QAction::triggered,
                    this->editor,       &CommentaryEditor::zoom_in);
 
-  DebugMsg() << "CommentaryZone::CommentaryZone : exit point";
+  // DEBUG1 DebugMsg() << "CommentaryZone::CommentaryZone : exit point";
 }

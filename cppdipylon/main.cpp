@@ -36,7 +36,7 @@
   and "argv".
 ______________________________________________________________________________*/
 int main(int argc, char **argv) {
-    DebugMsg() << "entry point; argc=" << argc << "; argv[0] =" << argv[0];
+    // DEBUG1 DebugMsg() << "entry point; argc=" << argc << "; argv[0] =" << argv[0];
 
     Q_INIT_RESOURCE(dipylonreader);
 

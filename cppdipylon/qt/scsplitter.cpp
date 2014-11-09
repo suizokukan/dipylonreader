@@ -42,6 +42,8 @@ SCSplitter::SCSplitter(const int index_in_scbar,
                                                      visible_toolbars(_visible_toolbars),
                                                      _well_initialized(false),
                                                      blocked_commentaries(false) {
+  // DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : entry point " << directoryName;
+
   /*
     (1) loading the DipyDoc
   */
@@ -51,20 +53,22 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   QApplication::setOverrideCursor(Qt::WaitCursor);
   #endif
 
-  this->dipydoc = DipyDoc(directoryName);
+  // DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : reading DipyDoc...";
+  this->dipydoc = new DipyDoc(directoryName);
+  // DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : ... DipyDoc read";
 
-  if (this->dipydoc.well_initialized() == false) {
+  if (this->dipydoc->well_initialized() == false) {
     // an error occurs :
     QMessageBox msgBox;
     msgBox.setText(tr("Unable to load any valid Dipydoc's document from <b>") + \
                    directoryName + "</b> ." + \
-                   "<br/><br/>" + this->dipydoc.diagnosis() + \
+                   "<br/><br/>" + this->dipydoc->diagnosis() + \
                    "<br/><br/>" + tr("See more details below."));
 
     msgBox.setDetailedText("internal state = " + \
-                           QString().setNum(this->dipydoc.internal_state()) + \
+                           QString().setNum(this->dipydoc->internal_state()) + \
                            "\n\n" + \
-                           this->dipydoc.err_messages.join("\n\n") + \
+                           this->dipydoc->err_messages.join("\n\n") + \
                            "\n\n\n*** internal debug message ***\n\n\n" + \
                            DebugMsg::messages.join("\n"));
     msgBox.exec();
@@ -78,6 +82,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
 
   if (loading_ok == false) {
     this->_well_initialized = false;
+    // DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : exit point on error" << directoryName;
     return;
   }
 
@@ -85,8 +90,8 @@ SCSplitter::SCSplitter(const int index_in_scbar,
     (2) setting the splitter
   */
   this->setObjectName(this->get_object_name(index_in_scbar));
-  DebugMsg() << "[SCSplitter::SCSplitter] this->setStyleSheet = " \
-             << QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName());
+  // DEBUG1 DebugMsg() << "[SCSplitter::SCSplitter] this->setStyleSheet = "
+  // DEBUG1            << QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName());
   this->setStyleSheet(QString("#%1::handle:vertical {height: 5px;}").arg(this->objectName()));
   this->setOrientation(Qt::Vertical);
 
@@ -117,25 +122,29 @@ SCSplitter::SCSplitter(const int index_in_scbar,
     (4) signals
   */
 
-  // (confer doc.) connection #C001
-  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_commentary_zone_content,
+  // connection #C001 (confer documentation)
+  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
-  // (confer doc.) connection #C004
+  // connection #C002 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__set_zoom_value_in_commentary_editor,
                    this->commentary_zone->editor,  &TextEditor::set_zoom_value);
 
-  // (confer doc.) connection #C006
+  // connection #C003 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__in_commentary_editor_update_from_dipydoc_info,
                    this->commentary_zone->editor,  &CommentaryEditor::update_aspect_from_dipydoc_aspect_informations);
 
-  // (confer doc.) connection #C007
-  QObject::connect(this->source_zone,              &SourceZone::signal__update_commentary_zone_content,
+  // connection #C004 (confer documentation)
+  QObject::connect(this->source_zone,              &SourceZone::signal__update_translation_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
-  // (confer doc.) connection #C???
+  // connection #C005 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__update_icons,
                    this,                           &SCSplitter::update_icons);
+
+  // connection #C040 (confer documentation)
+  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_note_in_commentary_zone,
+                   this->commentary_zone->editor,  &CommentaryEditor::update_content__commentary_expected);
 
   /*
     (5) update icons
@@ -146,6 +155,19 @@ SCSplitter::SCSplitter(const int index_in_scbar,
     (6) setting this->_well_initialized
   */
   this->_well_initialized = true;
+
+  // DEBUG1 DebugMsg() << "SCSplitter::SCSplitter : exit point" << directoryName;;
+}
+
+/*______________________________________________________________________________
+
+        SCSplitter::~SCSplitter()
+
+        SCSplitter destructor
+______________________________________________________________________________*/
+SCSplitter::~SCSplitter(void) {
+  // DEBUG1 DebugMsg() << "~SCSplitter";
+  delete this->dipydoc;
 }
 
 /*______________________________________________________________________________
@@ -159,7 +181,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
 ______________________________________________________________________________*/
 QString SCSplitter::get_object_name(const int index_in_scbar) const {
   return QString("mainwindow__scsplitter" + \
-                 this->dipydoc.internal_name + \
+                 this->dipydoc->internal_name + \
                  QString().setNum(index_in_scbar));
 }
 
@@ -170,25 +192,27 @@ QString SCSplitter::get_object_name(const int index_in_scbar) const {
   Read the settings value from the settings' file.
 ________________________________________________________________________________*/
 void SCSplitter::read_settings(void) {
-  DebugMsg() << "SCSplitter::read_settings()";
+  // DEBUG1 DebugMsg() << "SCSplitter::read_settings() : entry point";
 
   QSettings settings;
   this->source_zone->editor->zoom_value = \
-    settings.value(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+    settings.value(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc->qsettings_name),
                    fixedparameters::default__zoom_value).toInt();
 
   this->commentary_zone->editor->zoom_value = \
-    settings.value(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+    settings.value(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc->qsettings_name),
                    fixedparameters::default__zoom_value).toInt();
 
   /*
     see SCSplitter::write_settings for the explanations.
   */
-  this->splittersizes.clear();
+  this->splittersizes = fixedparameters::default__editors_size_in_main_splitter;
   foreach(QVariant v,
-          settings.value(QString("text/%1/splittersizes").arg(this->dipydoc.qsettings_name)).toList()) {
+          settings.value(QString("text/%1/splittersizes").arg(this->dipydoc->qsettings_name)).toList()) {
   this->splittersizes << v.toInt();
   }
+
+  // DEBUG1 DebugMsg() << "SCSplitter::read_settings() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -198,7 +222,7 @@ void SCSplitter::read_settings(void) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void SCSplitter::update_icons(void) {
-  DebugMsg() << "SCSplitter::update_icons; visible_toolbars=" << this->visible_toolbars;
+  // DEBUG1 DebugMsg() << "SCSplitter::update_icons; visible_toolbars=" << this->visible_toolbars;
 
   if (this->visible_toolbars == false) {
     /*
@@ -232,16 +256,16 @@ bool SCSplitter::well_initialized(void) const {
   Write the settings specific to the DipyDoc linked to "this".
 ________________________________________________________________________________*/
 void SCSplitter::write_settings(void) {
-  DebugMsg() << "SCSplitter::write_settings()";
+  // DEBUG1 DebugMsg() << "SCSplitter::write_settings()";
 
   QSettings settings;
 
   /*
     zoom value :
   */
-  settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+  settings.setValue(QString("text/%1/sourceeditor/zoomvalue").arg(this->dipydoc->qsettings_name),
                     this->source_zone->editor->zoom_value);
-  settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc.qsettings_name),
+  settings.setValue(QString("text/%1/commentaryeditor/zoomvalue").arg(this->dipydoc->qsettings_name),
                     this->commentary_zone->editor->zoom_value);
   /*
     splitter's sizes :
@@ -259,6 +283,6 @@ void SCSplitter::write_settings(void) {
   for (int & v : this->sizes()) {
     splittersizes_variant << v;
   }
-  settings.setValue(QString("text/%1/splittersizes").arg(this->dipydoc.qsettings_name),
+  settings.setValue(QString("text/%1/splittersizes").arg(this->dipydoc->qsettings_name),
                     splittersizes_variant);
 }

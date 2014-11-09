@@ -18,6 +18,7 @@ DEFINES += ALLOW_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
 DEFINES += ALLOW_SPLASHSCREEN_AT_START
 DEFINES += COMPILE_TO_32BITS_ARCHITECTURE
+DEFINES += DEBUG_MESSAGES_TO_CERR
 DEFINES += MENUACCESS_TO_INTERNAL_MESSAGES
 DEFINES += DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 DEFINES += MAXIMIZE_MAINWINDOW_TRUE_METHOD
@@ -27,9 +28,11 @@ DEFINES += QT_NO_DEBUG_OUTPUT
 
 #_______________________________________________________________________________
 #
-# add this line if you want to see qDebug() messages
+# Add a console to the application ?
+#
+# this line will be set by the build script.
 #_______________________________________________________________________________
-CONFIG += console
+@@CONSOLE@@
 
 
 
@@ -43,8 +46,10 @@ QTPLUGIN += dsengine qtmedia_audioengine
 # Input
 HEADERS         +=  ./fixedparameters.h \
                     debugmsg/debugmsg.h \
+                    dipydoc/arrowtarget.h \
                     dipydoc/dipydoc.h \
-                    dipydoc/dipydocnotes.h \
+                    dipydoc/notes.h \
+                    dipydoc/syntagmas.h \
                     dipydoc/menunames.h \
                     languages/languages.h \
                     languages/languagefromto.h \
@@ -80,7 +85,8 @@ HEADERS         +=  ./fixedparameters.h \
 SOURCES         +=  ./main.cpp \
                     debugmsg/debugmsg.cpp \
                     dipydoc/dipydoc.cpp \
-                    dipydoc/dipydocnotes.cpp \
+                    dipydoc/notes.cpp \
+                    dipydoc/syntagmas.cpp \
                     languages/languagefromto.cpp \
                     pos/posintext2posinaudio.cpp \
                     pos/posinaudio2posintext.cpp \
@@ -123,9 +129,9 @@ RC_FILE = dipylonreader.rc
 
 
 
-QMAKE_CFLAGS     += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wunused-value
+QMAKE_CFLAGS     += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wunused-value -O2
 
-QMAKE_CXXFLAGS   += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wunused-value
+QMAKE_CXXFLAGS   += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wunused-value -O2
 
 #target.path = $$[QT_INSTALL_EXAMPLES]/widgets/mainwindows/application
 #INSTALLS += target

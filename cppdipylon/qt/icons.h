@@ -44,9 +44,11 @@ struct Icons {
   QIcon*      audio_play_unavailable = nullptr;
   QIcon*      audio_stop = nullptr;
   QIcon*      audio_stop_unavailable = nullptr;
+  QIcon*      down = nullptr;
   QIcon*      downloaddemo = nullptr;
   QIcon*      hide_toolbars_off = nullptr;
   QIcon*      hide_toolbars_on = nullptr;
+  QIcon*      level = nullptr;
   QIcon*      open = nullptr;
   QIcon*      popup_mainmenu = nullptr;
   QIcon*      readingmode_amode_off = nullptr;
@@ -58,6 +60,7 @@ struct Icons {
   QIcon*      save = nullptr;
   QIcon*      textminus = nullptr;
   QIcon*      textplus = nullptr;
+  QIcon*      up = nullptr;
 };
 
 #endif  // CPPDIPYLON_QT_ICONS_H_

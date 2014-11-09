@@ -40,12 +40,14 @@
 
 #include <cstring>
 #include <map>
+#include <memory>
 #include <utility>
 
 #include "./fixedparameters.h"
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/menunames.h"
-#include "dipydoc/dipydocnotes.h"
+#include "dipydoc/notes.h"
+#include "dipydoc/syntagmas.h"
 #include "languages/languagefromto.h"
 #include "pos/posintext/posintext2str.h"
 #include "pos/posintext2posinaudio.h"
@@ -250,7 +252,6 @@ inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : nam
 ______________________________________________________________________________*/
 typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
 
-
 class DipyDoc {
 friend class CommentaryEditor;
 friend class MainWindow;
@@ -269,6 +270,8 @@ friend class UI;
 
   QString              path;
   QString              main_filename_with_fullpath;
+
+  QXmlStreamReader*    xmlreader = nullptr;
 
   /*
      general informations :
@@ -307,32 +310,25 @@ friend class UI;
   DipyDocAudioRecord   audiorecord;
   // translation data :
   DipyDocTranslation   translation;
-  // text formats :
-  std::map<QString, QString> textformats;
-  // levels (see DipyDoc::levels_repr)
-  std::map<int, LevelDetails> levels;
-  // notes :
-  DipyDocNotes         notes;
-  // arrows (see DipyDoc::arrows_repr)
-  std::map<QString, ArrowFormat> arrows;
+  // syntagmas added as notes :
+  Notes                notes;
 
   QStringList          err_messages;
 
   // private methods ...........................................................
-  QString                arrows_repr(void) const;
   bool                   check_path(const QString&);
   void                   clear(void);
   bool                   error(const QString& msg);
   bool                   error(const QString& msg, const QString& error_string);
   template<class T> bool error(const T& object, const QString& _error_string, const QString& where);
-  QString                error_string(QXmlStreamReader* xmlreader);
+  QString                error_string(void);
   QString                get_condensed_extracts_from_the_source_text(PosInTextRanges, int) const;
   QString                get_tab_name(void);
   QString                get_translations_for(PosInText x0, PosInText x1) const;
-  bool                   read_mainfile__first_token(QXmlStreamReader* xmlreader);
-  bool                   read_mainfile__text(QXmlStreamReader* xmlreader);
-  bool                   read_mainfile__text__init_and_check(void);
-  QString                levels_repr(void) const;
+  bool                   read_mainfile__first_token(void);
+  bool                   read_mainfile__doctype_text(void);
+  bool                   read_mainfile__doctype_text__init_and_check(void);
+  bool                   read_mainfile__doctype_text__syntagma(Syntagma * father);
   void                   read_menu_name(const QString& _path);
   void                   set_internal_name(void);
   void                   set_qsettings_name(void);
@@ -340,6 +336,7 @@ friend class UI;
   // public methods .............................................................
  public:
                        DipyDoc(void);
+                      ~DipyDoc(void);
               explicit DipyDoc(const QString&);
   PosInTextRanges      audio2text_contains(PosInAudio x0) const;
   PTRangesAND2PosAudio text2audio_contains(PosInText x0) const;
@@ -350,6 +347,7 @@ friend class UI;
   void                 read_mainfile(const QString&);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
+  QString              syntagmas_repr(void) const;
 
   // public constants ...........................................................
   static const int     min_dipydocformat_version;

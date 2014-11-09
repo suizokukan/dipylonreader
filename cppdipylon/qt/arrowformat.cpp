@@ -139,7 +139,7 @@ int ArrowFormat::init_from_string(const QString& source_string) {
       end color
     */
     // end color with hexadecimal value ?
-    if (keyword.endsWith("end-color:#") == true) {
+    if (keyword.startsWith("end-color:#") == true) {
       QString str_value = keyword.right(keyword.length() - QString("end-color:#").length());
       bool ok;
       int value = str_value.toInt(&ok, 16);
@@ -162,10 +162,55 @@ int ArrowFormat::init_from_string(const QString& source_string) {
     if (keyword == "end-color:white")   { this->_endcolor = QColor(Qt::white);   continue;  }
     if (keyword == "end-color:yellow")  { this->_endcolor = QColor(Qt::yellow);  continue;  }
 
-    DebugMsg() << "ArrowFormat::init_from_string(); unknown keyword=" << keyword;
+    // DEBUG1 DebugMsg() << "ArrowFormat::init_from_string(); unknown keyword=" << keyword;
     res = ArrowFormat::INTERNALSTATE::BADSRCSTRING_UNKNOWNKEYWORD;
     this->_well_initialized = false;
   }
 
+  /*
+    this->_*_qpen initialization :
+  */
+  this->_body_qpen = QPen(QBrush(this->_maincolor),
+                          this->_thickness,
+                          Qt::SolidLine,
+                          Qt::SquareCap,
+                          Qt::BevelJoin);
+
+  this->_start_qpen = QPen(QBrush(this->_startcolor),
+                           this->_thickness,
+                           Qt::SolidLine,
+                           Qt::SquareCap,
+                           Qt::BevelJoin);
+
+  this->_end_qpen = QPen(QBrush(this->_endcolor),
+                         this->_thickness,
+                         Qt::SolidLine,
+                         Qt::SquareCap,
+                         Qt::BevelJoin);
+
   return res;
+}
+
+/*______________________________________________________________________________
+
+        ArrowFormat::body_qpen
+______________________________________________________________________________*/
+const QPen& ArrowFormat::body_qpen(void) const {
+  return this->_body_qpen;
+}
+
+/*______________________________________________________________________________
+
+        ArrowFormat::end_qpen
+______________________________________________________________________________*/
+const QPen& ArrowFormat::end_qpen(void) const {
+  return this->_end_qpen;
+}
+
+/*______________________________________________________________________________
+
+        ArrowFormat::start_qpen
+______________________________________________________________________________*/
+const QPen& ArrowFormat::start_qpen(void) const {
+  return this->_start_qpen;
 }

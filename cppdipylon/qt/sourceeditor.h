@@ -31,13 +31,18 @@
 #include <QAction>
 #include <QTextEdit>
 #include <QTextCharFormat>
+#include <QTimer>
 #include <QList>
 #include <QMediaPlayer>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QWidget>
 
 #include <vector>
 
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
+#include "dipydoc/syntagmas.h"
 #include "pos/posintext/posintext.h"
 #include "qt/blockformat.h"
 #include "qt/icons.h"
@@ -61,16 +66,21 @@ class SourceEditor : public TextEditor {
     explicit  SourceEditor(const QString &      splitter_name,
                            ReadingMode &        _readingmode,
                            ReadingModeDetails & _readingmode_details,
-                           const DipyDoc &      _dipydoc,
+                           const DipyDoc *      _dipydoc,
                            QMediaPlayer *       _audio_player,
                            QAction *            _audiocontrols_playAct,
                            QAction *            _audiocontrols_stopAct,
                            bool &               _blocked_commentaries,
+                           int &                _amode_level,
                            QWidget*             _parent);
 
     PosInText corrected_cursor_position(void) const;
     void      load_text(void);
-    void      modify_the_text_format(const PosInTextRanges & posintext);
+    void      modify_the_text_format__amode(Syntagma* syntagma);
+    void      modify_the_text_format__amode__syntagma(Syntagma* current_syntagma,
+                                                      QList<QTextEdit::ExtraSelection> & selections,
+                                                      int link);
+    void      modify_the_text_format__rmode__lmode(const PosInTextRanges & posintext);
     void      reset_all_text_format_to_default(void);
     void      set_the_appearance(void);
     void      update_aspect_from_dipydoc_aspect_informations(void);
@@ -80,18 +90,19 @@ class SourceEditor : public TextEditor {
     void      signal__close_the_current_dipydoc(void);
     void      signal__open_a_new_dipydoc(void);
     void      signal__source_zone_update_icons(void);
-    void      signal__update_commentary_zone_content(const PosInTextRanges & posintext);
+    void      signal__update_translation_in_commentary_zone(const PosInTextRanges & posintext);
+    void      signal__update_note_in_commentary_zone(const QString& textnote);
 
  protected:
     void      keyReleaseEvent(QKeyEvent* keyboard_event);
     void      mouseMoveEvent(QMouseEvent* mouse_event);
     void      mouseReleaseEvent(QMouseEvent* mouse_event);
-    void      paintEvent(QPaintEvent* event);
+    void      paintEvent(QPaintEvent* ev);
 
  private:
     ReadingMode &        readingmode;
     ReadingModeDetails & readingmode_details;
-    const DipyDoc &      dipydoc;
+    const DipyDoc *      dipydoc;
     QMediaPlayer*        audio_player = nullptr;
 
     QAction*             audiocontrols_playAct = nullptr;
@@ -99,7 +110,13 @@ class SourceEditor : public TextEditor {
 
     bool &               blocked_commentaries;
 
+    int &                amode_level;
+
     PosInTextRanges      modified_chars = PosInTextRanges();
+
+    Syntagma*            focused_syntagma_in_amode = nullptr;
+
+    QTimer*              update_arrows__timer = nullptr;
 
     // random value :
     #ifdef COMPILE_TO_32BITS_ARCHITECTURE

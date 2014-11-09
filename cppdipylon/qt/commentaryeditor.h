@@ -51,17 +51,20 @@ friend class MainWindow;
 
  public:
   explicit CommentaryEditor(const QString & splitter_name,
-                            const DipyDoc & _dipydoc,
+                            const DipyDoc * _dipydoc,
                             bool & _blocked_commentaries,
                             QWidget * _parent);
 
   void set_the_appearance(void);
   void set_the_text_formats(void);
+
+ public slots:  //  NOLINT(whitespace/indent)
   void update_content__translation_expected(const PosInTextRanges&);
   void update_aspect_from_dipydoc_aspect_informations(void);
+  void update_content__commentary_expected(const QString & textnote);
 
  private:
-    const DipyDoc & dipydoc;
+    const DipyDoc * dipydoc;
     // text formats, initialized by this->set_the_text_formats() :
     QTextCharFormat format_text = QTextCharFormat();
 

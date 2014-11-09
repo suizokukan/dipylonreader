@@ -46,8 +46,8 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
     // error : ill-formed src (no SEPARATOR or more than one SEPARATOR)
     this->_well_initialized = false;
     this->_internal_state = ILLFORMED_SOURCE_STRING;
-    DebugMsg() << "LanguageFromTo::LanguageFromTo() : ill-formed source string=" << src \
-               << " where splitted_strings.length=" << splitted_strings.length();
+    // DEBUG1 DebugMsg() << "LanguageFromTo::LanguageFromTo() : ill-formed source string=" << src
+    // DEBUG1            << " where splitted_strings.length=" << splitted_strings.length();
     return;
   }
 
@@ -67,13 +67,13 @@ LanguageFromTo::LanguageFromTo(const QString& src) {
   if (languages::known_languages.find(this->_from) == known_languages_end) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_FROMLANGUAGE;
-    DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'from' language = " << this->_from;
+    // DEBUG1 DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'from' language = " << this->_from;
   }
 
   if (languages::known_languages.find(this->_to) == known_languages_end) {
     this->_well_initialized = false;
     this->_internal_state = UNDEFINED_TOLANGUAGE;
-    DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'to' language = " << this->_to;
+    // DEBUG1 DebugMsg() << "LanguageFromTo::LanguageFromTo() : unknown 'to' language = " << this->_to;
   }
 }
 

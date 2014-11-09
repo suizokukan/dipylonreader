@@ -29,9 +29,11 @@
 #define CPPDIPYLON_QT_SOURCEZONE_H_
 
 #include <QAction>
+#include <QPushButton>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMediaPlayer>
+#include <QMenu>
 #include <QSettings>
 
 #include "debugmsg/debugmsg.h"
@@ -61,6 +63,8 @@ friend class SCSplitter;
   void audiocontrols_play(void);
   void audiocontrols_stop(void);
   void audio_position_changed(PosInAudio);
+  void leveldownAct__buttonpressed(void);
+  void levelupAct__buttonpressed(void);
   void readingmode_aAct__buttonpressed(void);
   void readingmode_rAct__buttonpressed(void);
   void readingmode_lAct__buttonpressed(void);
@@ -68,11 +72,11 @@ friend class SCSplitter;
  signals:
   void signal__in_commentary_editor_update_from_dipydoc_info(void);
   void signal__set_zoom_value_in_commentary_editor(const signed int value);
-  void signal__update_commentary_zone_content(const PosInTextRanges & posintext);
+  void signal__update_translation_in_commentary_zone(const PosInTextRanges & posintext);
   void signal__update_icons(void);
 
  private:
-  const DipyDoc& dipydoc = DipyDoc();
+  const DipyDoc * dipydoc = nullptr;
 
   bool & blocked_commentaries;
   bool & visible_toolbars;
@@ -89,14 +93,21 @@ friend class SCSplitter;
   QAction* textminusAct = nullptr;
   QAction* textplusAct = nullptr;
 
+  QAction* levelupAct = nullptr;
+  QAction* leveldownAct = nullptr;
+
+  QAction* levelAct = nullptr;
+
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
   SourceEditor* editor = nullptr;
   SourceToolBar* toolbar = nullptr;
 
+  int amode_level = 0;
+
  public:
   explicit SourceZone(const QString      & splitter_name,
-                      const DipyDoc      & _dipydoc,
+                      const DipyDoc      * _dipydoc,
                       bool               & _blocked_commentaries,
                       bool               & _visible_toolbars,
                       ReadingMode        & _readingmode,

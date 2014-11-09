@@ -46,8 +46,8 @@ const QString   CODESOURCE_LICENSE_ADDRESS= "http://www.gnu.org/copyleft/gpl.htm
 /*
   minimal/maximal DipyDoc's versions allowed :
 */
-const int min_dipydocformat_version = 33;
-const int max_dipydocformat_version = 33;
+const int min_dipydocformat_version = 34;
+const int max_dipydocformat_version = 34;
 
 /*
   data used to initialize the QApplication object.
@@ -58,7 +58,8 @@ const QString organization_name   = "suizokukanfactory";
 const QString organization_domain = "94.23.197.37";
 const QString application_name    = "dipylonreader";
 const QString application_name_for_the_user = "Dipylon-R";
-const QString application_version = "0.4.7";
+// line read build_dipylonreader_*.py : do not change its format !
+const QString application_version = "0.4.8";
 const QString application_style   = "CleanLooks";
 
 /*
@@ -139,9 +140,11 @@ const QString DEMODIPYDOCS__SOURCE_SITE = "http://94.23.197.37/dipylon/freedipyd
 
 // regex used to detect 'demo' dipydocs's names :
 const QString DEMODIPYDOCS__REGEX_FOR_DIRECTORIES_NAME = "_demo_*";
+// name of the contact file :
+const QString DEMODIPYDOCS__CONTACT_FILENAME = "contact";
 // name of the summary file :
 const QString DEMODIPYDOCS__SUMMARY_FILENAME = "summary";
-// separatator characters in the summary file :
+ // separatator characters in the summary file :
 const QString DEMODIPYDOCS__SUMMARY_SEP = " :: ";
 }
 #endif
