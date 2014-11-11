@@ -100,6 +100,9 @@ const QString default__sourcetoolbar_stylesheet = "background-color: #efebe7;";
 
 const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7;";
 
+// space between lines in source editot (100% = no space)
+const int default__sourceeditor__line_height = 108;
+
 const QStringList known_doctypes = { QString("text"), };
 
 // default zoom value for both editors :
