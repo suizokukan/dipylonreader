@@ -28,7 +28,6 @@
 *******************************************************************************/
 
 #include "qt/arrowformat.h"
-#include "debugmsg/debugmsg.h"
 
 const QString ArrowFormat::SEPARATOR = ";";
 
@@ -39,6 +38,10 @@ const QString ArrowFormat::SEPARATOR = ";";
         See arrowformat.h for a description of the ARROWFORMAT_SRCSTRING_FORMAT
 ______________________________________________________________________________*/
 ArrowFormat::ArrowFormat(const QString& source_string) {
+  // default value(s) :
+  this->_thickness = fixedparameters::default_value_for_arrows_thickness;
+
+  // initialization :
   this->_internal_state = this->init_from_string(source_string);
   this->_well_initialized = (this->_internal_state == ArrowFormat::INTERNALSTATE::OK);
 }

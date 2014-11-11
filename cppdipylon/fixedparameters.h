@@ -110,6 +110,11 @@ const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7
 const int default__sourceeditor__line_height__anything_but_text = 100;
 const int default__sourceeditor__line_height__text = 120;
 
+// arrows' thickness :
+const int default_value_for_arrows_thickness = 2;
+
+
+
 const QStringList known_doctypes = { QString("text"), };
 
 // default zoom value for both editors :
