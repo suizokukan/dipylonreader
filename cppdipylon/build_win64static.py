@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# build_dipylonreader_win32static.py
+# build_win64static.py
 #
 # Python2/3 script.
 # to be used only on a system with a shell.
@@ -26,19 +26,15 @@
 # 
 ################################################################################
 #
-# version 7 (2014.11.09) : make uses -j2 + display total amount of time
+# version 5 (2014.11.11) : new name + display executable's name
 #
-# version 6 (2014.11.09) : improved TEMP_FOLDER
+# version 4 (2014.11.09) : make uses -j2 + display total amount of time
 #
-# version 5 (2014.11.08) : new option : --console=yes|no
+# version 3 (2014.11.08) : improved TEMP_FOLDER
 #
-# version 4 (2014.11.01) : new EXEC_NAME, ending with "_v{0}_debug{1}_build{2}.exe"
+# version 2 (2014.11.21) : new option : --console=yes|no
 #
-# version 3 (2014.10.31) : temp folder's name depends on ARGS.debug value
-#
-# version 2 (2014.10.31) : command line options "--debug", "--version" and "--help"
-#
-# version 1 (2014.10.26) : first version to be committed.
+# version 1 (2014.11.05) : first version to be committed.
 #
 ################################################################################
 
@@ -49,8 +45,8 @@ from datetime import datetime
 start_time = datetime.now()
 
 
-VERSION = "build_dipylonreader_win32static : v7"
-SUMMARY = "Linux > Windows32/static/using MXE"
+VERSION = "build_win64static : v5"
+SUMMARY = "Linux > Windows64/static/using MXE"
 
 # system call
 def ossystem(arg):
@@ -100,14 +96,16 @@ with open("build_number", 'w') as buildnumber_file:
     buildnumber_file.write(str(BUILD_NUMBER))
 
 # setting the temporary build folder without the final '/' :
-TEMP_FOLDER = "temp__build_win32_static_debug{0}_console{1}".format(ARGS.debug,
+TEMP_FOLDER = "temp__build_win64_static_debug{0}_console{1}".format(ARGS.debug,
                                                                     ARGS.console)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_win_32bits_static_v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,
+EXEC_NAME  = "dipylonreader_win_64bits_static_v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,
                                                                                             ARGS.debug,
                                                                                             ARGS.console,
                                                                                             BUILD_NUMBER)
+
+
 # build :
 print("=== compiling {0} ===".format(SUMMARY))
 print("===")
@@ -125,20 +123,20 @@ print("== create builds/ folder if it doesn't exist")
 ossystem("mkdir -p ../builds")
 
 NEWPATH = "/home/suizokukan/mxe/usr/bin:" + os.environ['PATH']
-os.environ['PATH'] = "/home/suizokukan/mxe/usr/bin:" + os.environ['PATH']
+os.environ['PATH'] = "/home/suizokukan/mxe_64/usr/bin:" + os.environ['PATH']
 
 print("== filling {0}/".format(TEMP_FOLDER))
 ossystem("mkdir -p {0}/".format(TEMP_FOLDER))
 ossystem("rm -rf {0}/*".format(TEMP_FOLDER))
-ossystem("rsync -a . {0}/ --exclude {0}/ --exclude 2win32_static".format(TEMP_FOLDER))
+ossystem("rsync -a . {0}/ --exclude {0}/ --exclude 2win64_static".format(TEMP_FOLDER))
 
-print("== 2win32_static/* > {0}/".format(TEMP_FOLDER))
+print("== 2win64_static/* > {0}/".format(TEMP_FOLDER))
 print("... dipylonreader.pro")
-ossystem("cp 2win32_static/dipylonreader.pro {0}/dipylonreader.pro".format(TEMP_FOLDER))
+ossystem("cp 2win64_static/dipylonreader.pro {0}/dipylonreader.pro".format(TEMP_FOLDER))
 print("... win_app_icon.ico")
-ossystem("cp 2win32_static/ressources/images/icons/win_app_icon.ico {0}/ressources/images/icons/".format(TEMP_FOLDER))
+ossystem("cp 2win64_static/ressources/images/icons/win_app_icon.ico {0}/ressources/images/icons/".format(TEMP_FOLDER))
 print("... dipylonreader.rc")
-ossystem("cp 2win32_static/dipylonreader.rc {0}/".format(TEMP_FOLDER))
+ossystem("cp 2win64_static/dipylonreader.rc {0}/".format(TEMP_FOLDER))
 
 os.chdir("{0}/".format(TEMP_FOLDER))
 print("== now in {0}/".format(TEMP_FOLDER))
@@ -160,7 +158,7 @@ with open("dipylonreader.pro", 'w') as pro_file:
     pro_file.write(pro_file_content)
 
 print("== calling qmake")
-ossystem("~/mxe/usr/i686-pc-mingw32/qt5/bin/qmake -makefile dipylonreader.pro".format(TEMP_FOLDER))
+ossystem("~/mxe_64/usr/x86_64-w64-mingw32/qt5/bin/qmake -makefile dipylonreader.pro".format(TEMP_FOLDER))
 
 print("== calling make")
 ossystem("pwd")
@@ -171,3 +169,5 @@ ossystem("cp build/dipylonreader.exe ../../builds/{0}".format(EXEC_NAME))
 
 time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
+
+print("builded " + EXEC_NAME)
