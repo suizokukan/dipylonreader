@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# build_dipylonreader_linux64dynamic.py
+# build_linux64dynamic.py
 #
 # Python2/3 script.
 # to be used only on a system with a shell.
@@ -23,6 +23,8 @@
 # 
 ################################################################################
 #
+# version 6 (2014.11.11) : new name + display executable's name
+#
 # version 5 (2014.11.09) : make uses -j2 + display total amount of time
 #
 # version 4 (2014.11.01) : new EXEC_NAME, ending with "_v{0}_debug{1}_build{2}"
@@ -41,7 +43,7 @@ from datetime import datetime
 
 start_time = datetime.now()
 
-VERSION = "build_dipylonreader_linux64dynamic : v5"
+VERSION = "build_linux64dynamic : v6"
 SUMMARY = "Linux > Linux64/dynamic"
 
 # system call
@@ -133,4 +135,7 @@ ossystem("cp ./build/dipylonreader ../../builds/{0}".format(EXEC_NAME))
 
 time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
+
+print()
+print("tried to build " + EXEC_NAME)
 

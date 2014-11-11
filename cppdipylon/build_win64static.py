@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# build_dipylonreader_win64static.py
+# build_win64static.py
 #
 # Python2/3 script.
 # to be used only on a system with a shell.
@@ -26,6 +26,8 @@
 # 
 ################################################################################
 #
+# version 5 (2014.11.11) : new name + display executable's name
+#
 # version 4 (2014.11.09) : make uses -j2 + display total amount of time
 #
 # version 3 (2014.11.08) : improved TEMP_FOLDER
@@ -43,7 +45,7 @@ from datetime import datetime
 start_time = datetime.now()
 
 
-VERSION = "build_dipylonreader_win64static : v4"
+VERSION = "build_win64static : v5"
 SUMMARY = "Linux > Windows64/static/using MXE"
 
 # system call
@@ -167,3 +169,7 @@ ossystem("cp build/dipylonreader.exe ../../builds/{0}".format(EXEC_NAME))
 
 time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
+
+print()
+print("tried to build " + EXEC_NAME)
+

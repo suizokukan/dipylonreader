@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# build_dipylonreader_win32static.py
+# build_win32static.py
 #
 # Python2/3 script.
 # to be used only on a system with a shell.
@@ -25,6 +25,8 @@
 #       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
 # 
 ################################################################################
+#
+# version 8 (2014.11.11) : new name + display executable's name
 #
 # version 7 (2014.11.09) : make uses -j2 + display total amount of time
 #
@@ -49,7 +51,7 @@ from datetime import datetime
 start_time = datetime.now()
 
 
-VERSION = "build_dipylonreader_win32static : v7"
+VERSION = "build_win32static : v8"
 SUMMARY = "Linux > Windows32/static/using MXE"
 
 # system call
@@ -171,3 +173,7 @@ ossystem("cp build/dipylonreader.exe ../../builds/{0}".format(EXEC_NAME))
 
 time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
+
+print()
+print("tried to build " + EXEC_NAME)
+
