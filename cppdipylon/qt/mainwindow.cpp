@@ -267,7 +267,7 @@ void MainWindow::createMenus(void) {
     main popup menu :
   */
   #ifndef NO_MAIN_POPUPMENU
-  this->mainpopupmenu = new QMenu();
+  this->mainpopupmenu = new QMenu(this);
   this->mainpopupmenu->addMenu(this->openMenu);
   this->mainpopupmenu->addAction(downloaddemoAct);
   this->mainpopupmenu->addSeparator();
