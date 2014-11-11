@@ -134,4 +134,6 @@ ossystem("cp ./build/dipylonreader ../../builds/{0}".format(EXEC_NAME))
 print("== launching the binary ../../builds/{0}".format(EXEC_NAME))
 ossystem("../../builds/{0}".format(EXEC_NAME))
 
-print("builded " + EXEC_NAME)
+print()
+print("tried to build " + EXEC_NAME)
+

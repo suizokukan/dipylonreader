@@ -136,4 +136,6 @@ ossystem("cp ./build/dipylonreader ../../builds/{0}".format(EXEC_NAME))
 time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
 
-print("builded " + EXEC_NAME)
+print()
+print("tried to build " + EXEC_NAME)
+
