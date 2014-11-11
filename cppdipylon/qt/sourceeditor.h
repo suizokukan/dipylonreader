@@ -36,6 +36,7 @@
 #include <QMediaPlayer>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QTextBlock>
 #include <QWidget>
 
 #include <vector>
