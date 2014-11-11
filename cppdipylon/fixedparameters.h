@@ -100,8 +100,15 @@ const QString default__sourcetoolbar_stylesheet = "background-color: #efebe7;";
 
 const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7;";
 
-// space between lines in source editot (100% = no space)
-const int default__sourceeditor__line_height = 108;
+/*
+  space between lines in source editor (100% = no space)
+
+  there are 2 constants since a different line height may be applied
+  to the text BEFORE the source text (title, introduction) and to
+  the source text itself.
+*/
+const int default__sourceeditor__line_height__anything_but_text = 100;
+const int default__sourceeditor__line_height__text = 120;
 
 const QStringList known_doctypes = { QString("text"), };
 

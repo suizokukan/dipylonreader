@@ -269,10 +269,37 @@ void SourceEditor::load_text(void) {
   this->number_of_chars_before_source_text = cur.position();
 
   /*
+    the current blocks' number is stored
+  */
+  QTextDocument* doc = this->document();
+  int number_of_block_before_source_text = doc->blockCount();
+
+  /*
     let's add the source text :
   */
   cur.setCharFormat(text_qtextcharformat);
   cur.insertText(this->dipydoc->source_text.text);
+
+  /*
+    setting line space :
+
+    A different line height is applied to the text BEFORE the source
+    text and to the source text itself.
+  */
+  for (int num_block = 0; num_block <= doc->blockCount(); ++num_block) {
+    QTextBlock block = doc->findBlockByNumber(num_block);
+    auto block_cursor = QTextCursor(block);
+    auto block_format = block.blockFormat();
+
+    if (num_block < number_of_block_before_source_text-1) {
+      block_format.setLineHeight(fixedparameters::default__sourceeditor__line_height__anything_but_text,
+                                 QTextBlockFormat::ProportionalHeight);
+    } else {
+      block_format.setLineHeight(fixedparameters::default__sourceeditor__line_height__text,
+                                 QTextBlockFormat::ProportionalHeight);
+    }
+    block_cursor.setBlockFormat(block_format);
+  }
 }
 
 /*______________________________________________________________________________
@@ -846,19 +873,6 @@ void SourceEditor::set_the_appearance(void) {
   // DEBUG1 DebugMsg() << "[SourceEditor::set_the_appearance] this->setStyleSheet = "
   // DEBUG1            << this->dipydoc->sourceeditor_stylesheet;
   this->setStyleSheet(this->dipydoc->sourceeditor_stylesheet);
-
-  /*
-    setting line space :
-  */
-  QTextDocument* doc = this->document();
-  for (int num_block = 0; num_block <= doc->blockCount(); ++num_block) {
-    QTextBlock block = doc->findBlockByNumber(num_block);
-    auto block_cursor = QTextCursor(block);
-    auto block_format = block.blockFormat();
-    block_format.setLineHeight(fixedparameters::default__sourceeditor__line_height,
-                               QTextBlockFormat::ProportionalHeight);
-    block_cursor.setBlockFormat(block_format);
-  }
 }
 
 /*______________________________________________________________________________
