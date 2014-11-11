@@ -49,6 +49,9 @@
 #include <QString>
 #include <QStringList>
 
+#include "./fixedparameters.h"
+#include "debugmsg/debugmsg.h"
+
 /*______________________________________________________________________________
 
   ArrowFormat class : details used to draw an arrow.
