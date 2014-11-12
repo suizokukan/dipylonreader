@@ -66,6 +66,23 @@ SUMMARY
 [0] roadmap
 ################################################################################
 
+0.4.9 (2014_11_12)
+
+Fixed a critical bug preventing to use DipylonReader with arrows in analysis mode,
+added interlinear spaces in the source editor.
+
+o fixed a critical bug relating to arrows' thickness.
+  (feature137)
+o added a space between lines in the source editor.
+  (feature136, feature134)
+o improved build scripts : shorter names, quicker compilation, better information
+  messages.
+  (feature138, feature135, feature132, feature130)
++ feature139, feature133, feature131
+
+code quality : 3 errors, according to cpplint.py
+
+
 0.4.8 (2014_11_09)
 
 Dipydoc's version = 34, 'analysis' reading mode
