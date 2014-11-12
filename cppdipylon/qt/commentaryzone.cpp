@@ -52,7 +52,7 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   this->toolbar = new CommentaryToolBar(splitter_name,
                                         this);
 
-  this->layout = new QHBoxLayout();
+  this->layout = new QHBoxLayout(this);
   this->layout->addWidget(this->editor);
   this->layout->addWidget(this->toolbar);
 
@@ -61,8 +61,10 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   /*
     (2) signals : signals between the editors and the toolbars :
   */
-  this->textminusAct = new QAction(*(icons.textminus), tr("reduce the font size"), this);
-  this->textplusAct  = new QAction(*(icons.textplus), tr("enlarge the font size"), this);
+  this->textminusAct = new QAction(QIcon(":ressources/images/icons/textminus.png"),
+                                   tr("reduce the font size"), this);
+  this->textplusAct  = new QAction(QIcon(":ressources/images/icons/textplus.png"),
+                                   tr("enlarge the font size"), this);
 
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);

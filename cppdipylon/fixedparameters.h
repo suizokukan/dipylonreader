@@ -59,7 +59,7 @@ const QString organization_domain = "94.23.197.37";
 const QString application_name    = "dipylonreader";
 const QString application_name_for_the_user = "Dipylon-R";
 // line read build_dipylonreader_*.py : do not change its format !
-const QString application_version = "0.4.8";
+const QString application_version = "0.4.9";
 const QString application_style   = "CleanLooks";
 
 /*
@@ -99,6 +99,21 @@ const QString default__commentaryeditor_stylesheet = "color: white;"
 const QString default__sourcetoolbar_stylesheet = "background-color: #efebe7;";
 
 const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7;";
+
+/*
+  space between lines in source editor (100% = no space)
+
+  there are 2 constants since a different line height may be applied
+  to the text BEFORE the source text (title, introduction) and to
+  the source text itself.
+*/
+const int default__sourceeditor__line_height__anything_but_text = 100;
+const int default__sourceeditor__line_height__text = 120;
+
+// arrows' thickness :
+const int default_value_for_arrows_thickness = 2;
+
+
 
 const QStringList known_doctypes = { QString("text"), };
 

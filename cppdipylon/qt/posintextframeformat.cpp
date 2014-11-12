@@ -38,6 +38,8 @@ const QString PosInTextFrameFormat::SEPARATOR = ";";
         See positionintextframeformat.h for a description of the POSITIONINTEXTFRAMEFORMAT_SRCSTRING_FORMAT
 ______________________________________________________________________________*/
 PosInTextFrameFormat::PosInTextFrameFormat(const QString& source_string) {
+  this->_position = QTextFrameFormat::FloatLeft;
+
   this->_internal_state = this->init_from_string(source_string);
   this->_well_initialized = (this->_internal_state == PosInTextFrameFormat::INTERNALSTATE::OK);
 }
@@ -45,7 +47,7 @@ PosInTextFrameFormat::PosInTextFrameFormat(const QString& source_string) {
 /*______________________________________________________________________________
 
         PosInTextFrameFormat::init_from_string() : initialize "this" from a
-                                                 source string.
+                                                   source string.
 
         The function returns an "internal state". See positionintextframeformat.h for
         the available values.

@@ -162,7 +162,7 @@ void MainWindow::createActions(void) {
   /*
     downloaddemoAct
   */
-  this->downloaddemoAct = new QAction( *(icons.downloaddemo),
+  this->downloaddemoAct = new QAction( QIcon(":ressources/images/icons/downloaddemo.png"),
                                        tr("Download demo Dipydocs"),
                                  this);
   this->downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
@@ -183,7 +183,7 @@ void MainWindow::createActions(void) {
   /*
     hidetoolbarsAct
   */
-  this->hidetoolbarsAct = new QAction( *(icons.hide_toolbars_on),
+  this->hidetoolbarsAct = new QAction( QIcon(":ressources/images/icons/hidetoolbars_on.png"),
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
@@ -194,9 +194,9 @@ void MainWindow::createActions(void) {
   /*
     internalmsgAct
   */
-  this->internalmsgAct = new QAction( *(icons.app),
-                                       tr("internal messages"),
-                                       this);
+  this->internalmsgAct = new QAction( QIcon(":ressources/images/icons/application_icon.png"),
+                                      tr("internal messages"),
+                                      this);
   this->internalmsgAct->setStatusTip(tr("internal messages"));
   // connection #C019 (confer documentation)
   QObject::connect(this->internalmsgAct, &QAction::triggered,
@@ -205,7 +205,7 @@ void MainWindow::createActions(void) {
   /*
     openAct
   */
-  this->openAct = new QAction( *(icons.open),
+  this->openAct = new QAction( QIcon(":ressources/images/icons/open.png"),
                                tr("Open"),
                                this);
   openAct->setShortcuts(QKeySequence::Open);
@@ -218,7 +218,7 @@ void MainWindow::createActions(void) {
     popup_mainmenuAct
   */
   #ifndef NO_MAIN_POPUPMENU
-  this->popup_mainmenuAct = new QAction( *(icons.popup_mainmenu),
+  this->popup_mainmenuAct = new QAction( QIcon(":ressources/images/icons/popup_mainmenu.png"),
                                          tr("display the main pop menu"),
                                          this);
   // connection #C021 (confer documentation)
@@ -267,7 +267,7 @@ void MainWindow::createMenus(void) {
     main popup menu :
   */
   #ifndef NO_MAIN_POPUPMENU
-  this->mainpopupmenu = new QMenu();
+  this->mainpopupmenu = new QMenu(this);
   this->mainpopupmenu->addMenu(this->openMenu);
   this->mainpopupmenu->addAction(downloaddemoAct);
   this->mainpopupmenu->addSeparator();
@@ -351,7 +351,7 @@ void MainWindow::fill_open_menu(void) {
   */
   if (this->ui.available_menu_names.size() == 0) {
     // DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : no dipydoc";
-    QAction* emptyAction = new QAction(*icons.app,
+    QAction* emptyAction = new QAction(QIcon(":ressources/images/icons/application_icon.png"),
                                        "(No Dipydoc could be found)",
                                        this);
     this->openMenu->addAction(emptyAction);
@@ -370,7 +370,7 @@ void MainWindow::fill_open_menu(void) {
     number_of_items++;
 
     if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-      QAction* newAction = new QAction(*icons.app,
+      QAction* newAction = new QAction(QIcon(":ressources/images/icons/application_icon.png"),
                                        item.first,
                                        this);
       /*
@@ -583,7 +583,7 @@ void MainWindow::update_icons(void) {
   this->hidetoolbarsAct->setVisible(true);
 
   if (this->visible_toolbars == false) {
-    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_off));
+    this->hidetoolbarsAct->setIcon(QIcon(":ressources/images/icons/hidetoolbars_off.png"));
     this->hidetoolbarsAct->setText(tr("show toolbars"));
 
     for (int index = 0; index < this->sctabs->count(); index++) {
@@ -591,7 +591,7 @@ void MainWindow::update_icons(void) {
       splitter->update_icons();
     }
   } else {
-    this->hidetoolbarsAct->setIcon(*(icons.hide_toolbars_on));
+    this->hidetoolbarsAct->setIcon(QIcon(":ressources/images/icons/hidetoolbars_on.png"));
     this->hidetoolbarsAct->setText(tr("hide toolbars"));
 
     for (int index = 0; index < this->sctabs->count(); index++) {
