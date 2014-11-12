@@ -81,8 +81,6 @@ Done processing ./qt/downloaddemodipydocs.cpp
 Total errors found: 0
 Done processing ./qt/readingmodes.h
 Total errors found: 0
-Done processing ./qt/icons.h
-Total errors found: 0
 Done processing ./qt/sourceeditor.h
 Total errors found: 0
 Done processing ./qt/posintextframeformat.h
@@ -120,8 +118,6 @@ Total errors found: 0
 Done processing ./qt/mainwindow.cpp
 Total errors found: 0
 Done processing ./qt/presentationscreen.cpp
-Total errors found: 0
-Done processing ./qt/icons.cpp
 Total errors found: 0
 Done processing ./qt/posintextframeformat.cpp
 Total errors found: 0
