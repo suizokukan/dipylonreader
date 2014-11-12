@@ -59,7 +59,7 @@ const QString organization_domain = "94.23.197.37";
 const QString application_name    = "dipylonreader";
 const QString application_name_for_the_user = "Dipylon-R";
 // line read build_dipylonreader_*.py : do not change its format !
-const QString application_version = "0.4.8";
+const QString application_version = "0.4.9";
 const QString application_style   = "CleanLooks";
 
 /*
