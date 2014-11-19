@@ -546,7 +546,7 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& positions) {
   // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__rmode__lmode() positions=" << positions.repr();
-  
+
   int shift = this->number_of_chars_before_source_text;
 
   QTextCursor cur = this->textCursor();
@@ -713,7 +713,6 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
       emit this->signal__source_zone_update_icons();
 
       this->update();
-
     }
 
     return;
