@@ -540,11 +540,13 @@ void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syn
         SourceEditor::modify_the_text_format__rmode__lmode
 
         This function modify the appearence of the text BUT DOES NOT UPDATE
-        the .modified_chars_hash attribute.
+        the SourceEditor::modified_chars_hash attribute.
 
         Use this function only for r-mode and l-mode.
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& positions) {
+  // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__rmode__lmode() positions=" << positions.repr();
+  
   int shift = this->number_of_chars_before_source_text;
 
   QTextCursor cur = this->textCursor();
@@ -602,22 +604,24 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
         // in the translation, where are the characters linked to "cursor_position" ?
         PosInTextRanges pos_in_text = this->dipydoc->translation_contains(cursor_position);
 
-        std::size_t text_ranges_hash = pos_in_text.get_hash();
+        if (pos_in_text.is_empty() == false) {
+          std::size_t text_ranges_hash = pos_in_text.get_hash();
 
-        // if the user is really on another text's segment ...
-        if (text_ranges_hash != this->modified_chars_hash) {
-          // ... we refresh the ui :
+          // if the user is really on another text's segment ...
+          if (text_ranges_hash != this->modified_chars_hash) {
+            // ... we refresh the ui :
 
-          // the function modifies the appearence of such characters :
-          this->modify_the_text_format__rmode__lmode(pos_in_text);
+            // the function modifies the appearence of such characters :
+            this->modify_the_text_format__rmode__lmode(pos_in_text);
 
-          // hash update :
-          this->modified_chars_hash = text_ranges_hash;
+            // hash update :
+            this->modified_chars_hash = text_ranges_hash;
 
-          // SIGNAL #S001 (confer documentation)
-          emit this->signal__update_translation_in_commentary_zone(pos_in_text);
+            // SIGNAL #S001 (confer documentation)
+            emit this->signal__update_translation_in_commentary_zone(pos_in_text);
 
-          this->update();
+            this->update();
+          }
         }
 
         break;
@@ -688,26 +692,29 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
     PosInTextRanges pos_in_text =  this->dipydoc->translation_contains(x0, x1);
     // DEBUG1 DebugMsg() << x0 << "-" << x1 << "; pos_in_text=" << pos_in_text.repr();
 
-    /*
-      we refresh the ui :
-    */
-    std::size_t text_ranges_hash = pos_in_text.get_hash();
+    if (pos_in_text.is_empty() == false) {
+      /*
+        we refresh the ui :
+      */
+      std::size_t text_ranges_hash = pos_in_text.get_hash();
 
-    // the function modifies the appearence of such characters :
-    this->modify_the_text_format__rmode__lmode(pos_in_text);
+      // the function modifies the appearence of such characters :
+      this->modify_the_text_format__rmode__lmode(pos_in_text);
 
-    // hash update :
-    this->modified_chars_hash = text_ranges_hash;
+      // hash update :
+      this->modified_chars_hash = text_ranges_hash;
 
-    this->blocked_commentaries = false;
-    // SIGNAL #S002 (confer documentation)
-    emit this->signal__update_translation_in_commentary_zone(pos_in_text);
-    this->blocked_commentaries = true;
+      this->blocked_commentaries = false;
+      // SIGNAL #S002 (confer documentation)
+      emit this->signal__update_translation_in_commentary_zone(pos_in_text);
+      this->blocked_commentaries = true;
 
-    // SIGNAL #S003 (confer documentation)
-    emit this->signal__source_zone_update_icons();
+      // SIGNAL #S003 (confer documentation)
+      emit this->signal__source_zone_update_icons();
 
-    this->update();
+      this->update();
+
+    }
 
     return;
   }
@@ -734,22 +741,24 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
           PTRangesAND2PosAudio found_position = this->dipydoc->text2audio_contains(cursor_position);
           PosInTextRanges pos_in_text = found_position.first;
 
-          std::size_t text_ranges_hash = pos_in_text.get_hash();
+          if (pos_in_text.is_empty() == false) {
+            std::size_t text_ranges_hash = pos_in_text.get_hash();
 
-          // if the user has really click on another text's segment ...
-          if (text_ranges_hash != this->modified_chars_hash) {
-            // ... we refresh the ui :
+            // if the user has really clicked on another text's segment ...
+            if (text_ranges_hash != this->modified_chars_hash) {
+              // ... we refresh the ui :
 
-            // the function modifies the appearence of such characters :
-            this->modify_the_text_format__rmode__lmode(pos_in_text);
+              // the function modifies the appearence of such characters :
+              this->modify_the_text_format__rmode__lmode(pos_in_text);
 
-            // hash update :
-            this->modified_chars_hash = text_ranges_hash;
+              // hash update :
+              this->modified_chars_hash = text_ranges_hash;
 
-            // SIGNAL #S004 (confer documentation)
-            emit this->signal__update_translation_in_commentary_zone(pos_in_text);
+              // SIGNAL #S004 (confer documentation)
+              emit this->signal__update_translation_in_commentary_zone(pos_in_text);
 
-            this->update();
+              this->update();
+            }
           }
           break;
         }

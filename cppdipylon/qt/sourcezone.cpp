@@ -333,33 +333,34 @@ void SourceZone::audiocontrols_stop(void) {
 
 ________________________________________________________________________________*/
 void SourceZone::audio_position_changed(qint64 arg_pos) {
-  /* LMODE + PLAYING :
-   */
+  /* 
+     LMODE + PLAYING :
+  */
   if (this->readingmode == READINGMODE_LMODE &&
       this->readingmode_details == READINGMODEDETAIL_LMODE_PLAYING) {
       // where are the characters linked to "arg_pos" ?
       PosInTextRanges text_ranges = this->dipydoc->audio2text_contains(arg_pos);
-      std::size_t text_ranges_hash = text_ranges.get_hash();
 
-      if (text_ranges_hash != this->editor->modified_chars_hash) {
-        // the function modifies the appearence of such characters :
-        this->editor->modify_the_text_format__rmode__lmode(text_ranges);
+      if (text_ranges.is_empty() == false) {
+        std::size_t text_ranges_hash = text_ranges.get_hash();
 
-        // hash update :
-        this->editor->modified_chars_hash = text_ranges_hash;
+        if (text_ranges_hash != this->editor->modified_chars_hash) {
+          // the function modifies the appearence of such characters :
+          this->editor->modify_the_text_format__rmode__lmode(text_ranges);
 
-        // SIGNAL #S009 (confer documentation)
-        emit this->signal__update_translation_in_commentary_zone(text_ranges);
+          // hash update :
+          this->editor->modified_chars_hash = text_ranges_hash;
+
+          // SIGNAL #S009 (confer documentation)
+          emit this->signal__update_translation_in_commentary_zone(text_ranges);
+        }
       }
 
       return;
   }
 
   /*
-    this->readingmode == READINGMODE_LMODE &&
-    this->readingmode_details == READINGMODEDETAIL_LMODE_ONPAUSE
-
-    -> nothing to do.
+    other reading modes : nothing to do.
   */
 }
 

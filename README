@@ -1,8 +1,6 @@
 (C++/Qt5) front-end used to read texts with some annotations
 
 TODO
-* virer le terminal sous win
-* virer Icons
 * si type apparaît dans main.xml sans être défini, boom
 * distinguer un DEBUG2 dans la partie la plus sensible de la boucle d'événements.
 
@@ -25,11 +23,9 @@ TODO
 - [ui] justify ne fonctionne pas (au moins sur Linux)
 
 [+]
-- afficher correctement le mode AMODE
 - doc. achetés : Fichier>télécharger doc. acheté avec le n° du doc. acheté.
 - permettre des variantes dans le texte.
 - vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
-- variantes d'un texe
 - document image (http://qt-project.org/doc/qt-5/qpixmap.html#details)
 
 [code]
@@ -59,7 +55,20 @@ TODO
 - renommer MXE MXE_Qt5_1
 - build : Linux_static/Linux_dynamique/Win32static/Win64static/OSXstatic/IPadStatic/AndroidStatic
 - [win] installateur Windows (cf mail de ~)
+
+- [android]
+  http://qt-project.org/doc/qt-5/portingtoandroid.html
+
 - java :
+  consulter http://blog.developpez.com/gpu/?p=522
+          + http://developer.android.com/training/basics/firstapp/index.html
+
+
+           (OpenJDK 7)             $java -version
+           -> pacman -S apache-ant $ant -version
+           (http://developer.android.com/sdk/index.html) bundle
+           (ndk, http://developer.android.com/tools/sdk/ndk/index.html#Installing)
+  
   rpm -ivh jdk-<version>-linux-x64.rpm
 
     ~/.bashrc
