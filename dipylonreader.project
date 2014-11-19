@@ -66,6 +66,20 @@ SUMMARY
 [0] roadmap
 ################################################################################
 
+0.5.0 (2014_11_19)
+
+o feature140
+Fixed a bug relating to the r-mode (=audio mode) :
+When the record is been heard, some time slots may match any text extract;
+in this case, this->dipydoc->translation() returns an empty an empty
+PosInTextRanges object and it would be problematic to modify the text aspect
+since no text fragment matches the searched position. In order to avoid any
+problem, if this->dipydoc->translation() returns an empty PosInTextRanges
+object, no attempt is made to change the text's aspect.
++ feature141
+
+code quality : 3 errors, according to cpplint.py
+
 0.4.9 (2014_11_12)
 
 Fixed a critical bug preventing to use DipylonReader with arrows in analysis mode,
