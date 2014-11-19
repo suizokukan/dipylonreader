@@ -70,8 +70,8 @@ SUMMARY
 
 o feature140
 Fixed a bug relating to the r-mode (=audio mode) :
-When the record is been heard, some time slots may match any text extract;
-in this case, this->dipydoc->translation() returns an empty an empty
+When the record is been heard, some time slots may match no text extract;
+in this case, this->dipydoc->translation() returns an empty
 PosInTextRanges object and it would be problematic to modify the text aspect
 since no text fragment matches the searched position. In order to avoid any
 problem, if this->dipydoc->translation() returns an empty PosInTextRanges
