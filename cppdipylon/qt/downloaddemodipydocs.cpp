@@ -98,6 +98,7 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   QObject::connect(&progress, &QProgressDialog::canceled,
                    this,      &DownloadDemoDipydocs::cancel);
   progress.setWindowModality(Qt::WindowModal);
+  progress.setMinimumDuration(500);
 
   /* ...........................................................................
      (2) erase old files
