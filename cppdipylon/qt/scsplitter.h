@@ -21,7 +21,7 @@
 
     ❏DipylonReader❏ : qt/scsplitter.h
 
-    * SCSplitter class
+    * SCSplitter class (Source and Commentary Splitter)
 
 *******************************************************************************/
 

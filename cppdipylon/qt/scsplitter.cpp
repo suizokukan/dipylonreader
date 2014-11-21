@@ -243,7 +243,7 @@ void SCSplitter::update_icons(void) {
 
 /*______________________________________________________________________________
 
-        SCSplitter::well_initialized
+        SCSplitter::well_initialized()
 ______________________________________________________________________________*/
 bool SCSplitter::well_initialized(void) const {
   return this->_well_initialized;
