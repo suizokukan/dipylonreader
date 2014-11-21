@@ -44,6 +44,8 @@
   Notes class, used in the DipyDoc class.
 ______________________________________________________________________________*/
 struct Notes {
+  bool                                                 found = false;
+
   // syntagmas' names->aspects :
   std::map<QString, TextFormat>                        syntagmas_aspects;
 

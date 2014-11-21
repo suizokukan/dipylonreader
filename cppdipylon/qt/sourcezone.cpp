@@ -163,17 +163,26 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->textplusAct  = new QAction(QIcon(":ressources/images/icons/textplus.png"),
                                    tr("enlarge the font size"), this);
 
-  this->toolbar->addAction(this->readingmode_rAct);
-  this->toolbar->addSeparator();
-  this->toolbar->addAction(this->readingmode_lAct);
-  this->toolbar->addAction(this->audiocontrols_playAct);
-  this->toolbar->addAction(this->audiocontrols_stopAct);
-  this->toolbar->addSeparator();
-  this->toolbar->addAction(this->readingmode_aAct);
-  this->toolbar->addAction(this->levelupAct);
-  this->toolbar->addAction(this->levelAct);
-  this->toolbar->addAction(this->leveldownAct);
-  this->toolbar->addSeparator();
+  if (this->dipydoc->translation.found==true) {
+    this->toolbar->addAction(this->readingmode_rAct);
+    this->toolbar->addSeparator();
+  }
+
+  if (this->dipydoc->audiorecord.found==true) {
+    this->toolbar->addAction(this->readingmode_lAct);
+    this->toolbar->addAction(this->audiocontrols_playAct);
+    this->toolbar->addAction(this->audiocontrols_stopAct);
+    this->toolbar->addSeparator();
+  }
+
+  if (this->dipydoc->notes.found==true) {
+    this->toolbar->addAction(this->readingmode_aAct);
+    this->toolbar->addAction(this->levelupAct);
+    this->toolbar->addAction(this->levelAct);
+    this->toolbar->addAction(this->leveldownAct);
+    this->toolbar->addSeparator();
+  }
+
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
 
@@ -333,7 +342,7 @@ void SourceZone::audiocontrols_stop(void) {
 
 ________________________________________________________________________________*/
 void SourceZone::audio_position_changed(qint64 arg_pos) {
-  /* 
+  /*
      LMODE + PLAYING :
   */
   if (this->readingmode == READINGMODE_LMODE &&
@@ -457,9 +466,12 @@ void SourceZone::update_icons(void) {
 
   switch (this->readingmode) {
     case READINGMODE_AMODE: {
+      // main icons :
       this->readingmode_aAct->setIcon(QIcon(":ressources/images/icons/readingmode_amode_on.png"));
       this->readingmode_rAct->setIcon(QIcon(":ressources/images/icons/readingmode_rmode_off.png"));
       this->readingmode_lAct->setIcon(QIcon(":ressources/images/icons/readingmode_lmode_off.png"));
+
+      // secondary icons :
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
       this->levelupAct->setVisible(false);       //$$$ true
@@ -469,9 +481,12 @@ void SourceZone::update_icons(void) {
     }
 
     case READINGMODE_LMODE: {
+      // main icons :
       this->readingmode_aAct->setIcon(QIcon(":ressources/images/icons/readingmode_amode_off.png"));
       this->readingmode_rAct->setIcon(QIcon(":ressources/images/icons/readingmode_rmode_off.png"));
       this->readingmode_lAct->setIcon(QIcon(":ressources/images/icons/readingmode_lmode_on.png"));
+
+      // secondary icons :
 
       // audio control icons :
       if ((this->dipydoc->well_initialized() == false) ||
@@ -492,9 +507,12 @@ void SourceZone::update_icons(void) {
     }
 
     case READINGMODE_RMODE: {
+      // main icons :
       this->readingmode_aAct->setIcon(QIcon(":ressources/images/icons/readingmode_amode_off.png"));
       this->readingmode_rAct->setIcon(QIcon(":ressources/images/icons/readingmode_rmode_on.png"));
       this->readingmode_lAct->setIcon(QIcon(":ressources/images/icons/readingmode_lmode_off.png"));
+
+      // secondary icons :
       this->audiocontrols_playAct->setVisible(false);
       this->audiocontrols_stopAct->setVisible(false);
       this->levelupAct->setVisible(false);

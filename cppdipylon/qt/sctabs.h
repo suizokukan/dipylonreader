@@ -21,7 +21,7 @@
 
     ❏DipylonReader❏ : dipydoc/sctabs.h
 
-    o SCTabs class, used to display DipyDoc(s).
+    o SCTabs class, used to display DipyDoc(s). (Source and Commentary Tabulations)
 
 *******************************************************************************/
 
