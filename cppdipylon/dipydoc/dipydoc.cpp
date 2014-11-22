@@ -1230,7 +1230,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
     */
     if (tokenname == "notes") {
       ok &= this->read_mainfile__doctype_text__syntagma(nullptr);
-      if (ok==true) {
+      if (ok == true) {
         this->notes.found = true;
       }
     }

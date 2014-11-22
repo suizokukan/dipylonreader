@@ -163,19 +163,19 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->textplusAct  = new QAction(QIcon(":ressources/images/icons/textplus.png"),
                                    tr("enlarge the font size"), this);
 
-  if (this->dipydoc->translation.found==true) {
+  if (this->dipydoc->translation.found == true) {
     this->toolbar->addAction(this->readingmode_rAct);
     this->toolbar->addSeparator();
   }
 
-  if (this->dipydoc->audiorecord.found==true) {
+  if (this->dipydoc->audiorecord.found == true) {
     this->toolbar->addAction(this->readingmode_lAct);
     this->toolbar->addAction(this->audiocontrols_playAct);
     this->toolbar->addAction(this->audiocontrols_stopAct);
     this->toolbar->addSeparator();
   }
 
-  if (this->dipydoc->notes.found==true) {
+  if (this->dipydoc->notes.found == true) {
     this->toolbar->addAction(this->readingmode_aAct);
     this->toolbar->addAction(this->levelupAct);
     this->toolbar->addAction(this->levelAct);
