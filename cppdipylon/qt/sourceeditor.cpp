@@ -300,6 +300,15 @@ void SourceEditor::load_text(void) {
     }
     block_cursor.setBlockFormat(block_format);
   }
+
+  /*
+    set current cursor's position to the document's start :
+
+    By doing this, the document is displayed at its beginning; otherwise, the
+    last lines would be displayed.
+  */
+  this->moveCursor(QTextCursor::Start,
+                   QTextCursor::MoveAnchor);
 }
 
 /*______________________________________________________________________________
