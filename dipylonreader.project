@@ -52,11 +52,11 @@ SUMMARY
 
 [10] autres plateformes
 [10.1] Windows
-[10.1.1] cross-compilation depuis Linux
+    [10.1.1] cross-compilation depuis Linux
 
 [11] command line
-     [12.1] arguments specific to the project
-     [12.2] Qt arguments
+    [12.1] arguments specific to the project
+    [12.2] Qt arguments
 
 [12] settings (=configuration file)
 
@@ -1017,6 +1017,30 @@ http://qt-project.org/doc/qt-5/android-support.html
  [compilation en 64 bits, cf http://mxe.cc/#tutorial]
  o git clone -b stable https://github.com/mxe/mxe.git mxe_64
  o une fois dans ~/mxe_64/ :  make MXE_TARGETS='x86_64-w64-mingw32 i686-w64-mingw32'
+
+[10.2] Android
+o doc générale                                  : http://qt-project.org/doc/qt-5/portingtoandroid.html
+o télécharger la version de Qt Lin. pour Android: http://qt-project.org/downloads
+o pour utiliser qtcreator en anglais            : tools->options->environnement>general
+o AndroidManifest.xml format                    : http://developer.android.com/guide/topics/manifest/manifest-intro.html
+o how to create the AndroidManifest.xml file    : http://qt-project.org/doc/qt-5/publishtogoogleplay.html
+o my thread on qt-project                       : http://qt-project.org/forums/viewthread/49706/
+o qt's tutorial : creating a mobile application : http://qt-project.org/doc/qtcreator-3.2/creator-mobile-app-tutorial.html
+
+           (OpenJDK 7)             $java -version
+           -> pacman -S apache-ant $ant -version
+           (http://developer.android.com/sdk/index.html) bundle
+           (ndk, http://developer.android.com/tools/sdk/ndk/index.html#Installing)
+  
+  rpm -ivh jdk-<version>-linux-x64.rpm
+
+    ~/.bashrc
+    export JAVA_HOME=/usr/java/default/
+    export PATH=$JAVA_HOME/bin:$PATH
+
+exemple de fichier AndroidManifest.xml :
+
+
 
 ################################################################################
 [11] command line
