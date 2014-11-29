@@ -75,7 +75,7 @@ ________________________________________________________________________________
 class PosInTextRanges {
     friend class PosInText2Str;
     friend class PosInText2PosInAudio;
-    friend class VectorPosInTextRanges;
+    friend struct VectorPosInTextRanges;
  public:
                      PosInTextRanges(void);
                      PosInTextRanges(const PosInTextRanges&);
