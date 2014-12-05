@@ -1062,6 +1062,11 @@ sur OSX :
 modifier qmake.conf ?
 voir http://stackoverflow.com/questions/20342896/qt5-1-qt5-2-mac-os-10-9-mavericks-xcode-5-0-2-undefined-symbols-for-archi
 
+
+
+ICNS : ne pas utiliser image magic (=convert)
+http://iconverticons.com/online/
+
 ################################################################################
 [11] command line
 ################################################################################
