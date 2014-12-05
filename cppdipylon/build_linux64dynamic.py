@@ -109,6 +109,7 @@ print("===")
 print("")
 
 print("== create builds/ folder if it doesn't exist")
+ossystem("mkdir -p ../builds/")
 
 print("== filling {0}/".format(TEMP_FOLDER))
 ossystem("mkdir -p {0}/".format(TEMP_FOLDER))

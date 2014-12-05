@@ -53,6 +53,8 @@ SUMMARY
 [10] autres plateformes
 [10.1] Windows
     [10.1.1] cross-compilation depuis Linux
+[10.2] Android
+[10.3] OSX
 
 [11] command line
     [12.1] arguments specific to the project
@@ -1040,7 +1042,25 @@ o qt's tutorial : creating a mobile application : http://qt-project.org/doc/qtcr
 
 exemple de fichier AndroidManifest.xml :
 
+[10.3] OSX
+démarche générale : http://qt-project.org/doc/qt-5/macosx-deployment.html
+cf http://qt-project.org/forums/viewthread/48152
+peut-être aussi http://openclassrooms.com/forum/sujet/linux-creer-un-executable-portable-72409
 
+http://qt-project.org/wiki/Building_Qt_5_from_Git
+
+*** http://doc.qt.digia.com/qq/qq09-mac-deployment.html
+
+sur OSX : 
+(1) git clone https://git.gitorious.org/qt/qt5.git qt5
+(2) cd qt5
+(3) git checkout 5.4
+(4) perl init-repository --no-webkit
+(5) ./configure -developer-build -opensource -nomake examples -nomake tests
+(6) make -j4 all
+
+modifier qmake.conf ?
+voir http://stackoverflow.com/questions/20342896/qt5-1-qt5-2-mac-os-10-9-mavericks-xcode-5-0-2-undefined-symbols-for-archi
 
 ################################################################################
 [11] command line
