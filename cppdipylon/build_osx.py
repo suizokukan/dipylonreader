@@ -27,11 +27,11 @@
 #
 ################################################################################
 
-#pour résoudre un bug apparaissant avec macdeployqt et faisant apparaître le message :
+#A bug relating to macdeployqt may appear, leading to the following message :
 #
 # ERROR : no file at "/opt/local/lib/libz.1.dylib"
 #
-# ajouter le fichier manuellement :
+# if so, just add manually the missing file :
 #
 # sudo cp /Users/admin/qt5_online_installation/Qt\ Creator.app/Contents/Frameworks/libz.1.dylib /opt/local/lib/
 #
@@ -93,7 +93,7 @@ EXEC_NAME  = "dipylonreader_osx_v{0}_debug{1}_build{2}".format(VERSION_FOR_EXEC_
                                                                        ARGS.debug,
                                                                        BUILD_NUMBER)
 
-PATH_TO_QMAKE = "/Users/admin/qt5_online_installation/5.4/clang_64/bin/qmake"
+PATH_TO_QMAKE       = "/Users/admin/qt5_online_installation/5.4/clang_64/bin/qmake"
 
 PATH_TO_MACDEPLOYQT = "/Users/admin/qt5_online_installation/5.4/clang_64/bin/macdeployqt"
 OPTIONS_FOR_MACDEPLOYQT = "-verbose=0 -dmg"
