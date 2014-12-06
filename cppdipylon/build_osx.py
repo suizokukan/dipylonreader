@@ -148,6 +148,17 @@ ossystem("mv ../../builds/{0}.app/Contents/MacOS/dipylonreader "
 print("== calling macdeployqt on the result")
 ossystem(PATH_TO_MACDEPLOYQT + " ../../builds/{0}.app".format(EXEC_NAME) + " " + OPTIONS_FOR_MACDEPLOYQT)
 
+print("== setting Info.plist from 2osx/Info.plist.template")
+print("... reading 2osx/Info.plist.template")
+ossystem("cp 2osx/Info.plist.template ../../builds/{0}.app/Contents/Info.plist".format(EXEC_NAME))
+with open("../../builds/{0}.app/Contents/Info.plist".format(EXEC_NAME), 'r') as plist_file:
+    plist_data = plist_file.read()
+print("... writing Info.plist")
+plist_data = plist_data.replace("@@CFBundleExecutable@@",
+                                EXEC_NAME)
+with open("../../builds/{0}.app/Contents/Info.plist".format(EXEC_NAME), 'w') as plist_file:
+    plist_file.write(plist_data)
+
 time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
 
