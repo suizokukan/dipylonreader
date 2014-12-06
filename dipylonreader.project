@@ -1049,11 +1049,11 @@ o in Users/xxx/.bash_profile :
   alias ll='ls -l'
   alias s="cd .."
 o colorier : http://osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
-o ICNS : ne pas utiliser image magic (=convert) mais un utilitaire spécialisé comme http://iconverticons.com/online/
+o ICNS : pour créer une icône au format ICNS, ne pas utiliser image magic (=convert)
+  mais un utilitaire spécialisé comme http://iconverticons.com/online/
 o { : ALT + (
   } : ALT + )
   \ : Alt + Maj + /
-
 
 démarche générale : http://qt-project.org/doc/qt-5/macosx-deployment.html
 cf http://qt-project.org/forums/viewthread/48152
