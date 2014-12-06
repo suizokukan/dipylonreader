@@ -138,7 +138,7 @@ print("== 2win32_static/* > {0}/".format(TEMP_FOLDER))
 print("... dipylonreader.pro")
 ossystem("cp 2win32_static/dipylonreader.pro {0}/dipylonreader.pro".format(TEMP_FOLDER))
 print("... win_app_icon.ico")
-ossystem("cp 2win32_static/ressources/images/icons/win_app_icon.ico {0}/ressources/images/icons/".format(TEMP_FOLDER))
+ossystem("cp 2win32_static/resources/images/icons/win_app_icon.ico {0}/resources/images/icons/".format(TEMP_FOLDER))
 print("... dipylonreader.rc")
 ossystem("cp 2win32_static/dipylonreader.rc {0}/".format(TEMP_FOLDER))
 

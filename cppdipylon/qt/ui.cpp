@@ -137,7 +137,7 @@ int UI::go(int argc, char **argv) {
   /*
      application's icon :
   */
-  app.setWindowIcon(QIcon(":/ressources/images/icons/application_icon.png"));
+  app.setWindowIcon(QIcon(":/resources/images/icons/application_icon.png"));
 
   /* i18n :
 

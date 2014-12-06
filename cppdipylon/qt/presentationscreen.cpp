@@ -89,7 +89,7 @@ void PSLauncher::launch(const QString& text, const QRect& parent_geometry) {
   this->busy = true;
 
   this->presentation_screen = new PresentationScreen(&(this->busy),
-                                                     QPixmap(":/ressources/images/splashscreen/splashscreen.png"),
+                                                     QPixmap(":/resources/images/splashscreen/splashscreen.png"),
                                                      Qt::WindowStaysOnTopHint);
 
   // let's center the splashscreen exactly with the main window :

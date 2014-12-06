@@ -52,7 +52,7 @@ SourceZone::SourceZone(const QString & splitter_name,
     (0) actions
    */
   // audiocontrols_playAct
-  this->audiocontrols_playAct = new QAction( QIcon(":ressources/images/icons/audio_play.png"),
+  this->audiocontrols_playAct = new QAction( QIcon(":resources/images/icons/audio_play.png"),
                                              tr("play"),
                                              this);
   this->audiocontrols_playAct->setStatusTip(tr("play..."));
@@ -61,7 +61,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                        &SourceZone::audiocontrols_play);
 
   // audiocontrols_stopAct
-  this->audiocontrols_stopAct = new QAction( QIcon(":ressources/images/icons/audio_stop.png"),
+  this->audiocontrols_stopAct = new QAction( QIcon(":resources/images/icons/audio_stop.png"),
                                              tr("stop"),
                                              this);
   this->audiocontrols_stopAct->setStatusTip(tr("stop..."));
@@ -70,7 +70,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                        &SourceZone::audiocontrols_stop);
 
   // readingmode_aAct
-  this->readingmode_aAct = new QAction( QIcon(":ressources/images/icons/readingmode_amode_on.png"),
+  this->readingmode_aAct = new QAction( QIcon(":resources/images/icons/readingmode_amode_on.png"),
                                         tr("switch to analyse mode"),
                                         this);
   this->readingmode_aAct->setStatusTip(tr("switched to analyse mode"));
@@ -79,7 +79,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                   &SourceZone::readingmode_aAct__buttonpressed);
 
   // readingmode_lAct
-  this->readingmode_lAct = new QAction( QIcon(":ressources/images/icons/readingmode_lmode_on.png"),
+  this->readingmode_lAct = new QAction( QIcon(":resources/images/icons/readingmode_lmode_on.png"),
                                         tr("switch to read-and-listen mode"),
                                         this);
   this->readingmode_lAct->setStatusTip(tr("switched to read-and-listen mode"));
@@ -88,7 +88,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                   &SourceZone::readingmode_lAct__buttonpressed);
 
   // readingmode_rAct
-  this->readingmode_rAct = new QAction( QIcon(":ressources/images/icons/readingmode_rmode_on.png"),
+  this->readingmode_rAct = new QAction( QIcon(":resources/images/icons/readingmode_rmode_on.png"),
                                         tr("switch to read mode"),
                                         this);
   this->readingmode_rAct->setStatusTip(tr("switched to read mode"));
@@ -97,7 +97,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,                   &SourceZone::readingmode_rAct__buttonpressed);
 
   // levelupAct
-  this->levelupAct = new QAction( QIcon(":ressources/images/icons/up.png"),
+  this->levelupAct = new QAction( QIcon(":resources/images/icons/up.png"),
                                   tr("reading mode : level up"),
                                   this);
   // connection #C038 (confer documentation)
@@ -105,7 +105,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,             &SourceZone::levelupAct__buttonpressed);
 
   // leveldownAct
-  this->leveldownAct = new QAction( QIcon(":ressources/images/icons/down.png"),
+  this->leveldownAct = new QAction( QIcon(":resources/images/icons/down.png"),
                                     tr("reading mode : level down"),
                                     this);
   // connection #C039 (confer documentation)
@@ -113,7 +113,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,               &SourceZone::leveldownAct__buttonpressed);
 
   // levelAct
-  this->levelAct = new QAction( QIcon(":ressources/images/icons/level.png"),
+  this->levelAct = new QAction( QIcon(":resources/images/icons/level.png"),
                                 tr("reading mode : select level"),
                                 this);
   /*
@@ -158,9 +158,9 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (2) actions
   */
-  this->textminusAct = new QAction(QIcon(":ressources/images/icons/textminus.png"),
+  this->textminusAct = new QAction(QIcon(":resources/images/icons/textminus.png"),
                                    tr("reduce the font size"), this);
-  this->textplusAct  = new QAction(QIcon(":ressources/images/icons/textplus.png"),
+  this->textplusAct  = new QAction(QIcon(":resources/images/icons/textplus.png"),
                                    tr("enlarge the font size"), this);
 
   if (this->dipydoc->translation.found == true) {
@@ -270,7 +270,7 @@ void SourceZone::audiocontrols_play(void) {
         // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
         case READINGMODEDETAIL_LMODE_PLAYING: {
           this->readingmode_details = READINGMODEDETAIL_LMODE_ONPAUSE;
-          this->audiocontrols_playAct->setIcon(QIcon(":ressources/images/icons/audio_pause.png"));
+          this->audiocontrols_playAct->setIcon(QIcon(":resources/images/icons/audio_pause.png"));
           this->audio_player->pause();
           break;
         }
@@ -278,7 +278,7 @@ void SourceZone::audiocontrols_play(void) {
         // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
         case READINGMODEDETAIL_LMODE_ONPAUSE: {
           this->readingmode_details = READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon(QIcon(":ressources/images/icons/audio_play.png"));
+          this->audiocontrols_playAct->setIcon(QIcon(":resources/images/icons/audio_play.png"));
           this->audio_player->play();
           break;
         }
@@ -286,7 +286,7 @@ void SourceZone::audiocontrols_play(void) {
         // [1.3] LMODE + STOP -> LMODE + PLAYING
         case READINGMODEDETAIL_LMODE_STOP: {
           this->readingmode_details = READINGMODEDETAIL_LMODE_PLAYING;
-          this->audiocontrols_playAct->setIcon(QIcon(":ressources/images/icons/audio_play.png"));
+          this->audiocontrols_playAct->setIcon(QIcon(":resources/images/icons/audio_play.png"));
           this->audio_player->play();
           break;
         }
@@ -326,7 +326,7 @@ void SourceZone::audiocontrols_stop(void) {
   // LMODE + ON PAUSE ? we set the icon from "pause" to "play".
   if (this->readingmode == READINGMODE_LMODE &&
       this->readingmode_details == READINGMODEDETAIL_LMODE_ONPAUSE) {
-    this->audiocontrols_playAct->setIcon(QIcon(":ressources/images/icons/audio_play.png"));
+    this->audiocontrols_playAct->setIcon(QIcon(":resources/images/icons/audio_play.png"));
   }
 
   this->readingmode_details = READINGMODEDETAIL_LMODE_STOP;
@@ -467,9 +467,9 @@ void SourceZone::update_icons(void) {
   switch (this->readingmode) {
     case READINGMODE_AMODE: {
       // main icons :
-      this->readingmode_aAct->setIcon(QIcon(":ressources/images/icons/readingmode_amode_on.png"));
-      this->readingmode_rAct->setIcon(QIcon(":ressources/images/icons/readingmode_rmode_off.png"));
-      this->readingmode_lAct->setIcon(QIcon(":ressources/images/icons/readingmode_lmode_off.png"));
+      this->readingmode_aAct->setIcon(QIcon(":resources/images/icons/readingmode_amode_on.png"));
+      this->readingmode_rAct->setIcon(QIcon(":resources/images/icons/readingmode_rmode_off.png"));
+      this->readingmode_lAct->setIcon(QIcon(":resources/images/icons/readingmode_lmode_off.png"));
 
       // secondary icons :
       this->audiocontrols_playAct->setVisible(false);
@@ -482,9 +482,9 @@ void SourceZone::update_icons(void) {
 
     case READINGMODE_LMODE: {
       // main icons :
-      this->readingmode_aAct->setIcon(QIcon(":ressources/images/icons/readingmode_amode_off.png"));
-      this->readingmode_rAct->setIcon(QIcon(":ressources/images/icons/readingmode_rmode_off.png"));
-      this->readingmode_lAct->setIcon(QIcon(":ressources/images/icons/readingmode_lmode_on.png"));
+      this->readingmode_aAct->setIcon(QIcon(":resources/images/icons/readingmode_amode_off.png"));
+      this->readingmode_rAct->setIcon(QIcon(":resources/images/icons/readingmode_rmode_off.png"));
+      this->readingmode_lAct->setIcon(QIcon(":resources/images/icons/readingmode_lmode_on.png"));
 
       // secondary icons :
 
@@ -508,9 +508,9 @@ void SourceZone::update_icons(void) {
 
     case READINGMODE_RMODE: {
       // main icons :
-      this->readingmode_aAct->setIcon(QIcon(":ressources/images/icons/readingmode_amode_off.png"));
-      this->readingmode_rAct->setIcon(QIcon(":ressources/images/icons/readingmode_rmode_on.png"));
-      this->readingmode_lAct->setIcon(QIcon(":ressources/images/icons/readingmode_lmode_off.png"));
+      this->readingmode_aAct->setIcon(QIcon(":resources/images/icons/readingmode_amode_off.png"));
+      this->readingmode_rAct->setIcon(QIcon(":resources/images/icons/readingmode_rmode_on.png"));
+      this->readingmode_lAct->setIcon(QIcon(":resources/images/icons/readingmode_lmode_off.png"));
 
       // secondary icons :
       this->audiocontrols_playAct->setVisible(false);
