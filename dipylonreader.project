@@ -1059,7 +1059,7 @@ o ICNS : pour créer une icône au format ICNS, ne pas utiliser image magic (=co
 o { : ALT + (
   } : ALT + )
   \ : Alt + Maj + /
-o installer qt via internet
+o installer qt via internet DANS LE REPERTOIRE de ~ (PAS DANS SOUS REPERTOIRE !)
 o modifier les chemins d'accès à qmake et à macdeployqt dans build_osx.py
 o éventuellement, ajouter une librairie dans /opt (voir build_osx.py)
 o lancer le script build_osx.py
