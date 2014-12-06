@@ -68,7 +68,7 @@ int TextFormat::init_from_string(const QString& source_string) {
     if (keyword.contains("font-family")) {
       QString fontfamily = keyword.replace("font-family", "");
       fontfamily.replace(":", "");
-      fontfamily.trimmed();
+      fontfamily = fontfamily.trimmed();
       this->_qtextcharformat.setFontFamily(fontfamily);
       continue;
     }

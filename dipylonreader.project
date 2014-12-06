@@ -53,6 +53,8 @@ SUMMARY
 [10] autres plateformes
 [10.1] Windows
     [10.1.1] cross-compilation depuis Linux
+[10.2] Android
+[10.3] OSX
 
 [11] command line
     [12.1] arguments specific to the project
@@ -1040,7 +1042,35 @@ o qt's tutorial : creating a mobile application : http://qt-project.org/doc/qtcr
 
 exemple de fichier AndroidManifest.xml :
 
+[10.3] OSX
+TODO : modifier dans Info.plist le <string></string> de CFBundleExecutable : ne pas mettre dipylonreader
 
+démarche générale : http://qt-project.org/doc/qt-5/macosx-deployment.html
+modifier qmake.conf ? voir http://stackoverflow.com/questions/20342896/qt5-1-qt5-2-mac-os-10-9-mavericks-xcode-5-0-2-undefined-symbols-for-archi
+
+o installer iTerm
+o in Users/xxx/.bash_profile :
+  alias ls='ls -GFh'
+  alias ll='ls -l'
+  alias s="cd .."
+o colorier : http://osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
+o ICNS : pour créer une icône au format ICNS, ne pas utiliser image magic (=convert)
+  mais un utilitaire spécialisé comme http://iconverticons.com/online/
+o { : ALT + (
+  } : ALT + )
+  \ : Alt + Maj + /
+o installer qt via internet DANS LE REPERTOIRE de ~ (PAS DANS SOUS REPERTOIRE !)
+o modifier les chemins d'accès à qmake et à macdeployqt dans build_osx.py
+o éventuellement, ajouter une librairie dans /opt (voir build_osx.py)
+o lancer le script build_osx.py
+
+(si nécessaire, compilation de Qt (ici, compilation pas en static) :
+(1) git clone https://git.gitorious.org/qt/qt5.git qt5
+(2) cd qt5
+(3) git checkout 5.4
+(4) perl init-repository --no-webkit
+(5) ./configure -developer-build -opensource -nomake examples -nomake tests
+(6) make -j4 all
 
 ################################################################################
 [11] command line

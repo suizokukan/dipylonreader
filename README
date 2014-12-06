@@ -26,6 +26,8 @@ TODO
 - permettre des variantes dans le texte.
 - vector of DipyDocTranslation + current_translation (plusieurs traductions possibles, ...)
 - document image (http://qt-project.org/doc/qt-5/qpixmap.html#details)
+- autoriser le format "hh:mm:ss:milliseconds" dans main.xml
+- si un textrange renvoie à un caractère au-delà de la longueur du texte, erreur.
 
 [code]
 - plus de pointeurs hors Qt > smart pointers + virer les delete correspondant.

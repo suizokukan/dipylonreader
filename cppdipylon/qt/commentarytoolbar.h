@@ -41,7 +41,7 @@ class CommentaryToolBar : public QToolBar {
     Q_OBJECT
 
  private:
-  const QString & splitter_name = QString();
+  const QString splitter_name = QString();
 
  public:
   explicit CommentaryToolBar(const QString & _splitter_name,
