@@ -2,9 +2,10 @@
 
 TODO
 * si type apparaît dans main.xml sans être défini, boom
-* distinguer un DEBUG2 dans la partie la plus sensible de la boucle d'événements.
 
 [ui]
+- supprimer le bouton stop du mode audio
+- permettre de choisir la taille des flèches (= multiple de la taille indiquée dans le fichier main.xml; x1, x2, x3)
 - ouvrir le(s) dernier(s) fichier(s) ouverts
 - (ui)menu contextuel avec espace
 - (ui)ouvrir la liste des documents disponibles dès le lancement.
