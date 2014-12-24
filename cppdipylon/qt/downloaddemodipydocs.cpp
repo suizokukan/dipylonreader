@@ -98,7 +98,12 @@ DownloadDemoDipydocs::DownloadDemoDipydocs(const UI& _ui, QWidget *_parent) : QO
   QObject::connect(&progress, &QProgressDialog::canceled,
                    this,      &DownloadDemoDipydocs::cancel);
   progress.setWindowModality(Qt::WindowModal);
-  progress.setMinimumDuration(500);
+  /*
+    set to 0 to be sure something appears on the screen.
+
+    see http://doc.qt.io/qt-5/qprogressdialog.html#minimumDuration-prop
+  */
+  progress.setMinimumDuration(0);
 
   /* ...........................................................................
      (2) erase old files
