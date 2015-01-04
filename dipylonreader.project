@@ -275,6 +275,9 @@ o READANDWRITE
 
 o STORE_DEBUG_MESSAGES
 
+o NO_NOVELSIZE_ICON
+  if defined no "set novel size" icon
+
 ################################################################################
 [1.2] details about some compilation options
 

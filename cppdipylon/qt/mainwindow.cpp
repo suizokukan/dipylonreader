@@ -226,6 +226,20 @@ void MainWindow::createActions(void) {
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
   #endif
 
+  /*
+    setNovelSize
+  */
+  #ifndef NO_NOVELSIZE_ICON
+  this->setnovelsizeAct = new QAction( QIcon(":resources/images/icons/setnovelsize.png"),
+                                             tr("Give to the window the size of a book"),
+                                             this);
+  // connection #C041 (confer documentation)
+  QObject::connect(this->setnovelsizeAct, &QAction::triggered,
+                   this,                  &MainWindow::setnovelsizeAct__buttonPressed);
+
+  this->setnovelsizeAct->setVisible(true);
+  #endif
+
   // DEBUG1 DebugMsg() << "MainWindow::createActions : exit point";
 }
 
@@ -304,6 +318,7 @@ void MainWindow::createMainToolBars(void) {
   #endif
   this->mainwintoolbar->addAction(this->openAct);
   this->mainwintoolbar->addAction(this->hidetoolbarsAct);
+  this->mainwintoolbar->addAction(this->setnovelsizeAct);
 
   // DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : exit point";
 }
@@ -548,12 +563,25 @@ void MainWindow::open(void) {
 
   MainWindow::readSettings
 ______________________________________________________________________________*/
-void MainWindow::readSettings() {
+void MainWindow::readSettings(void) {
   QSettings settings("QtProject", "Application Example");
   QPoint _pos = settings.value("pos", QPoint(200, 200)).toPoint();
   QSize _size = settings.value("size", QSize(400, 400)).toSize();
   resize(_size);
   move(_pos);
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::setnovelsizeAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::setnovelsizeAct__buttonPressed(void) {
+  // DEBUG1 DebugMsg() << "MainWindow::setnovelsizeAct__buttonPressed()";
+  QSize _size = QGuiApplication::primaryScreen()->size();
+  _size.setWidth(_size.height()/2);
+  _size.setHeight(_size.height());
+  this->move((_size.width() / 2), (_size.height() / 2));
+  this->resize(_size);
 }
 
 /*______________________________________________________________________________
@@ -568,7 +596,7 @@ void MainWindow::update_icons(void) {
   SCSplitter* splitter = this->current_splitter();
 
   /*............................................................................
-    a special case : no Dipydoc->
+    a special case : no Dipydoc
   ............................................................................*/
   if (splitter == nullptr || \
       splitter->dipydoc->well_initialized() == false) {

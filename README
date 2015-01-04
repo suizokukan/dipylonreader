@@ -4,6 +4,7 @@ TODO
 * si type apparaît dans main.xml sans être défini, boom
 
 [ui]
+- modifier les scripts pour que le nom de l'exécutable apparaisse.
 - téléchargement des .dipydocs : faire apparaître la fenêtre avec la barre de progression.
 - téléchargement des .dipydocs : faire apparaître le curseur souris de l'attente.
 - supprimer le bouton stop du mode audio

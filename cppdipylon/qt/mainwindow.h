@@ -74,6 +74,7 @@ friend class UI;
     void internalmsgAct__buttonPressed(void);
     void open(void);
     void popup_mainmenuAct__buttonPressed(void);
+    void setnovelsizeAct__buttonPressed(void);
 
  private:
     UI&         ui;
@@ -107,6 +108,7 @@ friend class UI;
     QAction*   internalmsgAct = nullptr;
     QAction*   openAct = nullptr;
     QAction*   popup_mainmenuAct = nullptr;
+    QAction*   setnovelsizeAct = nullptr;
 
     QToolBar  *mainwintoolbar = nullptr;
     QToolBar  *editToolBar = nullptr;
