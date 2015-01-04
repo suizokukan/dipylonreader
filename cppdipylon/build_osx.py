@@ -166,6 +166,6 @@ print("")
 print("tried to build " + EXEC_NAME)
 
 print("== let's launch the program !")
-final_exec_name = "../../builds/{0}.app/Contents/MacOS/{0}".format(EXEC_NAME))
+final_exec_name = "../../builds/{0}.app/Contents/MacOS/{0}".format(EXEC_NAME)
 print("==> "+exec_name)
 ossystem(exec_name)
