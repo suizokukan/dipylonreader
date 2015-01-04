@@ -33,5 +33,7 @@
     <file>resources/images/icons/up.png</file>
     <file>resources/images/icons/down.png</file>
     <file>resources/images/icons/level.png</file>
+
+    <file>resources/images/icons/setnovelsize.png</file>
 </qresource>
 </RCC>
