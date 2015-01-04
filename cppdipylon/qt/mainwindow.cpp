@@ -576,6 +576,9 @@ void MainWindow::readSettings(void) {
   MainWindow::setnovelsizeAct__buttonPressed
 ______________________________________________________________________________*/
 void MainWindow::setnovelsizeAct__buttonPressed(void) {
+  // leaving the full screen mode :
+  this->showNormal();
+  
   // DEBUG1 DebugMsg() << "MainWindow::setnovelsizeAct__buttonPressed()";
   QSize _size = QGuiApplication::primaryScreen()->size();
   // DEBUG1 DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << _size;
