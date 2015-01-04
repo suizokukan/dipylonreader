@@ -578,9 +578,11 @@ ______________________________________________________________________________*/
 void MainWindow::setnovelsizeAct__buttonPressed(void) {
   // DEBUG1 DebugMsg() << "MainWindow::setnovelsizeAct__buttonPressed()";
   QSize _size = QGuiApplication::primaryScreen()->size();
+  // DEBUG1 DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << _size;
   _size.setWidth(_size.height()/2);
   _size.setHeight(_size.height());
-  this->move((_size.width() / 2), (_size.height() / 2));
+  // DEBUG1 DebugMsg() << "new size =" << _size;
+  this->move((_size.width() / 2), 0);
   this->resize(_size);
 }
 
