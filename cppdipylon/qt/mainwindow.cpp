@@ -576,7 +576,17 @@ void MainWindow::readSettings(void) {
   MainWindow::setnovelsizeAct__buttonPressed
 ______________________________________________________________________________*/
 void MainWindow::setnovelsizeAct__buttonPressed(void) {
-  // leaving the full screen mode :
+  /* leaving the full screen mode :
+
+     The following line seems to be mandatory, at least on OSX system.
+
+     On OSX, pressing the "green/maximazing" button then the "set novel size"
+     buttons leads to a problem without this line : the entire screen
+     becomes black, the window isn't correctly positionned.
+
+     This simple line seems to solve the problem.
+     see http://qt-project.org/forums/viewthread/51639/
+  */
   this->showNormal();
   
   // DEBUG1 DebugMsg() << "MainWindow::setnovelsizeAct__buttonPressed()";
