@@ -34,6 +34,11 @@
 
 namespace fixedparameters {
 
+/*______________________________________________________________________________
+
+    general informations
+______________________________________________________________________________*/
+
 // code source :
 const QString   CODESOURCE_ADDRESS = "http://github.com/suizokukan/dipylonreader/";
 // code source's author :
@@ -42,12 +47,6 @@ const QString   CODESOURCE_AUTHOR = "Xavier Faure";
 const QString   CODESOURCE_LICENSE = "GPLv3";
 // license's address :
 const QString   CODESOURCE_LICENSE_ADDRESS= "http://www.gnu.org/copyleft/gpl.html";
-
-/*
-  minimal/maximal DipyDoc's versions allowed :
-*/
-const int min_dipydocformat_version = 34;
-const int max_dipydocformat_version = 34;
 
 /*
   data used to initialize the QApplication object.
@@ -62,90 +61,22 @@ const QString application_name_for_the_user = "Dipylon-R";
 const QString application_version = "0.5.0";
 const QString application_style   = "CleanLooks";
 
-/*
-  default__editors_size_in_main_splitter = sourceeditor / commentaryeditor size.
-*/
-const QList<int> default__editors_size_in_main_splitter = {{500,100}};
+/*______________________________________________________________________________
+
+    DipyDocs
+______________________________________________________________________________*/
+const QStringList known_doctypes = { QString("text"), };
 
 /*
-  constant used by QMediaPlayer object.
+  minimal/maximal DipyDoc's versions allowed :
 */
-// http://qt-project.org/doc/qt-5/qmediaobject.html#notifyInterval-prop
-const int default__audio_notify_interval = 500;
-// http://qt-project.org/doc/qt-5/qmediaplayer.html#volume-prop
-const int default__audio_player_volume = 50;
+const int min_dipydocformat_version = 34;
+const int max_dipydocformat_version = 34;
 
 /*
    default path to the dipydocs.
 */
 const QString default__path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
-
-/*------------------------------------------------------------------------------
-  default style sheets and parameters :
-------------------------------------------------------------------------------*/
-const QString default__mainwindow_stylesheet = "";
-
-const QString default__tabwiget_stylesheet = "background-color: #ffffcc;";
-
-/* If fixedparameters::default__sourceeditor_verticalscrollbar_width is equal to -1,
-   the default value is applied : by consequence, the function ::setMinimumWidth()
-   will not be called. See the code using this const int.
-*/
-const int     default__texteditor_verticalscrollbar_width = -1;
-
-// 
-const QString default__sourceeditor_stylesheet = "background-color: #ffffcc;"
-                                                 "selection-color: white;"
-                                                 "selection-background-color: blue;";
-
-const QString default__commentaryeditor_stylesheet = "color: white;"
-                                                     "background-color: #ffcc99;"
-                                                     "selection-color: yellow;"
-                                                     "selection-background-color: red;";
-
-const QString default__sourcetoolbar_stylesheet = "background-color: #efebe7;";
-
-const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7;";
-
-/*
-  space between lines in source editor (100% = no space)
-
-  there are 2 constants since a different line height may be applied
-  to the text BEFORE the source text (title, introduction) and to
-  the source text itself.
-*/
-const int default__sourceeditor__line_height__anything_but_text = 100;
-const int default__sourceeditor__line_height__text = 120;
-
-// arrows' thickness :
-const int default_value_for_arrows_thickness = 2;
-
-
-
-const QStringList known_doctypes = { QString("text"), };
-
-// default zoom value for both editors :
-const int default__zoom_value = 1;
-
-// maximum length in tab names.
-const int maxlen_in_tab_name = 25;
-
-/*
-  settings
-*/
-// splash screen
-const int splashscreen_maximal_duration = 9000;
-const bool default__display_splashscreen = true;
-// toolbars
-const bool default__visible_toolbars = true;
-
-// name of the main file in a dipydoc directory :
-const QString   DIPYDOC__MAIN_FILENAME = "main.xml";
-// name of the 'menu name' file  in a dipydoc directory :
-const QString   DIPYDOC__MENUNAME_FILENAME = "menuname";
-
-// constant used to limit the number of items displayed in submenu 'open' :
-const int maximum_number_of_items_in_submenu_open = 10;
 
 /*
   Demonstration's Dipydocs :
@@ -166,7 +97,91 @@ const QString DEMODIPYDOCS__REGEX_FOR_DIRECTORIES_NAME = "_demo_*";
 const QString DEMODIPYDOCS__CONTACT_FILENAME = "contact";
 // name of the summary file :
 const QString DEMODIPYDOCS__SUMMARY_FILENAME = "summary";
- // separatator characters in the summary file :
+// separatator characters in the summary file :
 const QString DEMODIPYDOCS__SUMMARY_SEP = " :: ";
+
+// name of the main file in a dipydoc directory :
+const QString   DIPYDOC__MAIN_FILENAME = "main.xml";
+// name of the 'menu name' file  in a dipydoc directory :
+const QString   DIPYDOC__MENUNAME_FILENAME = "menuname";
+
+/*______________________________________________________________________________
+
+    UI : general parameters
+______________________________________________________________________________*/
+
+/*
+  default__editors_size_in_main_splitter = sourceeditor / commentaryeditor size.
+*/
+const QList<int> default__editors_size_in_main_splitter = {{500,100}};
+
+/*
+  space between lines in source editor (100% = no space)
+
+  there are 2 constants since a different line height may be applied
+  to the text BEFORE the source text (title, introduction) and to
+  the source text itself.
+*/
+const int default__sourceeditor__line_height__anything_but_text = 100;
+const int default__sourceeditor__line_height__text = 120;
+
+// arrows' thickness :
+const int default_value_for_arrows_thickness = 2;
+
+// default zoom value for both editors :
+const int default__zoom_value = 1;
+
+// maximum length in tab names.
+const int maxlen_in_tab_name = 25;
+
+// splash screen
+const int splashscreen_maximal_duration = 9000;
+const bool default__display_splashscreen = true;
+// toolbars
+const bool default__visible_toolbars = true;
+
+// constant used to limit the number of items displayed in submenu 'open' :
+const int maximum_number_of_items_in_submenu_open = 10;
+
+/*______________________________________________________________________________
+
+  UI : default style sheets and parameters
+______________________________________________________________________________*/
+const QString default__mainwindow_stylesheet = "";
+
+const QString default__tabwiget_stylesheet = "background-color: #ffffcc;";
+
+/* If fixedparameters::default__sourceeditor_verticalscrollbar_width is equal to -1,
+   the default value is applied : by consequence, the function ::setMinimumWidth()
+   will not be called. See the code using this const int.
+
+   The reason explaining why this option isn't defined in default__sourceeditor_stylesheet
+   and in default__commentaryeditor_stylesheet is explained in the code using this
+   constant
+*/
+const int     default__texteditor_verticalscrollbar_width = -1;
+
+const QString default__sourceeditor_stylesheet = "background-color: #ffffcc;"
+                                                 "selection-color: white;"
+                                                 "selection-background-color: blue;";
+
+const QString default__commentaryeditor_stylesheet = "color: white;"
+                                                     "background-color: #ffcc99;"
+                                                     "selection-color: yellow;"
+                                                     "selection-background-color: red;";
+
+const QString default__sourcetoolbar_stylesheet = "background-color: #efebe7;";
+
+const QString default__commentarytoolbar_stylesheet = "background-color: #efebe7;";
+
+/*______________________________________________________________________________
+
+  constants used by QMediaPlayer object.
+______________________________________________________________________________*/
+// http://qt-project.org/doc/qt-5/qmediaobject.html#notifyInterval-prop
+const int default__audio_notify_interval = 500;
+// http://qt-project.org/doc/qt-5/qmediaplayer.html#volume-prop
+const int default__audio_player_volume = 50;
 }
-#endif
+
+#endif  // CPPDIPYLON_FIXEDPARAMETERS_H_
