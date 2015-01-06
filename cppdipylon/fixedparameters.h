@@ -80,13 +80,20 @@ const int default__audio_player_volume = 50;
 */
 const QString default__path_to_dipydocs  = QDir::homePath() + "/dipydocs/";
 
-/*
-  default style sheets :
-*/
+/*------------------------------------------------------------------------------
+  default style sheets and parameters :
+------------------------------------------------------------------------------*/
 const QString default__mainwindow_stylesheet = "";
 
 const QString default__tabwiget_stylesheet = "background-color: #ffffcc;";
 
+/* If fixedparameters::default__sourceeditor_verticalscrollbar_width is equal to -1,
+   the default value is applied : by consequence, the function ::setMinimumWidth()
+   will not be called. See the code using this const int.
+*/
+const int     default__texteditor_verticalscrollbar_width = -1;
+
+// 
 const QString default__sourceeditor_stylesheet = "background-color: #ffffcc;"
                                                  "selection-color: white;"
                                                  "selection-background-color: blue;";

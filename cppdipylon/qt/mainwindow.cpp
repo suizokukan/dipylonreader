@@ -36,16 +36,8 @@ MainWindow::MainWindow(UI& _ui,
                        QWidget *_parent) : QMainWindow(_parent),
                                            ui(_ui) {
   this->setObjectName("main_window");
-  // DEBUG1 DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = "
-  // DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
-  this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
 
-  #ifdef NO_STATUS_BAR
-  this->setStatusBar(0);
-  #endif
-
-  // giving the focus so that keyboard shortcuts allow to access the main menu :
-  this->setFocus(Qt::MenuBarFocusReason);
+  this->init();
 }
 
 /*______________________________________________________________________________
@@ -433,6 +425,17 @@ void MainWindow::hidetoolbarsAct__buttonPressed(void) {
 ______________________________________________________________________________*/
 void MainWindow::init(void) {
   // DEBUG1 DebugMsg() << "MainWindow::init() : entry point";
+
+  // DEBUG1 DebugMsg() << "[MainWindow::init] this->setStyleSheet = "
+  // DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
+  this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
+
+  #ifdef NO_STATUS_BAR
+  this->setStatusBar(0);
+  #endif
+
+  // giving the focus so that keyboard shortcuts allow to access the main menu :
+  this->setFocus(Qt::MenuBarFocusReason);
 
   /*
        The actions created by the the call to createActions() method are

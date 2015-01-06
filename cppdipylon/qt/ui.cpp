@@ -190,7 +190,6 @@ int UI::go(int argc, char **argv) {
     main window creation :
   */
   this->mainWin = new MainWindow(*this);
-  this->mainWin->init();
 
   /*
     the main window is displayed :

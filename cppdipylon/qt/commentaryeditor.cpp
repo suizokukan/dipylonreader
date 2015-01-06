@@ -54,6 +54,29 @@ void CommentaryEditor::set_the_appearance(void) {
   // DEBUG1 DebugMsg() << "[CommentaryEditor::set_the_appearance] setStyleSheet = "
   // DEBUG1            << this->dipydoc->commentaryeditor_stylesheet;
   this->setStyleSheet(this->dipydoc->commentaryeditor_stylesheet);
+
+  /*
+    setting the vertical scroll bar's width.
+
+    see the documentation in fixedparameters.h for more details, especially
+    about the -1 value.
+
+    NB : I wasn't able to initialize the width through :
+
+            auto vscrollbar = this->verticalScrollBar();
+            vscrollbar->setMinimumWidth(300);
+
+         nor by adding "QScrollBar::vertical{ min-width: 300 px; }"
+         to fixedparameters::default__texteditor_verticalscrollbar_width.
+
+         The following solution works, but I don't understand why the
+         two others don't.
+  */
+  if (fixedparameters::default__texteditor_verticalscrollbar_width != -1) {
+    QString str("QScrollBar::vertical{ min-width: %1; }");
+    str = str.arg(fixedparameters::default__texteditor_verticalscrollbar_width);
+    this->setStyleSheet(str);
+  }
 }
 
 /*______________________________________________________________________________
