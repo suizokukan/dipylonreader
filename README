@@ -33,6 +33,7 @@ TODO
 - si un textrange renvoie à un caractère au-delà de la longueur du texte, erreur.
 
 [code]
+- utiliser save geometry pour conserver/restaurer la pos+taille de la QMainWindow
 - plus de pointeurs hors Qt > smart pointers + virer les delete correspondant.
 - que faire de bool MainWindow::saveMainFileOfADipyDocAs() ??// READ_AND_WRITE n'est nulle part utilisé.
 - réfléchir à la question : le ~/dipydocs est-il complètement nettoyé après un download ? Documenter ce comportement.

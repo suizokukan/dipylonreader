@@ -36,16 +36,8 @@ MainWindow::MainWindow(UI& _ui,
                        QWidget *_parent) : QMainWindow(_parent),
                                            ui(_ui) {
   this->setObjectName("main_window");
-  // DEBUG1 DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = "
-  // DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
-  this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
 
-  #ifdef NO_STATUS_BAR
-  this->setStatusBar(0);
-  #endif
-
-  // giving the focus so that keyboard shortcuts allow to access the main menu :
-  this->setFocus(Qt::MenuBarFocusReason);
+  this->init();
 }
 
 /*______________________________________________________________________________
@@ -434,6 +426,17 @@ ______________________________________________________________________________*/
 void MainWindow::init(void) {
   // DEBUG1 DebugMsg() << "MainWindow::init() : entry point";
 
+  // DEBUG1 DebugMsg() << "[MainWindow::init] this->setStyleSheet = "
+  // DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
+  this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
+
+  #ifdef NO_STATUS_BAR
+  this->setStatusBar(0);
+  #endif
+
+  // giving the focus so that keyboard shortcuts allow to access the main menu :
+  this->setFocus(Qt::MenuBarFocusReason);
+
   /*
        The actions created by the the call to createActions() method are
        required by the rest of this function :
@@ -588,7 +591,7 @@ void MainWindow::setnovelsizeAct__buttonPressed(void) {
      see http://qt-project.org/forums/viewthread/51639/
   */
   this->showNormal();
-  
+
   // DEBUG1 DebugMsg() << "MainWindow::setnovelsizeAct__buttonPressed()";
   QSize _size = QGuiApplication::primaryScreen()->size();
   // DEBUG1 DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << _size;

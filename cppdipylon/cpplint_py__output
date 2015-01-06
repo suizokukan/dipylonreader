@@ -115,6 +115,8 @@ Done processing ./qt/sctabs.h
 Total errors found: 0
 Done processing ./qt/mainwindow.h
 Total errors found: 0
+Skipping input './qt/.#commentaryeditor.cpp': Can't open for reading
+Total errors found: 0
 Done processing ./qt/mainwindow.cpp
 Total errors found: 0
 Done processing ./qt/presentationscreen.cpp
