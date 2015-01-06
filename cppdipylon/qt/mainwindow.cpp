@@ -591,7 +591,7 @@ void MainWindow::setnovelsizeAct__buttonPressed(void) {
      see http://qt-project.org/forums/viewthread/51639/
   */
   this->showNormal();
-  
+
   // DEBUG1 DebugMsg() << "MainWindow::setnovelsizeAct__buttonPressed()";
   QSize _size = QGuiApplication::primaryScreen()->size();
   // DEBUG1 DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << _size;

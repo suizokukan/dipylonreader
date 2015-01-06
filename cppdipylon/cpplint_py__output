@@ -81,3 +81,51 @@ Done processing ./qt/downloaddemodipydocs.cpp
 Total errors found: 0
 Done processing ./qt/readingmodes.h
 Total errors found: 0
+Done processing ./qt/sourceeditor.h
+Total errors found: 0
+Done processing ./qt/posintextframeformat.h
+Total errors found: 0
+Done processing ./qt/scsplitter.h
+Total errors found: 0
+Done processing ./qt/ui.h
+Total errors found: 0
+Done processing ./qt/commentaryzone.h
+Total errors found: 0
+Done processing ./qt/downloaddemodipydocs.h
+Total errors found: 0
+Done processing ./qt/sourceeditor.cpp
+Total errors found: 0
+Done processing ./qt/texteditor.h
+Total errors found: 0
+Done processing ./qt/commentarytoolbar.cpp
+Total errors found: 0
+Done processing ./qt/arrowformat.h
+Total errors found: 0
+Done processing ./qt/sctabs.cpp
+Total errors found: 0
+Done processing ./qt/texteditor.cpp
+Total errors found: 0
+Done processing ./qt/blockformat.h
+Total errors found: 0
+Done processing ./qt/textformat.h
+Total errors found: 0
+Done processing ./qt/sourcetoolbar.cpp
+Total errors found: 0
+Done processing ./qt/sctabs.h
+Total errors found: 0
+Done processing ./qt/mainwindow.h
+Total errors found: 0
+Skipping input './qt/.#commentaryeditor.cpp': Can't open for reading
+Total errors found: 0
+Done processing ./qt/mainwindow.cpp
+Total errors found: 0
+Done processing ./qt/presentationscreen.cpp
+Total errors found: 0
+Done processing ./qt/posintextframeformat.cpp
+Total errors found: 0
+Done processing ./qt/commentaryzone.cpp
+Total errors found: 0
+Done processing ./qt/sourcezone.cpp
+Total errors found: 0
+Done processing ./qt/ui.cpp
+Total errors found: 0
