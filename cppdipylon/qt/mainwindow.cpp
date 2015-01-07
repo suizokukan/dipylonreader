@@ -286,16 +286,6 @@ void MainWindow::createMenus(void) {
 
 /*______________________________________________________________________________
 
-  MainWindow::createStatusBar
-______________________________________________________________________________*/
-void MainWindow::createStatusBar(void) {
-#ifndef NO_STATUS_BAR
-  statusBar()->showMessage(tr("Ready"));
-#endif
-}
-
-/*______________________________________________________________________________
-
   MainWindow::createMainToolBars
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars(void) {
@@ -313,6 +303,16 @@ void MainWindow::createMainToolBars(void) {
   this->mainwintoolbar->addAction(this->setnovelsizeAct);
 
   // DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : exit point";
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::createStatusBar
+______________________________________________________________________________*/
+void MainWindow::createStatusBar(void) {
+#ifndef NO_STATUS_BAR
+  statusBar()->showMessage(tr("Ready"));
+#endif
 }
 
 /*______________________________________________________________________________

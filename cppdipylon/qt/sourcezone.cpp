@@ -360,11 +360,27 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
           // hash update :
           this->editor->modified_chars_hash = text_ranges_hash;
 
+          /* updating the vertical scrolling :
+
+             we set the cursor at the end of the current range and we ask Qt
+             to scroll down, if necessary, with the help of 
+             QTextEdit::ensureCursorVisible() .
+          */
+          QTextCursor cur = this->editor->textCursor();
+          cur.movePosition(QTextCursor::Start,
+                           QTextCursor::MoveAnchor);
+          cur.movePosition(QTextCursor::NextCharacter,
+                           QTextCursor::MoveAnchor,
+                           static_cast<int>(text_ranges.max()) + \
+                           this->editor->number_of_chars_before_source_text + \
+                           fixedparameters::default__sourcezone__jump_ahead);
+          this->editor->setTextCursor(cur);
+          this->editor->ensureCursorVisible();
+
           // SIGNAL #S009 (confer documentation)
           emit this->signal__update_translation_in_commentary_zone(text_ranges);
         }
       }
-
       return;
   }
 
