@@ -143,6 +143,13 @@ const bool default__visible_toolbars = true;
 // constant used to limit the number of items displayed in submenu 'open' :
 const int maximum_number_of_items_in_submenu_open = 10;
 
+/*
+  in l-mode, when the source editor has to be scrolled down to display the
+  current range of text, it may be usefull to add some characters ahead
+  to be displayed :
+*/
+const int default__sourcezone__jump_ahead = 150;
+
 /*______________________________________________________________________________
 
   UI : default style sheets and parameters
