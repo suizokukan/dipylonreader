@@ -243,9 +243,7 @@ o ALLOW_MAXIMIZE_MAINWINDOW
   o MAXIMIZE_MAINWINDOW_TRUE_METHOD
   o MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
 
-o ALLOW_MOVING_THE_MAINWINDOW
-
-o ALLOW_RESIZING_THE_MAINWINDOW
+o ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW
 
 o ALLOW_SPLASHSCREEN_AT_START
 
@@ -1099,10 +1097,9 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 "application/firstlaunch" : (bool)
 "application/displaysplashscreen" : (bool)
 
-"mainwindow/size"       : @Size(960 540)
-"mainwindow/pos"        : @Point(480 270)
-"mainwindow/fullscreen" : (bool)
-"mainwindow/visible_toolbars" : (bool)
+"mainwindow/geometry"           : ByteArray
+"mainwindow/fullscreen"         : (bool)
+"mainwindow/visible_toolbars"   : (bool)
 
 "text/TEXTNAME/commentaryeditor/zoomvalue" : int
 "text/TEXTNAME/sourceeditor/zoomvalue" : int
