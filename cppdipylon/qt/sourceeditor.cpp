@@ -92,14 +92,18 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
   [2] arrows
   [3] other keys
 
+
+    See Qt:Key_* symbols at http://doc.qt.io/qt-5/qt.html .
+
 ______________________________________________________________________________*/
 void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
-  // DEBUG1 DebugMsg() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
-
   switch (keyboard_event->key()) {
     //......................................................................
     // [1] space
     case Qt::Key_Space : {
+
+      // DEBUG1 DebugMsg() << "SourceEditor::keyReleaseEvent : space";
+      
       switch (this->readingmode) {
         case READINGMODE::READINGMODE_LMODE: {
           switch (this->readingmode_details) {

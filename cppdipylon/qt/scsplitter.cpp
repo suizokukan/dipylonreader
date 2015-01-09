@@ -126,6 +126,10 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
+  // connection #C042 (confer documentation)
+  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
+                   this,                           &SCSplitter::update_content__popuptranslation_expected);
+
   // connection #C002 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__set_zoom_value_in_commentary_editor,
                    this->commentary_zone->editor,  &TextEditor::set_zoom_value);
@@ -152,7 +156,12 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   this->update_icons();
 
   /*
-    (6) setting this->_well_initialized
+    (6) setting this->popup_message
+  */
+  this->popup_message = new PopupMessage(this);
+
+  /*
+    (7) setting this->_well_initialized
   */
   this->_well_initialized = true;
 
@@ -213,6 +222,20 @@ void SCSplitter::read_settings(void) {
   }
 
   // DEBUG1 DebugMsg() << "SCSplitter::read_settings() : exit point";
+}
+
+/*______________________________________________________________________________
+
+  SCSplitter::update_content__translation_expected
+________________________________________________________________________________*/
+void SCSplitter::update_content__popuptranslation_expected(void) {
+  // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected " << this->popup_message;
+  this->popup_message->setText("abc");
+  this->popup_message->show();
+  /*
+    popupWidget->move(xy)
+    popupWidget->show();
+   */
 }
 
 /*______________________________________________________________________________

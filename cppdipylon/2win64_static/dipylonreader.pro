@@ -66,6 +66,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/commentaryzone.h \
                     qt/downloaddemodipydocs.h \
                     qt/mainwindow.h \
+                    qt/popupmessage.h \
                     qt/posintextframeformat.h \
                     qt/presentationscreen.h \
                     qt/readingmodes.h \
@@ -98,6 +99,7 @@ SOURCES         +=  ./main.cpp \
                     qt/commentaryzone.cpp \
                     qt/downloaddemodipydocs.cpp \
                     qt/mainwindow.cpp \
+                    qt/popupmessage.cpp \
                     qt/posintextframeformat.cpp \
                     qt/presentationscreen.cpp \
                     qt/scsplitter.cpp \

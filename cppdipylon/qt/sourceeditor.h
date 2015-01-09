@@ -29,14 +29,14 @@
 #define CPPDIPYLON_QT_SOURCEEDITOR_H_
 
 #include <QAction>
-#include <QTextEdit>
-#include <QTextCharFormat>
-#include <QTimer>
 #include <QList>
 #include <QMediaPlayer>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTextBlock>
+#include <QTextCharFormat>
+#include <QTextEdit>
+#include <QTimer>
 #include <QWidget>
 
 #include <vector>
