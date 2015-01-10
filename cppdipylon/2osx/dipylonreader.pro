@@ -15,8 +15,7 @@ TRANSLATIONS = dipylonreader_French.ts
 #_______________________________________________________________________________
 DEFINES += ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
 DEFINES += ALLOW_SPLASHSCREEN_AT_START
-DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
-DEFINES += ALLOW_MOVING_THE_MAINWINDOW
+DEFINES += ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
 DEFINES += DEBUG_MESSAGES_TO_CERR
 DEFINES += MENUACCESS_TO_INTERNAL_MESSAGES
@@ -56,6 +55,7 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/commentaryzone.h \
                     qt/downloaddemodipydocs.h \
                     qt/mainwindow.h \
+                    qt/popupmessage.h \
                     qt/posintextframeformat.h \
                     qt/presentationscreen.h \
                     qt/readingmodes.h \
@@ -87,6 +87,7 @@ SOURCES         +=  ./main.cpp \
                     qt/commentaryzone.cpp \
                     qt/downloaddemodipydocs.cpp \
                     qt/mainwindow.cpp \
+                    qt/popupmessage.cpp \
                     qt/posintextframeformat.cpp \
                     qt/presentationscreen.cpp \
                     qt/scsplitter.cpp \
