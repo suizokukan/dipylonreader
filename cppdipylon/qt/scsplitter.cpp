@@ -228,14 +228,24 @@ void SCSplitter::read_settings(void) {
 
   SCSplitter::update_content__translation_expected
 ________________________________________________________________________________*/
-void SCSplitter::update_content__popuptranslation_expected(void) {
-  // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected " << this->popup_message;
-  this->popup_message->setText("abc");
+void SCSplitter::update_content__popuptranslation_expected(const PosInTextRanges& posintext) {
+  // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected " << posintext.repr();
+
+  // setting the text :
+  this->popup_message->setText("abcPauline ChevalierPauline ChevalierPauline Chevalier");
+  this->popup_message->adjustSize();
+
+  // setting the popup message at the expected location :
+  QTextCursor cur = this->source_zone->editor->textCursor();
+  cur.setPosition(static_cast<int>(posintext.max()));
+  QRect cur_rect = this->source_zone->editor->cursorRect(cur);
+  float x0 = cur_rect.x();
+  float y0 = cur_rect.y();
+  DebugMsg() << x0 << ", " << y0;
+  this->popup_message->move(x0, y0);
+  this->popup_message->move(0, 0);
+  // let's show the popup :
   this->popup_message->show();
-  /*
-    popupWidget->move(xy)
-    popupWidget->show();
-   */
 }
 
 /*______________________________________________________________________________

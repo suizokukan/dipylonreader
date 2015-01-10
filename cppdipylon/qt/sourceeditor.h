@@ -57,6 +57,7 @@ ______________________________________________________________________________*/
 class SourceEditor : public TextEditor {
   friend class MainWindow;
   friend class SourceZone;
+  friend class SCSplitter;
 
     Q_OBJECT
 

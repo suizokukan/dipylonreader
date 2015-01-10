@@ -37,6 +37,7 @@
 
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
+#include "pos/posintext/posintextranges.h"
 #include "qt/commentaryzone.h"
 #include "qt/popupmessage.h"
 #include "qt/sourcezone.h"
@@ -74,7 +75,7 @@ friend class MainWindow;
 
  private slots:  // NOLINT(whitespace/indent)
   void              update_icons(void);
-  void              update_content__popuptranslation_expected(void);
+  void              update_content__popuptranslation_expected(const PosInTextRanges& posintext);
 
  public:
             explicit SCSplitter(const int index_in_scbar,
