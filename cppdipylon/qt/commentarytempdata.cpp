@@ -62,6 +62,6 @@ void CommentaryTempData::update(const PosInTextRanges& _pos_in_text_ranges) {
   // setting the text attribute :
   this->text = this->source_zone__editor->dipydoc->get_translations_for(_pos_in_text_ranges.min(),
                                                                         _pos_in_text_ranges.max());
-  
+
   this->updated = true;
 }

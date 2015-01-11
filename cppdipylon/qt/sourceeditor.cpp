@@ -101,9 +101,8 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
     //......................................................................
     // [1] space
     case Qt::Key_Space : {
-
       // DEBUG1 DebugMsg() << "SourceEditor::keyReleaseEvent : space";
-      
+
       switch (this->readingmode) {
         case READINGMODE::READINGMODE_LMODE: {
           switch (this->readingmode_details) {

@@ -244,7 +244,8 @@ void SCSplitter::read_settings(void) {
   SCSplitter::update_content__translation_expected
 ________________________________________________________________________________*/
 void SCSplitter::update_content__popuptranslation_expected(void) {
-  // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected() updated=" << this->commentary_temp_data->updated;
+  // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected()"
+  // DEBUG1            << " updated=" << this->commentary_temp_data->updated;
 
   if (this->commentary_temp_data->updated == true) {
     // setting the text :
@@ -253,7 +254,7 @@ void SCSplitter::update_content__popuptranslation_expected(void) {
 
     // setting the popup location :
     this->popup_message_commentary->move(this->commentary_temp_data->xy);
-    
+
     // let's show the popup :
     this->popup_message_commentary->show();
   } else {

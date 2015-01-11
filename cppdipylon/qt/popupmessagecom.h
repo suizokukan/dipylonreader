@@ -25,8 +25,8 @@
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_POPUMESSAGECOM_H_
-#define CPPDIPYLON_QT_POPUMESSAGECOM_H_
+#ifndef CPPDIPYLON_QT_POPUPMESSAGECOM_H_
+#define CPPDIPYLON_QT_POPUPMESSAGECOM_H_
 
 #include <QLabel>
 #include <QWidget>
@@ -40,11 +40,10 @@ class SourceEditor;
   Popup window with a simple texte inside.
 ______________________________________________________________________________*/
 class PopupMessageCommentary : public QLabel {
-
   Q_OBJECT
 
  public:
   PopupMessageCommentary(void);
 };
 
-#endif  // CPPDIPYLON_QT_POPUMESSAGECOM_H_
+#endif  // CPPDIPYLON_QT_POPUPMESSAGECOM_H_

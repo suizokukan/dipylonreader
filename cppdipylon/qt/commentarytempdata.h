@@ -42,24 +42,23 @@
   Object used to store (temporary) informations about the fragment of text 
   choosed by the user.
 
-  Please use the informations stored inside ONLY IF updated is set to true !
+  Please use the informations stored inside ONLY IF updated is set to true.
 _____________________________________________________________________________*/
 struct CommentaryTempData : QObject {
-
     Q_OBJECT
 
  public:
   bool      updated = false;
   QPoint    xy;
   QString   text;
-  
+
   SourceEditor * source_zone__editor = nullptr;
 
  public:
   CommentaryTempData(SourceEditor * _source_zone__editor,
                      QWidget      * _parent);
 
- public slots:
+ public slots:  // NOLINT(whitespace/indent)
   void update(const PosInTextRanges& _pos_in_text_ranges);
 };
 
