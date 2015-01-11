@@ -31,6 +31,8 @@
 #include <QLabel>
 #include <QWidget>
 
+class SourceEditor;
+
 /*______________________________________________________________________________
 
   PopupMessageCommentary class

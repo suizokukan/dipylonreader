@@ -29,6 +29,44 @@
 
 /*______________________________________________________________________________
 
+        CommentaryTempData::CommentaryTempData()
+
+        CommentaryTempData constructor
+______________________________________________________________________________*/
+CommentaryTempData::CommentaryTempData(SourceEditor * _source_zone__editor,
+                                       QWidget * _parent) : QObject(_parent),
+                                                            source_zone__editor(_source_zone__editor) {
+}
+
+/*______________________________________________________________________________
+
+        CommentaryTempData::update()
+
+        Initialize the informations stored in the CommentaryTempData object
+        from the position in the text given as parameter.
+
+        This informations will be used to display the translation and the
+        commentary.
+______________________________________________________________________________*/
+void CommentaryTempData::update(const PosInTextRanges& _pos_in_text_ranges) {
+  // DEBUG1 DebugMsg() << "CommentaryTempData::update() entry point " << _pos_in_text_ranges.repr();
+
+  // setting the xy attribute :
+  QTextCursor cur = this->source_zone__editor->textCursor();
+  cur.setPosition(this->source_zone__editor->number_of_chars_before_source_text + \
+                  static_cast<int>(_pos_in_text_ranges.max()));
+  QRect cur_rect = this->source_zone__editor->cursorRect(cur);
+  this->xy = this->source_zone__editor->mapToGlobal(cur_rect.topLeft());
+
+  // setting the text attribute :
+  this->text = this->source_zone__editor->dipydoc->get_translations_for(_pos_in_text_ranges.min(),
+                                                                        _pos_in_text_ranges.max());
+  
+  this->updated = true;
+}
+
+/*______________________________________________________________________________
+
         SCSplitter::SCSplitter()
 
         SCSplitter constructor.
@@ -109,6 +147,8 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   this->addWidget(this->source_zone);
   this->addWidget(this->commentary_zone);
 
+  this->commentary_temp_data = new CommentaryTempData(this->source_zone->editor, this);
+
   /*
     (3) settings' value for the current text; apply these values to te UI.
   */
@@ -121,6 +161,19 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   /*
     (4) signals
   */
+
+  // connection #C000 (confer documentation)
+  //
+  // BEWARE : this connection HAS TO BE DEFINED BEFORE connections #C001 and #C042
+  //
+  // ... and since order matters, see http://doc.qt.io/qt-5/signalsandslots.html :
+  //
+  // """ If several slots are connected to one signal, the slots will be executed
+  // """ one after the other, in the order they have been connected, when the
+  // """ signal is emitted.
+  //
+  QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
+                   this->commentary_temp_data,     &CommentaryTempData::update);
 
   // connection #C001 (confer documentation)
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
@@ -228,23 +281,22 @@ void SCSplitter::read_settings(void) {
 
   SCSplitter::update_content__translation_expected
 ________________________________________________________________________________*/
-void SCSplitter::update_content__popuptranslation_expected(const PosInTextRanges& posintext) {
-  // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected " << posintext.repr();
+void SCSplitter::update_content__popuptranslation_expected(void) {
+  // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected() updated=" << this->commentary_temp_data->updated;
 
-  // setting the text :
-  this->popup_message_commentary->setText("abcPauline ChevalierPauline ChevalierPauline Chevalier");
-  this->popup_message_commentary->adjustSize();
+  if (this->commentary_temp_data->updated == true) {
+    // setting the text :
+    this->popup_message_commentary->setText(this->commentary_temp_data->text);
+    this->popup_message_commentary->adjustSize();
 
-  // setting the popup message at the expected location :
-  QTextCursor cur = this->source_zone->editor->textCursor();
-  cur.setPosition(this->source_zone->editor->number_of_chars_before_source_text + \
-                  static_cast<int>(posintext.max()));
-  QRect cur_rect = this->source_zone->editor->cursorRect(cur);
-  QPoint final_point = QWidget::mapToGlobal(cur_rect.topLeft());
-  this->popup_message_commentary->move(final_point);
-
-  // let's show the popup :
-  this->popup_message_commentary->show();
+    // setting the popup location :
+    this->popup_message_commentary->move(this->commentary_temp_data->xy);
+    
+    // let's show the popup :
+    this->popup_message_commentary->show();
+  } else {
+    this->popup_message_commentary->hide();
+  }
 }
 
 /*______________________________________________________________________________

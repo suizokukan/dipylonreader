@@ -50,6 +50,7 @@
 #include "qt/texteditor.h"
 #include "qt/textformat.h"
 
+struct CommentaryTempData;
 /*______________________________________________________________________________
 
   SourceEditor class
@@ -58,6 +59,7 @@ class SourceEditor : public TextEditor {
   friend class MainWindow;
   friend class SourceZone;
   friend class SCSplitter;
+  friend class CommentaryTempData;
 
     Q_OBJECT
 

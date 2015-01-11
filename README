@@ -2,6 +2,13 @@
 
 WIP :
 o modifier le param. envoyé avec la connexion 1 et 42 : au lieu de la position du car. courant, donner un pointeur vers une zone de la mémoire où seront stockés {la pos n du car., la pos x,y du car., le texte à afficher)
+    o faire en sorte que les deux fonctions accèdent à la zone
+    o distinguer update__commentary_expected et update__translation_expected
+    o terminer ::update : initialisez xy_for_popup + text [couper en petites lignes ?]
+    o au niveau de l'ui : choisir ou l'un ou l'autre
+o placer CommentaryTempData dans un fichier à part.
+o n'est-il pas dangereux d'émettre un signal avec une référence utilisée plus tard : confer dans sourceditor.cpp : emit this->signal__update_translation_in_commentary_zone(pos_in_text);
+    
 o comment faire si le popup n'a pas le droit de dépasser la fenêtre ?
 
 TODO

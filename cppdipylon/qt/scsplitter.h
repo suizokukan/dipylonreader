@@ -45,6 +45,34 @@
 
 /*______________________________________________________________________________
 
+  CommentaryTempData class
+
+  Object used to store (temporary) informations about the fragment of text 
+  choosed by the user.
+
+  Please use the informations stored inside ONLY IF updated is set to true !
+_____________________________________________________________________________*/
+struct CommentaryTempData : QObject {
+
+    Q_OBJECT
+
+ public:
+  bool      updated = false;
+  QPoint    xy;
+  QString   text;
+  
+  SourceEditor * source_zone__editor = nullptr;
+
+ public:
+  CommentaryTempData(SourceEditor * _source_zone__editor,
+                     QWidget      * _parent);
+
+ public slots:
+  void update(const PosInTextRanges& _pos_in_text_ranges);
+};
+
+/*______________________________________________________________________________
+
   SCSplitter class
 
   Splitter bewteen a SourceZone object and a CommentaryZone object.
@@ -69,14 +97,15 @@ friend class MainWindow;
   ReadingModeDetails readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
   QList<int> splittersizes = fixedparameters::default__editors_size_in_main_splitter;
 
-  PopupMessageCommentary* popup_message_commentary = nullptr;
+  PopupMessageCommentary * popup_message_commentary = nullptr;
+  CommentaryTempData     * commentary_temp_data = nullptr;
 
   void               read_settings(void);
   void               write_settings(void);
 
  private slots:  // NOLINT(whitespace/indent)
   void              update_icons(void);
-  void              update_content__popuptranslation_expected(const PosInTextRanges& posintext);
+  void              update_content__popuptranslation_expected(void);
 
  public:
             explicit SCSplitter(const int index_in_scbar,
