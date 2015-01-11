@@ -31,7 +31,6 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QMetaType>
-#include <QPoint>
 #include <QSettings>
 #include <QSplitter>
 #include <QString>
@@ -39,37 +38,10 @@
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
 #include "pos/posintext/posintextranges.h"
+#include "qt/commentarytempdata.h"
 #include "qt/commentaryzone.h"
 #include "qt/popupmessagecom.h"
 #include "qt/sourcezone.h"
-
-/*______________________________________________________________________________
-
-  CommentaryTempData class
-
-  Object used to store (temporary) informations about the fragment of text 
-  choosed by the user.
-
-  Please use the informations stored inside ONLY IF updated is set to true !
-_____________________________________________________________________________*/
-struct CommentaryTempData : QObject {
-
-    Q_OBJECT
-
- public:
-  bool      updated = false;
-  QPoint    xy;
-  QString   text;
-  
-  SourceEditor * source_zone__editor = nullptr;
-
- public:
-  CommentaryTempData(SourceEditor * _source_zone__editor,
-                     QWidget      * _parent);
-
- public slots:
-  void update(const PosInTextRanges& _pos_in_text_ranges);
-};
 
 /*______________________________________________________________________________
 

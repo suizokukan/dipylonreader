@@ -29,44 +29,6 @@
 
 /*______________________________________________________________________________
 
-        CommentaryTempData::CommentaryTempData()
-
-        CommentaryTempData constructor
-______________________________________________________________________________*/
-CommentaryTempData::CommentaryTempData(SourceEditor * _source_zone__editor,
-                                       QWidget * _parent) : QObject(_parent),
-                                                            source_zone__editor(_source_zone__editor) {
-}
-
-/*______________________________________________________________________________
-
-        CommentaryTempData::update()
-
-        Initialize the informations stored in the CommentaryTempData object
-        from the position in the text given as parameter.
-
-        This informations will be used to display the translation and the
-        commentary.
-______________________________________________________________________________*/
-void CommentaryTempData::update(const PosInTextRanges& _pos_in_text_ranges) {
-  // DEBUG1 DebugMsg() << "CommentaryTempData::update() entry point " << _pos_in_text_ranges.repr();
-
-  // setting the xy attribute :
-  QTextCursor cur = this->source_zone__editor->textCursor();
-  cur.setPosition(this->source_zone__editor->number_of_chars_before_source_text + \
-                  static_cast<int>(_pos_in_text_ranges.max()));
-  QRect cur_rect = this->source_zone__editor->cursorRect(cur);
-  this->xy = this->source_zone__editor->mapToGlobal(cur_rect.topLeft());
-
-  // setting the text attribute :
-  this->text = this->source_zone__editor->dipydoc->get_translations_for(_pos_in_text_ranges.min(),
-                                                                        _pos_in_text_ranges.max());
-  
-  this->updated = true;
-}
-
-/*______________________________________________________________________________
-
         SCSplitter::SCSplitter()
 
         SCSplitter constructor.
