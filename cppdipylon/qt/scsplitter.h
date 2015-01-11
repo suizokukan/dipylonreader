@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QMetaType>
+#include <QPoint>
 #include <QSettings>
 #include <QSplitter>
 #include <QString>

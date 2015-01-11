@@ -1,5 +1,9 @@
 (C++/Qt5) front-end used to read texts with some annotations
 
+WIP :
+o modifier le param. envoyé avec la connexion 1 et 42 : au lieu de la position du car. courant, donner un pointeur vers une zone de la mémoire où seront stockés {la pos n du car., la pos x,y du car., le texte à afficher)
+o comment faire si le popup n'a pas le droit de dépasser la fenêtre ?
+
 TODO
 * si type apparaît dans main.xml sans être défini, boom
 

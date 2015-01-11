@@ -33,8 +33,8 @@
 
         PopupMessage constructor.
 ______________________________________________________________________________*/
-PopupMessage::PopupMessage(QWidget *_parent) : QLabel(_parent) {
-  this->setWindowFlags(Qt::Tool);      // see http://doc.qt.io/qt-5/qt.html#WindowType-enum
+PopupMessage::PopupMessage(void) : QLabel(0) {
+  this->setWindowFlags(Qt::Popup);      // see http://doc.qt.io/qt-5/qt.html#WindowType-enum
   this->setFocusPolicy(Qt::NoFocus);  // see http://qt-project.org/doc/qt-4.8/qwidget.html#focusPolicy-prop
   this->setStyleSheet("border-radius: 9px; background-color: #12ffcc; color: red; border-width: 1px; border-style: solid;");
   

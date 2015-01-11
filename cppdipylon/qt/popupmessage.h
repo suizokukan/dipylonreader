@@ -36,7 +36,7 @@ class PopupMessage : public QLabel {
   Q_OBJECT
 
  public:
-  PopupMessage(QWidget *_parent);
+  PopupMessage(void);
 };
 
 #endif  // CPPDIPYLON_QT_POPUMESSAGE_H_
