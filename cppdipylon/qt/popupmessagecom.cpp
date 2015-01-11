@@ -19,24 +19,28 @@
 
     ____________________________________________________________________________
 
-    ❏DipylonReader❏ : qt/popumessage.h
+    ❏DipylonReader❏ : qt/popupmessagecom.cpp
 
-    * PopupMessage class : create popup windows with text inside.
+    see popupmessagecom.h for the documentation
 
 *******************************************************************************/
 
-#ifndef CPPDIPYLON_QT_POPUMESSAGE_H_
-#define CPPDIPYLON_QT_POPUMESSAGE_H_
+#include "qt/popupmessagecom.h"
 
-#include <QLabel>
-#include <QWidget>
+/*______________________________________________________________________________
 
-class PopupMessage : public QLabel {
+        PopupMessageCommentary::PopupMessageCommentary()
 
-  Q_OBJECT
-
- public:
-  PopupMessage(void);
-};
-
-#endif  // CPPDIPYLON_QT_POPUMESSAGE_H_
+        PopupMessageCommentary constructor.
+______________________________________________________________________________*/
+PopupMessageCommentary::PopupMessageCommentary(void) : QLabel(0) {
+  this->setWindowFlags(Qt::Popup);      // see http://doc.qt.io/qt-5/qt.html#WindowType-enum
+  this->setFocusPolicy(Qt::NoFocus);  // see http://qt-project.org/doc/qt-4.8/qwidget.html#focusPolicy-prop
+  this->setStyleSheet("border-radius: 9px; background-color: #12ffcc; color: red; border-width: 1px; border-style: solid;");
+  
+  this->setWindowFlags(Qt::CustomizeWindowHint);
+  this->setWindowFlags(Qt::WindowStaysOnTopHint);
+  this->setWindowFlags(Qt::X11BypassWindowManagerHint);
+  
+  this->hide();
+}

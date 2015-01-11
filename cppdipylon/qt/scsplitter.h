@@ -40,7 +40,7 @@
 #include "dipydoc/dipydoc.h"
 #include "pos/posintext/posintextranges.h"
 #include "qt/commentaryzone.h"
-#include "qt/popupmessage.h"
+#include "qt/popupmessagecom.h"
 #include "qt/sourcezone.h"
 
 /*______________________________________________________________________________
@@ -69,7 +69,7 @@ friend class MainWindow;
   ReadingModeDetails readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
   QList<int> splittersizes = fixedparameters::default__editors_size_in_main_splitter;
 
-  PopupMessage*      popup_message = nullptr;
+  PopupMessageCommentary* popup_message_commentary = nullptr;
 
   void               read_settings(void);
   void               write_settings(void);

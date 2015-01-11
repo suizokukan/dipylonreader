@@ -156,9 +156,9 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   this->update_icons();
 
   /*
-    (6) setting this->popup_message
+    (6) setting this->popup_message_commentary
   */
-  this->popup_message = new PopupMessage();
+  this->popup_message_commentary = new PopupMessageCommentary();
 
   /*
     (7) setting this->_well_initialized
@@ -232,8 +232,8 @@ void SCSplitter::update_content__popuptranslation_expected(const PosInTextRanges
   // DEBUG1 DebugMsg() << "SCSplitter::update_content__popuptranslation_expected " << posintext.repr();
 
   // setting the text :
-  this->popup_message->setText("abcPauline ChevalierPauline ChevalierPauline Chevalier");
-  this->popup_message->adjustSize();
+  this->popup_message_commentary->setText("abcPauline ChevalierPauline ChevalierPauline Chevalier");
+  this->popup_message_commentary->adjustSize();
 
   // setting the popup message at the expected location :
   QTextCursor cur = this->source_zone->editor->textCursor();
@@ -241,10 +241,10 @@ void SCSplitter::update_content__popuptranslation_expected(const PosInTextRanges
                   static_cast<int>(posintext.max()));
   QRect cur_rect = this->source_zone->editor->cursorRect(cur);
   QPoint final_point = QWidget::mapToGlobal(cur_rect.topLeft());
-  this->popup_message->move(final_point);
+  this->popup_message_commentary->move(final_point);
 
   // let's show the popup :
-  this->popup_message->show();
+  this->popup_message_commentary->show();
 }
 
 /*______________________________________________________________________________
