@@ -1,5 +1,12 @@
 (C++/Qt5) front-end used to read texts with some annotations
 
+Remarque sur OSX :
+o caractères : \ {}
+o quelques éléments de détail sur la différence entre struct et class.
+o dans le menu fichier, pas de Quitter : est-ce normal ?
+o dans PopupMessageCommentary::PopupMessageCommentary(), l'ajout de la ligne :
+     this->setWindowFlags(Qt::WindowStaysOnTopHint);
+  est problématique : ne pas l'inclure pour OSX, et essayer sur Win si elle est nécessaire.
 WIP :
 o modifier le param. envoyé avec la connexion 1 et 42 : au lieu de la position du car. courant, donner un pointeur vers une zone de la mémoire où seront stockés {la pos n du car., la pos x,y du car., le texte à afficher)
     o faire en sorte que les deux fonctions accèdent à la zone
@@ -9,6 +16,8 @@ o modifier le param. envoyé avec la connexion 1 et 42 : au lieu de la position 
     o changement de mode -> hide popup
 o n'est-il pas dangereux d'émettre un signal avec une référence utilisée plus tard : confer dans sourceditor.cpp : emit this->signal__update_translation_in_commentary_zone(pos_in_text);
     
+
+
 o comment faire si le popup n'a pas le droit de dépasser la fenêtre ?
 
 TODO

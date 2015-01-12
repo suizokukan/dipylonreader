@@ -41,7 +41,7 @@ PopupMessageCommentary::PopupMessageCommentary(void) : QLabel(0) {
 
   this->setWindowFlags(Qt::CustomizeWindowHint);
   this->setWindowFlags(Qt::WindowStaysOnTopHint);
-  this->setWindowFlags(Qt::X11BypassWindowManagerHint);
+  //this->setWindowFlags(Qt::X11BypassWindowManagerHint);
 
   this->hide();
 }

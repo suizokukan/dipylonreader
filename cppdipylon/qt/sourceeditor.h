@@ -59,7 +59,7 @@ class SourceEditor : public TextEditor {
   friend class MainWindow;
   friend class SourceZone;
   friend class SCSplitter;
-  friend class CommentaryTempData;
+  friend struct CommentaryTempData;
 
     Q_OBJECT
 

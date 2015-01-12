@@ -245,7 +245,7 @@ inline LevelDetails::LevelDetails(void) {
 }
 inline LevelDetails::LevelDetails(QString& _name, QString& _strtextformat) : name(_name), textformat(_strtextformat) {}
 
-class CommentaryTempData;
+struct CommentaryTempData;
 /*______________________________________________________________________________
 
   DipyDoc class
@@ -255,7 +255,7 @@ typedef std::pair<PosInTextRanges, PairOfPosInAudio> PTRangesAND2PosAudio;
 
 class DipyDoc {
 friend class CommentaryEditor;
-friend class CommentaryTempData;
+friend struct CommentaryTempData;
 friend class MainWindow;
 friend class SourceEditor;
 friend class SCSplitter;

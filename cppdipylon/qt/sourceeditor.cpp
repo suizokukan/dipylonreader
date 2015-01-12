@@ -630,6 +630,9 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
             this->modified_chars_hash = text_ranges_hash;
 
             // SIGNAL #S001 (confer documentation)
+            /*
+              $S001bis
+            */
             emit this->signal__update_translation_in_commentary_zone(pos_in_text);
 
             this->update();
