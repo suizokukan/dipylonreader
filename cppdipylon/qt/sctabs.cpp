@@ -41,7 +41,7 @@ SCTabs::SCTabs(QWidget *_parent) : QTabWidget(_parent) {
 
   this->setTabsClosable(true);
 
-  // connection #C010 (confer documentation)
+  // ° connection #C010 (confer documentation)
   QObject::connect(this->tabBar(), &QTabBar::tabCloseRequested,
                    this,           &SCTabs::close_current_tab);
 
@@ -50,13 +50,13 @@ SCTabs::SCTabs(QWidget *_parent) : QTabWidget(_parent) {
   */
   // (shortcut) CTRL + T :
   this->shortcut_ctrl_t = new QShortcut(QKeySequence(tr("Ctrl+T")), this);
-  // connection #C011 (confer documentation)
+  // ° connection #C011 (confer documentation)
   QObject::connect(this->shortcut_ctrl_t, &QShortcut::activated,
                    this,                  &SCTabs::signal__open_a_new_dipydoc);
 
   // (shortcut) CTRL + W :
   this->shortcut_ctrl_w = new QShortcut(QKeySequence(tr("Ctrl+W")), this);
-  // connection #C012 (confer documentation)
+  // ° connection #C012 (confer documentation)
   QObject::connect(this->shortcut_ctrl_w, &QShortcut::activated,
                    this,                  &SCTabs::close_current_tab);
 }
@@ -79,11 +79,11 @@ ______________________________________________________________________________*/
 void SCTabs::tabInserted(int index) {
   SCSplitter* new_tab = qobject_cast<SCSplitter*>(this->widget(index));
 
-  // connection #C013 (confer documentation)
+  // ° connection #C013 (confer documentation)
   QObject::connect(new_tab, &SCSplitter::signal__close_the_current_dipydoc,
                    this,    &SCTabs::close_current_tab);
 
-  // connection #C014 (confer documentation)
+  // ° connection #C014 (confer documentation)
   QObject::connect(new_tab, &SCSplitter::signal__open_a_new_dipydoc,
                    this,    &SCTabs::signal__open_a_new_dipydoc);
 
@@ -91,6 +91,6 @@ void SCTabs::tabInserted(int index) {
     Since we're sure that at least one Dipydoc is displayed, let's display
     the "hidetoolbar" icon :
   */
-  // SIGNAL #S005 (confer documentation)
+  // ° signal #S005 (confer documentation)
   emit this->signal__display_hidetoolbar_icon(true);
 }

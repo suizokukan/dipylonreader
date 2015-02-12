@@ -124,44 +124,44 @@ SCSplitter::SCSplitter(const int index_in_scbar,
     (4) signals
   */
 
-  // connection #C000 (confer documentation)
-  //
-  // BEWARE : this connection HAS TO BE DEFINED BEFORE connections #C001 and #C042
-  //
-  // ... and since order matters, see http://doc.qt.io/qt-5/signalsandslots.html :
-  //
-  // """ If several slots are connected to one signal, the slots will be executed
-  // """ one after the other, in the order they have been connected, when the
-  // """ signal is emitted.
-  //
+  // ° connection #C000 (confer documentation)
+  // °
+  // ° BEWARE : this connection HAS TO BE DEFINED BEFORE connections #C001 and #C042
+  // °
+  // ° ... and since order matters, see http://doc.qt.io/qt-5/signalsandslots.html :
+  // °
+  // ° """ If several slots are connected to one signal, the slots will be executed
+  // ° """ one after the other, in the order they have been connected, when the
+  // ° """ signal is emitted.
+  // °
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
                    this->commentary_temp_data,     &CommentaryTempData::update);
 
-  // connection #C001 (confer documentation)
+  // ° connection #C001 (confer documentation)
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
-  // connection #C042 (confer documentation)
+  // ° connection #C042 (confer documentation)
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_translation_in_commentary_zone,
                    this,                           &SCSplitter::update_content__popuptranslation_expected);
 
-  // connection #C002 (confer documentation)
+  // ° connection #C002 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__set_zoom_value_in_commentary_editor,
                    this->commentary_zone->editor,  &TextEditor::set_zoom_value);
 
-  // connection #C003 (confer documentation)
+  // ° connection #C003 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__in_commentary_editor_update_from_dipydoc_info,
                    this->commentary_zone->editor,  &CommentaryEditor::update_aspect_from_dipydoc_aspect_informations);
 
-  // connection #C004 (confer documentation)
+  // ° connection #C004 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__update_translation_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__translation_expected);
 
-  // connection #C005 (confer documentation)
+  // ° connection #C005 (confer documentation)
   QObject::connect(this->source_zone,              &SourceZone::signal__update_icons,
                    this,                           &SCSplitter::update_icons);
 
-  // connection #C040 (confer documentation)
+  // ° connection #C040 (confer documentation)
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_note_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__commentary_expected);
 

@@ -69,11 +69,11 @@ CommentaryZone::CommentaryZone(const QString & splitter_name,
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
 
-  // connection #C026 (confer documentation)
+  // ° connection #C026 (confer documentation)
   QObject::connect(this->textminusAct, &QAction::triggered,
                    this->editor,       &CommentaryEditor::zoom_out);
 
-  // connection #C027 (confer documentation)
+  // ° connection #C027 (confer documentation)
   QObject::connect(this->textplusAct,  &QAction::triggered,
                    this->editor,       &CommentaryEditor::zoom_in);
 
