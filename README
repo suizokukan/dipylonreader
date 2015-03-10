@@ -17,6 +17,7 @@ o n'est-il pas dangereux d'émettre un signal avec une référence utilisée plu
 o comment faire si le popup n'a pas le droit de dépasser la fenêtre ?
 
 TODO
+* livrer chaque binaire avec un identifiant NO_ID; proposer dans les menus de s'identifier (login+password); accéder au site via cet identifiant.
 * si type apparaît dans main.xml sans être défini, boom
 
 [ui]
