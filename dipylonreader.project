@@ -52,11 +52,13 @@ SUMMARY
 
 [10] autres plateformes
 [10.1] Windows
-[10.1.1] cross-compilation depuis Linux
+    [10.1.1] cross-compilation depuis Linux
+[10.2] Android
+[10.3] OSX
 
 [11] command line
-     [12.1] arguments specific to the project
-     [12.2] Qt arguments
+    [12.1] arguments specific to the project
+    [12.2] Qt arguments
 
 [12] settings (=configuration file)
 
@@ -65,6 +67,61 @@ SUMMARY
 ################################################################################
 [0] roadmap
 ################################################################################
+
+**********************
+*                    *
+* 0.5.1 (2015_07_10) *
+*                    *
+**********************
+    
+in summary : UI improved (set book/novel size icon), binary for OSX ok, some
+bugs have been fixed
+    
+o feature142
+Modified DownloadDemoDipydocs() : the QProgressDialog object 'progress' has a
+minimal duration fixed to 500 milliseconds, in order to be sure that this window
+will be always displayed.
+
+o feature143
+Reading mode icons (read/listen/analyse) are displayed only if the corresponding
+object (::translation, ::audiorecord, ::notes) has been read.
+
+o feature144
+Modified SourceEditor::load_text() : after the document has been loaded, the
+cursor's position is set to the document's start. By doing this, the document
+is displayed at its beginning; otherwise, the last lines would be displayed.
+
+o feature147
+In DownloadDemoDipydocs::DownloadDemoDipydocs(), set progress.setMinimumDuration
+to 0, hoping it will solve the problem of the download window not appearing,
+even for long downloads.
+
+o feature148
+Added "set book/novel size" icon, added
+MainWindow::setnovelsizeAct__buttonPressed() and the required images files.
+
+o feature153
+Added fixedparameters::default__texteditor_verticalscrollbar_width in order to
+control the QTextEditor's vertical scroll bar's width.
+
+o feature154
+modified cpplint.py : added shebang, improved messages, improved doc.
+
+o feature155
+Modified SourceZone::audio_position_changed() : in lmode, when the text is being
+read, the vertical scroll bar "follows" the text and scrolls down the text if
+the current text's fragment (=the one being read) is outside the screen.
+
+o feature156
+Modified the way the main window's geometry is saved : the UI
+read_settings()/write_settings() now use ::restoreGeometry()/::saveGeometry()
+methods. An option has been added : ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW,
+replacing the old ALLOW_MOVING.../ALLOW_RESIZING... ones.
+
+o feature145+feature146+feature149+feature150+feature151+feature152 : binary
+for OSX
+
+code quality : 3 errors, according to cpplint.py
 
 0.5.0 (2014_11_19)
 
@@ -241,9 +298,7 @@ o ALLOW_MAXIMIZE_MAINWINDOW
   o MAXIMIZE_MAINWINDOW_TRUE_METHOD
   o MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
 
-o ALLOW_MOVING_THE_MAINWINDOW
-
-o ALLOW_RESIZING_THE_MAINWINDOW
+o ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW
 
 o ALLOW_SPLASHSCREEN_AT_START
 
@@ -272,6 +327,9 @@ o READANDWRITE
   access to DipyDoc write functions
 
 o STORE_DEBUG_MESSAGES
+
+o NO_NOVELSIZE_ICON
+  if defined no "set novel size" icon
 
 ################################################################################
 [1.2] details about some compilation options
@@ -1018,6 +1076,58 @@ http://qt-project.org/doc/qt-5/android-support.html
  o git clone -b stable https://github.com/mxe/mxe.git mxe_64
  o une fois dans ~/mxe_64/ :  make MXE_TARGETS='x86_64-w64-mingw32 i686-w64-mingw32'
 
+[10.2] Android
+o doc générale                                  : http://qt-project.org/doc/qt-5/portingtoandroid.html
+o télécharger la version de Qt Lin. pour Android: http://qt-project.org/downloads
+o pour utiliser qtcreator en anglais            : tools->options->environnement>general
+o AndroidManifest.xml format                    : http://developer.android.com/guide/topics/manifest/manifest-intro.html
+o how to create the AndroidManifest.xml file    : http://qt-project.org/doc/qt-5/publishtogoogleplay.html
+o my thread on qt-project                       : http://qt-project.org/forums/viewthread/49706/
+o qt's tutorial : creating a mobile application : http://qt-project.org/doc/qtcreator-3.2/creator-mobile-app-tutorial.html
+
+           (OpenJDK 7)             $java -version
+           -> pacman -S apache-ant $ant -version
+           (http://developer.android.com/sdk/index.html) bundle
+           (ndk, http://developer.android.com/tools/sdk/ndk/index.html#Installing)
+  
+  rpm -ivh jdk-<version>-linux-x64.rpm
+
+    ~/.bashrc
+    export JAVA_HOME=/usr/java/default/
+    export PATH=$JAVA_HOME/bin:$PATH
+
+exemple de fichier AndroidManifest.xml :
+
+[10.3] OSX
+TODO : modifier dans Info.plist le <string></string> de CFBundleExecutable : ne pas mettre dipylonreader
+
+démarche générale : http://qt-project.org/doc/qt-5/macosx-deployment.html
+modifier qmake.conf ? voir http://stackoverflow.com/questions/20342896/qt5-1-qt5-2-mac-os-10-9-mavericks-xcode-5-0-2-undefined-symbols-for-archi
+
+o installer iTerm
+o in Users/xxx/.bash_profile :
+  alias ls='ls -GFh'
+  alias ll='ls -l'
+  alias s="cd .."
+o colorier : http://osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
+o ICNS : pour créer une icône au format ICNS, ne pas utiliser image magic (=convert)
+  mais un utilitaire spécialisé comme http://iconverticons.com/online/
+o { : ALT + (
+  } : ALT + )
+  \ : Alt + Maj + /
+o installer qt via internet DANS LE REPERTOIRE de ~ (PAS DANS SOUS REPERTOIRE !)
+o modifier les chemins d'accès à qmake et à macdeployqt dans build_osx.py
+o éventuellement, ajouter une librairie dans /opt (voir build_osx.py)
+o lancer le script build_osx.py
+
+(si nécessaire, compilation de Qt (ici, compilation pas en static) :
+(1) git clone https://git.gitorious.org/qt/qt5.git qt5
+(2) cd qt5
+(3) git checkout 5.4
+(4) perl init-repository --no-webkit
+(5) ./configure -developer-build -opensource -nomake examples -nomake tests
+(6) make -j4 all
+
 ################################################################################
 [11] command line
 ################################################################################
@@ -1042,10 +1152,9 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 "application/firstlaunch" : (bool)
 "application/displaysplashscreen" : (bool)
 
-"mainwindow/size"       : @Size(960 540)
-"mainwindow/pos"        : @Point(480 270)
-"mainwindow/fullscreen" : (bool)
-"mainwindow/visible_toolbars" : (bool)
+"mainwindow/geometry"           : ByteArray
+"mainwindow/fullscreen"         : (bool)
+"mainwindow/visible_toolbars"   : (bool)
 
 "text/TEXTNAME/commentaryeditor/zoomvalue" : int
 "text/TEXTNAME/sourceeditor/zoomvalue" : int

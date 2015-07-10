@@ -1,18 +1,16 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 ################################################################################
 #
-# build_win32static.py
+# build_osx.py
 #
 # Python2/3 script.
-# to be used only on a system with a shell.
+# to be used only on OSX.
 #
 ################################################################################
 #
 # This script launches the compilation of the Dipylon's project
-#
-# o --console=yes, --console=no
-#       Add a console to the application ?
 #
 # o --debug=0, --debug=1
 #       =0 : no call to DebugMessage() will be kept
@@ -26,38 +24,30 @@
 # 
 ################################################################################
 #
-# version 8 (2014.11.11) : new name + display executable's name
-#
-# version 7 (2014.11.09) : make uses -j2 + display total amount of time
-#
-# version 6 (2014.11.09) : improved TEMP_FOLDER
-#
-# version 5 (2014.11.08) : new option : --console=yes|no
-#
-# version 4 (2014.11.01) : new EXEC_NAME, ending with "_v{0}_debug{1}_build{2}.exe"
-#
-# version 3 (2014.10.31) : temp folder's name depends on ARGS.debug value
-#
-# version 2 (2014.10.31) : command line options "--debug", "--version" and "--help"
-#
-# version 1 (2014.10.26) : first version to be committed.
 #
 ################################################################################
 
+#A bug relating to macdeployqt may appear, leading to the following message :
+#
+# ERROR : no file at "/opt/local/lib/libz.1.dylib"
+#
+# if so, just add manually the missing file :
+#
+# sudo cp /Users/admin/qt5_online_installation/Qt\ Creator.app/Contents/Frameworks/libz.1.dylib /opt/local/lib/
+#
 import os
 import argparse
 from datetime import datetime
 
 start_time = datetime.now()
 
-
-VERSION = "build_win32static : v8"
-SUMMARY = "Linux > Windows32/static/using MXE"
+VERSION = "build_osx : v1"
+SUMMARY = "OSX > OSX/dynamic + macdeployqt"
 
 # system call
 def ossystem(arg):
     os.system(arg)
-    #print(arg)
+    print(arg)
 
 # command line options :
 PARSER = argparse.ArgumentParser(description=SUMMARY)
@@ -68,18 +58,12 @@ PARSER.add_argument("--debug",
                     required=True,
                     type=int)
 
-PARSER.add_argument("--console",
-                    help="add a console to the application, or not",
-                    choices={"yes","no"},
-                    required=True,
-                    type=str)
-
 PARSER.add_argument("--version",
                     action="version",
                     version=VERSION)
 
 ARGS = PARSER.parse_args()
-    
+
 # getting the version of the project :
 VERSION = "unknown_version"
 VERSION_LINE_STARTSWITH = "const QString application_version = \""
@@ -102,14 +86,18 @@ with open("build_number", 'w') as buildnumber_file:
     buildnumber_file.write(str(BUILD_NUMBER))
 
 # setting the temporary build folder without the final '/' :
-TEMP_FOLDER = "temp__build_win32_static_debug{0}_console{1}".format(ARGS.debug,
-                                                                    ARGS.console)
+TEMP_FOLDER = "temp__build_osx_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_win_32bits_static_v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,
-                                                                                            ARGS.debug,
-                                                                                            ARGS.console,
-                                                                                            BUILD_NUMBER)
+EXEC_NAME  = "DipylonReader".format(VERSION_FOR_EXEC_NAME,
+                                    ARGS.debug,
+                                    BUILD_NUMBER)
+
+PATH_TO_QMAKE       = "/Users/admin/qt5_online_installation/5.4/clang_64/bin/qmake"
+
+PATH_TO_MACDEPLOYQT = "/Users/admin/qt5_online_installation/5.4/clang_64/bin/macdeployqt"
+OPTIONS_FOR_MACDEPLOYQT = "-verbose=0 -dmg"
+
 # build :
 print("=== compiling {0} ===".format(SUMMARY))
 print("===")
@@ -124,23 +112,16 @@ print("===")
 print("")
 
 print("== create builds/ folder if it doesn't exist")
-ossystem("mkdir -p ../builds")
-
-NEWPATH = "/home/suizokukan/mxe/usr/bin:" + os.environ['PATH']
-os.environ['PATH'] = "/home/suizokukan/mxe/usr/bin:" + os.environ['PATH']
+ossystem("mkdir -p ../builds/")
 
 print("== filling {0}/".format(TEMP_FOLDER))
 ossystem("mkdir -p {0}/".format(TEMP_FOLDER))
 ossystem("rm -rf {0}/*".format(TEMP_FOLDER))
-ossystem("rsync -a . {0}/ --exclude {0}/ --exclude 2win32_static".format(TEMP_FOLDER))
-
-print("== 2win32_static/* > {0}/".format(TEMP_FOLDER))
+ossystem("rsync -a . {0}/ --exclude {0}/".format(TEMP_FOLDER))
+    
+print("== 2osx/ > {0}/".format(TEMP_FOLDER))
 print("... dipylonreader.pro")
-ossystem("cp 2win32_static/dipylonreader.pro {0}/dipylonreader.pro".format(TEMP_FOLDER))
-print("... win_app_icon.ico")
-ossystem("cp 2win32_static/resources/images/icons/win_app_icon.ico {0}/resources/images/icons/".format(TEMP_FOLDER))
-print("... dipylonreader.rc")
-ossystem("cp 2win32_static/dipylonreader.rc {0}/".format(TEMP_FOLDER))
+ossystem("cp 2osx/dipylonreader.pro {0}/".format(TEMP_FOLDER))
 
 os.chdir("{0}/".format(TEMP_FOLDER))
 print("== now in {0}/".format(TEMP_FOLDER))
@@ -148,32 +129,43 @@ print("== now in {0}/".format(TEMP_FOLDER))
 print("== removing // DEBUGx prefix ?")
 if ARGS.debug == 1:
     print("... removing the // DEBUG1 prefix")
-    ossystem("find . -name \"*.cpp\" -exec sed -i 's:// DEBUG1 ::g' {} \;")
-    ossystem("find . -name \"*.h\"   -exec sed -i 's:// DEBUG1 ::g' {} \;")
-
-print("== modifiying dipylonreader.pro")
-with open("dipylonreader.pro", 'r') as pro_file:
-    pro_file_content = pro_file.read()
-if ARGS.console == "yes":
-  pro_file_content = pro_file_content.replace("@@CONSOLE@@", "CONFIG += CONSOLE")
-else:
-  pro_file_content = pro_file_content.replace("@@CONSOLE@@", "CONFIG -= CONSOLE")
-with open("dipylonreader.pro", 'w') as pro_file:
-    pro_file.write(pro_file_content)
-
+    ossystem("find . -name '*.cpp' -exec sed -i '' s://\ DEBUG1\ ::g {} \;")
+    ossystem("find . -name '*.h'   -exec sed -i '' s://\ DEBUG1\ ::g {} \;")
+    
 print("== calling qmake")
-ossystem("~/mxe/usr/i686-pc-mingw32/qt5/bin/qmake -makefile dipylonreader.pro".format(TEMP_FOLDER))
+ossystem(PATH_TO_QMAKE + " -makefile dipylonreader.pro")
 
 print("== calling make")
-ossystem("pwd")
 ossystem("make -j2")
 
 print("== copying the binary into the builds/ folder")
-ossystem("cp build/dipylonreader.exe ../../builds/{0}".format(EXEC_NAME))
+ossystem("cp -rf ./build/dipylonreader.app/ ../../builds/{0}.app".format(EXEC_NAME))
+print("== setting the name of the executable in the bundle. ")
+print("   (if the bundle's path is xyz.app, the executable must be xyz)")
+ossystem("mv ../../builds/{0}.app/Contents/MacOS/dipylonreader "
+         "../../builds/{0}.app/Contents/MacOS/{0}".format(EXEC_NAME))
+
+print("== calling macdeployqt on the result")
+ossystem(PATH_TO_MACDEPLOYQT + " ../../builds/{0}.app".format(EXEC_NAME) + " " + OPTIONS_FOR_MACDEPLOYQT)
+
+print("== setting Info.plist from 2osx/Info.plist.template")
+print("... reading 2osx/Info.plist.template")
+ossystem("cp 2osx/Info.plist.template ../../builds/{0}.app/Contents/Info.plist".format(EXEC_NAME))
+with open("../../builds/{0}.app/Contents/Info.plist".format(EXEC_NAME), 'r') as plist_file:
+    plist_data = plist_file.read()
+print("... writing Info.plist")
+plist_data = plist_data.replace("@@CFBundleExecutable@@",
+                                EXEC_NAME)
+with open("../../builds/{0}.app/Contents/Info.plist".format(EXEC_NAME), 'w') as plist_file:
+    plist_file.write(plist_data)
 
 time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
 
-print()
+print("")
 print("tried to build " + EXEC_NAME)
 
+print("== let's launch the program !")
+final_exec_name = "../../builds/{0}.app/Contents/MacOS/{0}".format(EXEC_NAME)
+print("==> "+final_exec_name)
+ossystem(final_exec_name)

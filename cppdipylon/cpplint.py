@@ -1,6 +1,8 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 ################################################################################
 #
-# create_demo_packages.py
+# cpplint.py
 #
 # Python2/3 script.
 # to be used only on a system with a shell.
@@ -29,6 +31,8 @@ paths_to_be_analyzed = ('debugmsg',
                         'misc', 
                         'pos', 
                         'qt')
+
+print("== cpplint.py : {0} > {1}".format(paths_to_be_analyzed, output_filename))
 
 #...............................................................................
 # system call
@@ -61,6 +65,7 @@ for target_dir in target_directories:
     for root, dirs, files in os.walk(target_dir):
         for _file in files:
             if _file.endswith(".cpp") or _file.endswith(".h"):
+                print("= analysing " + root+"/"+_file)
                 ossystem("{0} \"{1}\" &>>cpplint_py__tmp".format(invoking_cpplint,
                                                                  root+"/"+_file))
 
@@ -80,4 +85,4 @@ with open(output_filename, 'r') as outputfile:
     for line in outputfile.readlines():
         if line.startswith("Total errors found: "):
             numerr += int(line[:-1].split("Total errors found: ")[1])
-print("total error founds : ", numerr)
+print("== total error founds : ", numerr)

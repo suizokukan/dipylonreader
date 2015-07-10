@@ -107,7 +107,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
             // [1.1] LMODE + PLAYING -> LMODE + ON PAUSE
             case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING: {
               this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE;
-              this->audiocontrols_playAct->setIcon(QIcon(":ressources/images/icons/audio_pause.png"));
+              this->audiocontrols_playAct->setIcon(QIcon(":resources/images/icons/audio_pause.png"));
               this->audio_player->pause();
               break;
             }
@@ -116,7 +116,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
             // [1.2] LMODE + ON PAUSE -> LMODE + PLAYING
             case READINGMODEDETAILS::READINGMODEDETAIL_LMODE_ONPAUSE: {
               this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING;
-              this->audiocontrols_playAct->setIcon(QIcon(":ressources/images/icons/audio_play.png"));
+              this->audiocontrols_playAct->setIcon(QIcon(":resources/images/icons/audio_play.png"));
               this->audio_player->play();
               break;
             }
@@ -135,7 +135,7 @@ void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
         default: {
             this->readingmode = READINGMODE::READINGMODE_LMODE;
             this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_LMODE_PLAYING;
-            this->audiocontrols_playAct->setIcon(QIcon(":ressources/images/icons/audio_play.png"));
+            this->audiocontrols_playAct->setIcon(QIcon(":resources/images/icons/audio_play.png"));
             this->audio_player->play();
 
             /* SourceEditor::focused_syntagma_in_amode isn't relevant anymore since
@@ -300,6 +300,15 @@ void SourceEditor::load_text(void) {
     }
     block_cursor.setBlockFormat(block_format);
   }
+
+  /*
+    set current cursor's position to the document's start :
+
+    By doing this, the document is displayed at its beginning; otherwise, the
+    last lines would be displayed.
+  */
+  this->moveCursor(QTextCursor::Start,
+                   QTextCursor::MoveAnchor);
 }
 
 /*______________________________________________________________________________
@@ -881,6 +890,29 @@ void SourceEditor::set_the_appearance(void) {
   // DEBUG1 DebugMsg() << "[SourceEditor::set_the_appearance] this->setStyleSheet = "
   // DEBUG1            << this->dipydoc->sourceeditor_stylesheet;
   this->setStyleSheet(this->dipydoc->sourceeditor_stylesheet);
+
+  /*
+    setting the vertical scroll bar's width.
+
+    see the documentation in fixedparameters.h for more details, especially
+    about the -1 value.
+
+    NB : I wasn't able to initialize the width through :
+
+            auto vscrollbar = this->verticalScrollBar();
+            vscrollbar->setMinimumWidth(300);
+
+         nor by adding "QScrollBar::vertical{ min-width: 300 px; }"
+         to fixedparameters::default__texteditor_verticalscrollbar_width.
+
+         The following solution works, but I don't understand why the
+         two others don't.
+  */
+  if (fixedparameters::default__texteditor_verticalscrollbar_width != -1) {
+    QString str("QScrollBar::vertical{ min-width: %1; }");
+    str = str.arg(fixedparameters::default__texteditor_verticalscrollbar_width);
+    this->setStyleSheet(str);
+  }
 }
 
 /*______________________________________________________________________________

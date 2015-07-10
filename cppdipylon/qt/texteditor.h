@@ -30,8 +30,10 @@
 
 #include <QTextEdit>
 #include <QWheelEvent>
+#include <QScrollBar>
 
 #include "debugmsg/debugmsg.h"
+#include "./fixedparameters.h"
 
 class SCSplitter;
 

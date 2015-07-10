@@ -178,6 +178,7 @@ void DipyDoc::clear(void) {
   this->dipydocformat_version = -1;
   this->languagefromto.clear();
 
+  this->notes.found = false;
   this->notes.syntagmas_aspects.clear();
   this->notes.syntagmas_levels.clear();
   this->notes.arrows_types.clear();
@@ -1229,6 +1230,9 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
     */
     if (tokenname == "notes") {
       ok &= this->read_mainfile__doctype_text__syntagma(nullptr);
+      if (ok == true) {
+        this->notes.found = true;
+      }
     }
   }  // ... while (this->xmlreader->readNextStartElement())
 

@@ -1,5 +1,5 @@
 ######################################################################
-# DipylonReader project : Linux > Linux
+# DipylonReader project : OSX > OSX with clang
 ######################################################################
 
 TEMPLATE = app
@@ -15,11 +15,12 @@ TRANSLATIONS = dipylonreader_French.ts
 #_______________________________________________________________________________
 DEFINES += ALLOW_LOADING_DIPYDOC_FROM_THE_COMMAND_LINE
 DEFINES += ALLOW_SPLASHSCREEN_AT_START
-DEFINES += ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW
+DEFINES += ALLOW_RESIZING_THE_MAINWINDOW
+DEFINES += ALLOW_MOVING_THE_MAINWINDOW
 DEFINES += ALLOW_MAXIMIZE_MAINWINDOW
 DEFINES += DEBUG_MESSAGES_TO_CERR
 DEFINES += MENUACCESS_TO_INTERNAL_MESSAGES
-DEFINES += DOWNLOAD_OGG_VERSION_OF_DIPYDOCS
+DEFINES += DOWNLOAD_MP3_VERSION_OF_DIPYDOCS
 DEFINES += MAXIMIZE_MAINWINDOW_LINUXDESKTOPX11_METHOD
 DEFINES += NO_MAIN_POPUPMENU
 DEFINES += READANDWRITE
@@ -103,9 +104,21 @@ MOC_DIR = build/
 RCC_DIR = build/
 UI_DIR = build/
 
-QMAKE_CFLAGS     += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wunused-value -Werror -fdiagnostics-color=auto -O2
+# options specific to the build on OSX :
+CONFIG += c++11
+ICON = 2osx/resources/images/icons/application_icon.icns
 
-QMAKE_CXXFLAGS   += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wunused-value -Werror -fdiagnostics-color=auto -O2
+# Dipylonreader being a project to be builded with gcc,
+# some build options cause problems with clang :
+#
+# removed -Wlogical-op (clang : unknown warning option)
+# removed -Wno-except (clang : unknown warning option)
+# removed -Wstrict-null-sentinel (clang : unknown warning option)
+# removed -Wnoexcept (clang : unknown warning option)
+# removed -Wsign-conversion (warnings appear with Qt code, preventing the code
+#                            to be builded because of the -Werror option)
+#
+QMAKE_CXXFLAGS += -std=c++1y -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-overflow=5 -Wswitch-default -Wundef -Wunused-value -Werror -fdiagnostics-color=auto -O2
 
 #target.path = $$[QT_INSTALL_EXAMPLES]/widgets/mainwindows/application
 #INSTALLS += target

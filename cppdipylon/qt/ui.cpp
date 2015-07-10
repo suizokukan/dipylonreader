@@ -137,7 +137,7 @@ int UI::go(int argc, char **argv) {
   /*
      application's icon :
   */
-  app.setWindowIcon(QIcon(":/ressources/images/icons/application_icon.png"));
+  app.setWindowIcon(QIcon(":/resources/images/icons/application_icon.png"));
 
   /* i18n :
 
@@ -190,7 +190,6 @@ int UI::go(int argc, char **argv) {
     main window creation :
   */
   this->mainWin = new MainWindow(*this);
-  this->mainWin->init();
 
   /*
     the main window is displayed :
@@ -340,16 +339,8 @@ void UI::read_settings(void) {
     /*
       main window's geometry :
     */
-    #ifdef ALLOW_RESIZING_THE_MAINWINDOW
-    // DEBUG1 DebugMsg() << "resize main window :" << settings.value("mainwindow/size", QSize()).toSize();
-    this->mainWin->resize(settings.value("mainwindow/size",
-                                         QSize()).toSize());
-    #endif
-
-    #ifdef ALLOW_MOVING_THE_MAINWINDOW
-    // DEBUG1 DebugMsg() << "move main window :" << settings.value("mainwindow/pos", QPoint()).toPoint();
-    this->mainWin->move(settings.value("mainwindow/pos",
-                                       QPoint()).toPoint());
+    #ifdef ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW
+    this->mainWin->restoreGeometry(settings.value("mainwindow/geometry").toByteArray());
     #endif
 
     if (settings.value("mainwindow/fullscreen") == true) {
@@ -393,12 +384,8 @@ void UI::write_settings(void) {
   */
   settings.setValue("application/firstlaunch", false);
 
-  #ifdef ALLOW_RESIZING_THE_MAINWINDOW
-  settings.setValue("mainwindow/size", this->mainWin->size());
-  #endif
-
-  #ifdef ALLOW_MOVING_THE_MAINWINDOW
-  settings.setValue("mainwindow/pos", this->mainWin->pos());
+  #ifdef ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW
+  settings.setValue("mainwindow/geometry", this->mainWin->saveGeometry());
   #endif
 
   settings.setValue("mainwindow/fullscreen", this->mainWin->isFullScreen());

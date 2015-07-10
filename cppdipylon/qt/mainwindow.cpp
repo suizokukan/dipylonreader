@@ -36,16 +36,8 @@ MainWindow::MainWindow(UI& _ui,
                        QWidget *_parent) : QMainWindow(_parent),
                                            ui(_ui) {
   this->setObjectName("main_window");
-  // DEBUG1 DebugMsg() << "[MainWindow::MainWindow] this->setStyleSheet = "
-  // DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
-  this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
 
-  #ifdef NO_STATUS_BAR
-  this->setStatusBar(0);
-  #endif
-
-  // giving the focus so that keyboard shortcuts allow to access the main menu :
-  this->setFocus(Qt::MenuBarFocusReason);
+  this->init();
 }
 
 /*______________________________________________________________________________
@@ -162,7 +154,7 @@ void MainWindow::createActions(void) {
   /*
     downloaddemoAct
   */
-  this->downloaddemoAct = new QAction( QIcon(":ressources/images/icons/downloaddemo.png"),
+  this->downloaddemoAct = new QAction( QIcon(":resources/images/icons/downloaddemo.png"),
                                        tr("Download demo Dipydocs"),
                                  this);
   this->downloaddemoAct->setStatusTip(tr("Download demo Dipydocs/statustip"));
@@ -183,7 +175,7 @@ void MainWindow::createActions(void) {
   /*
     hidetoolbarsAct
   */
-  this->hidetoolbarsAct = new QAction( QIcon(":ressources/images/icons/hidetoolbars_on.png"),
+  this->hidetoolbarsAct = new QAction( QIcon(":resources/images/icons/hidetoolbars_on.png"),
                                        tr("hide toolbars"),
                                        this);
   this->hidetoolbarsAct->setStatusTip(tr("hide the editors' toolbars"));
@@ -194,7 +186,7 @@ void MainWindow::createActions(void) {
   /*
     internalmsgAct
   */
-  this->internalmsgAct = new QAction( QIcon(":ressources/images/icons/application_icon.png"),
+  this->internalmsgAct = new QAction( QIcon(":resources/images/icons/application_icon.png"),
                                       tr("internal messages"),
                                       this);
   this->internalmsgAct->setStatusTip(tr("internal messages"));
@@ -205,7 +197,7 @@ void MainWindow::createActions(void) {
   /*
     openAct
   */
-  this->openAct = new QAction( QIcon(":ressources/images/icons/open.png"),
+  this->openAct = new QAction( QIcon(":resources/images/icons/open.png"),
                                tr("Open"),
                                this);
   openAct->setShortcuts(QKeySequence::Open);
@@ -218,12 +210,26 @@ void MainWindow::createActions(void) {
     popup_mainmenuAct
   */
   #ifndef NO_MAIN_POPUPMENU
-  this->popup_mainmenuAct = new QAction( QIcon(":ressources/images/icons/popup_mainmenu.png"),
+  this->popup_mainmenuAct = new QAction( QIcon(":resources/images/icons/popup_mainmenu.png"),
                                          tr("display the main pop menu"),
                                          this);
   // connection #C021 (confer documentation)
   QObject::connect(this->popup_mainmenuAct, &QAction::triggered,
                    this,                    &MainWindow::popup_mainmenuAct__buttonPressed);
+  #endif
+
+  /*
+    setNovelSize
+  */
+  #ifndef NO_NOVELSIZE_ICON
+  this->setnovelsizeAct = new QAction( QIcon(":resources/images/icons/setnovelsize.png"),
+                                             tr("Give to the window the size of a book"),
+                                             this);
+  // connection #C041 (confer documentation)
+  QObject::connect(this->setnovelsizeAct, &QAction::triggered,
+                   this,                  &MainWindow::setnovelsizeAct__buttonPressed);
+
+  this->setnovelsizeAct->setVisible(true);
   #endif
 
   // DEBUG1 DebugMsg() << "MainWindow::createActions : exit point";
@@ -280,16 +286,6 @@ void MainWindow::createMenus(void) {
 
 /*______________________________________________________________________________
 
-  MainWindow::createStatusBar
-______________________________________________________________________________*/
-void MainWindow::createStatusBar(void) {
-#ifndef NO_STATUS_BAR
-  statusBar()->showMessage(tr("Ready"));
-#endif
-}
-
-/*______________________________________________________________________________
-
   MainWindow::createMainToolBars
 ______________________________________________________________________________*/
 void MainWindow::createMainToolBars(void) {
@@ -304,8 +300,19 @@ void MainWindow::createMainToolBars(void) {
   #endif
   this->mainwintoolbar->addAction(this->openAct);
   this->mainwintoolbar->addAction(this->hidetoolbarsAct);
+  this->mainwintoolbar->addAction(this->setnovelsizeAct);
 
   // DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : exit point";
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::createStatusBar
+______________________________________________________________________________*/
+void MainWindow::createStatusBar(void) {
+#ifndef NO_STATUS_BAR
+  statusBar()->showMessage(tr("Ready"));
+#endif
 }
 
 /*______________________________________________________________________________
@@ -351,7 +358,7 @@ void MainWindow::fill_open_menu(void) {
   */
   if (this->ui.available_menu_names.size() == 0) {
     // DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : no dipydoc";
-    QAction* emptyAction = new QAction(QIcon(":ressources/images/icons/application_icon.png"),
+    QAction* emptyAction = new QAction(QIcon(":resources/images/icons/application_icon.png"),
                                        "(No Dipydoc could be found)",
                                        this);
     this->openMenu->addAction(emptyAction);
@@ -370,7 +377,7 @@ void MainWindow::fill_open_menu(void) {
     number_of_items++;
 
     if (number_of_items <= fixedparameters::maximum_number_of_items_in_submenu_open) {
-      QAction* newAction = new QAction(QIcon(":ressources/images/icons/application_icon.png"),
+      QAction* newAction = new QAction(QIcon(":resources/images/icons/application_icon.png"),
                                        item.first,
                                        this);
       /*
@@ -418,6 +425,17 @@ void MainWindow::hidetoolbarsAct__buttonPressed(void) {
 ______________________________________________________________________________*/
 void MainWindow::init(void) {
   // DEBUG1 DebugMsg() << "MainWindow::init() : entry point";
+
+  // DEBUG1 DebugMsg() << "[MainWindow::init] this->setStyleSheet = "
+  // DEBUG1            << fixedparameters::default__mainwindow_stylesheet;
+  this->setStyleSheet(fixedparameters::default__mainwindow_stylesheet);
+
+  #ifdef NO_STATUS_BAR
+  this->setStatusBar(0);
+  #endif
+
+  // giving the focus so that keyboard shortcuts allow to access the main menu :
+  this->setFocus(Qt::MenuBarFocusReason);
 
   /*
        The actions created by the the call to createActions() method are
@@ -548,12 +566,40 @@ void MainWindow::open(void) {
 
   MainWindow::readSettings
 ______________________________________________________________________________*/
-void MainWindow::readSettings() {
+void MainWindow::readSettings(void) {
   QSettings settings("QtProject", "Application Example");
   QPoint _pos = settings.value("pos", QPoint(200, 200)).toPoint();
   QSize _size = settings.value("size", QSize(400, 400)).toSize();
   resize(_size);
   move(_pos);
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::setnovelsizeAct__buttonPressed
+______________________________________________________________________________*/
+void MainWindow::setnovelsizeAct__buttonPressed(void) {
+  /* leaving the full screen mode :
+
+     The following line seems to be mandatory, at least on OSX system.
+
+     On OSX, pressing the "green/maximazing" button then the "set novel size"
+     buttons leads to a problem without this line : the entire screen
+     becomes black, the window isn't correctly positionned.
+
+     This simple line seems to solve the problem.
+     see http://qt-project.org/forums/viewthread/51639/
+  */
+  this->showNormal();
+
+  // DEBUG1 DebugMsg() << "MainWindow::setnovelsizeAct__buttonPressed()";
+  QSize _size = QGuiApplication::primaryScreen()->size();
+  // DEBUG1 DebugMsg() << "QGuiApplication::primaryScreen()->size() =" << _size;
+  _size.setWidth(_size.height()/2);
+  _size.setHeight(_size.height());
+  // DEBUG1 DebugMsg() << "new size =" << _size;
+  this->move((_size.width() / 2), 0);
+  this->resize(_size);
 }
 
 /*______________________________________________________________________________
@@ -568,7 +614,7 @@ void MainWindow::update_icons(void) {
   SCSplitter* splitter = this->current_splitter();
 
   /*............................................................................
-    a special case : no Dipydoc->
+    a special case : no Dipydoc
   ............................................................................*/
   if (splitter == nullptr || \
       splitter->dipydoc->well_initialized() == false) {
@@ -583,7 +629,7 @@ void MainWindow::update_icons(void) {
   this->hidetoolbarsAct->setVisible(true);
 
   if (this->visible_toolbars == false) {
-    this->hidetoolbarsAct->setIcon(QIcon(":ressources/images/icons/hidetoolbars_off.png"));
+    this->hidetoolbarsAct->setIcon(QIcon(":resources/images/icons/hidetoolbars_off.png"));
     this->hidetoolbarsAct->setText(tr("show toolbars"));
 
     for (int index = 0; index < this->sctabs->count(); index++) {
@@ -591,7 +637,7 @@ void MainWindow::update_icons(void) {
       splitter->update_icons();
     }
   } else {
-    this->hidetoolbarsAct->setIcon(QIcon(":ressources/images/icons/hidetoolbars_on.png"));
+    this->hidetoolbarsAct->setIcon(QIcon(":resources/images/icons/hidetoolbars_on.png"));
     this->hidetoolbarsAct->setText(tr("hide toolbars"));
 
     for (int index = 0; index < this->sctabs->count(); index++) {
