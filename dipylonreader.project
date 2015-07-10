@@ -64,9 +64,66 @@ SUMMARY
 
 [13] UI's structure
 
+[14] about git
+
 ################################################################################
 [0] roadmap
 ################################################################################
+
+**********************
+*                    *
+* 0.5.1 (2015_07_10) *
+*                    *
+**********************
+    
+in summary : UI improved (set book/novel size icon), binary for OSX ok, some
+bugs have been fixed
+    
+o feature142
+Modified DownloadDemoDipydocs() : the QProgressDialog object 'progress' has a
+minimal duration fixed to 500 milliseconds, in order to be sure that this window
+will be always displayed.
+
+o feature143
+Reading mode icons (read/listen/analyse) are displayed only if the corresponding
+object (::translation, ::audiorecord, ::notes) has been read.
+
+o feature144
+Modified SourceEditor::load_text() : after the document has been loaded, the
+cursor's position is set to the document's start. By doing this, the document
+is displayed at its beginning; otherwise, the last lines would be displayed.
+
+o feature147
+In DownloadDemoDipydocs::DownloadDemoDipydocs(), set progress.setMinimumDuration
+to 0, hoping it will solve the problem of the download window not appearing,
+even for long downloads.
+
+o feature148
+Added "set book/novel size" icon, added
+MainWindow::setnovelsizeAct__buttonPressed() and the required images files.
+
+o feature153
+Added fixedparameters::default__texteditor_verticalscrollbar_width in order to
+control the QTextEditor's vertical scroll bar's width.
+
+o feature154
+modified cpplint.py : added shebang, improved messages, improved doc.
+
+o feature155
+Modified SourceZone::audio_position_changed() : in lmode, when the text is being
+read, the vertical scroll bar "follows" the text and scrolls down the text if
+the current text's fragment (=the one being read) is outside the screen.
+
+o feature156
+Modified the way the main window's geometry is saved : the UI
+read_settings()/write_settings() now use ::restoreGeometry()/::saveGeometry()
+methods. An option has been added : ALLOW_RESIZING_AND_MOVING_THE_MAINWINDOW,
+replacing the old ALLOW_MOVING.../ALLOW_RESIZING... ones.
+
+o feature145+feature146+feature149+feature150+feature151+feature152 : binary
+for OSX
+
+code quality : 3 errors, according to cpplint.py
 
 0.5.0 (2014_11_19)
 
@@ -1125,4 +1182,72 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
                 |
                 \___commentary_editor : CommentaryEditor object
                 \___commentary_toolbar : QToolBar object
+
+
+################################################################################
+[14] about git
+################################################################################
+
+    http://nvie.com/posts/a-successful-git-branching-model/
+
+--------------------------------------------------------------------------------
+Incorporating a finished feature on develop (Finished features may be merged into the develop branch definitely add them to the upcoming release):
+$ git checkout develop
+Switched to branch 'develop'
+    
+$ git merge --no-ff myfeature
+Updating ea1b82a..05e9557
+    
+(Summary of changes)
+
+$ git branch -d myfeature
+Deleted branch myfeature (was 05e9557).
+    
+$ git push origin develop
+
+The --no-ff flag causes the merge to always create a new commit object, even if the merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together all commits that together added the feature.
+
+--------------------------------------------------------------------------------
+Creating a release branch
+
+Release branches are created from the develop branch. For example, say version 1.1.5 is the current production release and we have a big release coming up. The state of develop is ready for the “next release” and we have decided that this will become version 1.2 (rather than 1.1.6 or 2.0). So we branch off and give the release branch a name reflecting the new version number:
+
+$ git checkout -b release-1.2 develop
+Switched to a new branch "release-1.2"
+
+$ ./bump-version.sh 1.2
+Files modified successfully, version bumped to 1.2.
+
+$ git commit -a -m "Bumped version number to 1.2"
+
+[release-1.2 74d9424] Bumped version number to 1.2
+1 files changed, 1 insertions(+), 1 deletions(-)
+
+--------------------------------------------------------------------------------
+Finishing a release branch
+
+When the state of the release branch is ready to become a real release, some actions need to be carried out. First, the release branch is merged into master (since every commit on master is a new release by definition, remember). Next, that commit on master must be tagged for easy future reference to this historical version. Finally, the changes made on the release branch need to be merged back into develop, so that future releases also contain these bug fixes.
+
+The first two steps in Git:
+
+$ git checkout master
+Switched to branch 'master'
+
+$ git merge --no-ff release-1.2
+Merge made by recursive.
+
+(Summary of changes)
+$ git tag -a 1.2
+
+To keep the changes made in the release branch, we need to merge those back into develop, though. In Git:
+
+$ git checkout develop
+Switched to branch 'develop'
+$ git merge --no-ff release-1.2
+Merge made by recursive.
+(Summary of changes)
+
+$ git branch -d release-1.2
+Deleted branch release-1.2 (was ff452fe).
+
 
