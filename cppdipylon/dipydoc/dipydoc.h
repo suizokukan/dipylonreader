@@ -268,7 +268,7 @@ friend class UI;
   */
   QString              doctype;
 
-  QString              path;
+  QString              path;    // path to the root directory, not the "/0", "/1"... one.
   QString              main_filename_with_fullpath;
 
   QXmlStreamReader*    xmlreader = nullptr;
@@ -288,6 +288,8 @@ friend class UI;
 
   QString              id;
   int                  version;
+  unsigned int         number_of_textlevels; // see DipyDoc::set_number_of_textlevels()
+  QString              textlevel_description;
   int                  dipydocformat_version;
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :
@@ -326,7 +328,7 @@ friend class UI;
   QString                get_tab_name(void);
   QString                get_translations_for(PosInText x0, PosInText x1) const;
   bool                   read_mainfile__first_token(void);
-  bool                   read_mainfile__doctype_text(void);
+  bool                   read_mainfile__doctype_text(unsigned int);
   bool                   read_mainfile__doctype_text__init_and_check(void);
   bool                   read_mainfile__doctype_text__syntagma(Syntagma * father);
   void                   read_menu_name(const QString& _path);
@@ -344,7 +346,8 @@ friend class UI;
   PosInTextRanges      translation_contains(PosInText x0, PosInText x1) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;
-  void                 read_mainfile(const QString&);
+  void                 read_mainfile(const QString&, unsigned int);
+  bool                 set_number_of_textlevels(const QString&);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
   QString              syntagmas_repr(void) const;

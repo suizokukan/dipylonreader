@@ -36,7 +36,7 @@ const QString DipyDoc::condensed_extracts_separator = "//";
 /*______________________________________________________________________________
 
         DipyDoc::constructor from a "_path" : initialize "this" from the files
-                                              stored in "_path"
+                                              stored in "_path/0"
 
         See above for a description of the expected files.
 
@@ -59,6 +59,15 @@ DipyDoc::DipyDoc(const QString& _path) {
     return;
   }
 
+  // let's read this->number_of_textlevels :
+  if (this->set_number_of_textlevels(_path) == false) {
+    // DEBUG1 DebugMsg() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
+    // DEBUG1 DebugMsg() << "There's not at least one version of the text available";
+    this->_well_initialized = false;
+    this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
+    return;
+  }
+
   // let's read the 'menuname' file :
   this->read_menu_name(_path);
 
@@ -68,7 +77,7 @@ DipyDoc::DipyDoc(const QString& _path) {
   this->set_internal_name();
 
   // let's open the main file :
-  this->read_mainfile(_path);
+  this->read_mainfile(_path, 0);
 
   // text document ? let's open the text file :
   if (this->well_initialized() == true && this->doctype == QString("text")) {
@@ -107,41 +116,74 @@ DipyDoc::~DipyDoc(void) {
 
 /*______________________________________________________________________________
 
-        DipyDoc::check_path() : check if _path leads to the expected files.
+        DipyDoc::check_path() : check if "_path" and "_path/0" leads to the expected files.
 
         Return false if an error occurs, or true if everything's ok.
 
         tests :
 
-        o does "_path" exists ?
-        o is "_path" a directory ?
-        o does the file "_path/text" exists ?
-        o does the file "_path/main.xml" exists ?
+        o (1) does "_path" exist ?
+        o (2) is "_path" a directory ?
+        o (3) does the menuname file exist ?
+        o (4) does "_path/0" exist ?
+        o (5) is "_path/0" a directory ?
+        o (6) does the main file exist in "_path/0" ?
 ______________________________________________________________________________*/
 bool DipyDoc::check_path(const QString& _path) {
-  // does "_path" exists ?
+  // (1) does "_path" exists ?
   QFileInfo path_info = QFileInfo(_path);
   if (path_info.exists() == false) {
-    QString msg(QString("An error occured while opening the main file : the path '%1' doesn't exist").arg(_path));
+    QString msg(QString("An error occured while opening a DipyDoc : the path '%1' doesn't exist").arg(_path));
     this->_internal_state = DipyDoc::INTERNALSTATE::THE_GIVENPATH_DOES_NOT_EXIST;
     this->error(msg);
     return false;
   }
 
-  // is "_path" a directory ?
+  // (2) is "_path" a directory ?
   if (path_info.isFile() == true) {
-    QString msg(QString("An error occured while opening the main file : the path '%1' is not a directory.").arg(_path));
+    QString msg(QString("An error occured while opening a DipyDoc : the path '%1' is not a directory.").arg(_path));
     this->_internal_state = DipyDoc::INTERNALSTATE::THE_GIVENPATH_IS_NOT_A_DIRECTORY;
     this->error(msg);
     return false;
   }
 
-  // does the main file exist ?
-  QFileInfo main_info = QFileInfo(_path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME);
+  // (3) does the menuname file exist ?
+  QFileInfo menuname_info = QFileInfo(_path + "/" + fixedparameters::DIPYDOC__MENUNAME_FILENAME);
+  if (menuname_info.exists() == false) {
+    QString msg(QString("An error occured while opening a DipyDoc : "
+                        "the menu name file %1 "
+                        "doesn't exist in %2.").arg(fixedparameters::DIPYDOC__MENUNAME_FILENAME,
+                                                    _path));
+    this->error(msg);
+    return false;
+  }
+
+  // (4) does "_path/0" exists ?
+  QString path0 = _path + "/0";
+  QFileInfo path_info0 = QFileInfo(_path + "/0");
+
+  if (path_info0.exists() == false) {
+    QString msg(QString("An error occured while opening a DipyDoc : the path '%1' doesn't exist").arg(path0));
+    this->_internal_state = DipyDoc::INTERNALSTATE::THE_GIVENPATH_DOES_NOT_EXIST;
+    this->error(msg);
+    return false;
+  }
+
+  // (5) is "_path/0" a directory ?
+  if (path_info0.isFile() == true) {
+    QString msg(QString("An error occured while opening a DipyDoc : the path '%1' is not a directory.").arg(_path));
+    this->_internal_state = DipyDoc::INTERNALSTATE::THE_GIVENPATH_IS_NOT_A_DIRECTORY;
+    this->error(msg);
+    return false;
+  }
+
+  // (6) does the main file exist in "_path/0" ?
+  QFileInfo main_info = QFileInfo(path0 + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME);
   if (main_info.exists() == false) {
-    QString msg(QString("An error occured while opening the main file : "
-                        "the main file files %1 "
-                        "doesn't exist in %2.").arg(fixedparameters::DIPYDOC__MAIN_FILENAME, _path));
+    QString msg(QString("An error occured while opening a DipyDoc : "
+                        "the main file %1 "
+                        "doesn't exist in %2.").arg(fixedparameters::DIPYDOC__MAIN_FILENAME,
+                                                    _path));
     this->error(msg);
     return false;
   }
@@ -160,6 +202,9 @@ void DipyDoc::clear(void) {
 
   this->id = QString("default id");
   this->version = 0;
+
+  this->number_of_textlevels = 0;
+  this->textlevel_description = QString("default textlevel");
 
   this->doctype = QString("unspecified");
 
@@ -695,7 +740,8 @@ $$$
 
         DipyDoc::read_mainfile()
 
-        Initialize "this" from the main xml file stored in "_path".
+        Initialize "this" from the main xml file stored in "_path/X" where X
+        is an integer equal to _textlevel
 
         This method doesn't check if "path" is valid : see the ::check_path()
         method for this.
@@ -709,8 +755,9 @@ $$$
         (2) xml reading : main file reading
         (3) initialization and checking
 ______________________________________________________________________________*/
-void DipyDoc::read_mainfile(const QString& _path) {
-  // DEBUG1 DebugMsg() << "DipyDoc::read_mainfile() : entry point; path=" << _path;
+void DipyDoc::read_mainfile(const QString& _path, unsigned int _textlevel) {
+  // DEBUG1 DebugMsg() << "DipyDoc::read_mainfile() : entry point;";
+  // DEBUG1 DebugMsg() << " path=" << _path << " textlevel=" << _textlevel;
 
   QString msg_error;
 
@@ -721,7 +768,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
   ............................................................................*/
   // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile) #1";
   this->path = _path;
-  this->main_filename_with_fullpath = _path + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
+  this->main_filename_with_fullpath = _path + "/" + QString::number(_textlevel) + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
 
   if (!dipydoc_main_xml_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -753,7 +800,7 @@ void DipyDoc::read_mainfile(const QString& _path) {
       if (this->read_mainfile__first_token() == true) {
         // ok, let's read the rest of the file :
         if (this->doctype == QString("text")) {
-            ok = this->read_mainfile__doctype_text();
+            ok = this->read_mainfile__doctype_text(_textlevel);
         }
       }
     } else {
@@ -858,7 +905,7 @@ bool DipyDoc::read_mainfile__first_token(void) {
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__doctype_text(void) {
+bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
   // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : entry point";
   bool ok = true;
 
@@ -884,6 +931,17 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
     if (this->xmlreader->name() == "version") {
       // version's text
       this->version = this->xmlreader->readElementText().toInt();
+
+      continue;
+    }
+
+    /*
+      textlevel
+
+      = string giving an idea of the level required to read the text : e.g. "C3"
+    */
+    if (this->xmlreader->name() == "textlevel") {
+      this->textlevel_description = this->xmlreader->readElementText();
 
       continue;
     }
@@ -945,7 +1003,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
                          QString("lettrine:posintextframe"));
 
       // lettrine::filename
-      this->lettrine.filename_with_fullpath = this->path + "/" + \
+      this->lettrine.filename_with_fullpath = this->path + "/" + QString::number(_textlevel) + "/" + \
                                               this->xmlreader->attributes().value("filename").toString();
       QFile lettrinefile(this->lettrine.filename_with_fullpath);
       if (!lettrinefile.open(QFile::ReadOnly)) {
@@ -983,7 +1041,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
       this->source_text.description = this->xmlreader->attributes().value("description").toString();
 
       // text::filename
-      this->source_text.filename = this->path + "/" + this->xmlreader->attributes().value("filename").toString();
+      this->source_text.filename = this->path + "/" + QString::number(_textlevel) + "/" + this->xmlreader->attributes().value("filename").toString();
 
       QFile textfile(this->source_text.filename);
       if (!textfile.open(QFile::ReadOnly)) {
@@ -1068,7 +1126,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
       this->audiorecord.description = this->xmlreader->attributes().value("description").toString();
 
       // audiorecord::filename
-      this->audiorecord.filename = this->path + "/" + this->xmlreader->attributes().value("filename").toString();
+      this->audiorecord.filename = this->path + "/" + QString::number(_textlevel) + "/" + this->xmlreader->attributes().value("filename").toString();
 
       QFile audiofile(this->audiorecord.filename);
       if (!audiofile.open(QFile::ReadOnly)) {
@@ -1236,7 +1294,7 @@ bool DipyDoc::read_mainfile__doctype_text(void) {
     }
   }  // ... while (this->xmlreader->readNextStartElement())
 
-  // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : exit point" << ok;
+  // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : exit point; ok=" << ok;
   return ok;
 }
 
@@ -1589,6 +1647,41 @@ void DipyDoc::set_qsettings_name(void) {
   this->qsettings_name.replace("/", "_");
 
   // DEBUG1 DebugMsg() << "DipyDoc::set_qsettings_name = " << this->qsettings_name;
+}
+
+/*______________________________________________________________________________
+
+   DipyDoc::set_number_of_textlevels()
+
+   Initialize this->textfile_number_of_textlevels, i.e. give the number of versions
+   of the same text available in _path.
+
+   Return true if this->number_of_textlevels > 0
+________________________________________________________________________________*/
+bool DipyDoc::set_number_of_textlevels(const QString& _path) {
+  /*
+    main loop : the function searches _path/0, _path/1, ...
+  */
+  this->number_of_textlevels = 0;
+
+  bool stop = false;
+  while (stop == false) {
+    QString path0 = _path + "/" + QString::number(this->number_of_textlevels);
+    QFileInfo path_info0 = QFileInfo(path0);
+
+    if (path_info0.exists() == false) {
+      stop = true;
+    }
+    else {
+      this->number_of_textlevels++;
+    }
+  }
+
+  // DEBUG1 DebugMsg() << "DipyDoc::set_number_of_textlevels() exit point";
+  // DEBUG1 DebugMsg() << "this->number_of_textlevels=" << this->number_of_textlevels;
+  
+  // the function returns the expected boolean :
+  return this->number_of_textlevels > 0;
 }
 
 /*______________________________________________________________________________
