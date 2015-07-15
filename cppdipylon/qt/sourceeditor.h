@@ -127,7 +127,7 @@ class SourceEditor : public TextEditor {
        the number of characters appearing before the source text.
        initialized by SourceEditor::load_text()
     */
-    int number_of_chars_before_source_text = 0;
+    unsigned int number_of_chars_before_source_text = 0;
 };
 
 #endif  // CPPDIPYLON_QT_SOURCEEDITOR_H_

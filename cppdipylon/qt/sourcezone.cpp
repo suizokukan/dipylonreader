@@ -32,7 +32,7 @@
   SourceZone::constructor
 ______________________________________________________________________________*/
 SourceZone::SourceZone(const QString & splitter_name,
-                       const DipyDoc * _dipydoc,
+                       DipyDoc * _dipydoc,
                        bool & _blocked_commentaries,
                        bool & _visible_toolbars,
                        ReadingMode        & _readingmode,
@@ -414,7 +414,7 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
           cur.movePosition(QTextCursor::NextCharacter,
                            QTextCursor::MoveAnchor,
                            static_cast<int>(text_ranges.max()) + \
-                           this->editor->number_of_chars_before_source_text + \
+                           static_cast<int>(this->editor->number_of_chars_before_source_text) + \
                            fixedparameters::default__sourcezone__jump_ahead);
           this->editor->setTextCursor(cur);
           this->editor->ensureCursorVisible();
@@ -594,8 +594,9 @@ void SourceZone::textleveldownAct__buttonpressed(void) {
 
   if (this->dipydoc->current_textlevel > 0) {
     // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
-    this->dipydoc->number_of_textlevels--;
-    this->dipydoc->load_a_textlevel(_dipydoc->number_of_textlevels);
+    this->dipydoc->current_textlevel--;
+    this->dipydoc->load_a_textlevel(this->dipydoc->path,
+                                    this->dipydoc->current_textlevel);
   }
 }
 
@@ -608,8 +609,9 @@ void SourceZone::textlevelinfoAct__buttonpressed(void) {
 
   if (this->dipydoc->current_textlevel < this->dipydoc->number_of_textlevels) {
     // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
-    this->dipydoc->number_of_textlevels++;
-    this->dipydoc->load_a_textlevel(_dipydoc->number_of_textlevels);
+    this->dipydoc->current_textlevel++;
+    this->dipydoc->load_a_textlevel(this->dipydoc->path,
+                                    this->dipydoc->current_textlevel);
   }
 }
 

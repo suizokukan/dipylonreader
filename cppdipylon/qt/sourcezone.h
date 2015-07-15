@@ -76,7 +76,7 @@ friend class SCSplitter;
   void signal__update_icons(void);
 
  private:
-  const DipyDoc * dipydoc = nullptr;
+  DipyDoc * dipydoc = nullptr;
 
   bool & blocked_commentaries;
   bool & visible_toolbars;
@@ -111,7 +111,7 @@ friend class SCSplitter;
 
  public:
   explicit SourceZone(const QString      & splitter_name,
-                      const DipyDoc      * _dipydoc,
+                      DipyDoc            * _dipydoc,
                       bool               & _blocked_commentaries,
                       bool               & _visible_toolbars,
                       ReadingMode        & _readingmode,
