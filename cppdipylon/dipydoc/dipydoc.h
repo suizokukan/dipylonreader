@@ -23,6 +23,11 @@
 
     A "Dipylon document" is a text, its translation and its annotations.
 
+    o use the constructor Dipylon::Dipylon() to load the DipyDoc for the first
+      time; it will load the "/0" version of the document.
+    o then, use the ::load_a_textlevel() method to load another text level 
+      ("/1", "/2", ...)
+
 *******************************************************************************/
 
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
@@ -289,6 +294,7 @@ friend class UI;
   QString              id;
   int                  version;
   unsigned int         number_of_textlevels; // see DipyDoc::set_number_of_textlevels()
+  unsigned int         current_textlevel;
   QString              textlevel_description;
   int                  dipydocformat_version;
   LanguageFromTo       languagefromto;
@@ -346,6 +352,7 @@ friend class UI;
   PosInTextRanges      translation_contains(PosInText x0, PosInText x1) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;
+  void                 load_a_textlevel(const QString&, unsigned int);
   void                 read_mainfile(const QString&, unsigned int);
   bool                 set_number_of_textlevels(const QString&);
   int                  internal_state(void) const;

@@ -591,6 +591,12 @@ void SourceZone::update_icons(void) {
 ______________________________________________________________________________*/
 void SourceZone::textleveldownAct__buttonpressed(void) {
   // DEBUG1 DebugMsg() << "SourceZone::textleveldownAct__buttonpressed";
+
+  if (this->dipydoc->current_textlevel > 0) {
+    // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
+    this->dipydoc->number_of_textlevels--;
+    this->dipydoc->load_a_textlevel(_dipydoc->number_of_textlevels);
+  }
 }
 
 /*______________________________________________________________________________
@@ -599,6 +605,12 @@ void SourceZone::textleveldownAct__buttonpressed(void) {
 ______________________________________________________________________________*/
 void SourceZone::textlevelinfoAct__buttonpressed(void) {
   // DEBUG1 DebugMsg() << "SourceZone::textlevelinfoAct__buttonpressed";
+
+  if (this->dipydoc->current_textlevel < this->dipydoc->number_of_textlevels) {
+    // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
+    this->dipydoc->number_of_textlevels++;
+    this->dipydoc->load_a_textlevel(_dipydoc->number_of_textlevels);
+  }
 }
 
 /*______________________________________________________________________________

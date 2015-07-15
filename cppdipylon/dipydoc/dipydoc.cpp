@@ -76,18 +76,10 @@ DipyDoc::DipyDoc(const QString& _path) {
   // let's initialize the internal name :
   this->set_internal_name();
 
-  // let's open the main file :
-  this->read_mainfile(_path, 0);
-
-  // text document ? let's open the text file :
-  if (this->well_initialized() == true && this->doctype == QString("text")) {
-    // DEBUG1 DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
-    QFile src_file(this->source_text.filename);
-    src_file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream src_file_stream(&src_file);
-    src_file_stream.setCodec("UTF-8");
-    this->source_text.text = src_file_stream.readAll();
-  }
+  /*
+    Let's load the textlevel #0 in the "_path/0" directory :
+  */
+  this->load_a_textlevel(_path, 0);
 
   // DEBUG1 DebugMsg() << "(DipyDoc::DipyDoc) exit point";
 }
@@ -204,6 +196,7 @@ void DipyDoc::clear(void) {
   this->version = 0;
 
   this->number_of_textlevels = 0;
+  this->current_textlevel = 0;
   this->textlevel_description = QString("unspecified textlevel");
 
   this->doctype = QString("unspecified");
@@ -734,6 +727,35 @@ $$$
                this->translation.informations);
 
   return res;
+}
+
+/*______________________________________________________________________________
+
+        DipyDoc::load_a_textlevel()
+
+        This method loads the main file and the document placed in the 
+        "_path/_textlevel" directory.
+
+        Beware, this method DOES NOT CHECK if the textlevel really exists.
+______________________________________________________________________________*/
+void DipyDoc::load_a_textlevel(const QString& _path,
+                               unsigned int _textlevel) {
+  // DEBUG1 DebugMsg() << "DipyDoc::load_a_textlevel() _textlevel=" << _textlevel;
+
+  this->current_textlevel = _textlevel;
+
+  // let's open the main file :
+  this->read_mainfile(_path, _textlevel);
+
+  // text document ? let's open the text file :
+  if (this->well_initialized() == true && this->doctype == QString("text")) {
+    // DEBUG1 DebugMsg() << "(DipyDoc::DipyDoc) let's open" << this->source_text.filename;
+    QFile src_file(this->source_text.filename);
+    src_file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream src_file_stream(&src_file);
+    src_file_stream.setCodec("UTF-8");
+    this->source_text.text = src_file_stream.readAll();
+  }
 }
 
 /*______________________________________________________________________________
@@ -1693,7 +1715,7 @@ bool DipyDoc::set_number_of_textlevels(const QString& _path) {
    'x0' character.
 
    If nothing matches <pos>, the first object (PosInTextRanges) is empty, the
-   second (PairOfPosInAudio) being set to (0,0).
+   second (PairOfPosInAudio) being set to (0, 0).
 ________________________________________________________________________________*/
 PTRangesAND2PosAudio DipyDoc::text2audio_contains(PosInText x0) const {
   PosInTextRanges posintext = this->audiorecord.text2audio.contains(x0);
