@@ -354,7 +354,7 @@ friend class UI;
   QString              get_xml_repr(void) const;
   void                 load_a_textlevel(const QString&, unsigned int);
   void                 read_mainfile(const QString&, unsigned int);
-  bool                 set_number_of_textlevels(const QString&);
+  bool                 set_number_of_textlevels(const QString& _path);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
   QString              syntagmas_repr(void) const;

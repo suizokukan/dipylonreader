@@ -1675,7 +1675,7 @@ void DipyDoc::set_qsettings_name(void) {
 
    DipyDoc::set_number_of_textlevels()
 
-   Initialize this->textfile_number_of_textlevels, i.e. give the number of versions
+   Initialize this->number_of_textlevels, i.e. give the number of versions
    of the same text available in _path.
 
    Return true if this->number_of_textlevels is greater or equal to 1 and smaller

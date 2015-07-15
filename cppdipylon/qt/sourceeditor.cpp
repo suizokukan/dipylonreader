@@ -266,13 +266,13 @@ void SourceEditor::load_text(void) {
     This attribute stores the number of characters appearing before
     the source text.
   */
-  this->number_of_chars_before_source_text = cur.position();
+  this->number_of_chars_before_source_text = static_cast<unsigned int>(cur.position());
 
   /*
     the current blocks' number is stored
   */
   QTextDocument* doc = this->document();
-  int number_of_block_before_source_text = doc->blockCount();
+  unsigned int number_of_block_before_source_text = static_cast<unsigned int>(doc->blockCount());
 
   /*
     let's add the source text :
@@ -291,7 +291,7 @@ void SourceEditor::load_text(void) {
     auto block_cursor = QTextCursor(block);
     auto block_format = block.blockFormat();
 
-    if (num_block < number_of_block_before_source_text-1) {
+    if (num_block < static_cast<int>(number_of_block_before_source_text-1)) {
       block_format.setLineHeight(fixedparameters::default__sourceeditor__line_height__anything_but_text,
                                  QTextBlockFormat::ProportionalHeight);
     } else {
@@ -319,11 +319,17 @@ void SourceEditor::load_text(void) {
         the .modified_chars_hash attribute.
 
         Use this function only for the a-mode.
+
+
+    About the #pragma GCC diagnostic ignored "-Wstrict-overflow" below,
+    there's a problem with GCC, -O2 and QList. See by example
+    https://bugreports.qt.io/browse/QTBUG-33314
+    this->focused_syntagma_in_amode->ancestors is a QList<Syntagma*> .
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
   // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode() syntagma=" << syntagma;
 
-  int shift = this->number_of_chars_before_source_text;
+  PosInText shift = this->number_of_chars_before_source_text;
 
   QTextCursor cur = this->textCursor();
 
@@ -333,8 +339,8 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
   QList<QTextEdit::ExtraSelection> selections;
 
   for (auto &x0x1 : this->modified_chars) {
-    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-    cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+    cur.setPosition(static_cast<int>(x0x1.first) + static_cast<int>(shift), QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.second) + static_cast<int>(shift), QTextCursor::KeepAnchor);
     selections.append({ cur,
                         this->dipydoc->sourceeditor_default_textformat.qtextcharformat() });
   }
@@ -375,7 +381,7 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
     */
 
     // link betwween current_syntagma and focused_syntagma_in_amode ?
-    int link = -1;  // by default, no link.
+    signed int link = -1;  // by default, no link.
     if (this->focused_syntagma_in_amode == current_syntagma) {
       // focused :
       link = 0;
@@ -383,14 +389,17 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
       if (this->focused_syntagma_in_amode->father == current_syntagma->father) {
         // brother :
         link = 1;
-      } else {
+      }  else {
+#pragma GCC diagnostic push // see above, in the documentation of the function.
+#pragma GCC diagnostic ignored "-Wstrict-overflow"
         if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
-          // family :
+#pragma GCC diagnostic pop
+        // family :
           link = 2;
         }
       }
-    }
-
+   }
+  
     // the method is not called for every value of "link" :
     if (link != -1) {
       this->modify_the_text_format__amode__syntagma(current_syntagma,
@@ -456,18 +465,18 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode__syntagma(Syntagma* current_syntagma,
                                                            QList<QTextEdit::ExtraSelection> & selections,
-                                                           int link) {
+                                                           signed int link) {
   // // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode__syntagma() : entry point : #"
   // // DEBUG1            << current_syntagma->name
   // // DEBUG1            << " link=" << link << " pos=" << current_syntagma->posintextranges.repr();
 
-  int shift = this->number_of_chars_before_source_text;
+  PosInText shift = this->number_of_chars_before_source_text;
 
   QTextCursor cur = this->textCursor();
   QTextCharFormat qtextcharformat;
 
   for (auto & x0x1 : current_syntagma->posintextranges) {
-    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.first) + static_cast<int>(shift), QTextCursor::MoveAnchor);
     // $$$ plus rapide ??? $$$ cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
     cur.movePosition(QTextCursor::NextCharacter,
                      QTextCursor::KeepAnchor,
@@ -556,7 +565,7 @@ _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& positions) {
   // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__rmode__lmode() positions=" << positions.repr();
 
-  int shift = this->number_of_chars_before_source_text;
+  PosInText shift = this->number_of_chars_before_source_text;
 
   QTextCursor cur = this->textCursor();
 
@@ -564,8 +573,8 @@ void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& p
   QList<QTextEdit::ExtraSelection> selections;
 
   for (auto &x0x1 : this->modified_chars) {
-    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-    cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+    cur.setPosition(static_cast<int>(x0x1.first) + static_cast<int>(shift), QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.second) + static_cast<int>(shift), QTextCursor::KeepAnchor);
     QTextEdit::ExtraSelection sel = { cur,
                                       this->dipydoc->sourceeditor_default_textformat.qtextcharformat() };
     selections.append(sel);
@@ -576,8 +585,8 @@ void SourceEditor::modify_the_text_format__rmode__lmode(const PosInTextRanges& p
 
   // ... and then we modify the new text's appearance :
   for (auto &x0x1 : positions) {
-    cur.setPosition(static_cast<int>(x0x1.first) + shift, QTextCursor::MoveAnchor);
-    cur.setPosition(static_cast<int>(x0x1.second) + shift, QTextCursor::KeepAnchor);
+    cur.setPosition(static_cast<int>(x0x1.first) + static_cast<int>(shift), QTextCursor::MoveAnchor);
+    cur.setPosition(static_cast<int>(x0x1.second) + static_cast<int>(shift), QTextCursor::KeepAnchor);
 
     QTextEdit::ExtraSelection sel;
     if (this->readingmode == READINGMODE::READINGMODE_RMODE) {
@@ -607,7 +616,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
     switch (this->readingmode_details) {
       case READINGMODEDETAILS::READINGMODEDETAIL_RMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
-        int shift = this->number_of_chars_before_source_text;
+        PosInText shift = this->number_of_chars_before_source_text;
         PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
         // in the translation, where are the characters linked to "cursor_position" ?
@@ -638,7 +647,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
 
       case READINGMODEDETAILS::READINGMODEDETAIL_AMODE : {
         QTextCursor cur = this->cursorForPosition(mouse_event->pos());
-        int shift = this->number_of_chars_before_source_text;
+        PosInText shift = this->number_of_chars_before_source_text;
         PosInText cursor_position = static_cast<PosInText>(cur.position()) - static_cast<PosInText>(shift);
 
         // in the syntagmas, where are the characters linked to "cursor_position" ?
@@ -693,9 +702,9 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
   if (this->readingmode_details == READINGMODEDETAILS::READINGMODEDETAIL_RMODE && cur.hasSelection() == true) {
     // DEBUG1 DebugMsg() << "SourceEditor::mouseReleaseEvent; RMODE + selection";
 
-    int shift = this->number_of_chars_before_source_text;
-    PosInText x0 = static_cast<PosInText>(cur.selectionStart() - shift);
-    PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - shift);
+    PosInText shift = this->number_of_chars_before_source_text;
+    PosInText x0 = static_cast<PosInText>(cur.selectionStart() - static_cast<int>(shift));
+    PosInText x1 = static_cast<PosInText>(cur.selectionEnd() - static_cast<int>(shift));
 
     // where are the characters in the translations linked to "x0-x1" ?
     PosInTextRanges pos_in_text =  this->dipydoc->translation_contains(x0, x1);
@@ -818,7 +827,7 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
   #ifndef DO_NOT_DISPLAY_ARROWS_IN_AMODE
 
   if (this->focused_syntagma_in_amode != nullptr) {
-    int shift = this->number_of_chars_before_source_text;
+    PosInText shift = this->number_of_chars_before_source_text;
 
     QPainter p(this->viewport());
     p.setRenderHints(QPainter::Antialiasing, true);
@@ -826,12 +835,14 @@ void SourceEditor::paintEvent(QPaintEvent* ev) {
     for (auto & arrowtarget : this->focused_syntagma_in_amode->arrows) {
       // starting point :
       QTextCursor start_cur = this->textCursor();
-      start_cur.setPosition(shift+static_cast<int>(this->focused_syntagma_in_amode->posintextranges.min()));
+      start_cur.setPosition(static_cast<int>(shift) + \
+                            static_cast<int>(this->focused_syntagma_in_amode->posintextranges.min()));
       QRect start_rect = this->cursorRect(start_cur);
 
       // end point :
       QTextCursor end_cur = this->textCursor();
-      end_cur.setPosition(shift+static_cast<int>(arrowtarget.final_position.min()));
+      end_cur.setPosition(static_cast<int>(shift) + \
+                          static_cast<int>(arrowtarget.final_position.min()));
       QRect dest_rect = this->cursorRect(end_cur);
 
       float x0 = start_rect.x();
