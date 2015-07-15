@@ -50,7 +50,17 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   /*
     (0) actions
+
+        (0.1) audio-control objects
+        (0.2) r-l-a-mode objects
+        (0.3) level objects $$$ unused objects ! $$$
+        (0.4) textlevel-buttons
    */
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // (0.1) audio-control objects
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  
   // audiocontrols_playAct
   this->audiocontrols_playAct = new QAction( QIcon(":resources/images/icons/audio_play.png"),
                                              tr("play"),
@@ -68,6 +78,10 @@ SourceZone::SourceZone(const QString & splitter_name,
   // connection #C029 (confer documentation)
   QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
                    this,                        &SourceZone::audiocontrols_stop);
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // (0.2) r-l-a-mode objects
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
   // readingmode_aAct
   this->readingmode_aAct = new QAction( QIcon(":resources/images/icons/readingmode_amode_on.png"),
@@ -96,6 +110,10 @@ SourceZone::SourceZone(const QString & splitter_name,
   QObject::connect(this->readingmode_rAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_rAct__buttonpressed);
 
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // (0.3) level objects $$$ unused objects ! $$$
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   // levelupAct
   this->levelupAct = new QAction( QIcon(":resources/images/icons/up.png"),
                                   tr("reading mode : level up"),
@@ -118,7 +136,7 @@ SourceZone::SourceZone(const QString & splitter_name,
                                 this);
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  // textlevel-buttons
+  // (0.4) textlevel-buttons
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
   // textlevelupAct
@@ -152,7 +170,6 @@ SourceZone::SourceZone(const QString & splitter_name,
       this->textleveldownAct->setVisible(false);
   }
 
-  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
   /*
     (1) audio player
   */
@@ -167,7 +184,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   }
 
   /*
-    (1) setting the object : UI
+    (2) setting the object : UI
   */
   // DEBUG1 DebugMsg() << "[SourceZone::] setStyleSheet = "
   // DEBUG1            << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
@@ -193,7 +210,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->setLayout(this->layout);
 
   /*
-    (2) actions
+    (3) actions
   */
   this->textminusAct = new QAction(QIcon(":resources/images/icons/textminus.png"),
                                    tr("reduce the font size"), this);
@@ -241,14 +258,14 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,               &SourceZone::audio_position_changed);
 
   /*
-    (3) default reading mode
+    (4) default reading mode
   */
   this->readingmode         = READINGMODE::READINGMODE_RMODE;
   this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
   // DEBUG1 DebugMsg() << "now in RMODE mode";
 
   /*
-    (4) zoom values for this document :
+    (5) zoom values for this document :
   */
   QSettings settings;
   QString setting_name;
@@ -269,7 +286,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   }
 
   /*
-    (5) updating document aspect :
+    (6) updating document aspect :
   */
   // update source editor aspect :
   this->editor->update_aspect_from_dipydoc_aspect_informations();
@@ -279,7 +296,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   emit this->signal__in_commentary_editor_update_from_dipydoc_info();
 
   /*
-    (6) updating the icons
+    (7) updating the icons
   */
   // SIGNAL #S008 (confer documentation)
   emit this->signal__update_icons();
