@@ -622,14 +622,6 @@ void SourceZone::textleveldownAct__buttonpressed(void) {
   SourceZone::textlevelinfoAct__buttonpressed()
 ______________________________________________________________________________*/
 void SourceZone::textlevelinfoAct__buttonpressed(void) {
-  // DEBUG1 DebugMsg() << "SourceZone::textlevelinfoAct__buttonpressed";
-
-  if (this->dipydoc->current_textlevel < this->dipydoc->number_of_textlevels) {
-    // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
-    this->dipydoc->current_textlevel++;
-    this->dipydoc->load_a_textlevel(this->dipydoc->path,
-                                    this->dipydoc->current_textlevel);
-  }
 }
 
 /*______________________________________________________________________________
@@ -638,4 +630,13 @@ void SourceZone::textlevelinfoAct__buttonpressed(void) {
 ______________________________________________________________________________*/
 void SourceZone::textlevelupAct__buttonpressed(void) {
   // DEBUG1 DebugMsg() << "SourceZone::textlevelupAct__buttonpressed";
+
+  // DEBUG1 DebugMsg() << "SourceZone::textlevelinfoAct__buttonpressed";
+
+  if (this->dipydoc->current_textlevel < this->dipydoc->number_of_textlevels) {
+    // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
+    this->dipydoc->current_textlevel++;
+    this->dipydoc->load_a_textlevel(this->dipydoc->path,
+                                    this->dipydoc->current_textlevel);
+  }
 }

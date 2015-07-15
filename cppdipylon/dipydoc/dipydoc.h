@@ -325,6 +325,8 @@ friend class UI;
 
   // private methods ...........................................................
   bool                   check_path(const QString&);
+  void                   clean_before_loading_a_new_textlevel(void);
+  void                   clean_syntagmas(void);
   void                   clear(void);
   bool                   error(const QString& msg);
   bool                   error(const QString& msg, const QString& error_string);

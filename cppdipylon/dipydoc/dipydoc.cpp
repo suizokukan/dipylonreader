@@ -94,14 +94,9 @@ DipyDoc::~DipyDoc(void) {
   // DEBUG1 DebugMsg() << "DipyDoc::~DipyDoc : entry point; menu_name=" << this->menu_name;
 
   /* deleting notes._syntagmas :
-
-       syntagmas/_syntagmas being filled with pointers, we have to clean up their
-     content manually.
   */
-  while (!this->notes._syntagmas.empty()) {
-    this->notes._syntagmas.front().reset();
-    this->notes._syntagmas.pop_front();
-  }
+  this->clean_syntagmas();
+
 
   // DEBUG1 DebugMsg() << "DipyDoc::~DipyDoc : exit point";
 }
@@ -181,6 +176,37 @@ bool DipyDoc::check_path(const QString& _path) {
   }
 
   return true;
+}
+
+/*______________________________________________________________________________
+
+    DipyDoc::clean_before_loading_a_new_textlevel()
+
+    The method cleans what can't be kept since a new text level is about to be
+    loaded.
+
+______________________________________________________________________________*/
+void DipyDoc::clean_before_loading_a_new_textlevel(void) {
+  this->clean_syntagmas();
+}
+
+/*______________________________________________________________________________
+
+    DipyDoc::clean_syntagmas()
+
+       this->notes._syntagmas being filled with pointers, we have to clean up 
+     their content manually.
+
+______________________________________________________________________________*/
+void DipyDoc::clean_syntagmas(void) {
+  // DEBUG1 DebugMsg() << "DipyDoc::clean_syntagmas : entry point";
+
+  while (!this->notes._syntagmas.empty()) {
+    this->notes._syntagmas.front().reset();
+    this->notes._syntagmas.pop_front();
+  }
+
+  // DEBUG1 DebugMsg() << "DipyDoc::clean_syntagmas : exit point";
 }
 
 /*______________________________________________________________________________
@@ -743,6 +769,8 @@ void DipyDoc::load_a_textlevel(const QString& _path,
   // DEBUG1 DebugMsg() << "DipyDoc::load_a_textlevel() _textlevel=" << _textlevel;
 
   this->current_textlevel = _textlevel;
+
+  this->clean_before_loading_a_new_textlevel();
 
   // let's open the main file :
   this->read_mainfile(_path, _textlevel);
