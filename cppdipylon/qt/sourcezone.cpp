@@ -116,6 +116,43 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->levelAct = new QAction( QIcon(":resources/images/icons/level.png"),
                                 tr("reading mode : select level"),
                                 this);
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // textlevel-buttons
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+  // textlevelupAct
+  this->textlevelupAct = new QAction( QIcon(":resources/images/icons/textlevelup.png"),
+                                      tr("text level up"),
+                                      this);
+  // connection #C042 (confer documentation)
+  QObject::connect(this->textlevelupAct, &QAction::triggered,
+                   this,                 &SourceZone::textlevelupAct__buttonpressed);
+
+  // textlevelinfoAct
+  this->textlevelinfoAct = new QAction( QIcon(":resources/images/icons/textlevel0.png"),
+                                        _dipydoc->textlevel_description,
+                                        this);
+  // connection #C044 (confer documentation)
+  QObject::connect(this->textlevelinfoAct, &QAction::triggered,
+                   this,                   &SourceZone::textlevelinfoAct__buttonpressed);
+
+  // textleveldownAct
+  this->textleveldownAct = new QAction( QIcon(":resources/images/icons/textleveldown.png"),
+                                        tr("text level down"),
+                                        this);
+  // connection #C043 (confer documentation)
+  QObject::connect(this->textleveldownAct, &QAction::triggered,
+                   this,                   &SourceZone::textleveldownAct__buttonpressed);
+
+  // only one textlevel ? no textlevel icons :
+  if (_dipydoc->number_of_textlevels == 1) {
+      this->textlevelupAct->setVisible(false);
+      this->textlevelinfoAct->setVisible(false);
+      this->textleveldownAct->setVisible(false);
+  }
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
   /*
     (1) audio player
   */
@@ -185,6 +222,11 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
+
+  this->toolbar->addSeparator();
+  this->toolbar->addAction(this->textlevelupAct);
+  this->toolbar->addAction(this->textlevelinfoAct);
+  this->toolbar->addAction(this->textleveldownAct);
 
   // connection #C033 (confer documentation)
   QObject::connect(this->textminusAct, &QAction::triggered,
@@ -541,4 +583,28 @@ void SourceZone::update_icons(void) {
       break;
     }
   }
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::textleveldownAct__buttonpressed()
+______________________________________________________________________________*/
+void SourceZone::textleveldownAct__buttonpressed(void) {
+  // DEBUG1 DebugMsg() << "SourceZone::textleveldownAct__buttonpressed";
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::textlevelinfoAct__buttonpressed()
+______________________________________________________________________________*/
+void SourceZone::textlevelinfoAct__buttonpressed(void) {
+  // DEBUG1 DebugMsg() << "SourceZone::textlevelinfoAct__buttonpressed";
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::textlevelupAct__buttonpressed()
+______________________________________________________________________________*/
+void SourceZone::textlevelupAct__buttonpressed(void) {
+  // DEBUG1 DebugMsg() << "SourceZone::textlevelupAct__buttonpressed";
 }

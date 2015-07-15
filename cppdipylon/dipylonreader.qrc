@@ -34,6 +34,19 @@
     <file>resources/images/icons/down.png</file>
     <file>resources/images/icons/level.png</file>
 
+    <file>resources/images/icons/textlevelup.png</file>
+    <file>resources/images/icons/textleveldown.png</file>
+    <file>resources/images/icons/textlevel0.png</file>
+    <file>resources/images/icons/textlevel1.png</file>
+    <file>resources/images/icons/textlevel2.png</file>
+    <file>resources/images/icons/textlevel3.png</file>
+    <file>resources/images/icons/textlevel4.png</file>
+    <file>resources/images/icons/textlevel5.png</file>
+    <file>resources/images/icons/textlevel6.png</file>
+    <file>resources/images/icons/textlevel7.png</file>
+    <file>resources/images/icons/textlevel8.png</file>
+    <file>resources/images/icons/textlevel9.png</file>
+
     <file>resources/images/icons/setnovelsize.png</file>
 </qresource>
 </RCC>
