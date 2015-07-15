@@ -62,7 +62,7 @@ DipyDoc::DipyDoc(const QString& _path) {
   // let's read this->number_of_textlevels :
   if (this->set_number_of_textlevels(_path) == false) {
     // DEBUG1 DebugMsg() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
-    // DEBUG1 DebugMsg() << "There's not at least one version of the text available";
+    // DEBUG1 DebugMsg() << "the number of versions of the available text isn't in the [1-10] range.";
     this->_well_initialized = false;
     this->_internal_state = DipyDoc::INTERNALSTATE::NOT_CORRECTLY_INITIALIZED;
     return;
@@ -204,7 +204,7 @@ void DipyDoc::clear(void) {
   this->version = 0;
 
   this->number_of_textlevels = 0;
-  this->textlevel_description = QString("default textlevel");
+  this->textlevel_description = QString("unspecified textlevel");
 
   this->doctype = QString("unspecified");
 
@@ -936,7 +936,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
     }
 
     /*
-      textlevel
+      textlevel_description
 
       = string giving an idea of the level required to read the text : e.g. "C3"
     */
@@ -1656,7 +1656,8 @@ void DipyDoc::set_qsettings_name(void) {
    Initialize this->textfile_number_of_textlevels, i.e. give the number of versions
    of the same text available in _path.
 
-   Return true if this->number_of_textlevels > 0
+   Return true if this->number_of_textlevels is greater or equal to 1 and smaller
+   or equal to 10.
 ________________________________________________________________________________*/
 bool DipyDoc::set_number_of_textlevels(const QString& _path) {
   /*
@@ -1681,7 +1682,7 @@ bool DipyDoc::set_number_of_textlevels(const QString& _path) {
   // DEBUG1 DebugMsg() << "this->number_of_textlevels=" << this->number_of_textlevels;
   
   // the function returns the expected boolean :
-  return this->number_of_textlevels > 0;
+  return (this->number_of_textlevels > 0) and (this->number_of_textlevels < 10);
 }
 
 /*______________________________________________________________________________
