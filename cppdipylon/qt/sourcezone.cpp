@@ -612,8 +612,18 @@ void SourceZone::textleveldownAct__buttonpressed(void) {
   if (this->dipydoc->current_textlevel > 0) {
     // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
     this->dipydoc->current_textlevel--;
+
+    #ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    #endif
     this->dipydoc->load_a_textlevel(this->dipydoc->path,
                                     this->dipydoc->current_textlevel);
+    #ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+    #endif
+
+    // SIGNAL #S014 (confer documentation)
+    emit this->signal__update_due_to_a_dipydoc_newly_reloaded();
   }
 }
 
@@ -636,7 +646,17 @@ void SourceZone::textlevelupAct__buttonpressed(void) {
   if (this->dipydoc->current_textlevel < this->dipydoc->number_of_textlevels) {
     // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
     this->dipydoc->current_textlevel++;
+
+    #ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    #endif
     this->dipydoc->load_a_textlevel(this->dipydoc->path,
                                     this->dipydoc->current_textlevel);
+    #ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+    #endif
+    
+    // SIGNAL #S015 (confer documentation)
+    emit this->signal__update_due_to_a_dipydoc_newly_reloaded();
   }
 }

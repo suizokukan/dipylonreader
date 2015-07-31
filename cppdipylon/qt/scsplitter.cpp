@@ -146,6 +146,10 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   QObject::connect(this->source_zone->editor,      &SourceEditor::signal__update_note_in_commentary_zone,
                    this->commentary_zone->editor,  &CommentaryEditor::update_content__commentary_expected);
 
+  // connection #C045 (confer documentation)
+  QObject::connect(this->source_zone,               &SourceZone::signal__update_due_to_a_dipydoc_newly_reloaded,
+                   this,                            &SCSplitter::update_due_to_a_dipydoc_newly_loaded);
+
   /*
     (5) update icons
   */
@@ -213,6 +217,20 @@ void SCSplitter::read_settings(void) {
   }
 
   // DEBUG1 DebugMsg() << "SCSplitter::read_settings() : exit point";
+}
+
+/*______________________________________________________________________________
+
+  SCSplitter::update_due_to_a_dipydoc_newly_loaded()
+________________________________________________________________________________*/
+void SCSplitter::update_due_to_a_dipydoc_newly_loaded(void) {
+  // DEBUG1 DebugMsg() << "SCSplitter::update_due_to_a_dipydoc_newly_loaded() : entry point";
+
+  this->source_zone->editor->load_text();
+
+  this->commentary_zone->editor->clear();
+
+  // DEBUG1 DebugMsg() << "SCSplitter::update_due_to_a_dipydoc_newly_loaded() : exit point"; 
 }
 
 /*______________________________________________________________________________

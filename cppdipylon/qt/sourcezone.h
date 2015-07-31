@@ -29,6 +29,7 @@
 #define CPPDIPYLON_QT_SOURCEZONE_H_
 
 #include <QAction>
+#include <QApplication>
 #include <QPushButton>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -71,6 +72,7 @@ friend class SCSplitter;
 
  signals:
   void signal__in_commentary_editor_update_from_dipydoc_info(void);
+  void signal__update_due_to_a_dipydoc_newly_reloaded(void);
   void signal__set_zoom_value_in_commentary_editor(const signed int value);
   void signal__update_translation_in_commentary_zone(const PosInTextRanges & posintext);
   void signal__update_icons(void);

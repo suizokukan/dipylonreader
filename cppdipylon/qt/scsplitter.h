@@ -70,6 +70,7 @@ friend class MainWindow;
   void               write_settings(void);
 
  private slots:  // NOLINT(whitespace/indent)
+  void              update_due_to_a_dipydoc_newly_loaded(void);
   void              update_icons(void);
 
  public:
