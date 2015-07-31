@@ -226,9 +226,15 @@ ________________________________________________________________________________
 void SCSplitter::update_due_to_a_dipydoc_newly_loaded(void) {
   // DEBUG1 DebugMsg() << "SCSplitter::update_due_to_a_dipydoc_newly_loaded() : entry point";
 
+  // updating source zone :
   this->source_zone->editor->load_text();
 
+  // updating commentary zone :
   this->commentary_zone->editor->clear();
+
+  // updating textlevelinfoAct :
+  this->source_zone->textlevelinfoAct->setText( this->dipydoc->textlevel_description );
+  this->source_zone->textlevelinfoAct->setIcon( QIcon(QString(":resources/images/icons/textlevel%1.png").arg(this->dipydoc->current_textlevel)) );
 
   // DEBUG1 DebugMsg() << "SCSplitter::update_due_to_a_dipydoc_newly_loaded() : exit point"; 
 }
