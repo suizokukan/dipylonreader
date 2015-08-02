@@ -94,14 +94,9 @@ DipyDoc::~DipyDoc(void) {
   // DEBUG1 DebugMsg() << "DipyDoc::~DipyDoc : entry point; menu_name=" << this->menu_name;
 
   /* deleting notes._syntagmas :
-
-       syntagmas/_syntagmas being filled with pointers, we have to clean up their
-     content manually.
   */
-  while (!this->notes._syntagmas.empty()) {
-    this->notes._syntagmas.front().reset();
-    this->notes._syntagmas.pop_front();
-  }
+  this->clean_syntagmas();
+
 
   // DEBUG1 DebugMsg() << "DipyDoc::~DipyDoc : exit point";
 }
@@ -181,6 +176,37 @@ bool DipyDoc::check_path(const QString& _path) {
   }
 
   return true;
+}
+
+/*______________________________________________________________________________
+
+    DipyDoc::clean_before_loading_a_new_textlevel()
+
+    The method cleans what can't be kept since a new text level is about to be
+    loaded.
+
+______________________________________________________________________________*/
+void DipyDoc::clean_before_loading_a_new_textlevel(void) {
+  this->clean_syntagmas();
+}
+
+/*______________________________________________________________________________
+
+    DipyDoc::clean_syntagmas()
+
+       this->notes._syntagmas being filled with pointers, we have to clean up 
+     their content manually.
+
+______________________________________________________________________________*/
+void DipyDoc::clean_syntagmas(void) {
+  // DEBUG1 DebugMsg() << "DipyDoc::clean_syntagmas : entry point";
+
+  while (!this->notes._syntagmas.empty()) {
+    this->notes._syntagmas.front().reset();
+    this->notes._syntagmas.pop_front();
+  }
+
+  // DEBUG1 DebugMsg() << "DipyDoc::clean_syntagmas : exit point";
 }
 
 /*______________________________________________________________________________
@@ -744,6 +770,8 @@ void DipyDoc::load_a_textlevel(const QString& _path,
 
   this->current_textlevel = _textlevel;
 
+  this->clean_before_loading_a_new_textlevel();
+
   // let's open the main file :
   this->read_mainfile(_path, _textlevel);
 
@@ -790,7 +818,11 @@ void DipyDoc::read_mainfile(const QString& _path, unsigned int _textlevel) {
   ............................................................................*/
   // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile) #1";
   this->path = _path;
-  this->main_filename_with_fullpath = _path + "/" + QString::number(_textlevel) + "/" + fixedparameters::DIPYDOC__MAIN_FILENAME;
+  this->main_filename_with_fullpath = _path + \
+                                      "/" + \
+                                      QString::number(_textlevel) + \
+                                      "/" + \
+                                      fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
 
   if (!dipydoc_main_xml_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -1063,7 +1095,11 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
       this->source_text.description = this->xmlreader->attributes().value("description").toString();
 
       // text::filename
-      this->source_text.filename = this->path + "/" + QString::number(_textlevel) + "/" + this->xmlreader->attributes().value("filename").toString();
+      this->source_text.filename = this->path + \
+                                   "/" + \
+                                   QString::number(_textlevel) + \
+                                   "/" + \
+                                   this->xmlreader->attributes().value("filename").toString();
 
       QFile textfile(this->source_text.filename);
       if (!textfile.open(QFile::ReadOnly)) {
@@ -1148,7 +1184,11 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
       this->audiorecord.description = this->xmlreader->attributes().value("description").toString();
 
       // audiorecord::filename
-      this->audiorecord.filename = this->path + "/" + QString::number(_textlevel) + "/" + this->xmlreader->attributes().value("filename").toString();
+      this->audiorecord.filename = this->path + \
+                                   "/" + \
+                                   QString::number(_textlevel) + \
+                                   "/" + \
+                                   this->xmlreader->attributes().value("filename").toString();
 
       QFile audiofile(this->audiorecord.filename);
       if (!audiofile.open(QFile::ReadOnly)) {
@@ -1694,17 +1734,16 @@ bool DipyDoc::set_number_of_textlevels(const QString& _path) {
 
     if (path_info0.exists() == false) {
       stop = true;
-    }
-    else {
+    } else {
       this->number_of_textlevels++;
     }
   }
 
   // DEBUG1 DebugMsg() << "DipyDoc::set_number_of_textlevels() exit point";
   // DEBUG1 DebugMsg() << "this->number_of_textlevels=" << this->number_of_textlevels;
-  
+
   // the function returns the expected boolean :
-  return (this->number_of_textlevels > 0) and (this->number_of_textlevels < 10);
+  return (this->number_of_textlevels > 0) && (this->number_of_textlevels < 10);
 }
 
 /*______________________________________________________________________________

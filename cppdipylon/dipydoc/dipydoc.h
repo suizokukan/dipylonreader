@@ -293,7 +293,7 @@ friend class UI;
 
   QString              id;
   int                  version;
-  unsigned int         number_of_textlevels; // see DipyDoc::set_number_of_textlevels()
+  unsigned int         number_of_textlevels;  // see DipyDoc::set_number_of_textlevels()
   unsigned int         current_textlevel;
   QString              textlevel_description;
   int                  dipydocformat_version;
@@ -325,6 +325,8 @@ friend class UI;
 
   // private methods ...........................................................
   bool                   check_path(const QString&);
+  void                   clean_before_loading_a_new_textlevel(void);
+  void                   clean_syntagmas(void);
   void                   clear(void);
   bool                   error(const QString& msg);
   bool                   error(const QString& msg, const QString& error_string);
