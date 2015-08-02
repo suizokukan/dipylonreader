@@ -60,7 +60,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
   // (0.1) audio-control objects
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  
+
   // audiocontrols_playAct
   this->audiocontrols_playAct = new QAction( QIcon(":resources/images/icons/audio_play.png"),
                                              tr("play"),
@@ -672,7 +672,7 @@ void SourceZone::textlevelupAct__buttonpressed(void) {
     #ifndef QT_NO_CURSOR
     QApplication::restoreOverrideCursor();
     #endif
-    
+
     // SIGNAL #S015 (confer documentation)
     emit this->signal__update_due_to_a_dipydoc_newly_reloaded();
   }

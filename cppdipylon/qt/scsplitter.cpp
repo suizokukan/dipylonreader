@@ -234,10 +234,11 @@ void SCSplitter::update_due_to_a_dipydoc_newly_loaded(void) {
   this->commentary_zone->editor->clear();
 
   // updating textlevelinfoAct :
-  this->source_zone->textlevelinfoAct->setText( this->dipydoc->textlevel_description );
-  this->source_zone->textlevelinfoAct->setIcon( QIcon(QString(":resources/images/icons/textlevel%1.png").arg(this->dipydoc->current_textlevel)) );
+  this->source_zone->textlevelinfoAct->setText(this->dipydoc->textlevel_description);
+  QString icon_name = QString(":resources/images/icons/textlevel%1.png").arg(this->dipydoc->current_textlevel);
+  this->source_zone->textlevelinfoAct->setIcon(QIcon(icon_name));
 
-  // DEBUG1 DebugMsg() << "SCSplitter::update_due_to_a_dipydoc_newly_loaded() : exit point"; 
+  // DEBUG1 DebugMsg() << "SCSplitter::update_due_to_a_dipydoc_newly_loaded() : exit point";
 }
 
 /*______________________________________________________________________________

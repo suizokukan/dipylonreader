@@ -390,7 +390,7 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
         // brother :
         link = 1;
       }  else {
-#pragma GCC diagnostic push // see above, in the documentation of the function.
+#pragma GCC diagnostic push  // see above, in the documentation of the function.
 #pragma GCC diagnostic ignored "-Wstrict-overflow"
         if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
 #pragma GCC diagnostic pop
@@ -398,8 +398,8 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
           link = 2;
         }
       }
-   }
-  
+    }
+
     // the method is not called for every value of "link" :
     if (link != -1) {
       this->modify_the_text_format__amode__syntagma(current_syntagma,

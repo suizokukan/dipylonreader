@@ -293,7 +293,7 @@ friend class UI;
 
   QString              id;
   int                  version;
-  unsigned int         number_of_textlevels; // see DipyDoc::set_number_of_textlevels()
+  unsigned int         number_of_textlevels;  // see DipyDoc::set_number_of_textlevels()
   unsigned int         current_textlevel;
   QString              textlevel_description;
   int                  dipydocformat_version;
