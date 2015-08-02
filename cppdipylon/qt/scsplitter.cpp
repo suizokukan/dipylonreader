@@ -228,6 +228,7 @@ void SCSplitter::update_due_to_a_dipydoc_newly_loaded(void) {
 
   // updating source zone :
   this->source_zone->editor->load_text();
+  this->source_zone->load_audiorecord();
 
   // updating commentary zone :
   this->commentary_zone->editor->clear();
