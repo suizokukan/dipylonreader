@@ -173,15 +173,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   /*
     (1) audio player
   */
-  this->audio_player = new QMediaPlayer(this);
-
-  if (this->dipydoc->audiorecord.found == true) {
-    // DEBUG1 DebugMsg() << "loading audiofile" << this->dipydoc->audiorecord.filename;
-    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc->audiorecord.filename));
-
-    this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
-    this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
-  }
+  this->load_audiorecord();
 
   /*
     (2) setting the object : UI
@@ -462,6 +454,31 @@ void SourceZone::leveldownAct__buttonpressed(void) {
 ______________________________________________________________________________*/
 void SourceZone::levelupAct__buttonpressed(void) {
   // DEBUG1 DebugMsg() << "SourceZone::levelupAct__buttonpressed" << this->amode_level;
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::load_audiorecord()
+
+    Load the audio file.
+______________________________________________________________________________*/
+void SourceZone::load_audiorecord(void) {
+  // DEBUG1 DebugMsg() << "loading audio record : entry point";
+
+  delete this->audio_player;
+  this->audio_player = new QMediaPlayer(this);
+
+  if (this->dipydoc->audiorecord.found == true) {
+    // DEBUG1 DebugMsg() << "... loading audiofile" << this->dipydoc->audiorecord.filename;
+    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc->audiorecord.filename));
+
+    this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
+    this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
+
+    // DEBUG1 DebugMsg() << "... loading audio record : ok";
+  }
+
+  // DEBUG1 DebugMsg() << "loading audio record : exit point";
 }
 
 /*______________________________________________________________________________

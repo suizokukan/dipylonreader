@@ -120,6 +120,8 @@ friend class SCSplitter;
                       ReadingModeDetails & _readingmodedetails,
                       QWidget *_parent);
 
+  void load_audiorecord(void);
+
  private:
   void update_icons(void);
 };
