@@ -72,6 +72,24 @@ SUMMARY
 
 **********************
 *                    *
+* 0.5.2 (2015_08_30) *
+*                    *
+**********************
+
+in summary : added textversions to the project, bugfix and documentation
+
+o feature160, feature161, feature162, feature163, feature164, feature165
+  added textversions to the project (DIPYDOC_XMLFORMAT version = 35)
+
+o feature159
+  bugfix (kicked off the "assuming signed overflow does not occur when changing 
+  [...]" warning)
+
+o feature158
+  improved documentation in dipylonreader.project
+
+**********************
+*                    *
 * 0.5.1 (2015_07_10) *
 *                    *
 **********************
