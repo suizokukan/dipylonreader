@@ -70,8 +70,8 @@ const QStringList known_doctypes = { QString("text"), };
 /*
   minimal/maximal DipyDoc's versions allowed :
 */
-const int min_dipydocformat_version = 34;
-const int max_dipydocformat_version = 34;
+const int min_dipydocformat_version = 35;
+const int max_dipydocformat_version = 35;
 
 /*
    default path to the dipydocs.

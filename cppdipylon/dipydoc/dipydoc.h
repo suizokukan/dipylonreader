@@ -25,7 +25,7 @@
 
     o use the constructor Dipylon::Dipylon() to load the DipyDoc for the first
       time; it will load the "/0" version of the document.
-    o then, use the ::load_a_textlevel() method to load another text level 
+    o then, use the ::load_a_textversion() method to load another text level 
       ("/1", "/2", ...)
 
 *******************************************************************************/
@@ -293,9 +293,9 @@ friend class UI;
 
   QString              id;
   int                  version;
-  unsigned int         number_of_textlevels;  // see DipyDoc::set_number_of_textlevels()
-  unsigned int         current_textlevel;
-  QString              textlevel_description;
+  unsigned int         number_of_textversions;  // see DipyDoc::set_number_of_textversions()
+  unsigned int         current_textversion;
+  QString              textversion_description;
   int                  dipydocformat_version;
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :
@@ -325,7 +325,7 @@ friend class UI;
 
   // private methods ...........................................................
   bool                   check_path(const QString&);
-  void                   clean_before_loading_a_new_textlevel(void);
+  void                   clean_before_loading_a_new_textversion(void);
   void                   clean_syntagmas(void);
   void                   clear(void);
   bool                   error(const QString& msg);
@@ -354,9 +354,9 @@ friend class UI;
   PosInTextRanges      translation_contains(PosInText x0, PosInText x1) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;
-  void                 load_a_textlevel(const QString&, unsigned int);
+  void                 load_a_textversion(const QString&, unsigned int);
   void                 read_mainfile(const QString&, unsigned int);
-  bool                 set_number_of_textlevels(const QString& _path);
+  bool                 set_number_of_textversions(const QString& _path);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
   QString              syntagmas_repr(void) const;

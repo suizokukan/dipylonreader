@@ -66,9 +66,9 @@ friend class SCSplitter;
   void readingmode_aAct__buttonpressed(void);
   void readingmode_rAct__buttonpressed(void);
   void readingmode_lAct__buttonpressed(void);
-  void textleveldownAct__buttonpressed(void);
-  void textlevelinfoAct__buttonpressed(void);
-  void textlevelupAct__buttonpressed(void);
+  void textversiondownAct__buttonpressed(void);
+  void textversioninfoAct__buttonpressed(void);
+  void textversionupAct__buttonpressed(void);
 
  signals:
   void signal__in_commentary_editor_update_from_dipydoc_info(void);
@@ -100,9 +100,9 @@ friend class SCSplitter;
 
   QAction* levelAct = nullptr;
 
-  QAction* textlevelupAct = nullptr;
-  QAction* textlevelinfoAct = nullptr;
-  QAction* textleveldownAct = nullptr;
+  QAction* textversionupAct = nullptr;
+  QAction* textversioninfoAct = nullptr;
+  QAction* textversiondownAct = nullptr;
 
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;

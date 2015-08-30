@@ -54,7 +54,7 @@ SourceZone::SourceZone(const QString & splitter_name,
         (0.1) audio-control objects
         (0.2) r-l-a-mode objects
         (0.3) level objects $$$ unused objects ! $$$
-        (0.4) textlevel-buttons
+        (0.4) textversion-buttons
    */
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -136,38 +136,38 @@ SourceZone::SourceZone(const QString & splitter_name,
                                 this);
 
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-  // (0.4) textlevel-buttons
+  // (0.4) textversion-buttons
   // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-  // textlevelupAct
-  this->textlevelupAct = new QAction( QIcon(":resources/images/icons/textlevelup.png"),
+  // textversionupAct
+  this->textversionupAct = new QAction( QIcon(":resources/images/icons/textversionup.png"),
                                       tr("text level up"),
                                       this);
   // connection #C042 (confer documentation)
-  QObject::connect(this->textlevelupAct, &QAction::triggered,
-                   this,                 &SourceZone::textlevelupAct__buttonpressed);
+  QObject::connect(this->textversionupAct, &QAction::triggered,
+                   this,                 &SourceZone::textversionupAct__buttonpressed);
 
-  // textlevelinfoAct
-  this->textlevelinfoAct = new QAction( QIcon(":resources/images/icons/textlevel0.png"),
-                                        _dipydoc->textlevel_description,
+  // textversioninfoAct
+  this->textversioninfoAct = new QAction( QIcon(":resources/images/icons/textversion0.png"),
+                                        _dipydoc->textversion_description,
                                         this);
   // connection #C044 (confer documentation)
-  QObject::connect(this->textlevelinfoAct, &QAction::triggered,
-                   this,                   &SourceZone::textlevelinfoAct__buttonpressed);
+  QObject::connect(this->textversioninfoAct, &QAction::triggered,
+                   this,                   &SourceZone::textversioninfoAct__buttonpressed);
 
-  // textleveldownAct
-  this->textleveldownAct = new QAction( QIcon(":resources/images/icons/textleveldown.png"),
+  // textversiondownAct
+  this->textversiondownAct = new QAction( QIcon(":resources/images/icons/textversiondown.png"),
                                         tr("text level down"),
                                         this);
   // connection #C043 (confer documentation)
-  QObject::connect(this->textleveldownAct, &QAction::triggered,
-                   this,                   &SourceZone::textleveldownAct__buttonpressed);
+  QObject::connect(this->textversiondownAct, &QAction::triggered,
+                   this,                   &SourceZone::textversiondownAct__buttonpressed);
 
-  // only one textlevel ? no textlevel icons :
-  if (_dipydoc->number_of_textlevels == 1) {
-      this->textlevelupAct->setVisible(false);
-      this->textlevelinfoAct->setVisible(false);
-      this->textleveldownAct->setVisible(false);
+  // only one textversion ? no textversion icons :
+  if (_dipydoc->number_of_textversions == 1) {
+      this->textversionupAct->setVisible(false);
+      this->textversioninfoAct->setVisible(false);
+      this->textversiondownAct->setVisible(false);
   }
 
   /*
@@ -233,9 +233,9 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar->addAction(this->textminusAct);
 
   this->toolbar->addSeparator();
-  this->toolbar->addAction(this->textlevelupAct);
-  this->toolbar->addAction(this->textlevelinfoAct);
-  this->toolbar->addAction(this->textleveldownAct);
+  this->toolbar->addAction(this->textversionupAct);
+  this->toolbar->addAction(this->textversioninfoAct);
+  this->toolbar->addAction(this->textversiondownAct);
 
   // connection #C033 (confer documentation)
   QObject::connect(this->textminusAct, &QAction::triggered,
@@ -621,20 +621,20 @@ void SourceZone::update_icons(void) {
 
 /*______________________________________________________________________________
 
-  SourceZone::textleveldownAct__buttonpressed()
+  SourceZone::textversiondownAct__buttonpressed()
 ______________________________________________________________________________*/
-void SourceZone::textleveldownAct__buttonpressed(void) {
-  // DEBUG1 DebugMsg() << "SourceZone::textleveldownAct__buttonpressed";
+void SourceZone::textversiondownAct__buttonpressed(void) {
+  // DEBUG1 DebugMsg() << "SourceZone::textversiondownAct__buttonpressed";
 
-  if (this->dipydoc->current_textlevel > 0) {
-    // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
-    this->dipydoc->current_textlevel--;
+  if (this->dipydoc->current_textversion > 0) {
+    // DEBUG1 DebugMsg() << "... number_of_textversions=" << this->dipydoc->number_of_textversions;
+    this->dipydoc->current_textversion--;
 
     #ifndef QT_NO_CURSOR
     QApplication::setOverrideCursor(Qt::WaitCursor);
     #endif
-    this->dipydoc->load_a_textlevel(this->dipydoc->path,
-                                    this->dipydoc->current_textlevel);
+    this->dipydoc->load_a_textversion(this->dipydoc->path,
+                                    this->dipydoc->current_textversion);
     #ifndef QT_NO_CURSOR
     QApplication::restoreOverrideCursor();
     #endif
@@ -646,29 +646,29 @@ void SourceZone::textleveldownAct__buttonpressed(void) {
 
 /*______________________________________________________________________________
 
-  SourceZone::textlevelinfoAct__buttonpressed()
+  SourceZone::textversioninfoAct__buttonpressed()
 ______________________________________________________________________________*/
-void SourceZone::textlevelinfoAct__buttonpressed(void) {
+void SourceZone::textversioninfoAct__buttonpressed(void) {
 }
 
 /*______________________________________________________________________________
 
-  SourceZone::textlevelupAct__buttonpressed()
+  SourceZone::textversionupAct__buttonpressed()
 ______________________________________________________________________________*/
-void SourceZone::textlevelupAct__buttonpressed(void) {
-  // DEBUG1 DebugMsg() << "SourceZone::textlevelupAct__buttonpressed";
+void SourceZone::textversionupAct__buttonpressed(void) {
+  // DEBUG1 DebugMsg() << "SourceZone::textversionupAct__buttonpressed";
 
-  // DEBUG1 DebugMsg() << "SourceZone::textlevelinfoAct__buttonpressed";
+  // DEBUG1 DebugMsg() << "SourceZone::textversioninfoAct__buttonpressed";
 
-  if (this->dipydoc->current_textlevel < this->dipydoc->number_of_textlevels) {
-    // DEBUG1 DebugMsg() << "... number_of_textlevels=" << this->dipydoc->number_of_textlevels;
-    this->dipydoc->current_textlevel++;
+  if (this->dipydoc->current_textversion < this->dipydoc->number_of_textversions) {
+    // DEBUG1 DebugMsg() << "... number_of_textversions=" << this->dipydoc->number_of_textversions;
+    this->dipydoc->current_textversion++;
 
     #ifndef QT_NO_CURSOR
     QApplication::setOverrideCursor(Qt::WaitCursor);
     #endif
-    this->dipydoc->load_a_textlevel(this->dipydoc->path,
-                                    this->dipydoc->current_textlevel);
+    this->dipydoc->load_a_textversion(this->dipydoc->path,
+                                    this->dipydoc->current_textversion);
     #ifndef QT_NO_CURSOR
     QApplication::restoreOverrideCursor();
     #endif
