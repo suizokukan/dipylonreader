@@ -59,8 +59,8 @@ DipyDoc::DipyDoc(const QString& _path) {
     return;
   }
 
-  // let's read this->number_of_textlevels :
-  if (this->set_number_of_textlevels(_path) == false) {
+  // let's read this->number_of_textversions :
+  if (this->set_number_of_textversions(_path) == false) {
     // DEBUG1 DebugMsg() << "DipyDoc::DipyDoc" << "problem with the path =" << _path;
     // DEBUG1 DebugMsg() << "the number of versions of the available text isn't in the [1-10] range.";
     this->_well_initialized = false;
@@ -77,9 +77,9 @@ DipyDoc::DipyDoc(const QString& _path) {
   this->set_internal_name();
 
   /*
-    Let's load the textlevel #0 in the "_path/0" directory :
+    Let's load the textversion #0 in the "_path/0" directory :
   */
-  this->load_a_textlevel(_path, 0);
+  this->load_a_textversion(_path, 0);
 
   // DEBUG1 DebugMsg() << "(DipyDoc::DipyDoc) exit point";
 }
@@ -180,13 +180,13 @@ bool DipyDoc::check_path(const QString& _path) {
 
 /*______________________________________________________________________________
 
-    DipyDoc::clean_before_loading_a_new_textlevel()
+    DipyDoc::clean_before_loading_a_new_textversion()
 
     The method cleans what can't be kept since a new text level is about to be
     loaded.
 
 ______________________________________________________________________________*/
-void DipyDoc::clean_before_loading_a_new_textlevel(void) {
+void DipyDoc::clean_before_loading_a_new_textversion(void) {
   this->clean_syntagmas();
 }
 
@@ -221,9 +221,9 @@ void DipyDoc::clear(void) {
   this->id = QString("default id");
   this->version = 0;
 
-  this->number_of_textlevels = 0;
-  this->current_textlevel = 0;
-  this->textlevel_description = QString("unspecified textlevel");
+  this->number_of_textversions = 0;
+  this->current_textversion = 0;
+  this->textversion_description = QString("unspecified textversion");
 
   this->doctype = QString("unspecified");
 
@@ -757,23 +757,23 @@ $$$
 
 /*______________________________________________________________________________
 
-        DipyDoc::load_a_textlevel()
+        DipyDoc::load_a_textversion()
 
         This method loads the main file and the document placed in the 
-        "_path/_textlevel" directory.
+        "_path/_textversion" directory.
 
-        Beware, this method DOES NOT CHECK if the textlevel really exists.
+        Beware, this method DOES NOT CHECK if the textversion really exists.
 ______________________________________________________________________________*/
-void DipyDoc::load_a_textlevel(const QString& _path,
-                               unsigned int _textlevel) {
-  // DEBUG1 DebugMsg() << "DipyDoc::load_a_textlevel() _textlevel=" << _textlevel;
+void DipyDoc::load_a_textversion(const QString& _path,
+                               unsigned int _textversion) {
+  // DEBUG1 DebugMsg() << "DipyDoc::load_a_textversion() _textversion=" << _textversion;
 
-  this->current_textlevel = _textlevel;
+  this->current_textversion = _textversion;
 
-  this->clean_before_loading_a_new_textlevel();
+  this->clean_before_loading_a_new_textversion();
 
   // let's open the main file :
-  this->read_mainfile(_path, _textlevel);
+  this->read_mainfile(_path, _textversion);
 
   // text document ? let's open the text file :
   if (this->well_initialized() == true && this->doctype == QString("text")) {
@@ -791,7 +791,7 @@ void DipyDoc::load_a_textlevel(const QString& _path,
         DipyDoc::read_mainfile()
 
         Initialize "this" from the main xml file stored in "_path/X" where X
-        is an integer equal to _textlevel
+        is an integer equal to _textversion
 
         This method doesn't check if "path" is valid : see the ::check_path()
         method for this.
@@ -805,9 +805,9 @@ void DipyDoc::load_a_textlevel(const QString& _path,
         (2) xml reading : main file reading
         (3) initialization and checking
 ______________________________________________________________________________*/
-void DipyDoc::read_mainfile(const QString& _path, unsigned int _textlevel) {
+void DipyDoc::read_mainfile(const QString& _path, unsigned int _textversion) {
   // DEBUG1 DebugMsg() << "DipyDoc::read_mainfile() : entry point;";
-  // DEBUG1 DebugMsg() << " path=" << _path << " textlevel=" << _textlevel;
+  // DEBUG1 DebugMsg() << " path=" << _path << " textversion=" << _textversion;
 
   QString msg_error;
 
@@ -820,7 +820,7 @@ void DipyDoc::read_mainfile(const QString& _path, unsigned int _textlevel) {
   this->path = _path;
   this->main_filename_with_fullpath = _path + \
                                       "/" + \
-                                      QString::number(_textlevel) + \
+                                      QString::number(_textversion) + \
                                       "/" + \
                                       fixedparameters::DIPYDOC__MAIN_FILENAME;
   QFile dipydoc_main_xml_file(this->main_filename_with_fullpath);
@@ -854,7 +854,7 @@ void DipyDoc::read_mainfile(const QString& _path, unsigned int _textlevel) {
       if (this->read_mainfile__first_token() == true) {
         // ok, let's read the rest of the file :
         if (this->doctype == QString("text")) {
-            ok = this->read_mainfile__doctype_text(_textlevel);
+            ok = this->read_mainfile__doctype_text(_textversion);
         }
       }
     } else {
@@ -959,7 +959,7 @@ bool DipyDoc::read_mainfile__first_token(void) {
 
   return a bool (=success)
 ______________________________________________________________________________*/
-bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
+bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
   // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text) : entry point";
   bool ok = true;
 
@@ -990,12 +990,12 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
     }
 
     /*
-      textlevel_description
+      textversion_description
 
       = string giving an idea of the level required to read the text : e.g. "C3"
     */
-    if (this->xmlreader->name() == "textlevel") {
-      this->textlevel_description = this->xmlreader->readElementText();
+    if (this->xmlreader->name() == "textversion") {
+      this->textversion_description = this->xmlreader->readElementText();
 
       continue;
     }
@@ -1057,7 +1057,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
                          QString("lettrine:posintextframe"));
 
       // lettrine::filename
-      this->lettrine.filename_with_fullpath = this->path + "/" + QString::number(_textlevel) + "/" + \
+      this->lettrine.filename_with_fullpath = this->path + "/" + QString::number(_textversion) + "/" + \
                                               this->xmlreader->attributes().value("filename").toString();
       QFile lettrinefile(this->lettrine.filename_with_fullpath);
       if (!lettrinefile.open(QFile::ReadOnly)) {
@@ -1097,7 +1097,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
       // text::filename
       this->source_text.filename = this->path + \
                                    "/" + \
-                                   QString::number(_textlevel) + \
+                                   QString::number(_textversion) + \
                                    "/" + \
                                    this->xmlreader->attributes().value("filename").toString();
 
@@ -1186,7 +1186,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textlevel) {
       // audiorecord::filename
       this->audiorecord.filename = this->path + \
                                    "/" + \
-                                   QString::number(_textlevel) + \
+                                   QString::number(_textversion) + \
                                    "/" + \
                                    this->xmlreader->attributes().value("filename").toString();
 
@@ -1713,37 +1713,37 @@ void DipyDoc::set_qsettings_name(void) {
 
 /*______________________________________________________________________________
 
-   DipyDoc::set_number_of_textlevels()
+   DipyDoc::set_number_of_textversions()
 
-   Initialize this->number_of_textlevels, i.e. give the number of versions
+   Initialize this->number_of_textversions, i.e. give the number of versions
    of the same text available in _path.
 
-   Return true if this->number_of_textlevels is greater or equal to 1 and smaller
+   Return true if this->number_of_textversions is greater or equal to 1 and smaller
    or equal to 10.
 ________________________________________________________________________________*/
-bool DipyDoc::set_number_of_textlevels(const QString& _path) {
+bool DipyDoc::set_number_of_textversions(const QString& _path) {
   /*
     main loop : the function searches _path/0, _path/1, ...
   */
-  this->number_of_textlevels = 0;
+  this->number_of_textversions = 0;
 
   bool stop = false;
   while (stop == false) {
-    QString path0 = _path + "/" + QString::number(this->number_of_textlevels);
+    QString path0 = _path + "/" + QString::number(this->number_of_textversions);
     QFileInfo path_info0 = QFileInfo(path0);
 
     if (path_info0.exists() == false) {
       stop = true;
     } else {
-      this->number_of_textlevels++;
+      this->number_of_textversions++;
     }
   }
 
-  // DEBUG1 DebugMsg() << "DipyDoc::set_number_of_textlevels() exit point";
-  // DEBUG1 DebugMsg() << "this->number_of_textlevels=" << this->number_of_textlevels;
+  // DEBUG1 DebugMsg() << "DipyDoc::set_number_of_textversions() exit point";
+  // DEBUG1 DebugMsg() << "this->number_of_textversions=" << this->number_of_textversions;
 
   // the function returns the expected boolean :
-  return (this->number_of_textlevels > 0) && (this->number_of_textlevels < 10);
+  return (this->number_of_textversions > 0) && (this->number_of_textversions < 10);
 }
 
 /*______________________________________________________________________________

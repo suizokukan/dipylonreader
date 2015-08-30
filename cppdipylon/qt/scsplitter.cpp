@@ -233,10 +233,10 @@ void SCSplitter::update_due_to_a_dipydoc_newly_loaded(void) {
   // updating commentary zone :
   this->commentary_zone->editor->clear();
 
-  // updating textlevelinfoAct :
-  this->source_zone->textlevelinfoAct->setText(this->dipydoc->textlevel_description);
-  QString icon_name = QString(":resources/images/icons/textlevel%1.png").arg(this->dipydoc->current_textlevel);
-  this->source_zone->textlevelinfoAct->setIcon(QIcon(icon_name));
+  // updating textversioninfoAct :
+  this->source_zone->textversioninfoAct->setText(this->dipydoc->textversion_description);
+  QString icon_name = QString(":resources/images/icons/textversion%1.png").arg(this->dipydoc->current_textversion);
+  this->source_zone->textversioninfoAct->setIcon(QIcon(icon_name));
 
   // DEBUG1 DebugMsg() << "SCSplitter::update_due_to_a_dipydoc_newly_loaded() : exit point";
 }
