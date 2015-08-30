@@ -58,7 +58,7 @@ const QString organization_domain = "94.23.197.37";
 const QString application_name    = "dipylonreader";
 const QString application_name_for_the_user = "Dipylon-R";
 // line read by build_dipylonreader_*.py : do not change its format !
-const QString application_version = "0.5.1";
+const QString application_version = "0.5.2";
 const QString application_style   = "CleanLooks";
 
 /*______________________________________________________________________________
@@ -70,8 +70,8 @@ const QStringList known_doctypes = { QString("text"), };
 /*
   minimal/maximal DipyDoc's versions allowed :
 */
-const int min_dipydocformat_version = 34;
-const int max_dipydocformat_version = 34;
+const int min_dipydocformat_version = 35;
+const int max_dipydocformat_version = 35;
 
 /*
    default path to the dipydocs.

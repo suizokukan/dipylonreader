@@ -64,9 +64,29 @@ SUMMARY
 
 [13] UI's structure
 
+[14] about git
+
 ################################################################################
 [0] roadmap
 ################################################################################
+
+**********************
+*                    *
+* 0.5.2 (2015_08_30) *
+*                    *
+**********************
+
+in summary : added textversions to the project, bugfix and documentation
+
+o feature160, feature161, feature162, feature163, feature164, feature165
+  added textversions to the project (DIPYDOC_XMLFORMAT version = 35)
+
+o feature159
+  bugfix (kicked off the "assuming signed overflow does not occur when changing 
+  [...]" warning)
+
+o feature158
+  improved documentation in dipylonreader.project
 
 **********************
 *                    *
@@ -969,6 +989,8 @@ _demo_Ovide_Metamorphoses_I_452_465__lat_fra/P.png :: 46408 :: (sha1)da39a3ee5e6
 title, introduction : pas obligatoire; plain text (not HTML)
 fichier texte : obligatoire, plain text (not HTML)
 
+version 35 : 'textlevel' becomes 'textversion'
+version 34 : new tag 'textlevel'
 version 33 : new format for summary files (+hash); in main.xml, record.ogg|.mp3 -> record.RECORD_EXT
 version 32 : no more 'font-size' in order to use QTextEditor::zoomIn(), QTextEditor::zoomOut() methods
 version 31 : 'rlmode' > 'lmode'
@@ -1000,10 +1022,11 @@ Example :
 
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<dipydoc dipydoc_version="33" languages="lat->fra" type="text">
+<dipydoc dipydoc_version="35" languages="lat->fra" type="text">
 
   <id>démo/Ovide/M/452-465/lat->fra<id/>
   <version>1</version>
+  <textversion>C3<textversion>
 
   <text description="texte source" filename="text" informations="source du texte : Wikipedia, X. Faure" blockformat="alignment:left" />
   <title textformat="color: yellow; font-family:Times" blockformat="alignment:right" >TITRE</title>
@@ -1180,4 +1203,72 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
                 |
                 \___commentary_editor : CommentaryEditor object
                 \___commentary_toolbar : QToolBar object
+
+
+################################################################################
+[14] about git
+################################################################################
+
+    http://nvie.com/posts/a-successful-git-branching-model/
+
+--------------------------------------------------------------------------------
+Incorporating a finished feature on develop (Finished features may be merged into the develop branch definitely add them to the upcoming release):
+$ git checkout develop
+Switched to branch 'develop'
+    
+$ git merge --no-ff myfeature
+Updating ea1b82a..05e9557
+    
+(Summary of changes)
+
+$ git branch -d myfeature
+Deleted branch myfeature (was 05e9557).
+    
+$ git push origin develop
+
+The --no-ff flag causes the merge to always create a new commit object, even if the merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together all commits that together added the feature.
+
+--------------------------------------------------------------------------------
+Creating a release branch
+
+Release branches are created from the develop branch. For example, say version 1.1.5 is the current production release and we have a big release coming up. The state of develop is ready for the “next release” and we have decided that this will become version 1.2 (rather than 1.1.6 or 2.0). So we branch off and give the release branch a name reflecting the new version number:
+
+$ git checkout -b release-1.2 develop
+Switched to a new branch "release-1.2"
+
+$ ./bump-version.sh 1.2
+Files modified successfully, version bumped to 1.2.
+
+$ git commit -a -m "Bumped version number to 1.2"
+
+[release-1.2 74d9424] Bumped version number to 1.2
+1 files changed, 1 insertions(+), 1 deletions(-)
+
+--------------------------------------------------------------------------------
+Finishing a release branch
+
+When the state of the release branch is ready to become a real release, some actions need to be carried out. First, the release branch is merged into master (since every commit on master is a new release by definition, remember). Next, that commit on master must be tagged for easy future reference to this historical version. Finally, the changes made on the release branch need to be merged back into develop, so that future releases also contain these bug fixes.
+
+The first two steps in Git:
+
+$ git checkout master
+Switched to branch 'master'
+
+$ git merge --no-ff release-1.2
+Merge made by recursive.
+
+(Summary of changes)
+$ git tag -a 1.2
+
+To keep the changes made in the release branch, we need to merge those back into develop, though. In Git:
+
+$ git checkout develop
+Switched to branch 'develop'
+$ git merge --no-ff release-1.2
+Merge made by recursive.
+(Summary of changes)
+
+$ git branch -d release-1.2
+Deleted branch release-1.2 (was ff452fe).
+
 

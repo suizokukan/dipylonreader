@@ -371,7 +371,7 @@ void MainWindow::fill_open_menu(void) {
   /*
     normal case : at least one dipydoc was found.
   */
-  int number_of_items = 0;
+  unsigned int number_of_items = 0;
   for (auto &item : this->ui.available_menu_names) {
     // DEBUG1 DebugMsg() << "MainWindow::fill_open_menu : found " << item.first;
     number_of_items++;

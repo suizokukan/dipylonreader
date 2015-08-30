@@ -29,6 +29,7 @@
 #define CPPDIPYLON_QT_SOURCEZONE_H_
 
 #include <QAction>
+#include <QApplication>
 #include <QPushButton>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -65,15 +66,19 @@ friend class SCSplitter;
   void readingmode_aAct__buttonpressed(void);
   void readingmode_rAct__buttonpressed(void);
   void readingmode_lAct__buttonpressed(void);
+  void textversiondownAct__buttonpressed(void);
+  void textversioninfoAct__buttonpressed(void);
+  void textversionupAct__buttonpressed(void);
 
  signals:
   void signal__in_commentary_editor_update_from_dipydoc_info(void);
+  void signal__update_due_to_a_dipydoc_newly_reloaded(void);
   void signal__set_zoom_value_in_commentary_editor(const signed int value);
   void signal__update_translation_in_commentary_zone(const PosInTextRanges & posintext);
   void signal__update_icons(void);
 
  private:
-  const DipyDoc * dipydoc = nullptr;
+  DipyDoc * dipydoc = nullptr;
 
   bool & blocked_commentaries;
   bool & visible_toolbars;
@@ -95,6 +100,10 @@ friend class SCSplitter;
 
   QAction* levelAct = nullptr;
 
+  QAction* textversionupAct = nullptr;
+  QAction* textversioninfoAct = nullptr;
+  QAction* textversiondownAct = nullptr;
+
   QMediaPlayer* audio_player = nullptr;
   QLayout* layout = nullptr;
   SourceEditor* editor = nullptr;
@@ -104,12 +113,14 @@ friend class SCSplitter;
 
  public:
   explicit SourceZone(const QString      & splitter_name,
-                      const DipyDoc      * _dipydoc,
+                      DipyDoc            * _dipydoc,
                       bool               & _blocked_commentaries,
                       bool               & _visible_toolbars,
                       ReadingMode        & _readingmode,
                       ReadingModeDetails & _readingmodedetails,
                       QWidget *_parent);
+
+  void load_audiorecord(void);
 
  private:
   void update_icons(void);

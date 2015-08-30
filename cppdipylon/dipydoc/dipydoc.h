@@ -23,6 +23,11 @@
 
     A "Dipylon document" is a text, its translation and its annotations.
 
+    o use the constructor Dipylon::Dipylon() to load the DipyDoc for the first
+      time; it will load the "/0" version of the document.
+    o then, use the ::load_a_textversion() method to load another text level 
+      ("/1", "/2", ...)
+
 *******************************************************************************/
 
 #ifndef CPPDIPYLON_DIPYDOC_DIPYDOC_H_
@@ -268,7 +273,7 @@ friend class UI;
   */
   QString              doctype;
 
-  QString              path;
+  QString              path;    // path to the root directory, not the "/0", "/1"... one.
   QString              main_filename_with_fullpath;
 
   QXmlStreamReader*    xmlreader = nullptr;
@@ -288,6 +293,9 @@ friend class UI;
 
   QString              id;
   int                  version;
+  unsigned int         number_of_textversions;  // see DipyDoc::set_number_of_textversions()
+  unsigned int         current_textversion;
+  QString              textversion_description;
   int                  dipydocformat_version;
   LanguageFromTo       languagefromto;
   // sourceeditor.aspect :
@@ -317,6 +325,8 @@ friend class UI;
 
   // private methods ...........................................................
   bool                   check_path(const QString&);
+  void                   clean_before_loading_a_new_textversion(void);
+  void                   clean_syntagmas(void);
   void                   clear(void);
   bool                   error(const QString& msg);
   bool                   error(const QString& msg, const QString& error_string);
@@ -326,7 +336,7 @@ friend class UI;
   QString                get_tab_name(void);
   QString                get_translations_for(PosInText x0, PosInText x1) const;
   bool                   read_mainfile__first_token(void);
-  bool                   read_mainfile__doctype_text(void);
+  bool                   read_mainfile__doctype_text(unsigned int);
   bool                   read_mainfile__doctype_text__init_and_check(void);
   bool                   read_mainfile__doctype_text__syntagma(Syntagma * father);
   void                   read_menu_name(const QString& _path);
@@ -344,7 +354,9 @@ friend class UI;
   PosInTextRanges      translation_contains(PosInText x0, PosInText x1) const;
   QString              diagnosis(void) const;
   QString              get_xml_repr(void) const;
-  void                 read_mainfile(const QString&);
+  void                 load_a_textversion(const QString&, unsigned int);
+  void                 read_mainfile(const QString&, unsigned int);
+  bool                 set_number_of_textversions(const QString& _path);
   int                  internal_state(void) const;
   bool                 well_initialized(void) const;
   QString              syntagmas_repr(void) const;

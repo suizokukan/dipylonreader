@@ -32,7 +32,7 @@
   SourceZone::constructor
 ______________________________________________________________________________*/
 SourceZone::SourceZone(const QString & splitter_name,
-                       const DipyDoc * _dipydoc,
+                       DipyDoc * _dipydoc,
                        bool & _blocked_commentaries,
                        bool & _visible_toolbars,
                        ReadingMode        & _readingmode,
@@ -50,7 +50,17 @@ SourceZone::SourceZone(const QString & splitter_name,
 
   /*
     (0) actions
+
+        (0.1) audio-control objects
+        (0.2) r-l-a-mode objects
+        (0.3) level objects $$$ unused objects ! $$$
+        (0.4) textversion-buttons
    */
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // (0.1) audio-control objects
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   // audiocontrols_playAct
   this->audiocontrols_playAct = new QAction( QIcon(":resources/images/icons/audio_play.png"),
                                              tr("play"),
@@ -68,6 +78,10 @@ SourceZone::SourceZone(const QString & splitter_name,
   // connection #C029 (confer documentation)
   QObject::connect(this->audiocontrols_stopAct, &QAction::triggered,
                    this,                        &SourceZone::audiocontrols_stop);
+
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // (0.2) r-l-a-mode objects
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
   // readingmode_aAct
   this->readingmode_aAct = new QAction( QIcon(":resources/images/icons/readingmode_amode_on.png"),
@@ -96,6 +110,10 @@ SourceZone::SourceZone(const QString & splitter_name,
   QObject::connect(this->readingmode_rAct, &QAction::triggered,
                    this,                   &SourceZone::readingmode_rAct__buttonpressed);
 
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // (0.3) level objects $$$ unused objects ! $$$
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
   // levelupAct
   this->levelupAct = new QAction( QIcon(":resources/images/icons/up.png"),
                                   tr("reading mode : level up"),
@@ -116,21 +134,49 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->levelAct = new QAction( QIcon(":resources/images/icons/level.png"),
                                 tr("reading mode : select level"),
                                 this);
-  /*
-    (1) audio player
-  */
-  this->audio_player = new QMediaPlayer(this);
 
-  if (this->dipydoc->audiorecord.found == true) {
-    // DEBUG1 DebugMsg() << "loading audiofile" << this->dipydoc->audiorecord.filename;
-    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc->audiorecord.filename));
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  // (0.4) textversion-buttons
+  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
-    this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
-    this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
+  // textversionupAct
+  this->textversionupAct = new QAction( QIcon(":resources/images/icons/textversionup.png"),
+                                      tr("text level up"),
+                                      this);
+  // connection #C042 (confer documentation)
+  QObject::connect(this->textversionupAct, &QAction::triggered,
+                   this,                 &SourceZone::textversionupAct__buttonpressed);
+
+  // textversioninfoAct
+  this->textversioninfoAct = new QAction( QIcon(":resources/images/icons/textversion0.png"),
+                                        _dipydoc->textversion_description,
+                                        this);
+  // connection #C044 (confer documentation)
+  QObject::connect(this->textversioninfoAct, &QAction::triggered,
+                   this,                   &SourceZone::textversioninfoAct__buttonpressed);
+
+  // textversiondownAct
+  this->textversiondownAct = new QAction( QIcon(":resources/images/icons/textversiondown.png"),
+                                        tr("text level down"),
+                                        this);
+  // connection #C043 (confer documentation)
+  QObject::connect(this->textversiondownAct, &QAction::triggered,
+                   this,                   &SourceZone::textversiondownAct__buttonpressed);
+
+  // only one textversion ? no textversion icons :
+  if (_dipydoc->number_of_textversions == 1) {
+      this->textversionupAct->setVisible(false);
+      this->textversioninfoAct->setVisible(false);
+      this->textversiondownAct->setVisible(false);
   }
 
   /*
-    (1) setting the object : UI
+    (1) audio player
+  */
+  this->load_audiorecord();
+
+  /*
+    (2) setting the object : UI
   */
   // DEBUG1 DebugMsg() << "[SourceZone::] setStyleSheet = "
   // DEBUG1            << QString("#%1 {border: 0px; padding: 0px}").arg(object_name);
@@ -156,7 +202,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->setLayout(this->layout);
 
   /*
-    (2) actions
+    (3) actions
   */
   this->textminusAct = new QAction(QIcon(":resources/images/icons/textminus.png"),
                                    tr("reduce the font size"), this);
@@ -186,6 +232,11 @@ SourceZone::SourceZone(const QString & splitter_name,
   this->toolbar->addAction(this->textplusAct);
   this->toolbar->addAction(this->textminusAct);
 
+  this->toolbar->addSeparator();
+  this->toolbar->addAction(this->textversionupAct);
+  this->toolbar->addAction(this->textversioninfoAct);
+  this->toolbar->addAction(this->textversiondownAct);
+
   // connection #C033 (confer documentation)
   QObject::connect(this->textminusAct, &QAction::triggered,
                    this->editor,       &SourceEditor::zoom_out);
@@ -199,14 +250,14 @@ SourceZone::SourceZone(const QString & splitter_name,
                    this,               &SourceZone::audio_position_changed);
 
   /*
-    (3) default reading mode
+    (4) default reading mode
   */
   this->readingmode         = READINGMODE::READINGMODE_RMODE;
   this->readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_RMODE;
   // DEBUG1 DebugMsg() << "now in RMODE mode";
 
   /*
-    (4) zoom values for this document :
+    (5) zoom values for this document :
   */
   QSettings settings;
   QString setting_name;
@@ -227,7 +278,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   }
 
   /*
-    (5) updating document aspect :
+    (6) updating document aspect :
   */
   // update source editor aspect :
   this->editor->update_aspect_from_dipydoc_aspect_informations();
@@ -237,7 +288,7 @@ SourceZone::SourceZone(const QString & splitter_name,
   emit this->signal__in_commentary_editor_update_from_dipydoc_info();
 
   /*
-    (6) updating the icons
+    (7) updating the icons
   */
   // SIGNAL #S008 (confer documentation)
   emit this->signal__update_icons();
@@ -372,7 +423,7 @@ void SourceZone::audio_position_changed(qint64 arg_pos) {
           cur.movePosition(QTextCursor::NextCharacter,
                            QTextCursor::MoveAnchor,
                            static_cast<int>(text_ranges.max()) + \
-                           this->editor->number_of_chars_before_source_text + \
+                           static_cast<int>(this->editor->number_of_chars_before_source_text) + \
                            fixedparameters::default__sourcezone__jump_ahead);
           this->editor->setTextCursor(cur);
           this->editor->ensureCursorVisible();
@@ -403,6 +454,31 @@ void SourceZone::leveldownAct__buttonpressed(void) {
 ______________________________________________________________________________*/
 void SourceZone::levelupAct__buttonpressed(void) {
   // DEBUG1 DebugMsg() << "SourceZone::levelupAct__buttonpressed" << this->amode_level;
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::load_audiorecord()
+
+    Load the audio file.
+______________________________________________________________________________*/
+void SourceZone::load_audiorecord(void) {
+  // DEBUG1 DebugMsg() << "loading audio record : entry point";
+
+  delete this->audio_player;
+  this->audio_player = new QMediaPlayer(this);
+
+  if (this->dipydoc->audiorecord.found == true) {
+    // DEBUG1 DebugMsg() << "... loading audiofile" << this->dipydoc->audiorecord.filename;
+    this->audio_player->setMedia(QUrl::fromLocalFile(this->dipydoc->audiorecord.filename));
+
+    this->audio_player->setNotifyInterval(fixedparameters::default__audio_notify_interval);
+    this->audio_player->setVolume(fixedparameters::default__audio_player_volume);
+
+    // DEBUG1 DebugMsg() << "... loading audio record : ok";
+  }
+
+  // DEBUG1 DebugMsg() << "loading audio record : exit point";
 }
 
 /*______________________________________________________________________________
@@ -540,5 +616,64 @@ void SourceZone::update_icons(void) {
     default : {
       break;
     }
+  }
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::textversiondownAct__buttonpressed()
+______________________________________________________________________________*/
+void SourceZone::textversiondownAct__buttonpressed(void) {
+  // DEBUG1 DebugMsg() << "SourceZone::textversiondownAct__buttonpressed";
+
+  if (this->dipydoc->current_textversion > 0) {
+    // DEBUG1 DebugMsg() << "... number_of_textversions=" << this->dipydoc->number_of_textversions;
+    this->dipydoc->current_textversion--;
+
+    #ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    #endif
+    this->dipydoc->load_a_textversion(this->dipydoc->path,
+                                    this->dipydoc->current_textversion);
+    #ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+    #endif
+
+    // SIGNAL #S014 (confer documentation)
+    emit this->signal__update_due_to_a_dipydoc_newly_reloaded();
+  }
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::textversioninfoAct__buttonpressed()
+______________________________________________________________________________*/
+void SourceZone::textversioninfoAct__buttonpressed(void) {
+}
+
+/*______________________________________________________________________________
+
+  SourceZone::textversionupAct__buttonpressed()
+______________________________________________________________________________*/
+void SourceZone::textversionupAct__buttonpressed(void) {
+  // DEBUG1 DebugMsg() << "SourceZone::textversionupAct__buttonpressed";
+
+  // DEBUG1 DebugMsg() << "SourceZone::textversioninfoAct__buttonpressed";
+
+  if (this->dipydoc->current_textversion < this->dipydoc->number_of_textversions) {
+    // DEBUG1 DebugMsg() << "... number_of_textversions=" << this->dipydoc->number_of_textversions;
+    this->dipydoc->current_textversion++;
+
+    #ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    #endif
+    this->dipydoc->load_a_textversion(this->dipydoc->path,
+                                    this->dipydoc->current_textversion);
+    #ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+    #endif
+
+    // SIGNAL #S015 (confer documentation)
+    emit this->signal__update_due_to_a_dipydoc_newly_reloaded();
   }
 }
