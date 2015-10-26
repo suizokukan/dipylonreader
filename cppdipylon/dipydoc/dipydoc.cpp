@@ -97,7 +97,6 @@ DipyDoc::~DipyDoc(void) {
   */
   this->clean_syntagmas();
 
-
   // DEBUG1 DebugMsg() << "DipyDoc::~DipyDoc : exit point";
 }
 
@@ -973,7 +972,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       // id's text
       this->id = this->xmlreader->readElementText();
       this->id = this->id.trimmed();
-
+      // DEBUG1 DebugMsg() << "... id = " << this->id;
       continue;
     }
 
@@ -985,7 +984,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
     if (this->xmlreader->name() == "version") {
       // version's text
       this->version = this->xmlreader->readElementText().toInt();
-
+      // DEBUG1 DebugMsg() << "... version = " << this->version;
       continue;
     }
 
@@ -996,7 +995,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
     */
     if (this->xmlreader->name() == "textversion") {
       this->textversion_description = this->xmlreader->readElementText();
-
+      // DEBUG1 DebugMsg() << "... textversion_description = " << this->textversion_description;
       continue;
     }
 
@@ -1017,7 +1016,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       // title's text
       this->title.text = this->xmlreader->readElementText();
       this->title.text = this->title.text.trimmed();
-
+      // DEBUG1 DebugMsg() << "... title = " << this->title.text;
       continue;
     }
 
@@ -1040,7 +1039,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       // introduction's text
       this->introduction.text = this->xmlreader->readElementText();
       this->introduction.text = this->introduction.text.trimmed();
-
+      // DEBUG1 DebugMsg() << "... introduction.text = " << this->introduction.text;
       continue;
     }
 
@@ -1048,6 +1047,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       lettrine
     */
     if (tokenname == "lettrine") {
+      // DEBUG1 DebugMsg() << "... found 'lettrine' token";
+
       this->lettrine.found = true;
 
       // lettrine::positionintextframe
@@ -1111,6 +1112,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       this->source_text.informations = this->xmlreader->attributes().value("informations").toString();
 
       this->xmlreader->skipCurrentElement();
+      // DEBUG1 DebugMsg() << "... source_text.filename = " << this->source_text.filename;
+      // DEBUG1 DebugMsg() << "... source_text.description = " << this->source_text.description;
       continue;
     }
 
@@ -1118,6 +1121,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       aspect
     */
     if (tokenname == "aspect") {
+      // DEBUG1 DebugMsg() << "... found 'aspect' token";
+
       while (this->xmlreader->readNextStartElement()) {
         // aspect::sourceeditor
         if (this->xmlreader->name() == "sourceeditor") {
@@ -1179,6 +1184,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       audiorecord
     */
     if (tokenname == "audiorecord") {
+      // DEBUG1 DebugMsg() << "... found 'audiorecord' token";
+
       this->audiorecord.found = true;
       // audiorecord::description
       this->audiorecord.description = this->xmlreader->attributes().value("description").toString();
@@ -1218,7 +1225,7 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
           continue;
         }
       }
-
+      // DEBUG1 DebugMsg() << "audiorecord.informations = " << this->audiorecord.informations;
       continue;
     }
 
@@ -1226,6 +1233,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       translation
     */
     if (tokenname == "translation") {
+      // DEBUG1 DebugMsg() << "found 'translation' token";
+
       this->translation.found = true;
       // translation::informations
       this->translation.informations = this->xmlreader->attributes().value("informations").toString();
@@ -1249,7 +1258,6 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
           continue;
         }
       }
-
       continue;
     }
 
@@ -1257,6 +1265,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       notes.syntagmas_aspects, notes.syntagmas_levels
     */
     if (tokenname == "syntagmas_levels") {
+      // DEBUG1 DebugMsg() << "... found 'syntagmas_levels' token";
+
       while (this->xmlreader->readNextStartElement()) {
         // syntagmas_aspects::syntagma_name
         if (this->xmlreader->name() == "syntagma_level") {
@@ -1300,6 +1310,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       notes.syntagmas_types
     */
     if (tokenname == "syntagmas_types") {
+      // DEBUG1 DebugMsg() << "... found 'syntagmas_types' token";
+
       while (this->xmlreader->readNextStartElement()) {
         // syntagmas_types::syntagmas_type
         if (this->xmlreader->name() == "syntagma_type") {
@@ -1323,6 +1335,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       arrows_types
     */
     if (tokenname == "arrows_types") {
+      // DEBUG1 DebugMsg() << "... found 'arrows_types' token";
+
       while (this->xmlreader->readNextStartElement()) {
         // arrows_types::arrow_type
         if (this->xmlreader->name() == "arrow_type") {
@@ -1349,6 +1363,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
       notes
     */
     if (tokenname == "notes") {
+      // DEBUG1 DebugMsg() << "... found 'notes' token";
+
       ok &= this->read_mainfile__doctype_text__syntagma(nullptr);
       if (ok == true) {
         this->notes.found = true;
