@@ -107,6 +107,10 @@ Done processing ./qt/sctabs.cpp
 Total errors found: 0
 Done processing ./qt/texteditor.cpp
 Total errors found: 0
+Done processing ./qt/commentarytempdata.cpp
+Total errors found: 0
+Done processing ./qt/commentarytempdata.h
+Total errors found: 0
 Done processing ./qt/blockformat.h
 Total errors found: 0
 Done processing ./qt/textformat.h
@@ -125,7 +129,11 @@ Done processing ./qt/posintextframeformat.cpp
 Total errors found: 0
 Done processing ./qt/commentaryzone.cpp
 Total errors found: 0
+Done processing ./qt/popupmessagecom.h
+Total errors found: 0
 Done processing ./qt/sourcezone.cpp
+Total errors found: 0
+Done processing ./qt/popupmessagecom.cpp
 Total errors found: 0
 Done processing ./qt/ui.cpp
 Total errors found: 0

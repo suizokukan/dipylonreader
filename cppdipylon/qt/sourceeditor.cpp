@@ -92,14 +92,17 @@ PosInText SourceEditor::corrected_cursor_position(void) const {
   [2] arrows
   [3] other keys
 
+
+    See Qt:Key_* symbols at http://doc.qt.io/qt-5/qt.html .
+
 ______________________________________________________________________________*/
 void SourceEditor::keyReleaseEvent(QKeyEvent * keyboard_event) {
-  // DEBUG1 DebugMsg() << "SourceEditor::keyReleaseEvent" << keyboard_event->key();
-
   switch (keyboard_event->key()) {
     //......................................................................
     // [1] space
     case Qt::Key_Space : {
+      // DEBUG1 DebugMsg() << "SourceEditor::keyReleaseEvent : space";
+
       switch (this->readingmode) {
         case READINGMODE::READINGMODE_LMODE: {
           switch (this->readingmode_details) {
@@ -635,7 +638,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
             // hash update :
             this->modified_chars_hash = text_ranges_hash;
 
-            // SIGNAL #S001 (confer documentation)
+            // ° signal #S001 (confer documentation)
             emit this->signal__update_translation_in_commentary_zone(pos_in_text);
 
             this->update();
@@ -667,7 +670,7 @@ void SourceEditor::mouseMoveEvent(QMouseEvent* mouse_event) {
             // hash update :
             this->modified_chars_hash = text_ranges_hash;
             // let's show the note :
-            // SIGNAL #S013 (confer documentation)
+            // ° signal #S013 (confer documentation)
             emit this->signal__update_note_in_commentary_zone(syntagma->textnote);
 
             this->update();
@@ -723,11 +726,11 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
       this->modified_chars_hash = text_ranges_hash;
 
       this->blocked_commentaries = false;
-      // SIGNAL #S002 (confer documentation)
+      // ° signal #S002 (confer documentation)
       emit this->signal__update_translation_in_commentary_zone(pos_in_text);
       this->blocked_commentaries = true;
 
-      // SIGNAL #S003 (confer documentation)
+      // ° signal #S003 (confer documentation)
       emit this->signal__source_zone_update_icons();
 
       this->update();
@@ -771,7 +774,9 @@ void SourceEditor::mouseReleaseEvent(QMouseEvent* mouse_event) {
               // hash update :
               this->modified_chars_hash = text_ranges_hash;
 
-              // SIGNAL #S004 (confer documentation)
+              /* 
+                 ° signal #S004 (confer documentation)
+              */
               emit this->signal__update_translation_in_commentary_zone(pos_in_text);
 
               this->update();

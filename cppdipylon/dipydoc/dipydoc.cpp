@@ -810,8 +810,6 @@ void DipyDoc::read_mainfile(const QString& _path, unsigned int _textversion) {
 
   QString msg_error;
 
-  // DEBUG1 DebugMsg() << "DipyDoc::read_mainfile" << "path=" << _path;
-
   /*............................................................................
     (1) main file opening
   ............................................................................*/
@@ -1197,6 +1195,9 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
                                    "/" + \
                                    this->xmlreader->attributes().value("filename").toString();
 
+      // DEBUG1 DebugMsg() << "found audiorecord : filename=" << this->audiorecord.filename;
+      // DEBUG1 DebugMsg() << "found audiorecord : description=" << this->audiorecord.description;
+
       QFile audiofile(this->audiorecord.filename);
       if (!audiofile.open(QFile::ReadOnly)) {
         ok &= !this->error(QString("Can't open the audio record file named '%1'").arg(this->audiorecord.filename),
@@ -1205,6 +1206,8 @@ bool DipyDoc::read_mainfile__doctype_text(unsigned int _textversion) {
 
       // audiorecord::informations
       this->audiorecord.informations = this->xmlreader->attributes().value("informations").toString();
+
+      // DEBUG1 DebugMsg() << "found audiorecord : informations=" << this->audiorecord.informations;
 
       while (this->xmlreader->readNextStartElement()) {
         // audiorecord::segment
@@ -1658,7 +1661,7 @@ bool DipyDoc::read_mainfile__doctype_text__init_and_check(void) {
   }
 
   // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) notes=\n"  << this->notes.repr();
-  // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check)"
+  // DEBUG1 DebugMsg() << "(DipyDoc::read_mainfile__doctype_text__init_and_check) "
   // DEBUG1            << "_well_initialized =" << this->_well_initialized;
 
   return ok;

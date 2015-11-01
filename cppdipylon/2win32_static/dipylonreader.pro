@@ -64,10 +64,12 @@ HEADERS         +=  ./fixedparameters.h \
                     qt/arrowformat.h \
                     qt/blockformat.h \
                     qt/commentaryeditor.h \
+                    qt/commentarytempdata.h \
                     qt/commentarytoolbar.h \
                     qt/commentaryzone.h \
                     qt/downloaddemodipydocs.h \
                     qt/mainwindow.h \
+                    qt/popupmessagecom.h \
                     qt/posintextframeformat.h \
                     qt/presentationscreen.h \
                     qt/readingmodes.h \
@@ -96,10 +98,12 @@ SOURCES         +=  ./main.cpp \
                     qt/arrowformat.cpp \
                     qt/blockformat.cpp \
                     qt/commentaryeditor.cpp \
+                    qt/commentarytempdata.cpp \
                     qt/commentarytoolbar.cpp \
                     qt/commentaryzone.cpp \
                     qt/downloaddemodipydocs.cpp \
                     qt/mainwindow.cpp \
+                    qt/popupmessagecom.cpp \
                     qt/posintextframeformat.cpp \
                     qt/presentationscreen.cpp \
                     qt/scsplitter.cpp \

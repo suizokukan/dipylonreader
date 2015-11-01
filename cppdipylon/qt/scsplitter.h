@@ -37,7 +37,10 @@
 
 #include "debugmsg/debugmsg.h"
 #include "dipydoc/dipydoc.h"
+#include "pos/posintext/posintextranges.h"
+#include "qt/commentarytempdata.h"
 #include "qt/commentaryzone.h"
+#include "qt/popupmessagecom.h"
 #include "qt/sourcezone.h"
 
 /*______________________________________________________________________________
@@ -66,12 +69,16 @@ friend class MainWindow;
   ReadingModeDetails readingmode_details = READINGMODEDETAILS::READINGMODEDETAIL_UNDEFINED;
   QList<int> splittersizes = fixedparameters::default__editors_size_in_main_splitter;
 
+  PopupMessageCommentary * popup_message_commentary = nullptr;
+  CommentaryTempData     * commentary_temp_data = nullptr;
+
   void               read_settings(void);
   void               write_settings(void);
 
  private slots:  // NOLINT(whitespace/indent)
   void              update_due_to_a_dipydoc_newly_loaded(void);
   void              update_icons(void);
+  void              update_content__popuptranslation_expected(void);
 
  public:
             explicit SCSplitter(const int index_in_scbar,

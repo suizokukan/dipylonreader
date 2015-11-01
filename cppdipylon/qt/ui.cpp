@@ -197,6 +197,8 @@ int UI::go(int argc, char **argv) {
   this->mainWin->show();
 
   /*
+    ° connection #C036 (confer documentation)
+
   from the doc of QCoreApplication::exec:
 
   | We recommend that you connect clean-up code to the aboutToQuit() signal,
@@ -210,7 +212,6 @@ int UI::go(int argc, char **argv) {
     see e.g. http://stackoverflow.com/questions/8165487/how-to-do-cleaning-up-on-exit-in-qt
 
   */
-  // connection #C036 (confer documentation)
   QObject::connect(&app, &QApplication::aboutToQuit,
                    this->mainWin, &MainWindow::closing);
 

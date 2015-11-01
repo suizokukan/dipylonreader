@@ -29,14 +29,14 @@
 #define CPPDIPYLON_QT_SOURCEEDITOR_H_
 
 #include <QAction>
-#include <QTextEdit>
-#include <QTextCharFormat>
-#include <QTimer>
 #include <QList>
 #include <QMediaPlayer>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTextBlock>
+#include <QTextCharFormat>
+#include <QTextEdit>
+#include <QTimer>
 #include <QWidget>
 
 #include <vector>
@@ -50,6 +50,7 @@
 #include "qt/texteditor.h"
 #include "qt/textformat.h"
 
+struct CommentaryTempData;
 /*______________________________________________________________________________
 
   SourceEditor class
@@ -57,6 +58,8 @@ ______________________________________________________________________________*/
 class SourceEditor : public TextEditor {
   friend class MainWindow;
   friend class SourceZone;
+  friend class SCSplitter;
+  friend struct CommentaryTempData;
 
     Q_OBJECT
 
