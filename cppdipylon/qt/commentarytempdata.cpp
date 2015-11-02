@@ -53,8 +53,8 @@ void CommentaryTempData::update(const PosInTextRanges& _pos_in_text_ranges) {
 
   // setting the xy attribute :
   QTextCursor cur = this->source_zone__editor->textCursor();
-  cur.setPosition(this->source_zone__editor->number_of_chars_before_source_text + \
-                  static_cast<int>(_pos_in_text_ranges.min()));
+  cur.setPosition(static_cast<int>(this->source_zone__editor->number_of_chars_before_source_text + \
+                                   _pos_in_text_ranges.min()));
   QRect cur_rect = this->source_zone__editor->cursorRect(cur);
   cur_rect.translate(8, 30);
   this->xy = this->source_zone__editor->mapToGlobal(cur_rect.topLeft());
