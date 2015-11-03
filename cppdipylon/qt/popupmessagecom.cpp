@@ -33,7 +33,7 @@
 
         PopupMessageCommentary constructor.
 ______________________________________________________________________________*/
-PopupMessageCommentary::PopupMessageCommentary(void) : QLabel(0) {
+PopupMessageCommentary::PopupMessageCommentary(QWidget *_parent) : QLabel(_parent) {
   this->setWindowFlags(Qt::ToolTip);  // see http://doc.qt.io/qt-5/qt.html#WindowType-enum
   this->setFocusPolicy(Qt::NoFocus);  // see http://qt-project.org/doc/qt-4.8/qwidget.html#focusPolicy-prop
   this->setStyleSheet("border-radius: 9px; background-color: #12ffcc; "

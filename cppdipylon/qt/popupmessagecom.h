@@ -43,7 +43,7 @@ class PopupMessageCommentary : public QLabel {
   Q_OBJECT
 
  public:
-  PopupMessageCommentary(void);
+  PopupMessageCommentary(QWidget *_parent);
 };
 
 #endif  // CPPDIPYLON_QT_POPUPMESSAGECOM_H_
