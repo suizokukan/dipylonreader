@@ -48,5 +48,9 @@
     <file>resources/images/icons/textversion9.png</file>
 
     <file>resources/images/icons/setnovelsize.png</file>
+
+    <file>resources/images/icons/commentaryloc0.png</file>
+    <file>resources/images/icons/commentaryloc1.png</file>
+    <file>resources/images/icons/commentaryloc2.png</file>
 </qresource>
 </RCC>

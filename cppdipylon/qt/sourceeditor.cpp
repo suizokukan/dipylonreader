@@ -322,12 +322,6 @@ void SourceEditor::load_text(void) {
         the .modified_chars_hash attribute.
 
         Use this function only for the a-mode.
-
-
-    About the #pragma GCC diagnostic ignored "-Wstrict-overflow" below,
-    there's a problem with GCC, -O2 and QList. See by example
-    https://bugreports.qt.io/browse/QTBUG-33314
-    this->focused_syntagma_in_amode->ancestors is a QList<Syntagma*> .
 _____________________________________________________________________________*/
 void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
   // DEBUG1 DebugMsg() << "SourceEditor::modify_the_text_format__amode() syntagma=" << syntagma;
@@ -393,10 +387,7 @@ void SourceEditor::modify_the_text_format__amode(Syntagma* syntagma) {
         // brother :
         link = 1;
       }  else {
-#pragma GCC diagnostic push  // see above, in the documentation of the function.
-#pragma GCC diagnostic ignored "-Wstrict-overflow"
         if (this->focused_syntagma_in_amode->ancestors.contains(current_syntagma)) {
-#pragma GCC diagnostic pop
         // family :
           link = 2;
         }

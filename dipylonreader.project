@@ -57,8 +57,8 @@ SUMMARY
 [10.3] OSX
 
 [11] command line
-    [12.1] arguments specific to the project
-    [12.2] Qt arguments
+    [11.1] arguments specific to the project
+    [11.2] Qt arguments
 
 [12] settings (=configuration file)
 
@@ -69,6 +69,9 @@ SUMMARY
 ################################################################################
 [0] roadmap
 ################################################################################
+
+- todo : finir la compilation avec clang pour Linux
+- chercher les todo et autres $$$ du projet, y compris dans ce fichier.
 
 **********************
 *                    *
@@ -1175,10 +1178,12 @@ confer http://qt-project.org/doc/qt-5/qapplication.html
 "application/firstlaunch" : (bool)
 "application/displaysplashscreen" : (bool)
 
+"mainwindow/commentlocation"    : (int)
 "mainwindow/geometry"           : ByteArray
 "mainwindow/fullscreen"         : (bool)
 "mainwindow/visible_toolbars"   : (bool)
 
+$$$ non fait
 "text/TEXTNAME/commentaryeditor/zoomvalue" : int
 "text/TEXTNAME/sourceeditor/zoomvalue" : int
 

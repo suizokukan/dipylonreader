@@ -177,7 +177,7 @@ SCSplitter::SCSplitter(const int index_in_scbar,
   /*
     (6) setting this->popup_message_commentary
   */
-  this->popup_message_commentary = new PopupMessageCommentary();
+  this->popup_message_commentary = new PopupMessageCommentary(_parent);
 
   /*
     (7) setting this->_well_initialized

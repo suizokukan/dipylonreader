@@ -232,6 +232,18 @@ void MainWindow::createActions(void) {
   this->setnovelsizeAct->setVisible(true);
   #endif
 
+  /*
+    commentarylocAct
+  */
+  this->setcommentarylocationAct = new QAction( QIcon(":resources/images/icons/commentaryloc0.png"),
+                                                tr("Where the comments have to be displayed ?"),
+                                                this);
+  this->setcommentarylocationAct->setStatusTip(tr("Where the comments have to be displayed ?"));
+  this->setcommentarylocationAct->setVisible(true);
+  // ° connection #C046 (confer documentation)
+  QObject::connect(this->setcommentarylocationAct, &QAction::triggered,
+                   this,                           &MainWindow::setcommentarylocationAct__buttonPressed);
+
   // DEBUG1 DebugMsg() << "MainWindow::createActions : exit point";
 }
 
@@ -301,6 +313,7 @@ void MainWindow::createMainToolBars(void) {
   this->mainwintoolbar->addAction(this->openAct);
   this->mainwintoolbar->addAction(this->hidetoolbarsAct);
   this->mainwintoolbar->addAction(this->setnovelsizeAct);
+  this->mainwintoolbar->addAction(this->setcommentarylocationAct);
 
   // DEBUG1 DebugMsg() << "MainWindow::createMainToolBars : exit point";
 }
@@ -471,7 +484,6 @@ void MainWindow::init(void) {
     let's update the icons' appearence :
   */
   this->update_icons();
-
   this->setUnifiedTitleAndToolBarOnMac(true);
 
   /*
@@ -481,7 +493,7 @@ void MainWindow::init(void) {
   // DEBUG1 DebugMsg() << "network_manager.networkAccessible (1 if ok, 0 if not ok, -1 if unknown) ="
   // DEBUG1            << static_cast<int>(this->ui.network_manager->networkAccessible());
 
-  // DEBUG1 DebugMsg() << "MainWindow::exit() : entry point";
+  // DEBUG1 DebugMsg() << "MainWindow::init() : exit point";
 }
 
 /*______________________________________________________________________________
@@ -576,6 +588,70 @@ void MainWindow::readSettings(void) {
 
 /*______________________________________________________________________________
 
+  MainWindow::setcommentarylocationAct__buttonPressed()
+
+    Modify this->setcommentarylocation_value.
+______________________________________________________________________________*/
+void MainWindow::setcommentarylocationAct__buttonPressed(void) {
+  // DEBUG1 DebugMsg() << "MainWindow::setcommentarylocationAct__buttonPressed()";
+
+  switch(this->setcommentarylocation_value) {
+    case SETCOMMENTARYLOCATION__NOCOMMENT : {
+      this->setcommentarylocation_value = SETCOMMENTARYLOCATION__POPUP;
+      break;
+    }
+    case SETCOMMENTARYLOCATION__POPUP : {
+      this->setcommentarylocation_value = SETCOMMENTARYLOCATION__COMMENTARYZONE;
+      break;
+    }
+    case SETCOMMENTARYLOCATION__COMMENTARYZONE : {
+      this->setcommentarylocation_value = SETCOMMENTARYLOCATION__NOCOMMENT;
+      break;
+    }
+    default : {
+      // DEBUG1 DebugMsg() << "Error : unknown value !";
+      break;
+    }
+  }
+
+  // DEBUG1 DebugMsg() << "MainWindow::commentarylocation_value=" << this->setcommentarylocation_value;
+
+  // let's refresh the UI :
+  this->setcommentarylocationAct__refreshui();
+}
+
+/*______________________________________________________________________________
+
+  MainWindow::setcommentarylocationAct__refreshui()
+
+    Refresh the ui according to this->setcommentarylocation_value
+______________________________________________________________________________*/
+void MainWindow::setcommentarylocationAct__refreshui(void) {
+  // DEBUG1 DebugMsg() << "MainWindow::setcommentarylocationAct__refreshui()";
+  // DEBUG1 DebugMsg() << "MainWindow::setcommentarylocation_value=" << this->setcommentarylocation_value;
+
+  switch(this->setcommentarylocation_value) {
+    case SETCOMMENTARYLOCATION__NOCOMMENT : {
+      this->setcommentarylocationAct->setIcon(QIcon(":resources/images/icons/commentaryloc0.png"));
+      break;
+    }
+    case SETCOMMENTARYLOCATION__POPUP : {
+      this->setcommentarylocationAct->setIcon(QIcon(":resources/images/icons/commentaryloc1.png"));
+      break;
+    }
+    case SETCOMMENTARYLOCATION__COMMENTARYZONE : {
+      this->setcommentarylocationAct->setIcon(QIcon(":resources/images/icons/commentaryloc2.png"));
+      break;
+    }
+    default : {
+      // DEBUG1 DebugMsg() << "Error : unknown value !";
+      break;
+    }
+  }
+}
+
+/*______________________________________________________________________________
+
   MainWindow::setnovelsizeAct__buttonPressed
 ______________________________________________________________________________*/
 void MainWindow::setnovelsizeAct__buttonPressed(void) {
@@ -609,7 +685,7 @@ void MainWindow::setnovelsizeAct__buttonPressed(void) {
   Update the icons along the current Dipydoc and the reading mode.
 ________________________________________________________________________________*/
 void MainWindow::update_icons(void) {
-  // DEBUG1 DebugMsg() << "MainWindow::update_icons;";
+  // DEBUG1 DebugMsg() << "MainWindow::update_icons()";
 
   SCSplitter* splitter = this->current_splitter();
 

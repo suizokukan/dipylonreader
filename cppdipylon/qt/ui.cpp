@@ -223,9 +223,14 @@ int UI::go(int argc, char **argv) {
   // DEBUG1            << qfontdatabase.families().join("; ");
 
   /*
-    saved settings :
+    let's read the saved settings :
   */
   this->read_settings();
+
+  /*
+    let's update the main window appearance :
+  */
+  this->mainWin->setcommentarylocationAct__refreshui();
 
   /*
     main window maximized ?
@@ -351,13 +356,23 @@ void UI::read_settings(void) {
 
     /*
       display splashscreen ?
+        todo:$$$ missing default value
     */
     this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
+    // DEBUG1 DebugMsg() << "UI::display_splashscreen = " << this->display_splashscreen;
 
     /*
       visible toolbars ?
+        todo:$$$ missing default value
     */
     this->mainWin->visible_toolbars = settings.value("mainwindow/visible_toolbars") == true;
+    // DEBUG1 DebugMsg() << "UI::mainWin->visible_toolbars = " << this->mainWin->visible_toolbars;
+
+    /*
+      commentary location ?
+    */
+    this->mainWin->setcommentarylocation_value = settings.value("mainwindow/commentarylocation", SETCOMMENTARYLOCATION__COMMENTARYZONE).toInt();
+    // DEBUG1 DebugMsg() << "UI::mainWin->setcommentarylocation_value = " << this->mainWin->setcommentarylocation_value;
   }
 }
 
@@ -400,4 +415,9 @@ void UI::write_settings(void) {
     visible toolbars ?
   */
   settings.setValue("mainwindow/visible_toolbars", this->mainWin->visible_toolbars);
+
+  /*
+    commentary location ?
+  */
+  settings.setValue("mainwindow/commentarylocation", this->mainWin->setcommentarylocation_value);
 }
