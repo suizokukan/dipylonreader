@@ -49,6 +49,10 @@ class QSplitter;
 class SourceEditor;
 class UI;
 
+enum SETCOMMENTARYLOCATION : int {SETCOMMENTARYLOCATION__NOCOMMENT = 0,
+                                  SETCOMMENTARYLOCATION__POPUP = 1,
+                                  SETCOMMENTARYLOCATION__COMMENTARYZONE = 2};
+
 class MainWindow : public QMainWindow {
 friend class CommentaryEditor;
 friend class CommentaryToolBar;
@@ -75,11 +79,14 @@ friend class UI;
     void open(void);
     void popup_mainmenuAct__buttonPressed(void);
     void setnovelsizeAct__buttonPressed(void);
+    void setcommentarylocationAct__buttonPressed(void);
+    void setcommentarylocationAct__refreshui(void);
 
  private:
     UI&         ui;
 
     bool        visible_toolbars = fixedparameters::default__visible_toolbars;
+    int         setcommentarylocation_value = SETCOMMENTARYLOCATION__NOCOMMENT;
 
     void        createActions(void);
     void        createMenus(void);
@@ -109,6 +116,7 @@ friend class UI;
     QAction*   openAct = nullptr;
     QAction*   popup_mainmenuAct = nullptr;
     QAction*   setnovelsizeAct = nullptr;
+    QAction*   setcommentarylocationAct = nullptr;
 
     QToolBar  *mainwintoolbar = nullptr;
     QToolBar  *editToolBar = nullptr;
