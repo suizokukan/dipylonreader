@@ -15,6 +15,8 @@
 #       =0 : no call to DebugMessage() will be kept
 #       =1 : the calls to DebugMessage() marked as // DEBUG1 will be kept
 #
+# o --compiler : "gcc" or "clang"
+#
 # o this script seeks in fixedparameters.h the project's version :
 #   expected format is :
 #       const QString application_version = "@@@version number@@@";
@@ -22,6 +24,8 @@
 #       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
 # 
 ################################################################################
+#
+# version 7 (2015.12.22) : new option : --compiler
 #
 # version 6 (2014.11.11) : new name + display executable's name
 #
@@ -43,13 +47,15 @@ from datetime import datetime
 
 start_time = datetime.now()
 
-VERSION = "build_linux64dynamic : v6"
+VERSION = "build_linux64dynamic : v7"
 SUMMARY = "Linux > Linux64/dynamic"
 
 # system call
 def ossystem(arg):
     os.system(arg)
     #print(arg)
+
+PATH_TO_QMAKE = "qmake-qt5"
 
 # command line options :
 PARSER = argparse.ArgumentParser(description=SUMMARY)
@@ -59,6 +65,12 @@ PARSER.add_argument("--debug",
                     choices={0,1},
                     required=True,
                     type=int)
+
+PARSER.add_argument("--compiler",
+                    help="compiler to be used",
+                    choices={"gcc", "clang"},
+                    required=True,
+                    type=str)
 
 PARSER.add_argument("--version",
                     action="version",
@@ -91,9 +103,11 @@ with open("build_number", 'w') as buildnumber_file:
 TEMP_FOLDER = "temp__build_linux64_dynamic_debug{0}".format(ARGS.debug)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_linux_64bits_dynamic_v{0}_debug{1}_build{2}".format(VERSION_FOR_EXEC_NAME,
-                                                                                ARGS.debug,
-                                                                                BUILD_NUMBER)
+EXEC_NAME  = "dipylonreader_" \
+             "linux_64bits_dynamic_v{0}_{1}_debug{2}_build{3}".format(VERSION_FOR_EXEC_NAME,
+                                                                      ARGS.compiler,
+                                                                      ARGS.debug,
+                                                                      BUILD_NUMBER)
 
 # build :
 print("=== compiling {0} ===".format(SUMMARY))
@@ -126,7 +140,10 @@ if ARGS.debug == 1:
     ossystem("find . -name \"*.h\"   -exec sed -i 's:// DEBUG1 ::g' {} \;")
     
 print("== calling qmake")
-ossystem("qmake-qt5 -makefile dipylonreader.pro")
+if ARGS.compiler == "gcc":
+    ossystem("{0} -makefile dipylonreader.gcc.pro".format(PATH_TO_QMAKE))
+elif ARGS.compiler == "clang":
+    ossystem("{0} -makefile dipylonreader.clang.pro -spec linux-clang".format(PATH_TO_QMAKE))
 
 print("== calling make")
 ossystem("make -j2")
@@ -138,5 +155,4 @@ time_end = datetime.now()
 print("==> total time = ", str(time_end-start_time))
 
 print()
-print("tried to build " + EXEC_NAME)
-
+print("the target was : " + EXEC_NAME)
