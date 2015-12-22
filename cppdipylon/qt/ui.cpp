@@ -349,21 +349,19 @@ void UI::read_settings(void) {
     this->mainWin->restoreGeometry(settings.value("mainwindow/geometry").toByteArray());
     #endif
 
-    if (settings.value("mainwindow/fullscreen") == true) {
+    if (settings.value("mainwindow/fullscreen", false) == true) {
       // DEBUG1 DebugMsg() << "call to this->mainWin->showFullScreen()";
       this->mainWin->showFullScreen();
     }
 
     /*
       display splashscreen ?
-        todo:$$$ missing default value
     */
-    this->display_splashscreen = settings.value("application/displaysplashscreen") == true;
+    this->display_splashscreen = settings.value("application/displaysplashscreen", true) == true;
     // DEBUG1 DebugMsg() << "UI::display_splashscreen = " << this->display_splashscreen;
 
     /*
       visible toolbars ?
-        todo:$$$ missing default value
     */
     this->mainWin->visible_toolbars = settings.value("mainwindow/visible_toolbars") == true;
     // DEBUG1 DebugMsg() << "UI::mainWin->visible_toolbars = " << this->mainWin->visible_toolbars;
@@ -371,7 +369,9 @@ void UI::read_settings(void) {
     /*
       commentary location ?
     */
-    this->mainWin->setcommentarylocation_value = settings.value("mainwindow/commentarylocation", SETCOMMENTARYLOCATION__COMMENTARYZONE).toInt();
+    this->mainWin->setcommentarylocation_value = \
+      settings.value("mainwindow/commentarylocation",
+                     SETCOMMENTARYLOCATION__COMMENTARYZONE).toInt();
     // DEBUG1 DebugMsg() << "UI::mainWin->setcommentarylocation_value = " << this->mainWin->setcommentarylocation_value;
   }
 }
