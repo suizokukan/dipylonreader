@@ -1,70 +1,69 @@
 #!/usr/bin/env python
 
-################################################################################
-#
-# build_win64static.py
-#
-# Python2/3 script.
-# to be used only on a system with a shell.
-#
-################################################################################
-#
-# This script launches the compilation of the Dipylon's project
-#
-# o --console=yes, --console=no
-#       Add a console to the application ?
-#
-# o --debug=0, --debug=1
-#       =0 : no call to DebugMessage() will be kept
-#       =1 : the calls to DebugMessage() marked as // DEBUG1 will be kept
-#
-# o this script seeks in fixedparameters.h the project's version :
-#   expected format is :
-#       const QString application_version = "@@@version number@@@";
-#
-#       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
-# 
-################################################################################
-#
-# version 5 (2014.11.11) : new name + display executable's name
-#
-# version 4 (2014.11.09) : make uses -j2 + display total amount of time
-#
-# version 3 (2014.11.08) : improved TEMP_FOLDER
-#
-# version 2 (2014.11.21) : new option : --console=yes|no
-#
-# version 1 (2014.11.05) : first version to be committed.
-#
-################################################################################
+"""
+ build_win64static.py
 
+ Python2/3 script.
+ to be used only on a system with a shell.
+ _______________________________________________________________________________
+
+ This script launches the compilation of the Dipylon's project
+
+ o --console=yes, --console=no
+       Add a console to the application ?
+
+ o --debug=0, --debug=1
+       =0 : no call to DebugMessage() will be kept
+       =1 : the calls to DebugMessage() marked as // DEBUG1 will be kept
+
+ o this script seeks in fixedparameters.h the project's version :
+   expected format is :
+       const QString application_version = "@@@version number@@@";
+
+       where @@@version number@@@ can be anything, "0.4.7" or "1.2.3-special-release"
+ _______________________________________________________________________________
+
+ version 5 (2014.11.11) : new name + display executable's name
+
+ version 4 (2014.11.09) : make uses -j2 + display total amount of time
+
+ version 3 (2014.11.08) : improved TEMP_FOLDER
+
+ version 2 (2014.11.21) : new option : --console=yes|no
+
+ version 1 (2014.11.05) : first version to be committed.
+"""
 import os
 import argparse
 from datetime import datetime
 
-start_time = datetime.now()
+START_TIME = datetime.now()
 
 
 VERSION = "build_win64static : v5"
 SUMMARY = "Linux > Windows64/static/using MXE"
 
 # system call
-def ossystem(arg):
-    os.system(arg)
-    #print(arg)
+def ossystem(_arg):
+    """
+        shell-execute the arg[ument]
+    """
+    os.system(_arg)
+    #print(_arg)
 
 # command line options :
 PARSER = argparse.ArgumentParser(description=SUMMARY)
 
 PARSER.add_argument("--debug",
-                    help="level of the calls to DebugMessage() to be kept : =0 if nothing to be kept.",
-                    choices={0,1},
+                    help="level of the calls to DebugMessage() to be kept : " \
+                         "=0 if nothing to be kept.",
+                    choices={0, 1},
                     required=True,
                     type=int)
 
 PARSER.add_argument("--console",
                     help="add a console to the application, or not",
-                    choices={"yes","no"},
+                    choices={"yes", "no"},
                     required=True,
                     type=str)
 
@@ -73,7 +72,7 @@ PARSER.add_argument("--version",
                     version=VERSION)
 
 ARGS = PARSER.parse_args()
-    
+
 # getting the version of the project :
 VERSION = "unknown_version"
 VERSION_LINE_STARTSWITH = "const QString application_version = \""
@@ -100,10 +99,13 @@ TEMP_FOLDER = "temp__build_win64_static_debug{0}_console{1}".format(ARGS.debug,
                                                                     ARGS.console)
 
 # setting the executable name :
-EXEC_NAME  = "dipylonreader_win_64bits_static_v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,
-                                                                                            ARGS.debug,
-                                                                                            ARGS.console,
-                                                                                            BUILD_NUMBER)
+EXEC_NAME = "dipylonreader_win_64bits_static_" \
+            "v{0}_debug{1}_console{2}_build{3}.exe".format(VERSION_FOR_EXEC_NAME,
+                                                           ARGS.debug,
+                                                           ARGS.console,
+                                                           BUILD_NUMBER)
+
+PATH_TO_MXEQMAKE = "~/mxe_64/usr/x86_64-w64-mingw32/qt5/bin/qmake"
 
 
 # build :
@@ -131,10 +133,11 @@ ossystem("rm -rf {0}/*".format(TEMP_FOLDER))
 ossystem("rsync -a . {0}/ --exclude {0}/ --exclude 2win64_static".format(TEMP_FOLDER))
 
 print("== 2win64_static/* > {0}/".format(TEMP_FOLDER))
-print("... dipylonreader.pro")
-ossystem("cp 2win64_static/dipylonreader.pro {0}/dipylonreader.pro".format(TEMP_FOLDER))
+print("... dipylonreader.gcc.pro")
+ossystem("cp 2win64_static/dipylonreader.gcc.pro {0}/dipylonreader.gcc.pro".format(TEMP_FOLDER))
 print("... win_app_icon.ico")
-ossystem("cp 2win64_static/resources/images/icons/win_app_icon.ico {0}/resources/images/icons/".format(TEMP_FOLDER))
+ossystem("cp 2win64_static/resources/images/icons/win_app_icon.ico " \
+         "{0}/resources/images/icons/".format(TEMP_FOLDER))
 print("... dipylonreader.rc")
 ossystem("cp 2win64_static/dipylonreader.rc {0}/".format(TEMP_FOLDER))
 
@@ -147,18 +150,18 @@ if ARGS.debug == 1:
     ossystem("find . -name \"*.cpp\" -exec sed -i 's:// DEBUG1 ::g' {} \;")
     ossystem("find . -name \"*.h\"   -exec sed -i 's:// DEBUG1 ::g' {} \;")
 
-print("== modifiying dipylonreader.pro")
-with open("dipylonreader.pro", 'r') as pro_file:
-    pro_file_content = pro_file.read()
+print("== modifiying dipylonreader.gcc.pro")
+with open("dipylonreader.gcc.pro", 'r') as pro_file:
+    PRO_FILE_CONTENT = pro_file.read()
 if ARGS.console == "yes":
-  pro_file_content = pro_file_content.replace("@@CONSOLE@@", "CONFIG += CONSOLE")
+    PRO_FILE_CONTENT = PRO_FILE_CONTENT.qreplace("@@CONSOLE@@", "CONFIG += CONSOLE")
 else:
-  pro_file_content = pro_file_content.replace("@@CONSOLE@@", "CONFIG -= CONSOLE")
-with open("dipylonreader.pro", 'w') as pro_file:
-    pro_file.write(pro_file_content)
+    PRO_FILE_CONTENT = PRO_FILE_CONTENT.replace("@@CONSOLE@@", "CONFIG -= CONSOLE")
+with open("dipylonreader.gcc.pro", 'w') as pro_file:
+    pro_file.write(PRO_FILE_CONTENT)
 
 print("== calling qmake")
-ossystem("~/mxe_64/usr/x86_64-w64-mingw32/qt5/bin/qmake -makefile dipylonreader.pro".format(TEMP_FOLDER))
+ossystem("{0} -makefile dipylonreader.gcc.pro".format(PATH_TO_MXEQMAKE))
 
 print("== calling make")
 ossystem("pwd")
@@ -167,9 +170,8 @@ ossystem("make -j2")
 print("== copying the binary into the builds/ folder")
 ossystem("cp build/dipylonreader.exe ../../builds/{0}".format(EXEC_NAME))
 
-time_end = datetime.now()
-print("==> total time = ", str(time_end-start_time))
+TIME_END = datetime.now()
+print("==> total time = ", str(TIME_END-START_TIME))
 
 print()
 print("tried to build " + EXEC_NAME)
-

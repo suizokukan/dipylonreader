@@ -895,7 +895,7 @@ Référence : http://qt-project.org/wiki/New_Signal_Slot_Syntax
 ################################################################################
 [4.5] qmake
 ################################################################################
-http://qtcenter.org/wiki/index.php?title=Undocumented_qmake
+https://wiki.qt.io/Undocumented_QMake
 
 ################################################################################
 [5] découpage audio
@@ -1099,8 +1099,8 @@ http://qt-project.org/doc/qt-5/android-support.html
  ensuite : compilation vers 32 bits avec la branche multi-target (confer https://github.com/mxe/mxe/issues/39)
 
  [compilation en 64 bits, cf http://mxe.cc/#tutorial]
- o git clone -b stable https://github.com/mxe/mxe.git mxe_64
- o une fois dans ~/mxe_64/ :  make MXE_TARGETS='x86_64-w64-mingw32 i686-w64-mingw32'
+ o git clone https://github.com/mxe/mxe.git mxe_64
+ o une fois dans ~/mxe_64/ :  make MXE_TARGETS='x86_64-w64-mingw32.static'
 
 [10.2] Android
 o doc générale                                  : http://qt-project.org/doc/qt-5/portingtoandroid.html
